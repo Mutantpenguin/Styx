@@ -1,0 +1,27 @@
+{
+	"renderer"			:	{
+								"window"		:	{
+														"width"			: 1024,
+														"height"		: 768,
+														"fullscreen"	: false,
+														"vsync"			: true,
+														"gamma"			: 1.0,
+														"antialiasing"	: true
+													},
+								"textures"		:	{
+														"usecompression"	: true,
+														"anisotropic"		: 4,
+														"picmip"			: 0
+													},
+								"screenshot"	:	{
+														"format"		:	"png",
+														"scale_factor"	:	1.0
+													}
+							},
+	"sound"	:	{
+					"buffer_size"	: 4096
+				},
+	"input" :	{
+					"controller_file" : "misc/gamecontrollerdb.txt"
+				}
+}

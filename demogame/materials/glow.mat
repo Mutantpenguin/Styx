@@ -1,0 +1,19 @@
+{
+	"name"			:	"glow",
+	"cullmode"		:	"BACK",
+	"layers"		:	[
+							{
+								"textures"	:	[ "textures/texpack_1/window_buildingside_06.jpg.jpg" ]
+							},
+							{
+								"textures"	:	[ "textures/texpack_1/window_buildingside_06_blend.jpg" ],
+								"samplers"	:	{
+													"diffuseTexture" : "REPEAT_2D"
+												},
+								"blending"	:	{
+													"src"	: "ONE",
+													"dst"	: "ONE"
+												}
+							}
+						]
+}

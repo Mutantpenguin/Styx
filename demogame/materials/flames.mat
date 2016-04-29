@@ -1,0 +1,22 @@
+{
+	"name"		:	"flames",
+	"cullmode"	:	"BACK",
+	"blending"	:	{
+						"src"	: "ONE",
+						"dst"	: "ONE"
+					},
+	"layers"		:	[
+							{
+								"shaders"	:	{
+													"vs" : "shaders/vs/standard.vs.glsl",
+													"fs" : "shaders/fs/standardAnimated.fs.glsl"
+												},
+								"textures"	:	{
+													"diffuseTexture" : "textures/array/fire/fire.arr"
+												},
+								"samplers"	:	{
+													"diffuseTexture" : "EDGE_2D"
+												}
+							}
+						]
+}

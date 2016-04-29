@@ -1,0 +1,119 @@
+DESIGN DOCUMENT
+
+--------------------------------------------------------------------------------
+
+1 Goal
+
+2 Elements
+	2.1 Console-System
+	2.2 Logging-System
+	2.3 Scripting-System
+	2.4 GUI-System
+	2.5 Sound-System
+	2.6 Particle-System
+	2.7 Texture-Manager
+	2.8 Material-Manager
+	2.9 Mesh-Manager
+	2.10 Renderer
+	2.11 Scenegraph
+	2.12 Input-System
+	2.13 File-System
+	2.14 Model-Format
+	2.15 Physics-System
+
+3 Libraries
+
+
+--------------------------------------------------------------------------------
+
+1 Goal
+
+	Create an extendable crossplatform-framework for game-development under an Open-Source License (preferably GPL).
+
+
+2 Elements
+
+	2.1 Console-System
+	- „bind“-commands
+	- „aliases“
+	- variables
+	- scripting-system support
+	- reading configuration files
+
+	2.2 Logging-System
+	- different logging levels (logfile, console, user-messages)
+	- nice-to-have : logging to either html- or rtf-files
+
+	2.3 Scripting-System
+	- easy to use scripting-language (maybe LUA or Angelscript)
+	- ability to parse script-files during runtime
+	
+	2.4 GUI-System
+	- event-system
+	- pre-defined widgets
+	- custom widgets
+	- unified creation
+	- access to variables via scripting-system
+	- nice-to-have : scriptable GUI, eventually via RTTI
+	- another approach : think wxwidgets
+	
+	2.5 Sound-System
+	- load and store every sound once
+	- gives an interface to place sounds in a 3D-environment
+	- supports atleast WAV and OGG
+	- (since licensing is needed support for MP3 not necessary)
+	- OpenAL looks good for this job!
+	
+	2.6 Particle-System
+	- creating particles through emitter
+	- each particle-system has a AABB
+	- emitter can have a „target“
+	- emitter can have a „shape“ (rectangle, circle, sphere, cube, or a mesh)
+	- reads its infos from files (XML)
+	- uses materials
+	- nice-to-have : attractors
+	
+	2.7 Texture-Manager
+	- load and store every texture only once
+	- support a shitload of formats
+	- nicer-to-have : use of render-targets as textures
+	
+	2.8 Material-Manager
+	- allow multi-layered materials on meshes
+	- customizable via scripts (think quake3-style)
+	- support different quality settings and fallback-stages for older graphic-cards
+	- nice-to-have : support for fragment-shaders
+	- nice-to-have : support for vertex-shaders
+	- even-nicer-to-have : use materials for the physics system too (i.e. friction)
+	
+	2.9 Mesh-Manager
+	- load and store meshes
+	- support common 3D-file formats, maybe a custom one too
+	- only used for static props!
+	- support for VBA and VBO when hardware supports it
+	
+	2.10 Renderer
+	- N/A
+	
+	2.11 Scenegraph
+	- N/A
+	
+	2.12 Input-System
+	- N/A
+	
+	2.13 File-System
+	- support for container files (zip)
+	
+	2.14 Model-Format
+	- Cal3D
+	
+	2.15 Physics-System
+	- ODE
+
+
+3 Libraries
+
+	SDL			http://www.libsdl.org
+	FreeImage		http://freeimage.sourceforge.net
+	GLEW			http://glew.sourceforge.net
+	PhysFS		http://icculus.org/physfs

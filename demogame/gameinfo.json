@@ -1,0 +1,13 @@
+{
+	"name"			: "Inquisitor Demo-Game",
+	"name_short"	: "inq_demo_game",
+	"version"		: "0.1",
+	"organisation"	: "Fallen Angels Inc",
+	"author"		: "Markus Lobedann",
+	"author_email"	: "markus.lobedann@gmail.com",
+	"website"		: "http://exitus.dynalias.org",
+	"icon"			: "icons/inq_demo_icon_big.png",
+	"assets"		: [ ".", "./textures_zip.zip" ],
+	"templates"		: [ "templates/player.json", "templates/objects.json" ],
+	"background"	: "background.json"
+}

@@ -1,0 +1,32 @@
+{
+	"name"			:	"newscast",
+	"cullmode"		:	"BACK",
+	"blending"		:	{
+							"src"	: "ONE",
+							"dst"	: "ONE_MINUS_SRC_ALPHA"
+						},
+	"layers"		:	[
+							{
+								"animfreq"		:	0.3,
+								"textures"		:	[ "textures/texpack_1/newscast/newscast_1.png", "textures/texpack_1/newscast/newscast_2.png", "textures/texpack_1/newscast/newscast_3.png", "textures/texpack_1/newscast/newscast_4.png", "textures/texpack_1/newscast/newscast_1.png", "textures/texpack_1/newscast/newscast_5.png" ]
+							},
+							{
+								"textures"	:	[ "textures/texpack_1/newscast/banner.png" ],
+								"samplers"	:	{
+													"diffuseTexture" : "REPEAT_BORDER_2D"
+												},
+								"tcmods"	:	[
+													{
+														"mode"		:	"SCALE",
+														"uscale"	:	4.0,
+														"vscale"	:	0.125
+													},
+													{
+														"mode"		:	"SCROLL",
+														"uspeed"	:	0.04,
+														"vspeed"	:	0.0
+													}
+												]
+							}
+						]
+}

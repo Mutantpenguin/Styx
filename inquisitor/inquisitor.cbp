@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="inquisitor" />
+		<Option platforms="Windows;Unix;" />
+		<Option pch_mode="0" />
+		<Option default_target="unix_profile" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="windows">
+				<Option platforms="Windows;" />
+				<Option output="bin/windows/inquisitor.exe" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="bin/windows" />
+				<Option object_output=".obj/windows" />
+				<Option deps_output=".deps/win" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option projectCompilerOptionsRelation="2" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Compiler>
+					<Add option="-fexpensive-optimizations" />
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="mingw32" />
+					<Add library="opengl32" />
+					<Add library="glu32" />
+					<Add library="glew32" />
+					<Add library="SDLmain" />
+					<Add library="SDL" />
+				</Linker>
+			</Target>
+			<Target title="windows_debug">
+				<Option platforms="Windows;" />
+				<Option output="bin/windows_debug/inquisitor.exe" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="bin/windows_debug" />
+				<Option object_output=".obj/windows_debug" />
+				<Option deps_output=".deps/win_debug" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option projectCompilerOptionsRelation="2" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DINQ_DEBUG" />
+				</Compiler>
+				<Linker>
+					<Add library="mingw32" />
+					<Add library="opengl32" />
+					<Add library="glu32" />
+					<Add library="glew32" />
+					<Add library="SDLmain" />
+					<Add library="SDL" />
+				</Linker>
+			</Target>
+			<Target title="windows_profile">
+				<Option platforms="Windows;" />
+				<Option output="bin/windows_profile/inquisitor.exe" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="bin/windows_profile" />
+				<Option object_output=".obj/windows_profile" />
+				<Option deps_output=".deps/win_profile" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option projectCompilerOptionsRelation="2" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Compiler>
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add option="-DINQ_DEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add library="mingw32" />
+					<Add library="opengl32" />
+					<Add library="glu32" />
+					<Add library="glew32" />
+					<Add library="SDLmain" />
+					<Add library="SDL" />
+				</Linker>
+			</Target>
+			<Target title="unix">
+				<Option platforms="Unix;" />
+				<Option output="bin/unix/inquisitor" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="bin/unix" />
+				<Option object_output=".obj/unix" />
+				<Option deps_output=".deps/lin" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option projectCompilerOptionsRelation="2" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Compiler>
+					<Add option="-fexpensive-optimizations" />
+					<Add option="-O2" />
+					<Add option="`sdl-config --cflags`" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="GL" />
+					<Add library="GLU" />
+					<Add library="GLEW" />
+					<Add library="openal" />
+				</Linker>
+			</Target>
+			<Target title="unix_debug">
+				<Option platforms="Unix;" />
+				<Option output="bin/unix_debug/inquisitor" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="bin/unix_debug" />
+				<Option object_output=".obj/unix_debug" />
+				<Option deps_output=".deps/lin_debug" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="--appdir ../../../demoapp" />
+				<Option projectCompilerOptionsRelation="2" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="`sdl-config --cflags`" />
+					<Add option="-DINQ_DEBUG" />
+				</Compiler>
+				<Linker>
+					<Add library="GL" />
+					<Add library="GLU" />
+					<Add library="GLEW" />
+					<Add library="openal" />
+				</Linker>
+			</Target>
+			<Target title="unix_profile">
+				<Option platforms="Unix;" />
+				<Option output="bin/unix_profile/inquisitor" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="bin/unix_profile" />
+				<Option object_output=".obj/unix_profile" />
+				<Option deps_output=".deps/lin_profile" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="--appdir ../../../demoapp" />
+				<Option projectCompilerOptionsRelation="2" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Compiler>
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add option="`sdl-config --cflags`" />
+					<Add option="-DINQ_DEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg" />
+					<Add library="GL" />
+					<Add library="GLU" />
+					<Add library="GLEW" />
+					<Add library="openal" />
+				</Linker>
+			</Target>
+		</Build>
+		<VirtualTargets>
+			<Add alias="all_unix" targets="unix;unix_debug;unix_profile;" />
+			<Add alias="all_windows" targets="windows;windows_debug;windows_profile;" />
+		</VirtualTargets>
+		<Compiler>
+			<Add option="-Wshadow" />
+			<Add option="-Winit-self" />
+			<Add option="-Wredundant-decls" />
+			<Add option="-Wcast-align" />
+			<Add option="-Wundef" />
+			<Add option="-Wfloat-equal" />
+			<Add option="-Winline" />
+			<Add option="-Wunreachable-code" />
+			<Add option="-Wmissing-declarations" />
+			<Add option="-Wmissing-include-dirs" />
+			<Add option="-Wswitch-enum" />
+			<Add option="-Wzero-as-null-pointer-constant" />
+			<Add option="-Wmain" />
+			<Add option="-pedantic-errors" />
+			<Add option="-pedantic" />
+			<Add option="-std=c++11" />
+			<Add option="-Wextra" />
+			<Add option="-Wall" />
+			<Add option="-W" />
+		</Compiler>
+		<Linker>
+			<Add library="physfs" />
+			<Add library="freeimage" />
+			<Add library="SDL" />
+			<Add library="boost_program_options" />
+			<Add library="boost_date_time" />
+		</Linker>
+		<Unit filename="AUTHORS" />
+		<Unit filename="BUGS" />
+		<Unit filename="BUILD" />
+		<Unit filename="COMPILERS" />
+		<Unit filename="COPYING" />
+		<Unit filename="DoxySfile" />
+		<Unit filename="NEWS" />
+		<Unit filename="README" />
+		<Unit filename="TODO" />
+		<Unit filename="doxyfile" />
+		<Unit filename="src/engine/helper/ccolor.hpp" />
+		<Unit filename="src/engine/helper/string.cpp" />
+		<Unit filename="src/engine/helper/string.hpp" />
+		<Unit filename="src/engine/math/cplane.hpp" />
+		<Unit filename="src/engine/math/cray.hpp" />
+		<Unit filename="src/engine/math/math.cpp" />
+		<Unit filename="src/engine/math/math.hpp" />
+		<Unit filename="src/engine/math/rect.hpp" />
+		<Unit filename="src/engine/rendersystem/ccamera.cpp" />
+		<Unit filename="src/engine/rendersystem/ccamera.hpp" />
+		<Unit filename="src/engine/rendersystem/cglstate.cpp" />
+		<Unit filename="src/engine/rendersystem/cglstate.hpp" />
+		<Unit filename="src/engine/rendersystem/cmaterial.cpp" />
+		<Unit filename="src/engine/rendersystem/cmaterial.hpp" />
+		<Unit filename="src/engine/rendersystem/cmaterialdummy.cpp" />
+		<Unit filename="src/engine/rendersystem/cmaterialdummy.hpp" />
+		<Unit filename="src/engine/rendersystem/cmaterialhandle.cpp" />
+		<Unit filename="src/engine/rendersystem/cmaterialhandle.hpp" />
+		<Unit filename="src/engine/rendersystem/cmateriallayer.cpp" />
+		<Unit filename="src/engine/rendersystem/cmateriallayer.hpp" />
+		<Unit filename="src/engine/rendersystem/cmaterialmanager.cpp" />
+		<Unit filename="src/engine/rendersystem/cmaterialmanager.hpp" />
+		<Unit filename="src/engine/rendersystem/cmaterialtexture.cpp" />
+		<Unit filename="src/engine/rendersystem/cmaterialtexture.hpp" />
+		<Unit filename="src/engine/rendersystem/cmesh.cpp" />
+		<Unit filename="src/engine/rendersystem/cmesh.hpp" />
+		<Unit filename="src/engine/rendersystem/crenderdevice.cpp" />
+		<Unit filename="src/engine/rendersystem/crenderdevice.hpp" />
+		<Unit filename="src/engine/rendersystem/ctexcoordmods.cpp" />
+		<Unit filename="src/engine/rendersystem/ctexcoordmods.hpp" />
+		<Unit filename="src/engine/rendersystem/ctexture.cpp" />
+		<Unit filename="src/engine/rendersystem/ctexture.hpp" />
+		<Unit filename="src/engine/rendersystem/ctexturedummy.cpp" />
+		<Unit filename="src/engine/rendersystem/ctexturedummy.hpp" />
+		<Unit filename="src/engine/rendersystem/ctexturehandle.cpp" />
+		<Unit filename="src/engine/rendersystem/ctexturehandle.hpp" />
+		<Unit filename="src/engine/rendersystem/ctexturemanager.cpp" />
+		<Unit filename="src/engine/rendersystem/ctexturemanager.hpp" />
+		<Unit filename="src/engine/rendersystem/cwave.hpp" />
+		<Unit filename="src/engine/rendersystem/ewrapclampmode.hpp" />
+		<Unit filename="src/engine/rendersystem/glhelp.cpp" />
+		<Unit filename="src/engine/rendersystem/glhelp.hpp" />
+		<Unit filename="src/engine/scene/ccomponentsystem.hpp" />
+		<Unit filename="src/engine/scene/centity.cpp" />
+		<Unit filename="src/engine/scene/centity.hpp" />
+		<Unit filename="src/engine/scene/components/cbasecomponent.cpp" />
+		<Unit filename="src/engine/scene/components/cbasecomponent.hpp" />
+		<Unit filename="src/engine/scene/components/transformcomponent.hpp" />
+		<Unit filename="src/engine/scene/csystem.hpp" />
+		<Unit filename="src/engine/scene/csystemmanager.cpp" />
+		<Unit filename="src/engine/scene/csystemmanager.hpp" />
+		<Unit filename="src/engine/scene/ctransformsystem.cpp" />
+		<Unit filename="src/engine/scene/ctransformsystem.hpp" />
+		<Unit filename="src/engine/soundsystem/csounddevice.cpp" />
+		<Unit filename="src/engine/soundsystem/csounddevice.hpp" />
+		<Unit filename="src/engine/system/cappinfo.cpp" />
+		<Unit filename="src/engine/system/cappinfo.hpp" />
+		<Unit filename="src/engine/system/capplication.cpp" />
+		<Unit filename="src/engine/system/capplication.hpp" />
+		<Unit filename="src/engine/system/cfilesystem.cpp" />
+		<Unit filename="src/engine/system/cfilesystem.hpp" />
+		<Unit filename="src/engine/system/ckernel.cpp" />
+		<Unit filename="src/engine/system/ckernel.hpp" />
+		<Unit filename="src/engine/system/clog.cpp" />
+		<Unit filename="src/engine/system/clog.hpp" />
+		<Unit filename="src/engine/system/csettings.cpp" />
+		<Unit filename="src/engine/system/csettings.hpp" />
+		<Unit filename="src/engine/system/csingleton.hpp" />
+		<Unit filename="src/engine/system/csysteminfo.cpp" />
+		<Unit filename="src/engine/system/csysteminfo.hpp" />
+		<Unit filename="src/engine/system/ctask.cpp" />
+		<Unit filename="src/engine/system/ctask.hpp" />
+		<Unit filename="src/engine/system/main.cpp" />
+		<Unit filename="src/engine/tasks/cglobaltimer.cpp" />
+		<Unit filename="src/engine/tasks/cglobaltimer.hpp" />
+		<Unit filename="src/engine/tasks/ctaskinput.cpp" />
+		<Unit filename="src/engine/tasks/ctaskinput.hpp" />
+		<Unit filename="src/engine/tasks/ctaskrenderer.cpp" />
+		<Unit filename="src/engine/tasks/ctaskrenderer.hpp" />
+		<Unit filename="src/engine/tasks/ctasksound.cpp" />
+		<Unit filename="src/engine/tasks/ctasksound.hpp" />
+		<Unit filename="src/engine/tasks/ctaskvideo.cpp" />
+		<Unit filename="src/engine/tasks/ctaskvideo.hpp" />
+		<Unit filename="src/engineinfo.hpp" />
+		<Unit filename="src/game.cpp" />
+		<Unit filename="src/json/json-forwards.h" />
+		<Unit filename="src/json/json.h" />
+		<Unit filename="src/json/jsoncpp.cpp" />
+		<Unit filename="src/version.hpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
+			<AutoVersioning>
+				<Scheme minor_max="100" build_max="0" rev_max="0" rev_rand_max="10" build_times_to_increment_minor="100" />
+				<Settings autoincrement="1" date_declarations="1" update_manifest="1" do_auto_increment="1" ask_to_increment="0" language="C++" svn="0" svn_directory="/media/speicher/Projekte/inquisitor/adeptus-code/inquisitor" header_path="src/version.hpp" />
+				<Changes_Log show_changes_editor="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
+				<Code header_guard="VERSION_HPP" namespace="AutoVersion" prefix="" />
+			</AutoVersioning>
+			<editor_config active="1" use_tabs="1" tab_indents="1" tab_width="4" indent="4" eol_mode="0" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

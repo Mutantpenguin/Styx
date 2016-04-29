@@ -1,0 +1,15 @@
+{
+	"name"			:	"blue",
+	"polygonmode"	:	"FILL",
+	"layers"		:	[
+							{
+								"shaders"	:	{
+													"vs" : "shaders/vs/standard.vs.glsl",
+													"fs" : "shaders/fs/blue.fs.glsl"
+												},
+								"parameters"	:	{
+														"mainColor" : "0000FFFF"
+													}
+							}
+						]
+}

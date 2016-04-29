@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="inquisitor" InternalType="Console">
+  <Plugins>
+    <Plugin Name="CppCheck"/>
+    <Plugin Name="subversion2">
+      <![CDATA[true
+/home/charon/Projekte/adeptus-project/trunk
+*.dll *.so *.o *.obj *.workspace *.project *.exe *.dylib]]>
+    </Plugin>
+    <Plugin Name="qmake">
+      <![CDATA[00010001N0005Debug000000000000]]>
+    </Plugin>
+    <Plugin Name="CMakePlugin">
+      <![CDATA[[{
+  "name": "Debug",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Profile",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Release",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }]]]>
+    </Plugin>
+  </Plugins>
+  <Reconciliation>
+    <Regexes/>
+    <Excludepaths/>
+    <Ignorefiles/>
+    <Extensions>
+      <![CDATA[cpp;c;h;hpp;xrc;wxcp;fbp]]>
+    </Extensions>
+    <Topleveldir>../inquisitor</Topleveldir>
+  </Reconciliation>
+  <Description/>
+  <Dependencies/>
+  <VirtualDirectory Name="src">
+    <VirtualDirectory Name="engine">
+      <VirtualDirectory Name="renderer">
+        <VirtualDirectory Name="material">
+          <File Name="src/engine/renderer/material/CMaterialLayer.cpp"/>
+          <File Name="src/engine/renderer/material/CMaterial.hpp"/>
+          <File Name="src/engine/renderer/material/CMaterial.cpp"/>
+          <File Name="src/engine/renderer/material/CMaterialLoader.cpp"/>
+          <File Name="src/engine/renderer/material/CMaterialManager.cpp"/>
+          <File Name="src/engine/renderer/material/CMaterialLoader.hpp"/>
+          <File Name="src/engine/renderer/material/CTexCoordMods.hpp"/>
+          <File Name="src/engine/renderer/material/CTexCoordMods.cpp"/>
+          <File Name="src/engine/renderer/material/CMaterialLayer.hpp"/>
+          <File Name="src/engine/renderer/material/CMaterialManager.hpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="texture">
+          <File Name="src/engine/renderer/texture/CTexture.cpp"/>
+          <File Name="src/engine/renderer/texture/CTextureManager.hpp"/>
+          <File Name="src/engine/renderer/texture/CTextureManager.cpp"/>
+          <File Name="src/engine/renderer/texture/CCubemapData.cpp"/>
+          <File Name="src/engine/renderer/texture/CCubemapData.hpp"/>
+          <File Name="src/engine/renderer/texture/CTexture.hpp"/>
+          <File Name="src/engine/renderer/texture/C2DArrayData.hpp"/>
+          <File Name="src/engine/renderer/texture/C2DArrayData.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="shader">
+          <File Name="src/engine/renderer/shader/SShaderInterface.hpp"/>
+          <File Name="src/engine/renderer/shader/CShaderManager.hpp"/>
+          <File Name="src/engine/renderer/shader/CShaderProgram.hpp"/>
+          <File Name="src/engine/renderer/shader/EReservedUniformLocations.hpp"/>
+          <File Name="src/engine/renderer/shader/CShaderManager.cpp"/>
+          <File Name="src/engine/renderer/shader/CShaderProgram.cpp"/>
+        </VirtualDirectory>
+        <File Name="src/engine/renderer/CGLState.cpp"/>
+        <File Name="src/engine/renderer/GLHelper.hpp"/>
+        <File Name="src/engine/renderer/CVAO.hpp"/>
+        <File Name="src/engine/renderer/CGLState.hpp"/>
+        <File Name="src/engine/renderer/CMesh.cpp"/>
+        <File Name="src/engine/renderer/CCamera.hpp"/>
+        <File Name="src/engine/renderer/CFrustum.hpp"/>
+        <File Name="src/engine/renderer/CMesh.hpp"/>
+        <File Name="src/engine/renderer/CVAO.cpp"/>
+        <File Name="src/engine/renderer/GLHelper.cpp"/>
+        <File Name="src/engine/renderer/CFrustum.cpp"/>
+        <File Name="src/engine/renderer/GL.h"/>
+        <File Name="src/engine/renderer/CCamera.cpp"/>
+        <File Name="src/engine/renderer/CRenderer.hpp"/>
+        <File Name="src/engine/renderer/CRenderer.cpp"/>
+        <File Name="src/engine/renderer/CRendererCapabilities.hpp"/>
+        <File Name="src/engine/renderer/CRendererCapabilities.cpp"/>
+        <File Name="src/engine/renderer/CUniformBuffer.hpp"/>
+        <File Name="src/engine/renderer/CUniformBuffer.cpp"/>
+        <File Name="src/engine/renderer/EUniformBufferLocations.hpp"/>
+        <VirtualDirectory Name="sampler">
+          <File Name="src/engine/renderer/sampler/CSamplerManager.hpp"/>
+          <File Name="src/engine/renderer/sampler/CSamplerManager.cpp"/>
+          <File Name="src/engine/renderer/sampler/CSampler.hpp"/>
+          <File Name="src/engine/renderer/sampler/CSampler.cpp"/>
+        </VirtualDirectory>
+      </VirtualDirectory>
+      <VirtualDirectory Name="helper">
+        <VirtualDirectory Name="image">
+          <File Name="src/engine/helper/image/ImageHandler.hpp"/>
+          <File Name="src/engine/helper/image/CImage.hpp"/>
+          <File Name="src/engine/helper/image/ImageHandler.cpp"/>
+          <File Name="src/engine/helper/image/CImage.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="geom">
+          <File Name="src/engine/helper/geom/CPlane.cpp"/>
+          <File Name="src/engine/helper/geom/CPlane.hpp"/>
+          <File Name="src/engine/helper/geom/Primitives.hpp"/>
+        </VirtualDirectory>
+        <File Name="src/engine/helper/Date.hpp"/>
+        <File Name="src/engine/helper/String.cpp"/>
+        <File Name="src/engine/helper/CLibVorbisWrapper.cpp"/>
+        <File Name="src/engine/helper/CColor.hpp"/>
+        <File Name="src/engine/helper/CFreeImageWrapper.cpp"/>
+        <File Name="src/engine/helper/CLibVorbisWrapper.hpp"/>
+        <File Name="src/engine/helper/String.hpp"/>
+        <File Name="src/engine/helper/Date.cpp"/>
+        <File Name="src/engine/helper/CSize.hpp"/>
+        <File Name="src/engine/helper/CFreeImageWrapper.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="scene">
+        <VirtualDirectory Name="components">
+          <File Name="src/engine/scene/components/transformcomponent.hpp"/>
+          <File Name="src/engine/scene/components/cbasecomponent.cpp"/>
+          <File Name="src/engine/scene/components/cbasecomponent.hpp"/>
+        </VirtualDirectory>
+        <File Name="src/engine/scene/centity.cpp"/>
+        <File Name="src/engine/scene/ccomponentsystem.hpp"/>
+        <File Name="src/engine/scene/centity.hpp"/>
+        <File Name="src/engine/scene/csystem.hpp"/>
+        <File Name="src/engine/scene/ctransformsystem.cpp"/>
+        <File Name="src/engine/scene/ctransformsystem.hpp"/>
+        <File Name="src/engine/scene/csystemmanager.cpp"/>
+        <File Name="src/engine/scene/csystemmanager.hpp"/>
+        <File Name="src/engine/scene/CScene.hpp"/>
+        <File Name="src/engine/scene/CScene.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="system">
+        <File Name="src/engine/system/CFileSystem.cpp"/>
+        <File Name="src/engine/system/CFileSystem.hpp"/>
+        <File Name="src/engine/system/CEngine.hpp"/>
+        <File Name="src/engine/system/CEngine.cpp"/>
+        <File Name="src/engine/system/CGameInfo.cpp"/>
+        <File Name="src/engine/system/CGameInfo.hpp"/>
+        <File Name="src/engine/system/CSettings.cpp"/>
+        <File Name="src/engine/system/CSettings.hpp"/>
+        <File Name="src/engine/system/Main.cpp"/>
+        <File Name="src/engine/system/CTimer.hpp"/>
+        <File Name="src/engine/system/CTimer.cpp"/>
+        <File Name="src/engine/system/CInput.cpp"/>
+        <File Name="src/engine/system/CInput.hpp"/>
+        <File Name="src/engine/system/CWindow.cpp"/>
+        <File Name="src/engine/system/CWindow.hpp"/>
+        <File Name="src/engine/system/ComputerInfo.hpp"/>
+        <File Name="src/engine/system/ComputerInfo.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="logger">
+        <File Name="src/engine/logger/CLogTargetMessageBox.hpp"/>
+        <File Name="src/engine/logger/CLogger.hpp"/>
+        <File Name="src/engine/logger/CLogTargetMessageBox.cpp"/>
+        <File Name="src/engine/logger/CLogTargetConsole.hpp"/>
+        <File Name="src/engine/logger/CLogTargetFile.cpp"/>
+        <File Name="src/engine/logger/CLogger.cpp"/>
+        <File Name="src/engine/logger/CLogTargetConsole.cpp"/>
+        <File Name="src/engine/logger/CLogTargetFile.hpp"/>
+        <File Name="src/engine/logger/LogHelper.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="math">
+        <File Name="src/engine/math/Math.cpp"/>
+        <File Name="src/engine/math/Math.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="sound">
+        <File Name="src/engine/sound/CSoundManager.hpp"/>
+        <File Name="src/engine/sound/CSoundManager.cpp"/>
+        <File Name="src/engine/sound/CSound.cpp"/>
+        <File Name="src/engine/sound/CSound.hpp"/>
+        <File Name="src/engine/sound/SoundHandler.cpp"/>
+        <File Name="src/engine/sound/SoundHandler.hpp"/>
+        <File Name="src/engine/sound/ALHelper.hpp"/>
+        <File Name="src/engine/sound/ALHelper.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="states">
+        <File Name="src/engine/states/CState.hpp"/>
+        <File Name="src/engine/states/CStateGame.hpp"/>
+        <File Name="src/engine/states/CStateGame.cpp"/>
+        <File Name="src/engine/states/CStateIntro.hpp"/>
+        <File Name="src/engine/states/CStateIntro.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="sdl">
+        <File Name="src/engine/sdl/CSDL.hpp"/>
+        <File Name="src/engine/sdl/CSDL.cpp"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="inquisitor">
+    <File Name="COPYING"/>
+    <File Name="COMPILERS"/>
+    <File Name="BUILD"/>
+    <File Name="AUTHORS"/>
+    <File Name="DoxySfile"/>
+    <File Name="README"/>
+    <File Name="doxyfile"/>
+    <File Name="asan_symbolize.py"/>
+  </VirtualDirectory>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Profile"/>
+  <Dependencies Name="Release"/>
+  <Settings Type="Executable">
+    <GlobalSettings>
+      <Compiler Options="-Wmain;-pedantic-errors;-Wfatal-errors;-ansi;-pedantic;-std=c++14;-Wall;-Wextra;-Wswitch-enum;-Wmissing-include-dirs;-Wmissing-declarations;-Wunreachable-code;-Winline;-Wfloat-equal;-Wundef;-Wcast-align;-Wredundant-decls;-Winit-self;-Wshadow;-Wint-to-void-pointer-cast" C_Options="-Wall" Assembler="">
+        <IncludePath Value="."/>
+        <Preprocessor Value="GLM_FORCE_RADIANS"/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+        <Library Value="physfs"/>
+        <Library Value="freeimageplus"/>
+        <Library Value="SDL2"/>
+        <Library Value="boost_program_options"/>
+        <Library Value="GL"/>
+        <Library Value="glbinding"/>
+        <Library Value="openal"/>
+        <Library Value="jsoncpp"/>
+        <Library Value="vorbis"/>
+        <Library Value="vorbisfile"/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="clang( tags/RELEASE_371/final )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-O0;-fsanitize=address;-fno-omit-frame-pointer" C_Options="-g;-O0" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+        <Preprocessor Value="INQ_DEBUG"/>
+      </Compiler>
+      <Linker Options="-fsanitize=address;" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./bin/Debug" Command="./$(ProjectName)" CommandArguments="--gameDirectory ../../../demogame" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="yes">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Profile" CompilerType="clang( tags/RELEASE_371/final )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-pg;-O0" C_Options="-pg;-O0" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+        <Preprocessor Value="INQ_DEBUG"/>
+      </Compiler>
+      <Linker Options="-pg" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./bin/Profile" Command="./$(ProjectName)" CommandArguments="--gamedir ../../../demogame" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths>$(ProjectPath)</SearchPaths>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="clang( tags/RELEASE_371/final )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-O3;-fexpensive-optimizations;" C_Options="-O2" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="-s" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./bin/Release" Command="./$(ProjectName)" CommandArguments="--gamedir ../../../demogame" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="yes" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+</CodeLite_Project>

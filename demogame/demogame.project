@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="demogame" InternalType="">
+  <Reconciliation>
+    <Regexes/>
+    <Excludepaths/>
+    <Ignorefiles/>
+    <Extensions>
+      <![CDATA[*.*]]>
+    </Extensions>
+    <Topleveldir>../demogame</Topleveldir>
+  </Reconciliation>
+  <Description/>
+  <Dependencies/>
+  <VirtualDirectory Name="materials">
+    <File Name="materials/flames.mat"/>
+    <File Name="materials/glow.mat"/>
+    <File Name="materials/newscast.mat"/>
+    <File Name="materials/schnarf.mat"/>
+    <File Name="materials/sky.mat"/>
+    <File Name="materials/test.mat"/>
+    <File Name="materials/wait_cursor.mat"/>
+    <File Name="materials/intro_icon.mat"/>
+    <File Name="materials/blue.mat"/>
+  </VirtualDirectory>
+  <Settings Type="Executable">
+    <GlobalSettings>
+      <Compiler Options="" C_Options="" Assembler="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+  </Settings>
+  <VirtualDirectory Name="meshes">
+    <File Name="meshes/cube.dae"/>
+    <File Name="meshes/distorted_cube.dae"/>
+    <File Name="meshes/distorted_cube_highpoly.dae"/>
+    <File Name="meshes/monkey.dae"/>
+    <File Name="meshes/torus.dae"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="music">
+    <File Name="music/rise_of_spirit.ogg"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="sounds">
+    <File Name="sounds/startup_sound.ogg"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="shaders">
+    <VirtualDirectory Name="fs">
+      <File Name="shaders/fs/reflection.fs.glsl"/>
+      <File Name="shaders/fs/sky.fs.glsl"/>
+      <File Name="shaders/fs/standard.fs.glsl"/>
+      <File Name="shaders/fs/color.fs.glsl"/>
+      <File Name="shaders/fs/timeTest.fs.glsl"/>
+      <File Name="shaders/fs/standardAnimated.fs.glsl"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="vs">
+      <File Name="shaders/vs/reflection.vs.glsl"/>
+      <File Name="shaders/vs/sky.vs.glsl"/>
+      <File Name="shaders/vs/standard.vs.glsl"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="textures">
+    <VirtualDirectory Name="cube">
+      <VirtualDirectory Name="creek">
+        <File Name="textures/cube/creek/negx.jpg"/>
+        <File Name="textures/cube/creek/negy.jpg"/>
+        <File Name="textures/cube/creek/negz.jpg"/>
+        <File Name="textures/cube/creek/posx.jpg"/>
+        <File Name="textures/cube/creek/posy.jpg"/>
+        <File Name="textures/cube/creek/posz.jpg"/>
+        <File Name="textures/cube/creek/creek.cub"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="sixtine">
+        <File Name="textures/cube/sixtine/b_face.jpg"/>
+        <File Name="textures/cube/sixtine/d_face.jpg"/>
+        <File Name="textures/cube/sixtine/f_face.jpg"/>
+        <File Name="textures/cube/sixtine/l_face.jpg"/>
+        <File Name="textures/cube/sixtine/r_face.jpg"/>
+        <File Name="textures/cube/sixtine/u_face.jpg"/>
+        <File Name="textures/cube/sixtine/sixtine.cub"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="vasa">
+        <File Name="textures/cube/vasa/negx.jpg"/>
+        <File Name="textures/cube/vasa/negy.jpg"/>
+        <File Name="textures/cube/vasa/negz.jpg"/>
+        <File Name="textures/cube/vasa/posx.jpg"/>
+        <File Name="textures/cube/vasa/posy.jpg"/>
+        <File Name="textures/cube/vasa/posz.jpg"/>
+        <File Name="textures/cube/vasa/vasa.cub"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="cursor">
+      <File Name="textures/cursor/skull.png"/>
+      <File Name="textures/cursor/wait.png"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="texpack_1">
+      <VirtualDirectory Name="fire"/>
+      <VirtualDirectory Name="newscast">
+        <File Name="textures/texpack_1/newscast/banner.png"/>
+        <File Name="textures/texpack_1/newscast/newscast_1.png"/>
+        <File Name="textures/texpack_1/newscast/newscast_2.png"/>
+        <File Name="textures/texpack_1/newscast/newscast_3.png"/>
+        <File Name="textures/texpack_1/newscast/newscast_4.png"/>
+        <File Name="textures/texpack_1/newscast/newscast_5.png"/>
+      </VirtualDirectory>
+      <File Name="textures/texpack_1/black_border.png"/>
+      <File Name="textures/texpack_1/cybergrate2.tga"/>
+      <File Name="textures/texpack_1/killblockgeomtrn.png"/>
+      <File Name="textures/texpack_1/mybitmap.bmp"/>
+      <File Name="textures/texpack_1/planet.dds"/>
+      <File Name="textures/texpack_1/planet.png"/>
+      <File Name="textures/texpack_1/reflection.jpg"/>
+      <File Name="textures/texpack_1/senn_floor1.jpg"/>
+      <File Name="textures/texpack_1/senn_icesky1.tga"/>
+      <File Name="textures/texpack_1/senn_icesky2.jpg"/>
+      <File Name="textures/texpack_1/senn_icyfangrate.tga"/>
+      <File Name="textures/texpack_1/window_buildingside_06.jpg"/>
+      <File Name="textures/texpack_1/window_buildingside_06_blend.jpg"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="array">
+      <VirtualDirectory Name="fire">
+        <File Name="textures/array/fire/sfx_fire01.jpg"/>
+        <File Name="textures/array/fire/sfx_fire02.jpg"/>
+        <File Name="textures/array/fire/sfx_fire03.jpg"/>
+        <File Name="textures/array/fire/sfx_fire04.jpg"/>
+        <File Name="textures/array/fire/sfx_fire05.jpg"/>
+        <File Name="textures/array/fire/sfx_fire06.jpg"/>
+        <File Name="textures/array/fire/sfx_fire07.jpg"/>
+        <File Name="textures/array/fire/sfx_fire08.jpg"/>
+        <File Name="textures/array/fire/fire.arr"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="demogame">
+    <File Name="README"/>
+    <File Name="gameinfo.json"/>
+    <File Name="settings.json"/>
+    <File Name="textures_zip.zip"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="icons">
+    <File Name="icons/inq_demo_icon_big.png"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="misc">
+    <File Name="misc/gamecontrollerdb.txt"/>
+  </VirtualDirectory>
+</CodeLite_Project>
