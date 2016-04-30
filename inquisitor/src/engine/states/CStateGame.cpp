@@ -42,7 +42,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		mesh2 = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 10.0f, 10.0f, 10.0f ), glm::vec3( 0.0f, 0.0f, -10.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) );
 		m_scene.AddMesh( mesh2 );
 
-		const std::uint16_t cubeSize { 3 };
+		const std::uint16_t cubeSize { 4 };
 
 		for( std::uint16_t i = 0; i < cubeSize; i++ )
 		{
