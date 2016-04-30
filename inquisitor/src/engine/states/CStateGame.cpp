@@ -62,6 +62,16 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	}
 
 	{
+		std::shared_ptr< CMaterial > blueMaterial = renderer.LoadMaterial( "materials/blue.mat" );
+		m_scene.AddMesh( std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, blueMaterial, glm::vec3( 2.0f, 2.0f, 1.0f ), glm::vec3( 0.0f, 10.0f, 1.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) ) );
+	}
+
+	{
+		std::shared_ptr< CMaterial > redMaterial = renderer.LoadMaterial( "materials/red.mat" );
+		m_scene.AddMesh( std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, redMaterial, glm::vec3( 2.0f, 2.0f, 1.0f ), glm::vec3( 4.0f, 10.0f, 1.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) ) );
+	}
+
+	{
 		std::shared_ptr< CMaterial > material3 = renderer.LoadMaterial( "materials/sky.mat" );
 
 		skyboxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material3, glm::vec3( 1.0f, 1.0f, 1.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) );

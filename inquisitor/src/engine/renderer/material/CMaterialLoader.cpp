@@ -2,6 +2,8 @@
 
 #include <json/json.h>
 
+#include <glbinding/Meta.h>
+
 #include "../../logger/CLogger.hpp"
 
 #include "../GLHelper.hpp"
@@ -76,9 +78,6 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 			++layer_index;
 
 			std::shared_ptr< CMaterialLayer > newLayer = newMaterial->CreateLayer();
-
-			// TODO shaders
-			//newLayer->m_animFreq = mat_layer.get( "animfreq", 1.0f ).asDouble();
 
 			const Json::Value mat_shaders = mat_layer[ "shaders" ];
 			if( mat_shaders.isNull() )
@@ -237,14 +236,77 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 						||
 						( mat_uniforms.size() == 0 ) )
 					{
-						LOG( logDEBUG ) << "no uniforms specified in layer '" << layer_index << "' of '" << identifier << "'";
+						LOG( logWARNING ) << "no uniforms specified in layer '" << layer_index << "' of '" << identifier << "'";
 						return( nullptr );
 					}
 					else
 					{
 						for( const auto instanceUniform : shader->m_requiredInstanceUniforms )
 						{
-							// TODO do something with m_requiredInstanceUniforms
+							const Json::Value mat_uniform = mat_uniforms[ instanceUniform.second.name ];
+							if( mat_uniform.isNull() )
+							{
+								LOG( logWARNING ) << "required uniform '" << instanceUniform.second.name << "' not specified in layer '" << layer_index << "' of '" << identifier << "'";
+								return( nullptr );
+							}
+							else
+							{
+								switch( instanceUniform.second.type )
+								{
+									case GL_UNSIGNED_INT:
+										if( !mat_uniform.isUInt() )
+										{
+											LOG( logWARNING ) << "uniform '" << instanceUniform.second.name << "' in layer '" << layer_index << "' of '" << identifier << "' is not of type " << glbinding::Meta::getString( instanceUniform.second.type );
+											return( nullptr );
+										}
+										else
+										{
+											newLayer->m_instanceUniforms[ instanceUniform.first ] = std::make_unique< CInstanceUniformUINT >( mat_uniform.asUInt() );
+										}
+										break;
+
+									case GL_FLOAT_VEC4:
+										if( !mat_uniform.isArray() )
+										{
+											LOG( logWARNING ) << "uniform '" << instanceUniform.second.name << "' in layer '" << layer_index << "' of '" << identifier << "' is not an array";
+											return( nullptr );
+										}
+										else if( mat_uniform.size() != 4)
+										{
+											LOG( logWARNING ) << "uniform '" << instanceUniform.second.name << "' in layer '" << layer_index << "' of '" << identifier << "' has not enough oder more than needed values";
+											return( nullptr );
+										}
+										else
+										{
+											Json::Value value0 = mat_uniform[ 0 ];
+											Json::Value value1 = mat_uniform[ 1 ];
+											Json::Value value2 = mat_uniform[ 2 ];
+											Json::Value value3 = mat_uniform[ 3 ];
+
+											if( !value0.isDouble()
+												||
+												!value1.isDouble()
+												||
+												!value2.isDouble()
+												||
+												!value3.isDouble() )
+											{
+												LOG( logWARNING ) << "not all values of uniform '" << instanceUniform.second.name << "' in layer '" << layer_index << "' of '" << identifier << "' are floats";
+												return( nullptr );
+											}
+											else
+											{
+												newLayer->m_instanceUniforms[ instanceUniform.first ] = std::make_unique< CInstanceUniformFLOATVEC4 >( glm::vec4( value0.asDouble(), value1.asDouble(), value2.asDouble(), value3.asDouble() ) );
+											}
+										}
+										break;
+
+									default:
+										LOG( logWARNING ) << "uniform '" << instanceUniform.second.name << "' in layer '" << layer_index << "' of '" << identifier << "' is of unsupported type " << glbinding::Meta::getString( instanceUniform.second.type );
+										return( nullptr );
+										break;
+								}
+							}
 						}
 					}
 				}

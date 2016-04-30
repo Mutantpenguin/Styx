@@ -344,6 +344,11 @@ void CRenderer::RenderMesh( const std::shared_ptr< const CCamera > &camera, cons
 			textureUnit++;
 		}
 
+		for( const auto &uniform : layer->m_instanceUniforms )
+		{
+			uniform.second->Set( uniform.first );
+		}
+
 		vao.Draw();
 	}
 }

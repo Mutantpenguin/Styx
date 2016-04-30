@@ -8,23 +8,31 @@
 class CInstanceUniform
 {
 public:
-	CInstanceUniform( const GLuint uniformLocation );
-
-	virtual void Set( void ) = 0;
-
-protected:
-	const GLuint m_uniformLocation;
+	virtual void Set( const GLuint location ) = 0;
 };
+
 
 class CInstanceUniformUINT final : public CInstanceUniform
 {
 public:
-	CInstanceUniformUINT( const GLuint uniformLocation, const glm::uint value );
+	CInstanceUniformUINT( const glm::uint value );
 
-	void Set( void );
+	void Set( const GLuint location ) override;
 
 private:
 	glm::uint m_value;
+};
+
+
+class CInstanceUniformFLOATVEC4 final : public CInstanceUniform
+{
+public:
+	CInstanceUniformFLOATVEC4( const glm::vec4 &values );
+
+	void Set( const GLuint location ) override;
+
+private:
+	glm::vec4 m_values;
 };
 
 #endif // CINSTANCEUNIFORM_HPP

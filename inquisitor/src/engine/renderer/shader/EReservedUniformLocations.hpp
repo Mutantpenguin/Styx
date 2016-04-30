@@ -5,7 +5,8 @@ enum struct EReservedUniformLocations : GLuint
 {
 	modelViewProjectionMatrix = 0,
 	textureMatrix,
-	modelMatrix
+	modelMatrix,
+	max
 };
 
 #endif

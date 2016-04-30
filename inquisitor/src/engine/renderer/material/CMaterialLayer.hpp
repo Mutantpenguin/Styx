@@ -29,17 +29,11 @@ private:
 
 	std::vector< std::shared_ptr< CTexCoordMod > > m_texcoordmods;
 
-	/* TODO shaders
-	float	m_animFreq			{ 1.0f };	// interval between animation-stages
-	size_t	m_current_texture	{ 1 };		// actual texture to display
-	float	m_animtime			{ 0.0f };	// time from engine-start when we should change to next texture in animation-sequenze
-	 * */
-
 	std::shared_ptr< CShaderProgram >	m_shader;
 
 	std::unordered_map< GLuint, std::pair< std::shared_ptr< CTexture >, std::shared_ptr< CSampler > > > m_textures;
 
-	std::unordered_map< GLuint, std::unique_ptr< CInstanceUniform > > m_instanceUniform;
+	std::unordered_map< GLuint, std::unique_ptr< CInstanceUniform > > m_instanceUniforms;
 };
 
 #endif // CMATERIALLAYER_HPP

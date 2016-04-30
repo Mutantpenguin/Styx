@@ -21,6 +21,7 @@
     <File Name="materials/wait_cursor.mat"/>
     <File Name="materials/intro_icon.mat"/>
     <File Name="materials/blue.mat"/>
+    <File Name="materials/red.mat"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

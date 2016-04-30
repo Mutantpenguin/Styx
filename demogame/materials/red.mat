@@ -1,5 +1,5 @@
 {
-	"name"			:	"blue",
+	"name"			:	"red",
 	"polygonmode"	:	"FILL",
 	"layers"		:	[
 							{
@@ -8,7 +8,7 @@
 													"fs" : "shaders/fs/color.fs.glsl"
 												},
 								"uniforms"	:	{
-													"mainColor" : [ 0.0, 0.0, 1.0, 1.0 ]
+													"mainColor" : [ 1.0, 0.0, 0.0, 1.0 ]
 												}
 							}
 						]
