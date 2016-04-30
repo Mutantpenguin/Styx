@@ -393,12 +393,13 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 			case GL_FLOAT_VEC3:
 			case GL_FLOAT_VEC4:
 			case GL_UNSIGNED_INT:
+			case GL_INT:
 				{
-					EReservedUniformLocations uniformLocationEnum = static_cast< EReservedUniformLocations >( uniformLocation );
+					const EReservedUniformLocations uniformLocationEnum = static_cast< EReservedUniformLocations >( uniformLocation );
+
 					auto uniformIt = reservedUniforms.find( uniformLocationEnum );
 					if( reservedUniforms.end() == uniformIt )
 					{
-						// TODO do something with these instanceUniforms!
 						shaderProgram->m_requiredInstanceUniforms[ uniformLocation ] = { uniformName, uniformType };
 					}
 					else

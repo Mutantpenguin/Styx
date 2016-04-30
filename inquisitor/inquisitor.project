@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="inquisitor" InternalType="Console">
   <Plugins>
-    <Plugin Name="CppCheck"/>
     <Plugin Name="subversion2">
       <![CDATA[true
 /home/charon/Projekte/adeptus-project/trunk
@@ -10,6 +9,7 @@
     <Plugin Name="qmake">
       <![CDATA[00010001N0005Debug000000000000]]>
     </Plugin>
+    <Plugin Name="CppCheck"/>
     <Plugin Name="CMakePlugin">
       <![CDATA[[{
   "name": "Debug",
@@ -66,6 +66,8 @@
           <File Name="src/engine/renderer/material/CTexCoordMods.cpp"/>
           <File Name="src/engine/renderer/material/CMaterialLayer.hpp"/>
           <File Name="src/engine/renderer/material/CMaterialManager.hpp"/>
+          <File Name="src/engine/renderer/material/CInstanceUniform.hpp"/>
+          <File Name="src/engine/renderer/material/CInstanceUniform.cpp"/>
         </VirtualDirectory>
         <VirtualDirectory Name="texture">
           <File Name="src/engine/renderer/texture/CTexture.cpp"/>

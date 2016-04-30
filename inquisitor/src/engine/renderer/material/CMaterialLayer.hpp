@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <memory>
 
+#include "CInstanceUniform.hpp"
 #include "../shader/CShaderProgram.hpp"
 #include "../texture/CTexture.hpp"
 #include "../sampler/CSampler.hpp"
@@ -37,6 +38,8 @@ private:
 	std::shared_ptr< CShaderProgram >	m_shader;
 
 	std::unordered_map< GLuint, std::pair< std::shared_ptr< CTexture >, std::shared_ptr< CSampler > > > m_textures;
+
+	std::unordered_map< GLuint, std::unique_ptr< CInstanceUniform > > m_instanceUniform;
 };
 
 #endif // CMATERIALLAYER_HPP

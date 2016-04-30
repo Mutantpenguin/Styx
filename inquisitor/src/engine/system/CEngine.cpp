@@ -93,5 +93,6 @@ void CEngine::Run( void )
 
 const std::string CEngine::GetVersionString( void )
 {
-	return( "'" + m_name + "' version '" + m_version + " " + m_status + " svn " + SVN_REVISION + "'" );
+	// TODO somehow get the git revision in here?
+	return( "'" + m_name + "' version '" + m_version + " " + m_status );
 }
