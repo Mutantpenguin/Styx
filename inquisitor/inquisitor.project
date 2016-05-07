@@ -139,18 +139,18 @@
       </VirtualDirectory>
       <VirtualDirectory Name="scene">
         <VirtualDirectory Name="components">
-          <File Name="src/engine/scene/components/transformcomponent.hpp"/>
-          <File Name="src/engine/scene/components/cbasecomponent.cpp"/>
-          <File Name="src/engine/scene/components/cbasecomponent.hpp"/>
+          <File Name="src/engine/scene/components/transformcomponent.hpp" ExcludeProjConfig="Debug"/>
+          <File Name="src/engine/scene/components/cbasecomponent.cpp" ExcludeProjConfig="Debug"/>
+          <File Name="src/engine/scene/components/cbasecomponent.hpp" ExcludeProjConfig="Debug"/>
         </VirtualDirectory>
-        <File Name="src/engine/scene/centity.cpp"/>
-        <File Name="src/engine/scene/ccomponentsystem.hpp"/>
-        <File Name="src/engine/scene/centity.hpp"/>
-        <File Name="src/engine/scene/csystem.hpp"/>
-        <File Name="src/engine/scene/ctransformsystem.cpp"/>
-        <File Name="src/engine/scene/ctransformsystem.hpp"/>
-        <File Name="src/engine/scene/csystemmanager.cpp"/>
-        <File Name="src/engine/scene/csystemmanager.hpp"/>
+        <File Name="src/engine/scene/centity.cpp" ExcludeProjConfig="Debug"/>
+        <File Name="src/engine/scene/ccomponentsystem.hpp" ExcludeProjConfig="Debug"/>
+        <File Name="src/engine/scene/centity.hpp" ExcludeProjConfig="Debug"/>
+        <File Name="src/engine/scene/csystem.hpp" ExcludeProjConfig="Debug"/>
+        <File Name="src/engine/scene/ctransformsystem.cpp" ExcludeProjConfig="Debug"/>
+        <File Name="src/engine/scene/ctransformsystem.hpp" ExcludeProjConfig="Debug"/>
+        <File Name="src/engine/scene/csystemmanager.cpp" ExcludeProjConfig="Debug"/>
+        <File Name="src/engine/scene/csystemmanager.hpp" ExcludeProjConfig="Debug"/>
         <File Name="src/engine/scene/CScene.hpp"/>
         <File Name="src/engine/scene/CScene.cpp"/>
       </VirtualDirectory>
@@ -246,11 +246,11 @@
       <ResourceCompiler Options=""/>
     </GlobalSettings>
     <Configuration Name="Debug" CompilerType="clang( tags/RELEASE_371/final )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-g;-O0;-fsanitize=address;-fno-omit-frame-pointer" C_Options="-g;-O0" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+      <Compiler Options="-g;-O0;-fno-omit-frame-pointer;-fsanitize=address;-fsanitize=undefined;-fsanitize=integer" C_Options="-g;-O0" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <Preprocessor Value="INQ_DEBUG"/>
       </Compiler>
-      <Linker Options="-fsanitize=address;" Required="yes"/>
+      <Linker Options="-fsanitize=address;-fsanitize=undefined;-fsanitize=integer" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./bin/Debug" Command="./$(ProjectName)" CommandArguments="--gameDirectory ../../../demogame" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
