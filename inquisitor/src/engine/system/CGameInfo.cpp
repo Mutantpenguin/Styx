@@ -30,7 +30,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 
 		const Json::Value entry = root[ "name_short" ];
 
-		if( entry.isNull() )
+		if( entry.empty() )
 		{
 			LOG( logERROR ) << "there is no definition of 'name_short' in the file '" << gamefile << "'";
 			throw std::exception();
@@ -59,9 +59,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 			m_icon = root[ "icon" ].asString();
 
 			const Json::Value assets = root[ "assets" ];
-			if(	assets.isNull()
-				||
-				( assets.size() == 0 ) )
+			if(	assets.empty() )
 			{
 				LOG( logERROR ) << "no 'assets' specified in the file '" << gamefile << "'";
 				throw std::exception();
@@ -84,9 +82,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 
 			const Json::Value templates = root[ "templates" ];
 
-			if(	templates.isNull()
-				||
-				( templates.size() == 0 ) )
+			if(	templates.empty() )
 			{
 				LOG( logERROR ) << "no 'templates' specified in the file '" << gamefile << "'";
 				throw std::exception();

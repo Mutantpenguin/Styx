@@ -24,7 +24,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 	std::shared_ptr< CMaterial > newMaterial = std::make_shared< CMaterial >( mat_name.asString() );
 
 	const Json::Value mat_cullmode = mat_root[ "cullmode" ];
-	if( !mat_cullmode.isNull() )
+	if( !mat_cullmode.empty() )
 	{
 		if( ( !mat_cullmode.asString().empty() ) && GLHelper::FaceModeFromString( mat_cullmode.asString(), newMaterial->m_cullfacemode ) )
 		{
@@ -33,7 +33,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 	}
 
 	const Json::Value mat_polygonmode = mat_root[ "polygonmode" ];
-	if( !mat_polygonmode.isNull() )
+	if( !mat_polygonmode.empty() )
 	{
 		if( !GLHelper::PolygonModeFromString( mat_polygonmode.asString(), newMaterial->m_polygonmode ) )
 		{
@@ -42,11 +42,11 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 	}
 
 	const Json::Value mat_blending = mat_root[ "blending" ];
-	if( !mat_blending.isNull() )
+	if( !mat_blending.empty() )
 	{
 		const Json::Value mat_blendingsrc = mat_blending[ "src" ];
 		const Json::Value mat_blendingdst = mat_blending[ "dst" ];
-		if( !mat_blendingsrc.isNull() && GLHelper::SrcBlendFuncFromString( mat_blendingsrc.asString(), newMaterial->m_blendSrc ) && !mat_blendingdst.isNull() && GLHelper::DstBlendFuncFromString( mat_blendingdst.asString(), newMaterial->m_blendDst ) )
+		if( !mat_blendingsrc.empty() && GLHelper::SrcBlendFuncFromString( mat_blendingsrc.asString(), newMaterial->m_blendSrc ) && !mat_blendingdst.empty() && GLHelper::DstBlendFuncFromString( mat_blendingdst.asString(), newMaterial->m_blendDst ) )
 		{
 			newMaterial->m_blending = true;
 		}
@@ -61,9 +61,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 	}
 
 	const Json::Value mat_layers = mat_root[ "layers" ];
-	if(	mat_layers.isNull()
-		||
-		( mat_layers.size() == 0 ) )
+	if(	mat_layers.empty() )
 	{
 		LOG( logWARNING ) << "no layers specified in '" << identifier << "'";
 		return( nullptr );
@@ -80,7 +78,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 			std::shared_ptr< CMaterialLayer > newLayer = newMaterial->CreateLayer();
 
 			const Json::Value mat_shaders = mat_layer[ "shaders" ];
-			if( mat_shaders.isNull() )
+			if( mat_shaders.empty() )
 			{
 				LOG( logWARNING ) << "no shader specified in layer '" << layer_index << "' of '" << identifier << "'";
 				return( nullptr );
@@ -91,7 +89,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 				std::string shader_fs_path;
 
 				const Json::Value mat_shader_vs = mat_shaders[ "vs" ];
-				if( mat_shader_vs.isNull() )
+				if( mat_shader_vs.empty() )
 				{
 					LOG( logWARNING ) << "no vertex shader specified in layer '" << layer_index << "' of '" << identifier << "'";
 					return( nullptr );
@@ -102,7 +100,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 				}
 
 				const Json::Value mat_shader_fs = mat_shaders[ "fs" ];
-				if( mat_shader_fs.isNull() )
+				if( mat_shader_fs.empty() )
 				{
 					LOG( logWARNING ) << "no fragment shader specified in layer '" << layer_index << "' of '" << identifier << "'";
 					return( nullptr );
@@ -119,9 +117,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 				if( !shader->m_requiredTextures.empty() )
 				{
 					const Json::Value mat_textures = mat_layer[ "textures" ];
-					if(	mat_textures.isNull()
-						||
-						( mat_textures.size() == 0 ) )
+					if(	mat_textures.empty() )
 					{
 						LOG( logWARNING ) << "no textures specified in layer '" << layer_index << "' of '" << identifier << "'";
 						return( nullptr );
@@ -131,7 +127,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 						for( const auto &sampler : shader->m_requiredTextures )
 						{
 							const Json::Value mat_texture = mat_textures[ sampler.second.name ];
-							if( mat_texture.isNull() )
+							if( mat_texture.empty() )
 							{
 								LOG( logWARNING ) << "required texture for sampler '" << sampler.second.name << "' not specified in layer '" << layer_index << "' of '" << identifier << "'";
 								return( nullptr );
@@ -174,9 +170,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 						}
 
 						const Json::Value mat_samplers = mat_layer[ "samplers" ];
-						if(	mat_samplers.isNull()
-							||
-							( mat_samplers.size() == 0 ) )
+						if(	mat_samplers.empty() )
 						{
 							LOG( logDEBUG ) << "no samplers specified in layer '" << layer_index << "' of '" << identifier << "'";
 						}
@@ -185,7 +179,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 							for( const auto &sampler : shader->m_requiredTextures )
 							{
 								const Json::Value mat_sampler = mat_samplers[ sampler.second.name ];
-								if( !mat_sampler.isNull() )
+								if( !mat_sampler.empty() )
 								{
 									// TODO check here, if specified sampler fits to the type of the texture
 									if( !samplerManager.SamplerFromString( mat_sampler.asString(), newLayer->m_textures[ sampler.first ].second ) )
@@ -232,9 +226,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 				if( !shader->m_requiredInstanceUniforms.empty() )
 				{
 					const Json::Value mat_uniforms = mat_layer[ "uniforms" ];
-					if(	mat_uniforms.isNull()
-						||
-						( mat_uniforms.size() == 0 ) )
+					if(	mat_uniforms.empty() )
 					{
 						LOG( logWARNING ) << "no uniforms specified in layer '" << layer_index << "' of '" << identifier << "'";
 						return( nullptr );
@@ -244,7 +236,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 						for( const auto instanceUniform : shader->m_requiredInstanceUniforms )
 						{
 							const Json::Value mat_uniform = mat_uniforms[ instanceUniform.second.name ];
-							if( mat_uniform.isNull() )
+							if( mat_uniform.empty() )
 							{
 								LOG( logWARNING ) << "required uniform '" << instanceUniform.second.name << "' not specified in layer '" << layer_index << "' of '" << identifier << "'";
 								return( nullptr );
@@ -313,18 +305,15 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 			}
 
 			const Json::Value mat_tcmods = mat_layer[ "tcmods" ];
-			if( !mat_tcmods.isNull() )
+			if( !mat_tcmods.empty() )
 			{
 				newLayer->m_texcoordmods.reserve( mat_tcmods.size() );
 
-				unsigned int tcmod_index = 0;
 				for( const Json::Value &mat_tcmod : mat_tcmods )
 				{
-					++tcmod_index;
-
-					if( !mat_tcmod.isNull() )
+					if( !mat_tcmod.empty() )
 					{
-						std::string mode = mat_tcmod[ "mode" ].asString();
+						const std::string mode = mat_tcmod[ "mode" ].asString();
 
 						if( std::string( "SCALE" ) == mode )
 						{
@@ -348,10 +337,6 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 							float umove = mat_tcmod.get( "umove", 0.0f ).asDouble();
 							float vmove = mat_tcmod.get( "vmove", 0.0f ).asDouble();
 							newLayer->m_texcoordmods.emplace_back( std::make_shared< CTexCoordModMove >( umove, vmove ) );
-						}
-						else if( std::string( "TURB" ) == mode )
-						{
-							LOG( logWARNING ) << "tcmod '" << mode << "' in layer '" << layer_index << "' of '" << identifier << "' not implemented yet";
 						}
 						else
 						{

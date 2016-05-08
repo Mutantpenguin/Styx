@@ -186,9 +186,7 @@ std::shared_ptr< CTexture > CTextureManager::CreateCubeTextureFromFile( const st
 
 	const Json::Value json_faces = root[ "faces" ];
 
-	if(	json_faces.isNull()
-		||
-		json_faces.empty() )
+	if(	json_faces.empty() )
 	{
 		LOG( logWARNING ) << "no faces defined in '" << path << "'";
 		return( nullptr );
@@ -249,9 +247,7 @@ std::shared_ptr< CTexture > CTextureManager::Create2DArrayTextureFromFile( const
 
 	const Json::Value json_layers = root[ "layers" ];
 
-	if(	json_layers.isNull()
-		||
-		json_layers.empty() )
+	if(	json_layers.empty() )
 	{
 		LOG( logWARNING ) << "no layers defined in '" << path << "'";
 		return( nullptr );
@@ -266,11 +262,8 @@ std::shared_ptr< CTexture > CTextureManager::Create2DArrayTextureFromFile( const
 
 	std::unique_ptr< C2DArrayData > arrayData = std::make_unique< C2DArrayData >();
 
-	unsigned int layer_index = 0;
 	for( const Json::Value &layer : json_layers )
 	{
-		++layer_index;
-
 		const std::string path_to_layer = path_to_layers + layer.asString();
 		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path_to_layer, m_iMaxTextureSize, m_iPicMip, false );
 

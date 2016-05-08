@@ -39,7 +39,7 @@ private:
 	static glm::vec3 CalculatedBoundingSphereRadiusVector( const Primitives::SPrimitive &primitive );
 	static float CalculatedBoundingSphereRadiusVector( const glm::vec3 &radiusVector, const glm::vec3 &scale );
 
-	std::shared_ptr< CMaterial > m_material;
+	std::shared_ptr< const CMaterial > m_material;
 
 	// TODO put these in the entity, maybe material too
 	glm::mat4	m_modelMatrix;
