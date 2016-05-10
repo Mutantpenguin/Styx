@@ -146,4 +146,7 @@
   <VirtualDirectory Name="misc">
     <File Name="misc/gamecontrollerdb.txt"/>
   </VirtualDirectory>
+  <VirtualDirectory Name="fonts">
+    <File Name="fonts/fontawesome-webfont.ttf"/>
+  </VirtualDirectory>
 </CodeLite_Project>
