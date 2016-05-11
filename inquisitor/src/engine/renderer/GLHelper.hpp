@@ -22,27 +22,29 @@ namespace GLHelper
 	template<typename T>
 	GLenum glmTypeToGLSLType( void )
 	{
-		if( typeid( T ) == typeid( glm::vec4 ) )
+		const std::type_info &type = typeid( T );
+
+		if( type == typeid( glm::vec4 ) )
 		{
 			return( GL_FLOAT_VEC4 );
 		}
-		else if( typeid( T ) == typeid( glm::vec3 ) )
+		else if( type == typeid( glm::vec3 ) )
 		{
 			return( GL_FLOAT_VEC3 );
 		}
-		else if( typeid( T ) == typeid( glm::vec2 ) )
+		else if( type == typeid( glm::vec2 ) )
 		{
 			return( GL_FLOAT_VEC2 );
 		}
-		else if( typeid( T ) == typeid( glm::mat4 ) )
+		else if( type == typeid( glm::mat4 ) )
 		{
 			return( GL_FLOAT_MAT4 );
 		}
-		else if( typeid( T ) == typeid( glm::mat3 ) )
+		else if( type == typeid( glm::mat3 ) )
 		{
 			return( GL_FLOAT_MAT3 );
 		}
-		else if( typeid( T ) == typeid( glm::uint ) )
+		else if( type == typeid( glm::uint ) )
 		{
 			return( GL_UNSIGNED_INT );
 		}
