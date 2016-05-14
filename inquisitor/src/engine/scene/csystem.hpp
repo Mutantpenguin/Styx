@@ -5,7 +5,7 @@
 class CSystem
 {
 	public:
-		virtual ~CSystem();
+		virtual ~CSystem() = 0;
 		virtual void Update( const double dt ) = 0;
 };
 

@@ -6,9 +6,9 @@
 
 struct TransformComponent
 {
-  glm::vec3	position;
-  glm::quat	orientation;
-  float		scale;
+	glm::vec3	position;
+	glm::quat	orientation;
+	float		scale;
 };
 
 #endif // TRANSFORMCOMPONENT_HPP

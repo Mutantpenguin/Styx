@@ -3,7 +3,7 @@
 
 #include <string>
 
-typedef std::string EntityID;
+typedef std::uint32_t EntityID;
 
 class CEntity final
 {
@@ -12,7 +12,9 @@ class CEntity final
 		~CEntity();
 
 	private:
-		EntityID m_uuid;
+		const EntityID m_uuid = s_lastID++;
+
+		static EntityID s_lastID;
 };
 
 #endif // COBJECT_HPP

@@ -139,20 +139,20 @@
       </VirtualDirectory>
       <VirtualDirectory Name="scene">
         <VirtualDirectory Name="components">
-          <File Name="src/engine/scene/components/transformcomponent.hpp" ExcludeProjConfig="Debug"/>
-          <File Name="src/engine/scene/components/cbasecomponent.cpp" ExcludeProjConfig="Debug"/>
-          <File Name="src/engine/scene/components/cbasecomponent.hpp" ExcludeProjConfig="Debug"/>
+          <File Name="src/engine/scene/components/transformcomponent.hpp" ExcludeProjConfig=""/>
+          <File Name="src/engine/scene/components/cbasecomponent.cpp" ExcludeProjConfig=""/>
+          <File Name="src/engine/scene/components/cbasecomponent.hpp" ExcludeProjConfig=""/>
         </VirtualDirectory>
-        <File Name="src/engine/scene/centity.cpp" ExcludeProjConfig="Debug"/>
-        <File Name="src/engine/scene/ccomponentsystem.hpp" ExcludeProjConfig="Debug"/>
-        <File Name="src/engine/scene/centity.hpp" ExcludeProjConfig="Debug"/>
-        <File Name="src/engine/scene/csystem.hpp" ExcludeProjConfig="Debug"/>
-        <File Name="src/engine/scene/ctransformsystem.cpp" ExcludeProjConfig="Debug"/>
-        <File Name="src/engine/scene/ctransformsystem.hpp" ExcludeProjConfig="Debug"/>
-        <File Name="src/engine/scene/csystemmanager.cpp" ExcludeProjConfig="Debug"/>
-        <File Name="src/engine/scene/csystemmanager.hpp" ExcludeProjConfig="Debug"/>
-        <File Name="src/engine/scene/CScene.hpp"/>
-        <File Name="src/engine/scene/CScene.cpp"/>
+        <File Name="src/engine/scene/centity.cpp" ExcludeProjConfig=""/>
+        <File Name="src/engine/scene/ccomponentsystem.hpp" ExcludeProjConfig=""/>
+        <File Name="src/engine/scene/centity.hpp" ExcludeProjConfig=""/>
+        <File Name="src/engine/scene/csystem.hpp" ExcludeProjConfig=""/>
+        <File Name="src/engine/scene/ctransformsystem.cpp" ExcludeProjConfig=""/>
+        <File Name="src/engine/scene/ctransformsystem.hpp" ExcludeProjConfig=""/>
+        <File Name="src/engine/scene/csystemmanager.cpp" ExcludeProjConfig=""/>
+        <File Name="src/engine/scene/csystemmanager.hpp" ExcludeProjConfig=""/>
+        <File Name="src/engine/scene/CScene.hpp" ExcludeProjConfig=""/>
+        <File Name="src/engine/scene/CScene.cpp" ExcludeProjConfig=""/>
       </VirtualDirectory>
       <VirtualDirectory Name="system">
         <File Name="src/engine/system/CFileSystem.cpp"/>
@@ -210,7 +210,18 @@
         <File Name="src/engine/sdl/CSDL.cpp"/>
       </VirtualDirectory>
     </VirtualDirectory>
-    <VirtualDirectory Name="stb"/>
+    <VirtualDirectory Name="stb">
+      <File Name="src/stb/stb_rect_pack.h"/>
+      <File Name="src/stb/stb_textedit.h"/>
+      <File Name="src/stb/stb_truetype.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="imgui">
+      <File Name="src/imgui/imconfig.h"/>
+      <File Name="src/imgui/imgui.cpp"/>
+      <File Name="src/imgui/imgui.h"/>
+      <File Name="src/imgui/imgui_draw.cpp"/>
+      <File Name="src/imgui/imgui_internal.h"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="inquisitor">
     <File Name="COPYING"/>
