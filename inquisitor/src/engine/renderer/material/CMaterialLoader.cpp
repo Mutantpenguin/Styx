@@ -317,25 +317,25 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 
 						if( std::string( "SCALE" ) == mode )
 						{
-							float uscale = mat_tcmod.get( "uscale", 0.0f ).asDouble();
-							float vscale = mat_tcmod.get( "vscale", 0.0f ).asDouble();
+							const float uscale = mat_tcmod.get( "uscale", 0.0f ).asDouble();
+							const float vscale = mat_tcmod.get( "vscale", 0.0f ).asDouble();
 							newLayer->m_texcoordmods.emplace_back( std::make_shared< CTexCoordModScale >( uscale, vscale ) );
 						}
 						else if( std::string( "SCROLL" ) == mode )
 						{
-							float uspeed = mat_tcmod.get( "uspeed", 0.0f ).asDouble();
-							float vspeed = mat_tcmod.get( "vspeed", 0.0f ).asDouble();
+							const float uspeed = mat_tcmod.get( "uspeed", 0.0f ).asDouble();
+							const float vspeed = mat_tcmod.get( "vspeed", 0.0f ).asDouble();
 							newLayer->m_texcoordmods.emplace_back( std::make_shared< CTexCoordModScroll >( uspeed, vspeed ) );
 						}
 						else if( std::string( "ROTATE" ) == mode )
 						{
-							float deg = mat_tcmod.get( "deg", 0.0f ).asDouble();
+							const float deg = mat_tcmod.get( "deg", 0.0f ).asDouble();
 							newLayer->m_texcoordmods.emplace_back( std::make_shared< CTexCoordModRotate >( deg ) );
 						}
 						else if( std::string( "MOVE" ) == mode )
 						{
-							float umove = mat_tcmod.get( "umove", 0.0f ).asDouble();
-							float vmove = mat_tcmod.get( "vmove", 0.0f ).asDouble();
+							const float umove = mat_tcmod.get( "umove", 0.0f ).asDouble();
+							const float vmove = mat_tcmod.get( "vmove", 0.0f ).asDouble();
 							newLayer->m_texcoordmods.emplace_back( std::make_shared< CTexCoordModMove >( umove, vmove ) );
 						}
 						else
