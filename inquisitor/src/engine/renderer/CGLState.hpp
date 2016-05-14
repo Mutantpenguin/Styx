@@ -15,6 +15,8 @@ public:
 
 	static void Blending( const bool blending, const GLenum modeSrc, const GLenum modeDst );
 
+	static void BlendEquation( const GLenum mode );
+
 	static void BindTextureToUnit( const GLuint texID, const GLuint unit );
 
 	static void BindSamplerToUnit( const GLuint samplerID, const GLuint unit );
@@ -34,6 +36,8 @@ private:
 	static bool		blendingEnabed;
 	static GLenum	blendModeSrc;
 	static GLenum	blendModeDst;
+
+	static GLenum	blendEquation;
 
 	static std::array< GLuint, CShaderManager::requiredCombinedTextureImageUnits > textureUnits;
 	static std::array< GLuint, CShaderManager::requiredCombinedTextureImageUnits > samplerUnits;

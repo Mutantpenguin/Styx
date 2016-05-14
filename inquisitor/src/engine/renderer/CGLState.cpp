@@ -9,6 +9,8 @@ bool	CGLState::blendingEnabed	{ false };
 GLenum	CGLState::blendModeSrc		{ GL_NONE };
 GLenum	CGLState::blendModeDst		{ GL_NONE };
 
+GLenum	CGLState::blendEquation		{ GL_NONE };
+
 std::array< GLuint, CShaderManager::requiredCombinedTextureImageUnits > CGLState::textureUnits;
 std::array< GLuint, CShaderManager::requiredCombinedTextureImageUnits > CGLState::samplerUnits;
 
@@ -71,6 +73,15 @@ void CGLState::Blending( const bool blending, const GLenum modeSrc, const GLenum
 			blendModeSrc = modeSrc;
 			blendModeDst = modeDst;
 			glBlendFunc( modeSrc, modeDst );
+	}
+}
+
+void CGLState::BlendEquation( const GLenum mode )
+{
+	if( mode != blendEquation )
+	{
+		blendEquation = mode;
+		glBlendEquation( mode );
 	}
 }
 
