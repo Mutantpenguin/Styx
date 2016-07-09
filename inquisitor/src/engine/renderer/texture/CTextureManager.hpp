@@ -34,9 +34,9 @@ private:
 	GLint	m_iMaxTextureSize;
 	GLint	m_iMaxCubeMapTextureSize;
 
-	const unsigned int	m_iPicMip { 0 };
+	const std::uint8_t	m_iPicMip { 0 };
 
-	static const unsigned int MAX_PICMIP { 4 };
+	static const std::uint8_t MAX_PICMIP { 4 };
 
 	std::unordered_map< std::string, std::weak_ptr< CTexture > > m_textures;
 };

@@ -42,15 +42,33 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		mesh2 = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 10.0f, 10.0f, 10.0f ), glm::vec3( 0.0f, 0.0f, -10.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) );
 		m_scene.AddMesh( mesh2 );
 
-		const std::uint16_t cubeSize { 4 };
-
-		for( std::uint16_t i = 0; i < cubeSize; i++ )
 		{
-			for( std::uint16_t j = 0; j < cubeSize; j++ )
+			const std::uint16_t cubeSize { 4 };
+
+			for( std::uint16_t i = 0; i < cubeSize; i++ )
 			{
-				for( std::uint16_t k = 0; k < cubeSize; k++ )
+				for( std::uint16_t j = 0; j < cubeSize; j++ )
 				{
-					m_scene.AddMesh( std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 2.0f, 2.0f, 2.0f ), glm::vec3( 20.0f + i * 4.0f, 0.0f + j * 4.0f, -10.0f + k * 4.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) ) );
+					for( std::uint16_t k = 0; k < cubeSize; k++ )
+					{
+						m_scene.AddMesh( std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 2.0f, 2.0f, 2.0f ), glm::vec3( 20.0f + i * 4.0f, 0.0f + j * 4.0f, -10.0f + k * 4.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) ) );
+					}
+				}
+			}
+		}
+
+		{
+			//const std::uint16_t cubeSize { 24 };
+			const std::uint16_t cubeSize { 4 };
+
+			for( std::uint16_t i = 0; i < cubeSize; i++ )
+			{
+				for( std::uint16_t j = 0; j < cubeSize; j++ )
+				{
+					for( std::uint16_t k = 0; k < cubeSize; k++ )
+					{
+						m_scene.AddMesh( std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 2.0f, 2.0f, 2.0f ), glm::vec3( 20.0f + i * 4.0f, -25.0f + j * 4.0f, 50.0f + k * 4.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) ) );
+					}
 				}
 			}
 		}

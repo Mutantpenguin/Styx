@@ -21,17 +21,18 @@ public:
 	{
 		struct structWindow final
 		{
-			CSize	size			{ 640, 480 };
-			bool	fullscreen		{ false };
-			bool	vsync			{ true };
-			float	gamma			{ 1.0f };
-			bool	antialiasing	{ false };
+			CSize			size			{ 640, 480 };
+			std::uint8_t	display			{ 0 };
+			bool			fullscreen		{ false };
+			bool			vsync			{ true };
+			float			gamma			{ 1.0f };
+			bool			antialiasing	{ false };
 		} window;
 
 		struct structTextures final
 		{
-			unsigned int	anisotropic		{ 1 };
-			unsigned int	picmip			{ 0 };
+			std::uint8_t	anisotropic		{ 1 };
+			std::uint8_t	picmip			{ 0 };
 		} textures;
 
 		struct structScreenshot final
@@ -44,7 +45,7 @@ public:
 
 	struct structSound final
 	{
-		unsigned int	buffer_size	{ 4096 };
+		std::uint16_t	buffer_size	{ 4096 };
 	} sound;
 
 	struct structInput final

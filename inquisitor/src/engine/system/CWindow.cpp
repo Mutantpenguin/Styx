@@ -15,6 +15,25 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 		throw std::exception();
 	}
 
+	std::uint8_t showWindowOnDisplay = settings.renderer.window.display;
+	const std::uint16_t numberOfDisplays = SDL_GetNumVideoDisplays();
+	if( numberOfDisplays < 0 )
+	{
+		LOG( logWARNING ) << "couldn't get number of displays: " << SDL_GetError();
+
+		showWindowOnDisplay = 0;
+	}
+	else
+	{
+		LOG( logINFO ) << "number of displays: " << numberOfDisplays;
+
+		if( showWindowOnDisplay >= numberOfDisplays )
+		{
+			LOG( logWARNING ) << "display is set to a non existing display";
+			showWindowOnDisplay = 0;
+		}
+	}
+
 	if( settings.renderer.window.antialiasing )
 	{
 		// TODO remove this when rendering is ported to framebuffers
@@ -53,8 +72,8 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 	}
 
 	m_SDL_window = SDL_CreateWindow(	windowTitle.c_str(),
-										SDL_WINDOWPOS_CENTERED,
-										SDL_WINDOWPOS_CENTERED,
+										SDL_WINDOWPOS_CENTERED_DISPLAY( showWindowOnDisplay ),
+										SDL_WINDOWPOS_CENTERED_DISPLAY( showWindowOnDisplay ),
 										settings.renderer.window.size.width,
 										settings.renderer.window.size.height,
 										window_flags );

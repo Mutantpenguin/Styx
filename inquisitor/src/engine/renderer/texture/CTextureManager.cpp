@@ -18,7 +18,7 @@
 #include "../../logger/CLogger.hpp"
 
 
-const unsigned int CTextureManager::MAX_PICMIP;
+const std::uint8_t CTextureManager::MAX_PICMIP;
 
 CTextureManager::CTextureManager( const CSettings &p_settings, const CFileSystem &p_filesystem ) :
 	m_filesystem( p_filesystem ),
