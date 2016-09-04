@@ -24,17 +24,17 @@
 	#define COLOR_NORMAL    7
 #endif
 
-void CLogTargetConsole::Log( const CLogger::logEntry &entry )
+void CLogTargetConsole::Log( const std::unique_ptr< CLogger::logEntry > &entry )
 {
-	std::cout << entry.m_time << " ";
+	std::cout << entry->FormattedTime() << " ";
 
-	SetColor( GetColor( entry.m_logLevel ) );
+	SetColor( GetColor( entry->m_logLevel ) );
 
-	std::cout << fmt::format( "{0:<9}", "[" + CLogger::ToString( entry.m_logLevel ) + "]" );
+	std::cout << fmt::format( "{0:<9}", "[" + CLogger::LogLevelToString( entry->m_logLevel ) + "]" );
 
 	SetColor( COLOR_NORMAL );
 
-	std::cout << " : " << entry.m_message << std::endl;
+	std::cout << " : " << entry->m_message << std::endl;
 }
 
 #ifndef WIN32

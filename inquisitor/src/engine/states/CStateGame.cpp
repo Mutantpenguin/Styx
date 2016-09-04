@@ -109,7 +109,7 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 {
 	if( input.KeyDown( SDL_SCANCODE_ESCAPE ) )
 	{
-		LOG( logINFO ) << "ESC pressed, shutting down...";
+		logINFO( "ESC pressed, shutting down..." );
 		return( nullptr );
 	}
 
@@ -217,7 +217,7 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 		{
 			if( !m_filesystem.MakeDir( screenshotDir ) )
 			{
-				LOG( logERROR ) << "couldn't create screenshot-directory '" << screenshotDir << "' because of: " << m_filesystem.GetLastError();
+				logERROR( "couldn't create screenshot-directory '{0}' because of: {1}", screenshotDir, m_filesystem.GetLastError() );
 			}
 		}
 
@@ -226,19 +226,19 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 
 		const std::string screenshotPath = screenshotDir + CFileSystem::GetDirSeparator() + datetime + "." + m_settings.renderer.screenshot.format;
 
-		LOG( logINFO ) << "taking screenshot '" << screenshotPath << "'";
+		logINFO( "taking screenshot '{0}'", screenshotPath );
 
 		const std::shared_ptr< const CImage > screenshot = renderer.GetScreenshot();
 
 		if( !ImageHandler::Save( m_filesystem, screenshot, m_settings.renderer.screenshot.scale_factor, m_settings.renderer.screenshot.format, screenshotPath ) )
 		{
-			LOG( logERROR ) << "screenshot '" << screenshotPath << "' couldn't be saved";
+			logERROR( "screenshot '{0}' couldn't be saved", screenshotPath );
 		}
 		else
 		{
 			if( !m_filesystem.Exists( screenshotPath ) )
 			{
-				LOG( logERROR ) << "screenshot '" << screenshotPath << "' doesn't exist";
+				logERROR( "screenshot '{0}' doesn't exist", screenshotPath );
 			}
 		}
 	}

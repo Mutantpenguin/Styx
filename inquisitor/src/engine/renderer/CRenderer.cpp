@@ -24,19 +24,19 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 	// TODO query all capabilities in this class
 	m_rendererCapabilities.Init();
 
-	LOG( logINFO ) << "OpenGL Version:  " << glbinding::ContextInfo::version();
-	LOG( logINFO ) << "OpenGL Vendor:   " << glbinding::ContextInfo::vendor();
-	LOG( logINFO ) << "OpenGL Renderer: " << glbinding::ContextInfo::renderer();
-	LOG( logINFO ) << "OpenGL Revision: " << glbinding::Meta::glRevision() << " (gl.xml)";
-	LOG( logINFO ) << "GLSL Version:    " << reinterpret_cast< const char* >( glGetString( GL_SHADING_LANGUAGE_VERSION ) );
+	logINFO( "OpenGL Version:  {0}",          glbinding::ContextInfo::version().toString() );
+	logINFO( "OpenGL Vendor:   {0}",          glbinding::ContextInfo::vendor() );
+	logINFO( "OpenGL Renderer: {0}",          glbinding::ContextInfo::renderer() );
+	logINFO( "OpenGL Revision: {0} (gl.xml)", glbinding::Meta::glRevision() );
+	logINFO( "GLSL Version:    {0}",          glGetString( GL_SHADING_LANGUAGE_VERSION ) );
 
 	glGetIntegerv( GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &m_maxCombinedTextureImageUnits );
 	if( m_maxCombinedTextureImageUnits < CShaderManager::requiredCombinedTextureImageUnits )
 	{
-		LOG( logERROR ) << "not enough combined texture image units: " << m_maxCombinedTextureImageUnits << " found but " << CShaderManager::requiredCombinedTextureImageUnits << " needed";
+		logERROR( "not enough combined texture image units: {0} found but {1} needed", m_maxCombinedTextureImageUnits, CShaderManager::requiredCombinedTextureImageUnits );
 		throw std::exception();
 	}
-	LOG( logDEBUG ) << "GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS is " << m_maxCombinedTextureImageUnits;
+	logDEBUG( "{0} is {1}", glbinding::Meta::getString( GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS ), m_maxCombinedTextureImageUnits );
 
 	const auto requiredOpenGLExtensions = {	GLextension::GL_EXT_texture_filter_anisotropic,
 											GLextension::GL_ARB_texture_storage,
@@ -49,7 +49,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 	{
 		if( !m_rendererCapabilities.isSupported( extension ) )
 		{
-			LOG( logERROR ) << "required extension " << glbinding::Meta::getString( extension ) << " not supported";
+			logERROR( "required extension {0} not supported", glbinding::Meta::getString( extension ) );
 			throw std::exception();
 		}
 	}
@@ -63,29 +63,29 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 
 			glDebugMessageCallback(	[]( GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei, const GLchar* message, const void* )
 									{
-										const e_loglevel loglvl = ( GL_DEBUG_SEVERITY_HIGH == severity ) ? logERROR : logWARNING;
+										const e_loglevel loglvl = ( GL_DEBUG_SEVERITY_HIGH == severity ) ? e_loglevel::ERROR : e_loglevel::WARNING;
 
-										LOG( loglvl ) << "OpenGL ERROR";
-										LOG( loglvl ) << "Source   : " << glbinding::Meta::getString( source );
-										LOG( loglvl ) << "Type     : " << glbinding::Meta::getString( type );
-										LOG( loglvl ) << "ID       : " << id;
-										LOG( loglvl ) << "Severity : " << glbinding::Meta::getString( severity );
-										LOG( loglvl ) << "Message  : " << message;
+										LOG( loglvl, "OpenGL ERROR" );
+										LOG( loglvl, "Source   : {0}", glbinding::Meta::getString( source ) );
+										LOG( loglvl, "Type     : {0}", glbinding::Meta::getString( type ) );
+										LOG( loglvl, "ID       : {0}", id );
+										LOG( loglvl, "Severity : {0}", glbinding::Meta::getString( severity ) );
+										LOG( loglvl, "Message  : {0}", message );
 									}, nullptr );
 		}
 		else
 		{
-			LOG( logWARNING ) << "neither " << glbinding::Meta::getString( GLextension::GL_KHR_debug ) << " nor " << glbinding::Meta::getString( GLextension::GL_ARB_debug_output ) << " are available";
+			logWARNING( "neither {0} nor {1} are available", glbinding::Meta::getString( GLextension::GL_KHR_debug ), glbinding::Meta::getString( GLextension::GL_ARB_debug_output ) );
 		}
 	#endif
 
-	LOG( logINFO ) << "video memory:";
-
 	const bool supports_GL_NVX_gpu_memory_info = m_rendererCapabilities.isSupported( GLextension::GL_NVX_gpu_memory_info );
 	const bool supports_GL_ATI_meminfo         = m_rendererCapabilities.isSupported( GLextension::GL_ATI_meminfo );
+
+	logINFO( "video memory:" );
 	if( !supports_GL_NVX_gpu_memory_info && !supports_GL_ATI_meminfo )
 	{
-		LOG( logINFO ) << "  not available";
+		logINFO( "  not available" );
 	}
 	else
 	{
@@ -100,9 +100,9 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 			GLint currentlyAvailableMemKb = 0;
 			glGetIntegerv( GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &currentlyAvailableMemKb );
 
-			LOG( logINFO ) << "  total dedicated:     " << dedicatedMemKb / 1024 << " MiB";
-			LOG( logINFO ) << "  total available:     " << totalAvailableMemKb / 1024 << " MiB";
-			LOG( logINFO ) << "  currently available: " << currentlyAvailableMemKb / 1024 << " MiB";
+			logINFO( "  total dedicated:     {0} MiB", dedicatedMemKb / 1024 );
+			logINFO( "  total available:     {0} MiB", totalAvailableMemKb / 1024 );
+			logINFO( "  currently available: {0} MiB", currentlyAvailableMemKb / 1024 );
 		}
 
 		if( supports_GL_ATI_meminfo )
@@ -116,21 +116,21 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 			GLint renderbufferFreeMemKb = 0;
 			glGetIntegerv( GL_RENDERBUFFER_FREE_MEMORY_ATI, &renderbufferFreeMemKb );
 
-			LOG( logINFO ) << "    free for VBOs:           " << vboFreeMemKb / 1024 << " MiB";
-			LOG( logINFO ) << "    free for textures:       " << textureFreeMemKb / 1024 << " MiB";
-			LOG( logINFO ) << "    free for render buffers: " << renderbufferFreeMemKb / 1024 << " MiB";
+			logINFO( "    free for VBOs:           {0} MiB", vboFreeMemKb / 1024 );
+			logINFO( "    free for textures:       {0} MiB", textureFreeMemKb / 1024 );
+			logINFO( "    free for render buffers: {0} MiB", renderbufferFreeMemKb / 1024 );
 		}
 	}
 
 	if( !m_materialmanager.Init( m_rendererCapabilities ) )
 	{
-		LOG( logERROR ) << "unable to initialize MaterialManager";
+		logERROR( "unable to initialize MaterialManager" );
 		throw std::exception();
 	}
 
 	if( !m_samplerManager.Init( ) )
 	{
-		LOG( logERROR ) << "unable to initialize SamplerManager";
+		logERROR( "unable to initialize SamplerManager" );
 		throw std::exception();
 	}
 
@@ -237,7 +237,7 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time )
 
 	if( !camera )
 	{
-		LOG( logWARNING ) << "scene has no camera";
+		logWARNING( "scene has no camera" );
 	}
 	else
 	{

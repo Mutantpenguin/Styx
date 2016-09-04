@@ -12,17 +12,17 @@ bool C2DArrayData::AddLayer( const std::shared_ptr< const CImage > &image )
 		{
 			if( firstImage->Size() != image->Size() )
 			{
-				LOG( logWARNING ) << "different layers in array textures must have the same size";
+				logWARNING( "different layers in array textures must have the same size" );
 				return( false );
 			}
 			else if( firstImage->BPP() != image->BPP() )
 			{
-				LOG( logWARNING ) << "different layers in array textures must have the same bpp";
+				logWARNING( "different layers in array textures must have the same bpp" );
 				return( false );
 			}
 			else if( firstImage->HasAlpha() != image->HasAlpha() )
 			{
-				LOG( logWARNING ) << "different layers in array textures must have the same alpha";
+				logWARNING( "different layers in array textures must have the same alpha" );
 				return( false );
 			};
 		}

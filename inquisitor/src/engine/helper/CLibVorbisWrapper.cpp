@@ -29,7 +29,7 @@ void CLibVorbisWrapper::m_Initialize( const CFileSystem & )
 {
 	m_initialized = true;
 
-	LOG( logDEBUG ) << "libvorbis has version '" << vorbis_version_string() << "'";
+	logDEBUG( "libvorbis has version '{0}'", vorbis_version_string() );
 
 	// assign wrapper-functions so libvorbis can use our own file-system
 

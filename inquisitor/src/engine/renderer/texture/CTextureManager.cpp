@@ -6,6 +6,8 @@
 	#include <windows.h>
 #endif
 
+#include <glbinding/Meta.h>
+
 #include <json/json.h>
 
 #include "CCubemapData.hpp"
@@ -31,11 +33,11 @@ CTextureManager::~CTextureManager( void )
 {
 	if( m_textures.size() > 0 )
 	{
-		LOG( logWARNING ) << "there are still '" + std::to_string( m_textures.size() ) + "' existing m_textures";
+		logWARNING( "there are still '{0}' existing m_textures", m_textures.size() );
 		#ifdef INQ_DEBUG
 		for( auto texture : m_textures )
 		{
-			LOG( logDEBUG ) << "  " << texture.first;
+			logDEBUG( "  {0}", texture.first );
 		}
 		#endif
 	}
@@ -53,29 +55,27 @@ bool CTextureManager::Init( const CRendererCapabilities &rendererCapabilities )
 {
 	// look out for the maximal texture size
 	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &m_iMaxTextureSize );
-	LOG( logDEBUG ) << "GL_MAX_TEXTURE_SIZE is '" << m_iMaxTextureSize << "'";
+	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_TEXTURE_SIZE ), m_iMaxTextureSize );
 
 	// look out for the maximal cubemap texture size
 	glGetIntegerv( GL_MAX_CUBE_MAP_TEXTURE_SIZE, &m_iMaxCubeMapTextureSize );
-	LOG( logDEBUG ) << "GL_MAX_CUBE_MAP_TEXTURE_SIZE is '" << m_iMaxCubeMapTextureSize << "'";
+	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_CUBE_MAP_TEXTURE_SIZE ), m_iMaxCubeMapTextureSize );
 
 	/* TODO try to use GL_ARB_internalformat_query2 when available on r600
 	if( rendererCapabilities.isSupported( GLextension::GL_ARB_internalformat_query2 ) )
 	{
-		LOG( logERROR ) << "GL_ARB_internalformat_query supported";
-
 		//GLenum format, type;
 		GLint format, type;
 		gl42::glGetInternalformativ( GL_TEXTURE_2D, GL_RGBA8, gl43::GL_INTERNALFORMAT_PREFERRED, 1, &format );
 		//gl43::glGetInternalformativ( GL_TEXTURE_2D, GL_RGBA8, gl43::GL_TEXTURE_IMAGE_FORMAT, 1, &format );
 		//gl43::glGetInternalformativ( GL_TEXTURE_2D, GL_RGBA8, gl43::GL_TEXTURE_IMAGE_TYPE, 1, &type );
 
-		LOG( logERROR ) << "format : " << glbinding::Meta::getString( static_cast< GLenum >( format ) );
-		//LOG( logERROR ) << "type : " << glbinding::Meta::getString( type );
+		logERROR( "format: {0}", glbinding::Meta::getString( static_cast< GLenum >( format ) ) );
+		//logERROR( "type: {0}", glbinding::Meta::getString( type ) );
 	}
 	else
 	{
-		LOG( logINFO ) << "using '" << glbinding::Meta::getString( m_internalTextureFormat ) << "' as internal texture format";
+		logINFO( "using '{0}' as internal texture format", glbinding::Meta::getString( m_internalTextureFormat ) );
 	}
 	*/
 
@@ -123,7 +123,7 @@ std::shared_ptr< CTexture > CTextureManager::LoadTexture( const std::string &pat
 
 	if( !m_filesystem.Exists( path ) )
 	{
-		LOG( logWARNING ) << "'" << path << "' does not exist";
+		logWARNING( "'{0}' does not exist", path );
 	}
 	else
 	{
@@ -148,7 +148,7 @@ std::shared_ptr< CTexture > CTextureManager::LoadTexture( const std::string &pat
 	}
 	else
 	{
-		LOG( logWARNING ) << "failed to create texture from file '" << path << "'";
+		logWARNING( "failed to create texture from file '{0}'", path );
 		return( m_dummyTexture );
 	}
 }
@@ -164,7 +164,7 @@ std::shared_ptr< CTexture > CTextureManager::Create2DTextureFromFile( const std:
 
 	if( !image )
 	{
-		LOG( logWARNING ) << "image '" << path << "' couldn't be loaded";
+		logWARNING( "image '{0}' couldn't be loaded", path );
 		return( nullptr );
 	}
 	else
@@ -180,7 +180,7 @@ std::shared_ptr< CTexture > CTextureManager::CreateCubeTextureFromFile( const st
 	Json::Reader	reader;
 	if ( !reader.parse( m_filesystem.LoadTextFileToBuffer( path ), root ) )
 	{
-		LOG( logWARNING ) << "failed to parse '" << path << "' because of " << reader.getFormattedErrorMessages();
+		logWARNING( "failed to parse '{0}' because of {1}", path, reader.getFormattedErrorMessages() );
 		return( nullptr );
 	}
 
@@ -188,17 +188,17 @@ std::shared_ptr< CTexture > CTextureManager::CreateCubeTextureFromFile( const st
 
 	if(	json_faces.empty() )
 	{
-		LOG( logWARNING ) << "no faces defined in '" << path << "'";
+		logWARNING( "no faces defined in '{0}'", path );
 		return( nullptr );
 	}
 	else if( json_faces.size() < CCubemapData::countCubemapFaces )
 	{
-		LOG( logWARNING ) << "there are only " << json_faces.size() << " faces defined in '" << path << "'";
+		logWARNING( "there are only {0} faces defined in '{1}'", json_faces.size(), path );
 		return( nullptr );
 	}
 	else if( json_faces.size() > CCubemapData::countCubemapFaces )
 	{
-		LOG( logWARNING ) << "there are too many ( " << json_faces.size() << " ) faces defined in '" << path << "'";
+		logWARNING( "there are too many ( {0} ) faces defined in '{1}'", json_faces.size(), path );
 		return( nullptr );
 	}
 
@@ -212,14 +212,14 @@ std::shared_ptr< CTexture > CTextureManager::CreateCubeTextureFromFile( const st
 		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path_to_face, m_iMaxCubeMapTextureSize, m_iPicMip, true );
 		if( nullptr == image )
 		{
-			LOG( logWARNING ) << "failed to load image '" << path_to_face << "' for cubemap '" << path << "'";
+			logWARNING( "failed to load image '{0}' for cubemap '{1}'", path_to_face, path );
 			return( nullptr );
 		}
 		else
 		{
 			if( !cubemapData->AddFace( faceNum, image ) )
 			{
-				LOG( logWARNING ) << "failed to add face '" << json_faces[ faceNum ].asString() << "' for cubemap '" << path << "'";
+				logWARNING( "failed to add face '{0}' for cubemap '{1}'", json_faces[ faceNum ].asString(), path );
 				return( nullptr );
 			}
 		}
@@ -241,7 +241,7 @@ std::shared_ptr< CTexture > CTextureManager::Create2DArrayTextureFromFile( const
 	Json::Reader	reader;
 	if ( !reader.parse( m_filesystem.LoadTextFileToBuffer( path ), root ) )
 	{
-		LOG( logWARNING ) << "failed to parse '" << path << "' because of " << reader.getFormattedErrorMessages();
+		logWARNING( "failed to parse '{0}' because of {1}", path, reader.getFormattedErrorMessages() );
 		return( nullptr );
 	}
 
@@ -249,12 +249,12 @@ std::shared_ptr< CTexture > CTextureManager::Create2DArrayTextureFromFile( const
 
 	if(	json_layers.empty() )
 	{
-		LOG( logWARNING ) << "no layers defined in '" << path << "'";
+		logWARNING( "no layers defined in '{0}'", path );
 		return( nullptr );
 	}
 	else if( json_layers.size() > UINT8_MAX )
 	{
-		LOG( logWARNING ) << "more than the maximum of " << UINT8_MAX << " layers defined in '" << path << "'";
+		logWARNING( "more than the maximum of {0} layers defined in '{1}'", UINT8_MAX, path );
 		return( nullptr );
 	}
 
@@ -269,14 +269,14 @@ std::shared_ptr< CTexture > CTextureManager::Create2DArrayTextureFromFile( const
 
 		if( nullptr == image )
 		{
-			LOG( logWARNING ) << "failed to load image '" << path_to_layer << "' for array texture '" << path << "'";
+			logWARNING( "failed to load image '{0}' for array texture '{1}'", path_to_layer, path );
 			return( nullptr );
 		}
 		else
 		{
 			if( !arrayData->AddLayer( image ) )
 			{
-				LOG( logWARNING ) << "failed to add layer '" << layer.asString() << "' for array texture '" << path << "'";
+				logWARNING( "failed to add layer '{0}' for array texture '{1}'", layer.asString(), path );
 				return( nullptr );
 			}
 		}
@@ -292,7 +292,7 @@ bool CTextureManager::CreateDummyTexture( void )
 
 	if( !image )
 	{
-		LOG( logERROR ) << "checker-image for the dummy-texture couldn't be generated";
+		logERROR( "checker-image for the dummy-texture couldn't be generated" );
 		return( false );
 	}
 	else

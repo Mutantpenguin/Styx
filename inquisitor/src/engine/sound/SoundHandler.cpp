@@ -10,7 +10,7 @@ namespace SoundHandler
 	{
 		if( !p_filesystem.Exists( path ) )
 		{
-			LOG( logWARNING ) << "sound '" << path << "' does not exist";
+			logWARNING( "sound '{0}' does not exist", path );
 			return( nullptr );
 		}
 
@@ -25,7 +25,7 @@ namespace SoundHandler
 
 			const vorbis_info *vi = ov_info( ovf, -1 );
 
-			LOG( logDEBUG ) << "version: " << vi->version << " / channels: " << vi->channels << " / rate: " << vi->rate;
+			logDEBUG( "version: {0} / channels: {1} / rate: {2}", vi->version, vi->channels, vi->rate );
 
 			std::array< char, 32768 > tempBuffer;
 
@@ -52,7 +52,7 @@ namespace SoundHandler
 		}
 		else
 		{
-			LOG( logWARNING ) << "failed to open '" << path << "'";
+			logWARNING( "failed to open '{0}'", path );
 		}
 
 		return( nullptr );

@@ -10,18 +10,18 @@ CInput::CInput( const CSettings &settings, const CFileSystem &filesystem )
 	// get information about joysticks
 	if( SDL_InitSubSystem( SDL_INIT_JOYSTICK ) )
 	{
-		LOG( logINFO ) << "initializing SDL joystick subsystem failed: " << SDL_GetError();
+		logINFO( "initializing SDL joystick subsystem failed: {0}", SDL_GetError() );
 	}
 	else
 	{
 		if( SDL_JoystickEventState( SDL_ENABLE ) != SDL_ENABLE )
 		{
-			LOG( logDEBUG ) << "cannot enable joystick event polling!";
+			logDEBUG( "cannot enable joystick event polling!" );
 		}
 
 		if( settings.input.controller_file.empty() )
 		{
-			LOG( logWARNING ) << "no file specified for controller mappings";
+			logWARNING( "no file specified for controller mappings" );
 		}
 		else
 		{
@@ -30,46 +30,46 @@ CInput::CInput( const CSettings &settings, const CFileSystem &filesystem )
 				switch( SDL_GameControllerAddMapping( filesystem.LoadTextFileToBuffer( settings.input.controller_file ).c_str() ) )
 				{
 					case 1:
-						LOG( logINFO ) << "added controller mappings from file '" << settings.input.controller_file << "'";
+						logINFO( "added controller mappings from file '{0}'", settings.input.controller_file );
 						break;
 
 					case -1:
-						LOG( logWARNING ) << "unable to add controller mappings: " << SDL_GetError();
+						logWARNING( "unable to add controller mappings: {0}", SDL_GetError() );
 						break;
 				}
 			}
 			else
 			{
-				LOG( logWARNING ) << "file '" << settings.input.controller_file << "' for controller mappings doesn't exist";
+				logWARNING( "file '{0}' for controller mappings doesn't exist", settings.input.controller_file );
 			}
 		}
 
 		const int js_num = SDL_NumJoysticks();
 		if( js_num < 0 )
 		{
-			LOG( logWARNING ) << "unable to retrieve number of attached joysticks: " << SDL_GetError();
+			logWARNING( "unable to retrieve number of attached joysticks: {0}", SDL_GetError() );
 		}
 		else
 		{
-			LOG( logINFO ) << "'" << js_num << "' joysticks available";
+			logINFO( "'{0}' joysticks available", js_num );
 			for( int i = 0; i < js_num; ++i )
 			{
-				LOG( logDEBUG ) << "Joystick #" << i;
+				logDEBUG( "Joystick #{0}", i );
 
 				if( SDL_IsGameController( i ) )
 				{
 					SDL_GameController *controller = SDL_GameControllerOpen( i );
 					if( nullptr == controller )
 					{
-						LOG( logERROR ) << "unable to open controller #" << i << ": " << SDL_GetError();
+						logERROR( "unable to open controller #{0}: {1}", i, SDL_GetError() );
 					}
 					else
 					{
-						LOG( logDEBUG ) << "Name: " << SDL_GameControllerName( controller );
-						LOG( logDEBUG ) << "Mapped as : " << SDL_GameControllerMapping( controller );
+						logDEBUG( "Name: {0}", SDL_GameControllerName( controller ) );
+						logDEBUG( "Mapped as: {0}", SDL_GameControllerMapping( controller ) );
 
 						SDL_Joystick *joystick = SDL_GameControllerGetJoystick( controller );
-						LOG( logDEBUG ) << "Layout: " << SDL_JoystickNumAxes( joystick ) << " Axes / " << SDL_JoystickNumButtons( joystick ) << " Buttons / " << SDL_JoystickNumBalls( joystick ) << " Trackballs / " << SDL_JoystickNumHats( joystick ) << " Hat Switches / " << ( ( SDL_JoystickIsHaptic( joystick ) == 1 ) ? " is haptic" : "is not haptic" );
+						logDEBUG( "Layout: {0} Axes / {1} Buttons / {2} Trackballs / {3} Hat Switches / {4}", SDL_JoystickNumAxes( joystick ), SDL_JoystickNumButtons( joystick ), SDL_JoystickNumBalls( joystick ), SDL_JoystickNumHats( joystick ), ( ( SDL_JoystickIsHaptic( joystick ) == 1 ) ? " is haptic" : "is not haptic" ) );
 
 						SDL_GameControllerClose( controller );
 					}
@@ -79,12 +79,12 @@ CInput::CInput( const CSettings &settings, const CFileSystem &filesystem )
 					SDL_Joystick *joystick = SDL_JoystickOpen( i );
 					if( nullptr == joystick )
 					{
-						LOG( logERROR ) << "unable to open joystick #" << i << ": " << SDL_GetError();
+						logERROR( "unable to open joystick #{0}: {1}", i, SDL_GetError() );
 					}
 					else
 					{
-						LOG( logDEBUG ) << "Name: " << SDL_JoystickName( joystick );
-						LOG( logDEBUG ) << "Layout: " << SDL_JoystickNumAxes( joystick ) << " Axes / " << SDL_JoystickNumButtons( joystick ) << " Buttons / " << SDL_JoystickNumBalls( joystick ) << " Trackballs / " << SDL_JoystickNumHats( joystick ) << " Hat Switches / " << ( ( SDL_JoystickIsHaptic( joystick ) == 1 ) ? " is haptic" : "is not haptic" );
+						logDEBUG( "Name: {0}", SDL_JoystickName( joystick ) );
+						logDEBUG( "Layout: {0} Axes / {1} Buttons / {2} Trackballs / {3} Hat Switches / {4}", SDL_JoystickNumAxes( joystick ), SDL_JoystickNumButtons( joystick ), SDL_JoystickNumBalls( joystick ), SDL_JoystickNumHats( joystick ), ( ( SDL_JoystickIsHaptic( joystick ) == 1 ) ? " is haptic" : "is not haptic" ) );
 
 						SDL_JoystickClose( joystick );
 					}

@@ -17,17 +17,17 @@ bool CSamplerManager::Init( void )
 
 		if( m_iAnisotropicLevel > fMaxSupportedAnisotropy )
 		{
-			LOG( logWARNING ) << "anisotropic level of '" << m_iAnisotropicLevel << "' is higher than the highest supported level of '" << fMaxSupportedAnisotropy << "' which will now be used instead";
+			logWARNING( "anisotropic level of '{0}' is higher than the highest supported level of '{1}' which will now be used instead", m_iAnisotropicLevel, fMaxSupportedAnisotropy );
 			m_iAnisotropicLevel = fMaxSupportedAnisotropy;
 		}
 		else
 		{
-			LOG( logINFO ) << "anisotropic filtering with a level of '" << m_iAnisotropicLevel << "' will be used";
+			logINFO( "anisotropic filtering with a level of '{0}' will be used", m_iAnisotropicLevel );
 		}
 	}
 	else
 	{
-		LOG( logINFO ) << "anisotropic filtering is deactivated";
+		logINFO( "anisotropic filtering is disbabled" );
 	}
 
 	std::shared_ptr< CSampler > sampler2DRepeat = Generate( CSampler::Type::REPEAT_2D );
@@ -118,7 +118,7 @@ bool CSamplerManager::SamplerFromString( const std::string &string, std::shared_
 	}
 	else
 	{
-		LOG( logWARNING ) << "unknown sampler type '" << string << "'";
+		logWARNING( "unknown sampler type '{0}'", string );
 		return( false );
 	}
 
@@ -136,7 +136,7 @@ std::shared_ptr< CSampler > CSamplerManager::Generate( CSampler::Type type )
 
 	if( 0 != m_samplers[ index ] )
 	{
-		LOG( logERROR ) << "sampler with index " << index << " already set";
+		logERROR( "sampler with index {0} already set", index );
 		throw std::exception();
 	}
 

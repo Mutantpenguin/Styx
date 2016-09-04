@@ -61,12 +61,12 @@ std::shared_ptr< CState > CStateIntro::Update( const std::uint64_t time, CSoundM
 		}
 		catch( std::exception &e )
 		{
-			LOG( logERROR ) << "couldn't setup game: " << e.what();
+			logERROR( "couldn't setup game: {0}", e.what() );
 			return( nullptr );
 		}
 		catch( ... )
 		{
-			LOG( logERROR ) << "couldn't setup game: UNDEFINED EXCEPTION";
+			logERROR( "couldn't setup game: UNDEFINED EXCEPTION" );
 			return( nullptr );
 		}
 	}

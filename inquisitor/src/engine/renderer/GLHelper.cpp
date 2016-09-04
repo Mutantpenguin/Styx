@@ -58,7 +58,7 @@ namespace GLHelper
 		}
 		else
 		{
-			LOG( logWARNING ) << "unknown blend-function '" << string << "'";
+			logWARNING( "unknown blend-function '{0}'", string );
 			return( false );
 		}
 
@@ -121,7 +121,7 @@ namespace GLHelper
 		}
 		else
 		{
-			LOG( logWARNING ) << "unknown blend-function '" << string << "'";
+			logWARNING( "unknown blend-function '{0}'", string );
 			return( false );
 		}
 
@@ -144,7 +144,7 @@ namespace GLHelper
 		}
 		else
 		{
-			LOG( logWARNING ) << "unknown cull-mode '" << string << "'";
+			logWARNING( "unknown cull-mode '{0}'", string );
 			return( false );
 		}
 
@@ -167,7 +167,7 @@ namespace GLHelper
 		}
 		else
 		{
-			LOG( logWARNING ) << "unknown cull-mode '" << string << "'";
+			logWARNING( "unknown cull-mode '{0}'", string );
 			return( false );
 		}
 
@@ -184,7 +184,7 @@ namespace GLHelper
 		}
 		else
 		{
-			LOG( logERROR ) << glbinding::Meta::getString( status );
+			logERROR( glbinding::Meta::getString( status ) );
 			return( false );
 		}
 	}

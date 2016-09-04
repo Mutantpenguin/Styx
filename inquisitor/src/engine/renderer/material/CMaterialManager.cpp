@@ -16,11 +16,11 @@ CMaterialManager::~CMaterialManager( void )
 {
 	if( m_materials.size() > 0 )
 	{
-		LOG( logWARNING ) << "there are still '" + std::to_string( m_materials.size() ) + "' existing materials";
+		logWARNING( "there are still '{0}' existing materials", m_materials.size() );
 		#ifdef INQ_DEBUG
 		for( auto material : m_materials )
 		{
-			LOG( logDEBUG ) << "  " << material.first;
+			logDEBUG( "  {0}", material.first );
 		}
 		#endif
 	}
@@ -30,13 +30,13 @@ bool CMaterialManager::Init( const CRendererCapabilities &rendererCapabilities )
 {
 	if( !m_textureManager.Init( rendererCapabilities ) )
 	{
-		LOG( logERROR ) << "unable to initialize TextureManager";
+		logERROR( "unable to initialize TextureManager" );
 		return( false );
 	}
 
 	if( !m_shaderManager.Init() )
 	{
-		LOG( logERROR ) << "unable to initialize ShaderManager";
+		logERROR( "unable to initialize ShaderManager" );
 		return( false );
 	}
 
@@ -83,7 +83,7 @@ std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &
 
 	if( !m_filesystem.Exists( path ) )
 	{
-		LOG( logWARNING ) << "'" << path << "' does not exist";
+		logWARNING( "'{0}' does not exist", path );
 	}
 	else
 	{
@@ -93,7 +93,7 @@ std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &
 		}
 		else
 		{
-			LOG( logWARNING ) << "file is not a material: '" << path << "'";
+			logWARNING( "file is not a material: '{0}'", path );
 		}
 	}
 
@@ -104,7 +104,7 @@ std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &
 	}
 	else
 	{
-		LOG( logWARNING ) << "failed to create material from file '" << path << "'";
+		logWARNING( "failed to create material from file '{0}'", path );
 		return( m_dummyMaterial );
 	}
 }

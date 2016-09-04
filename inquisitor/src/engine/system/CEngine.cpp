@@ -33,7 +33,7 @@ CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std
 
 CEngine::~CEngine( void )
 {
-	LOG( logDEBUG ) << "engine terminated";
+	logDEBUG( "engine terminated" );
 }
 
 bool CEngine::Prepare( void )
@@ -53,7 +53,7 @@ bool CEngine::Prepare( void )
 
 void CEngine::Run( void )
 {
-	LOG( logDEBUG ) << "start main loop";
+	logINFO( "start main loop" );
 
 	std::uint64_t lastUpdatedTime = m_globalTimer.Time();
 
@@ -69,7 +69,7 @@ void CEngine::Run( void )
 			if( m_globalTimer.dT() > m_settings.engine.tick )
 			{
 				// a frame takes more time than m_settings.engine.tick, so we have fewer than 30fps
-				LOG( logWARNING ) << "ATTENTION: frame-time is " << m_globalTimer.dT() << "ms";
+				logWARNING( "ATTENTION: frame-time is {0}ms", m_globalTimer.dT() );
 			}
 		#endif // INQ_DEBUG
 
@@ -88,7 +88,7 @@ void CEngine::Run( void )
 		m_window.Update();
 	}
 
-	LOG( logDEBUG ) << "end main loop";
+	logINFO( "end main loop" );
 }
 
 const std::string CEngine::GetVersionString( void )

@@ -11,7 +11,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 {
 	if( SDL_InitSubSystem( SDL_INIT_VIDEO ) )
 	{
-		LOG( logERROR ) << "initializing SDL video subsystem failed: " << SDL_GetError();
+		logERROR( "initializing SDL video subsystem failed: {0}", SDL_GetError() );
 		throw std::exception();
 	}
 
@@ -19,17 +19,17 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 	const std::uint16_t numberOfDisplays = SDL_GetNumVideoDisplays();
 	if( numberOfDisplays < 0 )
 	{
-		LOG( logWARNING ) << "couldn't get number of displays: " << SDL_GetError();
+		logWARNING( "couldn't get number of displays: {0}", SDL_GetError() );
 
 		showWindowOnDisplay = 0;
 	}
 	else
 	{
-		LOG( logINFO ) << "number of displays: " << numberOfDisplays;
+		logINFO( "number of displays: {0}", numberOfDisplays );
 
 		if( showWindowOnDisplay >= numberOfDisplays )
 		{
-			LOG( logWARNING ) << "display is set to a non existing display";
+			logWARNING( "display is set to a non existing display" );
 			showWindowOnDisplay = 0;
 		}
 	}
@@ -80,7 +80,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 
 	if( nullptr == m_SDL_window )
 	{
-		LOG( logERROR ) << "creating SDL window failed: " << SDL_GetError();
+		logERROR( "creating SDL window failed: {0}", SDL_GetError() );
 		throw std::exception();
 	}
 
@@ -98,29 +98,29 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 			}
 			else
 			{
-				LOG( logWARNING ) << "creation of game-icon '" << iconPath << "' failed: " << SDL_GetError();
+				logWARNING( "creation of game-icon '{0}' failed: {1}", iconPath, SDL_GetError() );
 			}
 		}
 		else
 		{
-			LOG( logWARNING ) << "loading of game-icon '" << iconPath << "' failed";
+			logWARNING( "loading of game-icon '{0}' failed", iconPath );
 		}
 	}
 	else
 	{
-		LOG( logDEBUG ) << "game specified no window-icon";
+		logWARNING( "game specified no window-icon" );
 	}
 
 	m_SDL_GL_context = SDL_GL_CreateContext( m_SDL_window );
 	if( nullptr == m_SDL_GL_context )
 	{
-		LOG( logERROR ) << "creating a GL context failed: " << SDL_GetError();
+		logERROR( "creating a GL context failed: {0}", SDL_GetError() );
 		throw std::exception();
 	}
 
 	if( SDL_GL_MakeCurrent( m_SDL_window, m_SDL_GL_context ) )
 	{
-		LOG( logERROR ) << "making the GL context current failed: " << SDL_GetError();
+		logERROR( "making the GL context current failed: {0}", SDL_GetError() );
 		throw std::exception();
 	}
 
@@ -129,7 +129,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 		||
 		( 0 == doubleBuffered ) )
 	{
-		LOG( logERROR ) << "couldn't get a double-buffered GL context: " << SDL_GetError();
+		logERROR( "couldn't get a double-buffered GL context: {0}", SDL_GetError() );
 		throw std::exception();
 	}
 
@@ -137,18 +137,18 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 	{
 		if( SDL_GL_SetSwapInterval( -1 ) != 0 )
 		{
-			LOG( logINFO ) << "late swap tearing not available: '" << SDL_GetError() << "'";
+			logINFO( "late swap tearing not available: {0}", SDL_GetError() );
 
 			if( SDL_GL_SetSwapInterval( 1 ) != 0 )
 			{
-				LOG( logWARNING ) << "vsync not available: " << SDL_GetError();
+				logWARNING( "vsync not available: {0}", SDL_GetError() );
 			}
 		}
 	}
 	else
 	{
 		SDL_GL_SetSwapInterval( 0 );
-		LOG( logINFO ) << "running without vsync";
+		logINFO( "running without vsync" );
 	}
 
 	if( settings.renderer.window.gamma > 0.0f )
@@ -157,12 +157,12 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 		SDL_CalculateGammaRamp( settings.renderer.window.gamma, ramp.data() );
 		if( SDL_SetWindowGammaRamp( m_SDL_window, ramp.data(), ramp.data(), ramp.data() ) != 0 )
 		{
-			LOG( logWARNING ) << "setting the gamma ramp failed: " << SDL_GetError();
+			logWARNING( "setting the gamma ramp failed: {0}", SDL_GetError() );
 		}
 	}
 
 	#ifndef INQ_DEBUG
-	    LOG( logDEBUG ) << "using relative mouse-mode";
+	    logDEBUG( "using relative mouse-mode" );
 		SDL_SetRelativeMouseMode( SDL_FALSE );
 	#endif
 }

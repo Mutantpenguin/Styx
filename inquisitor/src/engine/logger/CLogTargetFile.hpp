@@ -14,7 +14,7 @@ public:
 	virtual ~CLogTargetFile( void );
 
 private:
-	virtual void Log( const CLogger::logEntry &entry ) override;
+	virtual void Log( const std::unique_ptr< CLogger::logEntry > &entry ) override;
 
 	std::ofstream m_log_ofile;
 };

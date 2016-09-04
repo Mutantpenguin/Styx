@@ -289,12 +289,14 @@ namespace ComputerInfo
 		#else // linux
 			std::string osversion = std::string( "unknown Linux" );
 
-			FILE *file_lsb_release_exists = fopen( "/etc/lsb-release", "r" );
+			const std::string lsbReleaseFilename { "/etc/lsb-release" };
+			FILE *file_lsb_release_exists = fopen( lsbReleaseFilename.c_str(), "r" );
 			if( nullptr != file_lsb_release_exists )
 			{
 				fclose( file_lsb_release_exists );
 
-				FILE *file_release = popen( "lsb_release -drs", "r" );
+				const std::string lsbReleaseCommand { "lsb_release -drs" };
+				FILE *file_release = popen( lsbReleaseCommand.c_str(), "r" );
 				if( nullptr != file_release )
 				{
 					char buffer_release[ 128 ];
@@ -306,7 +308,8 @@ namespace ComputerInfo
 
 					osversion = std::string( buffer_release );
 
-					FILE *file_kernel = popen( "uname -rmo", "r" );
+					const std::string kernelVersionCommand { "uname -rmo" };
+					FILE *file_kernel = popen( kernelVersionCommand.c_str(), "r" );
 					if( nullptr != file_kernel )
 					{
 						char buffer_kernel[ 128 ];
@@ -319,17 +322,17 @@ namespace ComputerInfo
 					}
 					else
 					{
-						LOG( logWARNING ) << "'uname -rmo' couldn't be run";
+						logWARNING( "'{0}' couldn't be run", kernelVersionCommand );
 					}
 				}
 				else
 				{
-					LOG( logWARNING ) << "'lsb_release -drs' couldn't be run";
+					logWARNING( "'{0}' couldn't be run", lsbReleaseCommand );
 				}
 			}
 			else
 			{
-				LOG( logWARNING ) << "'/etc/lsb-release' doesn't seem to exist";
+				logWARNING( "'{0}' doesn't seem to exist", lsbReleaseFilename );
 			}
 		#endif
 

@@ -69,7 +69,7 @@ bool CShaderManager::CreateDummyProgram( void )
 	const GLuint vertexShader = CreateShader( GL_VERTEX_SHADER, vertexShaderSrc );
 	if( 0 == vertexShader )
 	{
-		LOG( logERROR ) << "couldn't create dummy vertex shader";
+		logERROR( "couldn't create dummy vertex shader" );
 		return( false );
 	}
 
@@ -83,14 +83,14 @@ bool CShaderManager::CreateDummyProgram( void )
 	const GLuint fragmentShader = CreateShader( GL_FRAGMENT_SHADER, fragmentShaderSrc );
 	if( 0 == fragmentShader )
 	{
-		LOG( logERROR ) << "couldn't create dummy fragment shader";
+		logERROR( "couldn't create dummy fragment shader" );
 		return( false );
 	}
 
 	const GLuint program = CreateProgram( vertexShader, fragmentShader );
 	if( 0 == program )
 	{
-		LOG( logERROR ) << "couldn't create dummy program";
+		logERROR( "couldn't create dummy program" );
 		return( false );
 	}
 
@@ -98,7 +98,7 @@ bool CShaderManager::CreateDummyProgram( void )
 
 	if( !InterfaceSetup( shaderProgram ) )
 	{
-		LOG( logWARNING ) << "dummy program object is not valid";
+		logWARNING( "dummy program object is not valid" );
 		return( false );
 	}
 
@@ -145,7 +145,7 @@ std::shared_ptr< CShaderProgram > CShaderManager::LoadProgram( const std::string
 
 		if( !InterfaceSetup( shaderProgram ) )
 		{
-			LOG( logWARNING ) << "program object is not valid";
+			logWARNING( "program object is not valid" );
 			return( m_dummyProgram );
 		}
 
@@ -160,7 +160,7 @@ GLuint CShaderManager::CreateProgram( const GLuint vertexShader, const GLuint fr
 	const GLuint program = glCreateProgram();
 	if( 0 == program )
 	{
-		LOG( logWARNING ) << "Error creating program object";
+		logWARNING( "Error creating program object" );
 		return( 0 );
 	}
 
@@ -179,7 +179,7 @@ GLuint CShaderManager::CreateProgram( const GLuint vertexShader, const GLuint fr
 		std::vector< char > errorMessage( infoLogLength );
 		glGetProgramInfoLog( program, infoLogLength, nullptr, errorMessage.data() );
 
-		LOG( logWARNING ) << "Error linking program: " << errorMessage.data();
+		logWARNING( "Error linking program: {0}", errorMessage.data() );
 
 		glDeleteProgram( program );
 
@@ -201,7 +201,7 @@ GLuint CShaderManager::LoadVertexShader( const std::string &path )
 		GLuint vertexShader = LoadShader( GL_VERTEX_SHADER, path );
 		if( 0 == vertexShader )
 		{
-			LOG( logERROR ) << "couldn't create vertex shader from '" << path << "'";
+			logERROR( "couldn't create vertex shader from '{0}'", path );
 			return( 0 );
 		}
 		else
@@ -224,7 +224,7 @@ GLuint CShaderManager::LoadFragmentShader( const std::string &path )
 		GLuint fragmentShader = LoadShader( GL_FRAGMENT_SHADER, path );
 		if( 0 == fragmentShader )
 		{
-			LOG( logERROR ) << "couldn't create fragment shader from '" << path << "'";
+			logERROR( "couldn't create fragment shader from '{0}'", path );
 			return( 0 );
 		}
 		else
@@ -239,7 +239,7 @@ GLuint CShaderManager::LoadShader( const GLenum type, const std::string &path )
 {
 	if( !m_filesystem.Exists( path ) )
 	{
-		LOG( logWARNING ) << "'" << path << "' does not exist";
+		logWARNING( "'{0}' does not exist", path );
 		return( 0 );
 	}
 	else
@@ -267,7 +267,7 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &src )
 			break;
 
 		default:
-			LOG( logWARNING ) << "unsupported shader type '" << glbinding::Meta::getString( type ) << "'";
+			logWARNING( "unsupported shader type '{0}'", glbinding::Meta::getString( type ) );
 			return( 0 );
 	}
 
@@ -284,7 +284,7 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &src )
 
 	if( 0 == shader )
 	{
-		LOG( logWARNING ) << "Error creating shader object";
+		logWARNING( "Error creating shader object" );
 		return( 0 );
 	}
 
@@ -302,7 +302,7 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &src )
 		std::vector< char > errorMessage( infoLogLength );
 		glGetShaderInfoLog( shader, infoLogLength, nullptr, errorMessage.data() );
 
-		LOG( logWARNING ) << "Error compiling shader: " << errorMessage.data();
+		logWARNING( "Error compiling shader: {0}", errorMessage.data() );
 
 		return( 0 );
 	}
@@ -329,7 +329,7 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 		auto attributeIt = allowedAttributes.find( attributeLocation );
 		if( allowedAttributes.end() == attributeIt )
 		{
-			LOG( logERROR ) << "attribute location '" << attributeLocation << "' is not allowed";
+			logERROR( "attribute location '{0}' is not allowed", attributeLocation );
 			return( false );
 		}
 		else
@@ -344,7 +344,7 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 				||
 				( attributeInterface.type != attributeType ) )
 			{
-				LOG( logERROR ) << "attribute '" << attributeName << "' with type " << glbinding::Meta::getString( attributeType ) << " is not allowed at location '" << attributeLocation << "'";
+				logERROR( "attribute '{0}' with type {1} is not allowed at location '{2}'", attributeName, glbinding::Meta::getString( attributeType ), attributeLocation );
 				return( false );
 			}
 		}
@@ -383,7 +383,7 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 				shaderProgram->m_requiredTextures[ uniformLocation ] = { uniformName, uniformType };
 				if( shaderProgram->m_requiredTextures.size() > CShaderManager::requiredCombinedTextureImageUnits )
 				{
-					LOG( logERROR ) << "uses " << shaderProgram->m_requiredTextures.size() << " samplers but only " << CShaderManager::requiredCombinedTextureImageUnits << "are allowed";
+					logERROR( "uses {0} samplers but only {1} are allowed", shaderProgram->m_requiredTextures.size(), CShaderManager::requiredCombinedTextureImageUnits );
 					return( false );
 				}
 				break;
@@ -409,7 +409,7 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 							||
 							( uniformInterface.type != uniformType ) )
 						{
-							LOG( logERROR ) << "uniform '" << uniformName << "' with type " << glbinding::Meta::getString( uniformType ) << " is not allowed at location '" << uniformLocation << "'";
+							logERROR( "uniform '{0}' with type {1} is not allowed at location '{2}'", uniformName, glbinding::Meta::getString( uniformType ), uniformLocation );
 							return( false );
 						}
 						else
@@ -421,7 +421,7 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 				}
 
 			default:
-				LOG( logERROR ) << "unsupported uniform type " << glbinding::Meta::getString( uniformType ) << " for uniform '" << uniformName << "' at location " << uniformLocation;
+				logERROR( "unsupported uniform type {0} for uniform '{1}' at location {2}", glbinding::Meta::getString( uniformType ), uniformName, uniformLocation );
 				return( false );
 		}
 	}

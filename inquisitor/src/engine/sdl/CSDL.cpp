@@ -15,15 +15,15 @@ CSDL::CSDL()
 
 	if( SDL_COMPILEDVERSION != SDL_VERSIONNUM( version_linked.major, version_linked.minor, version_linked.patch ) )
 	{
-		LOG( logERROR ) << "SDL has version '" << static_cast< unsigned short >( version_linked.major ) << "." << static_cast< unsigned short >( version_linked.minor ) << "." << static_cast< unsigned short >( version_linked.patch ) << "' but expected was version '" << SDL_MAJOR_VERSION << "." << SDL_MINOR_VERSION << "." << SDL_PATCHLEVEL << "'";
+		logERROR( "SDL has version '{0}.{1}.{2}' but expected was version '{3}.{4}.{5}'", static_cast< unsigned short >( version_linked.major ), static_cast< unsigned short >( version_linked.minor ), static_cast< unsigned short >( version_linked.patch ), SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL );
 		throw std::exception();
 	}
 
-	LOG( logDEBUG ) << "SDL has version '" << static_cast< unsigned short >( version_linked.major ) << "." << static_cast< unsigned short >( version_linked.minor ) << "." << static_cast< unsigned short >( version_linked.patch ) << "'";
+	logDEBUG( "SDL has version '{0}.{1}.{2}'", static_cast< unsigned short >( version_linked.major ), static_cast< unsigned short >( version_linked.minor ), static_cast< unsigned short >( version_linked.patch ) );
 
 	if( SDL_Init( 0 ) )
 	{
-		LOG( logERROR ) << "initialising SDL failed: " << SDL_GetError();
+		logERROR( "initialising SDL failed: {0}", SDL_GetError() );
 		throw std::exception();
 	}
 
@@ -31,12 +31,12 @@ CSDL::CSDL()
 		// redirect the output to the console because SDL would redirect it to the files stdout.txt and stderr.txt
 		if( std::freopen( "CON", "w", stdout ) == nullptr )
 		{
-			LOG( logERROR ) << "couldn't redirect stdout";
+			logERROR( "couldn't redirect stdout" );
 			throw std::exception();
 		}
 		if( std::freopen( "CON", "w", stderr ) == nullptr )
 		{
-			LOG( logERROR ) << "couldn't redirect stdout";
+			logERROR( "couldn't redirect stdout" );
 			throw std::exception();
 		}
 	#endif

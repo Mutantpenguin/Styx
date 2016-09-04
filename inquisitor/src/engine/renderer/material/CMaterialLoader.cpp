@@ -15,7 +15,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 
 	if( !reader.parse( definition, mat_root ) )
 	{
-		LOG( logWARNING ) << "failed to parse '" << identifier << "' because of " << reader.getFormattedErrorMessages();
+		logWARNING( "failed to parse '{0}' because of {1}", identifier, reader.getFormattedErrorMessages() );
 		return( nullptr );
 	}
 
@@ -63,7 +63,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 	const Json::Value mat_layers = mat_root[ "layers" ];
 	if(	mat_layers.empty() )
 	{
-		LOG( logWARNING ) << "no layers specified in '" << identifier << "'";
+		logWARNING( "no layers specified in '{0}'", identifier );
 		return( nullptr );
 	}
 	else
@@ -80,7 +80,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 			const Json::Value mat_shaders = mat_layer[ "shaders" ];
 			if( mat_shaders.empty() )
 			{
-				LOG( logWARNING ) << "no shader specified in layer '" << layer_index << "' of '" << identifier << "'";
+				logWARNING( "no shader specified in layer '{0}' of '{1}'", layer_index, identifier );
 				return( nullptr );
 			}
 			else
@@ -91,7 +91,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 				const Json::Value mat_shader_vs = mat_shaders[ "vs" ];
 				if( mat_shader_vs.empty() )
 				{
-					LOG( logWARNING ) << "no vertex shader specified in layer '" << layer_index << "' of '" << identifier << "'";
+					logWARNING( "no vertex shader specified in layer '{0}' of '{1}'", layer_index, identifier );
 					return( nullptr );
 				}
 				else
@@ -102,7 +102,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 				const Json::Value mat_shader_fs = mat_shaders[ "fs" ];
 				if( mat_shader_fs.empty() )
 				{
-					LOG( logWARNING ) << "no fragment shader specified in layer '" << layer_index << "' of '" << identifier << "'";
+					logWARNING( "no fragment shader specified in layer '{0}' of '{1}'", layer_index, identifier );
 					return( nullptr );
 				}
 				else
@@ -119,7 +119,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 					const Json::Value mat_textures = mat_layer[ "textures" ];
 					if(	mat_textures.empty() )
 					{
-						LOG( logWARNING ) << "no textures specified in layer '" << layer_index << "' of '" << identifier << "'";
+						logWARNING( "no textures specified in layer '{0}' of '{1}'", layer_index, identifier );
 						return( nullptr );
 					}
 					else
@@ -129,7 +129,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 							const Json::Value mat_texture = mat_textures[ sampler.second.name ];
 							if( mat_texture.empty() )
 							{
-								LOG( logWARNING ) << "required texture for sampler '" << sampler.second.name << "' not specified in layer '" << layer_index << "' of '" << identifier << "'";
+								logWARNING( "required texture for sampler '{0}' not specified in layer '{1}' of '{2}'", sampler.second.name, layer_index, identifier );
 								return( nullptr );
 							}
 							else
@@ -143,7 +143,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 									case GL_SAMPLER_2D:
 										if( texture->Type() != CTexture::type::TEX_2D )
 										{
-											LOG( logWARNING ) << "required texture for sampler '" << sampler.second.name << "' has to be of type 2D in layer '" << layer_index << "' of '" << identifier << "'";
+											logWARNING( "required texture for sampler '{0}' has to be of type 2D in layer '{1}' of '{2}'", sampler.second.name, layer_index, identifier );
 											return( nullptr );
 										}
 										break;
@@ -151,7 +151,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 									case GL_SAMPLER_CUBE:
 										if( texture->Type() != CTexture::type::TEX_CUBE_MAP )
 										{
-											LOG( logWARNING ) << "required texture for sampler '" << sampler.second.name << "' has to be of type CUBEMAP in layer '" << layer_index << "' of '" << identifier << "'";
+											logWARNING( "required texture for sampler '{0}' has to be of type CUBEMAP in layer '{1}' of '{2}'", sampler.second.name, layer_index, identifier );
 											return( nullptr );
 										}
 										break;
@@ -159,7 +159,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 									case GL_SAMPLER_2D_ARRAY:
 										if( texture->Type() != CTexture::type::TEX_2D_ARRAY )
 										{
-											LOG( logWARNING ) << "required texture for sampler '" << sampler.second.name << "' has to be of type 2D_ARRAY in layer '" << layer_index << "' of '" << identifier << "'";
+											logWARNING( "required texture for sampler '{0}' has to be of type 2D_ARRAY in layer '{1}' of '{2}'", sampler.second.name, layer_index, identifier );
 											return( nullptr );
 										}
 										break;
@@ -172,7 +172,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 						const Json::Value mat_samplers = mat_layer[ "samplers" ];
 						if(	mat_samplers.empty() )
 						{
-							LOG( logDEBUG ) << "no samplers specified in layer '" << layer_index << "' of '" << identifier << "'";
+							logDEBUG( "no samplers specified in layer '{0}' of '{1}'", layer_index, identifier );
 						}
 						else
 						{
@@ -184,7 +184,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 									// TODO check here, if specified sampler fits to the type of the texture
 									if( !samplerManager.SamplerFromString( mat_sampler.asString(), newLayer->m_textures[ sampler.first ].second ) )
 									{
-										LOG( logDEBUG ) << "invalid sampler specified for texture '" << sampler.second.name << "' in layer '" << layer_index << "' of '" << identifier << "'";
+										logDEBUG( "invalid sampler specified for texture '{0}' in layer '{1}' of '{2}'", sampler.second.name, layer_index, identifier );
 									}
 								}
 							}
@@ -228,7 +228,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 					const Json::Value mat_uniforms = mat_layer[ "uniforms" ];
 					if(	mat_uniforms.empty() )
 					{
-						LOG( logWARNING ) << "no uniforms specified in layer '" << layer_index << "' of '" << identifier << "'";
+						logWARNING( "no uniforms specified in layer '{0}' of '{1}'", layer_index, identifier );
 						return( nullptr );
 					}
 					else
@@ -238,7 +238,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 							const Json::Value mat_uniform = mat_uniforms[ instanceUniform.second.name ];
 							if( mat_uniform.empty() )
 							{
-								LOG( logWARNING ) << "required uniform '" << instanceUniform.second.name << "' not specified in layer '" << layer_index << "' of '" << identifier << "'";
+								logWARNING( "required uniform '{0}' not specified in layer '{1}' of '{2}'", instanceUniform.second.name, layer_index, identifier );
 								return( nullptr );
 							}
 							else
@@ -248,7 +248,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 									case GL_UNSIGNED_INT:
 										if( !mat_uniform.isUInt() )
 										{
-											LOG( logWARNING ) << "uniform '" << instanceUniform.second.name << "' in layer '" << layer_index << "' of '" << identifier << "' is not of type " << glbinding::Meta::getString( instanceUniform.second.type );
+											logWARNING( "uniform '{0}' in layer '{1}' of '{2}' is not of type {3}", instanceUniform.second.name, layer_index, identifier, glbinding::Meta::getString( instanceUniform.second.type ) );
 											return( nullptr );
 										}
 										else
@@ -260,12 +260,12 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 									case GL_FLOAT_VEC4:
 										if( !mat_uniform.isArray() )
 										{
-											LOG( logWARNING ) << "uniform '" << instanceUniform.second.name << "' in layer '" << layer_index << "' of '" << identifier << "' is not an array";
+											logWARNING( "uniform '{0}' in layer '{1}' of '{2}' is not an array", instanceUniform.second.name, layer_index, identifier );
 											return( nullptr );
 										}
 										else if( mat_uniform.size() != 4)
 										{
-											LOG( logWARNING ) << "uniform '" << instanceUniform.second.name << "' in layer '" << layer_index << "' of '" << identifier << "' has not enough oder more than needed values";
+											logWARNING( "uniform '{0}' in layer '{1}' of '{2}' has not enough oder more than needed values", instanceUniform.second.name, layer_index, identifier );
 											return( nullptr );
 										}
 										else
@@ -283,7 +283,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 												||
 												!value3.isDouble() )
 											{
-												LOG( logWARNING ) << "not all values of uniform '" << instanceUniform.second.name << "' in layer '" << layer_index << "' of '" << identifier << "' are floats";
+												logWARNING( "not all values of uniform '{0}' in layer '{1}' of '{2}' are floats", instanceUniform.second.name, layer_index, identifier );
 												return( nullptr );
 											}
 											else
@@ -294,7 +294,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 										break;
 
 									default:
-										LOG( logWARNING ) << "uniform '" << instanceUniform.second.name << "' in layer '" << layer_index << "' of '" << identifier << "' is of unsupported type " << glbinding::Meta::getString( instanceUniform.second.type );
+										logWARNING( "uniform '{0}' in layer '{1}' of '{2}' is of unsupported type {3}", instanceUniform.second.name, layer_index, identifier, glbinding::Meta::getString( instanceUniform.second.type ) );
 										return( nullptr );
 										break;
 								}
@@ -340,7 +340,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 						}
 						else
 						{
-							LOG( logWARNING ) << "unknown tcmod '" << mode << "' in layer '" << layer_index << "' of '" << identifier << "'";
+							logWARNING( "unknown tcmod '{0}' in layer '{1}' of '{2}'", mode, layer_index, identifier );
 						}
 					}
 				}

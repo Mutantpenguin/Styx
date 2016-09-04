@@ -6,7 +6,7 @@ bool CCubemapData::AddFace( const unsigned char faceNum, const std::shared_ptr< 
 {
 	if( faceNum >= countCubemapFaces )
 	{
-		LOG( logWARNING ) << "face '" << faceNum << "' is not a valid cubemap face";
+		logWARNING( "face '{0}' is not a valid cubemap face", faceNum );
 		return( false );
 	}
 
@@ -14,14 +14,14 @@ bool CCubemapData::AddFace( const unsigned char faceNum, const std::shared_ptr< 
 	{
 		if( !m_faces[ faceNum - 1 ] )
 		{
-			LOG( logWARNING ) << "cannot add face '" << faceNum << "' to cubemap when face '" << faceNum - 1 << "' is not already added";
+			logWARNING( "cannot add face '{0}' to cubemap when face '{1}' is not already added", faceNum, faceNum - 1 );
 			return( false );
 		}
 	}
 
 	if( m_faces[ faceNum ] )
 	{
-		LOG( logWARNING ) << "cubemap face '" << faceNum << "' already exists";
+		logWARNING( "cubemap face '{0}' already exists", faceNum );
 		return( false );
 	}
 
@@ -31,17 +31,17 @@ bool CCubemapData::AddFace( const unsigned char faceNum, const std::shared_ptr< 
 	{
 		if( firstImage->Size() != image->Size() )
 		{
-			LOG( logWARNING ) << "different faces in cubemaps must have the same size";
+			logWARNING( "different faces in cubemaps must have the same size" );
 			return( false );
 		}
 		else if( firstImage->BPP() != image->BPP() )
 		{
-			LOG( logWARNING ) << "different faces in cubemaps must have the same bpp";
+			logWARNING( "different faces in cubemaps must have the same bpp" );
 			return( false );
 		}
 		else if( firstImage->HasAlpha() != image->HasAlpha() )
 		{
-			LOG( logWARNING ) << "different faces in cubemaps must have the same alpha";
+			logWARNING( "different faces in cubemaps must have the same alpha" );
 			return( false );
 		};
 	}

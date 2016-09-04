@@ -29,7 +29,7 @@ void CFreeImageWrapper::Initialize( const CFileSystem & )
 {
 	m_initialized = true;
 
-	LOG( logDEBUG ) << "FreeImage has version '" << FreeImage_GetVersion() << "'";
+	logINFO( "FreeImage has version '{0}'", FreeImage_GetVersion() );
 
 	// assign wrapper-functions so freeimage can use our own file-system and logging
 
@@ -37,11 +37,11 @@ void CFreeImageWrapper::Initialize( const CFileSystem & )
 									{
 										if( fif != FIF_UNKNOWN )
 										{
-											LOG( logWARNING ) << FreeImage_GetFormatFromFIF( fif ) << " : " << msg;
+											logWARNING( "{0} : {1}", FreeImage_GetFormatFromFIF( fif ), msg );
 										}
 										else
 										{
-											LOG( logWARNING ) << msg;
+											logWARNING( msg );
 										}
 									} );
 

@@ -9,11 +9,11 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 {
 	const std::string filename = settingsfile.empty() ? "settings.json" : settingsfile;
 
-	LOG( logINFO ) << "using settings-file '" << filename << "'";
+	logINFO( "using settings-file '{0}'", filename );
 
 	if( !p_filesystem.Exists( filename ) )
 	{
-		LOG( logWARNING ) << "settings-file '" << filename << "' does not exist";
+		logWARNING( "settings-file '{0}' does not exist", filename );
 	}
 	else
 	{
@@ -22,7 +22,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 
 		if( !reader.parse( p_filesystem.LoadTextFileToBuffer( filename ), settings_root ) )
 		{
-			LOG( logWARNING ) << "failed to parse settings-file '" << filename << "' because of " << reader.getFormattedErrorMessages();
+			logWARNING( "failed to parse settings-file '{0}' because of: {1}", filename, reader.getFormattedErrorMessages() );
 		}
 		else
 		{
@@ -35,7 +35,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 					const Json::Value width = window_root[ "width" ];
 					if( width.empty() )
 					{
-						LOG( logWARNING ) << "'settings.renderer.window.width' not found";
+						logWARNING( "'settings.renderer.window.width' not found" );
 					}
 					else
 					{
@@ -45,7 +45,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 					const Json::Value height = window_root[ "height" ];
 					if( height.empty() )
 					{
-						LOG( logWARNING ) << "'settings.renderer.window.height' not found";
+						logWARNING( "'settings.renderer.window.height' not found" );
 					}
 					{
 						renderer.window.size.height = height.asUInt();
@@ -54,7 +54,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 					const Json::Value fullsreen = window_root[ "fullscreen" ];
 					if( fullsreen.empty() )
 					{
-						LOG( logWARNING ) << "'settings.renderer.window.fullscreen' not found";
+						logWARNING( "'settings.renderer.window.fullscreen' not found" );
 					}
 					else
 					{
@@ -64,7 +64,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 					const Json::Value vsync = window_root[ "vsync" ];
 					if( vsync.empty() )
 					{
-						LOG( logWARNING ) << "'settings.renderer.window.vsync' not found";
+						logWARNING( "'settings.renderer.window.vsync' not found" );
 					}
 					else
 					{
@@ -74,7 +74,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 					const Json::Value gamma = window_root[ "gamma" ];
 					if( gamma.empty() )
 					{
-						LOG( logWARNING ) << "'settings.renderer.window.gamma' not found";
+						logWARNING( "'settings.renderer.window.gamma' not found" );
 					}
 					else
 					{
@@ -84,7 +84,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 					const Json::Value antialiasing = window_root[ "antialiasing" ];
 					if( antialiasing.empty() )
 					{
-						LOG( logWARNING ) << "'settings.renderer.window.antialiasing' not found";
+						logWARNING( "'settings.renderer.window.antialiasing' not found" );
 					}
 					else
 					{
@@ -93,7 +93,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 				}
 				else
 				{
-					LOG( logWARNING ) << "'settings.renderer.window' not found";
+					logWARNING( "'settings.renderer.window' not found" );
 				}
 
 				const Json::Value textures_root = renderer_root[ "textures" ];
@@ -102,7 +102,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 					const Json::Value anisotropic = textures_root[ "anisotropic" ];
 					if( anisotropic.empty() )
 					{
-						LOG( logWARNING ) << "'settings.renderer.textures.anisotropic' not found";
+						logWARNING( "'settings.renderer.textures.anisotropic' not found" );
 					}
 					else
 					{
@@ -112,7 +112,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 					const Json::Value picmip = textures_root[ "picmip" ];
 					if( picmip.empty() )
 					{
-						LOG( logWARNING ) << "'settings.renderer.textures.picmip' not found";
+						logWARNING( "'settings.renderer.textures.picmip' not found" );
 					}
 					else
 					{
@@ -121,7 +121,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 				}
 				else
 				{
-					LOG( logWARNING ) << "'settings.renderer.textures' not found";
+					logWARNING( "'settings.renderer.textures' not found" );
 				}
 
 				const Json::Value screenshot_root = renderer_root[ "screenshot" ];
@@ -130,7 +130,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 					const Json::Value format = screenshot_root[ "format" ];
 					if( format.empty() )
 					{
-						LOG( logWARNING ) << "'settings.renderer.screenshot.format' not found";
+						logWARNING( "'settings.renderer.screenshot.format' not found" );
 					}
 					else
 					{
@@ -140,7 +140,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 					const Json::Value scale_factor = screenshot_root[ "scale_factor" ];
 					if( scale_factor.empty() )
 					{
-						LOG( logWARNING ) << "'settings.renderer.screenshot.scale_factor' not found";
+						logWARNING( "'settings.renderer.screenshot.scale_factor' not found" );
 					}
 					else
 					{
@@ -149,12 +149,12 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 				}
 				else
 				{
-					LOG( logWARNING ) << "'settings.renderer.screenshot' not found";
+					logWARNING( "'settings.renderer.screenshot' not found" );
 				}
 			}
 			else
 			{
-				LOG( logWARNING ) << "'settings.renderer' not found";
+				logWARNING( "'settings.renderer' not found" );
 			}
 
 			const Json::Value sound_root = settings_root[ "sound" ];
@@ -163,7 +163,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 				const Json::Value buffer_size = sound_root[ "buffer_size" ];
 				if( buffer_size.empty() )
 				{
-					LOG( logWARNING ) << "'settings.sound.buffer_size' not found";
+					logWARNING( "'settings.sound.buffer_size' not found" );
 				}
 				else
 				{
@@ -172,7 +172,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 			}
 			else
 			{
-				LOG( logWARNING ) << "'settings.sound' not found";
+				logWARNING( "'settings.sound' not found" );
 			}
 
 			const Json::Value input_root = settings_root[ "input" ];
@@ -181,7 +181,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 				const Json::Value controller_file = input_root[ "controller_file" ];
 				if( controller_file.empty() )
 				{
-					LOG( logWARNING ) << "'settings.input.controller_file' not found";
+					logWARNING( "'settings.input.controller_file' not found" );
 				}
 				else
 				{
@@ -190,7 +190,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 			}
 			else
 			{
-				LOG( logWARNING ) << "'settings.input' not found";
+				logWARNING( "'settings.input' not found" );
 			}
 		}
 	}

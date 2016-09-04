@@ -1,14 +1,9 @@
-Since we don't provide a Makefile at this moment the easiest way to compile the Inquisitor-Engine is to use the Code::Blocks IDE.
-A project-file for the Code::Blocks IDE is available and actively maintained.
+Since I don't provide a Makefile at this moment the easiest way to compile the Inquisitor-Engine is to use the CodeLite IDE.
+A project-file for the CodeLite IDE is available and actively maintained.
 
 
-The Code::Blocks IDE is a cross-platform IDE using WxWidgets.
-http://www.codeblocks.org
+Compile flags, when clang gets fixed in Arch:
+-g;-O0;-fno-omit-frame-pointer;-fsanitize=address;-fsanitize=undefined;-fsanitize=integer
 
-
-
-You further will need the following libraries to succesfully compile the Inquisitor-Engine :
-SDL http://www.libsdl.org
-FreeImage http://freeimage.sourceforge.net
-GLEW http://glew.sourceforge.net
-PhysFS http://icculus.org/physfs
+Link flags, when clang gets fixed in Arch:
+-fsanitize=address;-fsanitize=undefined;-fsanitize=integer

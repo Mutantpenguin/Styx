@@ -21,7 +21,7 @@ bool CSoundManager::Init( void )
 	m_AL_device = alcOpenDevice( nullptr );
 	if( nullptr == m_AL_device )
 	{
-		LOG( logERROR ) << "opening OpenAL device failed: " << ALHelper::GetOpenALErrorString( alGetError() );
+		logERROR( "opening OpenAL device failed: {0}", ALHelper::GetOpenALErrorString( alGetError() ) );
 		return( false );
 	}
 
@@ -30,26 +30,26 @@ bool CSoundManager::Init( void )
 	ALint versionMinor;
 	alcGetIntegerv( m_AL_device, ALC_MAJOR_VERSION, 1, &versionMinor );
 
-	LOG( logINFO ) << "OpenAL Version: " << versionMajor << "." << versionMinor;
-	LOG( logINFO ) << "OpenAL Device:  " << alcGetString( m_AL_device, ALC_DEVICE_SPECIFIER );
+	logINFO( "OpenAL Version: {0}.{1}", versionMajor, versionMinor );
+	logINFO( "OpenAL Device:  {0}", alcGetString( m_AL_device, ALC_DEVICE_SPECIFIER ) );
 
 	m_AL_context = alcCreateContext( m_AL_device, nullptr );
 	if( nullptr == m_AL_context )
 	{
-		LOG( logERROR ) << "creating OpenAL context failed: " << ALHelper::GetOpenALErrorString( alGetError() );
+		logERROR( "creating OpenAL context failed: {0}", ALHelper::GetOpenALErrorString( alGetError() ) );
 		return( false );
 	}
 
 	if( !alcMakeContextCurrent( m_AL_context ) )
 	{
-		LOG( logERROR ) << "making OpenAL context current failed: " << ALHelper::GetOpenALErrorString( alGetError() );
+		logERROR( "making OpenAL context current failed: {0}", ALHelper::GetOpenALErrorString( alGetError() ) );
 		return( false );
 	}
 
 	ALenum error = alGetError();
 	if( error != AL_NO_ERROR )
 	{
-		LOG( logERROR ) << "generating OpenAL buffers failed: " << ALHelper::GetOpenALErrorString( error );
+		logERROR( "generating OpenAL buffers failed: {0}", ALHelper::GetOpenALErrorString( error ) );
 		return( false );
 	}
 

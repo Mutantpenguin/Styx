@@ -2,9 +2,9 @@
 
 #include <SDL2/SDL.h>
 
-void CLogTargetMessageBox::Log( const CLogger::logEntry &entry )
+void CLogTargetMessageBox::Log( const std::unique_ptr< CLogger::logEntry > &entry )
 {
-	if( logERROR == entry.m_logLevel )
+	if( e_loglevel::ERROR == entry->m_logLevel )
 	{
 		const SDL_MessageBoxColor color = { 255, 0, 0 };
 
@@ -14,8 +14,8 @@ void CLogTargetMessageBox::Log( const CLogger::logEntry &entry )
 
 		SDL_zero( data );
 		data.flags = SDL_MESSAGEBOX_ERROR;
-		data.title = CLogger::ToString( entry.m_logLevel ).c_str();
-		data.message = entry.m_message.c_str();
+		data.title = CLogger::LogLevelToString( entry->m_logLevel ).c_str();
+		data.message = entry->m_message.c_str();
 		data.numbuttons = 1;
 		data.buttons = &button;
 		data.window = nullptr;

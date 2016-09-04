@@ -51,7 +51,7 @@ CVAO::~CVAO()
 	}
 	else
 	{
-		LOG( logERROR ) << "VBO for vertices is no buffer";
+		logERROR( "VBO for vertices is not a buffer" );
 	}
 
 	if( glIsBuffer( m_vboNormals ) == GL_TRUE )
@@ -60,7 +60,7 @@ CVAO::~CVAO()
 	}
 	else
 	{
-		LOG( logERROR ) << "VBO for normals is no buffer";
+		logERROR( "VBO for normals is not a buffer" );
 	}
 
 	if( glIsBuffer( m_vboTexcoords ) == GL_TRUE )
@@ -69,7 +69,7 @@ CVAO::~CVAO()
 	}
 	else
 	{
-		LOG( logERROR ) << "VBO for texcoords is no buffer";
+		logERROR( "VBO for texcoords is not a buffer" );
 	}
 
 	glDeleteVertexArrays( 1, &m_vao );

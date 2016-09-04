@@ -1,31 +1,34 @@
 #ifndef CLOGGER_HPP
 #define CLOGGER_HPP
 
-
+#include <chrono>
 #include <vector>
 #include <memory>
 #include <list>
 #include <sstream>
 
+#include "../../fmt/format.h"
+
 #include "LogHelper.hpp"
 
 #ifdef INQ_DEBUG
 	#if 0
-		#define LOG( level )	if( level > CLogger::ReportingLevel() ) \
-									; \
-								else \
-									CLogger().Get( level ) << __FILE__ << ":" << __LINE__ << std::endl << "Function: " << LogHelper::prettyFunctionNicer( __PRETTY_FUNCTION__ ) << std::endl << "Message: "
+		#define LOG( logLevel, ... ) CLogger::CreateLogEntry( logLevel, fmt::format( "{0}:{1}\nFunction: {2}\nMessage: {3}", __FILE__, __LINE__, LogHelper::prettyFunctionNicer( __PRETTY_FUNCTION__ ), fmt::format( __VA_ARGS__ ) ) );
 	#else
-		#define LOG( level )	if( level > CLogger::ReportingLevel() ) \
-									; \
-								else \
-									CLogger().Get( level ) << LogHelper::prettyFunctionNicer( __PRETTY_FUNCTION__ ) << " : "
+		#define LOG( logLevel, ... ) CLogger::CreateLogEntry( logLevel, fmt::format( "{0} : {1}",LogHelper::prettyFunctionNicer( __PRETTY_FUNCTION__ ), fmt::format( __VA_ARGS__ ) ) );
 	#endif
 #else
-	#define LOG( level ) if( level > CLogger::ReportingLevel() ) \
-								; \
-							else \
-								CLogger().Get( level )
+	#define LOG( logLevel, ... ) CLogger::CreateLogEntry( logLevel, fmt::format( __VA_ARGS__ ) );
+#endif
+
+#define logERROR( ... ) LOG( e_loglevel::ERROR, __VA_ARGS__ );
+#define logWARNING( ... ) LOG( e_loglevel::WARNING, __VA_ARGS__ );
+#define logINFO( ... ) LOG( e_loglevel::INFO, __VA_ARGS__ );
+
+#ifdef INQ_DEBUG
+	#define logDEBUG( ... ) LOG( e_loglevel::DEBUG, __VA_ARGS__ );
+#else
+	#define logDEBUG( ... )
 #endif
 
 enum struct e_loglevel : unsigned char
@@ -36,28 +39,28 @@ enum struct e_loglevel : unsigned char
 	DEBUG
 };
 
-#define logERROR	e_loglevel::ERROR
-#define logWARNING	e_loglevel::WARNING
-#define logINFO		e_loglevel::INFO
-#define logDEBUG	e_loglevel::DEBUG
-
 class CLogger final
 {
 public:
-	struct logEntry final
+	static void CreateLogEntry( e_loglevel logLevel, const std::string &message );
+
+	class logEntry final
 	{
-		logEntry( const std::string &time, e_loglevel loglevel, const std::string &message ) :
-			m_time( time ),
-			m_logLevel( loglevel ),
-			m_message( message )
+	public:
+		logEntry( const std::chrono::milliseconds &time, e_loglevel loglevel, const std::string &message ) :
+			m_time { time },
+			m_logLevel { loglevel },
+			m_message { message }
 		{};
 
-		const std::string	m_time;
-		const e_loglevel	m_logLevel;
-		const std::string	m_message;
+		const std::chrono::milliseconds	m_time;
+		const e_loglevel				m_logLevel;
+		const std::string				m_message;
+
+		const std::string FormattedTime( void ) const;
 	};
 
-	typedef std::vector< logEntry* > TLogBuffer;
+	typedef std::vector< std::unique_ptr< logEntry > > TLogBuffer;
 
 	class CLogTarget
 	{
@@ -67,15 +70,8 @@ public:
 		virtual ~CLogTarget( void ) {};
 
 	protected:
-		virtual void Log( const logEntry &entry ) = 0;
+		virtual void Log( const std::unique_ptr< logEntry > &entry ) = 0;
 	};
-
-	CLogger() {};
-	~CLogger();
-
-	std::ostringstream& Get( const e_loglevel level );
-
-	static void Destroy( void );
 
 	template< typename T, typename... Args >
 	static void CreateTarget( Args... args )
@@ -83,35 +79,20 @@ public:
 		m_logTargets.emplace_back( std::make_unique< T >( m_logBuffer, args... ) );
 	}
 
-	inline static e_loglevel& ReportingLevel( void )
-	{
-		return( m_reportingLevel );
-	}
+	static void Destroy( void );
 
-	static void SetReportingLevel( e_loglevel level );
-
-	static const std::string	&ToString( e_loglevel level );
-	static e_loglevel			FromString( const std::string& level );
+	static const std::string LogLevelToString( e_loglevel level );
 
 private:
-	static e_loglevel m_reportingLevel;
+	CLogger() = delete;
+	CLogger( const CLogger& ) = delete;
+	CLogger& operator = ( const CLogger& ) = delete;
 
-	std::ostringstream	m_output;
-	e_loglevel			m_lvl { logDEBUG };
-	std::string			m_time_duration;
+	~CLogger() = delete;
 
 	static TLogBuffer m_logBuffer;
 
 	static std::list< std::unique_ptr< CLogTarget > > m_logTargets;
-
-	CLogger( const CLogger& );
-	CLogger& operator =(const CLogger&);
-
-	static const std::string errorString;
-	static const std::string warningString;
-	static const std::string infoString;
-	static const std::string debugString;
-	static const std::string unknownString;
 };
 
 #endif // CLOGGER_HPP

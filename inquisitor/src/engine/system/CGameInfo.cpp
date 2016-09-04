@@ -12,7 +12,7 @@
 CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 	m_gamedir( p_gamedir )
 {
-	LOG( logDEBUG ) << "'gamedir' is: '" << m_gamedir << "'";
+	logDEBUG( "'gamedir' is: '{0}'", m_gamedir );
 
 	const std::string gamefile = m_gamedir + CFileSystem::GetDirSeparator() + "gameinfo.json";
 
@@ -24,7 +24,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 		Json::Reader reader;
 		if ( !reader.parse( fin, root ) )
 		{
-			LOG( logERROR ) << "failed to parse '" << gamefile << "' because of " << reader.getFormattedErrorMessages();
+			logERROR( "failed to parse '{0}' because of {1}", gamefile, reader.getFormattedErrorMessages() );
 			throw std::exception();
 		}
 
@@ -32,12 +32,12 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 
 		if( entry.empty() )
 		{
-			LOG( logERROR ) << "there is no definition of 'name_short' in the file '" << gamefile << "'";
+			logERROR( "there is no definition of 'name_short' in the file '{0}'", gamefile );
 			throw std::exception();
 		}
 		else if( entry.asString().empty() )
 		{
-			LOG( logERROR ) << "'name_short' in the file '" << gamefile << "' is empty";
+			logERROR( "'name_short' in the file '{0}' is empty", gamefile );
 			throw std::exception();
 		}
 		else
@@ -61,7 +61,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 			const Json::Value assets = root[ "assets" ];
 			if(	assets.empty() )
 			{
-				LOG( logERROR ) << "no 'assets' specified in the file '" << gamefile << "'";
+				logERROR( "no 'assets' specified in the file '{0}'", gamefile );
 				throw std::exception();
 			}
 			else
@@ -72,7 +72,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 				{
 					if( asset.asString().empty() )
 					{
-						LOG( logERROR ) << "empty 'asset' specified in the file '" << gamefile << "'";
+						logERROR( "empty 'asset' specified in the file '{0}'", gamefile );
 						throw std::exception();
 					}
 
@@ -84,7 +84,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 
 			if(	templates.empty() )
 			{
-				LOG( logERROR ) << "no 'templates' specified in the file '" << gamefile << "'";
+				logERROR( "no 'templates' specified in the file '{0}'", gamefile );
 				throw std::exception();
 			}
 			else
@@ -95,7 +95,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 				{
 					if( templ.asString().empty() )
 					{
-						LOG( logERROR ) << "empty 'template' specified in the file '" << gamefile << "'";
+						logERROR( "empty 'template' specified in the file '{0}'", gamefile );
 						throw std::exception();
 					}
 
@@ -108,11 +108,11 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 	}
 	else
 	{
-		LOG( logERROR ) << "couldn't load '" << gamefile << "'";
+		logERROR( "couldn't load '{0}'", gamefile );
 		throw std::exception();
 	}
 
-	LOG( logINFO ) << "game is: '" << m_name << " " << m_version << "'";
+	logINFO( "game is: '{0} {1}'", m_name, m_version );
 }
 
 const std::string &CGameInfo::GetDir( void ) const

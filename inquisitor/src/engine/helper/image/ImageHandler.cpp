@@ -17,7 +17,7 @@ namespace ImageHandler
 	{
 		if( !p_filesystem.Exists( path ) )
 		{
-			LOG( logWARNING ) << "image '" << path << "' does not exist";
+			logWARNING( "image '{0}' does not exist", path );
 			return( nullptr );
 		}
 
@@ -34,13 +34,13 @@ namespace ImageHandler
 			{
 				if( image.accessPixels() == nullptr )
 				{
-					LOG( logWARNING ) << "image '" << path << "' only consists of metadata and no pixels";
+					logWARNING( "image '{0}' only consists of metadata and no pixels", path );
 					return( nullptr );
 				}
 
 				if( image.getPalette() != nullptr )
 				{
-					LOG( logWARNING ) << "palettized image '" << path << "' is not supported";
+					logWARNING( "palettized image '{0}' is not supported", path );
 					return( nullptr );
 				}
 
@@ -51,7 +51,7 @@ namespace ImageHandler
 					||
 					!Math::IsPowerOfTwo( originalSize.height ) )
 				{
-					LOG( logWARNING ) << "image '" << path << "' size is not a power of two";
+					logWARNING( "the size of image '{0}' is not a power of two", path );
 
 					return( nullptr );
 				}
@@ -71,7 +71,7 @@ namespace ImageHandler
 					||
 					( resizedSize.height > maxSize ) )
 				{
-					LOG( logWARNING ) << "image '" << path << "' has to be scaled down because it's bigger than the allowed max size of '" << maxSize << "' pixels";
+					logWARNING( "image '{0}' has to be scaled down because it's bigger than the allowed max size of '{1}' pixels", path, maxSize );
 					// scale both axis down equally
 					while(	( resizedSize.width > maxSize )
 							||
@@ -91,7 +91,7 @@ namespace ImageHandler
 				{
 					if( !image.rescale( resizedSize.width, resizedSize.height, FILTER_BSPLINE ) )
 					{
-						LOG( logWARNING ) << "failed to rescale image '" << path << "'";
+						logWARNING( "failed to rescale image '{0}'", path );
 
 						return( nullptr );
 					}
@@ -114,12 +114,12 @@ namespace ImageHandler
 			}
 			else
 			{
-				LOG( logWARNING ) << "failed to load '" << path << "'";
+				logWARNING( "failed to load '{0}'", path );
 			}
 		}
 		else
 		{
-			LOG( logWARNING ) << "failed to open '" << path << "'";
+			logWARNING( "failed to open '{0}'", path );
 		}
 
 		return( nullptr );
@@ -130,7 +130,7 @@ namespace ImageHandler
 		FIBITMAP *bitmap = FreeImage_ConvertFromRawBits( const_cast< BYTE* >( image->RawPixelData() ), image->Size().width, image->Size().height, image->Size().width * 3, image->BPP(), FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK );
 		if( nullptr == bitmap )
 		{
-			LOG( logWARNING ) << "unable to create FIBITMAP from CImage";
+			logWARNING( "unable to create FIBITMAP from CImage" );
 			return( false );
 		}
 		else
@@ -140,11 +140,11 @@ namespace ImageHandler
 
 			if( scale_factor < 1.0f )
 			{
-				LOG( logDEBUG ) << "resizing image by '" << scale_factor << "'";
+				logDEBUG( "resizing image by '{0}'", scale_factor );
 
 				if( !fiImage.rescale( image->Size().width * scale_factor, image->Size().height * scale_factor, FILTER_BSPLINE ) )
 				{
-					LOG( logWARNING ) << "failed to rescale image";
+					logWARNING( "failed to rescale image" );
 					return( false );
 				}
 			}
@@ -163,7 +163,7 @@ namespace ImageHandler
 			}
 			else
 			{
-				LOG( logWARNING ) << "unknown image-format '" << format << "', using default 'png' for now";
+				logWARNING( "unknown image-format '{0}', using default 'png' for now", format );
 				fiFormat	= FIF_PNG;
 				flags		= PNG_DEFAULT;
 			}
@@ -172,7 +172,7 @@ namespace ImageHandler
 
 			if( nullptr == f )
 			{
-				LOG( logERROR ) << "File '" << path << "' coudln't be opened for writing because of: " << p_filesystem.GetLastError();
+				logERROR( "File '{0}' couldn't be opened for writing because of: {1}", path, p_filesystem.GetLastError() );
 				return( false );
 			}
 
@@ -188,12 +188,12 @@ namespace ImageHandler
 	{
 		if( !Math::IsPowerOfTwo( size.width ) )
 		{
-			LOG( logWARNING ) << "width '" << size.width << "' is not a power of two";
+			logWARNING( "width '{0}' is not a power of two", size.width );
 			return( nullptr );
 		}
 		else if( !Math::IsPowerOfTwo( size.height ) )
 		{
-			LOG( logWARNING ) << "height '" << size.height << "' is not a power of two";
+			logWARNING( "height '{0}' is not a power of two", size.height );
 			return( nullptr );
 		}
 		else

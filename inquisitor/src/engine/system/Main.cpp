@@ -36,7 +36,6 @@ int main( int argc, char *argv[] )
 	config.add_options()
 		( "gameDirectory", po::value< std::string >( &gameDirectory )->required(), "directory of the game" )
 		( "settingsFile", po::value< std::string >( &settingsFile ), "name of a settings-file" )
-		( "loglvl", po::value< std::string >(), "logging level" ) // TODO somehow define all possible values
 		( "logToMsgBox", "show a message-box for errors" );
 
 	cmdline_options.add( generic );
@@ -48,7 +47,7 @@ int main( int argc, char *argv[] )
 	}
 	catch( std::exception &e )
 	{
-		LOG( logERROR ) << "failed to parse the command-line options: " << e.what();
+		logERROR( "failed to parse the command-line options: {0}", e.what() );
 		return( EXIT_FAILURE );
 	}
 
@@ -70,7 +69,7 @@ int main( int argc, char *argv[] )
 	}
 	catch( std::exception &e )
 	{
-		LOG( logERROR ) << e.what();
+		logERROR( e.what() );
 		return( EXIT_FAILURE );
 	}
 
@@ -79,21 +78,14 @@ int main( int argc, char *argv[] )
 		CLogger::CreateTarget< CLogTargetMessageBox >();
 	}
 
-	LOG( logINFO ) << "starting " << CEngine::GetVersionString();
-
-	if( vm.count( "loglvl" ) )
-	{
-		CLogger::SetReportingLevel( CLogger::FromString( vm[ "loglvl" ].as< std::string >() ) );
-	}
-
-	LOG( logINFO ) << "logging-level is '" << CLogger::ToString( CLogger::ReportingLevel() ) << "'";
+	logINFO( "starting {0}", CEngine::GetVersionString() );
 
 	// get some information about the system we are running on
-	LOG( logINFO ) << "Operating System    : " << ComputerInfo::OsName();
-	LOG( logINFO ) << "Processor Info      : " << ComputerInfo::ProcessorInfo();
-	LOG( logINFO ) << "Processor Count     : " << ComputerInfo::ProcessorCount();
-	LOG( logINFO ) << "Processor Features  : " << ComputerInfo::CPUFeatures();
-	LOG( logINFO ) << "System Memory Total : " << ComputerInfo::SystemMemoryMiB() << "MiB";
+	logINFO( "Operating System    : {0}",    ComputerInfo::OsName() );
+	logINFO( "Processor Info      : {0}",    ComputerInfo::ProcessorInfo() );
+	logINFO( "Processor Count     : {0}",    ComputerInfo::ProcessorCount() );
+	logINFO( "Processor Features  : {0}",    ComputerInfo::CPUFeatures() );
+	logINFO( "System Memory Total : {0}MiB", ComputerInfo::SystemMemoryMiB() );
 
 	try
 	{
@@ -101,9 +93,9 @@ int main( int argc, char *argv[] )
 
 		engine.Run();
 	}
-	catch( ... )
+	catch( std::exception &e )
 	{
-		LOG( logERROR ) << "unable to run the game";
+		logERROR( "unable to run the game: {0}", e.what() );
 
 		return( EXIT_FAILURE );
 	}

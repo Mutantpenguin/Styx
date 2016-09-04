@@ -14,12 +14,12 @@ bool CRendererCapabilities::isSupported( const gl::GLextension extension ) const
 {
 	if( m_extensions.find( extension ) != m_extensions.end() )
 	{
-		LOG( logINFO ) << glbinding::Meta::getString( extension ) << " is available";
+		logINFO( "{0} is available", glbinding::Meta::getString( extension ) );
 		return( true );
 	}
 	else
 	{
-		LOG( logWARNING ) << glbinding::Meta::getString( extension ) << " is NOT available";
+		logWARNING( "{0} is NOT available", glbinding::Meta::getString( extension ) );
 		return( false );
 	}
 }
