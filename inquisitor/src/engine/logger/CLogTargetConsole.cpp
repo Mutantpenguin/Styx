@@ -1,7 +1,8 @@
 #include "CLogTargetConsole.hpp"
 
-#include <boost/format.hpp>
-#include <boost/date_time.hpp>
+#include <iostream>
+
+#include "../../fmt/format.h"
 
 #ifdef WIN32
 	#define WIN32_LEAN_AND_MEAN
@@ -29,7 +30,7 @@ void CLogTargetConsole::Log( const CLogger::logEntry &entry )
 
 	SetColor( GetColor( entry.m_logLevel ) );
 
-	std::cout << boost::str( boost::format( "%-9s" ) % ( "[" + CLogger::ToString( entry.m_logLevel ) + "]" ) );
+	std::cout << fmt::format( "{0:<9}", "[" + CLogger::ToString( entry.m_logLevel ) + "]" );
 
 	SetColor( COLOR_NORMAL );
 

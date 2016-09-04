@@ -1,8 +1,10 @@
 #include "CLogTargetFile.hpp"
 
-#include <boost/format.hpp>
+#include <iostream>
 
 #include "../helper/Date.hpp"
+
+#include "../../fmt/format.h"
 
 
 CLogTargetFile::CLogTargetFile( const CLogger::TLogBuffer &logBuffer, const std::string &directory ) :
@@ -23,7 +25,7 @@ CLogTargetFile::~CLogTargetFile( void )
 
 void CLogTargetFile::Log( const CLogger::logEntry &entry )
 {
-	m_log_ofile << entry.m_time << " " + boost::str( boost::format( "%-9s" ) % ( "[" + CLogger::ToString( entry.m_logLevel ) + "]" ) ) + " : " << entry.m_message << std::endl;
+	m_log_ofile << entry.m_time << " " << fmt::format( "{0:<9} : {1}\n", "[" + CLogger::ToString( entry.m_logLevel ) + "]", entry.m_message );
 
 	#ifdef INQ_DEBUG
 		m_log_ofile.flush();

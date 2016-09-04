@@ -2,7 +2,7 @@
 
 #include <chrono>
 
-#include <boost/format.hpp>
+#include "../../fmt/format.h"
 
 CLogger::TLogBuffer CLogger::m_logBuffer;
 
@@ -47,7 +47,7 @@ std::ostringstream& CLogger::Get( const e_loglevel level )
 	const std::chrono::seconds		ss		= std::chrono::duration_cast< std::chrono::seconds >( diff % std::chrono::minutes( 1 ) );
 	const std::chrono::milliseconds	msec	= std::chrono::duration_cast< std::chrono::milliseconds >( diff % std::chrono::seconds( 1 ) );
 
-	m_time_duration = boost::str( boost::format( "%02d:%02d:%02d.%03d" ) % hh.count() % mm.count() % ss.count() % msec.count() );
+	m_time_duration = fmt::format( "{:02d}:{:02d}:{:02d}.{:03d}", hh.count(), mm.count(), ss.count(), msec.count() );
 
 	m_lvl = level;
 
