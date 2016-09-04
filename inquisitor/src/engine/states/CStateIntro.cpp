@@ -59,7 +59,7 @@ std::shared_ptr< CState > CStateIntro::Update( const std::uint64_t time, CSoundM
 
 			return( game );
 		}
-		catch( std::exception e )
+		catch( std::exception &e )
 		{
 			LOG( logERROR ) << "couldn't setup game: " << e.what();
 			return( nullptr );
