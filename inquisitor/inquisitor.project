@@ -222,6 +222,17 @@
       <File Name="src/imgui/imgui_draw.cpp"/>
       <File Name="src/imgui/imgui_internal.h"/>
     </VirtualDirectory>
+    <VirtualDirectory Name="fmt">
+      <File Name="src/fmt/format.cc"/>
+      <File Name="src/fmt/format.h"/>
+      <File Name="src/fmt/ostream.cc"/>
+      <File Name="src/fmt/ostream.h"/>
+      <File Name="src/fmt/posix.cc"/>
+      <File Name="src/fmt/posix.h"/>
+      <File Name="src/fmt/printf.h"/>
+      <File Name="src/fmt/string.h"/>
+      <File Name="src/fmt/time.h"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="inquisitor">
     <File Name="COPYING"/>
@@ -258,13 +269,14 @@
       <ResourceCompiler Options=""/>
     </GlobalSettings>
     <Configuration Name="Debug" CompilerType="clang( tags/RELEASE_371/final )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-g;-O0;-fno-omit-frame-pointer;-fsanitize=address;-fsanitize=undefined;-fsanitize=integer" C_Options="-g;-O0" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+      <Compiler Options="-g;-O0;-fno-omit-frame-pointer;-fsanitize=undefined;-fsanitize=integer" C_Options="-g;-O0" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <Preprocessor Value="INQ_DEBUG"/>
       </Compiler>
-      <Linker Options="-fsanitize=address;-fsanitize=undefined;-fsanitize=integer" Required="yes"/>
+      <Linker Options="-fsanitize=undefined;-fsanitize=integer" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./bin/Debug" Command="./$(ProjectName)" CommandArguments="--gameDirectory ../../../demogame" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
@@ -304,6 +316,7 @@
       <Linker Options="-pg" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./bin/Profile" Command="./$(ProjectName)" CommandArguments="--gamedir ../../../demogame" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
@@ -342,6 +355,7 @@
       <Linker Options="-s" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./bin/Release" Command="./$(ProjectName)" CommandArguments="--gamedir ../../../demogame" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
