@@ -4,7 +4,7 @@ CLogger::TLogBuffer CLogger::m_logBuffer;
 
 std::list< std::unique_ptr< CLogger::CLogTarget > > CLogger::m_logTargets;
 
-void CLogger::CreateLogEntry( e_loglevel logLevel, const std::string &message )
+void CLogger::Log( e_loglevel logLevel, const std::string &message )
 {
 	static const std::chrono::high_resolution_clock::time_point first = std::chrono::high_resolution_clock::now();
 

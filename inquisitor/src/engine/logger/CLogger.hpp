@@ -13,12 +13,12 @@
 
 #ifdef INQ_DEBUG
 	#if 0
-		#define LOG( logLevel, ... ) CLogger::CreateLogEntry( logLevel, fmt::format( "{0}:{1}\nFunction: {2}\nMessage: {3}", __FILE__, __LINE__, LogHelper::prettyFunctionNicer( __PRETTY_FUNCTION__ ), fmt::format( __VA_ARGS__ ) ) );
+		#define LOG( logLevel, ... ) CLogger::Log( logLevel, fmt::format( "{0}:{1}\nFunction: {2}\nMessage: {3}", __FILE__, __LINE__, LogHelper::prettyFunctionNicer( __PRETTY_FUNCTION__ ), fmt::format( __VA_ARGS__ ) ) );
 	#else
-		#define LOG( logLevel, ... ) CLogger::CreateLogEntry( logLevel, fmt::format( "{0} : {1}",LogHelper::prettyFunctionNicer( __PRETTY_FUNCTION__ ), fmt::format( __VA_ARGS__ ) ) );
+		#define LOG( logLevel, ... ) CLogger::Log( logLevel, fmt::format( "{0} : {1}", LogHelper::prettyFunctionNicer( __PRETTY_FUNCTION__ ), fmt::format( __VA_ARGS__ ) ) );
 	#endif
 #else
-	#define LOG( logLevel, ... ) CLogger::CreateLogEntry( logLevel, fmt::format( __VA_ARGS__ ) );
+	#define LOG( logLevel, ... ) CLogger::Log( logLevel, fmt::format( __VA_ARGS__ ) );
 #endif
 
 #define logERROR( ... ) LOG( e_loglevel::ERROR, __VA_ARGS__ );
@@ -42,7 +42,7 @@ enum struct e_loglevel : unsigned char
 class CLogger final
 {
 public:
-	static void CreateLogEntry( e_loglevel logLevel, const std::string &message );
+	static void Log( e_loglevel logLevel, const std::string &message );
 
 	class logEntry final
 	{
