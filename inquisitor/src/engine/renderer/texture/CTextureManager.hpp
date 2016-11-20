@@ -22,13 +22,13 @@ public:
 	std::shared_ptr< CTexture > GetDummyTexture( void ) const;
 
 private:
-	const CFileSystem	&m_filesystem;
+	const CFileSystem &m_filesystem;
 
-	std::shared_ptr< CTexture >	Create2DTextureFromFile( const std::string &path );
-	std::shared_ptr< CTexture >	CreateCubeTextureFromFile( const std::string &path );
+	std::shared_ptr< CTexture > Create2DTextureFromFile( const std::string &path );
+	std::shared_ptr< CTexture > CreateCubeTextureFromFile( const std::string &path );
 	std::shared_ptr< CTexture > Create2DArrayTextureFromFile( const std::string &path );
 
-	bool		CreateDummyTexture( void );
+	bool CreateDummyTexture( void );
 	std::shared_ptr< CTexture > m_dummyTexture;
 
 	GLint	m_iMaxTextureSize;
@@ -36,7 +36,7 @@ private:
 
 	const std::uint8_t	m_iPicMip { 0 };
 
-	static const std::uint8_t MAX_PICMIP { 4 };
+	const std::uint8_t MAX_PICMIP { 4 };
 
 	std::unordered_map< std::string, std::weak_ptr< CTexture > > m_textures;
 };

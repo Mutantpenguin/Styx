@@ -20,8 +20,6 @@
 #include "../../logger/CLogger.hpp"
 
 
-const std::uint8_t CTextureManager::MAX_PICMIP;
-
 CTextureManager::CTextureManager( const CSettings &p_settings, const CFileSystem &p_filesystem ) :
 	m_filesystem( p_filesystem ),
 	// clamp the value so we don't get too bad texture-quality

@@ -24,10 +24,6 @@ public:
 
 	void    Run( void );
 
-	// do only your own stuff in this function
-	// this could also hook into a DLL
-	bool	Prepare( void );
-
 	static const std::string GetVersionString( void );
 
 private:

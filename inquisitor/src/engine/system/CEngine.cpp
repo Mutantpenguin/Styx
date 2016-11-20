@@ -6,9 +6,9 @@
 
 #include "CWindow.hpp"
 
-const std::string CEngine::m_name		= "Inquisitor Engine";
-const std::string CEngine::m_version	= "16.04";
-const std::string CEngine::m_status		= "pre-alpha";
+const std::string CEngine::m_name		{ "Inquisitor Engine" };
+const std::string CEngine::m_version	{ "16.04" };
+const std::string CEngine::m_status		{ "pre-alpha" };
 
 CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std::string &settingsFile ) :
 	m_gameInfo( gameDirectory ),
@@ -25,29 +25,12 @@ CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std
 		throw std::exception();
 	}
 
-	if( !Prepare() )
-	{
-		throw std::exception();
-	}
+	m_currentState = std::make_shared< CStateIntro >( m_filesystem, m_settings, m_globalTimer.Time(), m_soundManager, m_renderer );
 }
 
 CEngine::~CEngine( void )
 {
 	logDEBUG( "engine terminated" );
-}
-
-bool CEngine::Prepare( void )
-{
-	try
-	{
-		m_currentState = std::make_shared< CStateIntro >( m_filesystem, m_settings, m_globalTimer.Time(), m_soundManager, m_renderer );
-
-		return( true );
-	}
-	catch( ... )
-	{
-		return( false );
-	}
 }
 
 
