@@ -15,8 +15,6 @@ public:
 
 private:
 	const std::shared_ptr< CState > m_state;
-
-	std::shared_ptr< CMesh >	screenMesh;
 };
 
 #endif // CSTATEPAUSE_HPP

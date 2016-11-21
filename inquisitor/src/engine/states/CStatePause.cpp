@@ -6,12 +6,10 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	CState( "pause", filesystem, settings ),
 	m_state { state }
 {
-	{
-		std::shared_ptr< CMaterial > material3 = renderer.LoadMaterial( "materials/pause.mat" );
+	std::shared_ptr< CMaterial > material3 = renderer.LoadMaterial( "materials/pause.mat" );
 
-		screenMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material3, glm::vec3( 1.0f, 1.0f, 1.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) );
-		m_scene.AddMesh( screenMesh );
-	}
+	std::shared_ptr< CMesh > screenMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material3, glm::vec3( 1.0f, 1.0f, 1.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) );
+	m_scene.AddMesh( screenMesh );
 
 	std::shared_ptr< CCamera > camera = std::make_shared< CCamera >( m_settings.renderer.window.aspect_ratio, 90.0f, 0.1f, 100.0f, glm::vec3( 0.0f, 0.0f, 5.0f ), glm::vec3( 0.0f, 0.0f, -10.0f ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
 
