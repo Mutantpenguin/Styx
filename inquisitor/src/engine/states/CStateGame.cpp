@@ -11,16 +11,12 @@
 #include "../sound/CSound.hpp"
 #include "../sound/SoundHandler.hpp"
 
-CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings, const std::uint64_t time, CSoundManager &soundManager, CRenderer &renderer ) :
-	CState( filesystem, settings )
+CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings, CSoundManager &soundManager, CRenderer &renderer ) :
+	CState( "game", filesystem, settings )
 {
 	renderer.SetClearColor( CColor( 0.0f, 0.0f, 4.0f, 0.0f ) );
 
-	const CSize &windowSize = m_settings.renderer.window.size;
-
-	const float aspectRatio = static_cast< float >( windowSize.width ) / static_cast< float >( windowSize.height );
-
-	m_camera = std::make_shared< CCamera >( aspectRatio, 90.0f, 0.1f, 100.0f, glm::vec3( 0.0f, 0.0f, 5.0f ), glm::vec3( 0.0f, 0.0f, -10.0f ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
+	m_camera = std::make_shared< CCamera >( m_settings.renderer.window.aspect_ratio, 90.0f, 0.1f, 100.0f, glm::vec3( 0.0f, 0.0f, 5.0f ), glm::vec3( 0.0f, 0.0f, -10.0f ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
 
 	m_scene.Camera( m_camera );
 
@@ -109,8 +105,8 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 {
 	if( input.KeyDown( SDL_SCANCODE_ESCAPE ) )
 	{
-		logINFO( "ESC pressed, shutting down..." );
-		return( nullptr );
+		logINFO( "pause" );
+		return( std::make_shared< CStatePause >( m_filesystem, m_settings, renderer, shared_from_this() ) );
 	}
 
 	const float spp = 2.0f * m_settings.engine.tick / 1000000;

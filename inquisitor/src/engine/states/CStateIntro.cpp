@@ -8,7 +8,7 @@
 #include "../sound/SoundHandler.hpp"
 
 CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, const std::uint64_t time, CSoundManager &soundManager, CRenderer &renderer ) :
-	CState( filesystem, settings ),
+	CState( "intro", filesystem, settings ),
 	m_startTime { time }
 {
 	renderer.SetClearColor( CColor( 1.0f, 1.0f, 1.0f, 1.0f ) );
@@ -55,7 +55,7 @@ std::shared_ptr< CState > CStateIntro::Update( const std::uint64_t time, CSoundM
 	{
 		try
 		{
-			std::shared_ptr< CState > game = std::make_shared< CStateGame >( m_filesystem, m_settings, time, soundManager, renderer );
+			std::shared_ptr< CState > game = std::make_shared< CStateGame >( m_filesystem, m_settings, soundManager, renderer );
 
 			return( game );
 		}

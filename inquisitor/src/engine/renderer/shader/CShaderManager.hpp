@@ -48,7 +48,7 @@ private:
 
 	const CFileSystem &m_filesystem;
 
-	std::unordered_map< std::string, std::weak_ptr< CShaderProgram > > m_programs;
+	std::unordered_map< std::string, std::shared_ptr< CShaderProgram > > m_programs;
 
 	std::unordered_map< std::string, GLuint > m_vertexShaders;
 	std::unordered_map< std::string, GLuint > m_fragmentShaders;

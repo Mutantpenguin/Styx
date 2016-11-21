@@ -42,9 +42,11 @@ void CEngine::Run( void )
 
 	while( m_currentState )
 	{
+		m_renderer.Clear( true, true );
+
 		m_globalTimer.Update();
 
-		m_renderer.RenderScene( m_currentState->Scene(), m_globalTimer.Time() );
+		m_currentState->Render( m_renderer, m_globalTimer.Time() );
 
 		m_soundManager.Update();
 

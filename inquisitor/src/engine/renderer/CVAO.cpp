@@ -14,7 +14,7 @@ CVAO::CVAO( GLenum Mode, const Primitives::SPrimitive &primitive ) :
 	m_mode( Mode ),
 	m_vertexCount( primitive.vertices.size() )
 {
-	assert( m_vertexCount == primitive.normals.size() && m_vertexCount == primitive.coordinates.size() );
+	assert( m_vertexCount == primitive.normals.size() && m_vertexCount == primitive.texcoords.size() );
 
 	glCreateVertexArrays( 1, &m_vao );
 
@@ -30,9 +30,9 @@ CVAO::CVAO( GLenum Mode, const Primitives::SPrimitive &primitive ) :
 	glCreateBuffers( 1, &m_vboNormals );
 	glCreateBuffers( 1, &m_vboTexcoords );
 
-	glNamedBufferData( m_vboVertices,	m_vertexCount * sizeof( glm::vec3 ),	primitive.vertices.data(),		GL_STATIC_DRAW );
-	glNamedBufferData( m_vboNormals,	m_vertexCount * sizeof( glm::vec3 ),	primitive.normals.data(),		GL_STATIC_DRAW );
-	glNamedBufferData( m_vboTexcoords,	m_vertexCount * sizeof( glm::vec2 ),	primitive.coordinates.data(),	GL_STATIC_DRAW );
+	glNamedBufferData( m_vboVertices,	m_vertexCount * sizeof( glm::vec3 ),	primitive.vertices.data(),	GL_STATIC_DRAW );
+	glNamedBufferData( m_vboNormals,	m_vertexCount * sizeof( glm::vec3 ),	primitive.normals.data(),	GL_STATIC_DRAW );
+	glNamedBufferData( m_vboTexcoords,	m_vertexCount * sizeof( glm::vec2 ),	primitive.texcoords.data(),	GL_STATIC_DRAW );
 
 	glVertexArrayVertexBuffer( m_vao, CVAO::bindingIndexVertices,	m_vboVertices,	0, sizeof( glm::vec3 ) );
 	glVertexArrayVertexBuffer( m_vao, CVAO::bindingIndexNormals,	m_vboNormals,	0, sizeof( glm::vec3 ) );

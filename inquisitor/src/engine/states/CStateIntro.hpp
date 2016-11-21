@@ -12,7 +12,6 @@ public:
 	~CStateIntro();
 
 	virtual std::shared_ptr< CState > Update( const std::uint64_t time, CSoundManager& soundManager, CRenderer& renderer, const CInput& input ) override;
-
 private:
 	const std::uint64_t m_startTime;
 

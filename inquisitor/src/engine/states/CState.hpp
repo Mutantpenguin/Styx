@@ -20,21 +20,21 @@ private:
 	CState& operator = ( const CState &rhs ) = delete;
 
 protected:
-	CState( const CFileSystem &filesystem, const CSettings &settings ) :
-		m_filesystem { filesystem },
-		m_settings { settings }
-	{};
+	CState( const std::string name, const CFileSystem &filesystem, const CSettings &settings );
 	virtual ~CState() {};
 
 public:
 	virtual std::shared_ptr< CState > Update( const std::uint64_t time, CSoundManager &soundManager, CRenderer &renderer, const CInput &input ) = 0;
 
-	inline const CScene &Scene( void ) const
-	{
-		return( m_scene );
-	}
+	virtual void Render( const CRenderer &renderer, const std::uint64_t time ) const;
+
+	virtual const CScene &Scene( void ) const final;
+
+	virtual const std::string &Name( void ) const final;
 
 protected:
+	const std::string	m_name;
+
 	const CFileSystem	&m_filesystem;
 	const CSettings		&m_settings;
 

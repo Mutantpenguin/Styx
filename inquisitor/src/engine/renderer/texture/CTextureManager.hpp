@@ -19,7 +19,6 @@ public:
 	void Update( void );
 
 	std::shared_ptr< CTexture > LoadTexture( const std::string &path );
-	std::shared_ptr< CTexture > GetDummyTexture( void ) const;
 
 private:
 	const CFileSystem &m_filesystem;

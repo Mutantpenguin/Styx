@@ -30,7 +30,9 @@ public:
 
 	void	SetClearColor( const CColor &color );
 
-	void	RenderScene( const CScene &scene, const std::uint64_t time );
+	void	Clear( bool colorBuffer, bool depthBuffer ) const;
+
+	void	RenderScene( const CScene &scene, const std::uint64_t time ) const;
 
 private:
 	typedef std::vector< std::shared_ptr< const CMesh > > TRenderQueue;
@@ -43,7 +45,7 @@ private:
 	CRendererCapabilities m_rendererCapabilities;
 
 	void CreateUniformBuffers( void );
-	void UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const std::uint64_t time );
+	void UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const std::uint64_t time ) const;
 
 	void RenderMesh( const std::shared_ptr< const CCamera > &camera, const std::shared_ptr< const CMesh > &mesh ) const;
 

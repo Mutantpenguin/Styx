@@ -51,6 +51,8 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 						renderer.window.size.height = height.asUInt();
 					}
 
+					renderer.window.aspect_ratio = static_cast< float >( renderer.window.size.width ) / static_cast< float >( renderer.window.size.height );
+
 					const Json::Value fullsreen = window_root[ "fullscreen" ];
 					if( fullsreen.empty() )
 					{

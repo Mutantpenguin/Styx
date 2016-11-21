@@ -12,7 +12,7 @@ namespace Primitives
 		// TODO put mode (i.e. GL_TRIANGLE_STRIP or GL_TRIANGLES ) into the struct
 		std::vector< glm::vec3 > vertices;
 		std::vector< glm::vec3 > normals;
-		std::vector< glm::vec2 > coordinates;
+		std::vector< glm::vec2 > texcoords;
 	};
 
 	static const SPrimitive quad {	{	{ -1.0f, -1.0f, 0.0f },

@@ -1,0 +1,63 @@
+{
+	"name"			:	"pause",
+	"cullmode"		:	"BACK",
+	"polygonmode"	:	"FILL",
+	"blending"			:	{
+								"src"	: "ONE",
+								"dst"	: "ONE_MINUS_SRC_ALPHA"
+							},
+	"layers"		:	[
+							{
+								"shaders"	:	{
+													"vs" : "shaders/vs/pause.vs.glsl",
+													"fs" : "shaders/fs/standard.fs.glsl"
+												},
+								"textures"	:	{
+													"diffuseTexture" : "textures/pause/bg.png"
+												},
+								"samplers"	:	{
+													"diffuseTexture" : "REPEAT_2D"
+												},
+								"tcmods"	:	[
+													{
+														"mode"		:	"SCALE",
+														"uscale"	:	0.25,
+														"vscale"	:	0.25
+													},
+													{
+														"mode"	:	"MOVE",
+														"umove"	:	2,
+														"vmove"	:	-2
+													},
+													{
+														"mode"	:	"ROTATE",
+														"deg"	:	10.0
+													}
+												]
+							},
+							{
+								"shaders"	:	{
+													"vs" : "shaders/vs/pause.vs.glsl",
+													"fs" : "shaders/fs/standard.fs.glsl"
+												},
+								"textures"	:	{
+													"diffuseTexture" : "textures/pause/fg.png"
+												},
+								"samplers"	:	{
+													"diffuseTexture" : "EDGE_2D"
+												},
+								"tcmods"	:	[
+													{
+														"mode"	:	"MOVE",
+														"umove"	:	-0.33333333,
+														"vmove"	:	-0.33333333
+													},
+													{
+														"mode"		:	"SCALE",
+														"uscale"	:	0.25,
+														"vscale"	:	0.1
+													}
+												]
+							}
+						]
+}

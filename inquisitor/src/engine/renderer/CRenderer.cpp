@@ -171,8 +171,15 @@ void CRenderer::CreateUniformBuffers( void )
 	m_materialmanager.ShaderManager().RegisterUniformBuffer( m_uboTimer );
 }
 
-void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const std::uint64_t time )
+void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const std::uint64_t time ) const
 {
+	/*
+	 * Update time into the uniform buffer
+	 */
+
+	const glm::uint timeMilliseconds = static_cast< glm::uint >( time / 1000 );
+	m_uboTimer->SubData( 0,	sizeof( glm::uint ), &timeMilliseconds );
+
 	/*
 	 * Update calculated values into the uniform buffer
 	 */
@@ -193,13 +200,6 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &ca
 	m_uboCamera->SubData( offset,		sizeof( viewMatrix ),			glm::value_ptr( viewMatrix ) );
 	offset += sizeof( glm::mat4 );
 	m_uboCamera->SubData( offset,		sizeof( viewProjectionMatrix ),	glm::value_ptr( viewProjectionMatrix ) );
-
-	/*
-	 * Update time into the uniform buffer
-	 */
-
-	const glm::uint timeMilliseconds = static_cast< glm::uint >( time / 1000 );
-	m_uboTimer->SubData( 0,	sizeof( glm::uint ), &timeMilliseconds );
 }
 
 void CRenderer::Update( const float delta )
@@ -229,10 +229,24 @@ void CRenderer::SetClearColor( const CColor &color )
 	glClearColor( color.r(), color.g(), color.b(), color.a() );
 }
 
-void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time )
+void CRenderer::Clear( bool colorBuffer, bool depthBuffer ) const
 {
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	if( colorBuffer && depthBuffer )
+	{
+		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	}
+	else if( colorBuffer )
+	{
+		glClear( GL_COLOR_BUFFER_BIT );
+	}
+	else if( depthBuffer )
+	{
+		glClear( GL_DEPTH_BUFFER_BIT );
+	}
+}
 
+void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) const
+{
 	std::shared_ptr< CCamera > camera = scene.Camera();
 
 	if( !camera )

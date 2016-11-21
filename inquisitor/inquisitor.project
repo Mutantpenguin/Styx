@@ -204,6 +204,9 @@
         <File Name="src/engine/states/CStateGame.cpp"/>
         <File Name="src/engine/states/CStateIntro.hpp"/>
         <File Name="src/engine/states/CStateIntro.cpp"/>
+        <File Name="src/engine/states/CState.cpp"/>
+        <File Name="src/engine/states/CStatePause.hpp"/>
+        <File Name="src/engine/states/CStatePause.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="sdl">
         <File Name="src/engine/sdl/CSDL.hpp"/>
@@ -244,9 +247,6 @@
     <File Name="doxyfile"/>
     <File Name="asan_symbolize.py"/>
   </VirtualDirectory>
-  <Dependencies Name="Debug"/>
-  <Dependencies Name="Profile"/>
-  <Dependencies Name="Release"/>
   <Settings Type="Executable">
     <GlobalSettings>
       <Compiler Options="-Wmain;-pedantic-errors;-Wfatal-errors;-ansi;-pedantic;-std=c++14;-Wall;-Wextra;-Wswitch-enum;-Wmissing-include-dirs;-Wmissing-declarations;-Wunreachable-code;-Winline;-Wfloat-equal;-Wundef;-Wcast-align;-Wredundant-decls;-Winit-self;-Wshadow;-Wint-to-void-pointer-cast" C_Options="-Wall" Assembler="">
@@ -388,4 +388,7 @@
       </Completion>
     </Configuration>
   </Settings>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Profile"/>
+  <Dependencies Name="Release"/>
 </CodeLite_Project>

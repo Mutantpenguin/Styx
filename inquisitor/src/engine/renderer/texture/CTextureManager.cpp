@@ -151,11 +151,6 @@ std::shared_ptr< CTexture > CTextureManager::LoadTexture( const std::string &pat
 	}
 }
 
-std::shared_ptr< CTexture > CTextureManager::GetDummyTexture( void ) const
-{
-	return( m_dummyTexture );
-}
-
 std::shared_ptr< CTexture > CTextureManager::Create2DTextureFromFile( const std::string &path )
 {
 	const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path, m_iMaxTextureSize, m_iPicMip, false );

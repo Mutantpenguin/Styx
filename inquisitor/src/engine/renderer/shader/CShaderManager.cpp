@@ -119,7 +119,7 @@ std::shared_ptr< CShaderProgram > CShaderManager::LoadProgram( const std::string
 	auto it = m_programs.find( programIdentifier );
 	if( m_programs.end() != it )
 	{
-		return( it->second.lock() );
+		return( it->second );
 	}
 	else
 	{

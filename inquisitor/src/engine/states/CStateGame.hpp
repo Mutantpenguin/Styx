@@ -3,10 +3,12 @@
 
 #include "CState.hpp"
 
+#include "CStatePause.hpp"
+
 class CStateGame final : public CState
 {
 public:
-	CStateGame( const CFileSystem &filesystem, const CSettings &settings, std::uint64_t time, CSoundManager &soundManager, CRenderer &renderer );
+	CStateGame( const CFileSystem &filesystem, const CSettings &settings, CSoundManager &soundManager, CRenderer &renderer );
 	~CStateGame();
 
 	virtual std::shared_ptr< CState > Update( const std::uint64_t time, CSoundManager &soundManager, CRenderer &renderer, const CInput &input ) override;

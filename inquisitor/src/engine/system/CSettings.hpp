@@ -22,6 +22,7 @@ public:
 		struct structWindow final
 		{
 			CSize			size			{ 640, 480 };
+			float			aspect_ratio	{ static_cast< float >( size.width ) / static_cast< float >( size.height ) };
 			std::uint8_t	display			{ 0 };
 			bool			fullscreen		{ false };
 			bool			vsync			{ true };
