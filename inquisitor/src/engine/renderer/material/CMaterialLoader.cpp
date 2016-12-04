@@ -1,5 +1,7 @@
 #include "CMaterialLoader.hpp"
 
+#include <algorithm>
+
 #include <json/json.h>
 
 #include <glbinding/Meta.h>
@@ -114,9 +116,11 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 
 				newLayer->m_shader = shader;
 
-				if( !shader->m_requiredTextures.empty() )
+				const Json::Value mat_textures = mat_layer[ "textures" ];
+				const Json::Value mat_samplers = mat_layer[ "samplers" ];
+
+				if( !shader->m_requiredSamplers.empty() )
 				{
-					const Json::Value mat_textures = mat_layer[ "textures" ];
 					if(	mat_textures.empty() )
 					{
 						logWARNING( "no textures specified in layer '{0}' of '{1}'", layer_index, identifier );
@@ -124,12 +128,12 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 					}
 					else
 					{
-						for( const auto &sampler : shader->m_requiredTextures )
+						for( const auto &requiredSampler : shader->m_requiredSamplers )
 						{
-							const Json::Value mat_texture = mat_textures[ sampler.second.name ];
+							const Json::Value mat_texture = mat_textures[ requiredSampler.second.name ];
 							if( mat_texture.empty() )
 							{
-								logWARNING( "required texture for sampler '{0}' not specified in layer '{1}' of '{2}'", sampler.second.name, layer_index, identifier );
+								logWARNING( "required texture for sampler '{0}' not specified in layer '{1}' of '{2}'", requiredSampler.second.name, layer_index, identifier );
 								return( nullptr );
 							}
 							else
@@ -138,12 +142,12 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 
 								const std::shared_ptr< CTexture > texture = textureManager.LoadTexture( mat_texture.asString() );
 
-								switch( sampler.second.type )
+								switch( requiredSampler.second.type )
 								{
 									case GL_SAMPLER_2D:
 										if( texture->Type() != CTexture::type::TEX_2D )
 										{
-											logWARNING( "required texture for sampler '{0}' has to be of type 2D in layer '{1}' of '{2}'", sampler.second.name, layer_index, identifier );
+											logWARNING( "required texture for sampler '{0}' has to be of type 2D in layer '{1}' of '{2}'", requiredSampler.second.name, layer_index, identifier );
 											return( nullptr );
 										}
 										break;
@@ -151,7 +155,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 									case GL_SAMPLER_CUBE:
 										if( texture->Type() != CTexture::type::TEX_CUBE_MAP )
 										{
-											logWARNING( "required texture for sampler '{0}' has to be of type CUBEMAP in layer '{1}' of '{2}'", sampler.second.name, layer_index, identifier );
+											logWARNING( "required texture for sampler '{0}' has to be of type CUBEMAP in layer '{1}' of '{2}'", requiredSampler.second.name, layer_index, identifier );
 											return( nullptr );
 										}
 										break;
@@ -159,76 +163,87 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 									case GL_SAMPLER_2D_ARRAY:
 										if( texture->Type() != CTexture::type::TEX_2D_ARRAY )
 										{
-											logWARNING( "required texture for sampler '{0}' has to be of type 2D_ARRAY in layer '{1}' of '{2}'", sampler.second.name, layer_index, identifier );
+											logWARNING( "required texture for sampler '{0}' has to be of type 2D_ARRAY in layer '{1}' of '{2}'", requiredSampler.second.name, layer_index, identifier );
 											return( nullptr );
 										}
 										break;
 								}
 
-								newLayer->m_textures[ sampler.first ].first = texture;
-							}
-						}
+								auto &samplerData = newLayer->m_samplerData[ requiredSampler.first ];
 
-						const Json::Value mat_samplers = mat_layer[ "samplers" ];
-						if(	mat_samplers.empty() )
-						{
-							logDEBUG( "no samplers specified in layer '{0}' of '{1}'", layer_index, identifier );
-						}
-						else
-						{
-							for( const auto &sampler : shader->m_requiredTextures )
-							{
-								const Json::Value mat_sampler = mat_samplers[ sampler.second.name ];
+								samplerData.first = texture;
+
+								const Json::Value mat_sampler = mat_samplers[ requiredSampler.second.name ];
 								if( !mat_sampler.empty() )
 								{
 									// TODO check here, if specified sampler fits to the type of the texture
-									if( !samplerManager.SamplerFromString( mat_sampler.asString(), newLayer->m_textures[ sampler.first ].second ) )
+									if( !samplerManager.SamplerFromString( mat_sampler.asString(), samplerData.second ) )
 									{
-										logDEBUG( "invalid sampler specified for texture '{0}' in layer '{1}' of '{2}'", sampler.second.name, layer_index, identifier );
+										logDEBUG( "invalid sampler specified for texture '{0}' in layer '{1}' of '{2}'", requiredSampler.second.name, layer_index, identifier );
 									}
 								}
-							}
 
-							#ifndef INQ_DEBUG
-							for( const Json::Value &mat_sampler : mat_samplers )
-							{
-								// TODO check for samplers here, which are not used
-							}
-							#endif
-						}
-
-						// set default samplers where not already set
-						for( const auto &sampler : shader->m_requiredTextures )
-						{
-							auto &tex = newLayer->m_textures[ sampler.first ];
-
-							if( !tex.second )
-							{
-								switch( tex.first->Type() )
+								// set default samplers where not already set
+								if( !samplerData.second )
 								{
-									case CTexture::type::TEX_2D:
-										tex.second = samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D );
-										break;
+									switch( samplerData.first->Type() )
+									{
+										case CTexture::type::TEX_2D:
+											samplerData.second = samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D );
+											break;
 
-									case CTexture::type::TEX_CUBE_MAP:
-										tex.second = samplerManager.SamplerFromType( CSampler::Type::REPEAT_CUBE );
-										break;
+										case CTexture::type::TEX_CUBE_MAP:
+											samplerData.second = samplerManager.SamplerFromType( CSampler::Type::REPEAT_CUBE );
+											break;
 
-									case CTexture::type::TEX_2D_ARRAY:
-										tex.second = samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D );
-										break;
+										case CTexture::type::TEX_2D_ARRAY:
+											samplerData.second = samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D );
+											break;
+									}
 								}
 							}
 						}
 					}
 				}
 
+				// TODO not only in DEBUG-Builds, but configurable
+				#ifdef INQ_DEBUG
+
+				// check for unused textures
+				for( const std::string &textureName : mat_textures.getMemberNames() )
+				{
+					if( std::end( shader->m_requiredSamplers ) == std::find_if( std::begin( shader->m_requiredSamplers ),
+																				std::end( shader->m_requiredSamplers ),
+																				[&]( const auto &vt )
+																				{
+																					return( vt.second.name == textureName );
+																				} ) )
+					{
+						logWARNING( "unused texture '{0}' in layer '{1}' of '{2}'", textureName, layer_index, identifier );
+					}
+				}
+
+				// check for unused samplers
+				for( const std::string &samplerName : mat_samplers.getMemberNames() )
+				{
+					if( std::end( shader->m_requiredSamplers ) == std::find_if( std::begin( shader->m_requiredSamplers ),
+																				std::end( shader->m_requiredSamplers ),
+																				[&]( const auto &vt )
+																				{
+																					return( vt.second.name == samplerName );
+																				} ) )
+					{
+						logWARNING( "unused sampler '{0}' in layer '{1}' of '{2}'", samplerName, layer_index, identifier );
+					}
+				}
+				#endif
+
 				if( !shader->m_requiredInstanceUniforms.empty() )
 				{
 					const Json::Value mat_uniforms = mat_layer[ "uniforms" ];
 					if(	mat_uniforms.empty() )
 					{
-						logWARNING( "no uniforms specified in layer '{0}' of '{1}'", layer_index, identifier );
+						logWARNING( "no required uniforms specified in layer '{0}' of '{1}'", layer_index, identifier );
 						return( nullptr );
 					}
 					else

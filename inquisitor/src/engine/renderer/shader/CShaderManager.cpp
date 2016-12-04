@@ -380,10 +380,10 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 			case GL_SAMPLER_2D:
 			case GL_SAMPLER_CUBE:
 			case GL_SAMPLER_2D_ARRAY:
-				shaderProgram->m_requiredTextures[ uniformLocation ] = { uniformName, uniformType };
-				if( shaderProgram->m_requiredTextures.size() > CShaderManager::requiredCombinedTextureImageUnits )
+				shaderProgram->m_requiredSamplers[ uniformLocation ] = { uniformName, uniformType };
+				if( shaderProgram->m_requiredSamplers.size() > CShaderManager::requiredCombinedTextureImageUnits )
 				{
-					logERROR( "uses {0} samplers but only {1} are allowed", shaderProgram->m_requiredTextures.size(), CShaderManager::requiredCombinedTextureImageUnits );
+					logERROR( "uses {0} samplers but max {1} are allowed", shaderProgram->m_requiredSamplers.size(), CShaderManager::requiredCombinedTextureImageUnits );
 					return( false );
 				}
 				break;

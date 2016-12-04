@@ -31,7 +31,7 @@ private:
 
 	std::shared_ptr< CShaderProgram >	m_shader;
 
-	std::unordered_map< GLuint, std::pair< std::shared_ptr< CTexture >, std::shared_ptr< CSampler > > > m_textures;
+	std::unordered_map< GLuint, std::pair< std::shared_ptr< CTexture >, std::shared_ptr< CSampler > > > m_samplerData;
 
 	std::unordered_map< GLuint, std::unique_ptr< CInstanceUniform > > m_instanceUniforms;
 };

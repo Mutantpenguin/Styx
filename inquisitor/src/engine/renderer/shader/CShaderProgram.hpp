@@ -25,7 +25,7 @@ public:
 private:
 	const GLuint m_program;
 
-	std::unordered_map< GLint, SShaderInterface >	m_requiredTextures;
+	std::unordered_map< GLint, SShaderInterface >	m_requiredSamplers;
 	std::vector< EReservedUniformLocations >		m_requiredReservedUniforms;
 	std::unordered_map< GLint, SShaderInterface >	m_requiredInstanceUniforms;
 };

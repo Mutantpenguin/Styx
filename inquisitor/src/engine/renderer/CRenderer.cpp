@@ -348,12 +348,12 @@ void CRenderer::RenderMesh( const std::shared_ptr< const CCamera > &camera, cons
 		}
 
 		std::uint8_t textureUnit = 0;
-		for( const auto &tex : layer->m_textures )
+		for( const auto &samplerData : layer->m_samplerData )
 		{
-			glUniform1i( tex.first, textureUnit );
+			glUniform1i( samplerData.first, textureUnit );
 
-			tex.second.first->BindToUnit( textureUnit );
-			tex.second.second->BindToUnit( textureUnit );
+			samplerData.second.first->BindToUnit( textureUnit );
+			samplerData.second.second->BindToUnit( textureUnit );
 
 			textureUnit++;
 		}
