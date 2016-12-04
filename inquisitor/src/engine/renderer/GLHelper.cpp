@@ -144,7 +144,7 @@ namespace GLHelper
 		}
 		else
 		{
-			logWARNING( "unknown cull-mode '{0}'", string );
+			logWARNING( "unknown face-mode '{0}'", string );
 			return( false );
 		}
 
@@ -167,7 +167,7 @@ namespace GLHelper
 		}
 		else
 		{
-			logWARNING( "unknown cull-mode '{0}'", string );
+			logWARNING( "unknown polygon-mode '{0}'", string );
 			return( false );
 		}
 
@@ -184,7 +184,7 @@ namespace GLHelper
 		}
 		else
 		{
-			logERROR( glbinding::Meta::getString( status ) );
+			logERROR( "framebuffer is not complete: {0}", glbinding::Meta::getString( status ) );
 			return( false );
 		}
 	}
