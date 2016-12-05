@@ -1,6 +1,6 @@
 #include "CStatePause.hpp"
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settings, CRenderer &renderer, std::shared_ptr< CState > state ) :
 	CState( "pause", filesystem, settings ),

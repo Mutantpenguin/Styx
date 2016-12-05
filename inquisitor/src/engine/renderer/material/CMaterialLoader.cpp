@@ -6,7 +6,7 @@
 
 #include <glbinding/Meta.h>
 
-#include "../../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 #include "../GLHelper.hpp"
 

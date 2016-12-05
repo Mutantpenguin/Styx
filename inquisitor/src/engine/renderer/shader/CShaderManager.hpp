@@ -5,15 +5,15 @@
 #include <unordered_set>
 #include <map>
 
-#include "../GL.h"
+#include "src/engine/renderer/GL.h"
 
-#include "../../system/CFileSystem.hpp"
+#include "src/engine/system/CFileSystem.hpp"
 
-#include "../CUniformBuffer.hpp"
+#include "src/engine/renderer/CUniformBuffer.hpp"
 
-#include "EReservedUniformLocations.hpp"
+#include "src/engine/renderer/shader/EReservedUniformLocations.hpp"
 
-#include "CShaderProgram.hpp"
+#include "src/engine/renderer/shader/CShaderProgram.hpp"
 
 class CShaderManager
 {

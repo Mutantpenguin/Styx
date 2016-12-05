@@ -2,7 +2,7 @@
 
 #include <physfs.h>
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 bool CLibVorbisWrapper::m_initialized = false;
 ov_callbacks CLibVorbisWrapper::m_io;

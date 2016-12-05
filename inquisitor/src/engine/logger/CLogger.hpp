@@ -7,9 +7,9 @@
 #include <list>
 #include <sstream>
 
-#include "../../fmt/format.h"
+#include "src/ext/fmt/format.h"
 
-#include "LogHelper.hpp"
+#include "src/engine/logger/LogHelper.hpp"
 
 #ifdef INQ_DEBUG
 	#if 0

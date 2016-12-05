@@ -1,6 +1,6 @@
 #include "ctransformsystem.hpp"
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 #include "centity.hpp"
 #include "csystem.hpp"

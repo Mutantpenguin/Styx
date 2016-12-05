@@ -12,7 +12,7 @@
 
 #include "CGLState.hpp"
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem ) :
 	m_settings { settings },
@@ -247,7 +247,7 @@ void CRenderer::Clear( bool colorBuffer, bool depthBuffer ) const
 
 void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) const
 {
-	std::shared_ptr< CCamera > camera = scene.Camera();
+	const std::shared_ptr< CCamera > camera = scene.Camera();
 
 	if( !camera )
 	{

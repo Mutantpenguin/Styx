@@ -18,7 +18,7 @@
 	#include <sys/sysinfo.h>
 #endif
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 #include "../helper/String.hpp"
 

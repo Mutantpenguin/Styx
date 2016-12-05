@@ -2,9 +2,9 @@
 
 #include <boost/program_options.hpp>
 
-#include "../logger/CLogger.hpp"
-#include "../logger/CLogTargetConsole.hpp"
-#include "../logger/CLogTargetMessageBox.hpp"
+#include "src/engine/logger/CLogger.hpp"
+#include "src/engine/logger/CLogTargetConsole.hpp"
+#include "src/engine/logger/CLogTargetMessageBox.hpp"
 
 #include "CEngine.hpp"
 #include "CFileSystem.hpp"

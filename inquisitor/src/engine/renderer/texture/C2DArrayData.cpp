@@ -1,6 +1,6 @@
 #include "C2DArrayData.hpp"
 
-#include "../../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 bool C2DArrayData::AddLayer( const std::shared_ptr< const CImage > &image )
 {

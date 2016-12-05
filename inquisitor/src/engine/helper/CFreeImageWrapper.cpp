@@ -2,7 +2,7 @@
 
 #include <physfs.h>
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 bool CFreeImageWrapper::m_initialized = false;
 FreeImageIO CFreeImageWrapper::m_io;

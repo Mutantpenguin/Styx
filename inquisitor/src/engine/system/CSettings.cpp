@@ -2,7 +2,7 @@
 
 #include <json/json.h>
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 
 CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settingsfile )

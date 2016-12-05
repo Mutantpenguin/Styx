@@ -2,11 +2,11 @@
 
 #include <glbinding/Meta.h>
 
-#include "../CCamera.hpp"
-#include "../GLHelper.hpp"
-#include "../CVAO.hpp"
+#include "src/engine/renderer/camera/CCamera.hpp"
+#include "src/engine/renderer/GLHelper.hpp"
+#include "src/engine/renderer/CVAO.hpp"
 
-#include "../../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 constexpr const GLint CShaderManager::requiredCombinedTextureImageUnits;
 

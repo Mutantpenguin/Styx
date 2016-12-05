@@ -1,6 +1,6 @@
 #include "CEngine.hpp"
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 #include "../states/CStateIntro.hpp"
 

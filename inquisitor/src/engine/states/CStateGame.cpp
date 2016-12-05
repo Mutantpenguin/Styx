@@ -6,7 +6,7 @@
 #include "../helper/geom/Primitives.hpp"
 #include "../helper/image/ImageHandler.hpp"
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 #include "../sound/CSound.hpp"
 #include "../sound/SoundHandler.hpp"
@@ -169,6 +169,12 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 
 	const float ctrlPressedMult = input.KeyStillDown( SDL_SCANCODE_LCTRL ) ? 10 : 1;
 
+/*
+	if( input.MouseStillDown( SDL_BUTTON_LEFT) )
+	{
+		m_camera->M
+	}
+*/
 	if( input.KeyStillDown( SDL_SCANCODE_A ) )
 	{
 		m_camera->MoveLeft( spp * ctrlPressedMult );

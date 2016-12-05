@@ -3,19 +3,19 @@
 
 #include <list>
 
-#include "CCamera.hpp"
+#include "src/engine/renderer/camera/CCamera.hpp"
 
-#include "CMesh.hpp"
+#include "src/engine/renderer/CMesh.hpp"
 
-#include "../system/CSettings.hpp"
+#include "src/engine/system/CSettings.hpp"
 
-#include "../scene/CScene.hpp"
+#include "src/engine/scene/CScene.hpp"
 
-#include "material/CMaterialManager.hpp"
-#include "sampler/CSamplerManager.hpp"
+#include "src/engine/renderer/material/CMaterialManager.hpp"
+#include "src/engine/renderer/sampler/CSamplerManager.hpp"
 
-#include "../helper/CColor.hpp"
-#include "../helper/image/CImage.hpp"
+#include "src/engine/helper/CColor.hpp"
+#include "src/engine/helper/image/CImage.hpp"
 
 class CRenderer final
 {

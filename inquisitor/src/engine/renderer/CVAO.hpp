@@ -5,9 +5,9 @@
 
 #include <glm/glm.hpp>
 
-#include "GL.h"
+#include "src/engine/renderer/GL.h"
 
-#include "../helper/geom/Primitives.hpp"
+#include "src/engine/helper/geom/Primitives.hpp"
 
 class CVAO final
 {

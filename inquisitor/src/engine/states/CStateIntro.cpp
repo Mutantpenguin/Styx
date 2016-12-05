@@ -2,7 +2,7 @@
 
 #include "CStateGame.hpp"
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 #include "../sound/CSound.hpp"
 #include "../sound/SoundHandler.hpp"

@@ -4,9 +4,9 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
-#include "../system/CSettings.hpp"
+#include "src/engine/system/CSettings.hpp"
 
-#include "../renderer/CCamera.hpp"
+#include "src/engine/renderer/camera/CCamera.hpp"
 
 #include "CSound.hpp"
 

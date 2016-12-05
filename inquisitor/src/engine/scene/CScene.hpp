@@ -3,8 +3,8 @@
 
 #include <list>
 
-#include "../renderer/CCamera.hpp"
-#include "../renderer/CMesh.hpp"
+#include "src/engine/renderer/camera/CCamera.hpp"
+#include "src/engine/renderer/CMesh.hpp"
 
 class CScene
 {

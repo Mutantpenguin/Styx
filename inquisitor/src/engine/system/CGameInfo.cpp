@@ -4,7 +4,7 @@
 
 #include <json/json.h>
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 #include "CFileSystem.hpp"
 

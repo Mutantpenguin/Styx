@@ -3,7 +3,7 @@
 
 #include "CState.hpp"
 
-#include "../renderer/CCamera.hpp"
+#include "src/engine/renderer/camera/CCamera.hpp"
 
 class CStateIntro final : public CState
 {

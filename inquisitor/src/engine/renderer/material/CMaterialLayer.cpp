@@ -2,7 +2,7 @@
 
 #include "../CGLState.hpp"
 
-#include "../../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 void CMaterialLayer::Update( const float delta )
 {

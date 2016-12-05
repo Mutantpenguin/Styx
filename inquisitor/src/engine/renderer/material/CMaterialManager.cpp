@@ -1,6 +1,6 @@
 #include "CMaterialManager.hpp"
 
-#include "../../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 #include "CMaterialLoader.hpp"
 

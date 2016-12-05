@@ -1,7 +1,7 @@
 #ifndef CLOGTARGETMESSAGEBOX_HPP
 #define CLOGTARGETMESSAGEBOX_HPP
 
-#include "CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 class CLogTargetMessageBox final : public CLogger::CLogTarget
 {

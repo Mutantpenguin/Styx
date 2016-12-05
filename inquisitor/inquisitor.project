@@ -46,7 +46,7 @@
     <Excludepaths/>
     <Ignorefiles/>
     <Extensions>
-      <![CDATA[cpp;c;h;hpp;xrc;wxcp;fbp]]>
+      <![CDATA[cpp;c;h;hpp;xrc;wxcp;fbp;cc]]>
     </Extensions>
     <Topleveldir>../inquisitor</Topleveldir>
   </Reconciliation>
@@ -92,14 +92,12 @@
         <File Name="src/engine/renderer/CVAO.hpp"/>
         <File Name="src/engine/renderer/CGLState.hpp"/>
         <File Name="src/engine/renderer/CMesh.cpp"/>
-        <File Name="src/engine/renderer/CCamera.hpp"/>
         <File Name="src/engine/renderer/CFrustum.hpp"/>
         <File Name="src/engine/renderer/CMesh.hpp"/>
         <File Name="src/engine/renderer/CVAO.cpp"/>
         <File Name="src/engine/renderer/GLHelper.cpp"/>
         <File Name="src/engine/renderer/CFrustum.cpp"/>
         <File Name="src/engine/renderer/GL.h"/>
-        <File Name="src/engine/renderer/CCamera.cpp"/>
         <File Name="src/engine/renderer/CRenderer.hpp"/>
         <File Name="src/engine/renderer/CRenderer.cpp"/>
         <File Name="src/engine/renderer/CRendererCapabilities.hpp"/>
@@ -112,6 +110,10 @@
           <File Name="src/engine/renderer/sampler/CSamplerManager.cpp"/>
           <File Name="src/engine/renderer/sampler/CSampler.hpp"/>
           <File Name="src/engine/renderer/sampler/CSampler.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="camera">
+          <File Name="src/engine/renderer/camera/CCamera.cpp"/>
+          <File Name="src/engine/renderer/camera/CCamera.hpp"/>
         </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="helper">
@@ -213,28 +215,30 @@
         <File Name="src/engine/sdl/CSDL.cpp"/>
       </VirtualDirectory>
     </VirtualDirectory>
-    <VirtualDirectory Name="stb">
-      <File Name="src/stb/stb_rect_pack.h"/>
-      <File Name="src/stb/stb_textedit.h"/>
-      <File Name="src/stb/stb_truetype.h"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="imgui">
-      <File Name="src/imgui/imconfig.h"/>
-      <File Name="src/imgui/imgui.cpp"/>
-      <File Name="src/imgui/imgui.h"/>
-      <File Name="src/imgui/imgui_draw.cpp"/>
-      <File Name="src/imgui/imgui_internal.h"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="fmt">
-      <File Name="src/fmt/format.cc"/>
-      <File Name="src/fmt/format.h"/>
-      <File Name="src/fmt/ostream.cc"/>
-      <File Name="src/fmt/ostream.h"/>
-      <File Name="src/fmt/posix.cc"/>
-      <File Name="src/fmt/posix.h"/>
-      <File Name="src/fmt/printf.h"/>
-      <File Name="src/fmt/string.h"/>
-      <File Name="src/fmt/time.h"/>
+    <VirtualDirectory Name="ext">
+      <VirtualDirectory Name="fmt">
+        <File Name="src/ext/fmt/format.h"/>
+        <File Name="src/ext/fmt/ostream.h"/>
+        <File Name="src/ext/fmt/posix.h"/>
+        <File Name="src/ext/fmt/printf.h"/>
+        <File Name="src/ext/fmt/string.h"/>
+        <File Name="src/ext/fmt/time.h"/>
+        <File Name="src/ext/fmt/format.cc"/>
+        <File Name="src/ext/fmt/ostream.cc"/>
+        <File Name="src/ext/fmt/posix.cc"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="imgui">
+        <File Name="src/ext/imgui/imconfig.h"/>
+        <File Name="src/ext/imgui/imgui.cpp"/>
+        <File Name="src/ext/imgui/imgui.h"/>
+        <File Name="src/ext/imgui/imgui_draw.cpp"/>
+        <File Name="src/ext/imgui/imgui_internal.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="stb">
+        <File Name="src/ext/stb/stb_rect_pack.h"/>
+        <File Name="src/ext/stb/stb_textedit.h"/>
+        <File Name="src/ext/stb/stb_truetype.h"/>
+      </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="inquisitor">
@@ -276,7 +280,7 @@
         <IncludePath Value="."/>
         <Preprocessor Value="INQ_DEBUG"/>
       </Compiler>
-      <Linker Options="-fsanitize=undefined;-fsanitize=integer" Required="yes"/>
+      <Linker Options="-fsanitize=undefined;-fsanitize=integer;-fsanitize=address; -fsanitize=leak" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./bin/Debug" Command="./$(ProjectName)" CommandArguments="--gameDirectory ../../../demogame" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
@@ -344,7 +348,7 @@
         <CustomPostBuild/>
         <CustomPreBuild/>
       </AdditionalRules>
-      <Completion EnableCpp11="no" EnableCpp14="no">
+      <Completion EnableCpp11="no" EnableCpp14="yes">
         <ClangCmpFlagsC/>
         <ClangCmpFlags/>
         <ClangPP/>
@@ -383,7 +387,7 @@
         <CustomPostBuild/>
         <CustomPreBuild/>
       </AdditionalRules>
-      <Completion EnableCpp11="yes" EnableCpp14="no">
+      <Completion EnableCpp11="no" EnableCpp14="yes">
         <ClangCmpFlagsC/>
         <ClangCmpFlags/>
         <ClangPP/>

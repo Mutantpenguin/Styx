@@ -1,10 +1,10 @@
-#include "CVAO.hpp"
+#include "src/engine/renderer/CVAO.hpp"
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
-#include "CGLState.hpp"
+#include "src/engine/renderer/CGLState.hpp"
 
-#include "shader/CShaderManager.hpp"
+#include "src/engine/renderer/shader/CShaderManager.hpp"
 
 constexpr const GLint CVAO::attributeLocationVertex;
 constexpr const GLint CVAO::attributeLocationNormal;

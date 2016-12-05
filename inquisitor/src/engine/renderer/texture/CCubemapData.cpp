@@ -1,6 +1,6 @@
 #include "CCubemapData.hpp"
 
-#include "../../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 bool CCubemapData::AddFace( const unsigned char faceNum, const std::shared_ptr< const CImage > &image )
 {

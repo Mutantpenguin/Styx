@@ -1,6 +1,6 @@
 #include "CInput.hpp"
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 CInput::CInput( const CSettings &settings, const CFileSystem &filesystem )
 {

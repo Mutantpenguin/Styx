@@ -5,22 +5,22 @@
     <![CDATA[]]>
   </Environment>
   <Project Name="inquisitor" Path="inquisitor/inquisitor.project" Active="Yes"/>
+  <Project Name="demogame" Path="demogame/demogame.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
       <Project Name="setup" ConfigName="Debug"/>
       <Project Name="inquisitor" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="yes">
+    <WorkspaceConfiguration Name="Release" Selected="no">
       <Environment/>
       <Project Name="setup" ConfigName="Release"/>
       <Project Name="inquisitor" ConfigName="Release"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Profile" Selected="yes">
+    <WorkspaceConfiguration Name="Profile" Selected="no">
       <Environment/>
       <Project Name="setup" ConfigName="Debug"/>
       <Project Name="inquisitor" ConfigName="Profile"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
-  <Project Name="demogame" Path="demogame/demogame.project" Active="No"/>
 </CodeLite_Workspace>

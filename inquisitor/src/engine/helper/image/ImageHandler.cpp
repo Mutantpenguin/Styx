@@ -2,7 +2,7 @@
 
 #include <FreeImagePlus.h>
 
-#include "../../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 #include "../../math/Math.hpp"
 

@@ -2,7 +2,7 @@
 
 #include "ALHelper.hpp"
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 CSoundManager::CSoundManager( const CSettings &settings ) :
 	m_buffer_size { settings.sound.buffer_size }

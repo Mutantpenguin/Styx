@@ -3,7 +3,7 @@
 
 #include <fstream>
 
-#include "CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 class CLogTargetFile final : public CLogger::CLogTarget
 {

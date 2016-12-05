@@ -3,7 +3,7 @@
 #include <glbinding/Meta.h>
 #include <glbinding/ContextInfo.h>
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 void CRendererCapabilities::Init( void )
 {

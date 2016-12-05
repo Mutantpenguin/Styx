@@ -1,6 +1,6 @@
 #include "SoundHandler.hpp"
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 #include "../helper/CLibVorbisWrapper.hpp"
 

@@ -1,11 +1,8 @@
 #include "CWindow.hpp"
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 #include "../helper/image/ImageHandler.hpp"
-
-#include "../renderer/GLHelper.hpp"
-
 
 CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, const std::string &windowTitle, const std::string &iconPath )
 {

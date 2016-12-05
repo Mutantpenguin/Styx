@@ -1,6 +1,6 @@
 #include "CSamplerManager.hpp"
 
-#include "../../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 CSamplerManager::CSamplerManager( const CSettings &p_settings ) :
 	m_iAnisotropicLevel( p_settings.renderer.textures.anisotropic ),

@@ -17,7 +17,7 @@
 
 #include "../CGLState.hpp"
 
-#include "../../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 
 CTextureManager::CTextureManager( const CSettings &p_settings, const CFileSystem &p_filesystem ) :

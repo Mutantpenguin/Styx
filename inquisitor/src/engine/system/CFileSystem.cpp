@@ -7,8 +7,8 @@
 
 #include <physfs.h>
 
-#include "../logger/CLogger.hpp"
-#include "../logger/CLogTargetFile.hpp"
+#include "src/engine/logger/CLogger.hpp"
+#include "src/engine/logger/CLogTargetFile.hpp"
 
 
 CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, const std::string &gamename, const std::string &gamedir, const std::vector< std::string > &assets )

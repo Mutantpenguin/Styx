@@ -25,8 +25,8 @@ public:
 
 public:
 	CTexture( const std::shared_ptr< const CImage > &image );
-	CTexture( std::unique_ptr< CCubemapData > cubemapData );
-	CTexture( std::unique_ptr< C2DArrayData > arrayData );
+	CTexture( std::unique_ptr< const CCubemapData > cubemapData );
+	CTexture( std::unique_ptr< const C2DArrayData > arrayData );
 	~CTexture( void );
 
 	void BindToUnit( const GLuint unit ) const;

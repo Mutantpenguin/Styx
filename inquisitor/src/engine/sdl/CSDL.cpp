@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "../logger/CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 CSDL::CSDL()
 {

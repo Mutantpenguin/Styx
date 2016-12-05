@@ -1,7 +1,7 @@
 #ifndef CLOGTARGETCONSOLE_HPP
 #define CLOGTARGETCONSOLE_HPP
 
-#include "CLogger.hpp"
+#include "src/engine/logger/CLogger.hpp"
 
 class CLogTargetConsole final : public CLogger::CLogTarget
 {
