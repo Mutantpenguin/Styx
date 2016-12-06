@@ -17,7 +17,7 @@ private:
 
 	const float m_waitTime = 7000000;
 
-	std::shared_ptr< CMesh > mesh;
+	std::shared_ptr< CMesh > m_mesh;
 };
 
 #endif // CSTATEINTRO_HPP

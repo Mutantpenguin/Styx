@@ -10,7 +10,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 {
 	std::shared_ptr< CMaterial > material3 = renderer.LoadMaterial( "materials/pause.mat" );
 
-	auto screenMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material3, glm::vec3( 1.0f, 1.0f, 1.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) );
+	auto screenMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material3 );
 	m_scene.AddMesh( screenMesh );
 
 	auto camera = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 90.0f, 0.1f, 100.0f );

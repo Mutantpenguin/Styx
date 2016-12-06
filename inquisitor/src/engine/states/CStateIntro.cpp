@@ -27,8 +27,9 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	std::shared_ptr< CMaterial > material = renderer.LoadMaterial( "materials/intro_icon.mat" );
 
-	mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material, glm::vec3( 3.0f, 3.0f, 1.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) );
-	m_scene.AddMesh( mesh );
+	m_mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material );
+	m_mesh->SetScale( { 3.0f, 3.0f, 1.0f } );
+	m_scene.AddMesh( m_mesh );
 
 	// TODO port to SoundManager or something like this
 	// TODO don't loop sound
@@ -44,9 +45,9 @@ std::shared_ptr< CState > CStateIntro::Update( const std::uint64_t time, CSoundM
 {
 	const std::uint64_t elapsedTime = time - m_startTime;
 
-	glm::vec3 meshPosition = mesh->Position();
+	glm::vec3 meshPosition = m_mesh->Position();
 	meshPosition.z = elapsedTime / m_waitTime;
-	mesh->SetPosition( meshPosition );
+	m_mesh->SetPosition( meshPosition );
 
 	const float colorComponent = ( m_waitTime - elapsedTime ) / m_waitTime;
 	renderer.SetClearColor( CColor( colorComponent, colorComponent, colorComponent, colorComponent ) );

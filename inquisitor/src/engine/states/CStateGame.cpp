@@ -34,11 +34,13 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		//material2 = renderer.LoadMaterial( "materials/newscast.mat" );
 		//material2 = renderer.LoadMaterial( "textures/texpack_1/killblockgeomtrn.png" );
 
-		mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material2, glm::vec3( 3.0f, 3.0f, 1.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) );
-		m_scene.AddMesh( mesh );
+		m_mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material2 );
+		m_mesh->SetScale( { 3.0f, 3.0f, 1.0f } );
+		m_scene.AddMesh( m_mesh );
 
-		mesh2 = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 10.0f, 10.0f, 10.0f ), glm::vec3( 0.0f, 0.0f, -10.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) );
-		m_scene.AddMesh( mesh2 );
+		m_mesh2 = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 0.0f, 0.0f, -10.0f ) );
+		m_mesh2->SetScale( { 10.0f, 10.0f, 10.0f } );
+		m_scene.AddMesh( m_mesh2 );
 
 		{
 			const std::uint16_t cubeSize { 4 };
@@ -49,7 +51,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				{
 					for( std::uint16_t k = 0; k < cubeSize; k++ )
 					{
-						m_scene.AddMesh( std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 2.0f, 2.0f, 2.0f ), glm::vec3( 20.0f + i * 4.0f, 0.0f + j * 4.0f, -10.0f + k * 4.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) ) );
+						auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 20.0f + i * 4.0f, 0.0f + j * 4.0f, -10.0f + k * 4.0f ) );
+						mesh->SetScale( { 2.0f, 2.0f, 2.0f } );
+
+						m_scene.AddMesh( mesh );
 					}
 				}
 			}
@@ -65,7 +70,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				{
 					for( std::uint16_t k = 0; k < cubeSize; k++ )
 					{
-						m_scene.AddMesh( std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 2.0f, 2.0f, 2.0f ), glm::vec3( 20.0f + i * 4.0f, -25.0f + j * 4.0f, 50.0f + k * 4.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) ) );
+						auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 20.0f + i * 4.0f, -25.0f + j * 4.0f, 50.0f + k * 4.0f ) );
+						mesh->SetScale( { 2.0f, 2.0f, 2.0f } );
+
+						m_scene.AddMesh( mesh );
 					}
 				}
 			}
@@ -74,24 +82,30 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	{
 		std::shared_ptr< CMaterial > fireMaterial = renderer.LoadMaterial( "materials/flames.mat" );
-		m_scene.AddMesh( std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, fireMaterial, glm::vec3( 4.0f, 8.0f, 1.0f ), glm::vec3( -5.0f, 0.0f, 1.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) ) );
+		auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, fireMaterial, glm::vec3( -5.0f, 0.0f, 1.0f ) );
+		mesh->SetScale( { 4.0f, 8.0f, 1.0f } );
+		m_scene.AddMesh( mesh );
 	}
 
 	{
-		std::shared_ptr< CMaterial > blueMaterial = renderer.LoadMaterial( "materials/green.mat" );
-		m_scene.AddMesh( std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, blueMaterial, glm::vec3( 2.0f, 2.0f, 1.0f ), glm::vec3( 0.0f, 10.0f, 1.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) ) );
+		std::shared_ptr< CMaterial > greenMaterial = renderer.LoadMaterial( "materials/green.mat" );
+		auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, greenMaterial, glm::vec3( 0.0f, 10.0f, 1.0f ) );
+		mesh->SetScale( { 2.0f, 2.0f, 1.0f } );
+		m_scene.AddMesh( mesh );
 	}
 
 	{
 		std::shared_ptr< CMaterial > redMaterial = renderer.LoadMaterial( "materials/red.mat" );
-		m_scene.AddMesh( std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, redMaterial, glm::vec3( 2.0f, 2.0f, 1.0f ), glm::vec3( 4.0f, 10.0f, 1.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) ) );
+		auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, redMaterial, glm::vec3( 4.0f, 10.0f, 1.0f ) );
+		mesh->SetScale( { 2.0f, 2.0f, 1.0f } );
+		m_scene.AddMesh( mesh );
 	}
 
 	{
 		std::shared_ptr< CMaterial > material3 = renderer.LoadMaterial( "materials/sky.mat" );
 
-		skyboxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material3, glm::vec3( 1.0f, 1.0f, 1.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) );
-		m_scene.AddMesh( skyboxMesh );
+		m_skyboxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material3 );
+		m_scene.AddMesh( m_skyboxMesh );
 	}
 
 	// TODO port to SoundManager or something like this
@@ -119,50 +133,50 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 
 	if( input.KeyStillDown( SDL_SCANCODE_KP_6 ) )
 	{
-		glm::vec3 pos = mesh->Position();
+		glm::vec3 pos = m_mesh->Position();
 		pos.x += spp;
-		mesh->SetPosition( pos );
+		m_mesh->SetPosition( pos );
 	}
 	if( input.KeyStillDown( SDL_SCANCODE_KP_4 ) )
 	{
-		glm::vec3 pos = mesh->Position();
+		glm::vec3 pos = m_mesh->Position();
 		pos.x -= spp;
-		mesh->SetPosition( pos );
+		m_mesh->SetPosition( pos );
 	}
 
 	if( input.KeyStillDown( SDL_SCANCODE_KP_8 ) )
 	{
-		glm::vec3 pos = mesh->Position();
+		glm::vec3 pos = m_mesh->Position();
 		pos.y += spp;
-		mesh->SetPosition( pos );
+		m_mesh->SetPosition( pos );
 	}
 	if( input.KeyStillDown( SDL_SCANCODE_KP_2 ) )
 	{
-		glm::vec3 pos = mesh->Position();
+		glm::vec3 pos = m_mesh->Position();
 		pos.y -= spp;
-		mesh->SetPosition( pos );
+		m_mesh->SetPosition( pos );
 	}
 
 	if(	input.KeyStillDown( SDL_SCANCODE_KP_PLUS )
 		||
 		input.KeyStillDown( SDL_SCANCODE_PAGEUP ) )
 	{
-		glm::vec3 pos = mesh->Position();
+		glm::vec3 pos = m_mesh->Position();
 		pos.z += spp;
-		mesh->SetPosition( pos );
+		m_mesh->SetPosition( pos );
 	}
 	if(	input.KeyStillDown( SDL_SCANCODE_KP_MINUS )
 		||
 		input.KeyStillDown( SDL_SCANCODE_PAGEDOWN ) )
 	{
-		glm::vec3 pos = mesh->Position();
+		glm::vec3 pos = m_mesh->Position();
 		pos.z -= spp;
-		mesh->SetPosition( pos );
+		m_mesh->SetPosition( pos );
 	}
 
 	if( input.KeyStillDown( SDL_SCANCODE_KP_5 ) )
 	{
-		mesh->SetPosition( glm::vec3() );
+		m_mesh->SetPosition( glm::vec3() );
 	}
 
 	/*
@@ -252,7 +266,7 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 
 	if( !input.MouseStillDown( SDL_BUTTON_LEFT) )
 	{
-		mesh->SetOrientation( glm::vec3( m_yrot / 2, m_xrot / 2, 0.0f ) );
+		m_mesh->SetOrientation( glm::vec3( m_yrot / 2, m_xrot / 2, 0.0f ) );
 	}
 
 	m_rotx_ps = input.MouseDeltaX();
@@ -263,7 +277,7 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 
 	// m_cameraFree->SetDirection( mesh->Position() - m_cameraFree->Position() );
 
-	skyboxMesh->SetPosition( m_cameraFree->Position() );
+	m_skyboxMesh->SetPosition( m_cameraFree->Position() );
 
 	return( shared_from_this() );
 }

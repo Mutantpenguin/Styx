@@ -5,13 +5,42 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 
-
-CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat, const glm::vec3 &scale, const glm::vec3 &position, const glm::vec3 &orientation ) :
+CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat, const glm::vec3 &position, const glm::vec3 &orientation, const glm::vec3 &scale ) :
 	m_vao( Mode, primitive ),
 	m_material { mat },
 	m_position { position },
-	m_scale { scale },
 	m_orientation { orientation },
+	m_scale { scale },
+	m_boundingSphereRadiusVector { CalculatedBoundingSphereRadiusVector( primitive ) },
+	m_boundingSphereRadius { CalculatedBoundingSphereRadiusVector( m_boundingSphereRadiusVector, m_scale ) }
+{
+	CalculateModelMatrix();
+}
+
+CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat, const glm::vec3 &position, const glm::vec3 &orientation ) :
+	m_vao( Mode, primitive ),
+	m_material { mat },
+	m_position { position },
+	m_orientation { orientation },
+	m_boundingSphereRadiusVector { CalculatedBoundingSphereRadiusVector( primitive ) },
+	m_boundingSphereRadius { CalculatedBoundingSphereRadiusVector( m_boundingSphereRadiusVector, m_scale ) }
+{
+	CalculateModelMatrix();
+}
+
+CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat, const glm::vec3 &position ) :
+	m_vao( Mode, primitive ),
+	m_material { mat },
+	m_position { position },
+	m_boundingSphereRadiusVector { CalculatedBoundingSphereRadiusVector( primitive ) },
+	m_boundingSphereRadius { CalculatedBoundingSphereRadiusVector( m_boundingSphereRadiusVector, m_scale ) }
+{
+	CalculateModelMatrix();
+}
+
+CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat ) :
+	m_vao( Mode, primitive ),
+	m_material { mat },
 	m_boundingSphereRadiusVector { CalculatedBoundingSphereRadiusVector( primitive ) },
 	m_boundingSphereRadius { CalculatedBoundingSphereRadiusVector( m_boundingSphereRadiusVector, m_scale ) }
 {

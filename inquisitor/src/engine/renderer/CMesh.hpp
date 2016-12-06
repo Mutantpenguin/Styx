@@ -11,7 +11,10 @@
 class CMesh final
 {
 public:
-	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat, const glm::vec3 &scale, const glm::vec3 &position, const glm::vec3 &orientation );
+	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat, const glm::vec3 &position, const glm::vec3 &orientation, const glm::vec3 &scale );
+	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat, const glm::vec3 &position, const glm::vec3 &orientation );
+	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat, const glm::vec3 &position );
+	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat );
 
 	void SetMaterial( const std::shared_ptr< CMaterial > &mat );
 	const std::shared_ptr< const CMaterial > Material( void ) const;
@@ -43,9 +46,10 @@ private:
 
 	// TODO put these in the entity, maybe material too
 	glm::mat4	m_modelMatrix;
-	glm::vec3	m_position;
-	glm::vec3	m_scale;
-	glm::vec3	m_orientation;
+
+	glm::vec3	m_position		{ 0.0f, 0.0f, 0.0f };
+	glm::vec3	m_orientation	{ 0.0f, 0.0f, 0.0f };
+	glm::vec3	m_scale			{ 1.0f, 1.0f, 1.0f };
 
 	glm::vec3	m_boundingSphereRadiusVector;
 	float		m_boundingSphereRadius;
