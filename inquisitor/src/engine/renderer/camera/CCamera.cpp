@@ -14,11 +14,6 @@ CCamera::CCamera( float aspectRatio, float fov, float zNear, float zFar ) :
 {
 }
 
-void CCamera::UpdateFrustum( void )
-{
-	m_frustum.Update( CalculateViewProjectionMatrix() );
-}
-
 void CCamera::SetFOV( float fov )
 {
 	m_fov = fov;
@@ -69,8 +64,10 @@ glm::vec3 const CCamera::Up( void ) const
 	return( worldY * m_orientation );
 }
 
-const CFrustum &CCamera::Frustum( void ) const
+const CFrustum &CCamera::CalculateFrustum( void )
 {
+	m_frustum.Update( CalculateViewProjectionMatrix() );
+
 	return( m_frustum );
 }
 

@@ -11,8 +11,6 @@
 class CCamera
 {
 public:
-	void	UpdateFrustum( void );
-
 	void	SetFOV( float fov );
 	void	SetZNear( float zNear );
 	void	SetZFar( float zFar );
@@ -27,7 +25,7 @@ public:
 	glm::vec3	const  Direction( void ) const;
 	glm::vec3	const  Up( void ) const;
 
-	const CFrustum &Frustum( void ) const;
+	const CFrustum &CalculateFrustum( void );
 
 	const glm::mat4 CalculateProjectionMatrix( void ) const;
 	const glm::mat4 CalculateViewMatrix( void ) const;

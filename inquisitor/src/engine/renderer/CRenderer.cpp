@@ -255,7 +255,7 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) con
 	}
 	else
 	{
-		camera->UpdateFrustum();
+		const CFrustum &frustum = camera->CalculateFrustum();
 
 		UpdateUniformBuffers( camera, time );
 
@@ -272,7 +272,7 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) con
 
 		for( const std::shared_ptr< const CMesh > &mesh : scene.Meshes() )
 		{
-			if( camera->Frustum().IsSphereInside( mesh->Position(), mesh->BoundingSphereRadius() ) )
+			if( frustum.IsSphereInside( mesh->Position(), mesh->BoundingSphereRadius() ) )
 			{
 				if( mesh->Material()->Blending() )
 				{
