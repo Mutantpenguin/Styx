@@ -3,15 +3,15 @@
 
 #include <memory>
 
-#include "../renderer/CRenderer.hpp"
+#include "src/engine/renderer/CRenderer.hpp"
 
-#include "../sound/CSoundManager.hpp"
+#include "src/engine/sound/CSoundManager.hpp"
 
-#include "../scene/CScene.hpp"
+#include "src/engine/scene/CScene.hpp"
 
-#include "../system/CFileSystem.hpp"
-#include "../system/CInput.hpp"
-#include "../system/CSettings.hpp"
+#include "src/engine/system/CFileSystem.hpp"
+#include "src/engine/system/CInput.hpp"
+#include "src/engine/system/CSettings.hpp"
 
 class CState : public std::enable_shared_from_this< CState >
 {

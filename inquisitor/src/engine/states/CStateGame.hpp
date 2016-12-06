@@ -1,9 +1,11 @@
 #ifndef CSTATEGAME_HPP
 #define CSTATEGAME_HPP
 
-#include "CState.hpp"
+#include "src/engine/states/CState.hpp"
 
-#include "CStatePause.hpp"
+#include "src/engine/states/CStatePause.hpp"
+
+#include "src/engine/renderer/camera/CCameraFree.hpp"
 
 class CStateGame final : public CState
 {
@@ -14,7 +16,7 @@ public:
 	virtual std::shared_ptr< CState > Update( const std::uint64_t time, CSoundManager &soundManager, CRenderer &renderer, const CInput &input ) override;
 
 private:
-	std::shared_ptr< CCamera > m_camera;
+	std::shared_ptr< CCameraFree > m_cameraFree;
 
 	float	m_xrot = 0.0f;
 	float	m_yrot = 0.0f;

@@ -8,7 +8,7 @@
 
 
 CLogTargetFile::CLogTargetFile( const CLogger::TLogBuffer &logBuffer, const std::string &directory ) :
-	m_log_ofile( ( directory + Date::GetCurrentDateString() + ".log" ).c_str(), std::ios::out | std::ios::app )
+	m_log_ofile( ( directory + Date::GetCurrentDateTimeString() + ".log" ).c_str(), std::ios::out | std::ios::app )
 {
 	// write the whole buffer to disk
 	for( const std::unique_ptr< CLogger::logEntry > &entry : logBuffer )

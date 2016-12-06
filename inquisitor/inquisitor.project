@@ -114,6 +114,8 @@
         <VirtualDirectory Name="camera">
           <File Name="src/engine/renderer/camera/CCamera.cpp"/>
           <File Name="src/engine/renderer/camera/CCamera.hpp"/>
+          <File Name="src/engine/renderer/camera/CCameraFree.hpp"/>
+          <File Name="src/engine/renderer/camera/CCameraFree.cpp"/>
         </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="helper">

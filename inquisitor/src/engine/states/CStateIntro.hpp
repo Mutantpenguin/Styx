@@ -17,8 +17,6 @@ private:
 
 	const float m_waitTime = 7000000;
 
-	std::shared_ptr< CCamera > m_camera;
-
 	std::shared_ptr< CMesh > mesh;
 };
 

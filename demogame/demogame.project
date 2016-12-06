@@ -23,6 +23,7 @@
     <File Name="materials/blue.mat"/>
     <File Name="materials/red.mat"/>
     <File Name="materials/pause.mat"/>
+    <File Name="materials/green.mat"/>
   </VirtualDirectory>
   <VirtualDirectory Name="meshes">
     <File Name="meshes/cube.dae"/>

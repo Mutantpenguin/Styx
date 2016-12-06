@@ -2,25 +2,27 @@
 
 #include <algorithm>
 
-#include "../helper/Date.hpp"
-#include "../helper/geom/Primitives.hpp"
-#include "../helper/image/ImageHandler.hpp"
+#include "src/engine/helper/Date.hpp"
+#include "src/engine/helper/geom/Primitives.hpp"
+#include "src/engine/helper/image/ImageHandler.hpp"
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "../sound/CSound.hpp"
-#include "../sound/SoundHandler.hpp"
+#include "src/engine/sound/CSound.hpp"
+#include "src/engine/sound/SoundHandler.hpp"
 
 CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings, CSoundManager &soundManager, CRenderer &renderer ) :
 	CState( "game", filesystem, settings )
 {
 	renderer.SetClearColor( CColor( 0.0f, 0.0f, 4.0f, 0.0f ) );
 
-	m_camera = std::make_shared< CCamera >( m_settings.renderer.window.aspect_ratio, 90.0f, 0.1f, 100.0f, glm::vec3( 0.0f, 0.0f, 5.0f ), glm::vec3( 0.0f, 0.0f, -10.0f ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
+	m_cameraFree = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 90.0f, 0.1f, 100.0f );
+	m_cameraFree->SetPosition( { 0.0f, 0.0f, 10.0f } );
+	m_cameraFree->SetDirection( { 0.0f, 0.0f, -10.0f } );
 
-	m_scene.Camera( m_camera );
+	m_scene.Camera( m_cameraFree );
 
-	soundManager.SetListener( m_camera );
+	soundManager.SetListener( m_cameraFree );
 
 	{
 		std::shared_ptr< CMaterial > material1;
@@ -76,7 +78,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	}
 
 	{
-		std::shared_ptr< CMaterial > blueMaterial = renderer.LoadMaterial( "materials/blue.mat" );
+		std::shared_ptr< CMaterial > blueMaterial = renderer.LoadMaterial( "materials/green.mat" );
 		m_scene.AddMesh( std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, blueMaterial, glm::vec3( 2.0f, 2.0f, 1.0f ), glm::vec3( 0.0f, 10.0f, 1.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ) ) );
 	}
 
@@ -167,45 +169,44 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 	 * move camera
 	 */
 
-	const float ctrlPressedMult = input.KeyStillDown( SDL_SCANCODE_LCTRL ) ? 10 : 1;
+	const float ctrlPressedMult = input.KeyStillDown( SDL_SCANCODE_LCTRL ) ? 1 : 10;
 
-/*
 	if( input.MouseStillDown( SDL_BUTTON_LEFT) )
 	{
-		m_camera->M
+		m_cameraFree->Rotate( input.MouseDeltaY(), input.MouseDeltaX() );
 	}
-*/
+
 	if( input.KeyStillDown( SDL_SCANCODE_A ) )
 	{
-		m_camera->MoveLeft( spp * ctrlPressedMult );
+		m_cameraFree->MoveLeft( spp * ctrlPressedMult );
 	}
 
 	if( input.KeyStillDown( SDL_SCANCODE_D ) )
 	{
-		m_camera->MoveRight( spp * ctrlPressedMult );
+		m_cameraFree->MoveRight( spp * ctrlPressedMult );
 	}
 
 	if( input.KeyStillDown( SDL_SCANCODE_W ) )
 	{
-		m_camera->MoveForward( spp * ctrlPressedMult );
+		m_cameraFree->MoveForward( spp * ctrlPressedMult );
 	}
 
 	if( input.KeyStillDown( SDL_SCANCODE_S ) )
 	{
-		m_camera->MoveBackward( spp * ctrlPressedMult );
+		m_cameraFree->MoveBackward( spp * ctrlPressedMult );
 	}
 
 	if( input.KeyStillDown( SDL_SCANCODE_SPACE ) )
 	{
-		m_camera->MoveUp( spp * ctrlPressedMult );
+		m_cameraFree->MoveUp( spp * ctrlPressedMult );
 	}
 
 	if( input.KeyStillDown( SDL_SCANCODE_LSHIFT ) )
 	{
-		m_camera->MoveDown( spp * ctrlPressedMult );
+		m_cameraFree->MoveDown( spp * ctrlPressedMult );
 	}
 
-	soundManager.SetListener( m_camera );
+	soundManager.SetListener( m_cameraFree );
 
 	/*
 	 * screenshot
@@ -223,7 +224,7 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 			}
 		}
 
-		std::string datetime = Date::GetCurrentDateString();
+		std::string datetime = Date::GetCurrentDateTimeString();
 		std::replace( datetime.begin(), datetime.end(), ':', '.' );
 
 		const std::string screenshotPath = screenshotDir + CFileSystem::GetDirSeparator() + datetime + "." + m_settings.renderer.screenshot.format;
@@ -249,7 +250,10 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 	 * stuff
 	 */
 
-	mesh->SetOrientation( glm::vec3( m_yrot / 2, m_xrot / 2, 0.0f ) );
+	if( !input.MouseStillDown( SDL_BUTTON_LEFT) )
+	{
+		mesh->SetOrientation( glm::vec3( m_yrot / 2, m_xrot / 2, 0.0f ) );
+	}
 
 	m_rotx_ps = input.MouseDeltaX();
 	m_roty_ps = input.MouseDeltaY();
@@ -257,9 +261,9 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 	m_xrot += m_rotx_ps;
 	m_yrot += m_roty_ps;
 
-	m_camera->LookAt( mesh->Position() );
+	// m_cameraFree->SetDirection( mesh->Position() - m_cameraFree->Position() );
 
-	skyboxMesh->SetPosition( m_camera->Position() );
+	skyboxMesh->SetPosition( m_cameraFree->Position() );
 
 	return( shared_from_this() );
 }

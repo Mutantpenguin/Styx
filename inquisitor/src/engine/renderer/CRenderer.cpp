@@ -186,9 +186,9 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &ca
 
 	const glm::vec3 &position = camera->Position();
 	const glm::vec3 &direction = camera->Direction();
-	const glm::mat4 &projectionMatrix = camera->ProjectionMatrix();
-	const glm::mat4 &viewMatrix = camera->ViewMatrix();
-	const glm::mat4 &viewProjectionMatrix = camera->ViewProjectionMatrix();
+	const glm::mat4 &projectionMatrix = camera->CalculateProjectionMatrix();
+	const glm::mat4 &viewMatrix = camera->CalculateViewMatrix();
+	const glm::mat4 &viewProjectionMatrix = camera->CalculateViewProjectionMatrix();
 
 	std::uint16_t offset = 0;
 	m_uboCamera->SubData( offset,		sizeof( position ),				glm::value_ptr( position ) );
@@ -255,7 +255,7 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) con
 	}
 	else
 	{
-		camera->Update();
+		camera->UpdateFrustum();
 
 		UpdateUniformBuffers( camera, time );
 
@@ -286,6 +286,7 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) con
 		}
 
 		const glm::vec3 &cameraPosition = camera->Position();
+		const glm::mat4 viewProjectionMatrix = camera->CalculateViewProjectionMatrix();
 
 		// sort opaque front to back
 		std::sort( renderQueueOpaque.begin(), renderQueueOpaque.end(),	[&]( const std::shared_ptr< const CMesh > &a, const std::shared_ptr< const CMesh > &b ) -> bool
@@ -301,17 +302,17 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) con
 
 		for( const std::shared_ptr< const CMesh > &mesh : renderQueueOpaque )
 		{
-			RenderMesh( camera, mesh );
+			RenderMesh( viewProjectionMatrix, mesh );
 		}
 
 		for( const std::shared_ptr< const CMesh > &mesh : renderQueueTranslucent )
 		{
-			RenderMesh( camera, mesh );
+			RenderMesh( viewProjectionMatrix, mesh );
 		}
 	}
 }
 
-void CRenderer::RenderMesh( const std::shared_ptr< const CCamera > &camera, const std::shared_ptr< const CMesh > &mesh ) const
+void CRenderer::RenderMesh( const glm::mat4 &viewProjectionMatrix, const std::shared_ptr< const CMesh > &mesh ) const
 {
 	const std::shared_ptr< const CMaterial > material = mesh->Material();
 
@@ -334,7 +335,7 @@ void CRenderer::RenderMesh( const std::shared_ptr< const CCamera > &camera, cons
 			switch( uniform )
 			{
 				case EReservedUniformLocations::modelViewProjectionMatrix:
-					glUniformMatrix4fv( uniformLocation, 1, GL_FALSE, &( camera->ViewProjectionMatrix() * mesh->ModelMatrix() )[ 0 ][ 0 ] );
+					glUniformMatrix4fv( uniformLocation, 1, GL_FALSE, &( viewProjectionMatrix * mesh->ModelMatrix() )[ 0 ][ 0 ] );
 					break;
 
 				case EReservedUniformLocations::textureMatrix:

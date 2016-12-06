@@ -5,7 +5,7 @@
 
 namespace Date
 {
-	std::string GetCurrentDateString( void );
+	std::string GetCurrentDateTimeString( void );
 }
 
 #endif // DATE_HPP

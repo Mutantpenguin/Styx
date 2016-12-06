@@ -1,63 +1,54 @@
 #ifndef CCAMERA_HPP
 #define CCAMERA_HPP
 
+#include <glm/gtc/quaternion.hpp>
+
 #include "src/engine/renderer/CMesh.hpp"
 #include "src/engine/renderer/CFrustum.hpp"
 
 #include "../../helper/CSize.hpp"
 
-class CCamera final
+class CCamera
 {
 public:
-	CCamera( float aspectRatio, float fov, float zNear, float zFar, const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up );
-
-	void	Update( void );
+	void	UpdateFrustum( void );
 
 	void	SetFOV( float fov );
 	void	SetZNear( float zNear );
 	void	SetZFar( float zFar );
 
 	void	SetPosition( const glm::vec3 &position );
-	void	SetDirection( const glm::vec3 &direction );
-	void	SetUp( const glm::vec3 &up );
-
-	void	MoveForward( const float distance );
-	void	MoveBackward( const float distance );
-	void	MoveUp( const float distance );
-	void	MoveDown( const float distance );
-	void	MoveLeft( const float distance );
-	void	MoveRight( const float distance );
-
-	void	LookAt( const glm::vec3 &position );
 
 	float	FOV( void ) const;
 	float	ZNear( void ) const;
 	float	ZFar( void ) const;
 
 	glm::vec3	const  &Position( void ) const;
-	glm::vec3	const  &Direction( void ) const;
-	glm::vec3	const  &Up( void ) const;
+	glm::vec3	const  Direction( void ) const;
+	glm::vec3	const  Up( void ) const;
 
 	const CFrustum &Frustum( void ) const;
 
-	const glm::mat4 &ProjectionMatrix( void ) const;
-	const glm::mat4 &ViewMatrix( void ) const;
-	const glm::mat4 &ViewProjectionMatrix( void ) const;
+	const glm::mat4 CalculateProjectionMatrix( void ) const;
+	const glm::mat4 CalculateViewMatrix( void ) const;
+	const glm::mat4 CalculateViewProjectionMatrix( void ) const;
+
+protected:
+	CCamera( float aspectRatio, float fov, float zNear, float zFar );
+
+	glm::vec3 m_position	{ 0, 0, 0 };
+	glm::quat m_orientation	{ 1, 0, 0, 0 };
+
+	const glm::vec3 worldZ	{ 0.0f, 0.0f, 1.0f };
+	const glm::vec3 worldY	{ 0.0f, 1.0f, 0.0f };
+	const glm::vec3 worldX	{ 1.0f, 0.0f, 0.0f };
 
 private:
-	glm::vec3	m_position;
-	glm::vec3	m_direction;
-	glm::vec3	m_up;
-
-	float	m_aspectRatio;
+	const float	m_aspectRatio;
 
 	float	m_fov;
 	float	m_zNear;
 	float	m_zFar;
-
-	glm::mat4 m_projectionMatrix;
-	glm::mat4 m_viewMatrix;
-	glm::mat4 m_viewProjectionMatrix;
 
 	CFrustum m_frustum;
 };

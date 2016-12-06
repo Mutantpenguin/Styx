@@ -1,14 +1,12 @@
 #include "CCamera.hpp"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 #include "src/engine/logger/CLogger.hpp"
 
 
-CCamera::CCamera( float aspectRatio, float fov, float zNear, float zFar, const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up ) :
-	m_position { position },
-	m_direction { direction },
-	m_up { up },
+CCamera::CCamera( float aspectRatio, float fov, float zNear, float zFar ) :
 	m_aspectRatio { aspectRatio },
 	m_fov { fov },
 	m_zNear { zNear },
@@ -16,49 +14,9 @@ CCamera::CCamera( float aspectRatio, float fov, float zNear, float zFar, const g
 {
 }
 
-void CCamera::Update( void )
+void CCamera::UpdateFrustum( void )
 {
-	/*
-	 * calculate every needed matrix just once
-	 */
-	m_projectionMatrix		= glm::perspective( m_fov, m_aspectRatio, m_zNear, m_zFar );
-	m_viewMatrix			= glm::lookAt( m_position, m_position + m_direction, m_up );
-	m_viewProjectionMatrix	= m_projectionMatrix * m_viewMatrix;
-
-	/*
-	 * frustum
-	 */
-	m_frustum.Update( m_viewProjectionMatrix );
-}
-
-void CCamera::MoveForward( const float distance )
-{
-	m_position += m_direction * distance;
-}
-
-void CCamera::MoveBackward( const float distance )
-{
-	m_position += m_direction * -distance;
-}
-
-void CCamera::MoveUp( const float distance )
-{
-	m_position += m_up * distance;
-}
-
-void CCamera::MoveDown( const float distance )
-{
-	m_position += m_up * -distance;
-}
-
-void CCamera::MoveLeft( const float distance )
-{
-	m_position += glm::cross( m_up, m_direction ) * distance;
-}
-
-void CCamera::MoveRight( const float distance )
-{
-	m_position += glm::cross( m_up, m_direction ) * -distance;
+	m_frustum.Update( CalculateViewProjectionMatrix() );
 }
 
 void CCamera::SetFOV( float fov )
@@ -81,21 +39,6 @@ void CCamera::SetPosition( const glm::vec3 &position )
 	m_position = position;
 }
 
-void CCamera::SetDirection( const glm::vec3 &direction )
-{
-	m_direction = direction;
-}
-
-void CCamera::SetUp( const glm::vec3 &up )
-{
-	m_up = up;
-}
-
-void CCamera::LookAt( const glm::vec3 &position )
-{
-	SetDirection( glm::normalize( position - m_position ) );
-}
-
 float CCamera::FOV( void ) const
 {
 	return( m_fov );
@@ -116,14 +59,14 @@ glm::vec3 const &CCamera::Position( void ) const
 	return( m_position );
 }
 
-glm::vec3 const &CCamera::Direction( void ) const
+glm::vec3 const CCamera::Direction( void ) const
 {
-	return( m_direction );
+	return( worldZ * m_orientation );
 }
 
-glm::vec3 const &CCamera::Up( void ) const
+glm::vec3 const CCamera::Up( void ) const
 {
-	return( m_up );
+	return( worldY * m_orientation );
 }
 
 const CFrustum &CCamera::Frustum( void ) const
@@ -131,17 +74,17 @@ const CFrustum &CCamera::Frustum( void ) const
 	return( m_frustum );
 }
 
-const glm::mat4 &CCamera::ProjectionMatrix( void ) const
+const glm::mat4 CCamera::CalculateProjectionMatrix( void ) const
 {
-	return( m_projectionMatrix );
+	return( glm::perspective( m_fov, m_aspectRatio, m_zNear, m_zFar ) );
 }
 
-const glm::mat4 &CCamera::ViewMatrix( void ) const
+const glm::mat4 CCamera::CalculateViewMatrix( void ) const
 {
-	return( m_viewMatrix );
+	return( glm::translate( glm::toMat4( m_orientation ), -m_position ) );
 }
 
-const glm::mat4 &CCamera::ViewProjectionMatrix( void ) const
+const glm::mat4 CCamera::CalculateViewProjectionMatrix( void ) const
 {
-	return( m_viewProjectionMatrix );
+	return( CalculateProjectionMatrix() * CalculateViewMatrix() );
 }

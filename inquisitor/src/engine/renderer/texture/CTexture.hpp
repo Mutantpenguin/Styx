@@ -24,6 +24,7 @@ public:
 	};
 
 public:
+	// TODO split into 3 different classes
 	CTexture( const std::shared_ptr< const CImage > &image );
 	CTexture( std::unique_ptr< const CCubemapData > cubemapData );
 	CTexture( std::unique_ptr< const C2DArrayData > arrayData );

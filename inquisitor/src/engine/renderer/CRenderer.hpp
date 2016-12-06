@@ -47,7 +47,7 @@ private:
 	void CreateUniformBuffers( void );
 	void UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const std::uint64_t time ) const;
 
-	void RenderMesh( const std::shared_ptr< const CCamera > &camera, const std::shared_ptr< const CMesh > &mesh ) const;
+	void RenderMesh( const glm::mat4 &viewProjectionMatrix, const std::shared_ptr< const CMesh > &mesh ) const;
 
 	GLint m_maxCombinedTextureImageUnits { 0 };
 

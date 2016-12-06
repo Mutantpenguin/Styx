@@ -5,7 +5,7 @@
 
 namespace Date
 {
-	std::string GetCurrentDateString( void )
+	std::string GetCurrentDateTimeString( void )
 	{
 		std::chrono::system_clock::time_point p = std::chrono::system_clock::now();
 		std::time_t tm = std::chrono::system_clock::to_time_t( p );

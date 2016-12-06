@@ -17,11 +17,13 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	const float aspectRatio = static_cast< float >( windowSize.width ) / static_cast< float >( windowSize.height );
 
-	m_camera = std::make_shared< CCamera >( aspectRatio, 90.0f, 0.1f, 100.0f, glm::vec3( 0.0f, 0.0f, 5.0f ), glm::vec3( 0.0f, 0.0f, -10.0f ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
+	auto cameraFree = std::make_shared< CCameraFree >( aspectRatio, 90.0f, 0.1f, 100.0f );
+	cameraFree->SetPosition( { 0.0f, 0.0f, 5.0f } );
+	cameraFree->SetDirection( { 0.0f, 0.0f, -10.0f } );
 
-	m_scene.Camera( m_camera );
+	m_scene.Camera( cameraFree );
 
-	soundManager.SetListener( m_camera );
+	soundManager.SetListener( cameraFree );
 
 	std::shared_ptr< CMaterial > material = renderer.LoadMaterial( "materials/intro_icon.mat" );
 
