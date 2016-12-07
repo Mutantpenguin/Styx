@@ -47,14 +47,15 @@ std::shared_ptr< CState > CStateIntro::Update( const std::uint64_t time, CSoundM
 
 	glm::vec3 meshPosition = m_mesh->Position();
 	meshPosition.z = elapsedTime / m_waitTime;
+	meshPosition.y = elapsedTime / m_waitTime;
 	m_mesh->SetPosition( meshPosition );
 
 	const float colorComponent = ( m_waitTime - elapsedTime ) / m_waitTime;
 	renderer.SetClearColor( CColor( colorComponent, colorComponent, colorComponent, colorComponent ) );
 
-	if( input.KeyDown( SDL_SCANCODE_ESCAPE )
+	if( ( elapsedTime > m_waitTime )
 		||
-		( elapsedTime > m_waitTime ) )
+		input.KeyDown( SDL_SCANCODE_ESCAPE ) )
 	{
 		try
 		{
