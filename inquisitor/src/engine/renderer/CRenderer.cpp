@@ -212,7 +212,7 @@ std::shared_ptr< CImage > CRenderer::GetScreenshot( void ) const
 	const CSize &size			= m_settings.renderer.window.size;
 	const std::uint32_t pitch	= size.width * 3;
 
-	std::unique_ptr< CImage::PixelBuffer > pixels = std::make_unique< CImage::PixelBuffer >( pitch * size.height );
+	auto pixels = std::make_unique< CImage::PixelBuffer >( pitch * size.height );
 
 	glReadPixels( 0, 0, size.width, size.height, GL_BGR, GL_UNSIGNED_BYTE, static_cast< void* >( pixels->data() ) );
 

@@ -140,7 +140,7 @@ std::shared_ptr< CSampler > CSamplerManager::Generate( CSampler::Type type )
 		throw std::exception();
 	}
 
-	std::shared_ptr< CSampler > sampler = std::make_shared< CSampler >();
+	auto sampler = std::make_shared< CSampler >();
 
 	m_samplers[ index ] = sampler;
 

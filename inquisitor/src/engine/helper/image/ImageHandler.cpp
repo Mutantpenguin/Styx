@@ -106,7 +106,7 @@ namespace ImageHandler
 
 				const int pitch = image.getScanWidth();
 
-				std::unique_ptr< CImage::PixelBuffer > imageData = std::make_unique< CImage::PixelBuffer >( pitch * resizedSize.height );
+				auto imageData = std::make_unique< CImage::PixelBuffer >( pitch * resizedSize.height );
 
 				std::copy( image.accessPixels(), image.accessPixels() + ( pitch * resizedSize.height ), imageData->begin() );
 
@@ -198,7 +198,7 @@ namespace ImageHandler
 		}
 		else
 		{
-			std::unique_ptr< CImage::PixelBuffer > checkerImageData = std::make_unique< CImage::PixelBuffer >( size.width * size.height * 4 );
+			auto checkerImageData = std::make_unique< CImage::PixelBuffer >( size.width * size.height * 4 );
 
 			for( unsigned int i = 0; i < size.height; ++i )
 			{

@@ -58,9 +58,7 @@ std::shared_ptr< CState > CStateIntro::Update( const std::uint64_t time, CSoundM
 	{
 		try
 		{
-			std::shared_ptr< CState > game = std::make_shared< CStateGame >( m_filesystem, m_settings, soundManager, renderer );
-
-			return( game );
+			return( std::make_shared< CStateGame >( m_filesystem, m_settings, soundManager, renderer ) );
 		}
 		catch( std::exception &e )
 		{

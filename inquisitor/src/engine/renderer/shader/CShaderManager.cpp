@@ -94,7 +94,7 @@ bool CShaderManager::CreateDummyProgram( void )
 		return( false );
 	}
 
-	std::shared_ptr< CShaderProgram > shaderProgram = std::make_shared< CShaderProgram >( program );
+	auto shaderProgram = std::make_shared< CShaderProgram >( program );
 
 	if( !InterfaceSetup( shaderProgram ) )
 	{
@@ -141,7 +141,7 @@ std::shared_ptr< CShaderProgram > CShaderManager::LoadProgram( const std::string
 			return( m_dummyProgram );
 		}
 
-		std::shared_ptr< CShaderProgram > shaderProgram = std::make_shared< CShaderProgram >( program );
+		auto shaderProgram = std::make_shared< CShaderProgram >( program );
 
 		if( !InterfaceSetup( shaderProgram ) )
 		{

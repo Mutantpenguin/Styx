@@ -23,7 +23,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 
 	const Json::Value mat_name = mat_root[ "name" ];
 
-	std::shared_ptr< CMaterial > newMaterial = std::make_shared< CMaterial >( mat_name.asString() );
+	auto newMaterial = std::make_shared< CMaterial >( mat_name.asString() );
 
 	const Json::Value mat_cullmode = mat_root[ "cullmode" ];
 	if( !mat_cullmode.empty() )

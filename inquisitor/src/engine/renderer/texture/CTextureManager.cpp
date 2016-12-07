@@ -197,7 +197,7 @@ std::shared_ptr< CTexture > CTextureManager::CreateCubeTextureFromFile( const st
 
 	const std::string path_to_faces = path.substr( 0, path.find_last_of( CFileSystem::GetDirSeparator() ) + 1 );
 
-	std::unique_ptr< CCubemapData > cubemapData = std::make_unique< CCubemapData >();
+	auto cubemapData = std::make_unique< CCubemapData >();
 
 	for( std::uint8_t faceNum = 0; faceNum < CCubemapData::countCubemapFaces; ++faceNum )
 	{
@@ -253,7 +253,7 @@ std::shared_ptr< CTexture > CTextureManager::Create2DArrayTextureFromFile( const
 
 	const std::string path_to_layers = path.substr( 0, path.find_last_of( CFileSystem::GetDirSeparator() ) + 1 );
 
-	std::unique_ptr< C2DArrayData > arrayData = std::make_unique< C2DArrayData >();
+	auto arrayData = std::make_unique< C2DArrayData >();
 
 	for( const Json::Value &layer : json_layers )
 	{
