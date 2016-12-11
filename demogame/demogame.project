@@ -24,6 +24,7 @@
     <File Name="materials/red.mat"/>
     <File Name="materials/pause.mat"/>
     <File Name="materials/green.mat"/>
+    <File Name="materials/pulse_green_red.mat"/>
   </VirtualDirectory>
   <VirtualDirectory Name="meshes">
     <File Name="meshes/cube.dae"/>
@@ -46,6 +47,7 @@
       <File Name="shaders/fs/color.fs.glsl"/>
       <File Name="shaders/fs/timeTest.fs.glsl"/>
       <File Name="shaders/fs/standardAnimated.fs.glsl"/>
+      <File Name="shaders/fs/pulse_green_red.fs.glsl"/>
     </VirtualDirectory>
     <VirtualDirectory Name="vs">
       <File Name="shaders/vs/reflection.vs.glsl"/>

@@ -200,4 +200,25 @@ namespace GLHelper
 			return( GL_BGR );
 		}
 	}
+
+	std::string GLSLTypeToString( GLenum type )
+	{
+		switch( type )
+		{
+			case GL_FLOAT_VEC3:
+				return( "vec3" );
+
+			case GL_FLOAT_VEC2:
+				return( "vec2" );
+
+			case GL_FLOAT_MAT4:
+				return( "mat4" );
+
+			case GL_FLOAT_MAT3:
+				return( "mat3" );
+
+			default:
+				throw std::exception();
+		}
+	}
 }

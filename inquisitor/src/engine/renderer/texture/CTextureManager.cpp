@@ -59,9 +59,9 @@ bool CTextureManager::Init( const CRendererCapabilities &rendererCapabilities )
 	glGetIntegerv( GL_MAX_CUBE_MAP_TEXTURE_SIZE, &m_iMaxCubeMapTextureSize );
 	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_CUBE_MAP_TEXTURE_SIZE ), m_iMaxCubeMapTextureSize );
 
-	/* TODO try to use GL_ARB_internalformat_query2 when available on r600
 	if( rendererCapabilities.isSupported( GLextension::GL_ARB_internalformat_query2 ) )
 	{
+		/* TODO try to use GL_ARB_internalformat_query2 when available on r600
 		//GLenum format, type;
 		GLint format, type;
 		gl42::glGetInternalformativ( GL_TEXTURE_2D, GL_RGBA8, gl43::GL_INTERNALFORMAT_PREFERRED, 1, &format );
@@ -76,6 +76,7 @@ bool CTextureManager::Init( const CRendererCapabilities &rendererCapabilities )
 		logINFO( "using '{0}' as internal texture format", glbinding::Meta::getString( m_internalTextureFormat ) );
 	}
 	*/
+	}
 
 	if( !CreateDummyTexture() )
 	{

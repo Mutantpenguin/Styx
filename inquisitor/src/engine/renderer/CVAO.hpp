@@ -19,9 +19,12 @@ public:
 
 	void Draw( void ) const;
 
-	constexpr static const GLint attributeLocationVertex	{ 0 };
-	constexpr static const GLint attributeLocationNormal	{ 1 };
-	constexpr static const GLint attributeLocationTexcoord	{ 2 };
+	enum class EAttributeLocation : GLint
+	{
+		vertex = 0,
+		normal,
+		texcoord
+	};
 
 private:
 	const GLenum m_mode; // GL_QUADS, GL_TRIS, ...

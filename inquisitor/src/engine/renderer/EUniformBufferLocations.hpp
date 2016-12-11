@@ -1,7 +1,7 @@
 #ifndef EUNIFORMBUFFERLOCATIONS_HPP
 #define EUNIFORMBUFFERLOCATIONS_HPP
 
-enum class EUniformBufferLocation : std::uint16_t
+enum class EUniformBufferLocation : GLuint
 {
 	CAMERA = 0,
 	TIME = 1

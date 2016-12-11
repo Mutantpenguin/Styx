@@ -66,8 +66,8 @@
           <File Name="src/engine/renderer/material/CTexCoordMods.cpp"/>
           <File Name="src/engine/renderer/material/CMaterialLayer.hpp"/>
           <File Name="src/engine/renderer/material/CMaterialManager.hpp"/>
-          <File Name="src/engine/renderer/material/CInstanceUniform.hpp"/>
-          <File Name="src/engine/renderer/material/CInstanceUniform.cpp"/>
+          <File Name="src/engine/renderer/material/CMaterialUniform.hpp"/>
+          <File Name="src/engine/renderer/material/CMaterialUniform.cpp"/>
         </VirtualDirectory>
         <VirtualDirectory Name="texture">
           <File Name="src/engine/renderer/texture/CTexture.cpp"/>
@@ -83,9 +83,9 @@
           <File Name="src/engine/renderer/shader/SShaderInterface.hpp"/>
           <File Name="src/engine/renderer/shader/CShaderManager.hpp"/>
           <File Name="src/engine/renderer/shader/CShaderProgram.hpp"/>
-          <File Name="src/engine/renderer/shader/EReservedUniformLocations.hpp"/>
           <File Name="src/engine/renderer/shader/CShaderManager.cpp"/>
           <File Name="src/engine/renderer/shader/CShaderProgram.cpp"/>
+          <File Name="src/engine/renderer/shader/EEngineUniform.hpp"/>
         </VirtualDirectory>
         <File Name="src/engine/renderer/CGLState.cpp"/>
         <File Name="src/engine/renderer/GLHelper.hpp"/>
