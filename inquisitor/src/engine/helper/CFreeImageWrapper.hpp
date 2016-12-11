@@ -3,7 +3,7 @@
 
 #include <FreeImagePlus.h>
 
-#include "../system/CFileSystem.hpp"
+#include "src/engine/system/CFileSystem.hpp"
 
 class CFreeImageWrapper final
 {

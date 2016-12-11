@@ -1,6 +1,6 @@
 #include "CMaterialLayer.hpp"
 
-#include "../CGLState.hpp"
+#include "src/engine/renderer/CGLState.hpp"
 
 #include "src/engine/logger/CLogger.hpp"
 

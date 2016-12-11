@@ -3,7 +3,7 @@
 
 #include <glm/glm.hpp>
 
-#include "../GL.h"
+#include "src/engine/renderer/GL.h"
 
 class CMaterialUniform
 {

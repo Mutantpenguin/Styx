@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "../GL.h"
+#include "src/engine/renderer/GL.h"
 
 struct SShaderInterface
 {

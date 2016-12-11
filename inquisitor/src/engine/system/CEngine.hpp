@@ -1,7 +1,7 @@
 #ifndef CENGINE_HPP
 #define CENGINE_HPP
 
-#include "../sdl/CSDL.hpp"
+#include "src/engine/sdl/CSDL.hpp"
 
 #include "CGameInfo.hpp"
 #include "CFileSystem.hpp"
@@ -10,11 +10,11 @@
 #include "CTimer.hpp"
 #include "CWindow.hpp"
 
-#include "../sound/CSoundManager.hpp"
+#include "src/engine/sound/CSoundManager.hpp"
 
-#include "../renderer/CRenderer.hpp"
+#include "src/engine/renderer/CRenderer.hpp"
 
-#include "../states/CState.hpp"
+#include "src/engine/states/CState.hpp"
 
 class CEngine final
 {

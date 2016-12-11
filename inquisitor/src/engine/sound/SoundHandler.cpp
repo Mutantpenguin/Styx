@@ -2,7 +2,7 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "../helper/CLibVorbisWrapper.hpp"
+#include "src/engine/helper/CLibVorbisWrapper.hpp"
 
 namespace SoundHandler
 {

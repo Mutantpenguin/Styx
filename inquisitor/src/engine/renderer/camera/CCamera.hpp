@@ -6,7 +6,7 @@
 #include "src/engine/renderer/CMesh.hpp"
 #include "src/engine/renderer/CFrustum.hpp"
 
-#include "../../helper/CSize.hpp"
+#include "src/engine/helper/CSize.hpp"
 
 class CCamera
 {

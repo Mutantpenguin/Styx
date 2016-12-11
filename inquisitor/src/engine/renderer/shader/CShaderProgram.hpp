@@ -7,10 +7,10 @@
 
 #include <glm/glm.hpp>
 
-#include "../GL.h"
+#include "src/engine/renderer/GL.h"
 
-#include "EEngineUniform.hpp"
-#include "SShaderInterface.hpp"
+#include "src/engine/renderer/shader/EEngineUniform.hpp"
+#include "src/engine/renderer/shader/SShaderInterface.hpp"
 
 class CShaderProgram final
 {

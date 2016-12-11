@@ -10,12 +10,12 @@
 
 #include <json/json.h>
 
-#include "CCubemapData.hpp"
-#include "C2DArrayData.hpp"
+#include "src/engine/renderer/texture/CCubemapData.hpp"
+#include "src/engine/renderer/texture/C2DArrayData.hpp"
 
-#include "../../helper/image/ImageHandler.hpp"
+#include "src/engine/helper/image/ImageHandler.hpp"
 
-#include "../CGLState.hpp"
+#include "src/engine/renderer/CGLState.hpp"
 
 #include "src/engine/logger/CLogger.hpp"
 

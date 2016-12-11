@@ -3,9 +3,9 @@
 
 #include "CMaterial.hpp"
 
-#include "../shader/CShaderManager.hpp"
-#include "../texture/CTextureManager.hpp"
-#include "../sampler/CSamplerManager.hpp"
+#include "src/engine/renderer/shader/CShaderManager.hpp"
+#include "src/engine/renderer/texture/CTextureManager.hpp"
+#include "src/engine/renderer/sampler/CSamplerManager.hpp"
 
 class CMaterialLoader
 {

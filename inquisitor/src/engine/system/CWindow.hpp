@@ -3,9 +3,9 @@
 
 #include <SDL2/SDL.h>
 
-#include "../system/CSettings.hpp"
+#include "src/engine/system/CSettings.hpp"
 
-#include "../helper/CSize.hpp"
+#include "src/engine/helper/CSize.hpp"
 
 class CWindow final
 {

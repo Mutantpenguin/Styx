@@ -2,9 +2,9 @@
 
 #include <glm/glm.hpp>
 
-#include "../CGLState.hpp"
+#include "src/engine/renderer/CGLState.hpp"
 
-#include "../GLHelper.hpp"
+#include "src/engine/renderer/GLHelper.hpp"
 
 CTexture::CTexture( const std::shared_ptr< const CImage > &image ) :
 	m_type { type::TEX_2D }

@@ -3,12 +3,12 @@
 
 #include <memory>
 
-#include "../GL.h"
+#include "src/engine/renderer/GL.h"
 
-#include "CCubemapData.hpp"
-#include "C2DArrayData.hpp"
+#include "src/engine/renderer/texture/CCubemapData.hpp"
+#include "src/engine/renderer/texture/C2DArrayData.hpp"
 
-#include "../../helper/image/CImage.hpp"
+#include "src/engine/helper/image/CImage.hpp"
 
 class CTexture final
 {

@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 
-#include "../../helper/image/CImage.hpp"
+#include "src/engine/helper/image/CImage.hpp"
 
 class C2DArrayData final
 {

@@ -4,8 +4,8 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "../sound/CSound.hpp"
-#include "../sound/SoundHandler.hpp"
+#include "src/engine/sound/CSound.hpp"
+#include "src/engine/sound/SoundHandler.hpp"
 
 CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, const std::uint64_t time, CSoundManager &soundManager, CRenderer &renderer ) :
 	CState( "intro", filesystem, settings ),

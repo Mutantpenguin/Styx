@@ -1,6 +1,6 @@
 #include "CSampler.hpp"
 
-#include "../CGLState.hpp"
+#include "src/engine/renderer/CGLState.hpp"
 
 CSampler::CSampler()
 {

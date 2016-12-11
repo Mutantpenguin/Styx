@@ -5,7 +5,7 @@
 
 #include "GL.h"
 
-#include "../helper/image/CImage.hpp"
+#include "src/engine/helper/image/CImage.hpp"
 
 namespace GLHelper
 {

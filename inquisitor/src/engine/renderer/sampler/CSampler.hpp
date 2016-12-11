@@ -5,7 +5,7 @@
 
 #include <cstdint>
 
-#include "../GL.h"
+#include "src/engine/renderer/GL.h"
 
 class CSampler final
 {

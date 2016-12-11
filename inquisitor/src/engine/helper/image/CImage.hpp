@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 
-#include "../CSize.hpp"
+#include "src/engine/helper/CSize.hpp"
 
 class CImage final
 {

@@ -2,7 +2,7 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "../states/CStateIntro.hpp"
+#include "src/engine/states/CStateIntro.hpp"
 
 #include "CWindow.hpp"
 

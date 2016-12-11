@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "../texture/CTexture.hpp"
+#include "src/engine/renderer/texture/CTexture.hpp"
 #include "CMaterialLayer.hpp"
 
 class CMaterial final

@@ -4,11 +4,11 @@
 #include <unordered_map>
 #include <memory>
 
-#include "CMaterialUniform.hpp"
-#include "../shader/CShaderProgram.hpp"
-#include "../texture/CTexture.hpp"
-#include "../sampler/CSampler.hpp"
-#include "CTexCoordMods.hpp"
+#include "src/engine/renderer/material/CMaterialUniform.hpp"
+#include "src/engine/renderer/shader/CShaderProgram.hpp"
+#include "src/engine/renderer/texture/CTexture.hpp"
+#include "src/engine/renderer/sampler/CSampler.hpp"
+#include "src/engine/renderer/material/CTexCoordMods.hpp"
 
 class CMaterialManager;
 

@@ -4,9 +4,9 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "../../math/Math.hpp"
+#include "src/engine/math/Math.hpp"
 
-#include "../CFreeImageWrapper.hpp"
+#include "src/engine/helper/CFreeImageWrapper.hpp"
 
 namespace ImageHandler
 {

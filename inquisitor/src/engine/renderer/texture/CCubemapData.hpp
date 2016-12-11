@@ -4,7 +4,7 @@
 #include <array>
 #include <memory>
 
-#include "../../helper/image/CImage.hpp"
+#include "src/engine/helper/image/CImage.hpp"
 
 class CCubemapData final
 {

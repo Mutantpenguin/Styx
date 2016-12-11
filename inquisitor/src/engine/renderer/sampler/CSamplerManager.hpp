@@ -4,9 +4,9 @@
 #include <array>
 #include <memory>
 
-#include "../GL.h"
+#include "src/engine/renderer/GL.h"
 
-#include "../../system/CSettings.hpp"
+#include "src/engine/system/CSettings.hpp"
 
 #include "CSampler.hpp"
 

@@ -20,7 +20,7 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "../helper/String.hpp"
+#include "src/engine/helper/String.hpp"
 
 namespace ComputerInfo
 {

@@ -3,10 +3,10 @@
 
 #include <unordered_map>
 
-#include "../../system/CSettings.hpp"
+#include "src/engine/system/CSettings.hpp"
 
-#include "CTexture.hpp"
-#include "../CRendererCapabilities.hpp"
+#include "src/engine/renderer/texture/CTexture.hpp"
+#include "src/engine/renderer/CRendererCapabilities.hpp"
 
 class CTextureManager final
 {

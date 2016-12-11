@@ -2,7 +2,7 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "../helper/image/ImageHandler.hpp"
+#include "src/engine/helper/image/ImageHandler.hpp"
 
 CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, const std::string &windowTitle, const std::string &iconPath )
 {

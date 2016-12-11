@@ -3,9 +3,9 @@
 
 #include <string>
 
-#include "../helper/CSize.hpp"
+#include "src/engine/helper/CSize.hpp"
 
-#include "../system/CFileSystem.hpp"
+#include "src/engine/system/CFileSystem.hpp"
 
 class CSettings final
 {

@@ -8,7 +8,7 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "../GLHelper.hpp"
+#include "src/engine/renderer/GLHelper.hpp"
 
 std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &textureManager, CShaderManager &shaderManager, const CSamplerManager &samplerManager, const std::string &identifier, const std::string &definition )
 {
