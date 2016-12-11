@@ -1,20 +1,14 @@
 #include "CUniformBuffer.hpp"
 
-CUniformBuffer::CUniformBuffer( const GLsizei size, const void *data, const GLenum usage, const EUniformBufferLocation location, const std::string &placeholder, const std::string &source ) :
-	m_placeholder { placeholder },
-	m_source { source }
+#include "src/ext/fmt/format.h"
+
+CUniformBuffer::CUniformBuffer( const GLsizei size, const GLenum usage, const EUniformBufferLocation location, const std::string &name, const std::string &body ) :
+	m_source { "layout ( std140, binding = " + std::to_string( static_cast< GLuint >( location ) ) + " ) uniform " + name + "Block { " + body + " } " + name +";" }
 {
 	glCreateBuffers( 1, &m_uniformBuffer );
-	glNamedBufferData( m_uniformBuffer, size, data, usage );
+	glNamedBufferData( m_uniformBuffer, size, nullptr, usage );
 
-	glBindBufferBase( GL_UNIFORM_BUFFER, static_cast< std::uint16_t >( location ), m_uniformBuffer );
-
-
-	size_t locationPlaceholderPosition = m_source.find( locationPlaceholder );
-	if( std::string::npos != locationPlaceholderPosition )
-	{
-		m_source.replace( locationPlaceholderPosition, locationPlaceholder.length(), std::to_string( static_cast< std::uint16_t >( location ) ) );
-	}
+	glBindBufferBase( GL_UNIFORM_BUFFER, static_cast< GLuint >( location ), m_uniformBuffer );
 }
 
 CUniformBuffer::~CUniformBuffer()
@@ -25,11 +19,6 @@ CUniformBuffer::~CUniformBuffer()
 void CUniformBuffer::SubData( const GLintptr offset, const GLsizei size, const void *data )
 {
 	glNamedBufferSubData( m_uniformBuffer, offset, size, data );
-}
-
-const std::string &CUniformBuffer::Placeholder( void ) const
-{
-	return( m_placeholder );
 }
 
 const std::string &CUniformBuffer::Source( void ) const

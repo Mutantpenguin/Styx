@@ -19,6 +19,8 @@ namespace GLHelper
 
 	GLenum GLFormatFromImage( const std::shared_ptr< const CImage > &image );
 
+	std::string GLSLTypeToString( GLenum type );
+
 	template<typename T>
 	GLenum glmTypeToGLSLType( void )
 	{

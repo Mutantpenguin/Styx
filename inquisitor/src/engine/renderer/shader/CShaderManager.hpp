@@ -11,9 +11,11 @@
 
 #include "src/engine/renderer/CUniformBuffer.hpp"
 
-#include "src/engine/renderer/shader/EReservedUniformLocations.hpp"
+#include "src/engine/renderer/shader/EEngineUniform.hpp"
 
 #include "src/engine/renderer/shader/CShaderProgram.hpp"
+
+#include "src/engine/renderer/CVAO.hpp"
 
 class CShaderManager
 {
@@ -40,11 +42,11 @@ private:
 	GLuint LoadFragmentShader( const std::string &path );
 	GLuint LoadShader( const GLenum type, const std::string &path );
 
-	GLuint CreateShader( const GLenum type, const std::string &src );
+	GLuint CreateShader( const GLenum type, const std::string &body );
 
 	bool InterfaceSetup( std::shared_ptr< CShaderProgram > shaderProgram );
 
-	void RegisterUniformBuffer( const std::shared_ptr< CUniformBuffer > &ubo );
+	void RegisterUniformBuffer( const std::shared_ptr< const CUniformBuffer > &ubo );
 
 	const CFileSystem &m_filesystem;
 
@@ -53,15 +55,15 @@ private:
 	std::unordered_map< std::string, GLuint > m_vertexShaders;
 	std::unordered_map< std::string, GLuint > m_fragmentShaders;
 
-	std::unordered_set< std::shared_ptr< CUniformBuffer > > m_registeredUniformBuffers;
+	std::unordered_set< std::shared_ptr< const CUniformBuffer > > m_registeredUniformBuffers;
 
 	static const std::string srcAdditionShaderVersion;
 	static const std::string srcAdditionVsShaderExtensions;
 	static const std::string srcAdditionFsShaderExtensions;
 
-	static const std::unordered_map< GLint, SShaderInterface > allowedAttributes;
+	static const std::map< CVAO::EAttributeLocation, SShaderInterface > allowedAttributes;
 
-	static const std::map< EReservedUniformLocations, SShaderInterface > reservedUniforms;
+	static const std::unordered_map< EEngineUniform, SShaderInterface > engineUniforms;
 
 	std::shared_ptr< CShaderProgram > m_dummyProgram;
 };

@@ -13,11 +13,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 {
 	renderer.SetClearColor( CColor( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
-	const CSize &windowSize = m_settings.renderer.window.size;
-
-	const float aspectRatio = static_cast< float >( windowSize.width ) / static_cast< float >( windowSize.height );
-
-	auto cameraFree = std::make_shared< CCameraFree >( aspectRatio, 90.0f, 0.1f, 100.0f );
+	auto cameraFree = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 90.0f, 0.1f, 100.0f );
 	cameraFree->SetPosition( { 0.0f, 0.0f, 5.0f } );
 	cameraFree->SetDirection( { 0.0f, 0.0f, -10.0f } );
 

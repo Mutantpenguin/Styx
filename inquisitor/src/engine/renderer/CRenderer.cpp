@@ -144,30 +144,18 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 
 void CRenderer::CreateUniformBuffers( void )
 {
-	const std::string cameraPlaceholder = "[uniformBlockCamera]";
-	const std::string cameraSource =	"layout ( std140, binding = [LOCATION] ) uniform camera\n" \
-										"{\n" \
-										"	vec3 position;\n" \
-										"	vec3 direction;\n" \
-										"	mat4 projectionMatrix;\n" \
-										"	mat4 viewMatrix;\n" \
-										"	mat4 viewProjectionMatrix;\n" \
-										"} cam;";
+	const std::string cameraBody =	"vec3 position;" \
+									"vec3 direction;" \
+									"mat4 projectionMatrix;" \
+									"mat4 viewMatrix;" \
+									"mat4 viewProjectionMatrix;";
 
-	m_uboCamera = std::make_shared< CUniformBuffer >( ( 2 * sizeof( glm::vec4 ) ) + ( 3 * sizeof( glm::mat4 ) ), nullptr, GL_DYNAMIC_DRAW, EUniformBufferLocation::CAMERA, cameraPlaceholder, cameraSource );
+	m_uboCamera = std::make_shared< CUniformBuffer >( ( 2 * sizeof( glm::vec4 ) ) + ( 3 * sizeof( glm::mat4 ) ), GL_DYNAMIC_DRAW, EUniformBufferLocation::CAMERA, "Camera", cameraBody );
 	m_materialmanager.ShaderManager().RegisterUniformBuffer( m_uboCamera );
 
-	const std::string timerPlaceholder = "[uniformBlockTimer]";
-	const std::string timerSource =	"layout ( std140, binding = [LOCATION] ) uniform camera\n" \
-									"{\n" \
-									"	uint time;\n" \
-									"	vec3 direction;\n" \
-									"	mat4 projectionMatrix;\n" \
-									"	mat4 viewMatrix;\n" \
-									"	mat4 viewProjectionMatrix;\n" \
-									"} timer;";
+	const std::string timerBody = "uint time;";
 
-	m_uboTimer = std::make_shared< CUniformBuffer >( sizeof( glm::uint ), nullptr, GL_DYNAMIC_DRAW, EUniformBufferLocation::TIME, timerPlaceholder, timerSource );
+	m_uboTimer = std::make_shared< CUniformBuffer >( sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::TIME, "Timer", timerBody );
 	m_materialmanager.ShaderManager().RegisterUniformBuffer( m_uboTimer );
 }
 
@@ -326,24 +314,24 @@ void CRenderer::RenderMesh( const glm::mat4 &viewProjectionMatrix, const std::sh
 
 	for( const std::shared_ptr< const CMaterialLayer > &layer : material->Layers() )
 	{
-		CGLState::UseProgram( layer->m_shader->m_program );
+		const auto shader = layer->m_shader;
 
-		for( const auto &uniform : layer->m_shader->m_requiredReservedUniforms )
+		CGLState::UseProgram( shader->m_program );
+
+		for( const auto &requiredEngineUniform : shader->m_requiredEngineUniforms )
 		{
-			const GLuint uniformLocation = static_cast< GLuint >( uniform );
-
-			switch( uniform )
+			switch( requiredEngineUniform.second )
 			{
-				case EReservedUniformLocations::modelViewProjectionMatrix:
-					glUniformMatrix4fv( uniformLocation, 1, GL_FALSE, &( viewProjectionMatrix * mesh->ModelMatrix() )[ 0 ][ 0 ] );
+				case EEngineUniform::modelViewProjectionMatrix:
+					glUniformMatrix4fv( requiredEngineUniform.first, 1, GL_FALSE, &( viewProjectionMatrix * mesh->ModelMatrix() )[ 0 ][ 0 ] );
 					break;
 
-				case EReservedUniformLocations::textureMatrix:
-					glUniformMatrix3fv( uniformLocation, 1, GL_FALSE, &layer->m_textureMatrix[ 0 ][ 0 ] );
+				case EEngineUniform::textureMatrix:
+					glUniformMatrix3fv( requiredEngineUniform.first, 1, GL_FALSE, &layer->m_textureMatrix[ 0 ][ 0 ] );
 					break;
 
-				case EReservedUniformLocations::modelMatrix:
-					glUniformMatrix4fv( uniformLocation, 1, GL_FALSE, &mesh->ModelMatrix()[ 0 ][ 0 ] );
+				case EEngineUniform::modelMatrix:
+					glUniformMatrix4fv( requiredEngineUniform.first, 1, GL_FALSE, &mesh->ModelMatrix()[ 0 ][ 0 ] );
 					break;
 			}
 		}
@@ -359,7 +347,7 @@ void CRenderer::RenderMesh( const glm::mat4 &viewProjectionMatrix, const std::sh
 			textureUnit++;
 		}
 
-		for( const auto &uniform : layer->m_instanceUniforms )
+		for( const auto &uniform : layer->m_materialUniforms )
 		{
 			uniform.second->Set( uniform.first );
 		}

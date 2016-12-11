@@ -61,8 +61,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		}
 
 		{
-			//const std::uint16_t cubeSize { 24 };
-			const std::uint16_t cubeSize { 4 };
+			const std::uint16_t cubeSize { 12 };
 
 			for( std::uint16_t i = 0; i < cubeSize; i++ )
 			{
@@ -70,7 +69,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				{
 					for( std::uint16_t k = 0; k < cubeSize; k++ )
 					{
-						auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 20.0f + i * 4.0f, -25.0f + j * 4.0f, 50.0f + k * 4.0f ) );
+						auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 20.0f + i * 4.0f, 0.0f + j * 4.0f, 50.0f + k * 4.0f ) );
 						mesh->SetScale( { 2.0f, 2.0f, 2.0f } );
 
 						m_scene.AddMesh( mesh );
@@ -89,7 +88,14 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	{
 		std::shared_ptr< CMaterial > greenMaterial = renderer.LoadMaterial( "materials/green.mat" );
-		auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, greenMaterial, glm::vec3( 0.0f, 10.0f, 1.0f ) );
+		auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, greenMaterial, glm::vec3( -4.0f, 10.0f, 1.0f ) );
+		mesh->SetScale( { 2.0f, 2.0f, 1.0f } );
+		m_scene.AddMesh( mesh );
+	}
+
+	{
+		std::shared_ptr< CMaterial > pulseMaterial = renderer.LoadMaterial( "materials/pulse_green_red.mat" );
+		auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, pulseMaterial, glm::vec3( 0.0f, 10.0f, 1.0f ) );
 		mesh->SetScale( { 2.0f, 2.0f, 1.0f } );
 		m_scene.AddMesh( mesh );
 	}

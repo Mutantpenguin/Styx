@@ -9,7 +9,7 @@
 
 #include "../GL.h"
 
-#include "EReservedUniformLocations.hpp"
+#include "EEngineUniform.hpp"
 #include "SShaderInterface.hpp"
 
 class CShaderProgram final
@@ -26,8 +26,8 @@ private:
 	const GLuint m_program;
 
 	std::unordered_map< GLint, SShaderInterface >	m_requiredSamplers;
-	std::vector< EReservedUniformLocations >		m_requiredReservedUniforms;
-	std::unordered_map< GLint, SShaderInterface >	m_requiredInstanceUniforms;
+	std::unordered_map< GLint, EEngineUniform >		m_requiredEngineUniforms;
+	std::unordered_map< GLint, SShaderInterface >	m_requiredMaterialUniforms;
 };
 
 #endif // CSHADERPROGRAM_HPP

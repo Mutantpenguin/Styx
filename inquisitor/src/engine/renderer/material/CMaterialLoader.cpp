@@ -167,6 +167,10 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 											return( nullptr );
 										}
 										break;
+
+									default:
+										logERROR( "unhandled type '{0}' for sampler '{1}'", glbinding::Meta::getString( requiredSampler.second.type ), requiredSampler.second.name );
+										return( nullptr );
 								}
 
 								auto &samplerData = newLayer->m_samplerData[ requiredSampler.first ];
@@ -209,36 +213,39 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 				// TODO not only in DEBUG-Builds, but configurable
 				#ifdef INQ_DEBUG
 
-				// check for unused textures
-				for( const std::string &textureName : mat_textures.getMemberNames() )
+				if( shader != shaderManager.GetDummyShader() )
 				{
-					if( std::end( shader->m_requiredSamplers ) == std::find_if( std::begin( shader->m_requiredSamplers ),
-																				std::end( shader->m_requiredSamplers ),
-																				[&]( const auto &vt )
-																				{
-																					return( vt.second.name == textureName );
-																				} ) )
+					// check for unused textures
+					for( const std::string &textureName : mat_textures.getMemberNames() )
 					{
-						logWARNING( "unused texture '{0}' in layer '{1}' of '{2}'", textureName, layer_index, identifier );
+						if( std::end( shader->m_requiredSamplers ) == std::find_if( std::begin( shader->m_requiredSamplers ),
+																					std::end( shader->m_requiredSamplers ),
+																					[&]( const auto &vt )
+																					{
+																						return( vt.second.name == textureName );
+																					} ) )
+						{
+							logWARNING( "unused texture '{0}' in layer '{1}' of '{2}'", textureName, layer_index, identifier );
+						}
 					}
-				}
 
-				// check for unused samplers
-				for( const std::string &samplerName : mat_samplers.getMemberNames() )
-				{
-					if( std::end( shader->m_requiredSamplers ) == std::find_if( std::begin( shader->m_requiredSamplers ),
-																				std::end( shader->m_requiredSamplers ),
-																				[&]( const auto &vt )
-																				{
-																					return( vt.second.name == samplerName );
-																				} ) )
+					// check for unused samplers
+					for( const std::string &samplerName : mat_samplers.getMemberNames() )
 					{
-						logWARNING( "unused sampler '{0}' in layer '{1}' of '{2}'", samplerName, layer_index, identifier );
+						if( std::end( shader->m_requiredSamplers ) == std::find_if( std::begin( shader->m_requiredSamplers ),
+																					std::end( shader->m_requiredSamplers ),
+																					[&]( const auto &vt )
+																					{
+																						return( vt.second.name == samplerName );
+																					} ) )
+						{
+							logWARNING( "unused sampler '{0}' in layer '{1}' of '{2}'", samplerName, layer_index, identifier );
+						}
 					}
 				}
 				#endif
 
-				if( !shader->m_requiredInstanceUniforms.empty() )
+				if( !shader->m_requiredMaterialUniforms.empty() )
 				{
 					const Json::Value mat_uniforms = mat_layer[ "uniforms" ];
 					if(	mat_uniforms.empty() )
@@ -248,39 +255,39 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 					}
 					else
 					{
-						for( const auto instanceUniform : shader->m_requiredInstanceUniforms )
+						for( const auto requiredMaterialUniform : shader->m_requiredMaterialUniforms )
 						{
-							const Json::Value mat_uniform = mat_uniforms[ instanceUniform.second.name ];
+							const Json::Value mat_uniform = mat_uniforms[ requiredMaterialUniform.second.name ];
 							if( mat_uniform.empty() )
 							{
-								logWARNING( "required uniform '{0}' not specified in layer '{1}' of '{2}'", instanceUniform.second.name, layer_index, identifier );
+								logWARNING( "required uniform '{0}' not specified in layer '{1}' of '{2}'", requiredMaterialUniform.second.name, layer_index, identifier );
 								return( nullptr );
 							}
 							else
 							{
-								switch( instanceUniform.second.type )
+								switch( requiredMaterialUniform.second.type )
 								{
 									case GL_UNSIGNED_INT:
 										if( !mat_uniform.isUInt() )
 										{
-											logWARNING( "uniform '{0}' in layer '{1}' of '{2}' is not of type {3}", instanceUniform.second.name, layer_index, identifier, glbinding::Meta::getString( instanceUniform.second.type ) );
+											logWARNING( "uniform '{0}' in layer '{1}' of '{2}' is not of type {3}", requiredMaterialUniform.second.name, layer_index, identifier, glbinding::Meta::getString( requiredMaterialUniform.second.type ) );
 											return( nullptr );
 										}
 										else
 										{
-											newLayer->m_instanceUniforms[ instanceUniform.first ] = std::make_unique< CInstanceUniformUINT >( mat_uniform.asUInt() );
+											newLayer->m_materialUniforms[ requiredMaterialUniform.first ] = std::make_unique< CMaterialUniformUINT >( mat_uniform.asUInt() );
 										}
 										break;
 
 									case GL_FLOAT_VEC4:
 										if( !mat_uniform.isArray() )
 										{
-											logWARNING( "uniform '{0}' in layer '{1}' of '{2}' is not an array", instanceUniform.second.name, layer_index, identifier );
+											logWARNING( "uniform '{0}' in layer '{1}' of '{2}' is not an array", requiredMaterialUniform.second.name, layer_index, identifier );
 											return( nullptr );
 										}
 										else if( mat_uniform.size() != 4)
 										{
-											logWARNING( "uniform '{0}' in layer '{1}' of '{2}' has not enough oder more than needed values", instanceUniform.second.name, layer_index, identifier );
+											logWARNING( "uniform '{0}' in layer '{1}' of '{2}' has not enough oder more than needed values", requiredMaterialUniform.second.name, layer_index, identifier );
 											return( nullptr );
 										}
 										else
@@ -298,18 +305,18 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 												||
 												!value3.isDouble() )
 											{
-												logWARNING( "not all values of uniform '{0}' in layer '{1}' of '{2}' are floats", instanceUniform.second.name, layer_index, identifier );
+												logWARNING( "not all values of uniform '{0}' in layer '{1}' of '{2}' are floats", requiredMaterialUniform.second.name, layer_index, identifier );
 												return( nullptr );
 											}
 											else
 											{
-												newLayer->m_instanceUniforms[ instanceUniform.first ] = std::make_unique< CInstanceUniformFLOATVEC4 >( glm::vec4( value0.asDouble(), value1.asDouble(), value2.asDouble(), value3.asDouble() ) );
+												newLayer->m_materialUniforms[ requiredMaterialUniform.first ] = std::make_unique< CMaterialUniformFLOATVEC4 >( glm::vec4( value0.asDouble(), value1.asDouble(), value2.asDouble(), value3.asDouble() ) );
 											}
 										}
 										break;
 
 									default:
-										logWARNING( "uniform '{0}' in layer '{1}' of '{2}' is of unsupported type {3}", instanceUniform.second.name, layer_index, identifier, glbinding::Meta::getString( instanceUniform.second.type ) );
+										logWARNING( "uniform '{0}' in layer '{1}' of '{2}' is of unsupported type {3}", requiredMaterialUniform.second.name, layer_index, identifier, glbinding::Meta::getString( requiredMaterialUniform.second.type ) );
 										return( nullptr );
 										break;
 								}
