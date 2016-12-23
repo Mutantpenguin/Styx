@@ -20,7 +20,7 @@ private:
 	CState& operator = ( const CState &rhs ) = delete;
 
 protected:
-	CState( const std::string name, const CFileSystem &filesystem, const CSettings &settings );
+	CState( const std::string &name, const CFileSystem &filesystem, const CSettings &settings );
 	virtual ~CState() {};
 
 public:

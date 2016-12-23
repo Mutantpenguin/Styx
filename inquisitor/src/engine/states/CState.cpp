@@ -1,6 +1,6 @@
 #include "CState.hpp"
 
-CState::CState( const std::string name, const CFileSystem &filesystem, const CSettings &settings ) :
+CState::CState( const std::string &name, const CFileSystem &filesystem, const CSettings &settings ) :
 		m_name { name },
 		m_filesystem { filesystem },
 		m_settings { settings }

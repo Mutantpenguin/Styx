@@ -287,7 +287,7 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body 
 			return( 0 );
 	}
 
-	if( engineUniforms.size() > 0 )
+	if( !engineUniforms.empty() )
 	{
 		source += "\n";
 
@@ -297,7 +297,7 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body 
 		}
 	}
 
-	if( m_registeredUniformBuffers.size() > 0 )
+	if( !m_registeredUniformBuffers.empty() )
 	{
 		source += "\n";
 
