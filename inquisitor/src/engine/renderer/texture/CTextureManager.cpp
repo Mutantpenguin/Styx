@@ -8,13 +8,6 @@
 
 #include <glbinding/Meta.h>
 
-#include <json/json.h>
-
-#include "src/engine/renderer/texture/CCubemapData.hpp"
-#include "src/engine/renderer/texture/C2DArrayData.hpp"
-
-#include "src/engine/helper/image/ImageHandler.hpp"
-
 #include "src/engine/renderer/CGLState.hpp"
 
 #include "src/engine/logger/CLogger.hpp"
@@ -35,7 +28,7 @@ CTextureManager::~CTextureManager( void )
 		#ifdef INQ_DEBUG
 		for( auto texture : m_textures )
 		{
-			logDEBUG( "  {0}", texture.first );
+			logDEBUG( "\t{0}", texture.first );
 		}
 		#endif
 	}
@@ -78,7 +71,10 @@ bool CTextureManager::Init( const CRendererCapabilities &rendererCapabilities )
 	*/
 	}
 
-	if( !CreateDummyTexture() )
+
+	m_dummyTexture = m_textureLoader.CreateDummyTexture();
+
+	if( nullptr == m_dummyTexture )
 	{
 		return( false );
 	}
@@ -90,9 +86,7 @@ void CTextureManager::Update( void )
 {
 	for( auto it = m_textures.cbegin(); it != m_textures.cend(); )
 	{
-		auto texture = (*it).second.lock();
-
-		if( !texture )
+		if( (*it).second.unique() )
 		{
 			m_textures.erase( it++ );
 		}
@@ -114,7 +108,7 @@ std::shared_ptr< CTexture > CTextureManager::LoadTexture( const std::string &pat
 	auto it = m_textures.find( path );
 	if( m_textures.end() != it )
 	{
-		return( it->second.lock() );
+		return( it->second );
 	}
 
 	// TODO implement loading of compressed images in our own format
@@ -128,15 +122,15 @@ std::shared_ptr< CTexture > CTextureManager::LoadTexture( const std::string &pat
 	{
 		if( path.substr( path.length() - 4, 4 ) == std::string( ".cub" ) )
 		{
-			ttemp = CreateCubeTextureFromFile( path );
+			ttemp = m_textureLoader.CreateCubeTextureFromFile( m_filesystem, path, m_iMaxCubeMapTextureSize, m_iPicMip );
 		}
 		else if( path.substr( path.length() - 4, 4 ) == std::string( ".arr" ) )
 		{
-			ttemp = Create2DArrayTextureFromFile( path );
+			ttemp = m_textureLoader.Create2DArrayTextureFromFile( m_filesystem, path, m_iMaxTextureSize, m_iPicMip );
 		}
 		else
 		{
-			ttemp = Create2DTextureFromFile( path );
+			ttemp = m_textureLoader.Create2DTextureFromFile( m_filesystem, path, m_iMaxTextureSize, m_iPicMip );
 		}
 	}
 
@@ -149,150 +143,5 @@ std::shared_ptr< CTexture > CTextureManager::LoadTexture( const std::string &pat
 	{
 		logWARNING( "failed to create texture from file '{0}'", path );
 		return( m_dummyTexture );
-	}
-}
-
-std::shared_ptr< CTexture > CTextureManager::Create2DTextureFromFile( const std::string &path )
-{
-	const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path, m_iMaxTextureSize, m_iPicMip, false );
-
-	if( !image )
-	{
-		logWARNING( "image '{0}' couldn't be loaded", path );
-		return( nullptr );
-	}
-	else
-	{
-		return( std::make_shared< CTexture >( image ) );
-	}
-}
-
-// TODO maybe seperate this out into its own class like the MaterialLoader?
-std::shared_ptr< CTexture > CTextureManager::CreateCubeTextureFromFile( const std::string &path )
-{
-	Json::Value		root;
-	Json::Reader	reader;
-	if ( !reader.parse( m_filesystem.LoadTextFileToBuffer( path ), root ) )
-	{
-		logWARNING( "failed to parse '{0}' because of {1}", path, reader.getFormattedErrorMessages() );
-		return( nullptr );
-	}
-
-	const Json::Value json_faces = root[ "faces" ];
-
-	if(	json_faces.empty() )
-	{
-		logWARNING( "no faces defined in '{0}'", path );
-		return( nullptr );
-	}
-	else if( json_faces.size() < CCubemapData::countCubemapFaces )
-	{
-		logWARNING( "there are only {0} faces defined in '{1}'", json_faces.size(), path );
-		return( nullptr );
-	}
-	else if( json_faces.size() > CCubemapData::countCubemapFaces )
-	{
-		logWARNING( "there are too many ( {0} ) faces defined in '{1}'", json_faces.size(), path );
-		return( nullptr );
-	}
-
-	const std::string path_to_faces = path.substr( 0, path.find_last_of( CFileSystem::GetDirSeparator() ) + 1 );
-
-	auto cubemapData = std::make_unique< CCubemapData >();
-
-	for( std::uint8_t faceNum = 0; faceNum < CCubemapData::countCubemapFaces; ++faceNum )
-	{
-		const std::string path_to_face = path_to_faces + json_faces[ faceNum ].asString();
-		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path_to_face, m_iMaxCubeMapTextureSize, m_iPicMip, true );
-		if( nullptr == image )
-		{
-			logWARNING( "failed to load image '{0}' for cubemap '{1}'", path_to_face, path );
-			return( nullptr );
-		}
-		else
-		{
-			if( !cubemapData->AddFace( faceNum, image ) )
-			{
-				logWARNING( "failed to add face '{0}' for cubemap '{1}'", json_faces[ faceNum ].asString(), path );
-				return( nullptr );
-			}
-		}
-	}
-
-	if( cubemapData->isComplete() )
-	{
-		return( std::make_shared< CTexture >( std::move( cubemapData ) ) );
-	}
-	else
-	{
-		return( nullptr );
-	}
-}
-
-std::shared_ptr< CTexture > CTextureManager::Create2DArrayTextureFromFile( const std::string &path )
-{
-	Json::Value		root;
-	Json::Reader	reader;
-	if ( !reader.parse( m_filesystem.LoadTextFileToBuffer( path ), root ) )
-	{
-		logWARNING( "failed to parse '{0}' because of {1}", path, reader.getFormattedErrorMessages() );
-		return( nullptr );
-	}
-
-	const Json::Value json_layers = root[ "layers" ];
-
-	if(	json_layers.empty() )
-	{
-		logWARNING( "no layers defined in '{0}'", path );
-		return( nullptr );
-	}
-	else if( json_layers.size() > UINT8_MAX )
-	{
-		logWARNING( "more than the maximum of {0} layers defined in '{1}'", UINT8_MAX, path );
-		return( nullptr );
-	}
-
-	const std::string path_to_layers = path.substr( 0, path.find_last_of( CFileSystem::GetDirSeparator() ) + 1 );
-
-	auto arrayData = std::make_unique< C2DArrayData >();
-
-	for( const Json::Value &layer : json_layers )
-	{
-		const std::string path_to_layer = path_to_layers + layer.asString();
-		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path_to_layer, m_iMaxTextureSize, m_iPicMip, false );
-
-		if( nullptr == image )
-		{
-			logWARNING( "failed to load image '{0}' for array texture '{1}'", path_to_layer, path );
-			return( nullptr );
-		}
-		else
-		{
-			if( !arrayData->AddLayer( image ) )
-			{
-				logWARNING( "failed to add layer '{0}' for array texture '{1}'", layer.asString(), path );
-				return( nullptr );
-			}
-		}
-	}
-
-	return( std::make_shared< CTexture >( std::move( arrayData ) ) );
-}
-
-/**	Creates a checkerboard-like dummy-texture. */
-bool CTextureManager::CreateDummyTexture( void )
-{
-	const std::shared_ptr< const CImage > image = ImageHandler::GenerateCheckerImage( CSize( 64, 64 ) );
-
-	if( !image )
-	{
-		logERROR( "checker-image for the dummy-texture couldn't be generated" );
-		return( false );
-	}
-	else
-	{
-		m_dummyTexture = std::make_shared< CTexture >( image );
-
-		return( true );
 	}
 }

@@ -25,10 +25,10 @@ public:
 		MAX
 	};
 
-	void Parametere( const GLenum pname, const GLenum param );
-	void Parameteri( const GLenum pname, const GLint param );
+	void Parametere( const GLenum pname, const GLenum param ) const;
+	void Parameteri( const GLenum pname, const GLint param ) const;
 
-	void BindToUnit( const GLuint unit );
+	void BindToUnit( const GLuint unit ) const;
 
 protected:
 	GLuint m_samplerID;

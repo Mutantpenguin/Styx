@@ -2,98 +2,18 @@
 	"name"			:	"schnarf",
 	"cullmode"		:	"BACK",
 	"polygonmode"	:	"FILL",
-	"blending"			:	{
-								"src"	: "ONE",
-								"dst"	: "ONE_MINUS_SRC_ALPHA"
-							},
-	"layers"		:	[
-							{
-								"shaders"	:	{
-													"vs" : "shaders/vs/standard.vs.glsl",
-													"fs" : "shaders/fs/standard.fs.glsl"
-												},
-								"textures"	:	{
-													"diffuseTexture" : "textures/texpack_1/mybitmap.bmp"
-												},
-								"samplers"	:	{
-													"diffuseTexture" : "REPEAT_2D"
-												},
-								"tcmods"		:	[
-														{
-															"mode"	:	"MOVE",
-															"umove"	:	-0.5,
-															"vmove"	:	-0.5
-														},
-														{
-															"mode"	:	"ROTATE",
-															"deg"	:	20.0
-														},
-														{
-															"mode"		:	"SCALE",
-															"uscale"	:	0.25,
-															"vscale"	:	0.5
-														},
-														{
-															"mode"	:	"MOVE",
-															"umove"	:	0.5,
-															"vmove"	:	0.5
-														}
-													]
-							},
-/*
-							{
-								"animfreq"	:	0.1,
-								"textures"	:	[ "textures/texpack_1/fire/sfx_fire01.jpg", "textures/texpack_1/fire/sfx_fire02.jpg", "textures/texpack_1/fire/sfx_fire03.jpg", "textures/texpack_1/fire/sfx_fire04.jpg", "textures/texpack_1/fire/sfx_fire05.jpg", "textures/texpack_1/fire/sfx_fire06.jpg", "textures/texpack_1/fire/sfx_fire07.jpg", "textures/texpack_1/fire/sfx_fire08.jpg" ],
-								"samplers"	:	{
-													"diffuseTexture" : "BORDER_2D"
-												},
-								"tcmods"	:	[
-													{
-														"mode"		:	"SCROLL",
-														"uspeed"	:	-0.2,
-														"vspeed"	:	0.0
-													}
-												]
-							},
-*/
-/*
-{
-								"shaders"	:	{
-													"vs" : "shaders/vs/reflection.vs.glsl",
-													"fs" : "shaders/fs/reflection.fs.glsl"
-												},
-								"textures"	:	{
-													"skyBoxTexture" : "textures/cube/creek/creek.cub"
-												}
-							},
-*/
-							{
-								"shaders"	:	{
-													"vs" : "shaders/vs/standard.vs.glsl",
-													"fs" : "shaders/fs/standard.fs.glsl"
-												},
-								"textures"	:	{
-													"diffuseTexture" : "textures/texpack_1/senn_icyfangrate.tga"
-												},
-								"samplers"	:	{
-													"diffuseTexture" : "REPEAT_2D"
-												},
-								"tcmods"	:	[
-													{
-														"mode"	:	"MOVE",
-														"umove"	:	-0.5,
-														"vmove"	:	-0.5
-													},
-													{
-														"mode"	:	"ROTATE",
-														"deg"	:	-10.0
-													},
-													{
-														"mode"	:	"MOVE",
-														"umove"	:	0.5,
-														"vmove"	:	0.5
-													}
-												]
-							}
-						]
+	"blending"		:	{
+							"src"	: "ONE",
+							"dst"	: "ONE_MINUS_SRC_ALPHA"
+						},
+		"shaders"	:	{
+							"vs" : "shaders/vs/standard.vs.glsl",
+							"fs" : "shaders/fs/schnarf.fs.glsl"
+						},
+		"textures"	:	{
+							"diffuseTexture" : "textures/texpack_1/window_buildingside_06.jpg"
+						},
+		"samplers"	:	{
+							"diffuseTexture" : "REPEAT_2D"
+						}
 }

@@ -5,7 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 
-CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat, const glm::vec3 &position, const glm::vec3 &orientation, const glm::vec3 &scale ) :
+CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const glm::vec3 &position, const glm::vec3 &orientation, const glm::vec3 &scale ) :
 	m_vao( Mode, primitive ),
 	m_material { mat },
 	m_position { position },
@@ -17,7 +17,7 @@ CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::s
 	CalculateModelMatrix();
 }
 
-CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat, const glm::vec3 &position, const glm::vec3 &orientation ) :
+CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const glm::vec3 &position, const glm::vec3 &orientation ) :
 	m_vao( Mode, primitive ),
 	m_material { mat },
 	m_position { position },
@@ -28,7 +28,7 @@ CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::s
 	CalculateModelMatrix();
 }
 
-CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat, const glm::vec3 &position ) :
+CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const glm::vec3 &position ) :
 	m_vao( Mode, primitive ),
 	m_material { mat },
 	m_position { position },
@@ -38,7 +38,7 @@ CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::s
 	CalculateModelMatrix();
 }
 
-CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat ) :
+CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat ) :
 	m_vao( Mode, primitive ),
 	m_material { mat },
 	m_boundingSphereRadiusVector { CalculatedBoundingSphereRadiusVector( primitive ) },
@@ -48,7 +48,7 @@ CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::s
 }
 
 /**	Sets the material and creates enough texcoord-buffers for the coord-modifications of every layer. */
-void CMesh::SetMaterial( const std::shared_ptr< CMaterial > &mat )
+void CMesh::SetMaterial( const std::shared_ptr< const CMaterial > &mat )
 {
 	m_material = mat;
 }

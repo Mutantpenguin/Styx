@@ -56,18 +56,16 @@
     <VirtualDirectory Name="engine">
       <VirtualDirectory Name="renderer">
         <VirtualDirectory Name="material">
-          <File Name="src/engine/renderer/material/CMaterialLayer.cpp"/>
           <File Name="src/engine/renderer/material/CMaterial.hpp"/>
           <File Name="src/engine/renderer/material/CMaterial.cpp"/>
           <File Name="src/engine/renderer/material/CMaterialLoader.cpp"/>
           <File Name="src/engine/renderer/material/CMaterialManager.cpp"/>
           <File Name="src/engine/renderer/material/CMaterialLoader.hpp"/>
-          <File Name="src/engine/renderer/material/CTexCoordMods.hpp"/>
-          <File Name="src/engine/renderer/material/CTexCoordMods.cpp"/>
-          <File Name="src/engine/renderer/material/CMaterialLayer.hpp"/>
           <File Name="src/engine/renderer/material/CMaterialManager.hpp"/>
           <File Name="src/engine/renderer/material/CMaterialUniform.hpp"/>
           <File Name="src/engine/renderer/material/CMaterialUniform.cpp"/>
+          <File Name="src/engine/renderer/material/CMaterialSamplerData.hpp"/>
+          <File Name="src/engine/renderer/material/CMaterialSamplerData.cpp"/>
         </VirtualDirectory>
         <VirtualDirectory Name="texture">
           <File Name="src/engine/renderer/texture/CTexture.cpp"/>
@@ -78,6 +76,8 @@
           <File Name="src/engine/renderer/texture/CTexture.hpp"/>
           <File Name="src/engine/renderer/texture/C2DArrayData.hpp"/>
           <File Name="src/engine/renderer/texture/C2DArrayData.cpp"/>
+          <File Name="src/engine/renderer/texture/CTextureLoader.hpp"/>
+          <File Name="src/engine/renderer/texture/CTextureLoader.cpp"/>
         </VirtualDirectory>
         <VirtualDirectory Name="shader">
           <File Name="src/engine/renderer/shader/SShaderInterface.hpp"/>

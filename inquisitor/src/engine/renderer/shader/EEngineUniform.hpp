@@ -4,7 +4,6 @@
 enum struct EEngineUniform : GLint
 {
 	modelViewProjectionMatrix = 0,
-	textureMatrix,
 	modelMatrix
 };
 

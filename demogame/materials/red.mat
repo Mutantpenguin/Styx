@@ -1,15 +1,11 @@
 {
 	"name"			:	"red",
 	"polygonmode"	:	"FILL",
-	"layers"		:	[
-							{
-								"shaders"	:	{
-													"vs" : "shaders/vs/standard.vs.glsl",
-													"fs" : "shaders/fs/color.fs.glsl"
-												},
-								"uniforms"	:	{
-													"mainColor" : [ 1.0, 0.0, 0.0, 1.0 ]
-												}
-							}
-						]
+	"shaders"	:	{
+						"vs" : "shaders/vs/standard.vs.glsl",
+						"fs" : "shaders/fs/color.fs.glsl"
+					},
+	"uniforms"	:	{
+						"mainColor" : [ 1.0, 0.0, 0.0, 1.0 ]
+					}
 }

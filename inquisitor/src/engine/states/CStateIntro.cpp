@@ -21,7 +21,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	soundManager.SetListener( cameraFree );
 
-	std::shared_ptr< CMaterial > material = renderer.LoadMaterial( "materials/intro_icon.mat" );
+	auto material = renderer.LoadMaterial( "materials/intro_icon.mat" );
 
 	m_mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material );
 	m_mesh->SetScale( { 3.0f, 3.0f, 1.0f } );

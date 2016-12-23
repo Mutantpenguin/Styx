@@ -8,17 +8,17 @@ CScene::~CScene()
 {
 }
 
-void CScene::AddMesh( std::shared_ptr< CMesh > mesh )
+void CScene::AddMesh( std::shared_ptr< const CMesh > mesh )
 {
 	m_meshes.push_back( mesh );
 }
 
-void CScene::RemoveMesh( std::shared_ptr< CMesh > mesh )
+void CScene::RemoveMesh( std::shared_ptr< const CMesh > mesh )
 {
 	m_meshes.remove( mesh );
 }
 
-const std::list< std::shared_ptr< CMesh > > &CScene::Meshes( void ) const
+const std::list< std::shared_ptr< const CMesh > > &CScene::Meshes( void ) const
 {
 	return( m_meshes );
 }

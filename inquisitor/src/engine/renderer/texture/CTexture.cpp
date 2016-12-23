@@ -34,7 +34,7 @@ CTexture::CTexture( const std::shared_ptr< const CImage > &image ) :
 	glGenerateTextureMipmap( m_texID );
 }
 
-CTexture::CTexture( std::unique_ptr< const CCubemapData > cubemapData ) :
+CTexture::CTexture( const std::unique_ptr< const CCubemapData > cubemapData ) :
 	m_type { type::TEX_CUBE_MAP }
 {
 	glCreateTextures( GL_TEXTURE_CUBE_MAP, 1, &m_texID );
@@ -70,7 +70,7 @@ CTexture::CTexture( std::unique_ptr< const CCubemapData > cubemapData ) :
 	}
 }
 
-CTexture::CTexture( std::unique_ptr< const C2DArrayData > arrayData ) :
+CTexture::CTexture( const std::unique_ptr< const C2DArrayData > arrayData ) :
 	m_type { type::TEX_2D_ARRAY }
 {
 	glCreateTextures( GL_TEXTURE_2D_ARRAY, 1, &m_texID );

@@ -11,12 +11,12 @@
 class CMesh final
 {
 public:
-	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat, const glm::vec3 &position, const glm::vec3 &orientation, const glm::vec3 &scale );
-	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat, const glm::vec3 &position, const glm::vec3 &orientation );
-	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat, const glm::vec3 &position );
-	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< CMaterial > &mat );
+	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const glm::vec3 &position, const glm::vec3 &orientation, const glm::vec3 &scale );
+	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const glm::vec3 &position, const glm::vec3 &orientation );
+	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const glm::vec3 &position );
+	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat );
 
-	void SetMaterial( const std::shared_ptr< CMaterial > &mat );
+	void SetMaterial( const std::shared_ptr< const CMaterial > &mat );
 	const std::shared_ptr< const CMaterial > Material( void ) const;
 
 	void SetScale( const glm::vec3 &position );

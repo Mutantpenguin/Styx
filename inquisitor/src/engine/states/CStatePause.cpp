@@ -8,7 +8,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	CState( "pause", filesystem, settings ),
 	m_state { state }
 {
-	std::shared_ptr< CMaterial > materialPause = renderer.LoadMaterial( "materials/pause.mat" );
+	auto materialPause = renderer.LoadMaterial( "materials/pause.mat" );
 
 	auto screenMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialPause );
 	m_scene.AddMesh( screenMesh );

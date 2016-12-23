@@ -61,9 +61,9 @@ private:
 	static const std::string srcAdditionVsShaderExtensions;
 	static const std::string srcAdditionFsShaderExtensions;
 
-	static const std::map< CVAO::EAttributeLocation, SShaderInterface > allowedAttributes;
+	static const std::map< const CVAO::EAttributeLocation, const SShaderInterface > allowedAttributes;
 
-	static const std::unordered_map< EEngineUniform, SShaderInterface > engineUniforms;
+	static const std::unordered_map< const EEngineUniform, const SShaderInterface > engineUniforms;
 
 	std::shared_ptr< CShaderProgram > m_dummyProgram;
 };

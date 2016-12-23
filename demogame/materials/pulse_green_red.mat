@@ -1,12 +1,8 @@
 {
 	"name"			:	"pulse green red",
 	"polygonmode"	:	"FILL",
-	"layers"		:	[
-							{
-								"shaders"	:	{
-													"vs" : "shaders/vs/standard.vs.glsl",
-													"fs" : "shaders/fs/pulse_green_red.fs.glsl"
-												}
-							}
-						]
+	"shaders"	:	{
+						"vs" : "shaders/vs/standard.vs.glsl",
+						"fs" : "shaders/fs/pulse_green_red.fs.glsl"
+					}
 }

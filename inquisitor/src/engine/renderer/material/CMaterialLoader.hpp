@@ -7,10 +7,14 @@
 #include "src/engine/renderer/texture/CTextureManager.hpp"
 #include "src/engine/renderer/sampler/CSamplerManager.hpp"
 
-class CMaterialLoader
+class CMaterialLoader final
 {
-public:
+	friend class CMaterialManager;
+
+private:
 	static std::shared_ptr< CMaterial > CreateMaterial( CTextureManager &textureManager, CShaderManager &shaderManager, const CSamplerManager &samplerManager, const std::string &identifier, const std::string &definition );
+
+	static std::shared_ptr< CMaterial > CreateDummyMaterial( CShaderManager &shaderManager );
 };
 
 #endif // CMATERIALLOADER_HPP

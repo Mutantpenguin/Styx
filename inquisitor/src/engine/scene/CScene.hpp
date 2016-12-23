@@ -12,16 +12,16 @@ public:
 	CScene();
 	~CScene();
 
-	void AddMesh( std::shared_ptr< CMesh > mesh );
-	void RemoveMesh( std::shared_ptr< CMesh > mesh );
+	void AddMesh( std::shared_ptr< const CMesh > mesh );
+	void RemoveMesh( std::shared_ptr< const CMesh > mesh );
 
-	const std::list< std::shared_ptr< CMesh > > &Meshes( void ) const;
+	const std::list< std::shared_ptr< const CMesh > > &Meshes( void ) const;
 
 	const std::shared_ptr< CCamera > Camera( void ) const;
 	void Camera( std::shared_ptr< CCamera > camera );
 
 private:
-	std::list< std::shared_ptr< CMesh > > m_meshes;
+	std::list< std::shared_ptr< const CMesh > > m_meshes;
 
 	std::shared_ptr< CCamera > m_camera;
 };

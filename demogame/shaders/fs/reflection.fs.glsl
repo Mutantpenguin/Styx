@@ -7,7 +7,8 @@ out vec4 color;
 
 void main()
 {
-    vec3 I = normalize( Position - Camera.position );
-    vec3 R = reflect( I, normalize( Normal ) );
+    const vec3 I = normalize( Position - Camera.position );
+    const vec3 R = reflect( I, normalize( Normal ) );
+
     color = texture( skyBoxTexture, R );
 }

@@ -5,46 +5,19 @@
 							"src"	: "ONE",
 							"dst"	: "ONE_MINUS_SRC_ALPHA"
 						},
-	"layers"		:	[
-							{
-								"shaders"	:	{
-													"vs" : "shaders/vs/standard.vs.glsl",
-													"fs" : "shaders/fs/standard.fs.glsl"
-												},
-								"textures"	:	{
-													"diffuseTexture" : "textures/cursor/skull.png"
-												},
-								"samplers"	:	{
-													"diffuseTexture" : "EDGE_2D"
-												}
-							},
-							{
-								"shaders"	:	{
-													"vs" : "shaders/vs/standard.vs.glsl",
-													"fs" : "shaders/fs/standard.fs.glsl"
-												},
-								"textures"	:	{
-													"diffuseTexture" : "textures/cursor/wait.png"
-												},
-								"samplers"	:	{
-													"diffuseTexture" : "EDGE_2D"
-												},
-								"tcmods"	:	[
-													{
-														"mode"	:	"MOVE",
-														"umove"	:	-0.5,
-														"vmove"	:	-0.5
-													},
-													{
-														"mode"	:	"ROTATE",
-														"deg"	:	360.0
-													},
-													{
-														"mode"	:	"MOVE",
-														"umove"	:	0.5,
-														"vmove"	:	0.5
-													}
-												]
-							}
-						]
+	"shaders"		:	{
+							"vs" : "shaders/vs/wait_cursor.vs.glsl",
+							"fs" : "shaders/fs/wait_cursor.fs.glsl"
+						},
+	"textures"		:	{
+							"skullTexture" : "textures/cursor/skull.png",
+							"waitTexture" : "textures/cursor/wait.png"
+						},
+	"samplers"		:	{
+							"skullTexture" : "EDGE_2D",
+							"waitTexture" : "EDGE_2D"
+						},
+	"uniforms"		:	{
+							"waitRadsPerSecond" : 6.28319
+						}
 }

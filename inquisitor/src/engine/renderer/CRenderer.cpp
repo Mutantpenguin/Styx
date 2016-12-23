@@ -10,7 +10,7 @@
 #include <glbinding/Version.h>
 #include <glbinding/ContextInfo.h>
 
-#include "CGLState.hpp"
+#include "src/engine/renderer/CGLState.hpp"
 
 #include "src/engine/logger/CLogger.hpp"
 
@@ -100,9 +100,9 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 			GLint currentlyAvailableMemKb = 0;
 			glGetIntegerv( GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &currentlyAvailableMemKb );
 
-			logINFO( "  total dedicated:     {0} MiB", dedicatedMemKb / 1024 );
-			logINFO( "  total available:     {0} MiB", totalAvailableMemKb / 1024 );
-			logINFO( "  currently available: {0} MiB", currentlyAvailableMemKb / 1024 );
+			logINFO( "\ttotal dedicated:     {0} MiB", dedicatedMemKb / 1024 );
+			logINFO( "\ttotal available:     {0} MiB", totalAvailableMemKb / 1024 );
+			logINFO( "\tcurrently available: {0} MiB", currentlyAvailableMemKb / 1024 );
 		}
 
 		if( supports_GL_ATI_meminfo )
@@ -116,9 +116,9 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 			GLint renderbufferFreeMemKb = 0;
 			glGetIntegerv( GL_RENDERBUFFER_FREE_MEMORY_ATI, &renderbufferFreeMemKb );
 
-			logINFO( "    free for VBOs:           {0} MiB", vboFreeMemKb / 1024 );
-			logINFO( "    free for textures:       {0} MiB", textureFreeMemKb / 1024 );
-			logINFO( "    free for render buffers: {0} MiB", renderbufferFreeMemKb / 1024 );
+			logINFO( "\tfree for VBOs:           {0} MiB", vboFreeMemKb / 1024 );
+			logINFO( "\tfree for textures:       {0} MiB", textureFreeMemKb / 1024 );
+			logINFO( "\tfree for render buffers: {0} MiB", renderbufferFreeMemKb / 1024 );
 		}
 	}
 
@@ -179,15 +179,15 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &ca
 	const glm::mat4 &viewProjectionMatrix = camera->CalculateViewProjectionMatrix();
 
 	std::uint16_t offset = 0;
-	m_uboCamera->SubData( offset,		sizeof( position ),				glm::value_ptr( position ) );
+	m_uboCamera->SubData( offset,	sizeof( position ),				glm::value_ptr( position ) );
 	offset += sizeof( glm::vec4 );
-	m_uboCamera->SubData( offset,		sizeof( direction ),			glm::value_ptr( direction ) );
+	m_uboCamera->SubData( offset,	sizeof( direction ),			glm::value_ptr( direction ) );
 	offset += sizeof( glm::vec4 );
-	m_uboCamera->SubData( offset,		sizeof( projectionMatrix ),		glm::value_ptr( projectionMatrix ) );
+	m_uboCamera->SubData( offset,	sizeof( projectionMatrix ),		glm::value_ptr( projectionMatrix ) );
 	offset += sizeof( glm::mat4 );
-	m_uboCamera->SubData( offset,		sizeof( viewMatrix ),			glm::value_ptr( viewMatrix ) );
+	m_uboCamera->SubData( offset,	sizeof( viewMatrix ),			glm::value_ptr( viewMatrix ) );
 	offset += sizeof( glm::mat4 );
-	m_uboCamera->SubData( offset,		sizeof( viewProjectionMatrix ),	glm::value_ptr( viewProjectionMatrix ) );
+	m_uboCamera->SubData( offset,	sizeof( viewProjectionMatrix ),	glm::value_ptr( viewProjectionMatrix ) );
 }
 
 void CRenderer::Update( const float delta )
@@ -235,7 +235,7 @@ void CRenderer::Clear( bool colorBuffer, bool depthBuffer ) const
 
 void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) const
 {
-	const std::shared_ptr< CCamera > camera = scene.Camera();
+	const auto camera = scene.Camera();
 
 	if( !camera )
 	{
@@ -304,54 +304,50 @@ void CRenderer::RenderMesh( const glm::mat4 &viewProjectionMatrix, const std::sh
 {
 	const std::shared_ptr< const CMaterial > material = mesh->Material();
 
-	CGLState::CullFace( material->m_bCullFace, material->m_cullfacemode );
-	CGLState::PolygonMode( material->m_polygonmode );
-	CGLState::Blending( material->m_blending, material->m_blendSrc, material->m_blendDst );
+	material->Setup();
 
 	const CVAO &vao = mesh->VAO();
 
 	vao.Bind();
 
-	for( const std::shared_ptr< const CMaterialLayer > &layer : material->Layers() )
+	const auto shader = material->Shader();
+
+	shader->Use();
+
+	for( const auto &requiredEngineUniform : shader->RequiredEngineUniforms() )
 	{
-		const auto shader = layer->m_shader;
+		const auto location = requiredEngineUniform.first;
 
-		CGLState::UseProgram( shader->m_program );
-
-		for( const auto &requiredEngineUniform : shader->m_requiredEngineUniforms )
+		switch( requiredEngineUniform.second )
 		{
-			switch( requiredEngineUniform.second )
-			{
-				case EEngineUniform::modelViewProjectionMatrix:
-					glUniformMatrix4fv( requiredEngineUniform.first, 1, GL_FALSE, &( viewProjectionMatrix * mesh->ModelMatrix() )[ 0 ][ 0 ] );
-					break;
+			case EEngineUniform::modelViewProjectionMatrix:
+				glUniformMatrix4fv( location, 1, GL_FALSE, &( viewProjectionMatrix * mesh->ModelMatrix() )[ 0 ][ 0 ] );
+				break;
 
-				case EEngineUniform::textureMatrix:
-					glUniformMatrix3fv( requiredEngineUniform.first, 1, GL_FALSE, &layer->m_textureMatrix[ 0 ][ 0 ] );
-					break;
-
-				case EEngineUniform::modelMatrix:
-					glUniformMatrix4fv( requiredEngineUniform.first, 1, GL_FALSE, &mesh->ModelMatrix()[ 0 ][ 0 ] );
-					break;
-			}
+			case EEngineUniform::modelMatrix:
+				glUniformMatrix4fv( location, 1, GL_FALSE, &mesh->ModelMatrix()[ 0 ][ 0 ] );
+				break;
 		}
-
-		std::uint8_t textureUnit = 0;
-		for( const auto &samplerData : layer->m_samplerData )
-		{
-			glUniform1i( samplerData.first, textureUnit );
-
-			samplerData.second.first->BindToUnit( textureUnit );
-			samplerData.second.second->BindToUnit( textureUnit );
-
-			textureUnit++;
-		}
-
-		for( const auto &uniform : layer->m_materialUniforms )
-		{
-			uniform.second->Set( uniform.first );
-		}
-
-		vao.Draw();
 	}
+
+	std::uint8_t textureUnit = 0;
+	for( const auto &samplerData : material->SamplerData() )
+	{
+		const auto location = samplerData.first;
+
+		glUniform1i( location, textureUnit );
+
+		samplerData.second->BindToUnit( textureUnit );
+
+		textureUnit++;
+	}
+
+	for( const auto &uniform : material->MaterialUniforms() )
+	{
+		const auto location = uniform.first;
+
+		uniform.second->Set( location );
+	}
+
+	vao.Draw();
 }

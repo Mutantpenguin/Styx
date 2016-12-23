@@ -13,19 +13,16 @@ constexpr const GLint CShaderManager::requiredCombinedTextureImageUnits;
 
 const std::string CShaderManager::srcAdditionShaderVersion = "#version 410\n";
 
-const std::string CShaderManager::srcAdditionVsShaderExtensions =	"#extension " + glbinding::Meta::getString( GLextension::GL_ARB_explicit_uniform_location ) + " : require\n" \
-																	"#extension " + glbinding::Meta::getString( GLextension::GL_ARB_shading_language_420pack ) + " : require\n";
+// TODO not needed anymore when we can switch to a 4.2 core context (or higher)
+const std::string CShaderManager::srcAdditionVsShaderExtensions =	"#extension " + glbinding::Meta::getString( GLextension::GL_ARB_shading_language_420pack ) + " : require\n";
+const std::string CShaderManager::srcAdditionFsShaderExtensions =	"#extension " + glbinding::Meta::getString( GLextension::GL_ARB_shading_language_420pack ) + " : require\n";
 
-const std::string CShaderManager::srcAdditionFsShaderExtensions =	"#extension " + glbinding::Meta::getString( GLextension::GL_ARB_explicit_uniform_location ) + " : require\n" \
-																	"#extension " + glbinding::Meta::getString( GLextension::GL_ARB_shading_language_420pack ) + " : require\n";
+const std::map< const CVAO::EAttributeLocation, const SShaderInterface > CShaderManager::allowedAttributes = {	{ CVAO::EAttributeLocation::vertex,		{ "vertex",		GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
+																												{ CVAO::EAttributeLocation::normal,		{ "normal",		GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
+																												{ CVAO::EAttributeLocation::texcoord,	{ "texcoord",	GLHelper::glmTypeToGLSLType< glm::vec2 >() } } };
 
-const std::map< CVAO::EAttributeLocation, SShaderInterface > CShaderManager::allowedAttributes = {	{ CVAO::EAttributeLocation::vertex,		{ "vertex",		GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
-																									{ CVAO::EAttributeLocation::normal,		{ "normal",		GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
-																									{ CVAO::EAttributeLocation::texcoord,	{ "texcoord",	GLHelper::glmTypeToGLSLType< glm::vec2 >() } } };
-
-const std::unordered_map< EEngineUniform, SShaderInterface > CShaderManager::engineUniforms = {	{ EEngineUniform::modelViewProjectionMatrix,	{ "modelViewProjectionMatrix",	GLHelper::glmTypeToGLSLType< glm::mat4 >() } },
-																								{ EEngineUniform::textureMatrix,				{ "textureMatrix",				GLHelper::glmTypeToGLSLType< glm::mat3 >() } },
-																								{ EEngineUniform::modelMatrix,					{ "modelMatrix",				GLHelper::glmTypeToGLSLType< glm::mat4 >() } } };
+const std::unordered_map< const EEngineUniform, const SShaderInterface > CShaderManager::engineUniforms = {	{ EEngineUniform::modelViewProjectionMatrix,	{ "modelViewProjectionMatrix",	GLHelper::glmTypeToGLSLType< glm::mat4 >() } },
+																											{ EEngineUniform::modelMatrix,					{ "modelMatrix",				GLHelper::glmTypeToGLSLType< glm::mat4 >() } } };
 
 CShaderManager::CShaderManager( const CFileSystem &p_filesystem ) :
 	m_filesystem { p_filesystem }
@@ -126,14 +123,16 @@ std::shared_ptr< CShaderProgram > CShaderManager::LoadProgram( const std::string
 		const GLuint vertexShader = LoadVertexShader( pathVertexShader );
 		if( 0 == vertexShader )
 		{
-			logWARNING( "using dummy shader" );
+			logWARNING( "using dummy shader instead of vertex shader '{0}' and fragment shader '{1}'", pathVertexShader, pathFragmentShader );
+			m_programs[ programIdentifier ] = m_dummyProgram;
 			return( m_dummyProgram );
 		}
 
 		const GLuint fragmentShader = LoadFragmentShader( pathFragmentShader );
 		if( 0 == fragmentShader )
 		{
-			logWARNING( "using dummy shader" );
+			logWARNING( "using dummy shader instead of vertex shader '{0}' and fragment shader '{1}'", pathVertexShader, pathFragmentShader );
+			m_programs[ programIdentifier ] = m_dummyProgram;
 			return( m_dummyProgram );
 		}
 
@@ -142,6 +141,7 @@ std::shared_ptr< CShaderProgram > CShaderManager::LoadProgram( const std::string
 		{
 			logWARNING( "program object from vertex shader '{0}' and fragment shader '{1}' is not valid", pathVertexShader, pathFragmentShader );
 			logWARNING( "using dummy shader" );
+			m_programs[ programIdentifier ] = m_dummyProgram;
 			return( m_dummyProgram );
 		}
 
@@ -151,6 +151,7 @@ std::shared_ptr< CShaderProgram > CShaderManager::LoadProgram( const std::string
 		{
 			logWARNING( "unable to setup the interface for the program object from vertex shader '{0}' and fragment shader '{1}'", pathVertexShader, pathFragmentShader );
 			logWARNING( "using dummy shader" );
+			m_programs[ programIdentifier ] = m_dummyProgram;
 			return( m_dummyProgram );
 		}
 
@@ -196,17 +197,19 @@ GLuint CShaderManager::CreateProgram( const GLuint vertexShader, const GLuint fr
 
 GLuint CShaderManager::LoadVertexShader( const std::string &path )
 {
-	auto it = m_vertexShaders.find( path );
+	const auto it = m_vertexShaders.find( path );
 	if( m_vertexShaders.end() != it )
 	{
 		return( it->second );
 	}
 	else
 	{
-		GLuint vertexShader = LoadShader( GL_VERTEX_SHADER, path );
+		const GLuint vertexShader = LoadShader( GL_VERTEX_SHADER, path );
 		if( 0 == vertexShader )
 		{
 			logERROR( "couldn't create vertex shader from '{0}'", path );
+
+			// TODO do the same as with the program object? -> store and use the dummy shader from here on, so future compiles don't need to be made if we know it will fail
 			return( 0 );
 		}
 		else
@@ -219,17 +222,19 @@ GLuint CShaderManager::LoadVertexShader( const std::string &path )
 
 GLuint CShaderManager::LoadFragmentShader( const std::string &path )
 {
-	auto it = m_fragmentShaders.find( path );
+	const auto it = m_fragmentShaders.find( path );
 	if( m_fragmentShaders.end() != it )
 	{
 		return( it->second );
 	}
 	else
 	{
-		GLuint fragmentShader = LoadShader( GL_FRAGMENT_SHADER, path );
+		const GLuint fragmentShader = LoadShader( GL_FRAGMENT_SHADER, path );
 		if( 0 == fragmentShader )
 		{
 			logERROR( "couldn't create fragment shader from '{0}'", path );
+
+			// TODO do the same as with the program object? -> store and use the dummy shader from here on, so future compiles don't need to be made if we know it will fail
 			return( 0 );
 		}
 		else
@@ -421,6 +426,7 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 			case GL_FLOAT_VEC4:
 			case GL_UNSIGNED_INT:
 			case GL_INT:
+			case GL_FLOAT:
 				{
 					auto uniformIt = std::find_if(	std::begin( engineUniforms ),
 													std::end( engineUniforms ),

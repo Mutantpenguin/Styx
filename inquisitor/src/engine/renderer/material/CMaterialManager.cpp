@@ -40,25 +40,21 @@ bool CMaterialManager::Init( const CRendererCapabilities &rendererCapabilities )
 		return( false );
 	}
 
-	CreateDummyMaterial();
+	m_dummyMaterial = CMaterialLoader::CreateDummyMaterial( m_shaderManager );
 
 	return( true );
 }
 
 void CMaterialManager::Update( const float delta )
 {
-	for( auto it = m_materials.cbegin(); it != m_materials.cend(); )
+	for( auto it = std::cbegin( m_materials ); it != std::cend( m_materials ); )
 	{
-		auto material = (*it).second.lock();
-
-		if( !material )
+		if( (*it).second.unique() )
 		{
 			m_materials.erase( it++ );
 		}
 		else
 		{
-			material->Update( delta );
-
 			++it;
 		}
 	}
@@ -76,7 +72,7 @@ std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &
 	auto it = m_materials.find( path );
 	if( m_materials.end() != it )
 	{
-		return( it->second.lock() );
+		return( it->second );
 	}
 
 	std::shared_ptr< CMaterial > mtemp = nullptr;
@@ -107,15 +103,6 @@ std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &
 		logWARNING( "failed to create material from file '{0}'", path );
 		return( m_dummyMaterial );
 	}
-}
-
-void CMaterialManager::CreateDummyMaterial( void )
-{
-	m_dummyMaterial = std::make_shared< CMaterial >( "dummy" );
-
-	std::shared_ptr< CMaterialLayer > layer = m_dummyMaterial->CreateLayer();
-
-	layer->m_shader = m_shaderManager.GetDummyShader();
 }
 
 CShaderManager &CMaterialManager::ShaderManager( void )

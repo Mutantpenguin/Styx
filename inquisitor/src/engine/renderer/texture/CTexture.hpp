@@ -12,8 +12,7 @@
 
 class CTexture final
 {
-friend class CTextureManager;
-friend class CMaterialManager;
+	friend class CTextureLoader;
 
 public:
 	enum struct type : std::uint8_t
@@ -24,10 +23,10 @@ public:
 	};
 
 public:
-	// TODO split into 3 different classes
+	// TODO split into 3 different classes?
 	CTexture( const std::shared_ptr< const CImage > &image );
-	CTexture( std::unique_ptr< const CCubemapData > cubemapData );
-	CTexture( std::unique_ptr< const C2DArrayData > arrayData );
+	CTexture( const std::unique_ptr< const CCubemapData > cubemapData );
+	CTexture( const std::unique_ptr< const C2DArrayData > arrayData );
 	~CTexture( void );
 
 	void BindToUnit( const GLuint unit ) const;

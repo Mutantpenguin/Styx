@@ -34,10 +34,9 @@ private:
 	CShaderManager	m_shaderManager;
 	CTextureManager m_textureManager;
 
-	void CreateDummyMaterial( void );
 	std::shared_ptr< CMaterial > m_dummyMaterial;
 
-	std::unordered_map< std::string, std::weak_ptr< CMaterial > > m_materials;
+	std::unordered_map< std::string, std::shared_ptr< CMaterial > > m_materials;
 };
 
 #endif // CMATERIALMANAGER_HPP

@@ -5,6 +5,8 @@
 
 #include "src/engine/system/CSettings.hpp"
 
+#include "src/engine/renderer/texture/CTextureLoader.hpp"
+
 #include "src/engine/renderer/texture/CTexture.hpp"
 #include "src/engine/renderer/CRendererCapabilities.hpp"
 
@@ -23,11 +25,8 @@ public:
 private:
 	const CFileSystem &m_filesystem;
 
-	std::shared_ptr< CTexture > Create2DTextureFromFile( const std::string &path );
-	std::shared_ptr< CTexture > CreateCubeTextureFromFile( const std::string &path );
-	std::shared_ptr< CTexture > Create2DArrayTextureFromFile( const std::string &path );
+	CTextureLoader m_textureLoader;
 
-	bool CreateDummyTexture( void );
 	std::shared_ptr< CTexture > m_dummyTexture;
 
 	GLint	m_iMaxTextureSize;
@@ -37,7 +36,7 @@ private:
 
 	const std::uint8_t MAX_PICMIP { 4 };
 
-	std::unordered_map< std::string, std::weak_ptr< CTexture > > m_textures;
+	std::unordered_map< std::string, std::shared_ptr< CTexture > > m_textures;
 };
 
 #endif // CTEXTUREMANAGER_HPP

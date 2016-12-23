@@ -1,0 +1,24 @@
+{
+	"name"			:	"schnarf",
+	"cullmode"		:	"BACK",
+	"polygonmode"	:	"FILL",
+	"shaders"	:	{
+						"vs" : "shaders/vs/superBox.vs.glsl",
+						"fs" : "shaders/fs/superBox.fs.glsl"
+					},
+	"textures"	:	{
+						"bgTexture"		: "textures/texpack_1/mybitmap.bmp",
+						"fgTexture"		: "textures/texpack_1/senn_icyfangrate.tga",
+						"skyBoxTexture"	: "textures/cube/creek/creek.cub"
+					},
+	"samplers"	:	{
+						"bgTexture"	: "REPEAT_2D",
+						"fgTexture"	: "REPEAT_2D"
+					},
+	"uniforms"	:	{
+						"bgRadsPerSecond" : 0.349066,
+						"bgScaleU" : 0.25,
+						"bgScaleV" : 0.5,
+						"fgRadsPerSecond" : -0.174533
+					}
+}

@@ -6,18 +6,14 @@
 							"src"	: "ONE",
 							"dst"	: "ONE_MINUS_SRC_ALPHA"
 						},
-	"layers"		:	[
-							{
-								"shaders"	:	{
-													"vs" : "shaders/vs/standard.vs.glsl",
-													"fs" : "shaders/fs/standard.fs.glsl"
-												},
-								"textures"	:	{
-													"diffuseTexture" : "icons/inq_demo_icon_big.png"
-												},
-								"samplers"	:	{
-													"diffuseTexture" : "EDGE_2D"
-												}
-							}
-						]
+	"shaders"		:	{
+							"vs" : "shaders/vs/standard.vs.glsl",
+							"fs" : "shaders/fs/standard.fs.glsl"
+						},
+	"textures"		:	{
+							"diffuseTexture" : "icons/inq_demo_icon_big.png"
+						},
+	"samplers"		:	{
+							"diffuseTexture" : "EDGE_2D"
+						}
 }
