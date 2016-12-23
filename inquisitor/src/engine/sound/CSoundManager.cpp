@@ -7,22 +7,11 @@
 CSoundManager::CSoundManager( const CSettings &settings ) :
 	m_buffer_size { settings.sound.buffer_size }
 {
-}
-
-CSoundManager::~CSoundManager( void )
-{
-	alcDestroyContext( m_AL_context );
-
-	alcCloseDevice( m_AL_device );
-}
-
-bool CSoundManager::Init( void )
-{
 	m_AL_device = alcOpenDevice( nullptr );
 	if( nullptr == m_AL_device )
 	{
 		logERROR( "opening OpenAL device failed: {0}", ALHelper::GetOpenALErrorString( alGetError() ) );
-		return( false );
+		throw std::exception();
 	}
 
 	ALint versionMajor;
@@ -30,30 +19,36 @@ bool CSoundManager::Init( void )
 	ALint versionMinor;
 	alcGetIntegerv( m_AL_device, ALC_MAJOR_VERSION, 1, &versionMinor );
 
-	logINFO( "OpenAL Version: {0}.{1}", versionMajor, versionMinor );
-	logINFO( "OpenAL Device:  {0}", alcGetString( m_AL_device, ALC_DEVICE_SPECIFIER ) );
+	logINFO( "OpenAL" );
+	logINFO( "\t Version: {0}.{1}", versionMajor, versionMinor );
+	logINFO( "\t Device:  {0}", alcGetString( m_AL_device, ALC_DEVICE_SPECIFIER ) );
 
 	m_AL_context = alcCreateContext( m_AL_device, nullptr );
 	if( nullptr == m_AL_context )
 	{
 		logERROR( "creating OpenAL context failed: {0}", ALHelper::GetOpenALErrorString( alGetError() ) );
-		return( false );
+		throw std::exception();
 	}
 
 	if( !alcMakeContextCurrent( m_AL_context ) )
 	{
 		logERROR( "making OpenAL context current failed: {0}", ALHelper::GetOpenALErrorString( alGetError() ) );
-		return( false );
+		throw std::exception();
 	}
 
 	ALenum error = alGetError();
 	if( error != AL_NO_ERROR )
 	{
 		logERROR( "generating OpenAL buffers failed: {0}", ALHelper::GetOpenALErrorString( error ) );
-		return( false );
+		throw std::exception();
 	}
+}
 
-    return( true );
+CSoundManager::~CSoundManager( void )
+{
+	alcDestroyContext( m_AL_context );
+
+	alcCloseDevice( m_AL_device );
 }
 
 // TODO - this is just temporary to test sound-output

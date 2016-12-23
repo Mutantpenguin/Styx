@@ -24,28 +24,29 @@ public:
 
 	void    Run( void );
 
-	static const std::string GetVersionString( void );
+	static std::string GetVersionString( void );
 
 private:
-	const CGameInfo		m_gameInfo;
-	const CFileSystem	m_filesystem;
-	const CSettings		m_settings;
-
 	static const std::string m_name;
 	static const std::string m_version;
 	static const std::string m_status;
 
-	CSDL	m_sdl;
+	const CGameInfo		m_gameInfo;
+	const CFileSystem	m_filesystem;
+	const CSettings		m_settings;
 
-	CWindow		m_window;
+	const CSDL	m_sdl;
+
+	const CWindow	m_window;
+
 	CInput		m_input;
 	CRenderer	m_renderer;
 
 	CSoundManager	m_soundManager;
 
-	std::shared_ptr< CState > m_currentState;
-
 	CTimer	m_globalTimer;
+
+	std::shared_ptr< CState > m_currentState;
 };
 
 #endif // CENGINE_HPP

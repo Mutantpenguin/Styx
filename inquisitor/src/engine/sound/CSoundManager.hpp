@@ -24,8 +24,6 @@ private:
 	CSoundManager( const CSettings &settings );
 	~CSoundManager( void );
 
-	bool	Init( void );
-
 	void	Update( void );
 
 private:
