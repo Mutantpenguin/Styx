@@ -182,7 +182,7 @@ CWindow::~CWindow( void )
 	}
 }
 
-void CWindow::Update( void )
+void CWindow::Update( void ) const
 {
 	SDL_GL_SwapWindow( m_SDL_window );
 }

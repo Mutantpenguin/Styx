@@ -11,9 +11,9 @@ class CWindow final
 {
 public:
 	CWindow( const CSettings &settings, const CFileSystem &filesystem, const std::string &windowTitle, const std::string &iconPath );
-	virtual ~CWindow( void );
+	~CWindow( void );
 
-	virtual void	Update( void );
+	void Update( void ) const;
 
 private:
 	SDL_Window		*m_SDL_window { nullptr };
