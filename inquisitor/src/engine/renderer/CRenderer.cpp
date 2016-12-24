@@ -70,7 +70,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 	logINFO( "video memory:" );
 	if( !supports_GL_NVX_gpu_memory_info && !supports_GL_ATI_meminfo )
 	{
-		logINFO( "\tnot available" );
+		logINFO( "\tno information available" );
 	}
 	else
 	{
