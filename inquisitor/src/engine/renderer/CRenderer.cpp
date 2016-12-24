@@ -46,20 +46,26 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 	#endif
 
 
+	logINFO( "required OpenGL extensions:" );
 	const auto requiredOpenGLExtensions = {	GLextension::GL_EXT_texture_filter_anisotropic,
-											GLextension::GL_ARB_texture_storage,
-											GLextension::GL_ARB_direct_state_access,
-											GLextension::GL_ARB_explicit_uniform_location,
 											// TODO not needed anymore when we can switch to a 4.2 core context (or higher)
 											GLextension::GL_ARB_shading_language_420pack,
-											GLextension::GL_ARB_program_interface_query };
+											GLextension::GL_ARB_texture_storage,
+											// TODO not needed anymore when we can switch to a 4.3 core context (or higher)
+											GLextension::GL_ARB_program_interface_query,
+											// TODO not needed anymore when we can switch to a 4.5 core context (or higher)
+											GLextension::GL_ARB_direct_state_access };
 
 	for( const auto &extension : requiredOpenGLExtensions )
 	{
 		if( !m_rendererCapabilities.isSupported( extension ) )
 		{
-			logERROR( "required extension {0} not supported", glbinding::Meta::getString( extension ) );
+			logERROR( "\t{0} is MISSING", glbinding::Meta::getString( extension ) );
 			throw Exception();
+		}
+		else
+		{
+			logINFO( "\t{0} is available", glbinding::Meta::getString( extension ) );
 		}
 	}
 
@@ -71,11 +77,14 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 	if( !supports_GL_NVX_gpu_memory_info && !supports_GL_ATI_meminfo )
 	{
 		logINFO( "\tno information available" );
+		logDEBUG( "\tneither {0} nor {1} are supported", glbinding::Meta::getString( GLextension::GL_NVX_gpu_memory_info ), glbinding::Meta::getString( GLextension::GL_ATI_meminfo ) );
 	}
 	else
 	{
 		if( supports_GL_NVX_gpu_memory_info )
 		{
+			logDEBUG( "\t{0} is supported", glbinding::Meta::getString( GLextension::GL_NVX_gpu_memory_info ) );
+
 			GLint dedicatedMemKb = 0;
 			glGetIntegerv( GL_GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX, &dedicatedMemKb );
 
@@ -92,6 +101,8 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 
 		if( supports_GL_ATI_meminfo )
 		{
+			logDEBUG( "\t{0} is supported", glbinding::Meta::getString( GLextension::GL_ATI_meminfo ) );
+
 			GLint vboFreeMemKb = 0;
 			glGetIntegerv( GL_VBO_FREE_MEMORY_ATI, &vboFreeMemKb );
 
