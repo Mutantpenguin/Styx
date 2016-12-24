@@ -18,13 +18,13 @@ CSDL::CSDL()
 	if( SDL_COMPILEDVERSION != SDL_VERSIONNUM( version_linked.major, version_linked.minor, version_linked.patch ) )
 	{
 		logERROR( "\tbut version '{0}.{1}.{2}' was expected", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL );
-		throw std::exception();
+		throw Exception();
 	}
 
 	if( SDL_Init( 0 ) )
 	{
 		logERROR( "initialising SDL failed: {0}", SDL_GetError() );
-		throw std::exception();
+		throw Exception();
 	}
 
 	#ifdef WIN32
@@ -32,12 +32,12 @@ CSDL::CSDL()
 		if( std::freopen( "CON", "w", stdout ) == nullptr )
 		{
 			logERROR( "couldn't redirect stdout" );
-			throw std::exception();
+			throw Exception();
 		}
 		if( std::freopen( "CON", "w", stderr ) == nullptr )
 		{
 			logERROR( "couldn't redirect stdout" );
-			throw std::exception();
+			throw Exception();
 		}
 	#endif
 }

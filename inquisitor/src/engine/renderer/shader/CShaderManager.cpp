@@ -27,6 +27,10 @@ const std::unordered_map< const EEngineUniform, const SShaderInterface > CShader
 CShaderManager::CShaderManager( const CFileSystem &p_filesystem ) :
 	m_filesystem { p_filesystem }
 {
+	if( !CreateDummyProgram() )
+	{
+		throw Exception();
+	}
 }
 
 CShaderManager::~CShaderManager()
@@ -42,16 +46,6 @@ CShaderManager::~CShaderManager()
 		glDeleteShader( fragmentShader.second );
 	}
 	m_fragmentShaders.clear();
-}
-
-bool CShaderManager::Init( void )
-{
-	if( !CreateDummyProgram() )
-	{
-		return( false );
-	}
-
-	return( true );
 }
 
 bool CShaderManager::CreateDummyProgram( void )

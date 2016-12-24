@@ -117,6 +117,8 @@
           <File Name="src/engine/renderer/camera/CCameraFree.hpp"/>
           <File Name="src/engine/renderer/camera/CCameraFree.cpp"/>
         </VirtualDirectory>
+        <File Name="src/engine/renderer/COpenGlAdapter.cpp"/>
+        <File Name="src/engine/renderer/COpenGlAdapter.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="helper">
         <VirtualDirectory Name="image">

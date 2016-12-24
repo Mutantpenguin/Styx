@@ -1,13 +1,13 @@
-#ifndef CSDL_HPP
-#define CSDL_HPP
+#ifndef COPENGLADAPTER_HPP
+#define COPENGLADAPTER_HPP
 
 #include <exception>
 
-class CSDL
+class COpenGlAdapter final
 {
 public:
-	CSDL();
-	~CSDL();
+	COpenGlAdapter();
+	~COpenGlAdapter();
 
 	class Exception: public std::exception
 	{
@@ -18,4 +18,4 @@ public:
 	};
 };
 
-#endif // CSDL_HPP
+#endif // COPENGLADAPTER_HPP

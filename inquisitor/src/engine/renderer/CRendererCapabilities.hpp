@@ -5,15 +5,15 @@
 
 #include "GL.h"
 
-class CRendererCapabilities
+class CRendererCapabilities final
 {
 public:
-	void Init( void );
+	CRendererCapabilities( void );
 
 	bool isSupported( const gl::GLextension extension ) const;
 
 private:
-	std::set< gl::GLextension > m_extensions;
+	const std::set< gl::GLextension > m_extensions;
 };
 
 #endif // CRENDERERCAPABILITIES_HPP

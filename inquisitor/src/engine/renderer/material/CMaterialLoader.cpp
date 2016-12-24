@@ -10,14 +10,16 @@
 
 #include "src/engine/renderer/GLHelper.hpp"
 
-std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &textureManager, CShaderManager &shaderManager, const CSamplerManager &samplerManager, const std::string &identifier, const std::string &definition )
+std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromFile( CTextureManager &textureManager, CShaderManager &shaderManager, const CSamplerManager &samplerManager, const CFileSystem &filesystem, const std::string &path )
 {
+	const std::string definition = filesystem.LoadTextFileToBuffer( path );
+
 	Json::Reader	reader;
 	Json::Value		mat_root;
 
 	if( !reader.parse( definition, mat_root ) )
 	{
-		logWARNING( "failed to parse '{0}' because of {1}", identifier, reader.getFormattedErrorMessages() );
+		logWARNING( "failed to parse '{0}' because of {1}", path, reader.getFormattedErrorMessages() );
 		return( nullptr );
 	}
 
@@ -65,7 +67,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 	const Json::Value mat_shaders = mat_root[ "shaders" ];
 	if( mat_shaders.empty() )
 	{
-		logWARNING( "no shaders specified in '{0}'", identifier );
+		logWARNING( "no shaders specified in '{0}'", path );
 		return( nullptr );
 	}
 	else
@@ -76,7 +78,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 		const Json::Value mat_shader_vs = mat_shaders[ "vs" ];
 		if( mat_shader_vs.empty() )
 		{
-			logWARNING( "no vertex shader specified in '{0}'", identifier );
+			logWARNING( "no vertex shader specified in '{0}'", path );
 			return( nullptr );
 		}
 		else
@@ -87,7 +89,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 		const Json::Value mat_shader_fs = mat_shaders[ "fs" ];
 		if( mat_shader_fs.empty() )
 		{
-			logWARNING( "no fragment shader specified in '{0}'", identifier );
+			logWARNING( "no fragment shader specified in '{0}'", path );
 			return( nullptr );
 		}
 		else
@@ -95,7 +97,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 			shader_fs_path = mat_shader_fs.asString();
 		}
 
-		std::shared_ptr< CShaderProgram > shader = shaderManager.LoadProgram( shader_vs_path, shader_fs_path );
+		auto shader = shaderManager.LoadProgram( shader_vs_path, shader_fs_path );
 
 		newMaterial->m_shader = shader;
 
@@ -106,7 +108,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 		{
 			if(	mat_textures.empty() )
 			{
-				logWARNING( "no textures specified in '{0}'", identifier );
+				logWARNING( "no textures specified in '{0}'", path );
 				return( nullptr );
 			}
 			else
@@ -119,7 +121,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 					const Json::Value mat_texture = mat_textures[ interface.name ];
 					if( mat_texture.empty() )
 					{
-						logWARNING( "required texture for sampler '{0}' not specified in '{1}'", interface.name, identifier );
+						logWARNING( "required texture for sampler '{0}' not specified in '{1}'", interface.name, path );
 						return( nullptr );
 					}
 					else
@@ -133,7 +135,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 							case GL_SAMPLER_2D:
 								if( texture->Type() != CTexture::type::TEX_2D )
 								{
-									logWARNING( "required texture for sampler '{0}' has to be of type 2D in '{1}'", interface.name, identifier );
+									logWARNING( "required texture for sampler '{0}' has to be of type 2D in '{1}'", interface.name, path );
 									return( nullptr );
 								}
 								break;
@@ -141,7 +143,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 							case GL_SAMPLER_CUBE:
 								if( texture->Type() != CTexture::type::TEX_CUBE_MAP )
 								{
-									logWARNING( "required texture for sampler '{0}' has to be of type CUBEMAP in '{1}'", interface.name, identifier );
+									logWARNING( "required texture for sampler '{0}' has to be of type CUBEMAP in '{1}'", interface.name, path );
 									return( nullptr );
 								}
 								break;
@@ -149,7 +151,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 							case GL_SAMPLER_2D_ARRAY:
 								if( texture->Type() != CTexture::type::TEX_2D_ARRAY )
 								{
-									logWARNING( "required texture for sampler '{0}' has to be of type 2D_ARRAY in '{1}'", interface.name, identifier );
+									logWARNING( "required texture for sampler '{0}' has to be of type 2D_ARRAY in '{1}'", interface.name, path );
 									return( nullptr );
 								}
 								break;
@@ -159,7 +161,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 								return( nullptr );
 						}
 
-						std::shared_ptr< CSampler > sampler;
+						std::shared_ptr< const CSampler > sampler;
 
 						const Json::Value mat_sampler = mat_samplers[ interface.name ];
 						if( !mat_sampler.empty() )
@@ -167,7 +169,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 							// TODO check here, if specified sampler fits to the type of the texture
 							if( !samplerManager.SamplerFromString( mat_sampler.asString(), sampler ) )
 							{
-								logDEBUG( "invalid sampler specified for texture '{0}' in '{1}'", interface.name, identifier );
+								logDEBUG( "invalid sampler specified for texture '{0}' in '{1}'", interface.name, path );
 							}
 						}
 
@@ -189,7 +191,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 									break;
 
 								default:
-									logWARNING( "unknown type for sampler specified for texture '{0}' in '{1}'", interface.name, identifier );
+									logWARNING( "unknown type for sampler specified for texture '{0}' in '{1}'", interface.name, path );
 									return( nullptr );
 							}
 						}
@@ -217,7 +219,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 																		return( vt.second.name == textureName );
 																	} ) )
 				{
-					logWARNING( "unused texture '{0}' in '{1}'", textureName, identifier );
+					logWARNING( "unused texture '{0}' in '{1}'", textureName, path );
 				}
 			}
 
@@ -231,7 +233,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 																		return( vt.second.name == samplerName );
 																	} ) )
 				{
-					logWARNING( "unused sampler '{0}' in '{1}'", samplerName, identifier );
+					logWARNING( "unused sampler '{0}' in '{1}'", samplerName, path );
 				}
 			}
 		}
@@ -242,7 +244,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 			const Json::Value mat_uniforms = mat_root[ "uniforms" ];
 			if(	mat_uniforms.empty() )
 			{
-				logWARNING( "no required uniforms specified in '{0}'", identifier );
+				logWARNING( "no required uniforms specified in '{0}'", path );
 				return( nullptr );
 			}
 			else
@@ -255,7 +257,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 					const Json::Value mat_uniform = mat_uniforms[ interface.name ];
 					if( mat_uniform.empty() )
 					{
-						logWARNING( "required uniform '{0}' not specified in '{1}'", interface.name, identifier );
+						logWARNING( "required uniform '{0}' not specified in '{1}'", interface.name, path );
 						return( nullptr );
 					}
 					else
@@ -265,7 +267,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 							case GL_UNSIGNED_INT:
 								if( !mat_uniform.isUInt() )
 								{
-									logWARNING( "uniform '{0}' in '{1}' is not of type {2}", interface.name, identifier, glbinding::Meta::getString( interface.type ) );
+									logWARNING( "uniform '{0}' in '{1}' is not of type {2}", interface.name, path, glbinding::Meta::getString( interface.type ) );
 									return( nullptr );
 								}
 								else
@@ -277,7 +279,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 							case GL_FLOAT:
 								if( !mat_uniform.isDouble() )
 								{
-									logWARNING( "uniform '{0}' in '{1}' is not of type {2}", interface.name, identifier, glbinding::Meta::getString( interface.type ) );
+									logWARNING( "uniform '{0}' in '{1}' is not of type {2}", interface.name, path, glbinding::Meta::getString( interface.type ) );
 									return( nullptr );
 								}
 								else
@@ -289,12 +291,12 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 							case GL_FLOAT_VEC4:
 								if( !mat_uniform.isArray() )
 								{
-									logWARNING( "uniform '{0}' in '{1}' is not an array", interface.name, identifier );
+									logWARNING( "uniform '{0}' in '{1}' is not an array", interface.name, path );
 									return( nullptr );
 								}
 								else if( mat_uniform.size() != 4)
 								{
-									logWARNING( "uniform '{0}' in '{1}' has not enough oder more than needed values", interface.name, identifier );
+									logWARNING( "uniform '{0}' in '{1}' has not enough oder more than needed values", interface.name, path );
 									return( nullptr );
 								}
 								else
@@ -312,7 +314,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 										||
 										!value3.isDouble() )
 									{
-										logWARNING( "not all values of uniform '{0}' in '{1}' are floats", interface.name, identifier );
+										logWARNING( "not all values of uniform '{0}' in '{1}' are floats", interface.name, path );
 										return( nullptr );
 									}
 									else
@@ -323,7 +325,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterial( CTextureManager &t
 								break;
 
 							default:
-								logWARNING( "uniform '{0}' in '{1}' is of unsupported type {2}", interface.name, identifier, glbinding::Meta::getString( interface.type ) );
+								logWARNING( "uniform '{0}' in '{1}' is of unsupported type {2}", interface.name, path, glbinding::Meta::getString( interface.type ) );
 								return( nullptr );
 								break;
 						}

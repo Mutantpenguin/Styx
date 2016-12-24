@@ -16,13 +16,19 @@ friend class CRenderer;
 public:
 	std::shared_ptr< CMaterial > LoadMaterial( const std::string &path );
 
+	class Exception: public std::exception
+	{
+	public:
+		explicit Exception( void ) {}
+
+		virtual ~Exception() throw() {}
+	};
+
 private:
-	CMaterialManager( const CSettings &settings, const CFileSystem &filesystem, const CSamplerManager &samplerManager );
+	CMaterialManager( const CSettings &settings, const CFileSystem &filesystem, const CSamplerManager &samplerManager, const CRendererCapabilities &rendererCapabilities );
 	virtual ~CMaterialManager( void );
 
-	bool	Init( const CRendererCapabilities &rendererCapabilities );
-
-	void	Update( const float delta );
+	void	Update( void );
 
 private:
 	CShaderManager &ShaderManager( void );
@@ -34,7 +40,7 @@ private:
 	CShaderManager	m_shaderManager;
 	CTextureManager m_textureManager;
 
-	std::shared_ptr< CMaterial > m_dummyMaterial;
+	const std::shared_ptr< CMaterial > m_dummyMaterial;
 
 	std::unordered_map< std::string, std::shared_ptr< CMaterial > > m_materials;
 };

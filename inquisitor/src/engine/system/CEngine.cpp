@@ -10,17 +10,48 @@ const std::string CEngine::m_name		{ "Inquisitor Engine" };
 const std::string CEngine::m_version	{ "16.04" };
 const std::string CEngine::m_status		{ "pre-alpha" };
 
-CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std::string &settingsFile ) :
-	m_gameInfo( gameDirectory ),
-	m_filesystem( argv0, m_gameInfo.GetOrganisation(), m_gameInfo.GetShortName(), m_gameInfo.GetDir(), m_gameInfo.GetAssets() ),
-	m_settings( m_filesystem, settingsFile ),
-	m_sdl(),
-	m_window( m_settings, m_filesystem, m_gameInfo.GetName(), m_gameInfo.GetIconPath() ),
-	m_input( m_settings, m_filesystem ),
-	m_renderer( m_settings, m_filesystem ),
-	m_soundManager( m_settings ),
-	m_currentState { std::make_shared< CStateIntro >( m_filesystem, m_settings, m_globalTimer.Time(), m_soundManager, m_renderer ) }
+CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std::string &settingsFile )
+	try :
+		m_gameInfo( gameDirectory ),
+		m_filesystem( argv0, m_gameInfo.GetOrganisation(), m_gameInfo.GetShortName(), m_gameInfo.GetDir(), m_gameInfo.GetAssets() ),
+		m_settings( m_filesystem, settingsFile ),
+		m_sdl(),
+		m_window( m_settings, m_filesystem, m_gameInfo.GetName(), m_gameInfo.GetIconPath() ),
+		m_input( m_settings, m_filesystem ),
+		m_renderer( m_settings, m_filesystem ),
+		m_soundManager( m_settings ),
+		m_currentState { std::make_shared< CStateIntro >( m_filesystem, m_settings, m_globalTimer.Time(), m_soundManager, m_renderer ) }
 {
+}
+catch( CRenderer::Exception &e )
+{
+	logERROR( "unable to initialize Renderer" );
+	throw std::exception();
+}
+catch( CSDL::Exception &e )
+{
+	logERROR( "unable to initialize SDL" );
+	throw std::exception();
+}
+catch( CWindow::Exception &e )
+{
+	logERROR( "unable to initialize Window" );
+	throw std::exception();
+}
+catch( CGameInfo::Exception &e )
+{
+	logERROR( "unable to initialize GameInfo" );
+	throw std::exception();
+}
+catch( CFileSystem::Exception &e )
+{
+	logERROR( "unable to initialize Filesystem" );
+	throw std::exception();
+}
+catch( CSoundManager::Exception &e )
+{
+	logERROR( "unable to initialize SoundManager" );
+	throw std::exception();
 }
 
 CEngine::~CEngine( void )
@@ -63,7 +94,7 @@ void CEngine::Run( void )
 			lastUpdatedTime += m_settings.engine.tick;
 		}
 
-		m_renderer.Update( m_globalTimer.dT() );
+		m_renderer.Update();
 
 		m_window.Update();
 	}

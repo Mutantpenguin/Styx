@@ -1,6 +1,7 @@
 #ifndef CFILESYSTEM_HPP
 #define CFILESYSTEM_HPP
 
+#include <exception>
 #include <string>
 #include <vector>
 
@@ -47,6 +48,14 @@ public :
 	std::string	LoadTextFileToBuffer( const std::string &filename ) const;
 
 	static const char *GetDirSeparator( void );
+
+	class Exception: public std::exception
+	{
+	public:
+		explicit Exception( void ) {}
+
+		virtual ~Exception() throw() {}
+	};
 };
 
 #endif // CFILESYSTEM_HPP

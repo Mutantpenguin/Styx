@@ -20,6 +20,14 @@ public:
 	// TODO - this is just for testing sound
 	static void	Play( const std::shared_ptr< const CSound > &sound );
 
+	class Exception: public std::exception
+	{
+	public:
+		explicit Exception( void ) {}
+
+		virtual ~Exception() throw() {}
+	};
+
 private:
 	CSoundManager( const CSettings &settings );
 	~CSoundManager( void );

@@ -5,60 +5,26 @@
 #include <glm/gtx/norm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <glbinding/Binding.h>
 #include <glbinding/Meta.h>
-#include <glbinding/Version.h>
-#include <glbinding/ContextInfo.h>
 
 #include "src/engine/renderer/CGLState.hpp"
 
 #include "src/engine/logger/CLogger.hpp"
 
-CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem ) :
-	m_settings { settings },
-	m_samplerManager( settings ),
-	m_materialmanager( settings, filesystem, m_samplerManager )
+CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
+	try :
+		m_settings { settings },
+		m_samplerManager( settings ),
+		m_materialmanager( settings, filesystem, m_samplerManager, m_rendererCapabilities )
 {
-	glbinding::Binding::initialize();
-
-	// TODO query all capabilities in this class
-	m_rendererCapabilities.Init();
-
-	logINFO( "OpenGL Version:  {0}",          glbinding::ContextInfo::version().toString() );
-	logINFO( "OpenGL Vendor:   {0}",          glbinding::ContextInfo::vendor() );
-	logINFO( "OpenGL Renderer: {0}",          glbinding::ContextInfo::renderer() );
-	logINFO( "OpenGL Revision: {0} (gl.xml)", glbinding::Meta::glRevision() );
-	logINFO( "GLSL Version:    {0}",          glGetString( GL_SHADING_LANGUAGE_VERSION ) );
-
-	glGetIntegerv( GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &m_maxCombinedTextureImageUnits );
-	if( m_maxCombinedTextureImageUnits < CShaderManager::requiredCombinedTextureImageUnits )
-	{
-		logERROR( "not enough combined texture image units: {0} found but {1} needed", m_maxCombinedTextureImageUnits, CShaderManager::requiredCombinedTextureImageUnits );
-		throw std::exception();
-	}
-	logDEBUG( "{0} is {1}", glbinding::Meta::getString( GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS ), m_maxCombinedTextureImageUnits );
-
-	const auto requiredOpenGLExtensions = {	GLextension::GL_EXT_texture_filter_anisotropic,
-											GLextension::GL_ARB_texture_storage,
-											GLextension::GL_ARB_direct_state_access,
-											GLextension::GL_ARB_explicit_uniform_location,
-											GLextension::GL_ARB_shading_language_420pack,
-											GLextension::GL_ARB_program_interface_query };
-
-	for( const auto &extension : requiredOpenGLExtensions )
-	{
-		if( !m_rendererCapabilities.isSupported( extension ) )
-		{
-			logERROR( "required extension {0} not supported", glbinding::Meta::getString( extension ) );
-			throw std::exception();
-		}
-	}
-
+	// TODO somehow put this into the OpenGlAdapter
 	#ifdef INQ_DEBUG
 		if( m_rendererCapabilities.isSupported( GLextension::GL_KHR_debug )
 			||
 			m_rendererCapabilities.isSupported( GLextension::GL_ARB_debug_output ) )
 		{
+			logINFO( "OpenGL debug output enabled" );
+
 			glEnable( GL_DEBUG_OUTPUT_SYNCHRONOUS );
 
 			glDebugMessageCallback(	[]( GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei, const GLchar* message, const void* )
@@ -66,11 +32,11 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 										const e_loglevel loglvl = ( GL_DEBUG_SEVERITY_HIGH == severity ) ? e_loglevel::ERROR : e_loglevel::WARNING;
 
 										LOG( loglvl, "OpenGL ERROR" );
-										LOG( loglvl, "Source   : {0}", glbinding::Meta::getString( source ) );
-										LOG( loglvl, "Type     : {0}", glbinding::Meta::getString( type ) );
-										LOG( loglvl, "ID       : {0}", id );
-										LOG( loglvl, "Severity : {0}", glbinding::Meta::getString( severity ) );
-										LOG( loglvl, "Message  : {0}", message );
+										LOG( loglvl, "\tSource\t: {0}", glbinding::Meta::getString( source ) );
+										LOG( loglvl, "\tType\t: {0}", glbinding::Meta::getString( type ) );
+										LOG( loglvl, "\tID\t: {0}", id );
+										LOG( loglvl, "\tSeverity\t: {0}", glbinding::Meta::getString( severity ) );
+										LOG( loglvl, "\tMessage\t: {0}", message );
 									}, nullptr );
 		}
 		else
@@ -79,13 +45,32 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 		}
 	#endif
 
+
+	const auto requiredOpenGLExtensions = {	GLextension::GL_EXT_texture_filter_anisotropic,
+											GLextension::GL_ARB_texture_storage,
+											GLextension::GL_ARB_direct_state_access,
+											GLextension::GL_ARB_explicit_uniform_location,
+											// TODO not needed anymore when we can switch to a 4.2 core context (or higher)
+											GLextension::GL_ARB_shading_language_420pack,
+											GLextension::GL_ARB_program_interface_query };
+
+	for( const auto &extension : requiredOpenGLExtensions )
+	{
+		if( !m_rendererCapabilities.isSupported( extension ) )
+		{
+			logERROR( "required extension {0} not supported", glbinding::Meta::getString( extension ) );
+			throw Exception();
+		}
+	}
+
+
 	const bool supports_GL_NVX_gpu_memory_info = m_rendererCapabilities.isSupported( GLextension::GL_NVX_gpu_memory_info );
 	const bool supports_GL_ATI_meminfo         = m_rendererCapabilities.isSupported( GLextension::GL_ATI_meminfo );
 
 	logINFO( "video memory:" );
 	if( !supports_GL_NVX_gpu_memory_info && !supports_GL_ATI_meminfo )
 	{
-		logINFO( "  not available" );
+		logINFO( "\tnot available" );
 	}
 	else
 	{
@@ -122,24 +107,22 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 		}
 	}
 
-	if( !m_materialmanager.Init( m_rendererCapabilities ) )
-	{
-		logERROR( "unable to initialize MaterialManager" );
-		throw std::exception();
-	}
-
-	if( !m_samplerManager.Init( ) )
-	{
-		logERROR( "unable to initialize SamplerManager" );
-		throw std::exception();
-	}
-
 	glDepthFunc( GL_LEQUAL );
 	glEnable( GL_DEPTH_TEST );
 
 	glEnable( GL_TEXTURE_CUBE_MAP_SEAMLESS );
 
 	CreateUniformBuffers();
+}
+catch( CMaterialManager::Exception &e )
+{
+	logERROR( "unable to initialize MaterialManager" );
+	throw Exception();
+}
+catch( COpenGlAdapter::Exception &e )
+{
+	logERROR( "unable to initialize OpenGlAdapter" );
+	throw Exception();
 }
 
 void CRenderer::CreateUniformBuffers( void )
@@ -190,9 +173,9 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &ca
 	m_uboCamera->SubData( offset,	sizeof( viewProjectionMatrix ),	glm::value_ptr( viewProjectionMatrix ) );
 }
 
-void CRenderer::Update( const float delta )
+void CRenderer::Update( void )
 {
-	m_materialmanager.Update( delta );
+	m_materialmanager.Update();
 }
 
 std::shared_ptr< CImage > CRenderer::GetScreenshot( void ) const

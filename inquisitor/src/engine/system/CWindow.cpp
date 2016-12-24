@@ -9,7 +9,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 	if( SDL_InitSubSystem( SDL_INIT_VIDEO ) )
 	{
 		logERROR( "initializing SDL video subsystem failed: {0}", SDL_GetError() );
-		throw std::exception();
+		throw Exception();
 	}
 
 	std::uint8_t showWindowOnDisplay = settings.renderer.window.display;
@@ -78,7 +78,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 	if( nullptr == m_SDL_window )
 	{
 		logERROR( "creating SDL window failed: {0}", SDL_GetError() );
-		throw std::exception();
+		throw Exception();
 	}
 
 	if( !iconPath.empty() )
@@ -112,13 +112,13 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 	if( nullptr == m_SDL_GL_context )
 	{
 		logERROR( "creating a GL context failed: {0}", SDL_GetError() );
-		throw std::exception();
+		throw Exception();
 	}
 
 	if( SDL_GL_MakeCurrent( m_SDL_window, m_SDL_GL_context ) )
 	{
 		logERROR( "making the GL context current failed: {0}", SDL_GetError() );
-		throw std::exception();
+		throw Exception();
 	}
 
 	int doubleBuffered = 0;
@@ -127,7 +127,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 		( 0 == doubleBuffered ) )
 	{
 		logERROR( "couldn't get a double-buffered GL context: {0}", SDL_GetError() );
-		throw std::exception();
+		throw Exception();
 	}
 
 	if( settings.renderer.window.vsync )

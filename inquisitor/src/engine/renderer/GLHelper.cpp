@@ -218,6 +218,7 @@ namespace GLHelper
 				return( "mat3" );
 
 			default:
+				logERROR( "unhandled type: {0}", glbinding::Meta::getString( type ) );
 				throw std::exception();
 		}
 	}

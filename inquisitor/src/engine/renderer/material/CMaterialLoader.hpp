@@ -12,7 +12,7 @@ class CMaterialLoader final
 	friend class CMaterialManager;
 
 private:
-	static std::shared_ptr< CMaterial > CreateMaterial( CTextureManager &textureManager, CShaderManager &shaderManager, const CSamplerManager &samplerManager, const std::string &identifier, const std::string &definition );
+	static std::shared_ptr< CMaterial > CreateMaterialFromFile( CTextureManager &textureManager, CShaderManager &shaderManager, const CSamplerManager &samplerManager, const CFileSystem &filesystem, const std::string &path );
 
 	static std::shared_ptr< CMaterial > CreateDummyMaterial( CShaderManager &shaderManager );
 };

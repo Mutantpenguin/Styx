@@ -6,18 +6,21 @@
 	#include <windows.h>
 #endif
 
-#include <glbinding/Meta.h>
-
 #include "src/engine/renderer/CGLState.hpp"
 
 #include "src/engine/logger/CLogger.hpp"
 
 
-CTextureManager::CTextureManager( const CSettings &p_settings, const CFileSystem &p_filesystem ) :
+CTextureManager::CTextureManager( const CSettings &p_settings, const CFileSystem &p_filesystem, const CRendererCapabilities &rendererCapabilities ) :
 	m_filesystem( p_filesystem ),
-	// clamp the value so we don't get too bad texture-quality
-	m_iPicMip( std::min( p_settings.renderer.textures.picmip, MAX_PICMIP ) )
+	m_textureLoader( p_settings, rendererCapabilities ),
+	m_dummyTexture { m_textureLoader.CreateDummyTexture() }
 {
+	if( nullptr == m_dummyTexture )
+	{
+		logERROR( "dummy-texture couldn't be generated" );
+		throw Exception();
+	}
 }
 
 CTextureManager::~CTextureManager( void )
@@ -32,54 +35,6 @@ CTextureManager::~CTextureManager( void )
 		}
 		#endif
 	}
-}
-
-/**	initialisation of the texture-manager
-	queries the graphics-adapter to set the following flags :
-	- texture filter
-	- max texture size
-	- texture quality
-	- anisotropic filtering
-	- edge-clamp
-*/
-bool CTextureManager::Init( const CRendererCapabilities &rendererCapabilities )
-{
-	// look out for the maximal texture size
-	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &m_iMaxTextureSize );
-	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_TEXTURE_SIZE ), m_iMaxTextureSize );
-
-	// look out for the maximal cubemap texture size
-	glGetIntegerv( GL_MAX_CUBE_MAP_TEXTURE_SIZE, &m_iMaxCubeMapTextureSize );
-	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_CUBE_MAP_TEXTURE_SIZE ), m_iMaxCubeMapTextureSize );
-
-	if( rendererCapabilities.isSupported( GLextension::GL_ARB_internalformat_query2 ) )
-	{
-		/* TODO try to use GL_ARB_internalformat_query2 when available on r600
-		//GLenum format, type;
-		GLint format, type;
-		gl42::glGetInternalformativ( GL_TEXTURE_2D, GL_RGBA8, gl43::GL_INTERNALFORMAT_PREFERRED, 1, &format );
-		//gl43::glGetInternalformativ( GL_TEXTURE_2D, GL_RGBA8, gl43::GL_TEXTURE_IMAGE_FORMAT, 1, &format );
-		//gl43::glGetInternalformativ( GL_TEXTURE_2D, GL_RGBA8, gl43::GL_TEXTURE_IMAGE_TYPE, 1, &type );
-
-		logERROR( "format: {0}", glbinding::Meta::getString( static_cast< GLenum >( format ) ) );
-		//logERROR( "type: {0}", glbinding::Meta::getString( type ) );
-	}
-	else
-	{
-		logINFO( "using '{0}' as internal texture format", glbinding::Meta::getString( m_internalTextureFormat ) );
-	}
-	*/
-	}
-
-
-	m_dummyTexture = m_textureLoader.CreateDummyTexture();
-
-	if( nullptr == m_dummyTexture )
-	{
-		return( false );
-	}
-
-	return( true );
 }
 
 void CTextureManager::Update( void )
@@ -122,15 +77,15 @@ std::shared_ptr< CTexture > CTextureManager::LoadTexture( const std::string &pat
 	{
 		if( path.substr( path.length() - 4, 4 ) == std::string( ".cub" ) )
 		{
-			ttemp = m_textureLoader.CreateCubeTextureFromFile( m_filesystem, path, m_iMaxCubeMapTextureSize, m_iPicMip );
+			ttemp = m_textureLoader.CreateCubeTextureFromFile( m_filesystem, path );
 		}
 		else if( path.substr( path.length() - 4, 4 ) == std::string( ".arr" ) )
 		{
-			ttemp = m_textureLoader.Create2DArrayTextureFromFile( m_filesystem, path, m_iMaxTextureSize, m_iPicMip );
+			ttemp = m_textureLoader.Create2DArrayTextureFromFile( m_filesystem, path );
 		}
 		else
 		{
-			ttemp = m_textureLoader.Create2DTextureFromFile( m_filesystem, path, m_iMaxTextureSize, m_iPicMip );
+			ttemp = m_textureLoader.Create2DTextureFromFile( m_filesystem, path );
 		}
 	}
 

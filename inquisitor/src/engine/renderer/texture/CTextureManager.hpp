@@ -6,35 +6,34 @@
 #include "src/engine/system/CSettings.hpp"
 
 #include "src/engine/renderer/texture/CTextureLoader.hpp"
-
 #include "src/engine/renderer/texture/CTexture.hpp"
+
 #include "src/engine/renderer/CRendererCapabilities.hpp"
 
 class CTextureManager final
 {
 public:
-	CTextureManager( const CSettings &psettings, const CFileSystem &p_filesystem );
+	CTextureManager( const CSettings &psettings, const CFileSystem &p_filesystem, const CRendererCapabilities &rendererCapabilities );
 	virtual ~CTextureManager( void );
-
-	bool Init( const CRendererCapabilities &rendererCapabilities );
 
 	void Update( void );
 
 	std::shared_ptr< CTexture > LoadTexture( const std::string &path );
+
+	class Exception: public std::exception
+	{
+	public:
+		explicit Exception( void ) {}
+
+		virtual ~Exception() throw() {}
+	};
 
 private:
 	const CFileSystem &m_filesystem;
 
 	CTextureLoader m_textureLoader;
 
-	std::shared_ptr< CTexture > m_dummyTexture;
-
-	GLint	m_iMaxTextureSize;
-	GLint	m_iMaxCubeMapTextureSize;
-
-	const std::uint8_t	m_iPicMip { 0 };
-
-	const std::uint8_t MAX_PICMIP { 4 };
+	const std::shared_ptr< CTexture > m_dummyTexture;
 
 	std::unordered_map< std::string, std::shared_ptr< CTexture > > m_textures;
 };

@@ -1,6 +1,7 @@
 #ifndef CGAMEINFO_HPP
 #define CGAMEINFO_HPP
 
+#include <exception>
 #include <string>
 #include <vector>
 
@@ -23,6 +24,14 @@ public:
 
 	const std::vector< std::string > &GetAssets( void ) const;
 	const std::vector< std::string > &GetTemplates( void ) const;
+
+	class Exception: public std::exception
+	{
+	public:
+		explicit Exception( void ) {}
+
+		virtual ~Exception() throw() {}
+	};
 
 private:
 	std::string m_gamedir;

@@ -25,13 +25,19 @@ public:
 	CShaderManager( const CFileSystem &p_filesystem );
 	~CShaderManager();
 
-	bool Init( void );
-
 	std::shared_ptr< CShaderProgram > LoadProgram( const std::string &pathVertexShader, const std::string &pathFragmentShader );
 
 	std::shared_ptr< CShaderProgram > GetDummyShader( void ) const;
 
 	constexpr static const GLint requiredCombinedTextureImageUnits { 16 };
+
+	class Exception: public std::exception
+	{
+	public:
+		explicit Exception( void ) {}
+
+		virtual ~Exception() throw() {}
+	};
 
 private:
 	bool CreateDummyProgram( void );

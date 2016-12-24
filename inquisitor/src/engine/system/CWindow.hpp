@@ -1,6 +1,8 @@
 #ifndef CWINDOW_HPP
 #define CWINDOW_HPP
 
+#include <exception>
+
 #include <SDL2/SDL.h>
 
 #include "src/engine/system/CSettings.hpp"
@@ -14,6 +16,14 @@ public:
 	~CWindow( void );
 
 	void Update( void ) const;
+
+	class Exception: public std::exception
+	{
+	public:
+		explicit Exception( void ) {}
+
+		virtual ~Exception() throw() {}
+	};
 
 private:
 	SDL_Window		*m_SDL_window { nullptr };

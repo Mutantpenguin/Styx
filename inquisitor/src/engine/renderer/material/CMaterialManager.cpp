@@ -4,12 +4,29 @@
 
 #include "CMaterialLoader.hpp"
 
-CMaterialManager::CMaterialManager( const CSettings &settings, const CFileSystem &filesystem, const CSamplerManager &samplerManager ) :
-	m_filesystem { filesystem },
-	m_samplerManager { samplerManager },
-	m_shaderManager( filesystem ),
-	m_textureManager( settings, filesystem )
+CMaterialManager::CMaterialManager( const CSettings &settings, const CFileSystem &filesystem, const CSamplerManager &samplerManager, const CRendererCapabilities &rendererCapabilities )
+	try :
+		m_filesystem { filesystem },
+		m_samplerManager { samplerManager },
+		m_shaderManager( filesystem ),
+		m_textureManager( settings, filesystem, rendererCapabilities ),
+		m_dummyMaterial { CMaterialLoader::CreateDummyMaterial( m_shaderManager ) }
 {
+	if( nullptr == m_dummyMaterial )
+	{
+		logERROR( "dummy-material couldn't be generated" );
+		throw Exception();
+	}
+}
+catch( CTextureManager::Exception &e )
+{
+	logERROR( "unable to initialize TextureManager" );
+	throw Exception();
+}
+catch( CShaderManager::Exception &e )
+{
+	logERROR( "unable to initialize ShaderManager" );
+	throw Exception();
 }
 
 CMaterialManager::~CMaterialManager( void )
@@ -26,26 +43,7 @@ CMaterialManager::~CMaterialManager( void )
 	}
 }
 
-bool CMaterialManager::Init( const CRendererCapabilities &rendererCapabilities )
-{
-	if( !m_textureManager.Init( rendererCapabilities ) )
-	{
-		logERROR( "unable to initialize TextureManager" );
-		return( false );
-	}
-
-	if( !m_shaderManager.Init() )
-	{
-		logERROR( "unable to initialize ShaderManager" );
-		return( false );
-	}
-
-	m_dummyMaterial = CMaterialLoader::CreateDummyMaterial( m_shaderManager );
-
-	return( true );
-}
-
-void CMaterialManager::Update( const float delta )
+void CMaterialManager::Update( void )
 {
 	for( auto it = std::cbegin( m_materials ); it != std::cend( m_materials ); )
 	{
@@ -85,7 +83,7 @@ std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &
 	{
 		if( path.substr( path.length()-4, 4 ) == std::string( ".mat" ) )
 		{
-			mtemp = CMaterialLoader::CreateMaterial( m_textureManager, m_shaderManager, m_samplerManager, path, m_filesystem.LoadTextFileToBuffer( path ) );
+			mtemp = CMaterialLoader::CreateMaterialFromFile( m_textureManager, m_shaderManager, m_samplerManager, m_filesystem, path );
 		}
 		else
 		{

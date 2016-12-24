@@ -78,7 +78,10 @@ int main( int argc, char *argv[] )
 		CLogger::CreateTarget< CLogTargetMessageBox >();
 	}
 
+	logINFO( "--------------------------------------------------------------------------------" );
 	logINFO( "starting {0}", CEngine::GetVersionString() );
+	logINFO( "--------------------------------------------------------------------------------" );
+	logINFO( "" );
 
 	// get some information about the system we are running on
 	logINFO( "Operating System    : {0}",    ComputerInfo::OsName() );

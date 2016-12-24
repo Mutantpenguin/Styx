@@ -25,7 +25,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 		if ( !reader.parse( fin, root ) )
 		{
 			logERROR( "failed to parse '{0}' because of {1}", gamefile, reader.getFormattedErrorMessages() );
-			throw std::exception();
+			throw Exception();
 		}
 
 		const Json::Value entry = root[ "name_short" ];
@@ -33,12 +33,12 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 		if( entry.empty() )
 		{
 			logERROR( "there is no definition of 'name_short' in the file '{0}'", gamefile );
-			throw std::exception();
+			throw Exception();
 		}
 		else if( entry.asString().empty() )
 		{
 			logERROR( "'name_short' in the file '{0}' is empty", gamefile );
-			throw std::exception();
+			throw Exception();
 		}
 		else
 		{
@@ -62,7 +62,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 			if(	assets.empty() )
 			{
 				logERROR( "no 'assets' specified in the file '{0}'", gamefile );
-				throw std::exception();
+				throw Exception();
 			}
 			else
 			{
@@ -73,7 +73,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 					if( asset.asString().empty() )
 					{
 						logERROR( "empty 'asset' specified in the file '{0}'", gamefile );
-						throw std::exception();
+						throw Exception();
 					}
 
 					m_assets.push_back( asset.asString() );
@@ -85,7 +85,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 			if(	templates.empty() )
 			{
 				logERROR( "no 'templates' specified in the file '{0}'", gamefile );
-				throw std::exception();
+				throw Exception();
 			}
 			else
 			{
@@ -96,7 +96,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 					if( templ.asString().empty() )
 					{
 						logERROR( "empty 'template' specified in the file '{0}'", gamefile );
-						throw std::exception();
+						throw Exception();
 					}
 
 					m_templates.push_back( templ.asString() );
@@ -109,7 +109,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 	else
 	{
 		logERROR( "couldn't load '{0}'", gamefile );
-		throw std::exception();
+		throw Exception();
 	}
 
 	logINFO( "game is: '{0} {1}'", m_name, m_version );

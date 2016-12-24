@@ -11,7 +11,7 @@ CSoundManager::CSoundManager( const CSettings &settings ) :
 	if( nullptr == m_AL_device )
 	{
 		logERROR( "opening OpenAL device failed: {0}", ALHelper::GetOpenALErrorString( alGetError() ) );
-		throw std::exception();
+		throw Exception();
 	}
 
 	ALint versionMajor;
@@ -27,20 +27,20 @@ CSoundManager::CSoundManager( const CSettings &settings ) :
 	if( nullptr == m_AL_context )
 	{
 		logERROR( "creating OpenAL context failed: {0}", ALHelper::GetOpenALErrorString( alGetError() ) );
-		throw std::exception();
+		throw Exception();
 	}
 
 	if( !alcMakeContextCurrent( m_AL_context ) )
 	{
 		logERROR( "making OpenAL context current failed: {0}", ALHelper::GetOpenALErrorString( alGetError() ) );
-		throw std::exception();
+		throw Exception();
 	}
 
 	ALenum error = alGetError();
 	if( error != AL_NO_ERROR )
 	{
 		logERROR( "generating OpenAL buffers failed: {0}", ALHelper::GetOpenALErrorString( error ) );
-		throw std::exception();
+		throw Exception();
 	}
 }
 

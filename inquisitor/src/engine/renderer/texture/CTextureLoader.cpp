@@ -2,13 +2,63 @@
 
 #include <json/json.h>
 
+#include <glbinding/Meta.h>
+
 #include "src/engine/logger/CLogger.hpp"
 
 #include "src/engine/helper/image/ImageHandler.hpp"
 
-std::shared_ptr< CTexture > CTextureLoader::Create2DTextureFromFile( const CFileSystem &filesystem, const std::string &path, const GLint iMaxTextureSize, const std::uint8_t iPicMip )
+CTextureLoader::CTextureLoader( const CSettings &p_settings, const CRendererCapabilities &rendererCapabilities ) :
+	// clamp the value so we don't get too bad texture-quality
+	m_iPicMip( std::min( p_settings.renderer.textures.picmip, MAX_PICMIP ) )
 {
-	const std::shared_ptr< const CImage > image = ImageHandler::Load( filesystem, path, iMaxTextureSize, iPicMip, false );
+	// look out for the maximal texture size
+	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &m_iMaxTextureSize );
+	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_TEXTURE_SIZE ), m_iMaxTextureSize );
+
+	// look out for the maximal cubemap texture size
+	glGetIntegerv( GL_MAX_CUBE_MAP_TEXTURE_SIZE, &m_iMaxCubeMapTextureSize );
+	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_CUBE_MAP_TEXTURE_SIZE ), m_iMaxCubeMapTextureSize );
+
+	if( rendererCapabilities.isSupported( GLextension::GL_ARB_internalformat_query2 ) )
+	{
+		//* TODO try to use GL_ARB_internalformat_query2 when available on r600
+		//GLenum format, type;
+		{
+			GLint format;
+			gl41ext::glGetInternalformativ( GL_TEXTURE_2D, GL_RGBA8, gl41ext::GL_INTERNALFORMAT_PREFERRED, 1, &format );
+			logERROR( "format: {0}", glbinding::Meta::getString( static_cast< GLenum >( format ) ) );
+		}
+
+		{
+			GLint format;
+			gl41ext::glGetInternalformativ( GL_TEXTURE_CUBE_MAP, GL_RGBA8, gl41ext::GL_INTERNALFORMAT_PREFERRED, 1, &format );
+			logERROR( "format: {0}", glbinding::Meta::getString( static_cast< GLenum >( format ) ) );
+		}
+
+		{
+			GLint format;
+			gl41ext::glGetInternalformativ( GL_TEXTURE_2D_ARRAY, GL_RGBA8, gl41ext::GL_INTERNALFORMAT_PREFERRED, 1, &format );
+			logERROR( "format: {0}", glbinding::Meta::getString( static_cast< GLenum >( format ) ) );
+		}
+
+		//gl43::glGetInternalformativ( GL_TEXTURE_2D, GL_RGBA8, gl43::GL_TEXTURE_IMAGE_FORMAT, 1, &format );
+		//gl43::glGetInternalformativ( GL_TEXTURE_2D, GL_RGBA8, gl43::GL_TEXTURE_IMAGE_TYPE, 1, &type );
+
+
+		//logERROR( "type: {0}", glbinding::Meta::getString( type ) );
+	}
+	/*
+	else
+	{
+		logINFO( "using '{0}' as internal texture format", glbinding::Meta::getString( m_internalTextureFormat ) );
+	}
+	 * */
+}
+
+std::shared_ptr< CTexture > CTextureLoader::Create2DTextureFromFile( const CFileSystem &filesystem, const std::string &path )
+{
+	const std::shared_ptr< const CImage > image = ImageHandler::Load( filesystem, path, m_iMaxTextureSize, m_iPicMip, false );
 
 	if( !image )
 	{
@@ -21,7 +71,7 @@ std::shared_ptr< CTexture > CTextureLoader::Create2DTextureFromFile( const CFile
 	}
 }
 
-std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const CFileSystem &filesystem, const std::string &path, const GLint iMaxCubeMapTextureSize, const std::uint8_t iPicMip )
+std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const CFileSystem &filesystem, const std::string &path )
 {
 	Json::Value		root;
 	Json::Reader	reader;
@@ -56,7 +106,7 @@ std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const CFi
 	for( std::uint8_t faceNum = 0; faceNum < CCubemapData::countCubemapFaces; ++faceNum )
 	{
 		const std::string path_to_face = path_to_faces + json_faces[ faceNum ].asString();
-		const std::shared_ptr< const CImage > image = ImageHandler::Load( filesystem, path_to_face, iMaxCubeMapTextureSize, iPicMip, true );
+		const std::shared_ptr< const CImage > image = ImageHandler::Load( filesystem, path_to_face, m_iMaxCubeMapTextureSize, m_iPicMip, true );
 		if( nullptr == image )
 		{
 			logWARNING( "failed to load image '{0}' for cubemap '{1}'", path_to_face, path );
@@ -83,7 +133,7 @@ std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const CFi
 	}
 }
 
-std::shared_ptr< CTexture > CTextureLoader::Create2DArrayTextureFromFile( const CFileSystem &filesystem, const std::string &path, const GLint iMaxTextureSize, const std::uint8_t iPicMip )
+std::shared_ptr< CTexture > CTextureLoader::Create2DArrayTextureFromFile( const CFileSystem &filesystem, const std::string &path )
 {
 	Json::Value		root;
 	Json::Reader	reader;
@@ -113,7 +163,7 @@ std::shared_ptr< CTexture > CTextureLoader::Create2DArrayTextureFromFile( const 
 	for( const Json::Value &layer : json_layers )
 	{
 		const std::string path_to_layer = path_to_layers + layer.asString();
-		const std::shared_ptr< const CImage > image = ImageHandler::Load( filesystem, path_to_layer, iMaxTextureSize, iPicMip, false );
+		const std::shared_ptr< const CImage > image = ImageHandler::Load( filesystem, path_to_layer, m_iMaxTextureSize, m_iPicMip, false );
 
 		if( nullptr == image )
 		{

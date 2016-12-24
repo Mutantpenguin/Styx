@@ -26,7 +26,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 		( version_compiled.patch != version_linked.patch ) )
 	{
 		logERROR( "PhysicsFS has version '{0}.{1}.{2}' but expected was version '{3}.{4}.{5}'", static_cast< unsigned short >( version_linked.major ), static_cast< unsigned short >( version_linked.minor ), static_cast< unsigned short >( version_linked.patch ), PHYSFS_VER_MAJOR, PHYSFS_VER_MINOR, PHYSFS_VER_PATCH );
-		throw std::exception();
+		throw Exception();
 	}
 
 	logDEBUG( "PhysicsFS has version '{0}.{1}.{2}'", static_cast< unsigned short >( version_linked.major ), static_cast< unsigned short >( version_linked.minor ), static_cast< unsigned short >( version_linked.patch ) );
@@ -34,7 +34,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	if( !PHYSFS_init( argv0 ) )
 	{
 		logERROR( "initializing PhysicsFS failed because of: {0}", PHYSFS_getLastError() );
-		throw std::exception();
+		throw Exception();
 	}
 
 	// forbid symbolic links
@@ -44,7 +44,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	if( prefsDir.empty() )
 	{
 		logERROR( "not possible to get prefs-directory because of: {0}", PHYSFS_getLastError() );
-		throw std::exception();
+		throw Exception();
 	}
 
 	logDEBUG ( "prefs-directory is: {0}", prefsDir );
@@ -52,7 +52,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	if( !PHYSFS_setWriteDir( prefsDir.c_str() ) )
 	{
 		logERROR( "couldn't set write-dir to '{0}' because of: {1}", prefsDir, PHYSFS_getLastError() );
-		throw std::exception();
+		throw Exception();
 	}
 
 	const std::string logDir( "log" );
@@ -61,7 +61,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 		if( !PHYSFS_mkdir( logDir.c_str() ) )
 		{
 			logERROR( "couldn't create log-directory '{0}' because of: {1}", logDir, PHYSFS_getLastError() );
-			throw std::exception();
+			throw Exception();
 		}
 	}
 
@@ -72,7 +72,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	if( !PHYSFS_mount( PHYSFS_getWriteDir(), nullptr, 0 ) )
 	{
 		logERROR( "adding '{0}' to search path failed because of: {1}", PHYSFS_getWriteDir(), PHYSFS_getLastError() );
-		throw std::exception();
+		throw Exception();
 	}
 
 	// put asset-paths next in search path
@@ -85,7 +85,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 		if( !PHYSFS_mount( asset_path.c_str(), nullptr, 1 ) )
 		{
 			logERROR( "adding asset-path '{0}' to search path failed because of: {1}", asset_path, PHYSFS_getLastError() );
-			throw std::exception();
+			throw Exception();
 		}
 	}
 
@@ -93,7 +93,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	if( !PHYSFS_mount( PHYSFS_getBaseDir(), nullptr, 1 ) )
 	{
 		logERROR( "adding '{0}' to search path failed because of: {1}", PHYSFS_getBaseDir(), PHYSFS_getLastError() );
-		throw std::exception();
+		throw Exception();
 	}
 }
 

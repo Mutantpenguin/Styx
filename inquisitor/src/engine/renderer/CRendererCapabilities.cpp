@@ -5,14 +5,15 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-void CRendererCapabilities::Init( void )
+CRendererCapabilities::CRendererCapabilities( void ) :
+	m_extensions { glbinding::ContextInfo::extensions() }
 {
-	m_extensions = glbinding::ContextInfo::extensions();
+	// TODO query all capabilities in this class
 }
 
 bool CRendererCapabilities::isSupported( const gl::GLextension extension ) const
 {
-	if( m_extensions.find( extension ) != m_extensions.end() )
+	if( m_extensions.find( extension ) != std::end( m_extensions ) )
 	{
 		logINFO( "{0} is available", glbinding::Meta::getString( extension ) );
 		return( true );
