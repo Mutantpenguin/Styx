@@ -118,6 +118,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 		}
 	}
 
+
 	glDepthFunc( GL_LEQUAL );
 	glEnable( GL_DEPTH_TEST );
 

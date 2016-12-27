@@ -24,9 +24,9 @@ public:
 
 public:
 	// TODO split into 3 different classes?
-	CTexture( const std::shared_ptr< const CImage > &image );
-	CTexture( const std::unique_ptr< const CCubemapData > cubemapData );
-	CTexture( const std::unique_ptr< const C2DArrayData > arrayData );
+	CTexture( const std::shared_ptr< const CImage > &image, const GLint internalFormat );
+	CTexture( const std::unique_ptr< const CCubemapData > cubemapData, const GLint internalFormat );
+	CTexture( const std::unique_ptr< const C2DArrayData > arrayData, const GLint internalFormat );
 	~CTexture( void );
 
 	void BindToUnit( const GLuint unit ) const;

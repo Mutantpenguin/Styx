@@ -37,3 +37,8 @@ const std::unordered_map< GLuint, std::unique_ptr< const CMaterialUniform > > &C
 {
 	return( m_materialUniforms );
 }
+
+const std::string &CMaterial::Name( void ) const
+{
+	return( m_name );
+}

@@ -8,9 +8,10 @@
 
 #include "src/engine/helper/image/ImageHandler.hpp"
 
-CTextureLoader::CTextureLoader( const CSettings &p_settings, const CRendererCapabilities &rendererCapabilities ) :
+CTextureLoader::CTextureLoader( const CSettings &p_settings, const CFileSystem &p_filesystem, const CRendererCapabilities &rendererCapabilities ) :
+	m_filesystem { p_filesystem },
 	// clamp the value so we don't get too bad texture-quality
-	m_iPicMip( std::min( p_settings.renderer.textures.picmip, MAX_PICMIP ) )
+	m_iPicMip { std::min( p_settings.renderer.textures.picmip, MAX_PICMIP ) }
 {
 	// look out for the maximal texture size
 	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &m_iMaxTextureSize );
@@ -22,43 +23,46 @@ CTextureLoader::CTextureLoader( const CSettings &p_settings, const CRendererCapa
 
 	if( rendererCapabilities.isSupported( GLextension::GL_ARB_internalformat_query2 ) )
 	{
-		//* TODO try to use GL_ARB_internalformat_query2 when available on r600
-		//GLenum format, type;
-		{
-			GLint format;
-			gl41ext::glGetInternalformativ( GL_TEXTURE_2D, GL_RGBA8, gl41ext::GL_INTERNALFORMAT_PREFERRED, 1, &format );
-			logERROR( "format: {0}", glbinding::Meta::getString( static_cast< GLenum >( format ) ) );
-		}
+		logDEBUG( "using {0} for internal texture formats", glbinding::Meta::getString( GLextension::GL_ARB_internalformat_query2 ) );
 
-		{
-			GLint format;
-			gl41ext::glGetInternalformativ( GL_TEXTURE_CUBE_MAP, GL_RGBA8, gl41ext::GL_INTERNALFORMAT_PREFERRED, 1, &format );
-			logERROR( "format: {0}", glbinding::Meta::getString( static_cast< GLenum >( format ) ) );
-		}
-
-		{
-			GLint format;
-			gl41ext::glGetInternalformativ( GL_TEXTURE_2D_ARRAY, GL_RGBA8, gl41ext::GL_INTERNALFORMAT_PREFERRED, 1, &format );
-			logERROR( "format: {0}", glbinding::Meta::getString( static_cast< GLenum >( format ) ) );
-		}
-
-		//gl43::glGetInternalformativ( GL_TEXTURE_2D, GL_RGBA8, gl43::GL_TEXTURE_IMAGE_FORMAT, 1, &format );
-		//gl43::glGetInternalformativ( GL_TEXTURE_2D, GL_RGBA8, gl43::GL_TEXTURE_IMAGE_TYPE, 1, &type );
-
-
-		//logERROR( "type: {0}", glbinding::Meta::getString( type ) );
+		glGetInternalformativ( GL_TEXTURE_2D,		GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_internalTextureFormat2D );
+		glGetInternalformativ( GL_TEXTURE_CUBE_MAP,	GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_internalTextureFormatCube );
+		glGetInternalformativ( GL_TEXTURE_2D_ARRAY,	GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_internalTextureFormat2DArray );
 	}
-	/*
-	else
-	{
-		logINFO( "using '{0}' as internal texture format", glbinding::Meta::getString( m_internalTextureFormat ) );
-	}
-	 * */
 }
 
-std::shared_ptr< CTexture > CTextureLoader::Create2DTextureFromFile( const CFileSystem &filesystem, const std::string &path )
+
+std::shared_ptr< CTexture > CTextureLoader::CreateTextureFromFile( const std::string &path ) const
 {
-	const std::shared_ptr< const CImage > image = ImageHandler::Load( filesystem, path, m_iMaxTextureSize, m_iPicMip, false );
+	// TODO implement loading of compressed images in our own format
+
+	if( !m_filesystem.Exists( path ) )
+	{
+		logWARNING( "'{0}' does not exist", path );
+		return( nullptr );
+	}
+	else
+	{
+		const std::string fileExtension = path.substr( path.find_last_of( "." ) + 1 );
+
+		if( fileExtension == std::string( "cub" ) )
+		{
+			return( CreateCubeTextureFromFile( path ) );
+		}
+		else if( fileExtension == std::string( "arr" ) )
+		{
+			return( Create2DArrayTextureFromFile( path ) );
+		}
+		else
+		{
+			return( Create2DTextureFromFile( path ) );
+		}
+	}
+}
+
+std::shared_ptr< CTexture > CTextureLoader::Create2DTextureFromFile( const std::string &path ) const
+{
+	const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path, m_iMaxTextureSize, m_iPicMip, false );
 
 	if( !image )
 	{
@@ -67,15 +71,15 @@ std::shared_ptr< CTexture > CTextureLoader::Create2DTextureFromFile( const CFile
 	}
 	else
 	{
-		return( std::make_shared< CTexture >( image ) );
+		return( std::make_shared< CTexture >( image, m_internalTextureFormat2D ) );
 	}
 }
 
-std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const CFileSystem &filesystem, const std::string &path )
+std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const std::string &path ) const
 {
 	Json::Value		root;
 	Json::Reader	reader;
-	if ( !reader.parse( filesystem.LoadTextFileToBuffer( path ), root ) )
+	if ( !reader.parse( m_filesystem.LoadTextFileToBuffer( path ), root ) )
 	{
 		logWARNING( "failed to parse '{0}' because of {1}", path, reader.getFormattedErrorMessages() );
 		return( nullptr );
@@ -106,7 +110,7 @@ std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const CFi
 	for( std::uint8_t faceNum = 0; faceNum < CCubemapData::countCubemapFaces; ++faceNum )
 	{
 		const std::string path_to_face = path_to_faces + json_faces[ faceNum ].asString();
-		const std::shared_ptr< const CImage > image = ImageHandler::Load( filesystem, path_to_face, m_iMaxCubeMapTextureSize, m_iPicMip, true );
+		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path_to_face, m_iMaxCubeMapTextureSize, m_iPicMip, true );
 		if( nullptr == image )
 		{
 			logWARNING( "failed to load image '{0}' for cubemap '{1}'", path_to_face, path );
@@ -124,7 +128,7 @@ std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const CFi
 
 	if( cubemapData->isComplete() )
 	{
-		return( std::make_shared< CTexture >( std::move( cubemapData ) ) );
+		return( std::make_shared< CTexture >( std::move( cubemapData ), m_internalTextureFormatCube ) );
 	}
 	else
 	{
@@ -133,11 +137,11 @@ std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const CFi
 	}
 }
 
-std::shared_ptr< CTexture > CTextureLoader::Create2DArrayTextureFromFile( const CFileSystem &filesystem, const std::string &path )
+std::shared_ptr< CTexture > CTextureLoader::Create2DArrayTextureFromFile( const std::string &path ) const
 {
 	Json::Value		root;
 	Json::Reader	reader;
-	if( !reader.parse( filesystem.LoadTextFileToBuffer( path ), root ) )
+	if( !reader.parse( m_filesystem.LoadTextFileToBuffer( path ), root ) )
 	{
 		logWARNING( "failed to parse '{0}' because of {1}", path, reader.getFormattedErrorMessages() );
 		return( nullptr );
@@ -163,7 +167,7 @@ std::shared_ptr< CTexture > CTextureLoader::Create2DArrayTextureFromFile( const 
 	for( const Json::Value &layer : json_layers )
 	{
 		const std::string path_to_layer = path_to_layers + layer.asString();
-		const std::shared_ptr< const CImage > image = ImageHandler::Load( filesystem, path_to_layer, m_iMaxTextureSize, m_iPicMip, false );
+		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path_to_layer, m_iMaxTextureSize, m_iPicMip, false );
 
 		if( nullptr == image )
 		{
@@ -180,10 +184,10 @@ std::shared_ptr< CTexture > CTextureLoader::Create2DArrayTextureFromFile( const 
 		}
 	}
 
-	return( std::make_shared< CTexture >( std::move( arrayData ) ) );
+	return( std::make_shared< CTexture >( std::move( arrayData ), m_internalTextureFormat2DArray ) );
 }
 
-std::shared_ptr< CTexture > CTextureLoader::CreateDummyTexture( void )
+std::shared_ptr< CTexture > CTextureLoader::CreateDummyTexture( void ) const
 {
 	// Creates a checkerboard-like dummy-texture
 
@@ -196,6 +200,6 @@ std::shared_ptr< CTexture > CTextureLoader::CreateDummyTexture( void )
 	}
 	else
 	{
-		return( std::make_shared< CTexture >( image ) );
+		return( std::make_shared< CTexture >( image, m_internalTextureFormat2D ) );
 	}
 }

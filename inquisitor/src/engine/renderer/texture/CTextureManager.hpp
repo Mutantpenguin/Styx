@@ -29,9 +29,7 @@ public:
 	};
 
 private:
-	const CFileSystem &m_filesystem;
-
-	CTextureLoader m_textureLoader;
+	const CTextureLoader m_textureLoader;
 
 	const std::shared_ptr< CTexture > m_dummyTexture;
 

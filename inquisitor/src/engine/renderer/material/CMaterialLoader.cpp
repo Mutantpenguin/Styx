@@ -10,9 +10,40 @@
 
 #include "src/engine/renderer/GLHelper.hpp"
 
-std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromFile( CTextureManager &textureManager, CShaderManager &shaderManager, const CSamplerManager &samplerManager, const CFileSystem &filesystem, const std::string &path )
+CMaterialLoader::CMaterialLoader( const CFileSystem &filesystem, CTextureManager &textureManager, CShaderManager &shaderManager, const CSamplerManager &samplerManager ) :
+	m_filesystem { filesystem },
+	m_textureManager { textureManager },
+	m_shaderManager { shaderManager },
+	m_samplerManager { samplerManager }
 {
-	const std::string definition = filesystem.LoadTextFileToBuffer( path );
+}
+
+std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromFile( const std::string &path ) const
+{
+	if( !m_filesystem.Exists( path ) )
+	{
+		logWARNING( "'{0}' does not exist", path );
+		return( nullptr );
+	}
+	else
+	{
+		const std::string fileExtension = path.substr( path.find_last_of( "." ) + 1 );
+
+		if( fileExtension == std::string( "mat" ) )
+		{
+			return( CreateMaterialFromMatFile( path ) );
+		}
+		else
+		{
+			logWARNING( "file is not a material: '{0}'", path );
+			return( nullptr );
+		}
+	}
+}
+
+std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromMatFile( const std::string &path ) const
+{
+	const std::string definition = m_filesystem.LoadTextFileToBuffer( path );
 
 	Json::Reader	reader;
 	Json::Value		mat_root;
@@ -97,7 +128,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromFile( CTextureMa
 			shader_fs_path = mat_shader_fs.asString();
 		}
 
-		auto shader = shaderManager.LoadProgram( shader_vs_path, shader_fs_path );
+		auto shader = m_shaderManager.LoadProgram( shader_vs_path, shader_fs_path );
 
 		newMaterial->m_shader = shader;
 
@@ -128,7 +159,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromFile( CTextureMa
 					{
 						// check that sampler-type and type of texture match
 
-						const std::shared_ptr< const CTexture > texture = textureManager.LoadTexture( mat_texture.asString() );
+						const std::shared_ptr< const CTexture > texture = m_textureManager.LoadTexture( mat_texture.asString() );
 
 						switch( interface.type )
 						{
@@ -167,7 +198,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromFile( CTextureMa
 						if( !mat_sampler.empty() )
 						{
 							// TODO check here, if specified sampler fits to the type of the texture
-							if( !samplerManager.SamplerFromString( mat_sampler.asString(), sampler ) )
+							if( !m_samplerManager.SamplerFromString( mat_sampler.asString(), sampler ) )
 							{
 								logDEBUG( "invalid sampler specified for texture '{0}' in '{1}'", interface.name, path );
 							}
@@ -179,15 +210,15 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromFile( CTextureMa
 							switch( texture->Type() )
 							{
 								case CTexture::type::TEX_2D:
-									sampler = samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D );
+									sampler = m_samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D );
 									break;
 
 								case CTexture::type::TEX_CUBE_MAP:
-									sampler = samplerManager.SamplerFromType( CSampler::Type::REPEAT_CUBE );
+									sampler = m_samplerManager.SamplerFromType( CSampler::Type::REPEAT_CUBE );
 									break;
 
 								case CTexture::type::TEX_2D_ARRAY:
-									sampler = samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D );
+									sampler = m_samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D );
 									break;
 
 								default:
@@ -205,7 +236,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromFile( CTextureMa
 		// TODO not only in DEBUG-Builds, but configurable
 		#ifdef INQ_DEBUG
 
-		if( shader != shaderManager.GetDummyShader() )
+		if( shader != m_shaderManager.GetDummyShader() )
 		{
 			const auto requiredSamplers = shader->RequiredSamplers();
 
@@ -338,11 +369,11 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromFile( CTextureMa
 	return( newMaterial );
 }
 
-std::shared_ptr< CMaterial > CMaterialLoader::CreateDummyMaterial( CShaderManager &shaderManager )
+std::shared_ptr< CMaterial > CMaterialLoader::CreateDummyMaterial( void ) const
 {
 	auto dummyMaterial = std::make_shared< CMaterial >( "dummy" );
 
-	dummyMaterial->m_shader = shaderManager.GetDummyShader();
+	dummyMaterial->m_shader = m_shaderManager.GetDummyShader();
 
 	return( dummyMaterial );
 }

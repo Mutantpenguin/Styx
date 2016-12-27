@@ -2,15 +2,14 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "CMaterialLoader.hpp"
-
 CMaterialManager::CMaterialManager( const CSettings &settings, const CFileSystem &filesystem, const CSamplerManager &samplerManager, const CRendererCapabilities &rendererCapabilities )
 	try :
 		m_filesystem { filesystem },
 		m_samplerManager { samplerManager },
 		m_shaderManager( filesystem ),
 		m_textureManager( settings, filesystem, rendererCapabilities ),
-		m_dummyMaterial { CMaterialLoader::CreateDummyMaterial( m_shaderManager ) }
+		m_materialloader( filesystem, m_textureManager, m_shaderManager, m_samplerManager ),
+		m_dummyMaterial { m_materialloader.CreateDummyMaterial() }
 {
 	if( nullptr == m_dummyMaterial )
 	{
@@ -31,13 +30,13 @@ catch( CShaderManager::Exception &e )
 
 CMaterialManager::~CMaterialManager( void )
 {
-	if( m_materials.size() > 0 )
+	if( !m_materials.empty() )
 	{
 		logWARNING( "there are still '{0}' existing materials", m_materials.size() );
 		#ifdef INQ_DEBUG
-		for( auto material : m_materials )
+		for( const auto material : m_materials )
 		{
-			logDEBUG( "  {0}", material.first );
+			logDEBUG( "\t{0}", material.first );
 		}
 		#endif
 	}
@@ -49,6 +48,7 @@ void CMaterialManager::Update( void )
 	{
 		if( (*it).second.unique() )
 		{
+			logDEBUG( "erasing material: {0}", (*it).first );
 			m_materials.erase( it++ );
 		}
 		else
@@ -60,41 +60,20 @@ void CMaterialManager::Update( void )
 	m_textureManager.Update();
 }
 
-/** Returns a handle to a material. It gets loaded if its not already loaded.
-	@param[in]	path	The path to the Material.
-	@return				Returns the material-handle.
-*/
 std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &path )
 {
-	// search if we already loaded the material
 	auto it = m_materials.find( path );
 	if( m_materials.end() != it )
 	{
 		return( it->second );
 	}
 
-	std::shared_ptr< CMaterial > mtemp = nullptr;
+	auto temp = m_materialloader.CreateMaterialFromFile( path );
 
-	if( !m_filesystem.Exists( path ) )
+	if( temp )
 	{
-		logWARNING( "'{0}' does not exist", path );
-	}
-	else
-	{
-		if( path.substr( path.length()-4, 4 ) == std::string( ".mat" ) )
-		{
-			mtemp = CMaterialLoader::CreateMaterialFromFile( m_textureManager, m_shaderManager, m_samplerManager, m_filesystem, path );
-		}
-		else
-		{
-			logWARNING( "file is not a material: '{0}'", path );
-		}
-	}
-
-	if( mtemp )
-	{
-		m_materials[ path ] = mtemp;
-		return( mtemp );
+		m_materials[ path ] = temp;
+		return( temp );
 	}
 	else
 	{

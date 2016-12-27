@@ -81,6 +81,7 @@ int main( int argc, char *argv[] )
 	logINFO( "--------------------------------------------------------------------------------" );
 	logINFO( "starting {0}", CEngine::GetVersionString() );
 	logINFO( "--------------------------------------------------------------------------------" );
+
 	logINFO( "" );
 
 	// get some information about the system we are running on
@@ -89,6 +90,8 @@ int main( int argc, char *argv[] )
 	logINFO( "Processor Count     : {0}",    ComputerInfo::ProcessorCount() );
 	logINFO( "Processor Features  : {0}",    ComputerInfo::CPUFeatures() );
 	logINFO( "System Memory Total : {0}MiB", ComputerInfo::SystemMemoryMiB() );
+
+	logINFO( "" );
 
 	try
 	{

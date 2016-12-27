@@ -9,6 +9,8 @@
 #include "src/engine/renderer/texture/CTextureManager.hpp"
 #include "src/engine/renderer/sampler/CSamplerManager.hpp"
 
+#include "src/engine/renderer/material/CMaterialLoader.hpp"
+
 class CMaterialManager final
 {
 friend class CRenderer;
@@ -39,6 +41,8 @@ private:
 
 	CShaderManager	m_shaderManager;
 	CTextureManager m_textureManager;
+
+	const CMaterialLoader m_materialloader;
 
 	const std::shared_ptr< CMaterial > m_dummyMaterial;
 

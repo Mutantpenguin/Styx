@@ -6,7 +6,7 @@
 
 #include "src/engine/renderer/GLHelper.hpp"
 
-CTexture::CTexture( const std::shared_ptr< const CImage > &image ) :
+CTexture::CTexture( const std::shared_ptr< const CImage > &image, const GLint internalFormat ) :
 	m_type { type::TEX_2D }
 {
 	glCreateTextures( GL_TEXTURE_2D, 1, &m_texID );
@@ -17,7 +17,7 @@ CTexture::CTexture( const std::shared_ptr< const CImage > &image ) :
 
 	glTextureStorage2D(	m_texID,
 						maxMipLevel,
-						GL_RGBA8,
+						static_cast< GLenum >( internalFormat ),
 						image->Size().width,
 						image->Size().height );
 
@@ -34,7 +34,7 @@ CTexture::CTexture( const std::shared_ptr< const CImage > &image ) :
 	glGenerateTextureMipmap( m_texID );
 }
 
-CTexture::CTexture( const std::unique_ptr< const CCubemapData > cubemapData ) :
+CTexture::CTexture( const std::unique_ptr< const CCubemapData > cubemapData, const GLint internalFormat ) :
 	m_type { type::TEX_CUBE_MAP }
 {
 	glCreateTextures( GL_TEXTURE_CUBE_MAP, 1, &m_texID );
@@ -48,7 +48,7 @@ CTexture::CTexture( const std::unique_ptr< const CCubemapData > cubemapData ) :
 
 	glTextureStorage2D(	m_texID,
 						1,
-						GL_RGBA8,
+						static_cast< GLenum >( internalFormat ),
 						firstImage->Size().width,
 						firstImage->Size().height );
 
@@ -70,7 +70,7 @@ CTexture::CTexture( const std::unique_ptr< const CCubemapData > cubemapData ) :
 	}
 }
 
-CTexture::CTexture( const std::unique_ptr< const C2DArrayData > arrayData ) :
+CTexture::CTexture( const std::unique_ptr< const C2DArrayData > arrayData, const GLint internalFormat ) :
 	m_type { type::TEX_2D_ARRAY }
 {
 	glCreateTextures( GL_TEXTURE_2D_ARRAY, 1, &m_texID );
@@ -85,7 +85,7 @@ CTexture::CTexture( const std::unique_ptr< const C2DArrayData > arrayData ) :
 
 	glTextureStorage3D(	m_texID,
 						maxMipLevel,
-						GL_RGBA8,
+						static_cast< GLenum >( internalFormat ),
 						firstImage->Size().width,
 						firstImage->Size().height,
 						layers.size() );

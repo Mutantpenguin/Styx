@@ -27,6 +27,8 @@ public:
 
 	const std::unordered_map< GLuint, std::unique_ptr< const CMaterialUniform > > &MaterialUniforms( void ) const;
 
+	const std::string &Name( void ) const;
+
 private:
 	const std::string m_name;
 
