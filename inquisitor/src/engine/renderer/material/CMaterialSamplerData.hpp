@@ -7,7 +7,7 @@
 class CMaterialSamplerData
 {
 public:
-	CMaterialSamplerData( const std::string &name, const std::shared_ptr< const CTexture > texture, const std::shared_ptr< const CSampler > sampler );
+	CMaterialSamplerData( const std::string &name, const std::shared_ptr< const CTexture > &texture, const std::shared_ptr< const CSampler > &sampler );
 
 	void BindToUnit( const GLuint unit ) const;
 
