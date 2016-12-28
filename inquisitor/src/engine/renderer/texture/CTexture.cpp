@@ -11,22 +11,24 @@ CTexture::CTexture( const std::shared_ptr< const CImage > &image, const GLint in
 {
 	glCreateTextures( GL_TEXTURE_2D, 1, &m_texID );
 
-	const GLchar maxMipLevel = floor( glm::log2( std::max( image->Size().width, image->Size().height ) ) ) + 1;
+	const auto &size = image->Size();
+
+	const GLchar maxMipLevel = floor( glm::log2( std::max( size.width, size.height ) ) ) + 1;
 	glTextureParameteri( m_texID, GL_TEXTURE_BASE_LEVEL, 0 );
 	glTextureParameteri( m_texID, GL_TEXTURE_MAX_LEVEL, maxMipLevel );
 
 	glTextureStorage2D(	m_texID,
 						maxMipLevel,
 						static_cast< GLenum >( internalFormat ),
-						image->Size().width,
-						image->Size().height );
+						size.width,
+						size.height );
 
 	glTextureSubImage2D(	m_texID,
 							0, // level
 							0, // xoffset
 							0, // yoffset
-							image->Size().width,
-							image->Size().height,
+							size.width,
+							size.height,
 							GLHelper::GLFormatFromImage( image ),
 							GL_UNSIGNED_BYTE,
 							image->RawPixelData() );
@@ -42,31 +44,31 @@ CTexture::CTexture( const std::unique_ptr< const CCubemapData > cubemapData, con
 	glTextureParameteri( m_texID, GL_TEXTURE_BASE_LEVEL, 0 );
 	glTextureParameteri( m_texID, GL_TEXTURE_MAX_LEVEL, 0 );
 
-	auto faces = cubemapData->getFaces();
+	const auto faces = cubemapData->getFaces();
 
-	const std::shared_ptr< const CImage > &firstImage = faces[ 0 ];
+	auto &size = faces[ 0 ]->Size();
 
 	glTextureStorage2D(	m_texID,
 						1,
 						static_cast< GLenum >( internalFormat ),
-						firstImage->Size().width,
-						firstImage->Size().height );
+						size.width,
+						size.height );
 
-	for( std::uint8_t faceNum = 0; faceNum < CCubemapData::countCubemapFaces; faceNum++ )
+	//for( std::uint8_t faceNum = 0; faceNum < CCubemapData::countCubemapFaces; faceNum++ )
+	std::uint8_t faceNum = 0;
+	for( const auto face : faces )
 	{
-		const std::shared_ptr< const CImage > &image = faces[ faceNum ];
-
 		glTextureSubImage3D(	m_texID,
 								0, // level
 								0, // xoffset
 								0, // yoffset
-								faceNum, // zoffset
-								image->Size().width,
-								image->Size().height,
+								faceNum++, // zoffset
+								face->Size().width,
+								face->Size().height,
 								1, // depth
-								GLHelper::GLFormatFromImage( image ),
+								GLHelper::GLFormatFromImage( face ),
 								GL_UNSIGNED_BYTE,
-								image->RawPixelData() );
+								face->RawPixelData() );
 	}
 }
 
@@ -75,36 +77,35 @@ CTexture::CTexture( const std::unique_ptr< const C2DArrayData > arrayData, const
 {
 	glCreateTextures( GL_TEXTURE_2D_ARRAY, 1, &m_texID );
 
-	auto layers = arrayData->getLayers();
+	auto const layers = arrayData->getLayers();
 
-	const std::shared_ptr< const CImage > &firstImage = layers[ 0 ];
+	const auto &size = layers[ 0 ]->Size();
 
-	const GLchar maxMipLevel = floor( glm::log2( std::max( firstImage->Size().width, firstImage->Size().height ) ) ) + 1;
+	const GLchar maxMipLevel = floor( glm::log2( std::max( size.width, size.height ) ) ) + 1;
 	glTextureParameteri( m_texID, GL_TEXTURE_BASE_LEVEL, 0 );
 	glTextureParameteri( m_texID, GL_TEXTURE_MAX_LEVEL, maxMipLevel );
 
 	glTextureStorage3D(	m_texID,
 						maxMipLevel,
 						static_cast< GLenum >( internalFormat ),
-						firstImage->Size().width,
-						firstImage->Size().height,
+						size.width,
+						size.height,
 						layers.size() );
 
-	for( std::uint8_t i = 0; i < layers.size(); i++ )
+	std::uint8_t layerNum = 0;
+	for( const auto layer : layers )
 	{
-		const std::shared_ptr< const CImage > &image = layers[ i ];
-
 		glTextureSubImage3D(	m_texID,
 								0, // level
 								0, // xoffset
 								0, // yoffset
-								i, // zoffset
-								image->Size().width,
-								image->Size().height,
+								layerNum++, // zoffset
+								layer->Size().width,
+								layer->Size().height,
 								1, // depth
-								GLHelper::GLFormatFromImage( image ),
+								GLHelper::GLFormatFromImage( layer ),
 								GL_UNSIGNED_BYTE,
-								image->RawPixelData() );
+								layer->RawPixelData() );
 	}
 
 	glGenerateTextureMipmap( m_texID );
