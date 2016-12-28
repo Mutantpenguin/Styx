@@ -32,11 +32,11 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 										const e_loglevel loglvl = ( GL_DEBUG_SEVERITY_HIGH == severity ) ? e_loglevel::ERROR : e_loglevel::WARNING;
 
 										LOG( loglvl, "OpenGL ERROR" );
-										LOG( loglvl, "\tSource\t: {0}", glbinding::Meta::getString( source ) );
-										LOG( loglvl, "\tType\t: {0}", glbinding::Meta::getString( type ) );
-										LOG( loglvl, "\tID\t: {0}", id );
-										LOG( loglvl, "\tSeverity\t: {0}", glbinding::Meta::getString( severity ) );
-										LOG( loglvl, "\tMessage\t: {0}", message );
+										LOG( loglvl, "\tSource   : {0}", glbinding::Meta::getString( source ) );
+										LOG( loglvl, "\tType     : {0}", glbinding::Meta::getString( type ) );
+										LOG( loglvl, "\tID       : {0}", id );
+										LOG( loglvl, "\tSeverity : {0}", glbinding::Meta::getString( severity ) );
+										LOG( loglvl, "\tMessage  : {0}", message );
 									}, nullptr );
 		}
 		else
