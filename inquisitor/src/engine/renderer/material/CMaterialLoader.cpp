@@ -243,8 +243,8 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromMatFile( const s
 			// check for unused textures
 			for( const std::string &textureName : mat_textures.getMemberNames() )
 			{
-				if( std::end( requiredSamplers ) == std::find_if(	std::begin( requiredSamplers ),
-																	std::end( requiredSamplers ),
+				if( std::end( requiredSamplers ) == std::find_if(	std::cbegin( requiredSamplers ),
+																	std::cend( requiredSamplers ),
 																	[&]( const auto &vt )
 																	{
 																		return( vt.second.name == textureName );
@@ -257,8 +257,8 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromMatFile( const s
 			// check for unused samplers
 			for( const std::string &samplerName : mat_samplers.getMemberNames() )
 			{
-				if( std::end( requiredSamplers ) == std::find_if(	std::begin( requiredSamplers ),
-																	std::end( requiredSamplers ),
+				if( std::end( requiredSamplers ) == std::find_if(	std::cbegin( requiredSamplers ),
+																	std::cend( requiredSamplers ),
 																	[&]( const auto &vt )
 																	{
 																		return( vt.second.name == samplerName );
