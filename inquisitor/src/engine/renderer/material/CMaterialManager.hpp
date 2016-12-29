@@ -27,7 +27,7 @@ public:
 	};
 
 private:
-	CMaterialManager( const CSettings &settings, const CFileSystem &filesystem, const CSamplerManager &samplerManager, const CRendererCapabilities &rendererCapabilities );
+	CMaterialManager( const CSettings &settings, const CFileSystem &filesystem, const CSamplerManager &samplerManager, const COpenGlAdapter &openGlAdapter );
 	virtual ~CMaterialManager( void );
 
 	void	Update( void );

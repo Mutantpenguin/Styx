@@ -11,8 +11,8 @@
 #include "src/engine/logger/CLogger.hpp"
 
 
-CTextureManager::CTextureManager( const CSettings &p_settings, const CFileSystem &p_filesystem, const CRendererCapabilities &rendererCapabilities ) :
-	m_textureLoader( p_settings, p_filesystem, rendererCapabilities ),
+CTextureManager::CTextureManager( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter ) :
+	m_textureLoader( p_settings, p_filesystem, openGlAdapter ),
 	m_dummyTexture { m_textureLoader.CreateDummyTexture() }
 {
 	if( nullptr == m_dummyTexture )

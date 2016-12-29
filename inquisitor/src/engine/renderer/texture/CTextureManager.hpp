@@ -8,12 +8,10 @@
 #include "src/engine/renderer/texture/CTextureLoader.hpp"
 #include "src/engine/renderer/texture/CTexture.hpp"
 
-#include "src/engine/renderer/CRendererCapabilities.hpp"
-
 class CTextureManager final
 {
 public:
-	CTextureManager( const CSettings &psettings, const CFileSystem &p_filesystem, const CRendererCapabilities &rendererCapabilities );
+	CTextureManager( const CSettings &psettings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter );
 	virtual ~CTextureManager( void );
 
 	void Update( void );

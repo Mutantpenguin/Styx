@@ -8,27 +8,21 @@
 
 #include "src/engine/helper/image/ImageHandler.hpp"
 
-CTextureLoader::CTextureLoader( const CSettings &p_settings, const CFileSystem &p_filesystem, const CRendererCapabilities &rendererCapabilities ) :
+CTextureLoader::CTextureLoader( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter ) :
 	m_filesystem { p_filesystem },
 	// clamp the value so we don't get too bad texture-quality
-	m_iPicMip { std::min( p_settings.renderer.textures.picmip, MAX_PICMIP ) }
+	m_iPicMip { std::min( p_settings.renderer.textures.picmip, MAX_TEXTURE_PICMIP ) },
+	m_internalTextureFormat2D { openGlAdapter.PreferredInternalTextureFormat2D() },
+	m_internalTextureFormatCube { openGlAdapter.PreferredInternalTextureFormatCube() },
+	m_internalTextureFormat2DArray { openGlAdapter.PreferredInternalTextureFormat2DArray() }
 {
-	// look out for the maximal texture size
+	// fetch the maximal texture size
 	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &m_iMaxTextureSize );
 	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_TEXTURE_SIZE ), m_iMaxTextureSize );
 
-	// look out for the maximal cubemap texture size
+	// fetch the maximal cubemap texture size
 	glGetIntegerv( GL_MAX_CUBE_MAP_TEXTURE_SIZE, &m_iMaxCubeMapTextureSize );
 	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_CUBE_MAP_TEXTURE_SIZE ), m_iMaxCubeMapTextureSize );
-
-	if( rendererCapabilities.isSupported( GLextension::GL_ARB_internalformat_query2 ) )
-	{
-		logDEBUG( "using {0} for internal texture formats", glbinding::Meta::getString( GLextension::GL_ARB_internalformat_query2 ) );
-
-		glGetInternalformativ( GL_TEXTURE_2D,		GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_internalTextureFormat2D );
-		glGetInternalformativ( GL_TEXTURE_CUBE_MAP,	GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_internalTextureFormatCube );
-		glGetInternalformativ( GL_TEXTURE_2D_ARRAY,	GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_internalTextureFormat2DArray );
-	}
 }
 
 

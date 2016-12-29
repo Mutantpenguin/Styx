@@ -100,8 +100,6 @@
         <File Name="src/engine/renderer/GL.h"/>
         <File Name="src/engine/renderer/CRenderer.hpp"/>
         <File Name="src/engine/renderer/CRenderer.cpp"/>
-        <File Name="src/engine/renderer/CRendererCapabilities.hpp"/>
-        <File Name="src/engine/renderer/CRendererCapabilities.cpp"/>
         <File Name="src/engine/renderer/CUniformBuffer.hpp"/>
         <File Name="src/engine/renderer/CUniformBuffer.cpp"/>
         <File Name="src/engine/renderer/EUniformBufferLocations.hpp"/>

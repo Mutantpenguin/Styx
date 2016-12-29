@@ -2,12 +2,12 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-CMaterialManager::CMaterialManager( const CSettings &settings, const CFileSystem &filesystem, const CSamplerManager &samplerManager, const CRendererCapabilities &rendererCapabilities )
+CMaterialManager::CMaterialManager( const CSettings &settings, const CFileSystem &filesystem, const CSamplerManager &samplerManager, const COpenGlAdapter &openGlAdapter )
 	try :
 		m_filesystem { filesystem },
 		m_samplerManager { samplerManager },
 		m_shaderManager( filesystem ),
-		m_textureManager( settings, filesystem, rendererCapabilities ),
+		m_textureManager( settings, filesystem, openGlAdapter ),
 		m_materialloader( filesystem, m_textureManager, m_shaderManager, m_samplerManager ),
 		m_dummyMaterial { m_materialloader.CreateDummyMaterial() }
 {

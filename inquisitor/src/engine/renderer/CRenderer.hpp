@@ -50,8 +50,6 @@ private:
 
 	COpenGlAdapter m_OpenGlAdapter;
 
-	CRendererCapabilities m_rendererCapabilities;
-
 	CSamplerManager		m_samplerManager;
 	CMaterialManager	m_materialmanager;
 

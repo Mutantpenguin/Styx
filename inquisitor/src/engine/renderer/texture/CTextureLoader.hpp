@@ -8,14 +8,14 @@
 
 #include "src/engine/renderer/texture/CTexture.hpp"
 
-#include "src/engine/renderer/CRendererCapabilities.hpp"
+#include "src/engine/renderer/COpenGlAdapter.hpp"
 
 class CTextureLoader final
 {
 	friend class CTextureManager;
 
 private:
-	CTextureLoader( const CSettings &p_settings, const CFileSystem &p_filesystem, const CRendererCapabilities &rendererCapabilities );
+	CTextureLoader( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter );
 
 	std::shared_ptr< CTexture > CreateTextureFromFile( const std::string &path ) const;
 
@@ -33,11 +33,11 @@ private:
 	GLint m_iMaxTextureSize;
 	GLint m_iMaxCubeMapTextureSize;
 
-	GLint m_internalTextureFormat2D			{ static_cast< GLint >( GL_RGBA8 ) };
-	GLint m_internalTextureFormatCube		{ static_cast< GLint >( GL_RGBA8 ) };
-	GLint m_internalTextureFormat2DArray 	{ static_cast< GLint >( GL_RGBA8 ) };
+	const GLint m_internalTextureFormat2D;
+	const GLint m_internalTextureFormatCube;
+	const GLint m_internalTextureFormat2DArray;
 
-	const std::uint8_t MAX_PICMIP { 4 };
+	const std::uint8_t MAX_TEXTURE_PICMIP { 4 };
 };
 
 #endif // CTEXTURELOADER_HPP
