@@ -8,10 +8,10 @@
 class CFileSystem final
 {
 public :
-	typedef struct
+	using File = struct
 	{
 		void *opaque;  // that's all you get. don't touch!!
-	} File;
+	};
 
 	enum struct e_openmode : unsigned char
 	{

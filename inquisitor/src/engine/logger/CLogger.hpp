@@ -60,7 +60,7 @@ public:
 		const std::string FormattedTime( void ) const;
 	};
 
-	typedef std::vector< std::unique_ptr< logEntry > > TLogBuffer;
+	using TLogBuffer = std::vector< std::unique_ptr< logEntry > >;
 
 	class CLogTarget
 	{

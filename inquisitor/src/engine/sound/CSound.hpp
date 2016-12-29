@@ -7,7 +7,7 @@
 class CSound
 {
 public:
-	typedef std::vector< std::uint8_t > TSoundData;
+	using TSoundData = std::vector< std::uint8_t >;
 
 	enum struct format : std::uint8_t
 	{

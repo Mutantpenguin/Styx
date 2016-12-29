@@ -6,7 +6,7 @@
 #include "centity.hpp"
 #include "csystem.hpp"
 
-typedef unsigned int SystemID;
+using SystemID = unsigned int ;
 
 template <typename T>
 class CComponentSystem : public CSystem

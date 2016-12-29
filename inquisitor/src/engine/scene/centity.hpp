@@ -3,7 +3,7 @@
 
 #include <string>
 
-typedef std::uint32_t EntityID;
+using EntityID = std::uint32_t;
 
 class CEntity final
 {

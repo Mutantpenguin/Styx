@@ -10,7 +10,7 @@
 class CImage final
 {
 public:
-	typedef std::vector< unsigned char > PixelBuffer;
+	using PixelBuffer = std::vector< unsigned char >;
 
 public:
 	CImage( const CSize &size, const CSize &originalSize, bool alpha, unsigned char bpp, unsigned int pitch, std::unique_ptr< PixelBuffer > imageData );
