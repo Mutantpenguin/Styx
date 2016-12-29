@@ -59,9 +59,9 @@ const std::array< std::shared_ptr< const CImage >, 6 > &CCubemapData::getFaces( 
 
 bool CCubemapData::isComplete( void ) const
 {
-	for( const std::shared_ptr< const CImage > &i : m_faces )
+	for( const std::shared_ptr< const CImage > &face : m_faces )
 	{
-		if( !i )
+		if( !face )
 		{
 			return( false );
 		}
