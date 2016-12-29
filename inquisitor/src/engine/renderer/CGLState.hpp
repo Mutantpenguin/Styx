@@ -3,9 +3,9 @@
 
 #include <array>
 
-#include "GL.h"
+#include "src/engine/renderer/GL.h"
 
-#include "shader/CShaderManager.hpp"
+#include "src/engine/renderer/shader/CShaderManager.hpp"
 
 class CGLState final
 {

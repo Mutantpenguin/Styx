@@ -1,9 +1,9 @@
 #ifndef CUNIFORMBUFFER_HPP
 #define CUNIFORMBUFFER_HPP
 
-#include "GL.h"
+#include "src/engine/renderer/GL.h"
 
-#include "EUniformBufferLocations.hpp"
+#include "src/engine/renderer/EUniformBufferLocations.hpp"
 
 class CUniformBuffer
 {
