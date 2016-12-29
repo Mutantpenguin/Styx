@@ -145,7 +145,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 	else
 	{
 		SDL_GL_SetSwapInterval( 0 );
-		logINFO( "running without vsync" );
+		logINFO( "vsync disabled" );
 	}
 
 	if( settings.renderer.window.gamma > 0.0f )
