@@ -13,7 +13,7 @@ public :
 		void *opaque;  // that's all you get. don't touch!!
 	};
 
-	enum struct e_openmode : unsigned char
+	enum struct e_openmode : std::uint8_t
 	{
 		READ,
 		WRITE,
@@ -26,19 +26,19 @@ public :
 	bool			Exists( const std::string &filename ) const;
 	bool			IsDirectory( const std::string &name ) const;
 	bool			IsEOF( File *handle ) const;
-	unsigned long long GetLastModTime( const std::string &filename ) const;
+	std::int64_t	GetLastModTime( const std::string &filename ) const;
 
 	File*			Open( const std::string &filename, e_openmode openmode = e_openmode::READ ) const;
 	void			Close( File *handle ) const;
 
-	long long		Read( void *buffer, unsigned int objSize, unsigned int objCount, File *handle ) const;
+	std::int64_t	Read( void *buffer, std::size_t objSize, std::size_t objCount, File *handle ) const;
 
-	long long		Write( void *buffer, unsigned int objSize, unsigned int objCount, File *handle ) const;
+	std::int64_t	Write( void *buffer, std::size_t objSize, std::size_t objCount, File *handle ) const;
 
-	bool			Seek( File *handle, unsigned long long pos, int whence ) const;
-	long long		Tell( File *handle ) const;
+	bool			Seek( File *handle, std::int64_t pos, std::uint8_t whence ) const;
+	std::int64_t	Tell( File *handle ) const;
 
-	long long		Length( File *handle ) const;
+	std::int64_t	Length( File *handle ) const;
 
 	std::string	GetWriteDir( void ) const;
 	bool			MakeDir( const std::string &dirname ) const;

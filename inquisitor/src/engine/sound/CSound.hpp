@@ -15,20 +15,20 @@ public:
 		STEREO
 	};
 public:
-	CSound( const TSoundData &soundData, format format, std::uint16_t frequency );
+	CSound( const TSoundData &soundData, format format, std::uint64_t frequency );
 	~CSound( void );
 
 	const TSoundData &SoundData( void ) const;
 
 	format Format( void ) const;
-	std::uint16_t Frequency( void ) const;
+	std::uint64_t Frequency( void ) const;
 
 private:
 	// TODO shouldn't this be a pointer?
 	const TSoundData	m_soundData;
 
 	const format		m_format;
-	const std::uint16_t	m_frequency;
+	const std::uint64_t	m_frequency;
 };
 
 #endif // CSOUND_HPP

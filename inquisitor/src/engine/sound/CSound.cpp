@@ -1,6 +1,6 @@
 #include "CSound.hpp"
 
-CSound::CSound( const TSoundData &soundData, format format, std::uint16_t frequency ) :
+CSound::CSound( const TSoundData &soundData, format format, std::uint64_t frequency ) :
 	m_soundData { soundData },
 	m_format { format },
 	m_frequency { frequency }
@@ -21,7 +21,7 @@ CSound::format CSound::Format( void ) const
 	return( m_format );
 }
 
-std::uint16_t CSound::Frequency( void ) const
+std::uint64_t CSound::Frequency( void ) const
 {
 	return( m_frequency );
 }

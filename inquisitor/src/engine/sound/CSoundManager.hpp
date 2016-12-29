@@ -38,7 +38,7 @@ private:
 	ALCdevice	*m_AL_device { nullptr };
 	ALCcontext	*m_AL_context { nullptr };
 
-	const unsigned int	m_buffer_size;
+	const std::uint32_t	m_buffer_size;
 };
 
 #endif // CSOUNDMANAGER_HPP

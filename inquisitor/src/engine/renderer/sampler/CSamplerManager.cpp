@@ -3,7 +3,7 @@
 #include "src/engine/logger/CLogger.hpp"
 
 CSamplerManager::CSamplerManager( const CSettings &p_settings ) :
-	m_iAnisotropicLevel( p_settings.renderer.textures.anisotropic ),
+	m_iAnisotropicLevel { p_settings.renderer.textures.anisotropic },
 	m_samplers()
 {
 	if( m_iAnisotropicLevel > 1 )

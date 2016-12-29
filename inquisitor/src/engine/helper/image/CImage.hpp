@@ -10,10 +10,10 @@
 class CImage final
 {
 public:
-	using PixelBuffer = std::vector< unsigned char >;
+	using PixelBuffer = std::vector< std::uint8_t >;
 
 public:
-	CImage( const CSize &size, const CSize &originalSize, bool alpha, unsigned char bpp, unsigned int pitch, std::unique_ptr< PixelBuffer > imageData );
+	CImage( const CSize &size, const CSize &originalSize, bool alpha, std::uint8_t bpp, std::uint32_t pitch, std::unique_ptr< PixelBuffer > imageData );
 
 	const CSize &Size( void ) const;
 
@@ -21,20 +21,20 @@ public:
 
 	bool HasAlpha( void ) const;
 
-	unsigned char BPP( void ) const;
+	std::uint8_t BPP( void ) const;
 
-	unsigned int Pitch( void ) const;
+	std::uint32_t Pitch( void ) const;
 
-	const unsigned char *RawPixelData( void ) const;
+	const std::uint8_t *RawPixelData( void ) const;
 
 private:
-	CSize			m_size;
-	CSize			m_originalSize;
-	bool			m_alpha;
-	unsigned char	m_bpp;
-	unsigned int	m_pitch;
+	const CSize			m_size;
+	const CSize			m_originalSize;
+	const bool			m_alpha;
+	const std::uint8_t	m_bpp;
+	const std::uint32_t	m_pitch;
 
-	std::unique_ptr< PixelBuffer > m_imageData;
+	const std::unique_ptr< PixelBuffer > m_imageData;
 };
 
 #endif // CIMAGE_HPP

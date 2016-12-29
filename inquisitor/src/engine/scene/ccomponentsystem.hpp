@@ -6,7 +6,7 @@
 #include "centity.hpp"
 #include "csystem.hpp"
 
-using SystemID = unsigned int ;
+using SystemID = std::uint32_t ;
 
 template <typename T>
 class CComponentSystem : public CSystem

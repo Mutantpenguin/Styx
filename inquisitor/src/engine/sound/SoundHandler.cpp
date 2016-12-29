@@ -33,9 +33,9 @@ namespace SoundHandler
 
 			int bitStream;
 
-			unsigned int frequency = vi->rate;
+			std::uint64_t frequency = vi->rate;
 
-			long bytes;
+			std::uint32_t bytes;
 
 			const CSound::format format = ( 1 == vi->channels ) ? CSound::format::MONO : CSound::format::STEREO;
 

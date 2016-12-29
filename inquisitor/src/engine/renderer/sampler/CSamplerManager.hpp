@@ -22,7 +22,7 @@ public:
 private:
 	CSamplerManager( const CSettings &p_settings );
 
-	unsigned int m_iAnisotropicLevel;
+	std::uint8_t m_iAnisotropicLevel;
 
 	std::shared_ptr< const CSampler > Generate( CSampler::Type type );
 

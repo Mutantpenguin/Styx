@@ -27,7 +27,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 
 			glEnable( GL_DEBUG_OUTPUT_SYNCHRONOUS );
 
-			glDebugMessageCallback(	[]( GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei, const GLchar* message, const void* )
+			glDebugMessageCallback(	[]( GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei, const GLchar* message, const void* )
 									{
 										const e_loglevel loglvl = ( GL_DEBUG_SEVERITY_HIGH == severity ) ? e_loglevel::ERROR : e_loglevel::WARNING;
 
@@ -173,7 +173,7 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &ca
 	const glm::mat4 &viewMatrix = camera->CalculateViewMatrix();
 	const glm::mat4 &viewProjectionMatrix = camera->CalculateViewProjectionMatrix();
 
-	std::uint16_t offset = 0;
+	std::uint32_t offset = 0;
 	m_uboCamera->SubData( offset,	sizeof( position ),				glm::value_ptr( position ) );
 	offset += sizeof( glm::vec4 );
 	m_uboCamera->SubData( offset,	sizeof( direction ),			glm::value_ptr( direction ) );

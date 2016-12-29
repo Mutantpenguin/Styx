@@ -19,17 +19,17 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	PHYSFS_getLinkedVersion( &version_linked );
 	PHYSFS_VERSION( &version_compiled );
 
+	logDEBUG( "PhysicsFS has version '{0}.{1}.{2}'", version_linked.major, version_linked.minor, version_linked.patch );
+
 	if(	( version_compiled.major != version_linked.major )
 		||
 		( version_compiled.minor != version_linked.minor )
 		||
 		( version_compiled.patch != version_linked.patch ) )
 	{
-		logERROR( "PhysicsFS has version '{0}.{1}.{2}' but expected was version '{3}.{4}.{5}'", static_cast< unsigned short >( version_linked.major ), static_cast< unsigned short >( version_linked.minor ), static_cast< unsigned short >( version_linked.patch ), PHYSFS_VER_MAJOR, PHYSFS_VER_MINOR, PHYSFS_VER_PATCH );
+		logERROR( "\tbut version '{0}.{1}.{2}' was expected", PHYSFS_VER_MAJOR, PHYSFS_VER_MINOR, PHYSFS_VER_PATCH );
 		throw Exception();
 	}
-
-	logDEBUG( "PhysicsFS has version '{0}.{1}.{2}'", static_cast< unsigned short >( version_linked.major ), static_cast< unsigned short >( version_linked.minor ), static_cast< unsigned short >( version_linked.patch ) );
 
 	if( !PHYSFS_init( argv0 ) )
 	{
@@ -123,7 +123,7 @@ bool CFileSystem::IsEOF( File *handle ) const
 	return( PHYSFS_eof( reinterpret_cast< PHYSFS_file* >( handle ) ) );
 }
 
-unsigned long long CFileSystem::GetLastModTime( const std::string &filename ) const
+std::int64_t CFileSystem::GetLastModTime( const std::string &filename ) const
 {
 	PHYSFS_Stat stat;
 	PHYSFS_stat( filename.c_str(), &stat );
@@ -143,9 +143,10 @@ CFileSystem::File* CFileSystem::Open( const std::string &filename, e_openmode op
 
 		case e_openmode::APPEND :
 			return( reinterpret_cast< File* >( PHYSFS_openAppend( filename.c_str() ) ) );
-	}
 
-	return( nullptr );
+		default:
+			return( nullptr );
+	}
 }
 
 void CFileSystem::Close( File *handle ) const
@@ -153,19 +154,21 @@ void CFileSystem::Close( File *handle ) const
 	PHYSFS_close( reinterpret_cast< PHYSFS_file* >( handle ) );
 }
 
-long long CFileSystem::Read( void *buffer, unsigned int objSize, unsigned int objCount, File *handle ) const
+std::int64_t CFileSystem::Read( void *buffer, std::size_t objSize, std::size_t objCount, File *handle ) const
 {
 	const PHYSFS_sint64 retval = PHYSFS_readBytes( reinterpret_cast< PHYSFS_file* >( handle ), buffer, static_cast< PHYSFS_uint64 >( objSize ) * static_cast< PHYSFS_uint64 >( objCount ) );
+
 	return( ( retval <= 0 ) ? retval : ( retval / static_cast< PHYSFS_sint64 >( objSize ) ) );
 }
 
-long long CFileSystem::Write( void *buffer, unsigned int objSize, unsigned int objCount, File *handle ) const
+std::int64_t CFileSystem::Write( void *buffer, std::size_t objSize, std::size_t objCount, File *handle ) const
 {
 	const PHYSFS_sint64 retval = PHYSFS_writeBytes( reinterpret_cast< PHYSFS_file* >( handle ), buffer, static_cast< PHYSFS_uint64 >( objSize ) * static_cast< PHYSFS_uint64 >( objCount ) );
+
 	return( ( retval <= 0 ) ? retval : ( retval / static_cast< PHYSFS_sint64 >( objSize ) ) );
 }
 
-bool CFileSystem::Seek( File *handle, unsigned long long pos, int whence ) const
+bool CFileSystem::Seek( File *handle, std::int64_t pos, std::uint8_t whence ) const
 {
 	switch( whence )
 	{
@@ -182,12 +185,12 @@ bool CFileSystem::Seek( File *handle, unsigned long long pos, int whence ) const
 	return( false );
 }
 
-long long CFileSystem::Tell( File *handle ) const
+std::int64_t CFileSystem::Tell( File *handle ) const
 {
 	return( PHYSFS_tell( reinterpret_cast< PHYSFS_file* >( handle ) ) );
 }
 
-long long CFileSystem::Length( File *handle ) const
+std::int64_t CFileSystem::Length( File *handle ) const
 {
 	return( PHYSFS_fileLength( reinterpret_cast< PHYSFS_file* >( handle ) ) );
 }
@@ -211,7 +214,7 @@ std::string CFileSystem::LoadTextFileToBuffer( const std::string &filename ) con
 {
 	PHYSFS_file* temp_file = PHYSFS_openRead( filename.c_str() );
 
-	const long long length = PHYSFS_fileLength( temp_file );
+	const std::int64_t length = PHYSFS_fileLength( temp_file );
 
 	std::string buffer;
 	buffer.resize( length );

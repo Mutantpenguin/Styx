@@ -345,7 +345,7 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 	glGetProgramInterfaceiv( shaderProgram->m_program, GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &numActiveAttributes );
 	const std::array< GLenum, 3 > attributeProperties { { GL_TYPE, GL_NAME_LENGTH, GL_LOCATION } };
 
-	for( int attribIndex = 0; attribIndex < numActiveAttributes; ++attribIndex )
+	for( GLint attribIndex = 0; attribIndex < numActiveAttributes; ++attribIndex )
 	{
 		GLint values[ attributeProperties.size() ];
 		glGetProgramResourceiv( shaderProgram->m_program, GL_PROGRAM_INPUT, attribIndex, attributeProperties.size(), attributeProperties.data(), attributeProperties.size(), NULL, values );
@@ -383,7 +383,7 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 	glGetProgramInterfaceiv( shaderProgram->m_program, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numActiveUniforms );
 	const std::array< GLenum, 4 > uniformProperties { { GL_BLOCK_INDEX, GL_TYPE, GL_NAME_LENGTH, GL_LOCATION } };
 
-	for( int uniformIndex = 0; uniformIndex < numActiveUniforms; ++uniformIndex )
+	for( GLint uniformIndex = 0; uniformIndex < numActiveUniforms; ++uniformIndex )
 	{
 		GLint values[ uniformProperties.size() ];
 		glGetProgramResourceiv( shaderProgram->m_program, GL_UNIFORM, uniformIndex, uniformProperties.size(), uniformProperties.data(), uniformProperties.size(), nullptr, &values[ 0 ] );

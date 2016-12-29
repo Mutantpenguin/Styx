@@ -31,7 +31,7 @@
 	#define logDEBUG( ... )
 #endif
 
-enum struct e_loglevel : unsigned char
+enum struct e_loglevel : std::uint8_t
 {
 	ERROR,
 	WARNING,
