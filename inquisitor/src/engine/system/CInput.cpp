@@ -8,9 +8,9 @@ CInput::CInput( const CSettings &settings, const CFileSystem &filesystem )
 	m_oldKeys = new Uint8[ m_keyCount ];
 
 	// get information about joysticks
-	if( SDL_InitSubSystem( SDL_INIT_JOYSTICK ) )
+	if( SDL_InitSubSystem( SDL_INIT_GAMECONTROLLER ) )
 	{
-		logINFO( "initializing SDL joystick subsystem failed: {0}", SDL_GetError() );
+		logINFO( "initializing SDL gamecontroller subsystem failed: {0}", SDL_GetError() );
 	}
 	else
 	{
