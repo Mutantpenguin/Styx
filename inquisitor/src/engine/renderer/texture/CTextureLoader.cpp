@@ -105,7 +105,7 @@ std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const std
 
 	const std::string path_to_faces = path.substr( 0, path.find_last_of( CFileSystem::GetDirSeparator() ) + 1 );
 
-	auto cubemapData = std::make_unique< CCubemapData >();
+	CCubemapData cubemapData;
 
 	for( std::uint8_t faceNum = 0; faceNum < CCubemapData::countCubemapFaces; ++faceNum )
 	{
@@ -118,7 +118,7 @@ std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const std
 		}
 		else
 		{
-			if( !cubemapData->AddFace( faceNum, image ) )
+			if( !cubemapData.AddFace( faceNum, image ) )
 			{
 				logWARNING( "failed to add face '{0}' for cubemap '{1}'", json_faces[ faceNum ].asString(), path );
 				return( nullptr );
@@ -126,9 +126,9 @@ std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const std
 		}
 	}
 
-	if( cubemapData->isComplete() )
+	if( cubemapData.isComplete() )
 	{
-		return( std::make_shared< CTexture >( std::move( cubemapData ), m_internalTextureFormatCube ) );
+		return( std::make_shared< CTexture >( cubemapData, m_internalTextureFormatCube ) );
 	}
 	else
 	{
@@ -162,7 +162,7 @@ std::shared_ptr< CTexture > CTextureLoader::Create2DArrayTextureFromFile( const 
 
 	const std::string path_to_layers = path.substr( 0, path.find_last_of( CFileSystem::GetDirSeparator() ) + 1 );
 
-	auto arrayData = std::make_unique< C2DArrayData >();
+	C2DArrayData arrayData;
 
 	for( const Json::Value &layer : json_layers )
 	{
@@ -176,7 +176,7 @@ std::shared_ptr< CTexture > CTextureLoader::Create2DArrayTextureFromFile( const 
 		}
 		else
 		{
-			if( !arrayData->AddLayer( image ) )
+			if( !arrayData.AddLayer( image ) )
 			{
 				logWARNING( "failed to add layer '{0}' for array texture '{1}'", layer.asString(), path );
 				return( nullptr );
@@ -184,7 +184,7 @@ std::shared_ptr< CTexture > CTextureLoader::Create2DArrayTextureFromFile( const 
 		}
 	}
 
-	return( std::make_shared< CTexture >( std::move( arrayData ), m_internalTextureFormat2DArray ) );
+	return( std::make_shared< CTexture >( arrayData, m_internalTextureFormat2DArray ) );
 }
 
 std::shared_ptr< CTexture > CTextureLoader::CreateDummyTexture( void ) const

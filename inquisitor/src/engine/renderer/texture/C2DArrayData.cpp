@@ -5,27 +5,25 @@
 bool C2DArrayData::AddLayer( const std::shared_ptr< const CImage > &image )
 {
 	// check newly added layer against the first image if already existant
-	if( m_layers.size() > 0 )
+	if( !m_layers.empty() )
 	{
 		const std::shared_ptr< const CImage > &firstImage = m_layers.front();
-		if( firstImage )
+
+		if( firstImage->Size() != image->Size() )
 		{
-			if( firstImage->Size() != image->Size() )
-			{
-				logWARNING( "different layers in array textures must have the same size" );
-				return( false );
-			}
-			else if( firstImage->BPP() != image->BPP() )
-			{
-				logWARNING( "different layers in array textures must have the same bpp" );
-				return( false );
-			}
-			else if( firstImage->HasAlpha() != image->HasAlpha() )
-			{
-				logWARNING( "different layers in array textures must have the same alpha" );
-				return( false );
-			};
+			logWARNING( "different layers in array textures must have the same size" );
+			return( false );
 		}
+		else if( firstImage->BPP() != image->BPP() )
+		{
+			logWARNING( "different layers in array textures must have the same bpp" );
+			return( false );
+		}
+		else if( firstImage->HasAlpha() != image->HasAlpha() )
+		{
+			logWARNING( "different layers in array textures must have the same alpha" );
+			return( false );
+		};
 	}
 
 	m_layers.push_back( image );

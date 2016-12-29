@@ -2,7 +2,7 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-bool CCubemapData::AddFace( const unsigned char faceNum, const std::shared_ptr< const CImage > &image )
+bool CCubemapData::AddFace( const std::uint8_t faceNum, const std::shared_ptr< const CImage > &image )
 {
 	if( faceNum >= countCubemapFaces )
 	{
@@ -14,7 +14,7 @@ bool CCubemapData::AddFace( const unsigned char faceNum, const std::shared_ptr< 
 	{
 		if( !m_faces[ faceNum - 1 ] )
 		{
-			logWARNING( "cannot add face '{0}' to cubemap when face '{1}' is not already added", faceNum, faceNum - 1 );
+			logWARNING( "cannot add face '{0}' to cubemap when face '{1}' wasn't already added", faceNum, faceNum - 1 );
 			return( false );
 		}
 	}
@@ -27,6 +27,7 @@ bool CCubemapData::AddFace( const unsigned char faceNum, const std::shared_ptr< 
 
 	// check newly added faces against the first image if already existant
 	const std::shared_ptr< const CImage > &firstImage = m_faces[ 0 ];
+
 	if( firstImage )
 	{
 		if( firstImage->Size() != image->Size() )

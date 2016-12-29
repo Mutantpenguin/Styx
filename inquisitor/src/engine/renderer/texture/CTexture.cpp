@@ -36,7 +36,7 @@ CTexture::CTexture( const std::shared_ptr< const CImage > &image, const GLint in
 	glGenerateTextureMipmap( m_texID );
 }
 
-CTexture::CTexture( const std::unique_ptr< const CCubemapData > cubemapData, const GLint internalFormat ) :
+CTexture::CTexture( const CCubemapData &cubemapData, const GLint internalFormat ) :
 	m_type { type::TEX_CUBE_MAP }
 {
 	glCreateTextures( GL_TEXTURE_CUBE_MAP, 1, &m_texID );
@@ -44,7 +44,7 @@ CTexture::CTexture( const std::unique_ptr< const CCubemapData > cubemapData, con
 	glTextureParameteri( m_texID, GL_TEXTURE_BASE_LEVEL, 0 );
 	glTextureParameteri( m_texID, GL_TEXTURE_MAX_LEVEL, 0 );
 
-	const auto faces = cubemapData->getFaces();
+	const auto faces = cubemapData.getFaces();
 
 	auto &size = faces[ 0 ]->Size();
 
@@ -72,12 +72,12 @@ CTexture::CTexture( const std::unique_ptr< const CCubemapData > cubemapData, con
 	}
 }
 
-CTexture::CTexture( const std::unique_ptr< const C2DArrayData > arrayData, const GLint internalFormat ) :
+CTexture::CTexture( const C2DArrayData &arrayData, const GLint internalFormat ) :
 	m_type { type::TEX_2D_ARRAY }
 {
 	glCreateTextures( GL_TEXTURE_2D_ARRAY, 1, &m_texID );
 
-	auto const layers = arrayData->getLayers();
+	auto const layers = arrayData.getLayers();
 
 	const auto &size = layers[ 0 ]->Size();
 
