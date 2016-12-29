@@ -7,7 +7,7 @@
 #include "CWindow.hpp"
 
 const std::string CEngine::m_name		{ "Inquisitor Engine" };
-const std::string CEngine::m_version	{ "16.04" };
+const std::string CEngine::m_version	{ "16.12" };
 const std::string CEngine::m_status		{ "pre-alpha" };
 
 CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std::string &settingsFile )
