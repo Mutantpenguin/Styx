@@ -238,7 +238,7 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) con
 	}
 	else
 	{
-		const CFrustum &frustum = camera->CalculateFrustum();
+		const auto &frustum = camera->CalculateFrustum();
 
 		UpdateUniformBuffers( camera, time );
 
@@ -246,13 +246,11 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) con
 		 * set up the renderqueues
 		 */
 
-		// Allocate enough memory to hold every object.
-		// This wastes quite a bit of memory, but has the benefit that we only need to allocate memory once.
-		// TODO why allocate new memory on every frame?
-		TRenderQueue renderQueueOpaque;
-		renderQueueOpaque.reserve( scene.Meshes().size() );
-		TRenderQueue renderQueueTranslucent;
-		renderQueueTranslucent.reserve( scene.Meshes().size() );
+		// static queues so whe don't need to allocate new memory on every frame
+		// get cleared at the end of this function
+
+		static TRenderQueue renderQueueOpaque;
+		static TRenderQueue renderQueueTranslucent;
 
 		for( const std::shared_ptr< const CMesh > &mesh : scene.Meshes() )
 		{
@@ -293,6 +291,9 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) con
 		{
 			RenderMesh( viewProjectionMatrix, mesh );
 		}
+
+		renderQueueOpaque.clear();
+		renderQueueTranslucent.clear();
 	}
 }
 

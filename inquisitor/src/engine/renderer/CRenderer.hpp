@@ -44,7 +44,7 @@ public:
 	};
 
 private:
-	typedef std::vector< std::shared_ptr< const CMesh > > TRenderQueue;
+	using TRenderQueue = std::vector< std::shared_ptr< const CMesh > >;
 
 	const	CSettings &m_settings;
 
