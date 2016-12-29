@@ -248,6 +248,7 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) con
 
 		// Allocate enough memory to hold every object.
 		// This wastes quite a bit of memory, but has the benefit that we only need to allocate memory once.
+		// TODO why allocate new memory on every frame?
 		TRenderQueue renderQueueOpaque;
 		renderQueueOpaque.reserve( scene.Meshes().size() );
 		TRenderQueue renderQueueTranslucent;
@@ -272,16 +273,16 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) con
 		const glm::mat4 viewProjectionMatrix = camera->CalculateViewProjectionMatrix();
 
 		// sort opaque front to back
-		std::sort( renderQueueOpaque.begin(), renderQueueOpaque.end(),	[&]( const std::shared_ptr< const CMesh > &a, const std::shared_ptr< const CMesh > &b ) -> bool
-																		{
-																			return( glm::length2( a->Position() - cameraPosition ) < glm::length2( b->Position() - cameraPosition ) );
-																		} );
+		std::sort( std::begin( renderQueueOpaque ), std::end( renderQueueOpaque ),	[&]( const std::shared_ptr< const CMesh > &a, const std::shared_ptr< const CMesh > &b ) -> bool
+																					{
+																						return( glm::length2( a->Position() - cameraPosition ) < glm::length2( b->Position() - cameraPosition ) );
+																					} );
 
 		// sort translucent back to front
-		std::sort( renderQueueTranslucent.begin(), renderQueueTranslucent.end(),	[&]( const std::shared_ptr< const CMesh > &a, const std::shared_ptr< const CMesh > &b ) -> bool
-																					{
-																						return( glm::length2( a->Position() - cameraPosition ) > glm::length2( b->Position() - cameraPosition ) );
-																					} );
+		std::sort( std::begin( renderQueueTranslucent ), std::end( renderQueueTranslucent ),	[&]( const std::shared_ptr< const CMesh > &a, const std::shared_ptr< const CMesh > &b ) -> bool
+																								{
+																									return( glm::length2( a->Position() - cameraPosition ) > glm::length2( b->Position() - cameraPosition ) );
+																								} );
 
 		for( const std::shared_ptr< const CMesh > &mesh : renderQueueOpaque )
 		{
