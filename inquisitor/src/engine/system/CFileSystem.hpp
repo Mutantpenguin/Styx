@@ -8,10 +8,7 @@
 class CFileSystem final
 {
 public :
-	using File = struct
-	{
-		void *opaque;  // that's all you get. don't touch!!
-	};
+	using File = void;
 
 	enum struct e_openmode : std::uint8_t
 	{
@@ -31,13 +28,6 @@ public :
 	File*			Open( const std::string &filename, e_openmode openmode = e_openmode::READ ) const;
 	void			Close( File *handle ) const;
 
-	std::int64_t	Read( void *buffer, std::size_t objSize, std::size_t objCount, File *handle ) const;
-
-	std::int64_t	Write( void *buffer, std::size_t objSize, std::size_t objCount, File *handle ) const;
-
-	bool			Seek( File *handle, std::int64_t pos, std::uint8_t whence ) const;
-	std::int64_t	Tell( File *handle ) const;
-
 	std::int64_t	Length( File *handle ) const;
 
 	std::string	GetWriteDir( void ) const;
@@ -49,6 +39,11 @@ public :
 
 	static const char *GetDirSeparator( void );
 
+	using FileBuffer = std::vector< std::uint8_t >;
+
+	FileBuffer LoadFileToBuffer( const std::string &filename ) const;
+	bool SaveBufferToFile( const FileBuffer &buffer, const std::string &filename ) const;
+
 	class Exception: public std::exception
 	{
 	public:
@@ -56,6 +51,18 @@ public :
 
 		virtual ~Exception() throw() {}
 	};
+
+/* TODO are these really needed anymore?
+private:
+	static std::int64_t	s_Read( void *buffer, std::size_t objSize, std::size_t objCount, File *handle );
+	static std::int64_t	s_Write( void *buffer, std::size_t objSize, std::size_t objCount, File *handle );
+
+	static std::int32_t	s_Seek( File *handle, std::int64_t pos, std::int32_t whence );
+	static std::int64_t	s_Tell( File *handle );
+*/
+
+// TODO what to do with this?
+	void InitialiseFreeImageIO( void );
 };
 
 #endif // CFILESYSTEM_HPP

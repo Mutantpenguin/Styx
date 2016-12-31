@@ -134,12 +134,10 @@
         <File Name="src/engine/helper/String.cpp"/>
         <File Name="src/engine/helper/CLibVorbisWrapper.cpp"/>
         <File Name="src/engine/helper/CColor.hpp"/>
-        <File Name="src/engine/helper/CFreeImageWrapper.cpp"/>
         <File Name="src/engine/helper/CLibVorbisWrapper.hpp"/>
         <File Name="src/engine/helper/String.hpp"/>
         <File Name="src/engine/helper/Date.cpp"/>
         <File Name="src/engine/helper/CSize.hpp"/>
-        <File Name="src/engine/helper/CFreeImageWrapper.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="scene">
         <VirtualDirectory Name="components">

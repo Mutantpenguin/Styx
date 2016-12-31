@@ -8,13 +8,13 @@
 class CLibVorbisWrapper
 {
 public:
-	static ov_callbacks &Get( const CFileSystem &p_filesystem );
+	static ov_callbacks &Get( const CFileSystem &filesystem );
 
 private:
 	CLibVorbisWrapper();
 	~CLibVorbisWrapper();
 
-	static void m_Initialize( const CFileSystem & );
+	static void m_Initialize( const CFileSystem &filesystem );
 
 	static bool m_initialized;
 

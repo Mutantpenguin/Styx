@@ -15,17 +15,17 @@ CLibVorbisWrapper::~CLibVorbisWrapper()
 {
 }
 
-ov_callbacks &CLibVorbisWrapper::Get( const CFileSystem &p_filesystem )
+ov_callbacks &CLibVorbisWrapper::Get( const CFileSystem &filesystem )
 {
 	if( !m_initialized )
 	{
-		m_Initialize( p_filesystem );
+		m_Initialize( filesystem );
 	}
 	return( m_io );
 }
 
 // p_filesystem is unused. we just need to be sure that the filesystem is already initialized. hence this parameter
-void CLibVorbisWrapper::m_Initialize( const CFileSystem & )
+void CLibVorbisWrapper::m_Initialize( const CFileSystem &filesystem )
 {
 	m_initialized = true;
 
@@ -34,13 +34,13 @@ void CLibVorbisWrapper::m_Initialize( const CFileSystem & )
 	// assign wrapper-functions so libvorbis can use our own file-system
 
 	// TODO really need to get this sorted out, since it is a huge code duplication
-	m_io.read_func 	=	[]( void *buffer, std::size_t objSize, std::size_t objCount, void *handle ) -> size_t
+	m_io.read_func 	=	[]( void *buffer, std::size_t objSize, std::size_t objCount, void *handle ) -> std::size_t
 						{
 							const PHYSFS_sint64 retval = PHYSFS_readBytes( static_cast< PHYSFS_file* >( handle ), buffer, static_cast< PHYSFS_uint64 >( objSize ) * static_cast< PHYSFS_uint64 >( objCount ) );
 							return( ( retval <= 0 ) ? retval : ( retval / static_cast< PHYSFS_sint64 >( objSize ) ) );
 						};
 
-	m_io.seek_func	=	[]( void *handle, long pos, int origin ) -> int
+	m_io.seek_func	=	[]( void *handle, std::int64_t pos, std::int32_t origin ) -> std::int32_t
 						{
 							switch( origin )
 							{

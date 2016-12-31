@@ -1,10 +1,5 @@
 #include "CFileSystem.hpp"
 
-#ifdef WIN32
-	#define WINVER 0x0501
-	#include <shlobj.h>
-#endif
-
 #include <physfs.h>
 
 #include "src/engine/logger/CLogger.hpp"
@@ -95,6 +90,8 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 		logERROR( "adding '{0}' to search path failed because of: {1}", PHYSFS_getBaseDir(), PHYSFS_getLastError() );
 		throw Exception();
 	}
+
+	InitialiseFreeImageIO();
 }
 
 CFileSystem::~CFileSystem( void )
@@ -120,7 +117,7 @@ bool CFileSystem::IsDirectory( const std::string &name ) const
 
 bool CFileSystem::IsEOF( File *handle ) const
 {
-	return( PHYSFS_eof( reinterpret_cast< PHYSFS_file* >( handle ) ) );
+	return( PHYSFS_eof( static_cast< PHYSFS_file* >( handle ) ) );
 }
 
 std::int64_t CFileSystem::GetLastModTime( const std::string &filename ) const
@@ -136,13 +133,13 @@ CFileSystem::File* CFileSystem::Open( const std::string &filename, e_openmode op
 	switch( openmode )
 	{
 		case e_openmode::READ :
-			return( reinterpret_cast< File* >( PHYSFS_openRead( filename.c_str() ) ) );
+			return( static_cast< File* >( PHYSFS_openRead( filename.c_str() ) ) );
 
 		case e_openmode::WRITE :
-			return( reinterpret_cast< File* >( PHYSFS_openWrite( filename.c_str() ) ) );
+			return( static_cast< File* >( PHYSFS_openWrite( filename.c_str() ) ) );
 
 		case e_openmode::APPEND :
-			return( reinterpret_cast< File* >( PHYSFS_openAppend( filename.c_str() ) ) );
+			return( static_cast< File* >( PHYSFS_openAppend( filename.c_str() ) ) );
 
 		default:
 			return( nullptr );
@@ -151,48 +148,12 @@ CFileSystem::File* CFileSystem::Open( const std::string &filename, e_openmode op
 
 void CFileSystem::Close( File *handle ) const
 {
-	PHYSFS_close( reinterpret_cast< PHYSFS_file* >( handle ) );
-}
-
-std::int64_t CFileSystem::Read( void *buffer, std::size_t objSize, std::size_t objCount, File *handle ) const
-{
-	const PHYSFS_sint64 retval = PHYSFS_readBytes( reinterpret_cast< PHYSFS_file* >( handle ), buffer, static_cast< PHYSFS_uint64 >( objSize ) * static_cast< PHYSFS_uint64 >( objCount ) );
-
-	return( ( retval <= 0 ) ? retval : ( retval / static_cast< PHYSFS_sint64 >( objSize ) ) );
-}
-
-std::int64_t CFileSystem::Write( void *buffer, std::size_t objSize, std::size_t objCount, File *handle ) const
-{
-	const PHYSFS_sint64 retval = PHYSFS_writeBytes( reinterpret_cast< PHYSFS_file* >( handle ), buffer, static_cast< PHYSFS_uint64 >( objSize ) * static_cast< PHYSFS_uint64 >( objCount ) );
-
-	return( ( retval <= 0 ) ? retval : ( retval / static_cast< PHYSFS_sint64 >( objSize ) ) );
-}
-
-bool CFileSystem::Seek( File *handle, std::int64_t pos, std::uint8_t whence ) const
-{
-	switch( whence )
-	{
-		case SEEK_SET :
-			return( PHYSFS_seek( reinterpret_cast< PHYSFS_file* >( handle ), pos ) );
-
-		case SEEK_CUR :
-			return( PHYSFS_seek( reinterpret_cast< PHYSFS_file* >( handle ), PHYSFS_tell( reinterpret_cast< PHYSFS_file* >( handle ) ) + pos ) );
-
-		case SEEK_END :
-			return( PHYSFS_seek( reinterpret_cast< PHYSFS_file* >( handle ), PHYSFS_fileLength( reinterpret_cast< PHYSFS_file* >( handle ) + pos ) ) );
-	}
-
-	return( false );
-}
-
-std::int64_t CFileSystem::Tell( File *handle ) const
-{
-	return( PHYSFS_tell( reinterpret_cast< PHYSFS_file* >( handle ) ) );
+	PHYSFS_close( static_cast< PHYSFS_file* >( handle ) );
 }
 
 std::int64_t CFileSystem::Length( File *handle ) const
 {
-	return( PHYSFS_fileLength( reinterpret_cast< PHYSFS_file* >( handle ) ) );
+	return( PHYSFS_fileLength( static_cast< PHYSFS_file* >( handle ) ) );
 }
 
 std::string CFileSystem::GetWriteDir( void ) const
@@ -214,7 +175,7 @@ std::string CFileSystem::LoadTextFileToBuffer( const std::string &filename ) con
 {
 	PHYSFS_file* temp_file = PHYSFS_openRead( filename.c_str() );
 
-	const std::int64_t length = PHYSFS_fileLength( temp_file );
+	const auto length = PHYSFS_fileLength( temp_file );
 
 	std::string buffer;
 	buffer.resize( length );
@@ -229,4 +190,116 @@ std::string CFileSystem::LoadTextFileToBuffer( const std::string &filename ) con
 const char *CFileSystem::GetDirSeparator( void )
 {
 	return( PHYSFS_getDirSeparator() );
+}
+
+CFileSystem::FileBuffer CFileSystem::LoadFileToBuffer( const std::string &filename ) const
+{
+	if( !PHYSFS_exists( filename.c_str() ) )
+	{
+		logWARNING( "file '{0}' does not exist" );
+		return {};
+	}
+
+	PHYSFS_file* f = PHYSFS_openRead( filename.c_str() );
+	if( nullptr == f )
+	{
+		logWARNING( "file '{0}' couldn't be opened", filename );
+		return {};
+	}
+
+	auto length = PHYSFS_fileLength( f );
+
+	FileBuffer buffer( length );
+
+	const auto lengthRead = PHYSFS_readBytes( f, &buffer[ 0 ], length );
+
+	if( lengthRead != length )
+	{
+		logERROR( "couldn't read all of file '{0}' because of: {1}", filename, PHYSFS_getLastError() );
+		return {};
+	}
+
+	PHYSFS_close( f );
+
+	return( buffer );
+}
+
+bool CFileSystem::SaveBufferToFile( const FileBuffer &buffer, const std::string &filename ) const
+{
+	PHYSFS_file* f = PHYSFS_openWrite( filename.c_str() );
+
+	if( nullptr == f )
+	{
+		logERROR( "File '{0}' couldn't be opened for writing because of: {1}", filename, PHYSFS_getLastError() );
+		return( false );
+	}
+
+	const auto lengthWrite = PHYSFS_writeBytes( f, &buffer[ 0 ], buffer.size() );
+
+	PHYSFS_close( f );
+
+	if( lengthWrite != buffer.size() )
+	{
+		logERROR( "couldn't write all of file '{0}' because of: {1}", filename, PHYSFS_getLastError() );
+		return( false );
+	}
+
+	return( true );
+}
+
+/*
+std::int64_t CFileSystem::s_Read( void *buffer, std::size_t objSize, std::size_t objCount, File *handle )
+{
+	const PHYSFS_sint64 retval = PHYSFS_readBytes( static_cast< PHYSFS_file* >( handle ), buffer, static_cast< PHYSFS_uint64 >( objSize ) * static_cast< PHYSFS_uint64 >( objCount ) );
+
+	return( ( retval <= 0 ) ? retval : ( retval / static_cast< PHYSFS_sint64 >( objSize ) ) );
+}
+
+std::int64_t CFileSystem::s_Write( void *buffer, std::size_t objSize, std::size_t objCount, File *handle )
+{
+	const PHYSFS_sint64 retval = PHYSFS_writeBytes( static_cast< PHYSFS_file* >( handle ), buffer, static_cast< PHYSFS_uint64 >( objSize ) * static_cast< PHYSFS_uint64 >( objCount ) );
+
+	return( ( retval <= 0 ) ? retval : ( retval / static_cast< PHYSFS_sint64 >( objSize ) ) );
+}
+
+std::int32_t CFileSystem::s_Seek( File *handle, std::int64_t pos, std::int32_t whence )
+{
+	switch( whence )
+	{
+		case SEEK_SET :
+			return( PHYSFS_seek( static_cast< PHYSFS_file* >( handle ), pos ) );
+
+		case SEEK_CUR :
+			return( PHYSFS_seek( static_cast< PHYSFS_file* >( handle ), PHYSFS_tell( static_cast< PHYSFS_file* >( handle ) ) + pos ) );
+
+		case SEEK_END :
+			return( PHYSFS_seek( static_cast< PHYSFS_file* >( handle ), PHYSFS_fileLength( static_cast< PHYSFS_file* >( handle ) + pos ) ) );
+	}
+
+	return( false );
+}
+
+std::int64_t CFileSystem::s_Tell( File *handle )
+{
+	return( PHYSFS_tell( static_cast< PHYSFS_file* >( handle ) ) );
+}
+*/
+
+void CFileSystem::InitialiseFreeImageIO( void )
+{
+	/* TODO
+	logINFO( "FreeImage has version '{0}'", FreeImage_GetVersion() );
+
+	FreeImage_SetOutputMessage(	[]( FREE_IMAGE_FORMAT fif, const char *msg )
+								{
+									if( fif != FIF_UNKNOWN )
+									{
+										logWARNING( "{0}: {1}", FreeImage_GetFormatFromFIF( fif ), msg );
+									}
+									else
+									{
+										logWARNING( msg );
+									}
+								} );
+								*/
 }

@@ -6,8 +6,6 @@
 
 #include "src/engine/math/Math.hpp"
 
-#include "src/engine/helper/CFreeImageWrapper.hpp"
-
 namespace ImageHandler
 {
 	/**	Loads an bitmap using FreeImage into a CImage.
@@ -15,20 +13,19 @@ namespace ImageHandler
 	*/
 	std::shared_ptr< CImage > Load( const CFileSystem &p_filesystem, const std::string &path, const std::uint32_t maxSize, const std::uint8_t picMip, const bool flipVertically )
 	{
-		if( !p_filesystem.Exists( path ) )
-		{
-			logWARNING( "image '{0}' does not exist", path );
-			return( nullptr );
-		}
+		auto buffer = p_filesystem.LoadFileToBuffer( path );
 
-		CFileSystem::File *f = p_filesystem.Open( path.c_str(), CFileSystem::e_openmode::READ );
-		if( nullptr != f )
+		if( !buffer.empty() )
 		{
+			fipMemoryIO memIO( static_cast< BYTE* >( buffer.data() ), buffer.size() );
+
 			fipImage image;
 
-			image.loadFromHandle( &CFreeImageWrapper::Get( p_filesystem ), static_cast< fi_handle >( f ), 0 );
-
-			p_filesystem.Close( f );
+			if( !image.loadFromMemory( memIO ) )
+			{
+				logWARNING( "failed to load from memory" );
+				return( nullptr );
+			}
 
 			if( image.isValid() )
 			{
@@ -114,15 +111,15 @@ namespace ImageHandler
 			}
 			else
 			{
-				logWARNING( "failed to load '{0}'", path );
+				logWARNING( "image '{0}' is not valid", path );
+				return( nullptr );
 			}
 		}
 		else
 		{
 			logWARNING( "failed to open '{0}'", path );
+			return( nullptr );
 		}
-
-		return( nullptr );
 	}
 
 	bool Save( const CFileSystem &p_filesystem, const std::shared_ptr< const CImage > &image, const float scale_factor, const std::string &format, const std::string &path )
@@ -150,7 +147,7 @@ namespace ImageHandler
 			}
 
 			FREE_IMAGE_FORMAT fiFormat;
-			int flags;
+			std::int32_t flags;
 			if( format == "png" )
 			{
 				fiFormat	= FIF_PNG;
@@ -168,19 +165,23 @@ namespace ImageHandler
 				flags		= PNG_DEFAULT;
 			}
 
-			CFileSystem::File *f = p_filesystem.Open( path, CFileSystem::e_openmode::WRITE );
+			fipMemoryIO memIO;
 
-			if( nullptr == f )
+			if( !fiImage.saveToMemory( fiFormat, memIO, flags ) )
 			{
-				logERROR( "File '{0}' couldn't be opened for writing because of: {1}", path, p_filesystem.GetLastError() );
+				logWARNING( "failed to save to memory" );
 				return( false );
 			}
 
-			fiImage.saveToHandle( fiFormat, &CFreeImageWrapper::Get( p_filesystem ), static_cast< fi_handle >( f ), flags );
+			BYTE* data;
+			DWORD sizeInBytes;
+			memIO.acquire( &data, &sizeInBytes );
 
-			p_filesystem.Close( f );
+			CFileSystem::FileBuffer buffer( sizeInBytes );
 
-			return( true );
+			std::copy( data, data + sizeInBytes, buffer.begin() );
+
+			return( p_filesystem.SaveBufferToFile( buffer, path ) );
 		}
 	}
 
