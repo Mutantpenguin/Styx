@@ -9,7 +9,6 @@
 #include "src/engine/logger/CLogger.hpp"
 
 #include "src/engine/sound/CSound.hpp"
-#include "src/engine/sound/SoundHandler.hpp"
 
 CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings, CSoundManager &soundManager, CRenderer &renderer ) :
 	CState( "game", filesystem, settings )
@@ -116,8 +115,8 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	}
 
 	// TODO port to SoundManager or something like this
-	//std::shared_ptr< CSound > blah = SoundHandler::Load( m_filesystem, "music/rise_of_spirit.ogg" );
-	//soundManager.Play( blah );
+	const auto testSound = soundManager.Load( "music/rise_of_spirit.ogg" );
+	soundManager.Play( testSound );
 }
 
 CStateGame::~CStateGame()

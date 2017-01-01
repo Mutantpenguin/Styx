@@ -4,7 +4,8 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-CSoundManager::CSoundManager( const CSettings &settings ) :
+CSoundManager::CSoundManager( const CSettings &settings, const CFileSystem &p_filesystem ) :
+	m_soundloader { p_filesystem },
 	m_buffer_size { settings.sound.buffer_size }
 {
 	m_AL_device = alcOpenDevice( nullptr );
@@ -52,7 +53,13 @@ CSoundManager::~CSoundManager( void )
 }
 
 // TODO - this is just temporary to test sound-output
-void CSoundManager::Play( const std::shared_ptr< const CSound > &sound )
+std::shared_ptr< CSound > CSoundManager::Load( const std::string &path ) const
+{
+	return( m_soundloader.CreateSoundFromFile( path ) );
+}
+
+// TODO - this is just temporary to test sound-output
+void CSoundManager::Play( const std::shared_ptr< const CSound > &sound ) const
 {
 	ALuint bufferID;
 	alGenBuffers( 1, &bufferID );

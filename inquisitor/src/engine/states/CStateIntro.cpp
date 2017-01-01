@@ -5,7 +5,7 @@
 #include "src/engine/logger/CLogger.hpp"
 
 #include "src/engine/sound/CSound.hpp"
-#include "src/engine/sound/SoundHandler.hpp"
+#include "src/engine/sound/CSoundLoader.hpp"
 
 CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, const std::uint64_t time, CSoundManager &soundManager, CRenderer &renderer ) :
 	CState( "intro", filesystem, settings ),
@@ -21,16 +21,15 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	soundManager.SetListener( cameraFree );
 
-	auto material = renderer.LoadMaterial( "materials/intro_icon.mat" );
+	const auto material = renderer.LoadMaterial( "materials/intro_icon.mat" );
 
 	m_mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material );
 	m_mesh->SetScale( { 3.0f, 3.0f, 1.0f } );
 	m_scene.AddMesh( m_mesh );
 
-	// TODO port to SoundManager or something like this
 	// TODO don't loop sound
-	//std::shared_ptr< CSound > blah = SoundHandler::Load( m_filesystem, "sounds/startup_sound.ogg" );
-	//soundManager.Play( blah );
+	const auto startupSound = soundManager.Load( "sounds/startup_sound.ogg" );
+	soundManager.Play( startupSound );
 }
 
 CStateIntro::~CStateIntro()

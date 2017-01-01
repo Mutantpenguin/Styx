@@ -7,7 +7,7 @@
 class CSound
 {
 public:
-	using TSoundData = std::vector< std::uint8_t >;
+	using TSoundData = std::vector< std::int16_t >;
 
 	enum struct format : std::uint8_t
 	{
@@ -15,20 +15,23 @@ public:
 		STEREO
 	};
 public:
-	CSound( const TSoundData &soundData, format format, std::uint64_t frequency );
+	CSound( const TSoundData &soundData, format format, std::int32_t frequency, float duration );
 	~CSound( void );
 
 	const TSoundData &SoundData( void ) const;
 
 	format Format( void ) const;
-	std::uint64_t Frequency( void ) const;
+	std::int32_t Frequency( void ) const;
+	float Duration( void ) const;
 
 private:
 	// TODO shouldn't this be a pointer?
 	const TSoundData	m_soundData;
 
 	const format		m_format;
-	const std::uint64_t	m_frequency;
+	const std::int32_t	m_frequency;
+
+	const float	m_duration;
 };
 
 #endif // CSOUND_HPP

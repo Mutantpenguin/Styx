@@ -123,7 +123,6 @@
           <File Name="src/engine/helper/image/ImageHandler.hpp"/>
           <File Name="src/engine/helper/image/CImage.hpp"/>
           <File Name="src/engine/helper/image/ImageHandler.cpp"/>
-          <File Name="src/engine/helper/image/CImage.cpp"/>
         </VirtualDirectory>
         <VirtualDirectory Name="geom">
           <File Name="src/engine/helper/geom/CPlane.cpp"/>
@@ -132,9 +131,7 @@
         </VirtualDirectory>
         <File Name="src/engine/helper/Date.hpp"/>
         <File Name="src/engine/helper/String.cpp"/>
-        <File Name="src/engine/helper/CLibVorbisWrapper.cpp"/>
         <File Name="src/engine/helper/CColor.hpp"/>
-        <File Name="src/engine/helper/CLibVorbisWrapper.hpp"/>
         <File Name="src/engine/helper/String.hpp"/>
         <File Name="src/engine/helper/Date.cpp"/>
         <File Name="src/engine/helper/CSize.hpp"/>
@@ -195,10 +192,11 @@
         <File Name="src/engine/sound/CSoundManager.cpp"/>
         <File Name="src/engine/sound/CSound.cpp"/>
         <File Name="src/engine/sound/CSound.hpp"/>
-        <File Name="src/engine/sound/SoundHandler.cpp"/>
-        <File Name="src/engine/sound/SoundHandler.hpp"/>
         <File Name="src/engine/sound/ALHelper.hpp"/>
         <File Name="src/engine/sound/ALHelper.cpp"/>
+        <File Name="src/engine/sound/CSoundLoader.hpp"/>
+        <File Name="src/engine/sound/CSoundLoader.cpp"/>
+        <File Name="src/engine/helper/image/CImage.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="states">
         <File Name="src/engine/states/CState.hpp"/>
@@ -238,6 +236,7 @@
         <File Name="src/ext/stb/stb_rect_pack.h"/>
         <File Name="src/ext/stb/stb_textedit.h"/>
         <File Name="src/ext/stb/stb_truetype.h"/>
+        <File Name="src/ext/stb/stb_vorbis.c" ExcludeProjConfig="Debug"/>
       </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
@@ -270,8 +269,6 @@
         <Library Value="glbinding"/>
         <Library Value="openal"/>
         <Library Value="jsoncpp"/>
-        <Library Value="vorbis"/>
-        <Library Value="vorbisfile"/>
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>

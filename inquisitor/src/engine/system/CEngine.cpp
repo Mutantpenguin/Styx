@@ -19,7 +19,7 @@ CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std
 		m_window( m_settings, m_filesystem, m_gameInfo.GetName(), m_gameInfo.GetIconPath() ),
 		m_input( m_settings, m_filesystem ),
 		m_renderer( m_settings, m_filesystem ),
-		m_soundManager( m_settings ),
+		m_soundManager( m_settings, m_filesystem ),
 		m_currentState { std::make_shared< CStateIntro >( m_filesystem, m_settings, m_globalTimer.Time(), m_soundManager, m_renderer ) }
 {
 }

@@ -8,7 +8,8 @@
 
 #include "src/engine/renderer/camera/CCamera.hpp"
 
-#include "CSound.hpp"
+#include "src/engine/sound/CSound.hpp"
+#include "src/engine/sound/CSoundLoader.hpp"
 
 class CSoundManager final
 {
@@ -18,7 +19,9 @@ public:
 	void	SetListener( const std::shared_ptr< const CCamera > &camera );
 
 	// TODO - this is just for testing sound
-	static void	Play( const std::shared_ptr< const CSound > &sound );
+	std::shared_ptr< CSound > Load( const std::string &path ) const;
+	// TODO - this is just temporary to test sound-output
+	void	Play( const std::shared_ptr< const CSound > &sound ) const;
 
 	class Exception: public std::exception
 	{
@@ -29,12 +32,14 @@ public:
 	};
 
 private:
-	CSoundManager( const CSettings &settings );
+	CSoundManager( const CSettings &settings, const CFileSystem &p_filesystem );
 	~CSoundManager( void );
 
 	void	Update( void );
 
 private:
+	const CSoundLoader m_soundloader;
+
 	ALCdevice	*m_AL_device { nullptr };
 	ALCcontext	*m_AL_context { nullptr };
 
