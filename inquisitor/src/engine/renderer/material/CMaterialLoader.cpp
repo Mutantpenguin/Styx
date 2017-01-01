@@ -43,7 +43,7 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromFile( const std:
 
 std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromMatFile( const std::string &path ) const
 {
-	const std::string definition = m_filesystem.LoadTextFileToBuffer( path );
+	const std::string definition = m_filesystem.LoadFileToString( path );
 
 	Json::Reader	reader;
 	Json::Value		mat_root;

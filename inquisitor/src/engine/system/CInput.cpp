@@ -27,7 +27,7 @@ CInput::CInput( const CSettings &settings, const CFileSystem &filesystem )
 		{
 			if( filesystem.Exists( settings.input.controller_file ) )
 			{
-				switch( SDL_GameControllerAddMapping( filesystem.LoadTextFileToBuffer( settings.input.controller_file ).c_str() ) )
+				switch( SDL_GameControllerAddMapping( filesystem.LoadFileToString( settings.input.controller_file ).c_str() ) )
 				{
 					case 1:
 						logINFO( "added controller mappings from file '{0}'", settings.input.controller_file );

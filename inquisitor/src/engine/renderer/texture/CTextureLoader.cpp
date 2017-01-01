@@ -73,7 +73,7 @@ std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const std
 {
 	Json::Value		root;
 	Json::Reader	reader;
-	if ( !reader.parse( m_filesystem.LoadTextFileToBuffer( path ), root ) )
+	if ( !reader.parse( m_filesystem.LoadFileToString( path ), root ) )
 	{
 		logWARNING( "failed to parse '{0}' because of {1}", path, reader.getFormattedErrorMessages() );
 		return( nullptr );
@@ -135,7 +135,7 @@ std::shared_ptr< CTexture > CTextureLoader::Create2DArrayTextureFromFile( const 
 {
 	Json::Value		root;
 	Json::Reader	reader;
-	if( !reader.parse( m_filesystem.LoadTextFileToBuffer( path ), root ) )
+	if( !reader.parse( m_filesystem.LoadFileToString( path ), root ) )
 	{
 		logWARNING( "failed to parse '{0}' because of {1}", path, reader.getFormattedErrorMessages() );
 		return( nullptr );

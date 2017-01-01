@@ -248,7 +248,7 @@ GLuint CShaderManager::LoadShader( const GLenum type, const std::string &path )
 	}
 	else
 	{
-		return( CreateShader( type, m_filesystem.LoadTextFileToBuffer( path ) ) );
+		return( CreateShader( type, m_filesystem.LoadFileToString( path ) ) );
 	}
 }
 

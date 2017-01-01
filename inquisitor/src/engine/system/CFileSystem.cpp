@@ -171,22 +171,6 @@ const char* CFileSystem::GetLastError( void ) const
 	return( PHYSFS_getLastError() );
 }
 
-std::string CFileSystem::LoadTextFileToBuffer( const std::string &filename ) const
-{
-	PHYSFS_file* temp_file = PHYSFS_openRead( filename.c_str() );
-
-	const auto length = PHYSFS_fileLength( temp_file );
-
-	std::string buffer;
-	buffer.resize( length );
-
-	PHYSFS_readBytes( temp_file, &buffer[ 0 ], length );
-
-	PHYSFS_close( temp_file );
-
-	return( buffer );
-}
-
 const char *CFileSystem::GetDirSeparator( void )
 {
 	return( PHYSFS_getDirSeparator() );
@@ -194,12 +178,6 @@ const char *CFileSystem::GetDirSeparator( void )
 
 CFileSystem::FileBuffer CFileSystem::LoadFileToBuffer( const std::string &filename ) const
 {
-	if( !PHYSFS_exists( filename.c_str() ) )
-	{
-		logWARNING( "file '{0}' does not exist" );
-		return {};
-	}
-
 	PHYSFS_file* f = PHYSFS_openRead( filename.c_str() );
 	if( nullptr == f )
 	{
@@ -207,7 +185,7 @@ CFileSystem::FileBuffer CFileSystem::LoadFileToBuffer( const std::string &filena
 		return {};
 	}
 
-	auto length = PHYSFS_fileLength( f );
+	const auto length = PHYSFS_fileLength( f );
 
 	FileBuffer buffer( length );
 
@@ -245,6 +223,13 @@ bool CFileSystem::SaveBufferToFile( const FileBuffer &buffer, const std::string 
 	}
 
 	return( true );
+}
+
+std::string CFileSystem::LoadFileToString( const std::string &filename ) const
+{
+	auto const buffer = LoadFileToBuffer( filename );
+
+	return( std::string( std::cbegin( buffer ), std::cend( buffer ) ) );
 }
 
 /*

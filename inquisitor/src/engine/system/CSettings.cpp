@@ -20,7 +20,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 		Json::Reader reader;
 		Json::Value settings_root;
 
-		if( !reader.parse( p_filesystem.LoadTextFileToBuffer( filename ), settings_root ) )
+		if( !reader.parse( p_filesystem.LoadFileToString( filename ), settings_root ) )
 		{
 			logWARNING( "failed to parse settings-file '{0}' because of: {1}", filename, reader.getFormattedErrorMessages() );
 		}

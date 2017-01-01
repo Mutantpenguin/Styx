@@ -13,11 +13,17 @@ namespace ImageHandler
 	*/
 	std::shared_ptr< CImage > Load( const CFileSystem &p_filesystem, const std::string &path, const std::uint32_t maxSize, const std::uint8_t picMip, const bool flipVertically )
 	{
-		auto buffer = p_filesystem.LoadFileToBuffer( path );
+		if( !p_filesystem.Exists( path ) )
+		{
+			logWARNING( "image '{0}' does not exist", path );
+			return( nullptr );
+		}
+
+		auto const buffer = p_filesystem.LoadFileToBuffer( path );
 
 		if( !buffer.empty() )
 		{
-			fipMemoryIO memIO( static_cast< BYTE* >( buffer.data() ), buffer.size() );
+			fipMemoryIO memIO( const_cast< BYTE* >( buffer.data() ), buffer.size() );
 
 			fipImage image;
 

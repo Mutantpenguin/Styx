@@ -35,14 +35,14 @@ public :
 
 	const char*	GetLastError( void ) const;
 
-	std::string	LoadTextFileToBuffer( const std::string &filename ) const;
-
 	static const char *GetDirSeparator( void );
 
 	using FileBuffer = std::vector< std::uint8_t >;
 
 	FileBuffer LoadFileToBuffer( const std::string &filename ) const;
 	bool SaveBufferToFile( const FileBuffer &buffer, const std::string &filename ) const;
+
+	std::string	LoadFileToString( const std::string &filename ) const;
 
 	class Exception: public std::exception
 	{
