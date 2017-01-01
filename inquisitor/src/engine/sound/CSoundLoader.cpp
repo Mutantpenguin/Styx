@@ -50,7 +50,7 @@ std::shared_ptr< CSound > CSoundLoader::CreateSoundFromFile( const std::string &
 
 			const CSound::format format = ( 1 == info.channels ) ? CSound::format::MONO : CSound::format::STEREO;
 
-			logDEBUG( "{0} / duration: {1} / channels: {2} / sample rate: {3}", path, duration, info.channels, info.sample_rate );
+			logDEBUG( "{0} / duration: {1:.0f}s / channels: {2} / sample rate: {3}", path, duration, info.channels, info.sample_rate );
 
 			return( std::make_shared< CSound >( bufferDecoded, format, info.sample_rate, duration ) );
 		}
