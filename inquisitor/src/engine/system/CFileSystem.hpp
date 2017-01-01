@@ -8,7 +8,6 @@
 class CFileSystem final
 {
 public :
-	using File = void;
 
 	enum struct e_openmode : std::uint8_t
 	{
@@ -22,13 +21,7 @@ public :
 
 	bool			Exists( const std::string &filename ) const;
 	bool			IsDirectory( const std::string &name ) const;
-	bool			IsEOF( File *handle ) const;
 	std::int64_t	GetLastModTime( const std::string &filename ) const;
-
-	File*			Open( const std::string &filename, e_openmode openmode = e_openmode::READ ) const;
-	void			Close( File *handle ) const;
-
-	std::int64_t	Length( File *handle ) const;
 
 	std::string	GetWriteDir( void ) const;
 	bool			MakeDir( const std::string &dirname ) const;
@@ -52,14 +45,6 @@ public :
 		virtual ~Exception() throw() {}
 	};
 
-/* TODO are these really needed anymore?
-private:
-	static std::int64_t	s_Read( void *buffer, std::size_t objSize, std::size_t objCount, File *handle );
-	static std::int64_t	s_Write( void *buffer, std::size_t objSize, std::size_t objCount, File *handle );
-
-	static std::int32_t	s_Seek( File *handle, std::int64_t pos, std::int32_t whence );
-	static std::int64_t	s_Tell( File *handle );
-*/
 
 // TODO what to do with this?
 	void InitialiseFreeImageIO( void );
