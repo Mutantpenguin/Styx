@@ -115,7 +115,8 @@ void CInput::Update( void )
 {
 	m_oldButtons = m_buttons;
 	m_buttons = SDL_GetRelativeMouseState( &m_dX, &m_dY );
-	memcpy( m_oldKeys, m_keys, sizeof( Uint8 ) * m_keyCount );
+
+	std::copy( m_keys, m_keys + ( sizeof( Uint8 ) * m_keyCount ), m_oldKeys );
 
 	SDL_PumpEvents();
 }
