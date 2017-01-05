@@ -60,7 +60,7 @@ public:
 		const std::string FormattedTime( void ) const;
 	};
 
-	using TLogBuffer = std::vector< std::unique_ptr< logEntry > >;
+	using TLogBuffer = std::vector< std::unique_ptr< const logEntry > >;
 
 	class CLogTarget
 	{
@@ -70,7 +70,7 @@ public:
 		virtual ~CLogTarget( void ) {};
 
 	protected:
-		virtual void Log( const std::unique_ptr< logEntry > &entry ) = 0;
+		virtual void Log( const std::unique_ptr< const logEntry > &entry ) = 0;
 	};
 
 	template< typename T, typename... Args >

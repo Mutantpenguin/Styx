@@ -11,7 +11,7 @@ CLogTargetFile::CLogTargetFile( const CLogger::TLogBuffer &logBuffer, const std:
 	m_log_ofile( ( directory + Date::GetCurrentDateTimeString() + ".log" ).c_str(), std::ios::out | std::ios::app )
 {
 	// write the whole buffer to disk
-	for( const std::unique_ptr< CLogger::logEntry > &entry : logBuffer )
+	for( const std::unique_ptr< const CLogger::logEntry > &entry : logBuffer )
 	{
 		Log( entry );
 	}
@@ -23,7 +23,7 @@ CLogTargetFile::~CLogTargetFile( void )
 	m_log_ofile.close();
 }
 
-void CLogTargetFile::Log( const std::unique_ptr< CLogger::logEntry > &entry )
+void CLogTargetFile::Log( const std::unique_ptr< const CLogger::logEntry > &entry )
 {
 	m_log_ofile << entry->FormattedTime() << " " << fmt::format( "{0:<9} : {1}\n", "[" + CLogger::LogLevelToString( entry->m_logLevel ) + "]", entry->m_message );
 

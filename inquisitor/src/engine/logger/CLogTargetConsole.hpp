@@ -11,7 +11,7 @@ public:
 	CLogTargetConsole( const CLogger::TLogBuffer & ) {};
 
 private:
-	virtual void Log( const std::unique_ptr< CLogger::logEntry > &entry ) override;
+	virtual void Log( const std::unique_ptr< const CLogger::logEntry > &entry ) override;
 
 #ifndef WIN32
 	std::string	GetColor( e_loglevel level ) const;

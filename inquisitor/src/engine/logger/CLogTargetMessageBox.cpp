@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL.h>
 
-void CLogTargetMessageBox::Log( const std::unique_ptr< CLogger::logEntry > &entry )
+void CLogTargetMessageBox::Log( const std::unique_ptr< const CLogger::logEntry > &entry )
 {
 	if( e_loglevel::ERROR == entry->m_logLevel )
 	{

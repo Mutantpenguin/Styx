@@ -24,7 +24,7 @@
 	#define COLOR_NORMAL    7
 #endif
 
-void CLogTargetConsole::Log( const std::unique_ptr< CLogger::logEntry > &entry )
+void CLogTargetConsole::Log( const std::unique_ptr< const CLogger::logEntry > &entry )
 {
 	std::cout << entry->FormattedTime() << " ";
 
