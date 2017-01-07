@@ -28,7 +28,9 @@ public:
 
 private:
 	static const std::string m_name;
-	static const std::string m_version;
+	static const std::uint16_t m_version_major;
+	static const std::uint16_t m_version_minor;
+	static const std::uint16_t m_version_patch;
 	static const std::string m_status;
 
 	const CGameInfo		m_gameInfo;

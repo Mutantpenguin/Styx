@@ -6,9 +6,11 @@
 
 #include "CWindow.hpp"
 
-const std::string CEngine::m_name		{ "Inquisitor Engine" };
-const std::string CEngine::m_version	{ "16.12" };
-const std::string CEngine::m_status		{ "pre-alpha" };
+const std::string CEngine::m_name				{ "Inquisitor Engine" };
+const std::uint16_t CEngine::m_version_major	{ 17 };
+const std::uint16_t CEngine::m_version_minor	{ 1 };
+const std::uint16_t CEngine::m_version_patch	{ 0 };
+const std::string CEngine::m_status				{ "pre-alpha" };
 
 CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std::string &settingsFile )
 	try :
@@ -105,5 +107,5 @@ void CEngine::Run( void )
 std::string CEngine::GetVersionString( void )
 {
 	// TODO somehow get the git revision in here?
-	return( fmt::format( "'{0}' version {1} {2}", m_name, m_version, m_status ) );
+	return( fmt::format( "'{0}' version {1:d}.{2:>02d}.{3:d} ({4})", m_name, m_version_major, m_version_minor, m_version_patch, m_status ) );
 }
