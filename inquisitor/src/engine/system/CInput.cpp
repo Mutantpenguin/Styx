@@ -98,9 +98,9 @@ CInput::CInput( const CSettings &settings, const CFileSystem &filesystem )
 
 CInput::~CInput( void )
 {
-	if( SDL_WasInit( SDL_INIT_JOYSTICK ) != 0 )
+	if( SDL_WasInit( SDL_INIT_GAMECONTROLLER ) != 0 )
 	{
-		SDL_QuitSubSystem( SDL_INIT_JOYSTICK );
+		SDL_QuitSubSystem( SDL_INIT_GAMECONTROLLER );
 	}
 
 	m_keys = nullptr;
