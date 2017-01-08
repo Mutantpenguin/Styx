@@ -40,7 +40,7 @@ private:
 	void CalculateModelMatrix( void );
 
 	static glm::vec3 CalculatedBoundingSphereRadiusVector( const Primitives::SPrimitive &primitive );
-	static float CalculatedBoundingSphereRadiusVector( const glm::vec3 &radiusVector, const glm::vec3 &scale );
+	static float CalculatedBoundingSphereRadius( const glm::vec3 &radiusVector, const glm::vec3 &scale );
 
 	std::shared_ptr< const CMaterial > m_material;
 

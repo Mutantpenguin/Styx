@@ -12,7 +12,7 @@ CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::s
 	m_orientation { orientation },
 	m_scale { scale },
 	m_boundingSphereRadiusVector { CalculatedBoundingSphereRadiusVector( primitive ) },
-	m_boundingSphereRadius { CalculatedBoundingSphereRadiusVector( m_boundingSphereRadiusVector, m_scale ) }
+	m_boundingSphereRadius { CalculatedBoundingSphereRadius( m_boundingSphereRadiusVector, m_scale ) }
 {
 	CalculateModelMatrix();
 }
@@ -23,7 +23,7 @@ CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::s
 	m_position { position },
 	m_orientation { orientation },
 	m_boundingSphereRadiusVector { CalculatedBoundingSphereRadiusVector( primitive ) },
-	m_boundingSphereRadius { CalculatedBoundingSphereRadiusVector( m_boundingSphereRadiusVector, m_scale ) }
+	m_boundingSphereRadius { CalculatedBoundingSphereRadius( m_boundingSphereRadiusVector, m_scale ) }
 {
 	CalculateModelMatrix();
 }
@@ -33,7 +33,7 @@ CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::s
 	m_material { mat },
 	m_position { position },
 	m_boundingSphereRadiusVector { CalculatedBoundingSphereRadiusVector( primitive ) },
-	m_boundingSphereRadius { CalculatedBoundingSphereRadiusVector( m_boundingSphereRadiusVector, m_scale ) }
+	m_boundingSphereRadius { CalculatedBoundingSphereRadius( m_boundingSphereRadiusVector, m_scale ) }
 {
 	CalculateModelMatrix();
 }
@@ -42,7 +42,7 @@ CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::s
 	m_vao( Mode, primitive ),
 	m_material { mat },
 	m_boundingSphereRadiusVector { CalculatedBoundingSphereRadiusVector( primitive ) },
-	m_boundingSphereRadius { CalculatedBoundingSphereRadiusVector( m_boundingSphereRadiusVector, m_scale ) }
+	m_boundingSphereRadius { CalculatedBoundingSphereRadius( m_boundingSphereRadiusVector, m_scale ) }
 {
 	CalculateModelMatrix();
 }
@@ -61,7 +61,7 @@ const std::shared_ptr< const CMaterial > CMesh::Material( void ) const
 void CMesh::SetScale( const glm::vec3 &scale )
 {
 	m_scale = scale;
-	m_boundingSphereRadius = CalculatedBoundingSphereRadiusVector( m_boundingSphereRadiusVector, m_scale );
+	m_boundingSphereRadius = CalculatedBoundingSphereRadius( m_boundingSphereRadiusVector, m_scale );
 	CalculateModelMatrix();
 }
 
@@ -124,7 +124,7 @@ glm::vec3 CMesh::CalculatedBoundingSphereRadiusVector( const Primitives::SPrimit
 	return( *std::max_element( primitive.vertices.begin(), primitive.vertices.end(), [&]( glm::vec3 a, glm::vec3 b ){ return( glm::length2( a ) > glm::length2( b ) ); } ) );
 }
 
-float CMesh::CalculatedBoundingSphereRadiusVector( const glm::vec3 &radiusVector, const glm::vec3 &scale )
+float CMesh::CalculatedBoundingSphereRadius( const glm::vec3 &radiusVector, const glm::vec3 &scale )
 {
 	return( glm::length( radiusVector * scale ) );
 }
