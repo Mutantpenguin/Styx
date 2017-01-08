@@ -196,32 +196,44 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 		m_cameraFree->Rotate( input.MouseDeltaY(), input.MouseDeltaX() );
 	}
 
-	if( input.KeyStillDown( SDL_SCANCODE_A ) )
+	if( input.KeyDown( SDL_SCANCODE_A )
+        ||
+		input.KeyStillDown( SDL_SCANCODE_A ) )
 	{
 		m_cameraFree->MoveLeft( spp * ctrlPressedMult );
 	}
 
-	if( input.KeyStillDown( SDL_SCANCODE_D ) )
+	if( input.KeyDown( SDL_SCANCODE_D )
+        ||
+		input.KeyStillDown( SDL_SCANCODE_D ) )
 	{
 		m_cameraFree->MoveRight( spp * ctrlPressedMult );
 	}
 
-	if( input.KeyStillDown( SDL_SCANCODE_W ) )
+	if( input.KeyDown( SDL_SCANCODE_W )
+        ||
+		input.KeyStillDown( SDL_SCANCODE_W ) )
 	{
 		m_cameraFree->MoveForward( spp * ctrlPressedMult );
 	}
 
-	if( input.KeyStillDown( SDL_SCANCODE_S ) )
+	if( input.KeyDown( SDL_SCANCODE_S )
+        ||
+		input.KeyStillDown( SDL_SCANCODE_S ) )
 	{
 		m_cameraFree->MoveBackward( spp * ctrlPressedMult );
 	}
 
-	if( input.KeyStillDown( SDL_SCANCODE_SPACE ) )
+	if( input.KeyDown( SDL_SCANCODE_SPACE )
+        ||
+		input.KeyStillDown( SDL_SCANCODE_SPACE ) )
 	{
 		m_cameraFree->MoveUp( spp * ctrlPressedMult );
 	}
 
-	if( input.KeyStillDown( SDL_SCANCODE_LSHIFT ) )
+	if( input.KeyDown( SDL_SCANCODE_LSHIFT )
+        ||
+		input.KeyStillDown( SDL_SCANCODE_LSHIFT ) )
 	{
 		m_cameraFree->MoveDown( spp * ctrlPressedMult );
 	}
