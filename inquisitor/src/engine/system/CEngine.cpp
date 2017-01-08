@@ -78,14 +78,6 @@ void CEngine::Run( void )
 
 		m_soundManager.Update();
 
-		#ifdef INQ_DEBUG
-			if( m_globalTimer.dT() > m_settings.engine.tick )
-			{
-				// a frame takes more time than m_settings.engine.tick, so we have fewer than 30fps
-				logWARNING( "ATTENTION: frame-time is {0}ms", m_globalTimer.dT() );
-			}
-		#endif // INQ_DEBUG
-
 		const std::uint64_t currentTime = m_globalTimer.Time();
 		while( ( currentTime - lastUpdatedTime ) > m_settings.engine.tick )
 		{
@@ -99,6 +91,14 @@ void CEngine::Run( void )
 		m_renderer.Update();
 
 		m_window.Update();
+
+		#ifdef INQ_DEBUG
+			if( m_globalTimer.dT() > m_settings.engine.tick )
+			{
+				// a frame takes more time than m_settings.engine.tick, so we have fewer than 30fps
+				logWARNING( "ATTENTION: frame-time is {0}ms", m_globalTimer.dT() );
+			}
+		#endif // INQ_DEBUG
 	}
 
 	logINFO( "END of main loop" );
