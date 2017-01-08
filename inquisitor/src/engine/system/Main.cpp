@@ -2,6 +2,9 @@
 
 #include <boost/program_options.hpp>
 
+// explicitly include SDL2.h so it can do its thing with SDL_main
+#include <SDL2/SDL.h>
+
 #include "src/engine/logger/CLogger.hpp"
 #include "src/engine/logger/CLogTargetConsole.hpp"
 #include "src/engine/logger/CLogTargetMessageBox.hpp"
