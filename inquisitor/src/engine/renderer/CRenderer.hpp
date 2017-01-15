@@ -44,7 +44,7 @@ public:
 	};
 
 private:
-	using TRenderQueue = std::vector< std::shared_ptr< const CMesh > >;
+	using TRenderQueue = std::vector< const CMesh * >;
 
 	const	CSettings &m_settings;
 
@@ -56,7 +56,7 @@ private:
 	void CreateUniformBuffers( void );
 	void UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const std::uint64_t time ) const;
 
-	void RenderMesh( const glm::mat4 &viewProjectionMatrix, const std::shared_ptr< const CMesh > &mesh ) const;
+	void RenderMesh( const glm::mat4 &viewProjectionMatrix, const CMesh * const mesh ) const;
 
 	std::shared_ptr< CUniformBuffer > m_uboCamera;
 	std::shared_ptr< CUniformBuffer > m_uboTimer;

@@ -156,11 +156,11 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) con
 			{
 				if( mesh->Material()->Blending() )
 				{
-					renderQueueTranslucent.push_back( mesh );
+					renderQueueTranslucent.push_back( mesh.get() );
 				}
 				else
 				{
-					renderQueueOpaque.push_back( mesh );
+					renderQueueOpaque.push_back( mesh.get() );
 				}
 			}
 		}
@@ -169,23 +169,23 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) con
 		const glm::mat4 viewProjectionMatrix = camera->CalculateViewProjectionMatrix();
 
 		// sort opaque front to back
-		std::sort( std::begin( renderQueueOpaque ), std::end( renderQueueOpaque ),	[&]( const std::shared_ptr< const CMesh > &a, const std::shared_ptr< const CMesh > &b ) -> bool
+		std::sort( std::begin( renderQueueOpaque ), std::end( renderQueueOpaque ),	[&]( const CMesh * const a, const CMesh * const b ) -> bool
 																					{
 																						return( glm::length2( a->Position() - cameraPosition ) < glm::length2( b->Position() - cameraPosition ) );
 																					} );
 
 		// sort translucent back to front
-		std::sort( std::begin( renderQueueTranslucent ), std::end( renderQueueTranslucent ),	[&]( const std::shared_ptr< const CMesh > &a, const std::shared_ptr< const CMesh > &b ) -> bool
+		std::sort( std::begin( renderQueueTranslucent ), std::end( renderQueueTranslucent ),	[&]( const CMesh * const a, const CMesh * const b ) -> bool
 																								{
 																									return( glm::length2( a->Position() - cameraPosition ) > glm::length2( b->Position() - cameraPosition ) );
 																								} );
 
-		for( const std::shared_ptr< const CMesh > &mesh : renderQueueOpaque )
+		for( const CMesh * const mesh : renderQueueOpaque )
 		{
 			RenderMesh( viewProjectionMatrix, mesh );
 		}
 
-		for( const std::shared_ptr< const CMesh > &mesh : renderQueueTranslucent )
+		for( const CMesh * const mesh : renderQueueTranslucent )
 		{
 			RenderMesh( viewProjectionMatrix, mesh );
 		}
@@ -195,7 +195,7 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) con
 	}
 }
 
-void CRenderer::RenderMesh( const glm::mat4 &viewProjectionMatrix, const std::shared_ptr< const CMesh > &mesh ) const
+void CRenderer::RenderMesh( const glm::mat4 &viewProjectionMatrix, const CMesh * const mesh ) const
 {
 	const std::shared_ptr< const CMaterial > material = mesh->Material();
 
