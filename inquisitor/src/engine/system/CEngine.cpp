@@ -70,13 +70,7 @@ void CEngine::Run( void )
 
 	while( m_currentState )
 	{
-		m_renderer.Clear( true, true );
-
 		m_globalTimer.Update();
-
-		m_currentState->Render( m_renderer, m_globalTimer.Time() );
-
-		m_soundManager.Update();
 
 		const std::uint64_t currentTime = m_globalTimer.Time();
 		while( ( currentTime - lastUpdatedTime ) > m_settings.engine.tick )
@@ -87,6 +81,12 @@ void CEngine::Run( void )
 
 			lastUpdatedTime += m_settings.engine.tick;
 		}
+
+		m_renderer.Clear( true, true );
+
+		m_currentState->Render( m_renderer, m_globalTimer.Time() );
+
+		m_soundManager.Update();
 
 		m_renderer.Update();
 
