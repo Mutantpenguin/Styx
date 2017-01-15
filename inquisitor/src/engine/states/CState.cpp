@@ -8,6 +8,8 @@ CState::CState( const std::string &name, const CFileSystem &filesystem, const CS
 
 void CState::Render( const CRenderer &renderer, const std::uint64_t time ) const
 {
+	renderer.Clear( true, true );
+
 	renderer.RenderScene( m_scene, time );
 }
 

@@ -64,7 +64,13 @@ CEngine::~CEngine( void )
 
 void CEngine::Run( void )
 {
+	logINFO( "" );
+
+	logINFO( "--------------------------------------------------------------------------------" );
 	logINFO( "START of main loop" );
+	logINFO( "--------------------------------------------------------------------------------" );
+
+	logINFO( "" );
 
 	std::uint64_t lastUpdatedTime = m_globalTimer.Time();
 
@@ -72,8 +78,14 @@ void CEngine::Run( void )
 	{
 		m_globalTimer.Update();
 
+		m_window.Update();
+
+		m_currentState->Render( m_renderer, m_globalTimer.Time() );
+
+		m_soundManager.Update();
+
 		const std::uint64_t currentTime = m_globalTimer.Time();
-		while( ( currentTime - lastUpdatedTime ) > m_settings.engine.tick )
+		while( m_currentState && ( currentTime - lastUpdatedTime ) > m_settings.engine.tick )
 		{
 			m_input.Update();
 
@@ -82,15 +94,7 @@ void CEngine::Run( void )
 			lastUpdatedTime += m_settings.engine.tick;
 		}
 
-		m_renderer.Clear( true, true );
-
-		m_currentState->Render( m_renderer, m_globalTimer.Time() );
-
-		m_soundManager.Update();
-
 		m_renderer.Update();
-
-		m_window.Update();
 
 		#ifdef INQ_DEBUG
 			if( m_globalTimer.dT() > m_settings.engine.tick )
@@ -101,7 +105,14 @@ void CEngine::Run( void )
 		#endif // INQ_DEBUG
 	}
 
+
+	logINFO( "" );
+
+	logINFO( "--------------------------------------------------------------------------------" );
 	logINFO( "END of main loop" );
+	logINFO( "--------------------------------------------------------------------------------" );
+
+	logINFO( "" );
 }
 
 std::string CEngine::GetVersionString( void )

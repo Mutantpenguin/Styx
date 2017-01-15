@@ -26,6 +26,8 @@ CStatePause::~CStatePause()
 
 void CStatePause::Render( const CRenderer &renderer, const std::uint64_t time ) const
 {
+	renderer.Clear( true, true );
+
 	renderer.RenderScene( m_state->Scene(), time );
 
 	renderer.Clear( false, true );
