@@ -38,8 +38,8 @@ private:
 private:
 	std::int32_t m_keyCount	{ 0 };
 
-	const Uint8	*m_keys		{ nullptr };
-	Uint8		*m_oldKeys	{ nullptr };
+	const Uint8	* const m_keys	{ nullptr };
+	Uint8		*m_oldKeys		{ nullptr };
 
 	std::int32_t m_dX { 0 };
 	std::int32_t m_dY { 0 };

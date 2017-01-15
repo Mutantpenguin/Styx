@@ -2,9 +2,9 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-CInput::CInput( const CSettings &settings, const CFileSystem &filesystem )
+CInput::CInput( const CSettings &settings, const CFileSystem &filesystem ) :
+	m_keys { SDL_GetKeyboardState( &m_keyCount ) }
 {
-	m_keys = SDL_GetKeyboardState( &m_keyCount );
 	m_oldKeys = new Uint8[ m_keyCount ];
 
 	// get information about joysticks
@@ -102,8 +102,7 @@ CInput::~CInput( void )
 	{
 		SDL_QuitSubSystem( SDL_INIT_GAMECONTROLLER );
 	}
-
-	m_keys = nullptr;
+;
 	if( m_oldKeys )
 	{
 		delete [] m_oldKeys;
