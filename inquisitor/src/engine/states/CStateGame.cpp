@@ -24,10 +24,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	soundManager.SetListener( m_cameraFree );
 
 	{
-		auto material1 = renderer.LoadMaterial( "materials/schnarf.mat" );
-		auto materialWaitCursor = renderer.LoadMaterial( "materials/wait_cursor.mat" );
+		const auto material1 = renderer.LoadMaterial( "materials/schnarf.mat" );
+		const auto materialWaitCursor = renderer.LoadMaterial( "materials/wait_cursor.mat" );
 
-		auto materialSuperBox = renderer.LoadMaterial( "materials/superBox.mat" );
+		const auto materialSuperBox = renderer.LoadMaterial( "materials/superBox.mat" );
 
 		//auto material2 = renderer.LoadMaterial( "materials/flames.mat" );
 		//auto material2 = renderer.LoadMaterial( "materials/texture_from_zip.mat" );
@@ -42,6 +42,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		m_mesh2->SetScale( { 10.0f, 10.0f, 10.0f } );
 		m_scene.AddMesh( m_mesh2 );
 
+		// create small cube of cubes
 		{
 			const std::uint16_t cubeSize { 4 };
 
@@ -51,7 +52,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				{
 					for( std::uint16_t k = 0; k < cubeSize; k++ )
 					{
-						auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 20.0f + i * 4.0f, 0.0f + j * 4.0f, -10.0f + k * 4.0f ) );
+						const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 20.0f + i * 4.0f, 0.0f + j * 4.0f, -10.0f + k * 4.0f ) );
 						mesh->SetScale( { 2.0f, 2.0f, 2.0f } );
 
 						m_scene.AddMesh( mesh );
@@ -60,6 +61,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			}
 		}
 
+		// create big cube of cubes
 		{
 			const std::uint16_t cubeSize { 12 };
 
@@ -69,7 +71,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				{
 					for( std::uint16_t k = 0; k < cubeSize; k++ )
 					{
-						auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, glm::vec3( 20.0f + i * 4.0f, 0.0f + j * 4.0f, 50.0f + k * 4.0f ) );
+						const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, glm::vec3( 20.0f + i * 4.0f, 0.0f + j * 4.0f, 50.0f + k * 4.0f ) );
 						mesh->SetScale( { 2.0f, 2.0f, 2.0f } );
 
 						m_scene.AddMesh( mesh );
@@ -80,35 +82,35 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	}
 
 	{
-		auto fireMaterial = renderer.LoadMaterial( "materials/flames.mat" );
-		auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, fireMaterial, glm::vec3( -5.0f, 0.0f, 1.0f ) );
+		const auto fireMaterial = renderer.LoadMaterial( "materials/flames.mat" );
+		const auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, fireMaterial, glm::vec3( -5.0f, 0.0f, 1.0f ) );
 		mesh->SetScale( { 4.0f, 8.0f, 1.0f } );
 		m_scene.AddMesh( mesh );
 	}
 
 	{
-		auto greenMaterial = renderer.LoadMaterial( "materials/green.mat" );
-		auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, greenMaterial, glm::vec3( -4.0f, 10.0f, 1.0f ) );
+		const auto greenMaterial = renderer.LoadMaterial( "materials/green.mat" );
+		const auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, greenMaterial, glm::vec3( -4.0f, 10.0f, 1.0f ) );
 		mesh->SetScale( { 2.0f, 2.0f, 1.0f } );
 		m_scene.AddMesh( mesh );
 	}
 
 	{
-		auto pulseMaterial = renderer.LoadMaterial( "materials/pulse_green_red.mat" );
-		auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, pulseMaterial, glm::vec3( 0.0f, 10.0f, 1.0f ) );
+		const auto pulseMaterial = renderer.LoadMaterial( "materials/pulse_green_red.mat" );
+		const auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, pulseMaterial, glm::vec3( 0.0f, 10.0f, 1.0f ) );
 		mesh->SetScale( { 2.0f, 2.0f, 1.0f } );
 		m_scene.AddMesh( mesh );
 	}
 
 	{
-		auto redMaterial = renderer.LoadMaterial( "materials/red.mat" );
-		auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, redMaterial, glm::vec3( 4.0f, 10.0f, 1.0f ) );
+		const auto redMaterial = renderer.LoadMaterial( "materials/red.mat" );
+		const auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, redMaterial, glm::vec3( 4.0f, 10.0f, 1.0f ) );
 		mesh->SetScale( { 2.0f, 2.0f, 1.0f } );
 		m_scene.AddMesh( mesh );
 	}
 
 	{
-		auto material3 = renderer.LoadMaterial( "materials/sky.mat" );
+		const auto material3 = renderer.LoadMaterial( "materials/sky.mat" );
 
 		m_skyboxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material3 );
 		m_scene.AddMesh( m_skyboxMesh );
