@@ -19,15 +19,15 @@ public:
 	std::int32_t inline MouseDeltaX( void ) const { return( m_dX ); }
 	std::int32_t inline MouseDeltaY( void ) const { return( m_dY ); }
 
-	bool inline KeyDown( std::uint32_t index ) const 			{ return( CurrentKey( index ) && !OldKey( index ) ); }
+	bool inline KeyDown( std::uint32_t index ) const 		{ return( CurrentKey( index ) && !OldKey( index ) ); }
 	bool inline KeyStillDown( std::uint32_t index ) const 	{ return( CurrentKey( index ) && OldKey( index ) ); }
 	bool inline KeyUp( std::uint32_t index ) const 			{ return( !CurrentKey( index ) && OldKey( index ) ); }
-	bool inline KeyStillUp( std::uint32_t index ) const 		{ return( !CurrentKey( index ) && !OldKey( index ) ); }
+	bool inline KeyStillUp( std::uint32_t index ) const 	{ return( !CurrentKey( index ) && !OldKey( index ) ); }
 
 	bool inline MouseDown( std::uint32_t button ) const 		{ return( CurrentMouse( button ) && !OldMouse( button ) ); }
 	bool inline MouseStillDown( std::uint32_t button ) const 	{ return( CurrentMouse( button ) && OldMouse( button ) ); }
-	bool inline MouseUp( std::uint32_t button ) const 		{ return( !CurrentMouse( button ) && OldMouse( button ) ); }
-	bool inline MouseStillUp( std::uint32_t button ) const 	{ return( !CurrentMouse( button ) && !OldMouse( button ) ); }
+	bool inline MouseUp( std::uint32_t button ) const 			{ return( !CurrentMouse( button ) && OldMouse( button ) ); }
+	bool inline MouseStillUp( std::uint32_t button ) const 		{ return( !CurrentMouse( button ) && !OldMouse( button ) ); }
 
 private:
 	CInput( const CSettings &settings, const CFileSystem &filesystem );
@@ -38,8 +38,8 @@ private:
 private:
 	std::int32_t m_keyCount	{ 0 };
 
-	const Uint8	* const m_keys	{ nullptr };
-	Uint8		*m_oldKeys		{ nullptr };
+	const Uint8	* const m_keys;
+	Uint8		*m_oldKeys;
 
 	std::int32_t m_dX { 0 };
 	std::int32_t m_dY { 0 };

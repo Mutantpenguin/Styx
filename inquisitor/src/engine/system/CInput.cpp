@@ -102,7 +102,7 @@ CInput::~CInput( void )
 	{
 		SDL_QuitSubSystem( SDL_INIT_GAMECONTROLLER );
 	}
-;
+
 	if( m_oldKeys )
 	{
 		delete [] m_oldKeys;
