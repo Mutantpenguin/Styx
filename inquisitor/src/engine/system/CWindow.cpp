@@ -1,3 +1,5 @@
+#include <array>
+
 #include "CWindow.hpp"
 
 #include "src/engine/logger/CLogger.hpp"

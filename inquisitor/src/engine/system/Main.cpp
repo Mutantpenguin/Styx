@@ -3,7 +3,13 @@
 #include <boost/program_options.hpp>
 
 // explicitly include SDL2.h so it can do its thing with SDL_main
-#include <SDL2/SDL.h>
+#ifdef __linux__
+	#include <SDL2/SDL.h>
+#elif _WIN32
+	#include <SDL.h>
+#else
+	#error "unsupported platform"
+#endif
 
 #include "src/engine/logger/CLogger.hpp"
 #include "src/engine/logger/CLogTargetConsole.hpp"

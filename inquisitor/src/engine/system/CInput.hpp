@@ -1,7 +1,13 @@
 #ifndef CINPUT_HPP
 #define CINPUT_HPP
 
-#include <SDL2/SDL.h>
+#ifdef __linux__
+	#include <SDL2/SDL.h>
+#elif _WIN32
+	#include <SDL.h>
+#else
+	#error "unsupported platform"
+#endif
 
 #include "CFileSystem.hpp"
 #include "CSettings.hpp"

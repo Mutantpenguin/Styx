@@ -1,6 +1,7 @@
 #ifndef CTIMER_HPP
 #define CTIMER_HPP
 
+#include <cstdint>
 #include <chrono>
 
 class CTimer final

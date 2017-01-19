@@ -1,7 +1,15 @@
 #include "ComputerInfo.hpp"
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_cpuinfo.h>
+#ifdef __linux__
+	#include <SDL2/SDL.h>
+	#include <SDL2/SDL_cpuinfo.h>
+#elif _WIN32
+	#include <SDL.h>
+	#include <SDL_cpuinfo.h>
+#else
+	#error "unsupported platform"
+#endif
+
 
 #ifdef WIN32
 	#define WIN32_LEAN_AND_MEAN
@@ -359,6 +367,8 @@ namespace ComputerInfo
 			char	value[ 1024 ];
 			DWORD	valueSize;
 			HKEY	hKey;
+
+			std::string processor{ "unknown" };
 
 			if( ERROR_SUCCESS == RegOpenKeyEx( HKEY_LOCAL_MACHINE, "Hardware\\Description\\System\\CentralProcessor\\0", 0, KEY_QUERY_VALUE, &hKey ) )
 			{
