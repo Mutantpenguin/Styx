@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\GLMathematics.0.9.5.4\build\native\GLMathematics.props" Condition="Exists('..\packages\GLMathematics.0.9.5.4\build\native\GLMathematics.props')" />
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\engine\helper\Date.cpp" />
+    <ClCompile Include="src\engine\helper\geom\CPlane.cpp" />
+    <ClCompile Include="src\engine\helper\image\CImage.cpp" />
+    <ClCompile Include="src\engine\helper\image\ImageHandler.cpp" />
+    <ClCompile Include="src\engine\helper\String.cpp" />
+    <ClCompile Include="src\engine\logger\CLogger.cpp" />
+    <ClCompile Include="src\engine\logger\CLogTargetConsole.cpp" />
+    <ClCompile Include="src\engine\logger\CLogTargetFile.cpp" />
+    <ClCompile Include="src\engine\logger\CLogTargetMessageBox.cpp" />
+    <ClCompile Include="src\engine\math\Math.cpp" />
+    <ClCompile Include="src\engine\renderer\camera\CCamera.cpp" />
+    <ClCompile Include="src\engine\renderer\camera\CCameraFree.cpp" />
+    <ClCompile Include="src\engine\renderer\CFrustum.cpp" />
+    <ClCompile Include="src\engine\renderer\CGLState.cpp" />
+    <ClCompile Include="src\engine\renderer\CMesh.cpp" />
+    <ClCompile Include="src\engine\renderer\COpenGlAdapter.cpp" />
+    <ClCompile Include="src\engine\renderer\CRenderer.cpp" />
+    <ClCompile Include="src\engine\renderer\CUniformBuffer.cpp" />
+    <ClCompile Include="src\engine\renderer\CVAO.cpp" />
+    <ClCompile Include="src\engine\renderer\GLHelper.cpp" />
+    <ClCompile Include="src\engine\renderer\material\CMaterial.cpp" />
+    <ClCompile Include="src\engine\renderer\material\CMaterialLoader.cpp" />
+    <ClCompile Include="src\engine\renderer\material\CMaterialManager.cpp" />
+    <ClCompile Include="src\engine\renderer\material\CMaterialSamplerData.cpp" />
+    <ClCompile Include="src\engine\renderer\material\CMaterialUniform.cpp" />
+    <ClCompile Include="src\engine\renderer\sampler\CSampler.cpp" />
+    <ClCompile Include="src\engine\renderer\sampler\CSamplerManager.cpp" />
+    <ClCompile Include="src\engine\renderer\shader\CShaderManager.cpp" />
+    <ClCompile Include="src\engine\renderer\shader\CShaderProgram.cpp" />
+    <ClCompile Include="src\engine\renderer\texture\C2DArrayData.cpp" />
+    <ClCompile Include="src\engine\renderer\texture\CCubemapData.cpp" />
+    <ClCompile Include="src\engine\renderer\texture\CTexture.cpp" />
+    <ClCompile Include="src\engine\renderer\texture\CTextureLoader.cpp" />
+    <ClCompile Include="src\engine\renderer\texture\CTextureManager.cpp" />
+    <ClCompile Include="src\engine\scene\centity.cpp" />
+    <ClCompile Include="src\engine\scene\components\cbasecomponent.cpp" />
+    <ClCompile Include="src\engine\scene\CScene.cpp" />
+    <ClCompile Include="src\engine\scene\csystemmanager.cpp" />
+    <ClCompile Include="src\engine\scene\ctransformsystem.cpp" />
+    <ClCompile Include="src\engine\sdl\CSDL.cpp" />
+    <ClCompile Include="src\engine\sound\ALHelper.cpp" />
+    <ClCompile Include="src\engine\sound\CSound.cpp" />
+    <ClCompile Include="src\engine\sound\CSoundLoader.cpp" />
+    <ClCompile Include="src\engine\sound\CSoundManager.cpp" />
+    <ClCompile Include="src\engine\states\CState.cpp" />
+    <ClCompile Include="src\engine\states\CStateGame.cpp" />
+    <ClCompile Include="src\engine\states\CStateIntro.cpp" />
+    <ClCompile Include="src\engine\states\CStatePause.cpp" />
+    <ClCompile Include="src\engine\system\CEngine.cpp" />
+    <ClCompile Include="src\engine\system\CFileSystem.cpp" />
+    <ClCompile Include="src\engine\system\CGameInfo.cpp" />
+    <ClCompile Include="src\engine\system\CInput.cpp" />
+    <ClCompile Include="src\engine\system\ComputerInfo.cpp" />
+    <ClCompile Include="src\engine\system\CSettings.cpp" />
+    <ClCompile Include="src\engine\system\CTimer.cpp" />
+    <ClCompile Include="src\engine\system\CWindow.cpp" />
+    <ClCompile Include="src\engine\system\Main.cpp" />
+    <ClCompile Include="src\ext\fmt\format.cc" />
+    <ClCompile Include="src\ext\fmt\ostream.cc" />
+    <ClCompile Include="src\ext\fmt\posix.cc" />
+    <ClCompile Include="src\ext\fmt\printf.cc" />
+    <ClCompile Include="src\ext\imgui\imgui.cpp" />
+    <ClCompile Include="src\ext\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\ext\stb\stb_vorbis.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\engine\helper\CColor.hpp" />
+    <ClInclude Include="src\engine\helper\CSize.hpp" />
+    <ClInclude Include="src\engine\helper\Date.hpp" />
+    <ClInclude Include="src\engine\helper\geom\CPlane.hpp" />
+    <ClInclude Include="src\engine\helper\geom\Primitives.hpp" />
+    <ClInclude Include="src\engine\helper\image\CImage.hpp" />
+    <ClInclude Include="src\engine\helper\image\ImageHandler.hpp" />
+    <ClInclude Include="src\engine\helper\String.hpp" />
+    <ClInclude Include="src\engine\logger\CLogger.hpp" />
+    <ClInclude Include="src\engine\logger\CLogTargetConsole.hpp" />
+    <ClInclude Include="src\engine\logger\CLogTargetFile.hpp" />
+    <ClInclude Include="src\engine\logger\CLogTargetMessageBox.hpp" />
+    <ClInclude Include="src\engine\logger\LogHelper.hpp" />
+    <ClInclude Include="src\engine\math\Math.hpp" />
+    <ClInclude Include="src\engine\renderer\camera\CCamera.hpp" />
+    <ClInclude Include="src\engine\renderer\camera\CCameraFree.hpp" />
+    <ClInclude Include="src\engine\renderer\CFrustum.hpp" />
+    <ClInclude Include="src\engine\renderer\CGLState.hpp" />
+    <ClInclude Include="src\engine\renderer\CMesh.hpp" />
+    <ClInclude Include="src\engine\renderer\COpenGlAdapter.hpp" />
+    <ClInclude Include="src\engine\renderer\CRenderer.hpp" />
+    <ClInclude Include="src\engine\renderer\CUniformBuffer.hpp" />
+    <ClInclude Include="src\engine\renderer\CVAO.hpp" />
+    <ClInclude Include="src\engine\renderer\EUniformBufferLocations.hpp" />
+    <ClInclude Include="src\engine\renderer\GL.h" />
+    <ClInclude Include="src\engine\renderer\GLHelper.hpp" />
+    <ClInclude Include="src\engine\renderer\material\CMaterial.hpp" />
+    <ClInclude Include="src\engine\renderer\material\CMaterialLoader.hpp" />
+    <ClInclude Include="src\engine\renderer\material\CMaterialManager.hpp" />
+    <ClInclude Include="src\engine\renderer\material\CMaterialSamplerData.hpp" />
+    <ClInclude Include="src\engine\renderer\material\CMaterialUniform.hpp" />
+    <ClInclude Include="src\engine\renderer\sampler\CSampler.hpp" />
+    <ClInclude Include="src\engine\renderer\sampler\CSamplerManager.hpp" />
+    <ClInclude Include="src\engine\renderer\shader\CShaderManager.hpp" />
+    <ClInclude Include="src\engine\renderer\shader\CShaderProgram.hpp" />
+    <ClInclude Include="src\engine\renderer\shader\EEngineUniform.hpp" />
+    <ClInclude Include="src\engine\renderer\shader\SShaderInterface.hpp" />
+    <ClInclude Include="src\engine\renderer\texture\C2DArrayData.hpp" />
+    <ClInclude Include="src\engine\renderer\texture\CCubemapData.hpp" />
+    <ClInclude Include="src\engine\renderer\texture\CTexture.hpp" />
+    <ClInclude Include="src\engine\renderer\texture\CTextureLoader.hpp" />
+    <ClInclude Include="src\engine\renderer\texture\CTextureManager.hpp" />
+    <ClInclude Include="src\engine\scene\ccomponentsystem.hpp" />
+    <ClInclude Include="src\engine\scene\centity.hpp" />
+    <ClInclude Include="src\engine\scene\components\cbasecomponent.hpp" />
+    <ClInclude Include="src\engine\scene\components\transformcomponent.hpp" />
+    <ClInclude Include="src\engine\scene\CScene.hpp" />
+    <ClInclude Include="src\engine\scene\csystem.hpp" />
+    <ClInclude Include="src\engine\scene\csystemmanager.hpp" />
+    <ClInclude Include="src\engine\scene\ctransformsystem.hpp" />
+    <ClInclude Include="src\engine\sdl\CSDL.hpp" />
+    <ClInclude Include="src\engine\sound\ALHelper.hpp" />
+    <ClInclude Include="src\engine\sound\CSound.hpp" />
+    <ClInclude Include="src\engine\sound\CSoundLoader.hpp" />
+    <ClInclude Include="src\engine\sound\CSoundManager.hpp" />
+    <ClInclude Include="src\engine\states\CState.hpp" />
+    <ClInclude Include="src\engine\states\CStateGame.hpp" />
+    <ClInclude Include="src\engine\states\CStateIntro.hpp" />
+    <ClInclude Include="src\engine\states\CStatePause.hpp" />
+    <ClInclude Include="src\engine\system\CEngine.hpp" />
+    <ClInclude Include="src\engine\system\CFileSystem.hpp" />
+    <ClInclude Include="src\engine\system\CGameInfo.hpp" />
+    <ClInclude Include="src\engine\system\CInput.hpp" />
+    <ClInclude Include="src\engine\system\ComputerInfo.hpp" />
+    <ClInclude Include="src\engine\system\CSettings.hpp" />
+    <ClInclude Include="src\engine\system\CTimer.hpp" />
+    <ClInclude Include="src\engine\system\CWindow.hpp" />
+    <ClInclude Include="src\ext\fmt\format.h" />
+    <ClInclude Include="src\ext\fmt\ostream.h" />
+    <ClInclude Include="src\ext\fmt\posix.h" />
+    <ClInclude Include="src\ext\fmt\printf.h" />
+    <ClInclude Include="src\ext\fmt\string.h" />
+    <ClInclude Include="src\ext\fmt\time.h" />
+    <ClInclude Include="src\ext\imgui\imconfig.h" />
+    <ClInclude Include="src\ext\imgui\imgui.h" />
+    <ClInclude Include="src\ext\imgui\imgui_internal.h" />
+    <ClInclude Include="src\ext\stb\stb_rect_pack.h" />
+    <ClInclude Include="src\ext\stb\stb_textedit.h" />
+    <ClInclude Include="src\ext\stb\stb_truetype.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="asan_symbolize.py" />
+    <None Include="AUTHORS" />
+    <None Include="BUILD" />
+    <None Include="COMPILERS" />
+    <None Include="COPYING" />
+    <None Include="doxyfile" />
+    <None Include="DoxySfile" />
+    <None Include="inquisitor.cbp" />
+    <None Include="inquisitor.project" />
+    <None Include="packages.config" />
+    <None Include="README" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="design_document.txt" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5A269590-059F-4366-A5A9-B75002190AD2}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);INQ_DEBUG</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets" Condition="Exists('packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets')" />
+    <Import Project="packages\sdl2.2.0.5\build\native\sdl2.targets" Condition="Exists('packages\sdl2.2.0.5\build\native\sdl2.targets')" />
+    <Import Project="packages\boost.1.63.0.0\build\native\boost.targets" Condition="Exists('packages\boost.1.63.0.0\build\native\boost.targets')" />
+    <Import Project="packages\boost_program_options-vc140.1.63.0.0\build\native\boost_program_options-vc140.targets" Condition="Exists('packages\boost_program_options-vc140.1.63.0.0\build\native\boost_program_options-vc140.targets')" />
+    <Import Project="packages\physfs.v140.2.0.3.1\build\native\physfs.v140.targets" Condition="Exists('packages\physfs.v140.2.0.3.1\build\native\physfs.v140.targets')" />
+    <Import Project="packages\jsoncpp.redist.0.6.0.1\build\native\jsoncpp.redist.targets" Condition="Exists('packages\jsoncpp.redist.0.6.0.1\build\native\jsoncpp.redist.targets')" />
+    <Import Project="packages\jsoncpp.0.6.0.1\build\native\jsoncpp.targets" Condition="Exists('packages\jsoncpp.0.6.0.1\build\native\jsoncpp.targets')" />
+    <Import Project="..\packages\boost.1.63.0.0\build\native\boost.targets" Condition="Exists('..\packages\boost.1.63.0.0\build\native\boost.targets')" />
+    <Import Project="..\packages\boost_program_options-vc140.1.63.0.0\build\native\boost_program_options-vc140.targets" Condition="Exists('..\packages\boost_program_options-vc140.1.63.0.0\build\native\boost_program_options-vc140.targets')" />
+    <Import Project="..\packages\jsoncpp.redist.0.6.0.1\build\native\jsoncpp.redist.targets" Condition="Exists('..\packages\jsoncpp.redist.0.6.0.1\build\native\jsoncpp.redist.targets')" />
+    <Import Project="..\packages\jsoncpp.0.6.0.1\build\native\jsoncpp.targets" Condition="Exists('..\packages\jsoncpp.0.6.0.1\build\native\jsoncpp.targets')" />
+    <Import Project="..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets" Condition="Exists('..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets')" />
+    <Import Project="..\packages\sdl2.2.0.5\build\native\sdl2.targets" Condition="Exists('..\packages\sdl2.2.0.5\build\native\sdl2.targets')" />
+    <Import Project="..\packages\physfs.v140.2.0.3.1\build\native\physfs.v140.targets" Condition="Exists('..\packages\physfs.v140.2.0.3.1\build\native\physfs.v140.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\boost.1.63.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.63.0.0\build\native\boost.targets'))" />
+    <Error Condition="!Exists('..\packages\boost_program_options-vc140.1.63.0.0\build\native\boost_program_options-vc140.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_program_options-vc140.1.63.0.0\build\native\boost_program_options-vc140.targets'))" />
+    <Error Condition="!Exists('..\packages\jsoncpp.redist.0.6.0.1\build\native\jsoncpp.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\jsoncpp.redist.0.6.0.1\build\native\jsoncpp.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\jsoncpp.0.6.0.1\build\native\jsoncpp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\jsoncpp.0.6.0.1\build\native\jsoncpp.targets'))" />
+    <Error Condition="!Exists('..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\sdl2.2.0.5\build\native\sdl2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2.2.0.5\build\native\sdl2.targets'))" />
+    <Error Condition="!Exists('..\packages\physfs.v140.2.0.3.1\build\native\physfs.v140.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\physfs.v140.2.0.3.1\build\native\physfs.v140.targets'))" />
+    <Error Condition="!Exists('..\packages\GLMathematics.0.9.5.4\build\native\GLMathematics.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GLMathematics.0.9.5.4\build\native\GLMathematics.props'))" />
+  </Target>
+</Project>
