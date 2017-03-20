@@ -46,9 +46,9 @@ void CMaterialManager::Update( void )
 {
 	for( auto it = std::cbegin( m_materials ); it != std::cend( m_materials ); )
 	{
-		if( (*it).second.unique() )
+		if( it->second.unique() )
 		{
-			logDEBUG( "erasing material: {0}", (*it).first );
+			logDEBUG( "erasing material: {0}", it->first );
 			m_materials.erase( it++ );
 		}
 		else
@@ -62,7 +62,7 @@ void CMaterialManager::Update( void )
 
 std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &path )
 {
-	auto it = m_materials.find( path );
+	const auto it = m_materials.find( path );
 	if( m_materials.end() != it )
 	{
 		return( it->second );
