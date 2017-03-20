@@ -179,7 +179,7 @@ bool CFileSystem::SaveBufferToFile( const FileBuffer &buffer, const std::string 
 		return( false );
 	}
 
-	const auto lengthWrite = PHYSFS_writeBytes( f, &buffer[ 0 ], buffer.size() );
+	const unsigned long lengthWrite = PHYSFS_writeBytes( f, &buffer[ 0 ], buffer.size() );
 
 	PHYSFS_close( f );
 
