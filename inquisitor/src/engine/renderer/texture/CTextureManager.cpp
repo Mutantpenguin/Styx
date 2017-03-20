@@ -40,9 +40,9 @@ void CTextureManager::Update( void )
 {
 	for( auto it = std::cbegin( m_textures ); it != std::cend( m_textures ); )
 	{
-		if( (*it).second.unique() )
+		if( it->second.unique() )
 		{
-			logDEBUG( "erasing texture: {0}", (*it).first );
+			logDEBUG( "erasing texture: {0}", it->first );
 			m_textures.erase( it++ );
 		}
 		else
@@ -54,7 +54,7 @@ void CTextureManager::Update( void )
 
 std::shared_ptr< CTexture > CTextureManager::LoadTexture( const std::string &path )
 {
-	auto it = m_textures.find( path );
+	const auto it = m_textures.find( path );
 	if( m_textures.end() != it )
 	{
 		return( it->second );

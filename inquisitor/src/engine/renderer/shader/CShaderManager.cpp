@@ -107,7 +107,7 @@ std::shared_ptr< CShaderProgram > CShaderManager::LoadProgram( const std::string
 {
 	const std::string programIdentifier = pathVertexShader + "|" + pathFragmentShader;
 
-	auto it = m_programs.find( programIdentifier );
+	const auto it = m_programs.find( programIdentifier );
 	if( m_programs.end() != it )
 	{
 		return( it->second );
@@ -256,7 +256,10 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body 
 {
 	std::string source;
 
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wswitch-enum"
 	switch( type )
+	#pragma clang diagnostic pop
 	{
 		case GL_VERTEX_SHADER:
 			source =	srcAdditionShaderVersion +
@@ -264,6 +267,8 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body 
 
 			source += "\n";
 
+			// TODO this will work with -std=c++1z;
+			// for( const auto && [ location, interface ] : allowedAttributes )
 			for( const auto attribute : allowedAttributes )
 			{
 				source += fmt::format( "layout( location = {0} ) in {1} {2};", static_cast< GLint >( attribute.first ), GLHelper::GLSLTypeToString( attribute.second.type ), attribute.second.name ) + "\n";
@@ -352,7 +357,7 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 
 		const GLint attributeLocation = values[ 2 ];
 
-		auto attributeIt = allowedAttributes.find( static_cast< CVAO::EAttributeLocation >( attributeLocation ) );
+		const auto attributeIt = allowedAttributes.find( static_cast< CVAO::EAttributeLocation >( attributeLocation ) );
 		if( allowedAttributes.end() == attributeIt )
 		{
 			logERROR( "attribute location '{0}' is not allowed", attributeLocation );
@@ -401,7 +406,10 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 		const GLint  uniformLocation = values[ 3 ];
 		const GLenum uniformType = static_cast< GLenum>( values[ 1 ] );
 
+		#pragma clang diagnostic push
+		#pragma clang diagnostic ignored "-Wswitch-enum"
 		switch( uniformType )
+		#pragma clang diagnostic pop
 		{
 			case GL_SAMPLER_2D:
 			case GL_SAMPLER_CUBE:
