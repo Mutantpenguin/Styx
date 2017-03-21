@@ -78,6 +78,7 @@ std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &
 	else
 	{
 		logWARNING( "failed to create material from file '{0}'", path );
+		m_materials[ path ] = m_dummyMaterial;
 		return( m_dummyMaterial );
 	}
 }

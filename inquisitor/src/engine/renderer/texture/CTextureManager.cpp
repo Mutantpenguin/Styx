@@ -70,6 +70,7 @@ std::shared_ptr< CTexture > CTextureManager::LoadTexture( const std::string &pat
 	else
 	{
 		logWARNING( "failed to create texture from file '{0}'", path );
+		m_textures[ path ] = m_dummyTexture;
 		return( m_dummyTexture );
 	}
 }
