@@ -2,7 +2,8 @@
 
 #include <algorithm>
 
-#include <json/json.h>
+#include "src/ext/json/json.hpp"
+using json = nlohmann::json;
 
 #include <glbinding/Meta.h>
 
@@ -29,9 +30,17 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromFile( const std:
 	{
 		const std::string fileExtension = path.substr( path.find_last_of( "." ) + 1 );
 
-		if( fileExtension == std::string( "mat" ) )
+		if( std::string( "mat" ) == fileExtension )
 		{
-			return( CreateMaterialFromMatFile( path ) );
+			try
+			{
+				return( CreateMaterialFromMatFile( path ) );
+			}
+			catch( std::exception &e )
+			{
+				logWARNING( "error loading material '{0}': {1}", path, e.what() );
+				return( nullptr );
+			}
 		}
 		else
 		{
@@ -45,43 +54,46 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromMatFile( const s
 {
 	const std::string definition = m_filesystem.LoadFileToString( path );
 
-	Json::Reader	reader;
-	Json::Value		mat_root;
+	json mat_root;
 
-	if( !reader.parse( definition, mat_root ) )
+	try
 	{
-		logWARNING( "failed to parse '{0}' because of {1}", path, reader.getFormattedErrorMessages() );
+		mat_root = json::parse( definition );
+	}
+	catch( json::parse_error &e )
+	{
+		logWARNING( "failed to parse '{0}' because of {1}", path, e.what() );
 		return( nullptr );
 	}
 
-	const Json::Value mat_name = mat_root[ "name" ];
+	const auto mat_name = mat_root[ "name" ];
 
-	auto newMaterial = std::make_shared< CMaterial >( mat_name.asString() );
+	auto newMaterial = std::make_shared< CMaterial >( mat_name.get<std::string>() );
 
-	const Json::Value mat_cullmode = mat_root[ "cullmode" ];
-	if( !mat_cullmode.empty() )
+	const auto mat_cullmode = mat_root.find( "cullmode" );
+	if( mat_cullmode != mat_root.cend() )
 	{
-		if( ( !mat_cullmode.asString().empty() ) && GLHelper::FaceModeFromString( mat_cullmode.asString(), newMaterial->m_cullfacemode ) )
+		if( ( !mat_cullmode->get<std::string>().empty() ) && GLHelper::FaceModeFromString( mat_cullmode->get<std::string>(), newMaterial->m_cullfacemode ) )
 		{
 			newMaterial->m_bCullFace = true;
 		}
 	}
 
-	const Json::Value mat_polygonmode = mat_root[ "polygonmode" ];
-	if( !mat_polygonmode.empty() )
+	const auto mat_polygonmode = mat_root.find( "polygonmode" );
+	if( mat_polygonmode != mat_root.cend() )
 	{
-		if( !GLHelper::PolygonModeFromString( mat_polygonmode.asString(), newMaterial->m_polygonmode ) )
+		if( !GLHelper::PolygonModeFromString( mat_polygonmode->get<std::string>(), newMaterial->m_polygonmode ) )
 		{
 			newMaterial->m_polygonmode = GL_FILL;
 		}
 	}
 
-	const Json::Value mat_blending = mat_root[ "blending" ];
-	if( !mat_blending.empty() )
+	const auto mat_blending = mat_root.find( "blending" );
+	if( mat_blending != mat_root.cend() )
 	{
-		const Json::Value mat_blendingsrc = mat_blending[ "src" ];
-		const Json::Value mat_blendingdst = mat_blending[ "dst" ];
-		if( !mat_blendingsrc.empty() && GLHelper::SrcBlendFuncFromString( mat_blendingsrc.asString(), newMaterial->m_blendSrc ) && !mat_blendingdst.empty() && GLHelper::DstBlendFuncFromString( mat_blendingdst.asString(), newMaterial->m_blendDst ) )
+		const auto mat_blendingsrc = mat_blending->find( "src" );
+		const auto mat_blendingdst = mat_blending->find( "dst" );
+		if( ( mat_blendingsrc != mat_blending->cend() ) && GLHelper::SrcBlendFuncFromString( mat_blendingsrc->get<std::string>(), newMaterial->m_blendSrc ) && ( mat_blendingdst != mat_blending->cend() ) && GLHelper::DstBlendFuncFromString( mat_blendingdst->get<std::string>(), newMaterial->m_blendDst ) )
 		{
 			newMaterial->m_blending = true;
 		}
@@ -95,8 +107,8 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromMatFile( const s
 		newMaterial->m_blending = false;
 	}
 
-	const Json::Value mat_shaders = mat_root[ "shaders" ];
-	if( mat_shaders.empty() )
+	const auto mat_shaders = mat_root.find( "shaders" );
+	if( mat_shaders == mat_root.cend() )
 	{
 		logWARNING( "no shaders specified in '{0}'", path );
 		return( nullptr );
@@ -106,38 +118,40 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromMatFile( const s
 		std::string shader_vs_path;
 		std::string shader_fs_path;
 
-		const Json::Value mat_shader_vs = mat_shaders[ "vs" ];
-		if( mat_shader_vs.empty() )
+		const auto mat_shader_vs = mat_shaders->find( "vs" );
+		if( mat_shader_vs == mat_shaders->cend() )
 		{
 			logWARNING( "no vertex shader specified in '{0}'", path );
 			return( nullptr );
 		}
 		else
 		{
-			shader_vs_path = mat_shader_vs.asString();
+			shader_vs_path = mat_shader_vs->get<std::string>();
 		}
 
-		const Json::Value mat_shader_fs = mat_shaders[ "fs" ];
-		if( mat_shader_fs.empty() )
+		const auto mat_shader_fs = mat_shaders->find( "fs" );
+		if( mat_shader_fs == mat_shaders->cend() )
 		{
 			logWARNING( "no fragment shader specified in '{0}'", path );
 			return( nullptr );
 		}
 		else
 		{
-			shader_fs_path = mat_shader_fs.asString();
+			shader_fs_path = mat_shader_fs->get<std::string>();
 		}
 
-		auto shader = m_shaderManager.LoadProgram( shader_vs_path, shader_fs_path );
+		const auto shader = m_shaderManager.LoadProgram( shader_vs_path, shader_fs_path );
 
 		newMaterial->m_shader = shader;
 
-		const Json::Value mat_textures = mat_root[ "textures" ];
-		const Json::Value mat_samplers = mat_root[ "samplers" ];
+		const auto mat_textures = mat_root.find( "textures" );
+		const auto mat_samplers = mat_root.find( "samplers" );
 
 		if( !shader->RequiredSamplers().empty() )
 		{
-			if(	mat_textures.empty() )
+			if( ( mat_textures == mat_root.cend() )
+				||
+				mat_textures->empty() )
 			{
 				logWARNING( "no textures specified in '{0}'", path );
 				return( nullptr );
@@ -149,8 +163,8 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromMatFile( const s
 					const auto location = requiredSampler.first;
 					const auto interface = requiredSampler.second;
 
-					const Json::Value mat_texture = mat_textures[ interface.name ];
-					if( mat_texture.empty() )
+					const auto mat_texture = mat_textures->find( interface.name );
+					if( mat_texture == mat_textures->cend() )
 					{
 						logWARNING( "required texture for sampler '{0}' not specified in '{1}'", interface.name, path );
 						return( nullptr );
@@ -159,9 +173,12 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromMatFile( const s
 					{
 						// check that sampler-type and type of texture match
 
-						const std::shared_ptr< const CTexture > texture = m_textureManager.LoadTexture( mat_texture.asString() );
+						const std::shared_ptr< const CTexture > texture = m_textureManager.LoadTexture( mat_texture->get<std::string>() );
 
+						#pragma clang diagnostic push
+						#pragma clang diagnostic ignored "-Wswitch-enum"
 						switch( interface.type )
+						#pragma clang diagnostic pop
 						{
 							case GL_SAMPLER_2D:
 								if( texture->Type() != CTexture::type::TEX_2D )
@@ -194,13 +211,16 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromMatFile( const s
 
 						std::shared_ptr< const CSampler > sampler;
 
-						const Json::Value mat_sampler = mat_samplers[ interface.name ];
-						if( !mat_sampler.empty() )
+						if( mat_samplers != mat_root.cend() )
 						{
-							// TODO check here, if specified sampler fits to the type of the texture
-							if( !m_samplerManager.SamplerFromString( mat_sampler.asString(), sampler ) )
+							const auto mat_sampler = mat_samplers->find( interface.name );
+							if( ( mat_sampler != mat_samplers->cend() ) && ( !mat_sampler->empty() ) )
 							{
-								logDEBUG( "invalid sampler specified for texture '{0}' in '{1}'", interface.name, path );
+								// TODO check here, if specified sampler fits to the type of the texture
+								if( !m_samplerManager.SamplerFromString( mat_sampler->get<std::string>(), sampler ) )
+								{
+									logDEBUG( "invalid sampler specified for texture '{0}' in '{1}'", interface.name, path );
+								}
 							}
 						}
 
@@ -241,30 +261,36 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromMatFile( const s
 			const auto requiredSamplers = shader->RequiredSamplers();
 
 			// check for unused textures
-			for( const std::string &textureName : mat_textures.getMemberNames() )
+			if( mat_textures != mat_root.cend() )
 			{
-				if( std::end( requiredSamplers ) == std::find_if(	std::cbegin( requiredSamplers ),
-																	std::cend( requiredSamplers ),
-																	[&]( const auto &vt )
-																	{
-																		return( vt.second.name == textureName );
-																	} ) )
+				for( const auto &textureName : json::iterator_wrapper( (*mat_textures) ) )
 				{
-					logWARNING( "unused texture '{0}' in '{1}'", textureName, path );
+					if( std::cend( requiredSamplers ) == std::find_if(	std::cbegin( requiredSamplers ),
+																		std::cend( requiredSamplers ),
+																		[&]( const auto &vt )
+																		{
+																			return( vt.second.name == textureName.key() );
+																		} ) )
+					{
+						logWARNING( "unused texture '{0}' in '{1}'", textureName.key(), path );
+					}
 				}
 			}
 
 			// check for unused samplers
-			for( const std::string &samplerName : mat_samplers.getMemberNames() )
+			if( mat_samplers != mat_root.cend() )
 			{
-				if( std::end( requiredSamplers ) == std::find_if(	std::cbegin( requiredSamplers ),
-																	std::cend( requiredSamplers ),
-																	[&]( const auto &vt )
-																	{
-																		return( vt.second.name == samplerName );
-																	} ) )
+				for( const auto &samplerName : json::iterator_wrapper( (*mat_samplers) ) )
 				{
-					logWARNING( "unused sampler '{0}' in '{1}'", samplerName, path );
+					if( std::cend( requiredSamplers ) == std::find_if(	std::cbegin( requiredSamplers ),
+																		std::cend( requiredSamplers ),
+																		[&]( const auto &vt )
+																		{
+																			return( vt.second.name == samplerName.key() );
+																		} ) )
+					{
+						logWARNING( "unused sampler '{0}' in '{1}'", samplerName.key(), path );
+					}
 				}
 			}
 		}
@@ -272,8 +298,8 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromMatFile( const s
 
 		if( !shader->RequiredMaterialUniforms().empty() )
 		{
-			const Json::Value mat_uniforms = mat_root[ "uniforms" ];
-			if(	mat_uniforms.empty() )
+			const auto mat_uniforms = mat_root.find( "uniforms" );
+			if(	mat_uniforms == mat_root.cend() )
 			{
 				logWARNING( "no required uniforms specified in '{0}'", path );
 				return( nullptr );
@@ -285,72 +311,75 @@ std::shared_ptr< CMaterial > CMaterialLoader::CreateMaterialFromMatFile( const s
 					const auto location = requiredMaterialUniform.first;
 					const auto interface = requiredMaterialUniform.second;
 
-					const Json::Value mat_uniform = mat_uniforms[ interface.name ];
-					if( mat_uniform.empty() )
+					const auto mat_uniform = mat_uniforms->find( interface.name );
+					if( mat_uniform == mat_uniforms->cend() )
 					{
 						logWARNING( "required uniform '{0}' not specified in '{1}'", interface.name, path );
 						return( nullptr );
 					}
 					else
 					{
+						#pragma clang diagnostic push
+						#pragma clang diagnostic ignored "-Wswitch-enum"
 						switch( interface.type )
+						#pragma clang diagnostic pop
 						{
 							case GL_UNSIGNED_INT:
-								if( !mat_uniform.isUInt() )
+								if( !mat_uniform->is_number_unsigned() )
 								{
 									logWARNING( "uniform '{0}' in '{1}' is not of type {2}", interface.name, path, glbinding::Meta::getString( interface.type ) );
 									return( nullptr );
 								}
 								else
 								{
-									newMaterial->m_materialUniforms[ location ] = std::make_unique< CMaterialUniformUINT >( interface.name, mat_uniform.asUInt() );
+									newMaterial->m_materialUniforms[ location ] = std::make_unique< CMaterialUniformUINT >( interface.name, mat_uniform->get<glm::uint>() );
 								}
 								break;
 
 							case GL_FLOAT:
-								if( !mat_uniform.isDouble() )
+								if( !mat_uniform->is_number_float() )
 								{
 									logWARNING( "uniform '{0}' in '{1}' is not of type {2}", interface.name, path, glbinding::Meta::getString( interface.type ) );
 									return( nullptr );
 								}
 								else
 								{
-									newMaterial->m_materialUniforms[ location ] = std::make_unique< CMaterialUniformFLOAT >( interface.name, mat_uniform.asDouble() );
+									newMaterial->m_materialUniforms[ location ] = std::make_unique< CMaterialUniformFLOAT >( interface.name, mat_uniform->get<glm::float32>() );
 								}
 								break;
 
 							case GL_FLOAT_VEC4:
-								if( !mat_uniform.isArray() )
+								if( !mat_uniform->is_array() )
 								{
 									logWARNING( "uniform '{0}' in '{1}' is not an array", interface.name, path );
 									return( nullptr );
 								}
-								else if( mat_uniform.size() != 4)
+								else if( mat_uniform->size() != 4)
 								{
 									logWARNING( "uniform '{0}' in '{1}' has not enough oder more than needed values", interface.name, path );
 									return( nullptr );
 								}
 								else
 								{
-									const Json::Value value0 = mat_uniform[ 0 ];
-									const Json::Value value1 = mat_uniform[ 1 ];
-									const Json::Value value2 = mat_uniform[ 2 ];
-									const Json::Value value3 = mat_uniform[ 3 ];
+									const auto value0 = (*mat_uniform)[ 0 ];
+									const auto value1 = (*mat_uniform)[ 1 ];
+									const auto value2 = (*mat_uniform)[ 2 ];
+									const auto value3 = (*mat_uniform)[ 3 ];
 
-									if( !value0.isDouble()
+									if( !value0.is_number_float()
 										||
-										!value1.isDouble()
+										!value1.is_number_float()
 										||
-										!value2.isDouble()
+										!value2.is_number_float()
 										||
-										!value3.isDouble() )
+										!value3.is_number_float() )
 									{
 										logWARNING( "not all values of uniform '{0}' in '{1}' are floats", interface.name, path );
 										return( nullptr );
 									}
 									else
 									{
-										newMaterial->m_materialUniforms[ location ] = std::make_unique< CMaterialUniformFLOATVEC4 >( interface.name, glm::vec4( value0.asDouble(), value1.asDouble(), value2.asDouble(), value3.asDouble() ) );
+										newMaterial->m_materialUniforms[ location ] = std::make_unique< CMaterialUniformFLOATVEC4 >( interface.name, glm::vec4( value0.get<float>(), value1.get<float>(), value2.get<float>(), value3.get<float>() ) );
 									}
 								}
 								break;

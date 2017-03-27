@@ -12,14 +12,14 @@ class CSettings final
 public:
 	CSettings( const CFileSystem &p_filesystem, const std::string &settingsfile );
 
-	struct structEngine
+	struct s_Engine
 	{
 		const std::uint64_t tick { 33333 };
 	} engine;
 
-	struct structRenderer final
+	struct s_Renderer final
 	{
-		struct structWindow final
+		struct s_Window final
 		{
 			CSize			size			{ 640, 480 };
 			float			aspect_ratio	{ static_cast< float >( size.width ) / static_cast< float >( size.height ) };
@@ -30,13 +30,13 @@ public:
 			bool			antialiasing	{ false };
 		} window;
 
-		struct structTextures final
+		struct s_Textures final
 		{
 			std::uint8_t	anisotropic		{ 1 };
 			std::uint8_t	picmip			{ 0 };
 		} textures;
 
-		struct structScreenshot final
+		struct s_Screenshot final
 		{
 			std::string	format			{ "png" };
 			float		scale_factor	{ 1.0f };
@@ -44,15 +44,23 @@ public:
 
 	} renderer;
 
-	struct structSound final
+	struct s_Sound final
 	{
 		std::uint16_t	buffer_size	{ 4096 };
 	} sound;
 
-	struct structInput final
+	struct s_Input final
 	{
 		std::string controller_file;
 	} input;
+
+	class Exception: public std::exception
+	{
+	public:
+		explicit Exception( void ) {}
+
+		virtual ~Exception() throw() {}
+	};
 };
 
 #endif // CSETTINGS_HPP

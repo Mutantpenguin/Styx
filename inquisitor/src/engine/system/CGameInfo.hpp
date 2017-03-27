@@ -49,7 +49,7 @@ private:
 	std::vector< std::string > m_assets;
 	std::vector< std::string > m_templates;
 
-	std::string m_background;
+	std::string m_menu_background;
 };
 
 #endif // CGAMEINFO_HPP

@@ -85,15 +85,13 @@ bool CShaderManager::CreateDummyProgram( void )
 		return( false );
 	}
 
-	auto shaderProgram = std::make_shared< CShaderProgram >( program );
+	m_dummyProgram = std::make_shared< CShaderProgram >( program );
 
-	if( !InterfaceSetup( shaderProgram ) )
+	if( !InterfaceSetup( m_dummyProgram ) )
 	{
 		logWARNING( "dummy program object is not valid" );
 		return( false );
 	}
-
-	m_dummyProgram = shaderProgram;
 
 	return( true );
 }
@@ -269,7 +267,7 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body 
 
 			// TODO this will work with -std=c++1z;
 			// for( const auto && [ location, interface ] : allowedAttributes )
-			for( const auto attribute : allowedAttributes )
+			for( const auto &attribute : allowedAttributes )
 			{
 				source += fmt::format( "layout( location = {0} ) in {1} {2};", static_cast< GLint >( attribute.first ), GLHelper::GLSLTypeToString( attribute.second.type ), attribute.second.name ) + "\n";
 			}
@@ -290,7 +288,7 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body 
 	{
 		source += "\n";
 
-		for( const auto engineUniform : engineUniforms )
+		for( const auto &engineUniform : engineUniforms )
 		{
 			source += fmt::format( "uniform {0} {1};", GLHelper::GLSLTypeToString( engineUniform.second.type ), engineUniform.second.name ) + "\n";
 		}
@@ -430,14 +428,14 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 			case GL_INT:
 			case GL_FLOAT:
 				{
-					auto uniformIt = std::find_if(	std::begin( engineUniforms ),
-													std::end( engineUniforms ),
+					auto uniformIt = std::find_if(	std::cbegin( engineUniforms ),
+													std::cend( engineUniforms ),
 													[&]( const auto &uniform )
 													{
 														return( uniform.second.name == uniformName );
 													} );
 
-					if( std::end( engineUniforms ) != uniformIt )
+					if( std::cend( engineUniforms ) != uniformIt )
 					{
 						const SShaderInterface &uniformInterface = uniformIt->second;
 						if( uniformInterface.type != uniformType )

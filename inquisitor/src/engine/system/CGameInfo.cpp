@@ -2,7 +2,8 @@
 
 #include <fstream>
 
-#include <json/json.h>
+#include "src/ext/json/json.hpp"
+using json = nlohmann::json;
 
 #include "src/engine/logger/CLogger.hpp"
 
@@ -20,91 +21,119 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 
 	if( fin )
 	{
-		Json::Value root;
-		Json::Reader reader;
-		if ( !reader.parse( fin, root ) )
-		{
-			logERROR( "failed to parse '{0}' because of {1}", gamefile, reader.getFormattedErrorMessages() );
-			throw Exception();
-		}
+		const auto root = [&]() -> json {
+			try
+			{
+				return( json::parse( fin ) );
+			}
+			catch( json::parse_error &e )
+			{
+				logERROR( "failed to parse '{0}' because of {1}", gamefile, e.what() );
+				throw Exception();
+			}
+		} ();
 
-		const Json::Value entry = root[ "name_short" ];
-
-		if( entry.empty() )
+		const auto name_short = root.find( "name_short" );
+		if( ( root.end() == name_short ) || name_short->empty() )
 		{
 			logERROR( "there is no definition of 'name_short' in the file '{0}'", gamefile );
 			throw Exception();
 		}
-		else if( entry.asString().empty() )
+		else
 		{
-			logERROR( "'name_short' in the file '{0}' is empty", gamefile );
+			m_name_short = name_short->get<std::string>();
+		}
+
+		const auto name = root.find( "name" );
+		if( ( root.end() == name ) || name->empty() )
+		{
+			logERROR( "there is no definition of 'name' in the file '{0}'", gamefile );
 			throw Exception();
 		}
 		else
 		{
-			m_name = root[ "name" ].asString();
-
-			m_name_short = root[ "name_short" ].asString();
-
-			m_version = root[ "version"].asString();
-
-			m_organisation = root[ "organisation"].asString();
-
-			m_author = root[ "author" ].asString();
-
-			m_author_email = root[ "author_email" ].asString();
-
-			m_website = root[ "website" ].asString();
-
-			m_icon = root[ "icon" ].asString();
-
-			const Json::Value assets = root[ "assets" ];
-			if(	assets.empty() )
-			{
-				logERROR( "no 'assets' specified in the file '{0}'", gamefile );
-				throw Exception();
-			}
-			else
-			{
-				m_assets.reserve( assets.size() );
-
-				for( const Json::Value &asset : assets )
-				{
-					if( asset.asString().empty() )
-					{
-						logERROR( "empty 'asset' specified in the file '{0}'", gamefile );
-						throw Exception();
-					}
-
-					m_assets.push_back( asset.asString() );
-				}
-			}
-
-			const Json::Value templates = root[ "templates" ];
-
-			if(	templates.empty() )
-			{
-				logERROR( "no 'templates' specified in the file '{0}'", gamefile );
-				throw Exception();
-			}
-			else
-			{
-				m_templates.reserve( templates.size() );
-
-				for( const Json::Value &templ : templates )
-				{
-					if( templ.asString().empty() )
-					{
-						logERROR( "empty 'template' specified in the file '{0}'", gamefile );
-						throw Exception();
-					}
-
-					m_templates.push_back( templ.asString() );
-				}
-			}
-
-			m_background = root[ "background" ].asString();
+			m_name = name->get<std::string>();
 		}
+
+		const auto version = root.find( "version" );
+		if( ( root.end() == version ) || version->empty() )
+		{
+			logERROR( "there is no definition of 'version' in the file '{0}'", gamefile );
+			throw Exception();
+		}
+		else
+		{
+			m_version = version->get<std::string>();
+		}
+
+		m_organisation = root.value( "organisation", "" );
+
+		m_author = root.value( "author", "" );
+
+		m_author_email = root.value( "author_email", "" );
+
+		m_website = root.value( "website", "" );
+
+		const auto icon = root.find( "icon" );
+		if( ( root.end() == icon ) || icon->empty() )
+		{
+			logERROR( "there is no definition of 'icon' in the file '{0}'", gamefile );
+			throw Exception();
+		}
+		else
+		{
+			m_icon = icon->get<std::string>();
+		}
+
+		const auto assets = root.find( "assets" );
+		if(	( root.end() == assets ) || ( assets->empty() ) )
+		{
+			logERROR( "no 'assets' specified in the file '{0}'", gamefile );
+			throw Exception();
+		}
+		else
+		{
+			m_assets.reserve( assets->size() );
+
+			for( const auto &asset : (*assets) )
+			{
+				const auto assetString = asset.get<std::string>();
+
+				if( assetString.empty() )
+				{
+					logERROR( "empty 'asset' specified in the file '{0}'", gamefile );
+					throw Exception();
+				}
+
+				m_assets.push_back( assetString );
+			}
+		}
+
+		const auto templates = root.find( "templates" );
+		if( ( root.end() == templates ) || ( templates->empty() ) )
+		{
+			logERROR( "no 'templates' specified in the file '{0}'", gamefile );
+			throw Exception();
+		}
+		else
+		{
+			m_templates.reserve( templates->size() );
+
+			for( const auto &templ : (*templates) )
+			{
+				const auto templateString = templ.get<std::string>();
+
+				if( templateString.empty() )
+				{
+					logERROR( "empty 'template' specified in the file '{0}'", gamefile );
+					throw Exception();
+				}
+
+				m_templates.push_back( templateString );
+			}
+		}
+
+		m_menu_background = root.value( "menu_background", "" );
 	}
 	else
 	{

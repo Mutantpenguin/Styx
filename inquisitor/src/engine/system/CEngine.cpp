@@ -55,6 +55,11 @@ catch( CSoundManager::Exception &e )
 	logERROR( "unable to initialize SoundManager" );
 	throw std::exception();
 }
+catch( CSettings::Exception &e )
+{
+	logERROR( "unable to initialize Settings" );
+	throw std::exception();
+}
 
 CEngine::~CEngine( void )
 {

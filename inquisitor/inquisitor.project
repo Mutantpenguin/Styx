@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="inquisitor" InternalType="Console">
+<CodeLite_Project Name="inquisitor" InternalType="Console" Version="10.0.0">
   <Plugins>
     <Plugin Name="subversion2">
       <![CDATA[true
@@ -239,6 +239,9 @@
         <File Name="src/ext/stb/stb_truetype.h"/>
         <File Name="src/ext/stb/stb_vorbis.c" ExcludeProjConfig="Debug"/>
       </VirtualDirectory>
+      <VirtualDirectory Name="json">
+        <File Name="src/ext/json/json.hpp"/>
+      </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="inquisitor">
@@ -256,7 +259,7 @@
   <Dependencies Name="Release"/>
   <Settings Type="Executable">
     <GlobalSettings>
-      <Compiler Options="-Wmain;-pedantic-errors;-Wfatal-errors;-ansi;-pedantic;-std=c++14;-Wall;-Wextra;-Wswitch-enum;-Wmissing-include-dirs;-Wmissing-declarations;-Wunreachable-code;-Winline;-Wfloat-equal;-Wundef;-Wcast-align;-Wredundant-decls;-Winit-self;-Wshadow;-Wint-to-void-pointer-cast" C_Options="-Wall" Assembler="">
+      <Compiler Options="-Wmain;-pedantic-errors;-Wfatal-errors;-ansi;-pedantic;-std=c++14;-Wall;-Wextra;-Wswitch-enum;-Wmissing-include-dirs;-Wmissing-declarations;-Wunreachable-code;-Winline;-Wfloat-equal;-Wundef;-Wcast-align;-Wredundant-decls;-Winit-self;-Wshadow;-Wint-to-void-pointer-cast;--system-header-prefix=src/ext/" C_Options="-Wall" Assembler="">
         <IncludePath Value="."/>
         <Preprocessor Value="GLM_FORCE_RADIANS"/>
       </Compiler>
@@ -269,7 +272,6 @@
         <Library Value="GL"/>
         <Library Value="glbinding"/>
         <Library Value="openal"/>
-        <Library Value="jsoncpp"/>
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
@@ -314,7 +316,7 @@
       </Completion>
     </Configuration>
     <Configuration Name="Profile" CompilerType="clang( tags/RELEASE_371/final )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-g;-pg;-O0" C_Options="-pg;-O0" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+      <Compiler Options="-pg;-g;-O0" C_Options="-pg;-O0" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <Preprocessor Value="INQ_DEBUG"/>
       </Compiler>
@@ -354,7 +356,7 @@
       </Completion>
     </Configuration>
     <Configuration Name="Release" CompilerType="clang( tags/RELEASE_371/final )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-O3;-fexpensive-optimizations;" C_Options="-O2" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+      <Compiler Options="-O3;-fexpensive-optimizations" C_Options="-O2" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
       </Compiler>
       <Linker Options="-s" Required="yes"/>

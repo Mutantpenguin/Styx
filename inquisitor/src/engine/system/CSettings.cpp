@@ -1,6 +1,7 @@
 #include "CSettings.hpp"
 
-#include <json/json.h>
+#include "src/ext/json/json.hpp"
+using json = nlohmann::json;
 
 #include "src/engine/logger/CLogger.hpp"
 
@@ -17,182 +18,185 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 	}
 	else
 	{
-		Json::Reader reader;
-		Json::Value settings_root;
+		const auto settings_root = [&]() -> json {
+			try
+			{
+				return( json::parse( p_filesystem.LoadFileToString( filename ) ) );
+			}
+			catch( json::parse_error &e )
+			{
+				logWARNING( "failed to parse settings-file '{0}' because of: {1}", filename, e.what() );
+				throw Exception();
+			}
+		} ();
 
-		if( !reader.parse( p_filesystem.LoadFileToString( filename ), settings_root ) )
+		const auto renderer_root = settings_root.find( "renderer" );
+		if( settings_root.end() == renderer_root )
 		{
-			logWARNING( "failed to parse settings-file '{0}' because of: {1}", filename, reader.getFormattedErrorMessages() );
+			logWARNING( "'settings.renderer' not found" );
 		}
 		else
 		{
-			const Json::Value renderer_root = settings_root[ "renderer" ];
-			if( !renderer_root.empty() )
+			const auto window_root = renderer_root->find( "window" );
+			if( renderer_root->end() == window_root )
 			{
-				const Json::Value window_root = renderer_root[ "window" ];
-				if( !window_root.empty() )
-				{
-					const Json::Value width = window_root[ "width" ];
-					if( width.empty() )
-					{
-						logWARNING( "'settings.renderer.window.width' not found" );
-					}
-					else
-					{
-						renderer.window.size.width = width.asUInt();
-					}
-
-					const Json::Value height = window_root[ "height" ];
-					if( height.empty() )
-					{
-						logWARNING( "'settings.renderer.window.height' not found" );
-					}
-					{
-						renderer.window.size.height = height.asUInt();
-					}
-
-					renderer.window.aspect_ratio = static_cast< float >( renderer.window.size.width ) / static_cast< float >( renderer.window.size.height );
-
-					const Json::Value fullsreen = window_root[ "fullscreen" ];
-					if( fullsreen.empty() )
-					{
-						logWARNING( "'settings.renderer.window.fullscreen' not found" );
-					}
-					else
-					{
-						renderer.window.fullscreen = fullsreen.asBool();
-					}
-
-					const Json::Value vsync = window_root[ "vsync" ];
-					if( vsync.empty() )
-					{
-						logWARNING( "'settings.renderer.window.vsync' not found" );
-					}
-					else
-					{
-						renderer.window.vsync = vsync.asBool();
-					}
-
-					const Json::Value gamma = window_root[ "gamma" ];
-					if( gamma.empty() )
-					{
-						logWARNING( "'settings.renderer.window.gamma' not found" );
-					}
-					else
-					{
-						renderer.window.gamma = gamma.asDouble();
-					}
-
-					const Json::Value antialiasing = window_root[ "antialiasing" ];
-					if( antialiasing.empty() )
-					{
-						logWARNING( "'settings.renderer.window.antialiasing' not found" );
-					}
-					else
-					{
-						renderer.window.antialiasing = antialiasing.asBool();
-					}
-				}
-				else
-				{
-					logWARNING( "'settings.renderer.window' not found" );
-				}
-
-				const Json::Value textures_root = renderer_root[ "textures" ];
-				if( !textures_root.empty() )
-				{
-					const Json::Value anisotropic = textures_root[ "anisotropic" ];
-					if( anisotropic.empty() )
-					{
-						logWARNING( "'settings.renderer.textures.anisotropic' not found" );
-					}
-					else
-					{
-						renderer.textures.anisotropic = anisotropic.asUInt();
-					}
-
-					const Json::Value picmip = textures_root[ "picmip" ];
-					if( picmip.empty() )
-					{
-						logWARNING( "'settings.renderer.textures.picmip' not found" );
-					}
-					else
-					{
-						renderer.textures.picmip = picmip.asUInt();
-					}
-				}
-				else
-				{
-					logWARNING( "'settings.renderer.textures' not found" );
-				}
-
-				const Json::Value screenshot_root = renderer_root[ "screenshot" ];
-				if( !screenshot_root.empty() )
-				{
-					const Json::Value format = screenshot_root[ "format" ];
-					if( format.empty() )
-					{
-						logWARNING( "'settings.renderer.screenshot.format' not found" );
-					}
-					else
-					{
-						renderer.screenshot.format = format.asString();
-					}
-
-					const Json::Value scale_factor = screenshot_root[ "scale_factor" ];
-					if( scale_factor.empty() )
-					{
-						logWARNING( "'settings.renderer.screenshot.scale_factor' not found" );
-					}
-					else
-					{
-						renderer.screenshot.scale_factor = scale_factor.asDouble();
-					}
-				}
-				else
-				{
-					logWARNING( "'settings.renderer.screenshot' not found" );
-				}
+				logWARNING( "'settings.renderer.window' not found" );
 			}
 			else
 			{
-				logWARNING( "'settings.renderer' not found" );
-			}
-
-			const Json::Value sound_root = settings_root[ "sound" ];
-			if( !sound_root.empty() )
-			{
-				const Json::Value buffer_size = sound_root[ "buffer_size" ];
-				if( buffer_size.empty() )
+				const auto width = window_root->find( "width" );
+				if( window_root->end() == width )
 				{
-					logWARNING( "'settings.sound.buffer_size' not found" );
+					logWARNING( "'settings.renderer.window.width' not found" );
 				}
 				else
 				{
-					sound.buffer_size = buffer_size.asUInt();
+					renderer.window.size.width = width->get<std::uint32_t>();
 				}
-			}
-			else
-			{
-				logWARNING( "'settings.sound' not found" );
-			}
 
-			const Json::Value input_root = settings_root[ "input" ];
-			if( !input_root.empty() )
-			{
-				const Json::Value controller_file = input_root[ "controller_file" ];
-				if( controller_file.empty() )
+				const auto height = window_root->find( "height" );
+				if( window_root->end() == height )
 				{
-					logWARNING( "'settings.input.controller_file' not found" );
+					logERROR( "'settings.renderer.window.height' not found" );
 				}
 				else
 				{
-					input.controller_file = controller_file.asString();
+					renderer.window.size.height = height->get<std::uint32_t>();
 				}
+
+				renderer.window.aspect_ratio = static_cast< float >( renderer.window.size.width ) / static_cast< float >( renderer.window.size.height );
+
+				const auto fullsreen = window_root->find( "fullscreen" );
+				if( window_root->end() == fullsreen )
+				{
+					logWARNING( "'settings.renderer.window.fullscreen' not found" );
+				}
+				else
+				{
+					renderer.window.fullscreen = fullsreen->get<bool>();
+				}
+
+				const auto vsync = window_root->find( "vsync" );
+				if( window_root->end() == vsync )
+				{
+					logWARNING( "'settings.renderer.window.vsync' not found" );
+				}
+				else
+				{
+					renderer.window.vsync = vsync->get<bool>();
+				}
+
+				const auto gamma = window_root->find( "gamma" );
+				if( window_root->end() == gamma )
+				{
+					logWARNING( "'settings.renderer.window.gamma' not found" );
+				}
+				else
+				{
+					renderer.window.gamma = gamma->get<float>();
+				}
+
+				const auto antialiasing = window_root->find( "antialiasing" );
+				if( window_root->end() == antialiasing )
+				{
+					logWARNING( "'settings.renderer.window.antialiasing' not found" );
+				}
+				else
+				{
+					renderer.window.antialiasing = antialiasing->get<bool>();
+				}
+			}
+
+			const auto textures_root = renderer_root->find( "textures" );
+			if( renderer_root->end() == textures_root )
+			{
+				logWARNING( "'settings.renderer.textures' not found" );
 			}
 			else
 			{
-				logWARNING( "'settings.input' not found" );
+				const auto anisotropic = textures_root->find( "anisotropic" );
+				if( textures_root->end() == anisotropic )
+				{
+					logWARNING( "'settings.renderer.textures.anisotropic' not found" );
+				}
+				else
+				{
+					renderer.textures.anisotropic = anisotropic->get<std::uint8_t>();
+				}
+
+				const auto picmip = textures_root->find( "picmip" );
+				if( textures_root->end() == picmip )
+				{
+					logWARNING( "'settings.renderer.textures.picmip' not found" );
+				}
+				else
+				{
+					renderer.textures.picmip = picmip->get<std::uint8_t>();
+				}
+			}
+
+			const auto screenshot_root = renderer_root->find( "screenshot" );
+			if( renderer_root->end() == screenshot_root )
+			{
+				logWARNING( "'settings.renderer.screenshot' not found" );
+			}
+			else
+			{
+				const auto format = screenshot_root->find( "format" );
+				if( screenshot_root->end() == format )
+				{
+					logWARNING( "'settings.renderer.screenshot.format' not found" );
+				}
+				else
+				{
+					renderer.screenshot.format = format->get<std::string>();
+				}
+
+				const auto scale_factor = screenshot_root->find( "scale_factor" );
+				if( screenshot_root->end() == scale_factor )
+				{
+					logWARNING( "'settings.renderer.screenshot.scale_factor' not found" );
+				}
+				else
+				{
+					renderer.screenshot.scale_factor = scale_factor->get<float>();
+				}
+			}
+		}
+
+		const auto sound_root = settings_root.find( "sound" );
+		if( settings_root.end() == sound_root )
+		{
+			logWARNING( "'settings.sound' not found" );
+		}
+		else
+		{
+			const auto buffer_size = sound_root->find( "buffer_size" );
+			if( sound_root->end() == buffer_size )
+			{
+				logWARNING( "'settings.sound.buffer_size' not found" );
+			}
+			else
+			{
+				sound.buffer_size = buffer_size->get<std::uint16_t>();
+			}
+		}
+
+		const auto input_root = settings_root.find( "input" );
+		if( settings_root.end() == input_root )
+		{
+			logWARNING( "'settings.input' not found" );
+		}
+		else
+		{
+			const auto controller_file = input_root->find( "controller_file" );
+			if( input_root->end() == controller_file )
+			{
+				logWARNING( "'settings.input.controller_file' not found" );
+			}
+			else
+			{
+				input.controller_file = controller_file->get<std::string>();
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 #include "CTextureLoader.hpp"
 
-#include <json/json.h>
+#include "src/ext/json/json.hpp"
+using json = nlohmann::json;
 
 #include <glbinding/Meta.h>
 
@@ -71,29 +72,33 @@ std::shared_ptr< CTexture > CTextureLoader::Create2DTextureFromFile( const std::
 
 std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const std::string &path ) const
 {
-	Json::Value		root;
-	Json::Reader	reader;
-	if ( !reader.parse( m_filesystem.LoadFileToString( path ), root ) )
+	json root;
+
+	try
 	{
-		logWARNING( "failed to parse '{0}' because of {1}", path, reader.getFormattedErrorMessages() );
+		root = json::parse( m_filesystem.LoadFileToString( path ) );
+	}
+	catch( json::parse_error &e )
+	{
+		logWARNING( "failed to parse '{0}' because of {1}", path, e.what() );
 		return( nullptr );
 	}
 
-	const Json::Value json_faces = root[ "faces" ];
+	const auto json_faces = root.find( "faces" );
 
-	if(	json_faces.empty() )
+	if(	json_faces == root.cend() )
 	{
 		logWARNING( "no faces defined in '{0}'", path );
 		return( nullptr );
 	}
-	else if( json_faces.size() < CCubemapData::countCubemapFaces )
+	else if( json_faces->size() < CCubemapData::countCubemapFaces )
 	{
-		logWARNING( "there are only {0} faces defined in '{1}'", json_faces.size(), path );
+		logWARNING( "there are only {0} faces defined in '{1}'", json_faces->size(), path );
 		return( nullptr );
 	}
-	else if( json_faces.size() > CCubemapData::countCubemapFaces )
+	else if( json_faces->size() > CCubemapData::countCubemapFaces )
 	{
-		logWARNING( "there are too many ( {0} ) faces defined in '{1}'", json_faces.size(), path );
+		logWARNING( "there are too many ( {0} ) faces defined in '{1}'", json_faces->size(), path );
 		return( nullptr );
 	}
 
@@ -103,7 +108,7 @@ std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const std
 
 	for( std::uint8_t faceNum = 0; faceNum < CCubemapData::countCubemapFaces; ++faceNum )
 	{
-		const std::string path_to_face = path_to_faces + json_faces[ faceNum ].asString();
+		const std::string path_to_face = path_to_faces + (*json_faces)[ faceNum ].get<std::string>();
 		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path_to_face, m_iMaxCubeMapTextureSize, m_iPicMip, true );
 		if( nullptr == image )
 		{
@@ -114,7 +119,7 @@ std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const std
 		{
 			if( !cubemapData.AddFace( faceNum, image ) )
 			{
-				logWARNING( "failed to add face '{0}' for cubemap '{1}'", json_faces[ faceNum ].asString(), path );
+				logWARNING( "failed to add face '{0}' for cubemap '{1}'", (*json_faces)[ faceNum ].get<std::string>(), path );
 				return( nullptr );
 			}
 		}
@@ -133,22 +138,26 @@ std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const std
 
 std::shared_ptr< CTexture > CTextureLoader::Create2DArrayTextureFromFile( const std::string &path ) const
 {
-	Json::Value		root;
-	Json::Reader	reader;
-	if( !reader.parse( m_filesystem.LoadFileToString( path ), root ) )
+	json root;
+
+	try
 	{
-		logWARNING( "failed to parse '{0}' because of {1}", path, reader.getFormattedErrorMessages() );
+		root = json::parse( m_filesystem.LoadFileToString( path ) );
+	}
+	catch( json::parse_error &e )
+	{
+		logWARNING( "failed to parse '{0}' because of {1}", path, e.what() );
 		return( nullptr );
 	}
 
-	const Json::Value json_layers = root[ "layers" ];
+	const auto json_layers = root.find( "layers" );
 
-	if( json_layers.empty() )
+	if( json_layers == root.cend() )
 	{
 		logWARNING( "no layers defined in '{0}'", path );
 		return( nullptr );
 	}
-	else if( json_layers.size() > UINT8_MAX )
+	else if( json_layers->size() > UINT8_MAX )
 	{
 		logWARNING( "more than the maximum of {0} layers defined in '{1}'", UINT8_MAX, path );
 		return( nullptr );
@@ -158,9 +167,9 @@ std::shared_ptr< CTexture > CTextureLoader::Create2DArrayTextureFromFile( const 
 
 	C2DArrayData arrayData;
 
-	for( const Json::Value &layer : json_layers )
+	for( const auto &layer : (*json_layers) )
 	{
-		const std::string path_to_layer = path_to_layers + layer.asString();
+		const std::string path_to_layer = path_to_layers + layer.get<std::string>();
 		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path_to_layer, m_iMaxTextureSize, m_iPicMip, false );
 
 		if( nullptr == image )
@@ -172,7 +181,7 @@ std::shared_ptr< CTexture > CTextureLoader::Create2DArrayTextureFromFile( const 
 		{
 			if( !arrayData.AddLayer( image ) )
 			{
-				logWARNING( "failed to add layer '{0}' for array texture '{1}'", layer.asString(), path );
+				logWARNING( "failed to add layer '{0}' for array texture '{1}'", layer.get<std::string>(), path );
 				return( nullptr );
 			}
 		}
