@@ -8,7 +8,7 @@
 
 const std::string CEngine::m_name				{ "Inquisitor Engine" };
 const std::uint16_t CEngine::m_version_major	{ 17 };
-const std::uint16_t CEngine::m_version_minor	{ 1 };
+const std::uint16_t CEngine::m_version_minor	{ 3 };
 const std::uint16_t CEngine::m_version_patch	{ 0 };
 const std::string CEngine::m_status				{ "pre-alpha" };
 
