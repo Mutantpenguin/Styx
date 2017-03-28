@@ -10,15 +10,15 @@ CVAO::CVAO( GLenum Mode, const Primitives::SPrimitive &primitive ) :
 	m_mode( Mode ),
 	m_vertexCount( primitive.vertices.size() )
 {
-	assert( m_vertexCount == primitive.normals.size() && m_vertexCount == primitive.texcoords.size() );
+	assert( ( m_vertexCount == primitive.normals.size() ) && ( m_vertexCount == primitive.texcoords.size() ) );
 
-	auto attributeLocationVertex   = static_cast< GLint >( EAttributeLocation::vertex );
-	auto attributeLocationNormal   = static_cast< GLint >( EAttributeLocation::normal );
-	auto attributeLocationTexcoord = static_cast< GLint >( EAttributeLocation::texcoord );
+	const auto attributeLocationVertex   = static_cast< GLint >( EAttributeLocation::vertex );
+	const auto attributeLocationNormal   = static_cast< GLint >( EAttributeLocation::normal );
+	const auto attributeLocationTexcoord = static_cast< GLint >( EAttributeLocation::texcoord );
 
-	auto vertexSize		= sizeof( decltype( primitive.vertices )::value_type );
-	auto normalSize		= sizeof( decltype( primitive.normals )::value_type );
-	auto texcoordSize	= sizeof( decltype( primitive.texcoords )::value_type );
+	const auto vertexSize	= sizeof( decltype( primitive.vertices )::value_type );
+	const auto normalSize	= sizeof( decltype( primitive.normals )::value_type );
+	const auto texcoordSize	= sizeof( decltype( primitive.texcoords )::value_type );
 
 	glCreateVertexArrays( 1, &m_vao );
 
