@@ -5,8 +5,6 @@
 #include "src/ext/fmt/format.h"
 
 #ifdef WIN32
-	#define WIN32_LEAN_AND_MEAN
-	// TODO still needed? #define WINVER 0x0501
 	#include <windows.h>
 #endif
 
@@ -45,16 +43,16 @@ void CLogTargetConsole::Log( const std::unique_ptr< const CLogger::logEntry > &e
 	{
 		switch( level )
 		{
-			case e_loglevel::ERROR :
+			case e_loglevel::eERROR :
 				return( COLOR_ERROR );
 
-			case e_loglevel::WARNING :
+			case e_loglevel::eWARNING :
 				return( COLOR_WARNING );
 
-			case e_loglevel::INFO :
+			case e_loglevel::eINFO :
 				return( COLOR_INFO );
 
-			case e_loglevel::DEBUG :
+			case e_loglevel::eDEBUG :
 				return( COLOR_DEBUG );
 
 			default:

@@ -10,7 +10,7 @@
 
 void CLogTargetMessageBox::Log( const std::unique_ptr< const CLogger::logEntry > &entry )
 {
-	if( e_loglevel::ERROR == entry->m_logLevel )
+	if( e_loglevel::eERROR == entry->m_logLevel )
 	{
 		const SDL_MessageBoxColor color = { 255, 0, 0 };
 

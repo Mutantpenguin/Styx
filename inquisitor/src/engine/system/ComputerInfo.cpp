@@ -12,9 +12,6 @@
 
 
 #ifdef WIN32
-	#define WIN32_LEAN_AND_MEAN
-	// TODO still needed? #define WINVER 0x0501
-	#include <tchar.h>
 	#include <windows.h>
 #else
 	#include <limits>
@@ -38,12 +35,14 @@ namespace ComputerInfo
 			std::string osversion = std::string( "unknown Windows" );
 
 			OSVERSIONINFOEX	osinfo;
-			SYSTEM_INFO		sysinfo;
-			GetSystemInfo( &sysinfo );
+			ZeroMemory( &osinfo, sizeof( OSVERSIONINFOEX ) );
+			osinfo.dwOSVersionInfoSize = sizeof( OSVERSIONINFOEX );
 
-			osinfo.dwOSVersionInfoSize = sizeof( osinfo );
-			if( GetVersionEx( static_cast< OSVERSIONINFO* >( &osinfo ) ) )
+			if( GetVersionEx( reinterpret_cast< OSVERSIONINFO* >( &osinfo ) ) )
 			{
+				SYSTEM_INFO sysinfo;
+				GetSystemInfo( &sysinfo );
+
 				switch( osinfo.dwPlatformId )
 				{
 				case VER_PLATFORM_WIN32_NT :
@@ -206,7 +205,7 @@ namespace ComputerInfo
 						{
 							return FALSE;
 						}
-						lRet = RegQueryValueEx( hKey, TEXT( "ProductType" ), nullptr, nullptr, static_cast< LPBYTE >( szProductType ), &dwBufLen);
+						lRet = RegQueryValueEx( hKey, TEXT( "ProductType" ), nullptr, nullptr, reinterpret_cast< LPBYTE >( szProductType ), &dwBufLen);
 						RegCloseKey( hKey );
 
 						if( ( lRet != ERROR_SUCCESS )
@@ -374,7 +373,7 @@ namespace ComputerInfo
 			{
 				// get processor name
 				valueSize = 1024;
-				if( ERROR_SUCCESS == RegQueryValueEx( hKey, _T( "ProcessorNameString" ), nullptr, nullptr, static_cast< LPBYTE >( &value ), &valueSize ) )
+				if( ERROR_SUCCESS == RegQueryValueEx( hKey, TEXT( "ProcessorNameString" ), nullptr, nullptr, reinterpret_cast< LPBYTE >( &value ), &valueSize ) )
 				{
 					processor = value;
 				}
@@ -387,7 +386,7 @@ namespace ComputerInfo
 
 				// get processor identifier
 				valueSize = 1024;
-				if( ERROR_SUCCESS == RegQueryValueEx( hKey, _T( "Identifier" ), nullptr, nullptr, static_cast< LPBYTE >( &value ), &valueSize ) )
+				if( ERROR_SUCCESS == RegQueryValueEx( hKey, TEXT( "Identifier" ), nullptr, nullptr, reinterpret_cast< LPBYTE >( &value ), &valueSize ) )
 				{
 					processor += value;
 				}
@@ -400,7 +399,7 @@ namespace ComputerInfo
 
 				// get processor vendor
 				valueSize = 1024;
-				if( ERROR_SUCCESS == RegQueryValueEx( hKey, _T( "VendorIdentifier" ), nullptr, nullptr, static_cast< LPBYTE >( &value ), &valueSize ) )
+				if( ERROR_SUCCESS == RegQueryValueEx( hKey, TEXT( "VendorIdentifier" ), nullptr, nullptr, reinterpret_cast< LPBYTE >( &value ), &valueSize ) )
 				{
 					processor += value;
 				}
@@ -413,9 +412,9 @@ namespace ComputerInfo
 
 				// get processor frequence
 				valueSize = 1024;
-				if( ERROR_SUCCESS == RegQueryValueEx( hKey, _T( "~MHz" ), nullptr, nullptr, static_cast< LPBYTE >( &value ), &valueSize ) )
+				if( ERROR_SUCCESS == RegQueryValueEx( hKey, TEXT( "~MHz" ), nullptr, nullptr, reinterpret_cast< LPBYTE >( &value ), &valueSize ) )
 				{
-					processor += std::to_string( *static_cast< int* >( value ), value, 10 );
+					processor += std::to_string( reinterpret_cast< int >( value ) );
 					processor += "MHz";
 
 				}
