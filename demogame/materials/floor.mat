@@ -1,0 +1,14 @@
+{
+	"name"			:	"floor",
+	"polygonmode"	:	"FILL",
+	"shaders"	:	{
+						"vs" : "shaders/vs/standard.vs.glsl",
+						"fs" : "shaders/fs/standard.fs.glsl"
+					},
+	"textures"	:	{
+						"diffuseTexture"		: "textures/texpack_1/senn_floor1.jpg"
+					},
+	"samplers"	:	{
+						"diffuseTexture"	: "REPEAT_2D"
+					}
+}

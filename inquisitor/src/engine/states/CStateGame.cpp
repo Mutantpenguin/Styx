@@ -15,8 +15,8 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 {
 	renderer.SetClearColor( CColor( 0.0f, 0.0f, 4.0f, 0.0f ) );
 
-	m_cameraFree = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 90.0f, 0.1f, 100.0f );
-	m_cameraFree->SetPosition( { 0.0f, 0.0f, 10.0f } );
+	m_cameraFree = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 90.0f, 0.1f, 1000.0f );
+	m_cameraFree->SetPosition( { 0.0f, 10.0f, 10.0f } );
 	m_cameraFree->SetDirection( { 0.0f, 0.0f, -10.0f } );
 
 	m_scene.Camera( m_cameraFree );
@@ -24,6 +24,25 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	soundManager.SetListener( m_cameraFree );
 
 	{
+		// create floor
+		{
+			const auto material = renderer.LoadMaterial( "materials/floor.mat" );
+
+			auto floorMeshPrimitive = Primitives::quad;
+
+			for( auto &coord : floorMeshPrimitive.texcoords )
+			{
+				coord *= 10;
+			}
+
+			const auto floorMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, floorMeshPrimitive, material, glm::vec3( 0.0f, 0.0f, 0.0f ) );
+			floorMesh->SetScale( { 100.0f, 100.0f, 100.0f } );
+			floorMesh->SetOrientation( { -90.0f, 00.0f, 0.0f } );
+
+			m_scene.AddMesh( floorMesh );
+		}
+
+
 		const auto material1 = renderer.LoadMaterial( "materials/schnarf.mat" );
 		const auto materialWaitCursor = renderer.LoadMaterial( "materials/wait_cursor.mat" );
 
@@ -34,13 +53,15 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		//auto material2 = renderer.LoadMaterial( "materials/newscast.mat" );
 		//auto material2 = renderer.LoadMaterial( "textures/texpack_1/killblockgeomtrn.png" );
 
-		m_mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialWaitCursor );
-		m_mesh->SetScale( { 3.0f, 3.0f, 1.0f } );
-		m_scene.AddMesh( m_mesh );
+		m_meshMovable = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialWaitCursor, glm::vec3( 0.0f, 10.0f, 0.0f ) );
+		m_meshMovable->SetScale( { 3.0f, 3.0f, 1.0f } );
+		m_scene.AddMesh( m_meshMovable );
 
-		m_mesh2 = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, glm::vec3( 0.0f, 0.0f, -10.0f ) );
-		m_mesh2->SetScale( { 10.0f, 10.0f, 10.0f } );
-		m_scene.AddMesh( m_mesh2 );
+		{
+			const auto m_mesh2 = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, glm::vec3( 0.0f, 10.0f, -10.0f ) );
+			m_mesh2->SetScale( { 10.0f, 10.0f, 10.0f } );
+			m_scene.AddMesh( m_mesh2 );
+		}
 
 		// create small cube of cubes
 		{
@@ -52,7 +73,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				{
 					for( std::uint16_t k = 0; k < cubeSize; k++ )
 					{
-						const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 20.0f + i * 4.0f, 0.0f + j * 4.0f, -10.0f + k * 4.0f ) );
+						const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, -10.0f + k * 4.0f ) );
 						mesh->SetScale( { 2.0f, 2.0f, 2.0f } );
 
 						m_scene.AddMesh( mesh );
@@ -71,7 +92,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				{
 					for( std::uint16_t k = 0; k < cubeSize; k++ )
 					{
-						const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, glm::vec3( 20.0f + i * 4.0f, 0.0f + j * 4.0f, 50.0f + k * 4.0f ) );
+						const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, glm::vec3( 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f ) );
 						mesh->SetScale( { 2.0f, 2.0f, 2.0f } );
 
 						m_scene.AddMesh( mesh );
@@ -83,7 +104,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	{
 		const auto fireMaterial = renderer.LoadMaterial( "materials/flames.mat" );
-		const auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, fireMaterial, glm::vec3( -5.0f, 0.0f, 1.0f ) );
+		const auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, fireMaterial, glm::vec3( -5.0f, 10.0f, 1.0f ) );
 		mesh->SetScale( { 4.0f, 8.0f, 1.0f } );
 		m_scene.AddMesh( mesh );
 	}
@@ -141,50 +162,50 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 
 	if( input.KeyStillDown( SDL_SCANCODE_KP_6 ) )
 	{
-		glm::vec3 pos = m_mesh->Position();
+		glm::vec3 pos = m_meshMovable->Position();
 		pos.x += spp;
-		m_mesh->SetPosition( pos );
+		m_meshMovable->SetPosition( pos );
 	}
 	if( input.KeyStillDown( SDL_SCANCODE_KP_4 ) )
 	{
-		glm::vec3 pos = m_mesh->Position();
+		glm::vec3 pos = m_meshMovable->Position();
 		pos.x -= spp;
-		m_mesh->SetPosition( pos );
+		m_meshMovable->SetPosition( pos );
 	}
 
 	if( input.KeyStillDown( SDL_SCANCODE_KP_8 ) )
 	{
-		glm::vec3 pos = m_mesh->Position();
+		glm::vec3 pos = m_meshMovable->Position();
 		pos.y += spp;
-		m_mesh->SetPosition( pos );
+		m_meshMovable->SetPosition( pos );
 	}
 	if( input.KeyStillDown( SDL_SCANCODE_KP_2 ) )
 	{
-		glm::vec3 pos = m_mesh->Position();
+		glm::vec3 pos = m_meshMovable->Position();
 		pos.y -= spp;
-		m_mesh->SetPosition( pos );
+		m_meshMovable->SetPosition( pos );
 	}
 
 	if(	input.KeyStillDown( SDL_SCANCODE_KP_PLUS )
 		||
 		input.KeyStillDown( SDL_SCANCODE_PAGEUP ) )
 	{
-		glm::vec3 pos = m_mesh->Position();
+		glm::vec3 pos = m_meshMovable->Position();
 		pos.z += spp;
-		m_mesh->SetPosition( pos );
+		m_meshMovable->SetPosition( pos );
 	}
 	if(	input.KeyStillDown( SDL_SCANCODE_KP_MINUS )
 		||
 		input.KeyStillDown( SDL_SCANCODE_PAGEDOWN ) )
 	{
-		glm::vec3 pos = m_mesh->Position();
+		glm::vec3 pos = m_meshMovable->Position();
 		pos.z -= spp;
-		m_mesh->SetPosition( pos );
+		m_meshMovable->SetPosition( pos );
 	}
 
 	if( input.KeyStillDown( SDL_SCANCODE_KP_5 ) )
 	{
-		m_mesh->SetPosition( glm::vec3() );
+		m_meshMovable->SetPosition( glm::vec3() );
 	}
 
 	/*
@@ -286,7 +307,7 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 
 	if( !input.MouseStillDown( SDL_BUTTON_LEFT) )
 	{
-		m_mesh->SetOrientation( glm::vec3( m_yrot / 2, m_xrot / 2, 0.0f ) );
+		m_meshMovable->SetOrientation( glm::vec3( m_yrot / 2, m_xrot / 2, 0.0f ) );
 	}
 
 	m_rotx_ps = input.MouseDeltaX();

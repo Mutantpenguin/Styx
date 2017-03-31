@@ -23,8 +23,8 @@ private:
 	float	m_rotx_ps = 0.0f;
 	float	m_roty_ps = 0.0f;
 
-	std::shared_ptr< CMesh >	m_mesh;
-	std::shared_ptr< CMesh >	m_mesh2;
+	std::shared_ptr< CMesh >	m_meshMovable;
+
 	std::shared_ptr< CMesh >	m_skyboxMesh;
 };
 

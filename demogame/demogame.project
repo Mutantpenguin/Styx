@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="demogame" InternalType="">
+<CodeLite_Project Name="demogame" InternalType="" Version="10.0.0">
   <Reconciliation>
     <Regexes/>
     <Excludepaths/>
@@ -26,6 +26,7 @@
     <File Name="materials/green.mat"/>
     <File Name="materials/pulse_green_red.mat"/>
     <File Name="materials/superBox.mat"/>
+    <File Name="materials/floor.mat"/>
   </VirtualDirectory>
   <VirtualDirectory Name="meshes">
     <File Name="meshes/cube.dae"/>
