@@ -1,5 +1,7 @@
 #include "ImageHandler.hpp"
 
+#include <algorithm>
+
 #include <FreeImagePlus.h>
 
 #include "src/engine/logger/CLogger.hpp"
@@ -87,8 +89,8 @@ namespace ImageHandler
 				}
 
 				// if width or height are below 1 we can't rescale
-				resizedSize.width	= std::max( static_cast< std::uint32_t >( 1 ), resizedSize.width );
-				resizedSize.height	= std::max( static_cast< std::uint32_t >( 1 ), resizedSize.height );
+				resizedSize.width	= (std::max)( static_cast< std::uint32_t >( 1 ), resizedSize.width );
+				resizedSize.height	= (std::max)( static_cast< std::uint32_t >( 1 ), resizedSize.height );
 
 				if( resize )
 				{

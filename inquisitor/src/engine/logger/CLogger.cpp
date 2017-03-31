@@ -22,16 +22,16 @@ const std::string CLogger::LogLevelToString( e_loglevel level )
 {
 	switch( level )
 	{
-		case e_loglevel::ERROR :
+		case e_loglevel::eERROR :
 			return( "ERROR" );
 
-		case e_loglevel::WARNING :
+		case e_loglevel::eWARNING :
 			return( "WARNING" );
 
-		case e_loglevel::INFO :
+		case e_loglevel::eINFO :
 			return( "INFO" );
 
-		case e_loglevel::DEBUG :
+		case e_loglevel::eDEBUG :
 			return( "DEBUG" );
 
 		default:

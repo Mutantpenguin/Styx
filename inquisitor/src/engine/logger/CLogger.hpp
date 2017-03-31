@@ -12,31 +12,41 @@
 #include "src/engine/logger/LogHelper.hpp"
 
 #ifdef INQ_DEBUG
-	#if 0
-		#define LOG( logLevel, ... ) CLogger::Log( logLevel, fmt::format( "{0}:{1}\nFunction: {2}\nMessage: {3}", __FILE__, __LINE__, LogHelper::prettyFunctionNicer( __PRETTY_FUNCTION__ ), fmt::format( __VA_ARGS__ ) ) );
+	#ifdef __linux__
+		#if 0
+			#define LOG( logLevel, ... ) CLogger::Log( logLevel, fmt::format( "{0}:{1}\nFunction: {2}\nMessage: {3}", __FILE__, __LINE__, LogHelper::prettyFunctionNicer( __PRETTY_FUNCTION__ ), fmt::format( __VA_ARGS__ ) ) );
+		#else
+			#define LOG( logLevel, ... ) CLogger::Log( logLevel, fmt::format( "{0} : {1}", LogHelper::prettyFunctionNicer( __PRETTY_FUNCTION__ ), fmt::format( __VA_ARGS__ ) ) );
+		#endif
+	#elif _WIN32
+		#if 0
+			#define LOG( logLevel, ... ) CLogger::Log( logLevel, fmt::format( "{0}:{1}\nFunction: {2}\nMessage: {3}", __FILE__, __LINE__, __FUNCTION__, fmt::format( __VA_ARGS__ ) ) );
+		#else
+			#define LOG( logLevel, ... ) CLogger::Log( logLevel, fmt::format( "{0} : {1}", __FUNCTION__, fmt::format( __VA_ARGS__ ) ) );
+		#endif
 	#else
-		#define LOG( logLevel, ... ) CLogger::Log( logLevel, fmt::format( "{0} : {1}", LogHelper::prettyFunctionNicer( __PRETTY_FUNCTION__ ), fmt::format( __VA_ARGS__ ) ) );
+		#error "unsupported platform"
 	#endif
 #else
 	#define LOG( logLevel, ... ) CLogger::Log( logLevel, fmt::format( __VA_ARGS__ ) );
 #endif
 
-#define logERROR( ... ) LOG( e_loglevel::ERROR, __VA_ARGS__ );
-#define logWARNING( ... ) LOG( e_loglevel::WARNING, __VA_ARGS__ );
-#define logINFO( ... ) LOG( e_loglevel::INFO, __VA_ARGS__ );
+#define logERROR( ... ) LOG( e_loglevel::eERROR, __VA_ARGS__ );
+#define logWARNING( ... ) LOG( e_loglevel::eWARNING, __VA_ARGS__ );
+#define logINFO( ... ) LOG( e_loglevel::eINFO, __VA_ARGS__ );
 
 #ifdef INQ_DEBUG
-	#define logDEBUG( ... ) LOG( e_loglevel::DEBUG, __VA_ARGS__ );
+	#define logDEBUG( ... ) LOG( e_loglevel::eDEBUG, __VA_ARGS__ );
 #else
 	#define logDEBUG( ... )
 #endif
 
 enum struct e_loglevel : std::uint8_t
 {
-	ERROR,
-	WARNING,
-	INFO,
-	DEBUG
+	eERROR,
+	eWARNING,
+	eINFO,
+	eDEBUG
 };
 
 class CLogger final

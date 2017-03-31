@@ -1,8 +1,6 @@
 #include "CTextureManager.hpp"
 
 #ifdef WIN32
-	#define WIN32_LEAN_AND_MEAN
-	// TODO still needed? #define WINVER 0x0501
 	#include <windows.h>
 #endif
 

@@ -36,7 +36,7 @@ COpenGlAdapter::COpenGlAdapter()
 
 			glDebugMessageCallback(	[]( GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei, const GLchar* message, const void* )
 									{
-										const e_loglevel loglvl = ( GL_DEBUG_SEVERITY_HIGH == severity ) ? e_loglevel::ERROR : e_loglevel::WARNING;
+										const e_loglevel loglvl = ( GL_DEBUG_SEVERITY_HIGH == severity ) ? e_loglevel::eERROR : e_loglevel::eWARNING;
 
 										LOG( loglvl, "OpenGL ERROR" );
 										LOG( loglvl, "\tSource   : {0}", glbinding::Meta::getString( source ) );
