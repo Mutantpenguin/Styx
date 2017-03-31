@@ -280,7 +280,7 @@
         <IncludePath Value="."/>
         <Preprocessor Value="INQ_DEBUG"/>
       </Compiler>
-      <Linker Options="-fsanitize=undefined;-fsanitize=integer;-fsanitize=address; -fsanitize=leak" Required="yes"/>
+      <Linker Options="-fsanitize=undefined;-fsanitize=integer;-fsanitize=address;-fsanitize=leak" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./bin/Debug" Command="./$(ProjectName)" CommandArguments="--gameDirectory ../../../demogame" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
