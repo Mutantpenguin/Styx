@@ -68,7 +68,8 @@ std::shared_ptr< CTexture > CTextureManager::LoadTexture( const std::string &pat
 	else
 	{
 		logWARNING( "failed to create texture from file '{0}'", path );
-		m_textures[ path ] = m_dummyTexture;
-		return( m_dummyTexture );
+		auto newDummy = m_textureLoader.CreateDummyTexture();
+		m_textures[ path ] = newDummy;
+		return( newDummy );
 	}
 }
