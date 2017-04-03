@@ -27,7 +27,7 @@ CTextureLoader::CTextureLoader( const CSettings &p_settings, const CFileSystem &
 }
 
 
-std::shared_ptr< CTexture > CTextureLoader::CreateTextureFromFile( const std::string &path ) const
+std::shared_ptr< CTexture > CTextureLoader::FromFile( const std::string &path ) const
 {
 	// TODO implement loading of compressed images in our own format
 
@@ -42,20 +42,25 @@ std::shared_ptr< CTexture > CTextureLoader::CreateTextureFromFile( const std::st
 
 		if( fileExtension == std::string( "cub" ) )
 		{
-			return( CreateCubeTextureFromFile( path ) );
+			return( FromCubeFile( path ) );
 		}
 		else if( fileExtension == std::string( "arr" ) )
 		{
-			return( Create2DArrayTextureFromFile( path ) );
+			return( From2DArrayFile( path ) );
 		}
 		else
 		{
-			return( Create2DTextureFromFile( path ) );
+			return( FromImageFile( path ) );
 		}
 	}
 }
 
-std::shared_ptr< CTexture > CTextureLoader::Create2DTextureFromFile( const std::string &path ) const
+std::shared_ptr< CTexture > CTextureLoader::FromImage( const std::shared_ptr< const CImage > &image ) const
+{
+	return( std::make_shared< CTexture >( image, m_internalTextureFormat2D ) );
+}
+
+std::shared_ptr< CTexture > CTextureLoader::FromImageFile( const std::string &path ) const
 {
 	const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path, m_iMaxTextureSize, m_iPicMip, false );
 
@@ -66,11 +71,11 @@ std::shared_ptr< CTexture > CTextureLoader::Create2DTextureFromFile( const std::
 	}
 	else
 	{
-		return( std::make_shared< CTexture >( image, m_internalTextureFormat2D ) );
+		return( FromImage( image ) );
 	}
 }
 
-std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const std::string &path ) const
+std::shared_ptr< CTexture > CTextureLoader::FromCubeFile( const std::string &path ) const
 {
 	json root;
 
@@ -136,7 +141,7 @@ std::shared_ptr< CTexture > CTextureLoader::CreateCubeTextureFromFile( const std
 	}
 }
 
-std::shared_ptr< CTexture > CTextureLoader::Create2DArrayTextureFromFile( const std::string &path ) const
+std::shared_ptr< CTexture > CTextureLoader::From2DArrayFile( const std::string &path ) const
 {
 	json root;
 
@@ -190,10 +195,11 @@ std::shared_ptr< CTexture > CTextureLoader::Create2DArrayTextureFromFile( const 
 	return( std::make_shared< CTexture >( arrayData, m_internalTextureFormat2DArray ) );
 }
 
-std::shared_ptr< CTexture > CTextureLoader::CreateDummyTexture( void ) const
+std::shared_ptr< CTexture > CTextureLoader::FromDummy( void ) const
 {
 	// Creates a checkerboard-like dummy-texture
 
+	// TODO only do this once
 	const std::shared_ptr< const CImage > image = ImageHandler::GenerateCheckerImage( CSize( 64, 64 ) );
 
 	if( !image )

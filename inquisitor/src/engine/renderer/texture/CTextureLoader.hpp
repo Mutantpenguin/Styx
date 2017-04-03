@@ -17,13 +17,14 @@ class CTextureLoader final
 private:
 	CTextureLoader( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter );
 
-	std::shared_ptr< CTexture > CreateTextureFromFile( const std::string &path ) const;
+	std::shared_ptr< CTexture > FromFile( const std::string &path ) const;
+	std::shared_ptr< CTexture > FromImage( const std::shared_ptr< const CImage > &image ) const;
 
-	std::shared_ptr< CTexture > Create2DTextureFromFile( const std::string &path ) const;
-	std::shared_ptr< CTexture > CreateCubeTextureFromFile( const std::string &path ) const;
-	std::shared_ptr< CTexture > Create2DArrayTextureFromFile( const std::string &path ) const;
+	std::shared_ptr< CTexture > FromImageFile( const std::string &path ) const;
+	std::shared_ptr< CTexture > FromCubeFile( const std::string &path ) const;
+	std::shared_ptr< CTexture > From2DArrayFile( const std::string &path ) const;
 
-	std::shared_ptr< CTexture > CreateDummyTexture( void ) const;
+	std::shared_ptr< CTexture > FromDummy( void ) const;
 
 private:
 	const CFileSystem &m_filesystem;
