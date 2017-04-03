@@ -63,7 +63,7 @@ catch( CSettings::Exception &e )
 
 CEngine::~CEngine( void )
 {
-	logINFO( "engine terminated" );
+	logINFO( "engine terminated - shutting down all systems" );
 }
 
 

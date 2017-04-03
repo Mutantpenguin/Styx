@@ -2,8 +2,7 @@
 
 #include "src/engine/renderer/CGLState.hpp"
 
-CMaterial::CMaterial( const std::string &name ) :
-	m_name { name }
+CMaterial::CMaterial( void )
 {
 }
 
@@ -41,4 +40,24 @@ const std::unordered_map< GLuint, std::unique_ptr< const CMaterialUniform > > &C
 const std::string &CMaterial::Name( void ) const
 {
 	return( m_name );
+}
+
+void CMaterial::Reset( void )
+{
+	m_name = "";
+
+	m_shader = nullptr;
+
+	m_samplerData.clear();
+
+	m_materialUniforms.clear();
+
+	m_bCullFace		= false;
+	m_cullfacemode	= GL_NONE;
+
+	m_polygonmode	= GL_FILL;
+
+	m_blending	= false;
+	m_blendSrc	= GL_NONE;
+	m_blendDst	= GL_NONE;
 }

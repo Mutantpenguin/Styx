@@ -14,7 +14,7 @@ class CMaterial final
 friend class CMaterialLoader;
 
 public:
-	CMaterial( const std::string &name );
+	CMaterial( void );
 	~CMaterial( void );
 
 	void Setup( void ) const;
@@ -30,7 +30,9 @@ public:
 	const std::string &Name( void ) const;
 
 private:
-	const std::string m_name;
+	void Reset( void );
+
+	std::string m_name;
 
 	std::shared_ptr< const CShaderProgram >	m_shader;
 

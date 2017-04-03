@@ -44,8 +44,6 @@ private:
 
 	const CMaterialLoader m_materialloader;
 
-	const std::shared_ptr< CMaterial > m_dummyMaterial;
-
 	std::unordered_map< std::string, std::shared_ptr< CMaterial > > m_materials;
 };
 

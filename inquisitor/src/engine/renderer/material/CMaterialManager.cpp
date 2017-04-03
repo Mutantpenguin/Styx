@@ -8,14 +8,8 @@ CMaterialManager::CMaterialManager( const CSettings &settings, const CFileSystem
 		m_samplerManager { samplerManager },
 		m_shaderManager( filesystem ),
 		m_textureManager( settings, filesystem, openGlAdapter ),
-		m_materialloader( filesystem, m_textureManager, m_shaderManager, m_samplerManager ),
-		m_dummyMaterial { m_materialloader.CreateDummyMaterial() }
+		m_materialloader( filesystem, m_textureManager, m_shaderManager, m_samplerManager )
 {
-	if( nullptr == m_dummyMaterial )
-	{
-		logERROR( "dummy-material couldn't be generated" );
-		throw Exception();
-	}
 }
 catch( CTextureManager::Exception &e )
 {
@@ -68,6 +62,17 @@ std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &
 		return( it->second );
 	}
 
+	auto newMaterial = std::make_shared< CMaterial >();
+
+	m_materialloader.FromFile( path, newMaterial );
+
+	m_materials[ path ] = newMaterial;
+	return( newMaterial );
+}
+
+/*
+void CMaterialManager::ReloadMaterial( const std::string &path, std::shared_ptr< CMaterial > material )
+{
 	auto temp = m_materialloader.CreateMaterialFromFile( path );
 
 	if( temp )
@@ -83,6 +88,7 @@ std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &
 		return( newDummy );
 	}
 }
+ * */
 
 CShaderManager &CMaterialManager::ShaderManager( void )
 {

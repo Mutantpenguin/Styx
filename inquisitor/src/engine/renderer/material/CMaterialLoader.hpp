@@ -1,6 +1,8 @@
 #ifndef CMATERIALLOADER_HPP
 #define CMATERIALLOADER_HPP
 
+#include <cstdint>
+
 #include "CMaterial.hpp"
 
 #include "src/engine/renderer/shader/CShaderManager.hpp"
@@ -9,18 +11,17 @@
 
 class CMaterialLoader final
 {
-	friend class CMaterialManager;
-
-private:
+public:
 	CMaterialLoader( const CFileSystem &filesystem, CTextureManager &textureManager, CShaderManager &shaderManager, const CSamplerManager &samplerManager );
+	~CMaterialLoader( void );
 
-	std::shared_ptr< CMaterial > CreateMaterialFromFile( const std::string &path ) const;
+	void FromFile( const std::string &path, std::shared_ptr< CMaterial > mat ) const;
 
-	std::shared_ptr< CMaterial > CreateMaterialFromMatFile( const std::string &path ) const;
-
-	std::shared_ptr< CMaterial > CreateDummyMaterial( void ) const;
+	bool FromMatFile( const std::string &path, std::shared_ptr< CMaterial > mat ) const;
 
 private:
+	void FromDummy( std::shared_ptr< CMaterial > mat ) const;
+
 	const CFileSystem &m_filesystem;
 
 	CTextureManager &m_textureManager;
@@ -28,6 +29,8 @@ private:
 	CShaderManager &m_shaderManager;
 
 	const CSamplerManager &m_samplerManager;
+
+	static std::uint16_t m_dummyCounter;
 };
 
 #endif // CMATERIALLOADER_HPP
