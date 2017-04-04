@@ -10,14 +10,8 @@
 
 
 CTextureManager::CTextureManager( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter ) :
-	m_textureLoader( p_settings, p_filesystem, openGlAdapter ),
-	m_dummyTexture { m_textureLoader.FromDummy() }
+	m_textureLoader( p_settings, p_filesystem, openGlAdapter )
 {
-	if( nullptr == m_dummyTexture )
-	{
-		logERROR( "dummy-texture couldn't be generated" );
-		throw Exception();
-	}
 }
 
 CTextureManager::~CTextureManager( void )
@@ -58,18 +52,11 @@ std::shared_ptr< CTexture > CTextureManager::LoadTexture( const std::string &pat
 		return( it->second );
 	}
 
-	auto temp = m_textureLoader.FromFile( path );
+	auto newTexture = std::make_shared< CTexture >();
 
-	if( temp )
-	{
-		m_textures[ path ] = temp;
-		return( temp );
-	}
-	else
-	{
-		logWARNING( "failed to create texture from file '{0}'", path );
-		auto newDummy = m_textureLoader.FromDummy();
-		m_textures[ path ] = newDummy;
-		return( newDummy );
-	}
+	m_textureLoader.FromFile( path, newTexture );
+
+	m_textures[ path ] = newTexture;
+
+	return( newTexture );
 }

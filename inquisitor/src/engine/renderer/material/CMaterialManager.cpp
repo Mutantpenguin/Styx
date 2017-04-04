@@ -11,11 +11,6 @@ CMaterialManager::CMaterialManager( const CSettings &settings, const CFileSystem
 		m_materialloader( filesystem, m_textureManager, m_shaderManager, m_samplerManager )
 {
 }
-catch( CTextureManager::Exception &e )
-{
-	logERROR( "unable to initialize TextureManager" );
-	throw Exception();
-}
 catch( CShaderManager::Exception &e )
 {
 	logERROR( "unable to initialize ShaderManager" );
@@ -67,6 +62,7 @@ std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &
 	m_materialloader.FromFile( path, newMaterial );
 
 	m_materials[ path ] = newMaterial;
+
 	return( newMaterial );
 }
 
@@ -74,6 +70,8 @@ std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &
 void CMaterialManager::ReloadMaterial( const std::string &path, std::shared_ptr< CMaterial > material )
 {
 	auto temp = m_materialloader.CreateMaterialFromFile( path );
+
+	mat->Reset();
 
 	if( temp )
 	{

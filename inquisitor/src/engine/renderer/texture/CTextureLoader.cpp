@@ -1,13 +1,21 @@
 #include "CTextureLoader.hpp"
 
+#include <glm/glm.hpp>
+
 #include "src/ext/json/json.hpp"
 using json = nlohmann::json;
 
+#include "src/engine/renderer/GL.h"
 #include <glbinding/Meta.h>
 
 #include "src/engine/logger/CLogger.hpp"
 
 #include "src/engine/helper/image/ImageHandler.hpp"
+
+#include "src/engine/renderer/GLHelper.hpp"
+
+#include "src/engine/renderer/texture/CCubemapData.hpp"
+#include "src/engine/renderer/texture/C2DArrayData.hpp"
 
 CTextureLoader::CTextureLoader( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter ) :
 	m_filesystem { p_filesystem },
@@ -15,7 +23,8 @@ CTextureLoader::CTextureLoader( const CSettings &p_settings, const CFileSystem &
 	m_iPicMip { std::min( p_settings.renderer.textures.picmip, MAX_TEXTURE_PICMIP ) },
 	m_internalTextureFormat2D { openGlAdapter.PreferredInternalTextureFormat2D() },
 	m_internalTextureFormatCube { openGlAdapter.PreferredInternalTextureFormatCube() },
-	m_internalTextureFormat2DArray { openGlAdapter.PreferredInternalTextureFormat2DArray() }
+	m_internalTextureFormat2DArray { openGlAdapter.PreferredInternalTextureFormat2DArray() },
+	m_dummyImage { ImageHandler::GenerateCheckerImage( CSize( 64, 64 ) ) }
 {
 	// fetch the maximal texture size
 	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &m_iMaxTextureSize );
@@ -24,17 +33,23 @@ CTextureLoader::CTextureLoader( const CSettings &p_settings, const CFileSystem &
 	// fetch the maximal cubemap texture size
 	glGetIntegerv( GL_MAX_CUBE_MAP_TEXTURE_SIZE, &m_iMaxCubeMapTextureSize );
 	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_CUBE_MAP_TEXTURE_SIZE ), m_iMaxCubeMapTextureSize );
+
+	if( !m_dummyImage )
+	{
+		logERROR( "checker-image for the dummy-texture couldn't be generated" );
+		throw std::exception();
+	}
 }
 
 
-std::shared_ptr< CTexture > CTextureLoader::FromFile( const std::string &path ) const
+void CTextureLoader::FromFile( const std::string &path, std::shared_ptr< CTexture > tex ) const
 {
 	// TODO implement loading of compressed images in our own format
 
 	if( !m_filesystem.Exists( path ) )
 	{
 		logWARNING( "'{0}' does not exist", path );
-		return( nullptr );
+		FromDummy( tex );
 	}
 	else
 	{
@@ -42,40 +57,76 @@ std::shared_ptr< CTexture > CTextureLoader::FromFile( const std::string &path ) 
 
 		if( fileExtension == std::string( "cub" ) )
 		{
-			return( FromCubeFile( path ) );
+			if( !FromCubeFile( path, tex ) )
+			{
+				FromDummy( tex );
+			}
 		}
 		else if( fileExtension == std::string( "arr" ) )
 		{
-			return( From2DArrayFile( path ) );
+			if( !From2DArrayFile( path, tex ) )
+			{
+				FromDummy( tex );
+			}
 		}
 		else
 		{
-			return( FromImageFile( path ) );
+			if( !FromImageFile( path, tex ) )
+			{
+				FromDummy( tex );
+			}
 		}
 	}
 }
 
-std::shared_ptr< CTexture > CTextureLoader::FromImage( const std::shared_ptr< const CImage > &image ) const
+void CTextureLoader::FromImage( const std::shared_ptr< const CImage > &image, std::shared_ptr< CTexture > tex ) const
 {
-	return( std::make_shared< CTexture >( image, m_internalTextureFormat2D ) );
+	tex->m_type = CTexture::type::TEX_2D;
+
+	glCreateTextures( GL_TEXTURE_2D, 1, &tex->m_texID );
+
+	const auto &size = image->Size();
+
+	const GLchar maxMipLevel = floor( glm::log2( std::max( size.width, size.height ) ) ) + 1;
+	glTextureParameteri( tex->m_texID, GL_TEXTURE_BASE_LEVEL, 0 );
+	glTextureParameteri( tex->m_texID, GL_TEXTURE_MAX_LEVEL, maxMipLevel );
+
+	glTextureStorage2D(	tex->m_texID,
+						maxMipLevel,
+						static_cast< GLenum >( m_internalTextureFormat2D ),
+						size.width,
+						size.height );
+
+	glTextureSubImage2D(	tex->m_texID,
+							0, // level
+							0, // xoffset
+							0, // yoffset
+							size.width,
+							size.height,
+							GLHelper::GLFormatFromImage( image ),
+							GL_UNSIGNED_BYTE,
+							image->RawPixelData() );
+
+	glGenerateTextureMipmap( tex->m_texID );
 }
 
-std::shared_ptr< CTexture > CTextureLoader::FromImageFile( const std::string &path ) const
+bool CTextureLoader::FromImageFile( const std::string &path, std::shared_ptr< CTexture > tex ) const
 {
 	const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path, m_iMaxTextureSize, m_iPicMip, false );
 
 	if( !image )
 	{
 		logWARNING( "image '{0}' couldn't be loaded", path );
-		return( nullptr );
+		return( false );
 	}
 	else
 	{
-		return( FromImage( image ) );
+		FromImage( image, tex );
+		return( true );
 	}
 }
 
-std::shared_ptr< CTexture > CTextureLoader::FromCubeFile( const std::string &path ) const
+bool CTextureLoader::FromCubeFile( const std::string &path, std::shared_ptr< CTexture > tex ) const
 {
 	json root;
 
@@ -86,7 +137,7 @@ std::shared_ptr< CTexture > CTextureLoader::FromCubeFile( const std::string &pat
 	catch( json::parse_error &e )
 	{
 		logWARNING( "failed to parse '{0}' because of {1}", path, e.what() );
-		return( nullptr );
+		return( false );
 	}
 
 	const auto json_faces = root.find( "faces" );
@@ -94,17 +145,17 @@ std::shared_ptr< CTexture > CTextureLoader::FromCubeFile( const std::string &pat
 	if(	json_faces == root.cend() )
 	{
 		logWARNING( "no faces defined in '{0}'", path );
-		return( nullptr );
+		return( false );
 	}
 	else if( json_faces->size() < CCubemapData::countCubemapFaces )
 	{
 		logWARNING( "there are only {0} faces defined in '{1}'", json_faces->size(), path );
-		return( nullptr );
+		return( false );
 	}
 	else if( json_faces->size() > CCubemapData::countCubemapFaces )
 	{
 		logWARNING( "there are too many ( {0} ) faces defined in '{1}'", json_faces->size(), path );
-		return( nullptr );
+		return( false );
 	}
 
 	const std::string path_to_faces = path.substr( 0, path.find_last_of( CFileSystem::GetDirSeparator() ) + 1 );
@@ -118,30 +169,64 @@ std::shared_ptr< CTexture > CTextureLoader::FromCubeFile( const std::string &pat
 		if( nullptr == image )
 		{
 			logWARNING( "failed to load image '{0}' for cubemap '{1}'", path_to_face, path );
-			return( nullptr );
+			return( false );
 		}
 		else
 		{
 			if( !cubemapData.AddFace( faceNum, image ) )
 			{
 				logWARNING( "failed to add face '{0}' for cubemap '{1}'", (*json_faces)[ faceNum ].get<std::string>(), path );
-				return( nullptr );
+				return( false );
 			}
 		}
 	}
 
 	if( cubemapData.isComplete() )
 	{
-		return( std::make_shared< CTexture >( cubemapData, m_internalTextureFormatCube ) );
+		tex->m_type = CTexture::type::TEX_CUBE_MAP;
+
+		glCreateTextures( GL_TEXTURE_CUBE_MAP, 1, &tex->m_texID );
+
+		glTextureParameteri( tex->m_texID, GL_TEXTURE_BASE_LEVEL, 0 );
+		glTextureParameteri( tex->m_texID, GL_TEXTURE_MAX_LEVEL, 0 );
+
+		const auto faces = cubemapData.getFaces();
+
+		auto &size = faces[ 0 ]->Size();
+
+		glTextureStorage2D(	tex->m_texID,
+							1,
+							static_cast< GLenum >( m_internalTextureFormatCube ),
+							size.width,
+							size.height );
+
+		//for( std::uint8_t faceNum = 0; faceNum < CCubemapData::countCubemapFaces; faceNum++ )
+		std::uint8_t faceNum = 0;
+		for( const auto face : faces )
+		{
+			glTextureSubImage3D(	tex->m_texID,
+									0, // level
+									0, // xoffset
+									0, // yoffset
+									faceNum++, // zoffset
+									face->Size().width,
+									face->Size().height,
+									1, // depth
+									GLHelper::GLFormatFromImage( face ),
+									GL_UNSIGNED_BYTE,
+									face->RawPixelData() );
+		}
+
+		return( true );
 	}
 	else
 	{
 		logWARNING( "incomplete cubemap for '{0}'", path );
-		return( nullptr );
+		return( false );
 	}
 }
 
-std::shared_ptr< CTexture > CTextureLoader::From2DArrayFile( const std::string &path ) const
+bool CTextureLoader::From2DArrayFile( const std::string &path, std::shared_ptr< CTexture > tex ) const
 {
 	json root;
 
@@ -152,7 +237,7 @@ std::shared_ptr< CTexture > CTextureLoader::From2DArrayFile( const std::string &
 	catch( json::parse_error &e )
 	{
 		logWARNING( "failed to parse '{0}' because of {1}", path, e.what() );
-		return( nullptr );
+		return( false );
 	}
 
 	const auto json_layers = root.find( "layers" );
@@ -160,12 +245,12 @@ std::shared_ptr< CTexture > CTextureLoader::From2DArrayFile( const std::string &
 	if( json_layers == root.cend() )
 	{
 		logWARNING( "no layers defined in '{0}'", path );
-		return( nullptr );
+		return( false );
 	}
 	else if( json_layers->size() > UINT8_MAX )
 	{
 		logWARNING( "more than the maximum of {0} layers defined in '{1}'", UINT8_MAX, path );
-		return( nullptr );
+		return( false );
 	}
 
 	const std::string path_to_layers = path.substr( 0, path.find_last_of( CFileSystem::GetDirSeparator() ) + 1 );
@@ -180,35 +265,62 @@ std::shared_ptr< CTexture > CTextureLoader::From2DArrayFile( const std::string &
 		if( nullptr == image )
 		{
 			logWARNING( "failed to load image '{0}' for array texture '{1}'", path_to_layer, path );
-			return( nullptr );
+			return( false );
 		}
 		else
 		{
 			if( !arrayData.AddLayer( image ) )
 			{
 				logWARNING( "failed to add layer '{0}' for array texture '{1}'", layer.get<std::string>(), path );
-				return( nullptr );
+				return( false );
 			}
 		}
 	}
 
-	return( std::make_shared< CTexture >( arrayData, m_internalTextureFormat2DArray ) );
+	tex->m_type = CTexture::type::TEX_2D_ARRAY;
+
+	glCreateTextures( GL_TEXTURE_2D_ARRAY, 1, &tex->m_texID );
+
+	auto const layers = arrayData.getLayers();
+
+	const auto &size = layers[ 0 ]->Size();
+
+	const GLchar maxMipLevel = floor( glm::log2( std::max( size.width, size.height ) ) ) + 1;
+	glTextureParameteri( tex->m_texID, GL_TEXTURE_BASE_LEVEL, 0 );
+	glTextureParameteri( tex->m_texID, GL_TEXTURE_MAX_LEVEL, maxMipLevel );
+
+	glTextureStorage3D(	tex->m_texID,
+						maxMipLevel,
+						static_cast< GLenum >( m_internalTextureFormat2DArray ),
+						size.width,
+						size.height,
+						layers.size() );
+
+	std::uint8_t layerNum = 0;
+	for( const auto layer : layers )
+	{
+		glTextureSubImage3D(	tex->m_texID,
+								0, // level
+								0, // xoffset
+								0, // yoffset
+								layerNum++, // zoffset
+								layer->Size().width,
+								layer->Size().height,
+								1, // depth
+								GLHelper::GLFormatFromImage( layer ),
+								GL_UNSIGNED_BYTE,
+								layer->RawPixelData() );
+	}
+
+	glGenerateTextureMipmap( tex->m_texID );
+
+	return( true );
 }
 
-std::shared_ptr< CTexture > CTextureLoader::FromDummy( void ) const
+void CTextureLoader::FromDummy( std::shared_ptr< CTexture > tex ) const
 {
+	tex->Reset();
+
 	// Creates a checkerboard-like dummy-texture
-
-	// TODO only do this once
-	const std::shared_ptr< const CImage > image = ImageHandler::GenerateCheckerImage( CSize( 64, 64 ) );
-
-	if( !image )
-	{
-		logERROR( "checker-image for the dummy-texture couldn't be generated" );
-		return( nullptr );
-	}
-	else
-	{
-		return( std::make_shared< CTexture >( image, m_internalTextureFormat2D ) );
-	}
+	FromImage( m_dummyImage, tex );
 }

@@ -17,9 +17,9 @@ public:
 
 	void FromFile( const std::string &path, std::shared_ptr< CMaterial > mat ) const;
 
+private:
 	bool FromMatFile( const std::string &path, std::shared_ptr< CMaterial > mat ) const;
 
-private:
 	void FromDummy( std::shared_ptr< CMaterial > mat ) const;
 
 	const CFileSystem &m_filesystem;

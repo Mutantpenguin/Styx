@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "src/engine/helper/image/CImage.hpp"
+
 #include "src/engine/system/CSettings.hpp"
 #include "src/engine/system/CFileSystem.hpp"
 
@@ -12,21 +14,19 @@
 
 class CTextureLoader final
 {
-	friend class CTextureManager;
-
-private:
+public:
 	CTextureLoader( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter );
 
-	std::shared_ptr< CTexture > FromFile( const std::string &path ) const;
-	std::shared_ptr< CTexture > FromImage( const std::shared_ptr< const CImage > &image ) const;
-
-	std::shared_ptr< CTexture > FromImageFile( const std::string &path ) const;
-	std::shared_ptr< CTexture > FromCubeFile( const std::string &path ) const;
-	std::shared_ptr< CTexture > From2DArrayFile( const std::string &path ) const;
-
-	std::shared_ptr< CTexture > FromDummy( void ) const;
+	void FromFile( const std::string &path, std::shared_ptr< CTexture > tex ) const;
+	void FromImage( const std::shared_ptr< const CImage > &image, std::shared_ptr< CTexture > tex ) const;
 
 private:
+	bool FromImageFile( const std::string &path, std::shared_ptr< CTexture > tex ) const;
+	bool FromCubeFile( const std::string &path, std::shared_ptr< CTexture > tex ) const;
+	bool From2DArrayFile( const std::string &path, std::shared_ptr< CTexture > tex ) const;
+
+	void FromDummy( std::shared_ptr< CTexture > tex ) const;
+
 	const CFileSystem &m_filesystem;
 
 	const std::uint8_t m_iPicMip { 0 };
@@ -39,6 +39,8 @@ private:
 	const GLint m_internalTextureFormat2DArray;
 
 	const std::uint8_t MAX_TEXTURE_PICMIP { 4 };
+
+	const std::shared_ptr< const CImage > m_dummyImage;
 };
 
 #endif // CTEXTURELOADER_HPP

@@ -18,18 +18,8 @@ public:
 
 	std::shared_ptr< CTexture > LoadTexture( const std::string &path );
 
-	class Exception: public std::exception
-	{
-	public:
-		explicit Exception( void ) {}
-
-		virtual ~Exception() throw() {}
-	};
-
 private:
 	const CTextureLoader m_textureLoader;
-
-	const std::shared_ptr< CTexture > m_dummyTexture;
 
 	std::unordered_map< std::string, std::shared_ptr< CTexture > > m_textures;
 };
