@@ -147,7 +147,7 @@ namespace ImageHandler
 			{
 				logDEBUG( "resizing image by '{0}'", scale_factor );
 
-				if( !fiImage.rescale( image->Size().width * scale_factor, image->Size().height * scale_factor, FILTER_BSPLINE ) )
+				if( !fiImage.rescale( static_cast< unsigned int >( image->Size().width * scale_factor ), static_cast< unsigned int >( image->Size().height * scale_factor ), FILTER_BSPLINE ) )
 				{
 					logWARNING( "failed to rescale image" );
 					return( false );
