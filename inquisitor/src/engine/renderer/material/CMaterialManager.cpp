@@ -8,7 +8,7 @@ CMaterialManager::CMaterialManager( const CSettings &settings, const CFileSystem
 		m_samplerManager { samplerManager },
 		m_shaderManager( filesystem ),
 		m_textureManager( settings, filesystem, openGlAdapter ),
-		m_materialloader( filesystem, m_textureManager, m_shaderManager, m_samplerManager )
+		m_materialLoader( filesystem, m_textureManager, m_shaderManager, m_samplerManager )
 {
 }
 catch( CShaderManager::Exception &e )
@@ -19,11 +19,11 @@ catch( CShaderManager::Exception &e )
 
 CMaterialManager::~CMaterialManager( void )
 {
-	if( !m_materials.empty() )
+	if( !m_materialFiles.empty() )
 	{
-		logWARNING( "there are still '{0}' existing materials", m_materials.size() );
+		logWARNING( "there are still '{0}' existing materials", m_materialFiles.size() );
 		#ifdef INQ_DEBUG
-		for( const auto material : m_materials )
+		for( const auto material : m_materialFiles )
 		{
 			logDEBUG( "\t{0}", material.first );
 		}
@@ -33,12 +33,12 @@ CMaterialManager::~CMaterialManager( void )
 
 void CMaterialManager::Update( void )
 {
-	for( auto it = std::cbegin( m_materials ); it != std::cend( m_materials ); )
+	for( auto it = std::cbegin( m_materialFiles ); it != std::cend( m_materialFiles ); )
 	{
-		if( it->second.unique() )
+		if( it->second.material.unique() )
 		{
 			logDEBUG( "erasing material: {0}", it->first );
-			m_materials.erase( it++ );
+			m_materialFiles.erase( it++ );
 		}
 		else
 		{
@@ -51,42 +51,45 @@ void CMaterialManager::Update( void )
 
 std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &path )
 {
-	const auto it = m_materials.find( path );
-	if( m_materials.end() != it )
+	const auto it = m_materialFiles.find( path );
+	if( m_materialFiles.end() != it )
 	{
-		return( it->second );
+		return( it->second.material );
 	}
 
 	auto newMaterial = std::make_shared< CMaterial >();
 
-	m_materialloader.FromFile( path, newMaterial );
+	m_materialLoader.FromFile( path, newMaterial );
 
-	m_materials[ path ] = newMaterial;
+	auto &materialFile = m_materialFiles[ path ];
+
+	materialFile.material = newMaterial;
+	materialFile.mtime    = m_filesystem.GetLastModTime( path );
 
 	return( newMaterial );
 }
 
-/*
-void CMaterialManager::ReloadMaterial( const std::string &path, std::shared_ptr< CMaterial > material )
+void CMaterialManager::ReloadMaterials( void )
 {
-	auto temp = m_materialloader.CreateMaterialFromFile( path );
+	m_textureManager.ReloadTextures();
 
-	mat->Reset();
+	logINFO( "reloading materials:" );
 
-	if( temp )
+	for( auto &materialFile : m_materialFiles )
 	{
-		m_materials[ path ] = temp;
-		return( temp );
-	}
-	else
-	{
-		logWARNING( "failed to create material from file '{0}'", path );
-		auto newDummy = m_materialloader.CreateDummyMaterial();
-		m_materials[ path ] = newDummy;
-		return( newDummy );
+		const auto mtime = m_filesystem.GetLastModTime( materialFile.first );
+		if( mtime > materialFile.second.mtime )
+		{
+			logINFO( "    {0}", materialFile.first );
+
+			materialFile.second.material->Reset();
+
+			m_materialLoader.FromFile( materialFile.first, materialFile.second.material );
+
+			materialFile.second.mtime = mtime;
+		}
 	}
 }
- * */
 
 CShaderManager &CMaterialManager::ShaderManager( void )
 {

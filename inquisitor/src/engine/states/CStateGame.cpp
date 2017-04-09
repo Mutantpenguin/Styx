@@ -156,6 +156,13 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 
 	const float spp = 2.0f * m_settings.engine.tick / 1000000;
 
+	// TODO 1: create a way to reload all resources with one function
+	// TODO 2: maybe create a way for systems to hook into the inputsystem, so we can provide globally active keyboard-shortcuts?
+	if( input.KeyDown( SDL_SCANCODE_F8 ) )
+	{
+		renderer.ReloadResources();
+	}
+
 	/*
 	 * move mesh
 	 */

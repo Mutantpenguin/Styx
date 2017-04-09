@@ -12,6 +12,7 @@
 class CMaterial final
 {
 friend class CMaterialLoader;
+friend class CMaterialManager;
 
 public:
 	CMaterial( void );

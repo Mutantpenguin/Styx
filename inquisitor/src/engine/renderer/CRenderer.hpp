@@ -27,6 +27,8 @@ public:
 
 	std::shared_ptr< CImage > GetScreenshot( void ) const;
 
+	void ReloadResources( void );
+
 	std::shared_ptr< CMaterial > LoadMaterial( const std::string &path );
 
 	void	SetClearColor( const CColor &color );
@@ -51,7 +53,7 @@ private:
 	COpenGlAdapter m_OpenGlAdapter;
 
 	CSamplerManager		m_samplerManager;
-	CMaterialManager	m_materialmanager;
+	CMaterialManager	m_materialManager;
 
 	void CreateUniformBuffers( void );
 	void UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const std::uint64_t time ) const;

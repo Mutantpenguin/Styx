@@ -5,7 +5,7 @@
 							"fs" : "shaders/fs/sky.fs.glsl"
 					},
 	"textures"	:	{
-						"skyboxTexture" : "textures/cube/creek/creek.cub"
+						"skyboxTexture" : "textures/cube/sixtine/sixtine.cub"
 					},
 	"samplers"	:	{
 						"skyboxTexture" : "EDGE_CUBE"

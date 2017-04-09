@@ -138,6 +138,9 @@
       <File Name="textures/pause/bg.png"/>
       <File Name="textures/pause/fg.png"/>
     </VirtualDirectory>
+    <VirtualDirectory Name="texpack_2">
+      <File Name="textures/texpack_2/stone_floor.png"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="demogame">
     <File Name="README"/>

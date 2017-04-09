@@ -15,7 +15,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 	try :
 		m_settings { settings },
 		m_samplerManager( settings ),
-		m_materialmanager( settings, filesystem, m_samplerManager, m_OpenGlAdapter )
+		m_materialManager( settings, filesystem, m_samplerManager, m_OpenGlAdapter )
 {
 	glDepthFunc( GL_LEQUAL );
 	glEnable( GL_DEPTH_TEST );
@@ -44,12 +44,12 @@ void CRenderer::CreateUniformBuffers( void )
 									"mat4 viewProjectionMatrix;";
 
 	m_uboCamera = std::make_shared< CUniformBuffer >( ( 2 * sizeof( glm::vec4 ) ) + ( 3 * sizeof( glm::mat4 ) ), GL_DYNAMIC_DRAW, EUniformBufferLocation::CAMERA, "Camera", cameraBody );
-	m_materialmanager.ShaderManager().RegisterUniformBuffer( m_uboCamera );
+	m_materialManager.ShaderManager().RegisterUniformBuffer( m_uboCamera );
 
 	const std::string timerBody = "uint time;";
 
 	m_uboTimer = std::make_shared< CUniformBuffer >( sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::TIME, "Timer", timerBody );
-	m_materialmanager.ShaderManager().RegisterUniformBuffer( m_uboTimer );
+	m_materialManager.ShaderManager().RegisterUniformBuffer( m_uboTimer );
 }
 
 void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const std::uint64_t time ) const
@@ -85,7 +85,7 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &ca
 
 void CRenderer::Update( void )
 {
-	m_materialmanager.Update();
+	m_materialManager.Update();
 }
 
 std::shared_ptr< CImage > CRenderer::GetScreenshot( void ) const
@@ -100,9 +100,14 @@ std::shared_ptr< CImage > CRenderer::GetScreenshot( void ) const
 	return( std::make_shared< CImage >( size, size, true, 24, pitch, std::move( pixels ) ) );
 }
 
+void CRenderer::ReloadResources( void )
+{
+	m_materialManager.ReloadMaterials();
+}
+
 std::shared_ptr< CMaterial > CRenderer::LoadMaterial( const std::string &path )
 {
-	return( m_materialmanager.LoadMaterial( path ) );
+	return( m_materialManager.LoadMaterial( path ) );
 }
 
 void CRenderer::SetClearColor( const CColor &color )

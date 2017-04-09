@@ -6,7 +6,7 @@
 						"fs" : "shaders/fs/standard.fs.glsl"
 					},
 	"textures"	:	{
-						"diffuseTexture"		: "textures/texpack_1/senn_floor1.jpg"
+						"diffuseTexture"		: "textures/texpack_2/stone_floor.png"
 					},
 	"samplers"	:	{
 						"diffuseTexture"	: "REPEAT_2D"

@@ -18,10 +18,20 @@ public:
 
 	std::shared_ptr< CTexture > LoadTexture( const std::string &path );
 
+	void ReloadTextures( void );
+
 private:
+	struct sTextureFile
+	{
+		std::shared_ptr< CTexture >	texture;
+		std::int64_t				mtime;
+	};
+
+	const CFileSystem &m_filesystem;
+
 	const CTextureLoader m_textureLoader;
 
-	std::unordered_map< std::string, std::shared_ptr< CTexture > > m_textures;
+	std::unordered_map< std::string, sTextureFile > m_textureFiles;
 };
 
 #endif // CTEXTUREMANAGER_HPP

@@ -6,6 +6,7 @@
 class CTexture final
 {
 	friend class CTextureLoader;
+	friend class CTextureManager;
 
 public:
 	enum struct type : std::uint8_t

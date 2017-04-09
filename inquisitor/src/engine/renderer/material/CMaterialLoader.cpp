@@ -49,7 +49,6 @@ void CMaterialLoader::FromFile( const std::string &path, std::shared_ptr< CMater
 				if( !FromMatFile( path, mat ) )
 				{
 					FromDummy( mat );
-					return;
 				}
 			}
 			catch( std::exception &e )

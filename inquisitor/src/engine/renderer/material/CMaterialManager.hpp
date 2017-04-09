@@ -1,6 +1,7 @@
 #ifndef CMATERIALMANAGER_HPP
 #define CMATERIALMANAGER_HPP
 
+#include <cstdint>
 #include <unordered_map>
 
 #include "src/engine/renderer/material/CMaterial.hpp"
@@ -26,11 +27,19 @@ public:
 		virtual ~Exception() throw() {}
 	};
 
+	void ReloadMaterials( void );
+
 private:
 	CMaterialManager( const CSettings &settings, const CFileSystem &filesystem, const CSamplerManager &samplerManager, const COpenGlAdapter &openGlAdapter );
 	virtual ~CMaterialManager( void );
 
 	void	Update( void );
+
+	struct sMaterialFile
+	{
+		std::shared_ptr< CMaterial >	material;
+		std::int64_t					mtime;
+	};
 
 private:
 	CShaderManager &ShaderManager( void );
@@ -42,9 +51,9 @@ private:
 	CShaderManager	m_shaderManager;
 	CTextureManager m_textureManager;
 
-	const CMaterialLoader m_materialloader;
+	const CMaterialLoader m_materialLoader;
 
-	std::unordered_map< std::string, std::shared_ptr< CMaterial > > m_materials;
+	std::unordered_map< std::string, sMaterialFile > m_materialFiles;
 };
 
 #endif // CMATERIALMANAGER_HPP
