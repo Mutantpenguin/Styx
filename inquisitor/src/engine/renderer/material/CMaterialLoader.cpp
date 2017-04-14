@@ -363,38 +363,113 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 								}
 								break;
 
+							case GL_FLOAT_VEC2:
+							case GL_FLOAT_VEC3:
 							case GL_FLOAT_VEC4:
 								if( !mat_uniform->is_array() )
 								{
 									logWARNING( "uniform '{0}' in '{1}' is not an array", interface.name, path );
 									return( false );
 								}
-								else if( mat_uniform->size() != 4)
-								{
-									logWARNING( "uniform '{0}' in '{1}' has not enough oder more than needed values", interface.name, path );
-									return( false );
-								}
 								else
 								{
-									const auto value0 = (*mat_uniform)[ 0 ];
-									const auto value1 = (*mat_uniform)[ 1 ];
-									const auto value2 = (*mat_uniform)[ 2 ];
-									const auto value3 = (*mat_uniform)[ 3 ];
-
-									if( !value0.is_number_float()
-										||
-										!value1.is_number_float()
-										||
-										!value2.is_number_float()
-										||
-										!value3.is_number_float() )
+									const std::uint8_t requiredAmountOfValues = [&]
 									{
-										logWARNING( "not all values of uniform '{0}' in '{1}' are floats", interface.name, path );
+										#pragma clang diagnostic push
+										#pragma clang diagnostic ignored "-Wswitch-enum"
+										switch( interface.type )
+										#pragma clang diagnostic pop
+										{
+											case GL_FLOAT_VEC2:
+												return( 2 );
+											case GL_FLOAT_VEC3:
+												return( 3 );
+											case GL_FLOAT_VEC4:
+												return( 4 );
+											default:
+												return( 0 );
+										}
+									}();
+
+									if( mat_uniform->size() != requiredAmountOfValues )
+									{
+										logWARNING( "uniform '{0}' in '{1}' requires {2} values but got {3}", interface.name, path, requiredAmountOfValues, mat_uniform->size() );
 										return( false );
 									}
 									else
 									{
-										mat->m_materialUniforms[ location ] = std::make_unique< CMaterialUniformFLOATVEC4 >( interface.name, glm::vec4( value0.get<float>(), value1.get<float>(), value2.get<float>(), value3.get<float>() ) );
+										switch( requiredAmountOfValues )
+										{
+											case 2:
+												{
+													const auto value0 = (*mat_uniform)[ 0 ];
+													const auto value1 = (*mat_uniform)[ 1 ];
+
+													if( value0.is_number_float()
+														&&
+														value1.is_number_float() )
+													{
+														mat->m_materialUniforms[ location ] = std::make_unique< CMaterialUniformFLOATVEC2 >( interface.name, glm::vec2( value0.get<float>(), value1.get<float>() ) );
+													}
+													else
+													{
+														logWARNING( "not all values of uniform '{0}' in '{1}' are floats", interface.name, path );
+														return( false );
+													}
+												}
+												break;
+
+											case 3:
+												{
+													const auto value0 = (*mat_uniform)[ 0 ];
+													const auto value1 = (*mat_uniform)[ 1 ];
+													const auto value2 = (*mat_uniform)[ 2 ];
+
+													if( value0.is_number_float()
+														&&
+														value1.is_number_float()
+														&&
+														value2.is_number_float() )
+													{
+														mat->m_materialUniforms[ location ] = std::make_unique< CMaterialUniformFLOATVEC3 >( interface.name, glm::vec3( value0.get<float>(), value1.get<float>(), value2.get<float>() ) );
+													}
+													else
+													{
+														logWARNING( "not all values of uniform '{0}' in '{1}' are floats", interface.name, path );
+														return( false );
+													}
+												}
+												break;
+
+											case 4:
+												{
+													const auto value0 = (*mat_uniform)[ 0 ];
+													const auto value1 = (*mat_uniform)[ 1 ];
+													const auto value2 = (*mat_uniform)[ 2 ];
+													const auto value3 = (*mat_uniform)[ 3 ];
+
+													if( value0.is_number_float()
+														&&
+														value1.is_number_float()
+														&&
+														value2.is_number_float()
+														&&
+														value3.is_number_float() )
+													{
+														mat->m_materialUniforms[ location ] = std::make_unique< CMaterialUniformFLOATVEC4 >( interface.name, glm::vec4( value0.get<float>(), value1.get<float>(), value2.get<float>(), value3.get<float>() ) );
+													}
+													else
+													{
+														logWARNING( "not all values of uniform '{0}' in '{1}' are floats", interface.name, path );
+														return( false );
+													}
+												}
+												break;
+
+											default:
+												logWARNING( "unhandled amount of values ('{0}') for uniform {1} in {2}", requiredAmountOfValues, interface.name, path );
+												return( false );
+										}
 									}
 								}
 								break;

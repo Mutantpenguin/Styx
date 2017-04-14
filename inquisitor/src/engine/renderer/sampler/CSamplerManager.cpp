@@ -113,6 +113,7 @@ bool CSamplerManager::SamplerFromString( const std::string &string, std::shared_
 	else
 	{
 		logWARNING( "unknown sampler type '{0}'", string );
+		sampler = nullptr;
 		return( false );
 	}
 

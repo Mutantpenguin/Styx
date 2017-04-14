@@ -422,22 +422,25 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 
 			case GL_FLOAT_MAT3:
 			case GL_FLOAT_MAT4:
+			case GL_FLOAT_VEC2:
 			case GL_FLOAT_VEC3:
 			case GL_FLOAT_VEC4:
 			case GL_UNSIGNED_INT:
 			case GL_INT:
 			case GL_FLOAT:
 				{
-					auto uniformIt = std::find_if(	std::cbegin( engineUniforms ),
-													std::cend( engineUniforms ),
-													[&]( const auto &uniform )
-													{
-														return( uniform.second.name == uniformName );
-													} );
+					const auto engineUniformIt = std::find_if(	std::cbegin( engineUniforms ),
+																std::cend( engineUniforms ),
+																[&]( const auto &uniform )
+																{
+																	return( uniform.second.name == uniformName );
+																} );
 
-					if( std::cend( engineUniforms ) != uniformIt )
+					if( std::cend( engineUniforms ) != engineUniformIt )
 					{
-						const SShaderInterface &uniformInterface = uniformIt->second;
+						// uniform gets provided by the engine
+
+						const SShaderInterface &uniformInterface = engineUniformIt->second;
 						if( uniformInterface.type != uniformType )
 						{
 							logERROR( "uniform '{0}' needs to be of type '{1}' but was declared as '{2}'", uniformName, glbinding::Meta::getString( uniformInterface.type ), glbinding::Meta::getString( uniformType ) );
@@ -445,11 +448,13 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 						}
 						else
 						{
-							shaderProgram->m_requiredEngineUniforms[ uniformLocation ] = uniformIt->first;
+							shaderProgram->m_requiredEngineUniforms[ uniformLocation ] = engineUniformIt->first;
 						}
 					}
 					else
 					{
+						// uniform gets provided by the material
+
 						shaderProgram->m_requiredMaterialUniforms[ uniformLocation ] = { uniformName, uniformType };
 					}
 					break;

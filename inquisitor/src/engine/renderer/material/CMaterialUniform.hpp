@@ -40,6 +40,27 @@ private:
 	const glm::uint m_value;
 };
 
+class CMaterialUniformFLOATVEC2 final : public CMaterialUniform
+{
+public:
+	CMaterialUniformFLOATVEC2( const std::string &name, const glm::vec2 &values );
+
+	void Set( const GLuint location ) const override;
+
+private:
+	const glm::vec2 m_values;
+};
+
+class CMaterialUniformFLOATVEC3 final : public CMaterialUniform
+{
+public:
+	CMaterialUniformFLOATVEC3( const std::string &name, const glm::vec3 &values );
+
+	void Set( const GLuint location ) const override;
+
+private:
+	const glm::vec3 m_values;
+};
 
 class CMaterialUniformFLOATVEC4 final : public CMaterialUniform
 {

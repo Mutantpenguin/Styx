@@ -34,6 +34,27 @@ void CMaterialUniformUINT::Set( const GLuint location ) const
 	glUniform1ui( location, m_value );
 }
 
+CMaterialUniformFLOATVEC2::CMaterialUniformFLOATVEC2( const std::string &name, const glm::vec2 &values ) :
+	CMaterialUniform( name ),
+	m_values { values }
+{
+};
+
+void CMaterialUniformFLOATVEC2::Set( const GLuint location ) const
+{
+	glUniform2fv( location, 1, glm::value_ptr( m_values ) );
+}
+
+CMaterialUniformFLOATVEC3::CMaterialUniformFLOATVEC3( const std::string &name, const glm::vec3 &values ) :
+	CMaterialUniform( name ),
+	m_values { values }
+{
+};
+
+void CMaterialUniformFLOATVEC3::Set( const GLuint location ) const
+{
+	glUniform3fv( location, 1, glm::value_ptr( m_values ) );
+}
 
 CMaterialUniformFLOATVEC4::CMaterialUniformFLOATVEC4( const std::string &name, const glm::vec4 &values ) :
 	CMaterialUniform( name ),
