@@ -152,8 +152,8 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) con
 		// static queues so whe don't need to allocate new memory on every frame
 		// get cleared at the end of this function
 
-		static TRenderQueue renderQueueOpaque;
-		static TRenderQueue renderQueueTranslucent;
+		static TRenderQueueMaterials renderQueueMaterialsOpaque;
+		static TRenderQueueMeshes renderQueueMaterialsTranslucent;
 
 		for( const std::shared_ptr< const CMesh > &mesh : scene.Meshes() )
 		{
@@ -161,74 +161,40 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) con
 			{
 				if( mesh->Material()->Blending() )
 				{
-					renderQueueTranslucent.push_back( mesh.get() );
+					renderQueueMaterialsTranslucent.push_back( mesh.get() );
 				}
 				else
 				{
-					renderQueueOpaque.push_back( mesh.get() );
+					renderQueueMaterialsOpaque[ mesh->Material().get() ].push_back( mesh.get() );
 				}
 			}
 		}
 
-		const glm::vec3 &cameraPosition = camera->Position();
 		const glm::mat4 viewProjectionMatrix = camera->CalculateViewProjectionMatrix();
 
-		// sort opaque front to back
-		std::sort( std::begin( renderQueueOpaque ), std::end( renderQueueOpaque ),	[&]( const CMesh * const a, const CMesh * const b ) -> bool
-																					{
-																						return( glm::length2( a->Position() - cameraPosition ) < glm::length2( b->Position() - cameraPosition ) );
-																					} );
+		RenderQueueMaterials( renderQueueMaterialsOpaque, viewProjectionMatrix );
+
+		renderQueueMaterialsOpaque.clear();
+
+		const glm::vec3 &cameraPosition = camera->Position();
 
 		// sort translucent back to front
-		std::sort( std::begin( renderQueueTranslucent ), std::end( renderQueueTranslucent ),	[&]( const CMesh * const a, const CMesh * const b ) -> bool
-																								{
-																									return( glm::length2( a->Position() - cameraPosition ) > glm::length2( b->Position() - cameraPosition ) );
-																								} );
+		std::sort( std::begin( renderQueueMaterialsTranslucent ), std::end( renderQueueMaterialsTranslucent ),	[&]( const CMesh * const a, const CMesh * const b ) -> bool
+																												{
+																													return( glm::length2( a->Position() - cameraPosition ) > glm::length2( b->Position() - cameraPosition ) );
+																												} );
 
-		for( const CMesh * const mesh : renderQueueOpaque )
-		{
-			RenderMesh( viewProjectionMatrix, mesh );
-		}
+		RenderQueueMeshes( renderQueueMaterialsTranslucent, viewProjectionMatrix );
 
-		for( const CMesh * const mesh : renderQueueTranslucent )
-		{
-			RenderMesh( viewProjectionMatrix, mesh );
-		}
-
-		renderQueueOpaque.clear();
-		renderQueueTranslucent.clear();
+		renderQueueMaterialsTranslucent.clear();
 	}
 }
 
-void CRenderer::RenderMesh( const glm::mat4 &viewProjectionMatrix, const CMesh * const mesh ) const
+void CRenderer::SetupMaterial( const CMaterial * const material ) const
 {
-	const std::shared_ptr< const CMaterial > material = mesh->Material();
-
 	material->Setup();
 
-	const CVAO &vao = mesh->VAO();
-
-	vao.Bind();
-
-	const auto shader = material->Shader();
-
-	shader->Use();
-
-	for( const auto &requiredEngineUniform : shader->RequiredEngineUniforms() )
-	{
-		const auto location = requiredEngineUniform.first;
-
-		switch( requiredEngineUniform.second )
-		{
-			case EEngineUniform::modelViewProjectionMatrix:
-				glUniformMatrix4fv( location, 1, GL_FALSE, &( viewProjectionMatrix * mesh->ModelMatrix() )[ 0 ][ 0 ] );
-				break;
-
-			case EEngineUniform::modelMatrix:
-				glUniformMatrix4fv( location, 1, GL_FALSE, &mesh->ModelMatrix()[ 0 ][ 0 ] );
-				break;
-		}
-	}
+	material->Shader()->Use();
 
 	std::uint8_t textureUnit = 0;
 	for( const auto &samplerData : material->SamplerData() )
@@ -248,6 +214,60 @@ void CRenderer::RenderMesh( const glm::mat4 &viewProjectionMatrix, const CMesh *
 
 		uniform.second->Set( location );
 	}
+}
+
+void CRenderer::RenderQueueMeshes( const TRenderQueueMeshes &queueMeshes, const glm::mat4 &viewProjectionMatrix ) const
+{
+	for( const auto * queueMesh : queueMeshes )
+	{
+		const CMaterial * const material = queueMesh->Material().get();
+
+		SetupMaterial( material );
+
+		const auto shader = material->Shader().get();
+
+		RenderMesh( queueMesh, viewProjectionMatrix, shader );
+	}
+}
+
+void CRenderer::RenderQueueMaterials( const TRenderQueueMaterials &queueMaterials, const glm::mat4 &viewProjectionMatrix ) const
+{
+	for( const auto &queueMaterial : queueMaterials )
+	{
+		const CMaterial * const material = queueMaterial.first;
+
+		SetupMaterial( material );
+
+		const auto shader = material->Shader().get();
+
+		for( const auto * mesh : queueMaterial.second )
+		{
+			RenderMesh( mesh, viewProjectionMatrix, shader );
+		}
+	}
+}
+
+void CRenderer::RenderMesh( const CMesh * const mesh, const glm::mat4 &viewProjectionMatrix, const CShaderProgram * const shader ) const
+{
+	for( const auto &requiredEngineUniform : shader->RequiredEngineUniforms() )
+	{
+		const auto location = requiredEngineUniform.first;
+
+		switch( requiredEngineUniform.second )
+		{
+			case EEngineUniform::modelViewProjectionMatrix:
+				glUniformMatrix4fv( location, 1, GL_FALSE, &( viewProjectionMatrix * mesh->ModelMatrix() )[ 0 ][ 0 ] );
+				break;
+
+			case EEngineUniform::modelMatrix:
+				glUniformMatrix4fv( location, 1, GL_FALSE, &mesh->ModelMatrix()[ 0 ][ 0 ] );
+				break;
+		}
+	}
+
+	const CVAO &vao = mesh->VAO();
+
+	vao.Bind();
 
 	vao.Draw();
 }

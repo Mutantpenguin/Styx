@@ -237,7 +237,7 @@
         <File Name="src/ext/stb/stb_rect_pack.h"/>
         <File Name="src/ext/stb/stb_textedit.h"/>
         <File Name="src/ext/stb/stb_truetype.h"/>
-        <File Name="src/ext/stb/stb_vorbis.c" ExcludeProjConfig="Debug"/>
+        <File Name="src/ext/stb/stb_vorbis.c" ExcludeProjConfig="Debug;Profile;Release"/>
       </VirtualDirectory>
       <VirtualDirectory Name="json">
         <File Name="src/ext/json/json.hpp"/>
