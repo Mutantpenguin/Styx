@@ -1,0 +1,19 @@
+{
+	"name"			:	"pause",
+	"cullmode"		:	"BACK",
+	"polygonmode"	:	"FILL",
+	"blending"		:	{
+							"src"	: "ONE",
+							"dst"	: "ONE_MINUS_SRC_ALPHA"
+						},
+	"shaders"		:	{
+							"vs" : "shaders/vs/pause_text.vs.glsl",
+							"fs" : "shaders/fs/pause_text.fs.glsl"
+						},
+	"textures"		:	{
+							"fgTexture" : "textures/pause/fg.png"
+						},
+	"samplers"		:	{
+							"fgTexture" : "EDGE_2D"
+						}
+}

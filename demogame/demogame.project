@@ -22,11 +22,12 @@
     <File Name="materials/intro_icon.mat"/>
     <File Name="materials/blue.mat"/>
     <File Name="materials/red.mat"/>
-    <File Name="materials/pause.mat"/>
     <File Name="materials/green.mat"/>
     <File Name="materials/pulse_green_red.mat"/>
     <File Name="materials/superBox.mat"/>
     <File Name="materials/floor.mat"/>
+    <File Name="materials/pause_bg.mat"/>
+    <File Name="materials/pause_text.mat"/>
   </VirtualDirectory>
   <VirtualDirectory Name="meshes">
     <File Name="meshes/cube.dae"/>
@@ -53,14 +54,17 @@
       <File Name="shaders/fs/superBox.fs.glsl"/>
       <File Name="shaders/fs/schnarf.fs.glsl"/>
       <File Name="shaders/fs/wait_cursor.fs.glsl"/>
+      <File Name="shaders/fs/pause_bg.fs.glsl"/>
+      <File Name="shaders/fs/pause_text.fs.glsl"/>
     </VirtualDirectory>
     <VirtualDirectory Name="vs">
       <File Name="shaders/vs/reflection.vs.glsl"/>
       <File Name="shaders/vs/sky.vs.glsl"/>
       <File Name="shaders/vs/standard.vs.glsl"/>
-      <File Name="shaders/vs/pause.vs.glsl"/>
       <File Name="shaders/vs/superBox.vs.glsl"/>
       <File Name="shaders/vs/wait_cursor.vs.glsl"/>
+      <File Name="shaders/vs/pause_bg.vs.glsl"/>
+      <File Name="shaders/vs/pause_text.vs.glsl"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="textures">

@@ -67,6 +67,7 @@ private:
 
 	std::shared_ptr< CUniformBuffer > m_uboCamera;
 	std::shared_ptr< CUniformBuffer > m_uboTimer;
+	std::shared_ptr< CUniformBuffer > m_uboScreen;
 };
 
 #endif // CRENDERER_HPP

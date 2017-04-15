@@ -1,0 +1,23 @@
+{
+	"name"			:	"pause",
+	"cullmode"		:	"BACK",
+	"polygonmode"	:	"FILL",
+	"blending"		:	{
+							"src"	: "ONE",
+							"dst"	: "ONE_MINUS_SRC_ALPHA"
+						},
+	"shaders"		:	{
+							"vs" : "shaders/vs/pause_bg.vs.glsl",
+							"fs" : "shaders/fs/pause_bg.fs.glsl"
+						},
+	"textures"		:	{
+							"bgTexture" : "textures/pause/bg.png"
+						},
+	"samplers"		:	{
+							"bgTexture" : "REPEAT_2D"
+						},
+	"uniforms"		:	{
+							"bgRadsPerSecond" : 0.349066,
+							"bgScale" : [ 0.25, 0.25 ]
+						}
+}

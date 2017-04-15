@@ -9,16 +9,15 @@
 	"textures"	:	{
 						"bgTexture"		: "textures/texpack_1/mybitmap.bmp",
 						"fgTexture"		: "textures/texpack_1/senn_icyfangrate.tga",
-						"skyBoxTexture"	: "textures/cube/creek/creek.cub"
+						"skyBoxTexture"	: "textures/cube/sixtine/sixtine.cub"
 					},
 	"samplers"	:	{
 						"bgTexture"	: "REPEAT_2D",
 						"fgTexture"	: "REPEAT_2D"
 					},
 	"uniforms"	:	{
-						"bgRadsPerSecond" : 0.349066,
-						"bgScaleU" : 0.25,
-						"bgScaleV" : 0.5,
-						"fgRadsPerSecond" : -0.174533
+						"bgRadsPerSecond"	: 0.349066,
+						"bgScale"			: [ 0.25 ,0.5 ],
+						"fgRadsPerSecond"	: -0.174533
 					}
 }

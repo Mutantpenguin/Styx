@@ -4,7 +4,8 @@
 enum class EUniformBufferLocation : GLuint
 {
 	CAMERA = 0,
-	TIME = 1
+	TIME = 1,
+	SCREEN
 };
 
 #endif // EUNIFORMBUFFERLOCATIONS_HPP

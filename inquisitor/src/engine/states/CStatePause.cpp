@@ -8,10 +8,28 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	CState( "pause", filesystem, settings ),
 	m_state { state }
 {
-	auto materialPause = renderer.LoadMaterial( "materials/pause.mat" );
+	{
+		const auto materialPause = renderer.LoadMaterial( "materials/pause_bg.mat" );
+		const auto screenMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialPause );
+		m_scene.AddMesh( screenMesh );
+	}
 
-	auto screenMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialPause );
-	m_scene.AddMesh( screenMesh );
+	{
+		const auto materialPauseText = renderer.LoadMaterial( "materials/pause_text.mat" );
+
+		auto pauseTextMeshPrimitive = Primitives::quad;
+
+		for( auto &coord : pauseTextMeshPrimitive.vertices )
+		{
+			coord.x *= 0.25f;
+			coord.y *= 0.25f;
+			coord.z += 1.0f;
+		}
+
+		auto screenMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, pauseTextMeshPrimitive, materialPauseText );
+
+		m_scene.AddMesh( screenMesh );
+	}
 
 	auto camera = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 90.0f, 0.1f, 100.0f );
 	camera->SetPosition( { 0.0f, 0.0f, 5.0f } );

@@ -1,8 +1,7 @@
 uniform float bgRadsPerSecond;
 uniform float fgRadsPerSecond;
 
-uniform float bgScaleU;
-uniform float bgScaleV;
+uniform vec2 bgScale;
 
 out vec3 Normal;
 out vec3 Position;
@@ -25,10 +24,10 @@ void main()
 	const float fgAngleCos = cos( fgAngle );
 	const float fgAngleSin = sin( fgAngle );
 
-	const mat2 bgScale = mat2(	1.0f / bgScaleU,	0.0f,
-								0.0f,				1.0f / bgScaleV );
+	const mat2 bgScaleMat = mat2(	1.0f / bgScale.s,	0.0f,
+									0.0f,				1.0f / bgScale.t );
 
-	UVbg = ( ( mat2( bgAngleCos, bgAngleSin, -bgAngleSin, bgAngleCos  ) * ( texcoord - translation ) ) * bgScale ) + translation;
+	UVbg = ( ( mat2( bgAngleCos, bgAngleSin, -bgAngleSin, bgAngleCos  ) * ( texcoord - translation ) ) * bgScaleMat ) + translation;
 
 	UVfg = ( mat2( fgAngleCos, fgAngleSin, -fgAngleSin, fgAngleCos  ) * ( texcoord - translation ) ) + translation;
 

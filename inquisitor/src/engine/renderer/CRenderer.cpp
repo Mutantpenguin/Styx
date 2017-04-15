@@ -37,19 +37,34 @@ catch( COpenGlAdapter::Exception &e )
 
 void CRenderer::CreateUniformBuffers( void )
 {
-	const std::string cameraBody =	"vec3 position;" \
-									"vec3 direction;" \
-									"mat4 projectionMatrix;" \
-									"mat4 viewMatrix;" \
-									"mat4 viewProjectionMatrix;";
+	{
+		const std::string cameraBody =	"vec3 position;" \
+										"vec3 direction;" \
+										"mat4 projectionMatrix;" \
+										"mat4 viewMatrix;" \
+										"mat4 viewProjectionMatrix;";
 
-	m_uboCamera = std::make_shared< CUniformBuffer >( ( 2 * sizeof( glm::vec4 ) ) + ( 3 * sizeof( glm::mat4 ) ), GL_DYNAMIC_DRAW, EUniformBufferLocation::CAMERA, "Camera", cameraBody );
-	m_materialManager.ShaderManager().RegisterUniformBuffer( m_uboCamera );
+		m_uboCamera = std::make_shared< CUniformBuffer >( ( 2 * sizeof( glm::vec4 ) ) + ( 3 * sizeof( glm::mat4 ) ), GL_DYNAMIC_DRAW, EUniformBufferLocation::CAMERA, "Camera", cameraBody );
+		m_materialManager.ShaderManager().RegisterUniformBuffer( m_uboCamera );
+	}
 
-	const std::string timerBody = "uint time;";
+	{
+		const std::string timerBody = "uint time;";
 
-	m_uboTimer = std::make_shared< CUniformBuffer >( sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::TIME, "Timer", timerBody );
-	m_materialManager.ShaderManager().RegisterUniformBuffer( m_uboTimer );
+		m_uboTimer = std::make_shared< CUniformBuffer >( sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::TIME, "Timer", timerBody );
+		m_materialManager.ShaderManager().RegisterUniformBuffer( m_uboTimer );
+	}
+
+	{
+		const std::string screenBody = 	"uint width;" \
+										"uint height;";
+
+		m_uboScreen = std::make_shared< CUniformBuffer >( 2 * sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::SCREEN, "Screen", screenBody );
+		m_materialManager.ShaderManager().RegisterUniformBuffer( m_uboScreen );
+
+		m_uboScreen->SubData( 0,					sizeof( glm::uint ), &m_settings.renderer.window.size.width );
+		m_uboScreen->SubData( sizeof( glm::uint ),	sizeof( glm::uint ), &m_settings.renderer.window.size.height );
+	}
 }
 
 void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const std::uint64_t time ) const

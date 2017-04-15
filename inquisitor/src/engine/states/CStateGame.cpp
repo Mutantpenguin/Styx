@@ -16,6 +16,8 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	renderer.SetClearColor( CColor( 0.0f, 0.0f, 4.0f, 0.0f ) );
 
 	m_cameraFree = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 90.0f, 0.1f, 1000.0f );
+	// TODO when the FOV is not 90, strange things happen
+	//m_cameraFree = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 91.0f, 0.1f, 1000.0f );
 	m_cameraFree->SetPosition( { 0.0f, 10.0f, 10.0f } );
 	m_cameraFree->SetDirection( { 0.0f, 0.0f, -10.0f } );
 
@@ -23,63 +25,65 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	soundManager.SetListener( m_cameraFree );
 
+	// create floor
 	{
-		// create floor
+		const auto material = renderer.LoadMaterial( "materials/floor.mat" );
+
+		auto floorMeshPrimitive = Primitives::quad;
+
+		for( auto &coord : floorMeshPrimitive.texcoords )
 		{
-			const auto material = renderer.LoadMaterial( "materials/floor.mat" );
-
-			auto floorMeshPrimitive = Primitives::quad;
-
-			for( auto &coord : floorMeshPrimitive.texcoords )
-			{
-				coord *= 10;
-			}
-
-			const auto floorMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, floorMeshPrimitive, material, glm::vec3( 0.0f, 0.0f, 0.0f ) );
-			floorMesh->SetScale( { 100.0f, 100.0f, 100.0f } );
-			floorMesh->SetOrientation( { -90.0f, 00.0f, 0.0f } );
-
-			m_scene.AddMesh( floorMesh );
+			coord *= 10;
 		}
 
+		const auto floorMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, floorMeshPrimitive, material, glm::vec3( 0.0f, 0.0f, 0.0f ) );
+		floorMesh->SetScale( { 100.0f, 100.0f, 100.0f } );
+		floorMesh->SetOrientation( { -90.0f, 00.0f, 0.0f } );
 
-		const auto material1 = renderer.LoadMaterial( "materials/schnarf.mat" );
+		m_scene.AddMesh( floorMesh );
+	}
+
+	//auto material2 = renderer.LoadMaterial( "materials/flames.mat" );
+	//auto material2 = renderer.LoadMaterial( "materials/texture_from_zip.mat" );
+	//auto material2 = renderer.LoadMaterial( "materials/newscast.mat" );
+	//auto material2 = renderer.LoadMaterial( "textures/texpack_1/killblockgeomtrn.png" );
+
+	{
 		const auto materialWaitCursor = renderer.LoadMaterial( "materials/wait_cursor.mat" );
 
-		const auto materialSuperBox = renderer.LoadMaterial( "materials/superBox.mat" );
-
-		//auto material2 = renderer.LoadMaterial( "materials/flames.mat" );
-		//auto material2 = renderer.LoadMaterial( "materials/texture_from_zip.mat" );
-		//auto material2 = renderer.LoadMaterial( "materials/newscast.mat" );
-		//auto material2 = renderer.LoadMaterial( "textures/texpack_1/killblockgeomtrn.png" );
-
-		m_meshMovable = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialWaitCursor, glm::vec3( 0.0f, 10.0f, 0.0f ) );
+		m_meshMovable = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialWaitCursor, glm::vec3( 0.0f, 10.0f, 20.0f ) );
 		m_meshMovable->SetScale( { 3.0f, 3.0f, 1.0f } );
 		m_scene.AddMesh( m_meshMovable );
+	}
+
+	// create small cube of cubes
+	{
+		const auto material1 = renderer.LoadMaterial( "materials/schnarf.mat" );
+
+		const std::uint16_t cubeSize { 4 };
+
+		for( std::uint16_t i = 0; i < cubeSize; i++ )
+		{
+			for( std::uint16_t j = 0; j < cubeSize; j++ )
+			{
+				for( std::uint16_t k = 0; k < cubeSize; k++ )
+				{
+					const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, -10.0f + k * 4.0f ) );
+					mesh->SetScale( { 2.0f, 2.0f, 2.0f } );
+
+					m_scene.AddMesh( mesh );
+				}
+			}
+		}
+	}
+
+	{
+		const auto materialSuperBox = renderer.LoadMaterial( "materials/superBox.mat" );
 
 		{
 			const auto m_mesh2 = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, glm::vec3( 0.0f, 10.0f, -10.0f ) );
 			m_mesh2->SetScale( { 10.0f, 10.0f, 10.0f } );
 			m_scene.AddMesh( m_mesh2 );
-		}
-
-		// create small cube of cubes
-		{
-			const std::uint16_t cubeSize { 4 };
-
-			for( std::uint16_t i = 0; i < cubeSize; i++ )
-			{
-				for( std::uint16_t j = 0; j < cubeSize; j++ )
-				{
-					for( std::uint16_t k = 0; k < cubeSize; k++ )
-					{
-						const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, -10.0f + k * 4.0f ) );
-						mesh->SetScale( { 2.0f, 2.0f, 2.0f } );
-
-						m_scene.AddMesh( mesh );
-					}
-				}
-			}
 		}
 
 		// create big cube of cubes
@@ -118,9 +122,9 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	{
 		const auto pulseMaterial = renderer.LoadMaterial( "materials/pulse_green_red.mat" );
-		const auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, pulseMaterial, glm::vec3( 0.0f, 10.0f, 1.0f ) );
-		mesh->SetScale( { 2.0f, 2.0f, 1.0f } );
-		m_scene.AddMesh( mesh );
+		m_pulseMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, pulseMaterial, glm::vec3( 0.0f, 10.0f, 1.0f ) );
+		m_pulseMesh->SetScale( { 2.0f, 2.0f, 1.0f } );
+		m_scene.AddMesh( m_pulseMesh );
 	}
 
 	{
@@ -138,8 +142,8 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	}
 
 	// TODO port to SoundManager or something like this
-	const auto testSound = soundManager.Load( "music/rise_of_spirit.ogg" );
-	soundManager.Play( testSound );
+	//const auto testSound = soundManager.Load( "music/rise_of_spirit.ogg" );
+	//soundManager.Play( testSound );
 }
 
 CStateGame::~CStateGame()
@@ -164,7 +168,16 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 	}
 
 	/*
-	 * move mesh
+	 * move pulseMesh
+	 */
+	{
+		auto pos = m_pulseMesh->Position();
+		pos.y = 10.0f + ( sin( time / 2000000.0 ) * 5.0f );
+		m_pulseMesh->SetPosition( pos );
+	}
+
+	/*
+	 * move meshMovable
 	 */
 
 	if( input.KeyStillDown( SDL_SCANCODE_KP_6 ) )
@@ -193,17 +206,13 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 		m_meshMovable->SetPosition( pos );
 	}
 
-	if(	input.KeyStillDown( SDL_SCANCODE_KP_PLUS )
-		||
-		input.KeyStillDown( SDL_SCANCODE_PAGEUP ) )
+	if( input.KeyStillDown( SDL_SCANCODE_KP_PLUS ) )
 	{
 		glm::vec3 pos = m_meshMovable->Position();
 		pos.z += spp;
 		m_meshMovable->SetPosition( pos );
 	}
-	if(	input.KeyStillDown( SDL_SCANCODE_KP_MINUS )
-		||
-		input.KeyStillDown( SDL_SCANCODE_PAGEDOWN ) )
+	if( input.KeyStillDown( SDL_SCANCODE_KP_MINUS ) )
 	{
 		glm::vec3 pos = m_meshMovable->Position();
 		pos.z -= spp;
@@ -269,6 +278,25 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 	}
 
 	soundManager.SetListener( m_cameraFree );
+
+	/*
+	 * change FOV
+	 */
+	if( input.KeyStillDown( SDL_SCANCODE_PAGEUP ) )
+	{
+		auto fov = m_cameraFree->FOV();
+		fov++;
+		m_cameraFree->SetFOV( fov );
+		logDEBUG( "new FOV: {0}", fov );
+
+	}
+	if( input.KeyStillDown( SDL_SCANCODE_PAGEDOWN ) )
+	{
+		auto fov = m_cameraFree->FOV();
+		fov--;
+		m_cameraFree->SetFOV( fov );
+		logDEBUG( "new FOV: {0}", fov );
+	}
 
 	/*
 	 * screenshot
