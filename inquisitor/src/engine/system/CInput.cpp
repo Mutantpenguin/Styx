@@ -65,11 +65,11 @@ CInput::CInput( const CSettings &settings, const CFileSystem &filesystem ) :
 					}
 					else
 					{
-						logDEBUG( "Name: {0}", SDL_GameControllerName( controller ) );
-						logDEBUG( "Mapped as: {0}", SDL_GameControllerMapping( controller ) );
+						logINFO( "Name: {0}", SDL_GameControllerName( controller ) );
+						logINFO( "Mapped as: {0}", SDL_GameControllerMapping( controller ) );
 
 						SDL_Joystick *joystick = SDL_GameControllerGetJoystick( controller );
-						logDEBUG( "Layout: {0} Axes / {1} Buttons / {2} Trackballs / {3} Hat Switches / {4}", SDL_JoystickNumAxes( joystick ), SDL_JoystickNumButtons( joystick ), SDL_JoystickNumBalls( joystick ), SDL_JoystickNumHats( joystick ), ( ( SDL_JoystickIsHaptic( joystick ) == 1 ) ? " is haptic" : "is not haptic" ) );
+						logINFO( "Layout: {0} Axes / {1} Buttons / {2} Trackballs / {3} Hat Switches / {4}", SDL_JoystickNumAxes( joystick ), SDL_JoystickNumButtons( joystick ), SDL_JoystickNumBalls( joystick ), SDL_JoystickNumHats( joystick ), ( ( SDL_JoystickIsHaptic( joystick ) == 1 ) ? " is haptic" : "is not haptic" ) );
 
 						SDL_GameControllerClose( controller );
 					}
@@ -83,8 +83,8 @@ CInput::CInput( const CSettings &settings, const CFileSystem &filesystem ) :
 					}
 					else
 					{
-						logDEBUG( "Name: {0}", SDL_JoystickName( joystick ) );
-						logDEBUG( "Layout: {0} Axes / {1} Buttons / {2} Trackballs / {3} Hat Switches / {4}", SDL_JoystickNumAxes( joystick ), SDL_JoystickNumButtons( joystick ), SDL_JoystickNumBalls( joystick ), SDL_JoystickNumHats( joystick ), ( ( SDL_JoystickIsHaptic( joystick ) == 1 ) ? " is haptic" : "is not haptic" ) );
+						logINFO( "Name: {0}", SDL_JoystickName( joystick ) );
+						logINFO( "Layout: {0} Axes / {1} Buttons / {2} Trackballs / {3} Hat Switches / {4}", SDL_JoystickNumAxes( joystick ), SDL_JoystickNumButtons( joystick ), SDL_JoystickNumBalls( joystick ), SDL_JoystickNumHats( joystick ), ( ( SDL_JoystickIsHaptic( joystick ) == 1 ) ? " is haptic" : "is not haptic" ) );
 
 						SDL_JoystickClose( joystick );
 					}
