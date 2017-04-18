@@ -121,7 +121,7 @@ void CMesh::CalculateModelMatrix( void )
 
 glm::vec3 CMesh::CalculatedBoundingSphereRadiusVector( const Primitives::SPrimitive &primitive )
 {
-	return( *std::max_element( primitive.vertices.begin(), primitive.vertices.end(), [&]( glm::vec3 a, glm::vec3 b ){ return( glm::length2( a ) > glm::length2( b ) ); } ) );
+	return( *std::max_element( std::cbegin( primitive.vertices ), std::cend( primitive.vertices ), []( glm::vec3 a, glm::vec3 b ){ return( glm::length2( a ) > glm::length2( b ) ); } ) );
 }
 
 float CMesh::CalculatedBoundingSphereRadius( const glm::vec3 &radiusVector, const glm::vec3 &scale )
