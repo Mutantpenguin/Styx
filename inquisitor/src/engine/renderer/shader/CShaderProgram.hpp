@@ -22,9 +22,9 @@ public:
 
 	void Use( void ) const;
 
-	const std::unordered_map< GLint, SShaderInterface > RequiredSamplers( void ) const;
-	const std::unordered_map< GLint, EEngineUniform > RequiredEngineUniforms( void ) const;
-	const std::unordered_map< GLint, SShaderInterface > RequiredMaterialUniforms( void ) const;
+	const std::unordered_map< GLint, SShaderInterface > &RequiredSamplers( void ) const;
+	const std::unordered_map< GLint, EEngineUniform > &RequiredEngineUniforms( void ) const;
+	const std::unordered_map< GLint, SShaderInterface > &RequiredMaterialUniforms( void ) const;
 
 private:
 	const GLuint m_program;
