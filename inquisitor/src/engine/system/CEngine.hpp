@@ -23,6 +23,9 @@ public:
 	static std::string GetVersionString( void );
 
 private:
+	CEngine( const CEngine &rhs ) = delete;
+	CEngine& operator = ( const CEngine &rhs ) = delete;
+
 	static const std::string m_name;
 	static const std::uint16_t m_version_major;
 	static const std::uint16_t m_version_minor;

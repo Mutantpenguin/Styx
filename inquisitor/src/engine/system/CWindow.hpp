@@ -32,6 +32,9 @@ public:
 	};
 
 private:
+	CWindow( const CWindow &rhs ) = delete;
+	CWindow& operator = ( const CWindow &rhs ) = delete;
+
 	SDL_Window		*m_SDL_window { nullptr };
 	SDL_GLContext	m_SDL_GL_context;
 };

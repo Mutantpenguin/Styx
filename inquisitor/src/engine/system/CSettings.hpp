@@ -61,6 +61,10 @@ public:
 
 		virtual ~Exception() throw() {}
 	};
+
+private:
+	CSettings( const CSettings &rhs ) = delete;
+	CSettings& operator = ( const CSettings &rhs ) = delete;
 };
 
 #endif // CSETTINGS_HPP

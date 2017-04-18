@@ -18,6 +18,10 @@ public:
 	CRenderer		Renderer;
 	CSoundManager	SoundManager;
 	CTimer			GlobalTimer;
+
+private:
+	CEngineSystems( const CEngineSystems &rhs ) = delete;
+	CEngineSystems& operator = ( const CEngineSystems &rhs ) = delete;
 };
 
 #endif // CENGINESYSTEMS_HPP

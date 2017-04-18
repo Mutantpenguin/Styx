@@ -48,6 +48,10 @@ public :
 
 // TODO what to do with this?
 	void InitialiseFreeImageIO( void );
+
+private:
+	CFileSystem( const CFileSystem &rhs ) = delete;
+	CFileSystem& operator = ( const CFileSystem &rhs ) = delete;
 };
 
 #endif // CFILESYSTEM_HPP

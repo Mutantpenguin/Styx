@@ -22,6 +22,8 @@ public:
 
 private:
 	CTimer( void );
+	CTimer( const CTimer &rhs ) = delete;
+	CTimer& operator = ( const CTimer &rhs ) = delete;
 
 	void	Update( void );
 
