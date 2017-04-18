@@ -254,10 +254,7 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body 
 {
 	std::string source;
 
-	#pragma clang diagnostic push
-	#pragma clang diagnostic ignored "-Wswitch-enum"
 	switch( type )
-	#pragma clang diagnostic pop
 	{
 		case GL_VERTEX_SHADER:
 			source =	srcAdditionShaderVersion +
@@ -404,10 +401,7 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 		const GLint  uniformLocation = values[ 3 ];
 		const GLenum uniformType = static_cast< GLenum>( values[ 1 ] );
 
-		#pragma clang diagnostic push
-		#pragma clang diagnostic ignored "-Wswitch-enum"
 		switch( uniformType )
-		#pragma clang diagnostic pop
 		{
 			case GL_SAMPLER_2D:
 			case GL_SAMPLER_CUBE:

@@ -190,10 +190,7 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 
 						const std::shared_ptr< const CTexture > texture = m_textureManager.LoadTexture( mat_texture->get<std::string>() );
 
-						#pragma clang diagnostic push
-						#pragma clang diagnostic ignored "-Wswitch-enum"
 						switch( interface.type )
-						#pragma clang diagnostic pop
 						{
 							case GL_SAMPLER_2D:
 								if( texture->Type() != CTexture::type::TEX_2D )
@@ -334,10 +331,7 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 					}
 					else
 					{
-						#pragma clang diagnostic push
-						#pragma clang diagnostic ignored "-Wswitch-enum"
 						switch( interface.type )
-						#pragma clang diagnostic pop
 						{
 							case GL_UNSIGNED_INT:
 								if( !mat_uniform->is_number_unsigned() )
@@ -375,10 +369,7 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 								{
 									const std::uint8_t requiredAmountOfValues = [&]
 									{
-										#pragma clang diagnostic push
-										#pragma clang diagnostic ignored "-Wswitch-enum"
 										switch( interface.type )
-										#pragma clang diagnostic pop
 										{
 											case GL_FLOAT_VEC2:
 												return( 2 );

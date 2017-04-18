@@ -203,10 +203,7 @@ namespace GLHelper
 
 	std::string GLSLTypeToString( GLenum type )
 	{
-		#pragma clang diagnostic push
-		#pragma clang diagnostic ignored "-Wswitch-enum"
 		switch( type )
-		#pragma clang diagnostic pop
 		{
 			case GL_FLOAT_VEC3:
 				return( "vec3" );
