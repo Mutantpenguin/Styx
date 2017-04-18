@@ -7,6 +7,7 @@
 class CTimer final
 {
 friend class CEngine;
+friend class CEngineSystems;
 
 public:
 	inline float dT( void ) const

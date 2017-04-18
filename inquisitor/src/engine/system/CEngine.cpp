@@ -8,7 +8,7 @@
 
 const std::string CEngine::m_name				{ "Inquisitor Engine" };
 const std::uint16_t CEngine::m_version_major	{ 17 };
-const std::uint16_t CEngine::m_version_minor	{ 3 };
+const std::uint16_t CEngine::m_version_minor	{ 4 };
 const std::uint16_t CEngine::m_version_patch	{ 0 };
 const std::string CEngine::m_status				{ "pre-alpha" };
 
@@ -19,10 +19,8 @@ CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std
 		m_settings( m_filesystem, settingsFile ),
 		m_sdl(),
 		m_window( m_settings, m_filesystem, m_gameInfo.GetName(), m_gameInfo.GetIconPath() ),
-		m_input( m_settings, m_filesystem ),
-		m_renderer( m_settings, m_filesystem ),
-		m_soundManager( m_settings, m_filesystem ),
-		m_currentState { std::make_shared< CStateIntro >( m_filesystem, m_settings, m_globalTimer.Time(), m_soundManager, m_renderer ) }
+		m_engineSystems( m_settings, m_filesystem ),
+		m_currentState { std::make_shared< CStateIntro >( m_filesystem, m_settings, m_engineSystems ) }
 {
 }
 catch( CRenderer::Exception &e )
@@ -77,35 +75,35 @@ void CEngine::Run( void )
 
 	logINFO( "" );
 
-	std::uint64_t lastUpdatedTime = m_globalTimer.Time();
+	std::uint64_t lastUpdatedTime = m_engineSystems.GlobalTimer.Time();
 
 	while( m_currentState )
 	{
-		m_globalTimer.Update();
+		m_engineSystems.GlobalTimer.Update();
 
 		m_window.Update();
 
-		m_currentState->Render( m_renderer, m_globalTimer.Time() );
+		m_currentState->Render();
 
-		m_soundManager.Update();
+		m_engineSystems.SoundManager.Update();
 
-		const std::uint64_t currentTime = m_globalTimer.Time();
+		const std::uint64_t currentTime = m_engineSystems.GlobalTimer.Time();
 		while( m_currentState && ( currentTime - lastUpdatedTime ) > m_settings.engine.tick )
 		{
-			m_input.Update();
+			m_engineSystems.Input.Update();
 
-			m_currentState = m_currentState->Update( m_globalTimer.Time(), m_soundManager, m_renderer, m_input );
+			m_currentState = m_currentState->Update();
 
 			lastUpdatedTime += m_settings.engine.tick;
 		}
 
-		m_renderer.Update();
+		m_engineSystems.Renderer.Update();
 
 		#ifdef INQ_DEBUG
-			if( m_globalTimer.dT() > m_settings.engine.tick )
+			if( m_engineSystems.GlobalTimer.dT() > m_settings.engine.tick )
 			{
 				// a frame takes more time than m_settings.engine.tick, so we have fewer than 30fps
-				logWARNING( "ATTENTION: frame-time is {0}ms", m_globalTimer.dT() );
+				logWARNING( "ATTENTION: frame-time is {0}ms", m_engineSystems.GlobalTimer.dT() );
 			}
 		#endif // INQ_DEBUG
 	}

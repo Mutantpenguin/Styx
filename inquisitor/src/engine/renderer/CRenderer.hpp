@@ -3,6 +3,8 @@
 
 #include <list>
 
+#include "src/engine/system/CTimer.hpp"
+
 #include "src/engine/renderer/camera/CCamera.hpp"
 
 #include "src/engine/renderer/CMesh.hpp"
@@ -20,22 +22,28 @@
 
 class CRenderer final
 {
-public:
+friend class CEngine;
+friend class CEngineSystems;
+
+private:
 	CRenderer( const CSettings &settings, const CFileSystem &filesystem );
+	CRenderer( const CRenderer &rhs ) = delete;
+	CRenderer& operator = ( const CRenderer &rhs ) = delete;
 
 	void	Update( void );
 
+public:
 	std::shared_ptr< CImage > GetScreenshot( void ) const;
 
 	void ReloadResources( void );
 
 	std::shared_ptr< CMaterial > LoadMaterial( const std::string &path );
 
-	void	SetClearColor( const CColor &color );
+	void	SetClearColor( const CColor &color ) const;
 
 	void	Clear( bool colorBuffer, bool depthBuffer ) const;
 
-	void	RenderScene( const CScene &scene, const std::uint64_t time ) const;
+	void	RenderScene( const CScene &scene, const CTimer &timer ) const;
 
 	class Exception: public std::exception
 	{
@@ -57,7 +65,7 @@ private:
 	CMaterialManager	m_materialManager;
 
 	void CreateUniformBuffers( void );
-	void UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const std::uint64_t time ) const;
+	void UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const CTimer &timer ) const;
 
 	void SetupMaterial( const CMaterial * const material ) const;
 

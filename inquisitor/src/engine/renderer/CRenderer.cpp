@@ -67,13 +67,13 @@ void CRenderer::CreateUniformBuffers( void )
 	}
 }
 
-void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const std::uint64_t time ) const
+void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const CTimer &timer ) const
 {
 	/*
 	 * Update time into the uniform buffer
 	 */
 
-	const glm::uint timeMilliseconds = static_cast< glm::uint >( time / 1000 );
+	const glm::uint timeMilliseconds = static_cast< glm::uint >( timer.Time() / 1000 );
 	m_uboTimer->SubData( 0,	sizeof( glm::uint ), &timeMilliseconds );
 
 	/*
@@ -125,7 +125,7 @@ std::shared_ptr< CMaterial > CRenderer::LoadMaterial( const std::string &path )
 	return( m_materialManager.LoadMaterial( path ) );
 }
 
-void CRenderer::SetClearColor( const CColor &color )
+void CRenderer::SetClearColor( const CColor &color ) const
 {
 	glClearColor( color.r(), color.g(), color.b(), color.a() );
 }
@@ -146,7 +146,7 @@ void CRenderer::Clear( bool colorBuffer, bool depthBuffer ) const
 	}
 }
 
-void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) const
+void CRenderer::RenderScene( const CScene &scene, const CTimer &timer ) const
 {
 	const auto camera = scene.Camera();
 
@@ -158,7 +158,7 @@ void CRenderer::RenderScene( const CScene &scene, const std::uint64_t time ) con
 	{
 		const auto &frustum = camera->CalculateFrustum();
 
-		UpdateUniformBuffers( camera, time );
+		UpdateUniformBuffers( camera, timer );
 
 		/*
 		 * set up the renderqueues

@@ -1,16 +1,17 @@
 #include "CState.hpp"
 
-CState::CState( const std::string &name, const CFileSystem &filesystem, const CSettings &settings ) :
+CState::CState( const std::string &name, const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems ) :
 		m_name { name },
 		m_filesystem { filesystem },
-		m_settings { settings }
+		m_settings { settings },
+		m_engineSystems { engineSystems }
 {};
 
-void CState::Render( const CRenderer &renderer, const std::uint64_t time ) const
+void CState::Render( void ) const
 {
-	renderer.Clear( true, true );
+	m_engineSystems.Renderer.Clear( true, true );
 
-	renderer.RenderScene( m_scene, time );
+	m_engineSystems.Renderer.RenderScene( m_scene, m_engineSystems.GlobalTimer );
 }
 
 const CScene &CState::Scene( void ) const

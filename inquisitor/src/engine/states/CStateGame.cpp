@@ -10,9 +10,11 @@
 
 #include "src/engine/sound/CSound.hpp"
 
-CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings, CSoundManager &soundManager, CRenderer &renderer ) :
-	CState( "game", filesystem, settings )
+CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems ) :
+	CState( "game", filesystem, settings, engineSystems )
 {
+	auto &renderer = m_engineSystems.Renderer;
+
 	renderer.SetClearColor( CColor( 0.0f, 0.0f, 4.0f, 0.0f ) );
 
 	m_cameraFree = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 90.0f, 0.1f, 1000.0f );
@@ -20,6 +22,8 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	m_cameraFree->SetDirection( { 0.0f, 0.0f, -10.0f } );
 
 	m_scene.Camera( m_cameraFree );
+
+	auto &soundManager = m_engineSystems.SoundManager;
 
 	soundManager.SetListener( m_cameraFree );
 
@@ -148,12 +152,18 @@ CStateGame::~CStateGame()
 {
 }
 
-std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundManager &soundManager, CRenderer &renderer, const CInput &input )
+std::shared_ptr< CState > CStateGame::Update( void )
 {
+	auto &renderer = m_engineSystems.Renderer;
+
+	auto &soundManager = m_engineSystems.SoundManager;
+
+	const auto &input = m_engineSystems.Input;
+
 	if( input.KeyDown( SDL_SCANCODE_ESCAPE ) )
 	{
 		logINFO( "pause" );
-		return( std::make_shared< CStatePause >( m_filesystem, m_settings, renderer, shared_from_this() ) );
+		return( std::make_shared< CStatePause >( m_filesystem, m_settings, m_engineSystems, shared_from_this() ) );
 	}
 
 	const float spp = 2.0f * m_settings.engine.tick / 1000000;
@@ -170,7 +180,7 @@ std::shared_ptr< CState > CStateGame::Update( const std::uint64_t time, CSoundMa
 	 */
 	{
 		auto pos = m_pulseMesh->Position();
-		pos.y = 10.0f + ( sin( time / 2000000.0 ) * 5.0f );
+		pos.y = 10.0f + ( sin( m_engineSystems.GlobalTimer.Time() / 2000000.0 ) * 5.0f );
 		m_pulseMesh->SetPosition( pos );
 	}
 

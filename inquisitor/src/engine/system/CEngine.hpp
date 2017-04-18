@@ -6,13 +6,9 @@
 #include "CGameInfo.hpp"
 #include "CFileSystem.hpp"
 #include "CSettings.hpp"
-#include "CInput.hpp"
-#include "CTimer.hpp"
 #include "CWindow.hpp"
 
-#include "src/engine/sound/CSoundManager.hpp"
-
-#include "src/engine/renderer/CRenderer.hpp"
+#include "CEngineSystems.hpp"
 
 #include "src/engine/states/CState.hpp"
 
@@ -34,6 +30,7 @@ private:
 	static const std::string m_status;
 
 	const CGameInfo		m_gameInfo;
+
 	const CFileSystem	m_filesystem;
 	const CSettings		m_settings;
 
@@ -41,12 +38,7 @@ private:
 
 	const CWindow	m_window;
 
-	CInput		m_input;
-	CRenderer	m_renderer;
-
-	CSoundManager	m_soundManager;
-
-	CTimer	m_globalTimer;
+	CEngineSystems m_engineSystems;
 
 	std::shared_ptr< CState > m_currentState;
 };

@@ -171,6 +171,8 @@
         <File Name="src/engine/system/CWindow.hpp"/>
         <File Name="src/engine/system/ComputerInfo.hpp"/>
         <File Name="src/engine/system/ComputerInfo.cpp"/>
+        <File Name="src/engine/system/CEngineSystems.hpp"/>
+        <File Name="src/engine/system/CEngineSystems.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="logger">
         <File Name="src/engine/logger/CLogTargetMessageBox.hpp"/>

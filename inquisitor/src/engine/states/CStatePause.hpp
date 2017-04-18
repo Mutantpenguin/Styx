@@ -6,12 +6,12 @@
 class CStatePause : public CState
 {
 public:
-	CStatePause( const CFileSystem &filesystem, const CSettings &settings, CRenderer &renderer, std::shared_ptr< CState > state );
+	CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems, std::shared_ptr< CState > state );
 	~CStatePause();
 
-	virtual void Render( const CRenderer &renderer, const std::uint64_t time ) const override;
+	virtual void Render( void ) const override;
 
-	virtual std::shared_ptr< CState > Update( const std::uint64_t time, CSoundManager &soundManager, CRenderer &renderer, const CInput &input ) override;
+	virtual std::shared_ptr< CState > Update( void ) override;
 
 private:
 	const std::shared_ptr< CState > m_state;

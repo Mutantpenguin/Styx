@@ -4,18 +4,18 @@
 
 #include "src/engine/renderer/camera/CCameraFree.hpp"
 
-CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settings, CRenderer &renderer, std::shared_ptr< CState > state ) :
-	CState( "pause", filesystem, settings ),
+CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems, std::shared_ptr< CState > state ) :
+	CState( "pause", filesystem, settings, engineSystems ),
 	m_state { state }
 {
 	{
-		const auto materialPause = renderer.LoadMaterial( "materials/pause_bg.mat" );
+		const auto materialPause = engineSystems.Renderer.LoadMaterial( "materials/pause_bg.mat" );
 		const auto screenMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialPause );
 		m_scene.AddMesh( screenMesh );
 	}
 
 	{
-		const auto materialPauseText = renderer.LoadMaterial( "materials/pause_text.mat" );
+		const auto materialPauseText = engineSystems.Renderer.LoadMaterial( "materials/pause_text.mat" );
 
 		auto pauseTextMeshPrimitive = Primitives::quad;
 
@@ -42,19 +42,23 @@ CStatePause::~CStatePause()
 {
 }
 
-void CStatePause::Render( const CRenderer &renderer, const std::uint64_t time ) const
+void CStatePause::Render( void ) const
 {
+	const auto &renderer = m_engineSystems.Renderer;
+
 	renderer.Clear( true, true );
 
-	renderer.RenderScene( m_state->Scene(), time );
+	renderer.RenderScene( m_state->Scene(), m_engineSystems.GlobalTimer );
 
 	renderer.Clear( false, true );
 
-	renderer.RenderScene( m_scene, time );
+	renderer.RenderScene( m_scene, m_engineSystems.GlobalTimer );
 }
 
-std::shared_ptr< CState > CStatePause::Update( const std::uint64_t time, CSoundManager &soundManager, CRenderer &renderer, const CInput &input )
+std::shared_ptr< CState > CStatePause::Update( void )
 {
+	const auto &input = m_engineSystems.Input;
+
 	if( input.KeyDown( SDL_SCANCODE_ESCAPE ) )
 	{
 		logINFO( "returning to calling state '{0}'", m_state->Name() );

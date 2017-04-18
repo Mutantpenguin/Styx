@@ -35,7 +35,6 @@ void CTextureManager::Update( void )
 	{
 		if( it->second.texture.unique() )
 		{
-			logDEBUG( "erasing texture: {0}", it->first );
 			m_textureFiles.erase( it++ );
 		}
 		else

@@ -7,10 +7,12 @@
 #include "src/engine/sound/CSound.hpp"
 #include "src/engine/sound/CSoundLoader.hpp"
 
-CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, const std::uint64_t time, CSoundManager &soundManager, CRenderer &renderer ) :
-	CState( "intro", filesystem, settings ),
-	m_startTime { time }
+CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems ) :
+	CState( "intro", filesystem, settings, engineSystems ),
+	m_startTime { engineSystems.GlobalTimer.Time() }
 {
+	auto &renderer = m_engineSystems.Renderer;
+
 	renderer.SetClearColor( CColor( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
 	auto cameraFree = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 135.0f, 0.1f, 100.0f );
@@ -19,7 +21,9 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	m_scene.Camera( cameraFree );
 
-	soundManager.SetListener( cameraFree );
+	auto &soundManager = m_engineSystems.SoundManager;
+
+	m_engineSystems.SoundManager.SetListener( cameraFree );
 
 	const auto material = renderer.LoadMaterial( "materials/intro_icon.mat" );
 
@@ -28,7 +32,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 	m_scene.AddMesh( m_mesh );
 
 	// TODO don't loop sound
-	const auto startupSound = soundManager.Load( "sounds/startup_sound.ogg" );
+	const auto startupSound = m_engineSystems.SoundManager.Load( "sounds/startup_sound.ogg" );
 	soundManager.Play( startupSound );
 }
 
@@ -36,9 +40,9 @@ CStateIntro::~CStateIntro()
 {
 }
 
-std::shared_ptr< CState > CStateIntro::Update( const std::uint64_t time, CSoundManager& soundManager, CRenderer& renderer, const CInput& input )
+std::shared_ptr< CState > CStateIntro::Update( void )
 {
-	const std::uint64_t elapsedTime = time - m_startTime;
+	const std::uint64_t elapsedTime = m_engineSystems.GlobalTimer.Time() - m_startTime;
 
 	glm::vec3 meshPosition = m_mesh->Position();
 	meshPosition.z = elapsedTime / m_waitTime;
@@ -46,15 +50,15 @@ std::shared_ptr< CState > CStateIntro::Update( const std::uint64_t time, CSoundM
 	m_mesh->SetPosition( meshPosition );
 
 	const float colorComponent = ( m_waitTime - elapsedTime ) / m_waitTime;
-	renderer.SetClearColor( CColor( colorComponent, colorComponent, colorComponent, colorComponent ) );
+	m_engineSystems.Renderer.SetClearColor( CColor( colorComponent, colorComponent, colorComponent, colorComponent ) );
 
 	if( ( elapsedTime > m_waitTime )
 		||
-		input.KeyDown( SDL_SCANCODE_ESCAPE ) )
+		m_engineSystems.Input.KeyDown( SDL_SCANCODE_ESCAPE ) )
 	{
 		try
 		{
-			return( std::make_shared< CStateGame >( m_filesystem, m_settings, soundManager, renderer ) );
+			return( std::make_shared< CStateGame >( m_filesystem, m_settings, m_engineSystems ) );
 		}
 		catch( std::exception &e )
 		{

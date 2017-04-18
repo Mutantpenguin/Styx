@@ -8,10 +8,10 @@
 class CStateIntro final : public CState
 {
 public:
-	CStateIntro( const CFileSystem &filesystem, const CSettings &settings, const std::uint64_t time, CSoundManager &soundManager, CRenderer &renderer );
+	CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems );
 	~CStateIntro();
 
-	virtual std::shared_ptr< CState > Update( const std::uint64_t time, CSoundManager& soundManager, CRenderer& renderer, const CInput& input ) override;
+	virtual std::shared_ptr< CState > Update( void ) override;
 private:
 	const std::uint64_t m_startTime;
 

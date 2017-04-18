@@ -37,7 +37,6 @@ void CMaterialManager::Update( void )
 	{
 		if( it->second.material.unique() )
 		{
-			logDEBUG( "erasing material: {0}", it->first );
 			m_materialFiles.erase( it++ );
 		}
 		else

@@ -14,6 +14,7 @@
 class CSoundManager final
 {
 friend class CEngine;
+friend class CEngineSystems;
 
 public:
 	void	SetListener( const std::shared_ptr< const CCamera > &camera );
@@ -34,6 +35,9 @@ public:
 private:
 	CSoundManager( const CSettings &settings, const CFileSystem &p_filesystem );
 	~CSoundManager( void );
+
+	CSoundManager( const CSoundManager &rhs ) = delete;
+	CSoundManager& operator = ( const CSoundManager &rhs ) = delete;
 
 	void	Update( void );
 

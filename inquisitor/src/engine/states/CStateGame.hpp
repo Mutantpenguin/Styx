@@ -10,10 +10,10 @@
 class CStateGame final : public CState
 {
 public:
-	CStateGame( const CFileSystem &filesystem, const CSettings &settings, CSoundManager &soundManager, CRenderer &renderer );
+	CStateGame( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems );
 	~CStateGame();
 
-	virtual std::shared_ptr< CState > Update( const std::uint64_t time, CSoundManager &soundManager, CRenderer &renderer, const CInput &input ) override;
+	virtual std::shared_ptr< CState > Update( void ) override;
 
 private:
 	std::shared_ptr< CCameraFree > m_cameraFree;
