@@ -16,7 +16,18 @@ CCamera::CCamera( float aspectRatio, float fov, float zNear, float zFar ) :
 
 void CCamera::SetFOV( float fov )
 {
-	m_fov = fov;
+	if( fov > 155 )
+	{
+		m_fov = 155;
+	}
+	else if( fov < 25 )
+	{
+		m_fov = 25;
+	}
+	else
+	{
+		m_fov = fov;
+	}
 }
 
 void CCamera::SetZNear( float zNear )
@@ -73,7 +84,7 @@ const CFrustum &CCamera::CalculateFrustum( void )
 
 const glm::mat4 CCamera::CalculateProjectionMatrix( void ) const
 {
-	return( glm::perspective( m_fov, m_aspectRatio, m_zNear, m_zFar ) );
+	return( glm::perspective( glm::radians( m_fov ), m_aspectRatio, m_zNear, m_zFar ) );
 }
 
 const glm::mat4 CCamera::CalculateViewMatrix( void ) const

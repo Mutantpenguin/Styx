@@ -16,8 +16,6 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	renderer.SetClearColor( CColor( 0.0f, 0.0f, 4.0f, 0.0f ) );
 
 	m_cameraFree = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 90.0f, 0.1f, 1000.0f );
-	// TODO when the FOV is not 90, strange things happen
-	//m_cameraFree = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 91.0f, 0.1f, 1000.0f );
 	m_cameraFree->SetPosition( { 0.0f, 10.0f, 10.0f } );
 	m_cameraFree->SetDirection( { 0.0f, 0.0f, -10.0f } );
 
