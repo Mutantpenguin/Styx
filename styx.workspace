@@ -22,5 +22,10 @@
       <Project Name="setup" ConfigName="Debug"/>
       <Project Name="inquisitor" ConfigName="Profile"/>
     </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Debug + Sanitizer" Selected="no">
+      <Environment/>
+      <Project Name="setup" ConfigName="Debug"/>
+      <Project Name="inquisitor" ConfigName="Debug + Sanitizer"/>
+    </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>
