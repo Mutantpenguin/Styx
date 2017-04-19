@@ -144,8 +144,8 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	}
 
 	// TODO port to SoundManager or something like this
-	//const auto testSound = soundManager.Load( "music/rise_of_spirit.ogg" );
-	//soundManager.Play( testSound );
+	const auto testSound = soundManager.Load( "music/rise_of_spirit.ogg" );
+	soundManager.Play( testSound );
 }
 
 CStateGame::~CStateGame()
