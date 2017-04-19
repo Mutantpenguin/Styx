@@ -187,7 +187,7 @@ namespace ImageHandler
 
 			CFileSystem::FileBuffer buffer( sizeInBytes );
 
-			std::copy( data, data + sizeInBytes, buffer.begin() );
+			std::copy( data, data + sizeInBytes, std::begin( buffer ) );
 
 			return( p_filesystem.SaveBufferToFile( buffer, path ) );
 		}

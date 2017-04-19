@@ -10,7 +10,7 @@
 glm::vec3 CTransformSystem::GetPosition( EntityID id ) const
 {
 	const auto it = m_components.find( id );
-	if( it == m_components.end() )
+	if( it == std::end( m_components ) )
 	{
 		logWARNING( "could not find a component with the id '{0}'", id );
 		return( glm::vec3( 0 ) );
@@ -24,7 +24,7 @@ glm::vec3 CTransformSystem::GetPosition( EntityID id ) const
 void CTransformSystem::SetPosition( EntityID id, glm::vec3 pos )
 {
 	const auto it = m_components.find( id );
-	if( it == m_components.end() )
+	if( it == std::end( m_components ) )
 	{
 		logWARNING( "could not find a component with the id '{0}'", id );
 	}

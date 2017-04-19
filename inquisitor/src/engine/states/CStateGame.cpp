@@ -323,7 +323,7 @@ std::shared_ptr< CState > CStateGame::Update( void )
 		}
 
 		std::string datetime = Date::GetCurrentDateTimeString();
-		std::replace( datetime.begin(), datetime.end(), ':', '.' );
+		std::replace( std::begin( datetime ), std::end( datetime ), ':', '.' );
 
 		const std::string screenshotPath = screenshotDir + CFileSystem::GetDirSeparator() + datetime + "." + m_settings.renderer.screenshot.format;
 

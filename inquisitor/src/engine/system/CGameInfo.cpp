@@ -34,7 +34,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 		} ();
 
 		const auto name_short = root.find( "name_short" );
-		if( ( root.end() == name_short ) || name_short->empty() )
+		if( ( std::end( root ) == name_short ) || name_short->empty() )
 		{
 			logERROR( "there is no definition of 'name_short' in the file '{0}'", gamefile );
 			throw Exception();
@@ -45,7 +45,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 		}
 
 		const auto name = root.find( "name" );
-		if( ( root.end() == name ) || name->empty() )
+		if( ( std::end( root ) == name ) || name->empty() )
 		{
 			logERROR( "there is no definition of 'name' in the file '{0}'", gamefile );
 			throw Exception();
@@ -56,7 +56,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 		}
 
 		const auto version = root.find( "version" );
-		if( ( root.end() == version ) || version->empty() )
+		if( ( std::end( root ) == version ) || version->empty() )
 		{
 			logERROR( "there is no definition of 'version' in the file '{0}'", gamefile );
 			throw Exception();
@@ -75,7 +75,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 		m_website = root.value( "website", "" );
 
 		const auto icon = root.find( "icon" );
-		if( ( root.end() == icon ) || icon->empty() )
+		if( ( std::end( root ) == icon ) || icon->empty() )
 		{
 			logERROR( "there is no definition of 'icon' in the file '{0}'", gamefile );
 			throw Exception();
@@ -86,7 +86,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 		}
 
 		const auto assets = root.find( "assets" );
-		if(	( root.end() == assets ) || ( assets->empty() ) )
+		if(	( std::end( root ) == assets ) || ( assets->empty() ) )
 		{
 			logERROR( "no 'assets' specified in the file '{0}'", gamefile );
 			throw Exception();
@@ -110,7 +110,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 		}
 
 		const auto templates = root.find( "templates" );
-		if( ( root.end() == templates ) || ( templates->empty() ) )
+		if( ( std::end( root ) == templates ) || ( templates->empty() ) )
 		{
 			logERROR( "no 'templates' specified in the file '{0}'", gamefile );
 			throw Exception();

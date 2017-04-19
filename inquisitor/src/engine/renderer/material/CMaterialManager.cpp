@@ -51,7 +51,7 @@ void CMaterialManager::Update( void )
 std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &path )
 {
 	const auto it = m_materialFiles.find( path );
-	if( m_materialFiles.end() != it )
+	if( std::end( m_materialFiles ) != it )
 	{
 		return( it->second.material );
 	}

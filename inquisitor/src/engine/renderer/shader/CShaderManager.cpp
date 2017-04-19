@@ -106,7 +106,7 @@ std::shared_ptr< CShaderProgram > CShaderManager::LoadProgram( const std::string
 	const std::string programIdentifier = pathVertexShader + "|" + pathFragmentShader;
 
 	const auto it = m_programs.find( programIdentifier );
-	if( m_programs.end() != it )
+	if( std::end( m_programs ) != it )
 	{
 		return( it->second );
 	}
@@ -190,7 +190,7 @@ GLuint CShaderManager::CreateProgram( const GLuint vertexShader, const GLuint fr
 GLuint CShaderManager::LoadVertexShader( const std::string &path )
 {
 	const auto it = m_vertexShaders.find( path );
-	if( m_vertexShaders.end() != it )
+	if( std::end( m_vertexShaders ) != it )
 	{
 		return( it->second );
 	}
@@ -215,7 +215,7 @@ GLuint CShaderManager::LoadVertexShader( const std::string &path )
 GLuint CShaderManager::LoadFragmentShader( const std::string &path )
 {
 	const auto it = m_fragmentShaders.find( path );
-	if( m_fragmentShaders.end() != it )
+	if( std::end( m_fragmentShaders ) != it )
 	{
 		return( it->second );
 	}
@@ -353,7 +353,7 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 		const GLint attributeLocation = values[ 2 ];
 
 		const auto attributeIt = allowedAttributes.find( static_cast< CVAO::EAttributeLocation >( attributeLocation ) );
-		if( allowedAttributes.end() == attributeIt )
+		if( std::end( allowedAttributes ) == attributeIt )
 		{
 			logERROR( "attribute location '{0}' is not allowed", attributeLocation );
 			return( false );

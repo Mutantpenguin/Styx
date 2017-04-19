@@ -31,7 +31,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 		} ();
 
 		const auto renderer_root = settings_root.find( "renderer" );
-		if( settings_root.end() == renderer_root )
+		if( std::end( settings_root ) == renderer_root )
 		{
 			logWARNING( "'settings.renderer' not found" );
 		}
@@ -165,7 +165,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 		}
 
 		const auto sound_root = settings_root.find( "sound" );
-		if( settings_root.end() == sound_root )
+		if( std::end( settings_root ) == sound_root )
 		{
 			logWARNING( "'settings.sound' not found" );
 		}
@@ -183,7 +183,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 		}
 
 		const auto input_root = settings_root.find( "input" );
-		if( settings_root.end() == input_root )
+		if( std::end( settings_root ) == input_root )
 		{
 			logWARNING( "'settings.input' not found" );
 		}
