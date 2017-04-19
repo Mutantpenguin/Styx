@@ -15,7 +15,7 @@ public:
 private:
 	const std::uint64_t m_startTime;
 
-	const float m_waitTime = 7000000;
+	const float m_waitTime = 8000000;
 
 	std::shared_ptr< CMesh > m_mesh;
 };

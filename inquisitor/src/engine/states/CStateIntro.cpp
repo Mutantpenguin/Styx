@@ -15,7 +15,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	renderer.SetClearColor( CColor( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
-	auto cameraFree = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 135.0f, 0.1f, 100.0f );
+	auto cameraFree = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
 	cameraFree->SetPosition( { 0.0f, 0.0f, 5.0f } );
 	cameraFree->SetDirection( { 0.0f, 0.0f, -10.0f } );
 
@@ -49,7 +49,8 @@ std::shared_ptr< CState > CStateIntro::Update( void )
 	meshPosition.y = elapsedTime / m_waitTime;
 	m_mesh->SetPosition( meshPosition );
 
-	const float colorComponent = ( m_waitTime - elapsedTime ) / m_waitTime;
+	const float fadeTime = m_waitTime - 2000000;
+	const float colorComponent = ( fadeTime - elapsedTime ) / fadeTime;
 	m_engineSystems.Renderer.SetClearColor( CColor( colorComponent, colorComponent, colorComponent, colorComponent ) );
 
 	if( ( elapsedTime > m_waitTime )

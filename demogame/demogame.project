@@ -145,6 +145,9 @@
     <VirtualDirectory Name="texpack_2">
       <File Name="textures/texpack_2/stone_floor.png"/>
     </VirtualDirectory>
+    <VirtualDirectory Name="styx">
+      <File Name="textures/styx/logo.png"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="demogame">
     <File Name="README"/>

@@ -11,7 +11,7 @@
 							"fs" : "shaders/fs/standard.fs.glsl"
 						},
 	"textures"		:	{
-							"diffuseTexture" : "icons/inq_demo_icon_big.png"
+							"diffuseTexture" : "textures/styx/logo.png"
 						},
 	"samplers"		:	{
 							"diffuseTexture" : "EDGE_2D"
