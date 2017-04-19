@@ -295,7 +295,7 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body 
 	{
 		source += "\n";
 
-		for( const std::shared_ptr< const CUniformBuffer > ubo : m_registeredUniformBuffers )
+		for( const auto &ubo : m_registeredUniformBuffers )
 		{
 			source += ubo->Source() + "\n";
 		}
