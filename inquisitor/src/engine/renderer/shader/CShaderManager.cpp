@@ -262,7 +262,7 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body 
 
 			source += "\n";
 
-			// TODO this will work with -std=c++1z;
+			// TODO this will work with -std=c++17;
 			// for( const auto && [ location, interface ] : allowedAttributes )
 			for( const auto &attribute : allowedAttributes )
 			{

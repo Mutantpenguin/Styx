@@ -173,6 +173,8 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 			}
 			else
 			{
+				// TODO this will work with -std=c++17;
+				// for( const auto && [ location, interface ] : shader->RequiredSamplers() )
 				for( const auto &requiredSampler : shader->RequiredSamplers() )
 				{
 					const auto location = requiredSampler.first;
