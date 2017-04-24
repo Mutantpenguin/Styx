@@ -10,6 +10,8 @@
 class CCamera
 {
 public:
+	CCamera( float aspectRatio, float fov, float zNear, float zFar );
+
 	void	SetFOV( float fov );
 	void	SetZNear( float zNear );
 	void	SetZFar( float zFar );
@@ -32,8 +34,6 @@ public:
 	const glm::mat4 CalculateViewProjectionMatrix( void ) const;
 
 protected:
-	CCamera( float aspectRatio, float fov, float zNear, float zFar );
-
 	glm::vec3 m_position	{ 0, 0, 0 };
 	glm::quat m_orientation	{ 1, 0, 0, 0 };
 
