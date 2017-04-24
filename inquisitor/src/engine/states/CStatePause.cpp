@@ -6,7 +6,8 @@
 
 CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems, std::shared_ptr< CState > state ) :
 	CState( "pause", filesystem, settings, engineSystems ),
-	m_state { state }
+	m_startTime { engineSystems.GlobalTimer.Time() },
+	m_pausedState { state }
 {
 	{
 		const auto materialPause = engineSystems.Renderer.LoadMaterial( "materials/pause_bg.mat" );
@@ -17,25 +18,18 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	{
 		const auto materialPauseText = engineSystems.Renderer.LoadMaterial( "materials/pause_text.mat" );
 
-		auto pauseTextMeshPrimitive = Primitives::quad;
-
-		for( auto &coord : pauseTextMeshPrimitive.vertices )
-		{
-			coord.x *= 0.25f;
-			coord.y *= 0.25f;
-			coord.z += 1.0f;
-		}
-
-		auto screenMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, pauseTextMeshPrimitive, materialPauseText );
-
-		m_scene.AddMesh( screenMesh );
+		m_meshText = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialPauseText );
+		m_meshText->SetScale( { 3.0f, 3.0f / 512.0f * 128.0f, 1.0f } );
+		m_scene.AddMesh( m_meshText );
 	}
 
-	auto camera = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 90.0f, 0.1f, 100.0f );
-	camera->SetPosition( { 0.0f, 0.0f, 5.0f } );
-	camera->SetDirection( { 0.0f, 0.0f, -10.0f } );
+	{
+		auto camera = std::make_shared< CCamera >( m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
+		camera->SetPosition( { 0.0f, 0.0f, 5.0f } );
+		camera->SetDirection( { 0.0f, 0.0f, -10.0f } );
 
-	m_scene.Camera( camera );
+		m_scene.Camera( camera );
+	}
 }
 
 CStatePause::~CStatePause()
@@ -48,7 +42,7 @@ void CStatePause::Render( void ) const
 
 	renderer.Clear( true, true );
 
-	renderer.RenderScene( m_state->Scene(), m_engineSystems.GlobalTimer );
+	renderer.RenderScene( m_pausedState->Scene(), m_engineSystems.GlobalTimer );
 
 	renderer.Clear( false, true );
 
@@ -57,12 +51,17 @@ void CStatePause::Render( void ) const
 
 std::shared_ptr< CState > CStatePause::Update( void )
 {
+	auto pos = m_meshText->Position();
+	pos.z = ( sin( m_engineSystems.GlobalTimer.Time() / 2000000.0 ) * 0.5f );
+	m_meshText->SetPosition( pos );
+
+
 	const auto &input = m_engineSystems.Input;
 
 	if( input.KeyDown( SDL_SCANCODE_ESCAPE ) )
 	{
-		logINFO( "returning to calling state '{0}'", m_state->Name() );
-		return( m_state );
+		logINFO( "returning to calling state '{0}'", m_pausedState->Name() );
+		return( m_pausedState );
 	}
 	else if( input.KeyDown( SDL_SCANCODE_Q ) )
 	{

@@ -7,13 +7,13 @@
 							"dst"	: "ONE_MINUS_SRC_ALPHA"
 						},
 	"shaders"		:	{
-							"vs" : "shaders/vs/pause_text.vs.glsl",
-							"fs" : "shaders/fs/pause_text.fs.glsl"
+							"vs" : "shaders/vs/standard.vs.glsl",
+							"fs" : "shaders/fs/standard.fs.glsl"
 						},
 	"textures"		:	{
-							"fgTexture" : "textures/pause/fg.png"
+							"diffuseTexture" : "textures/pause/fg.png"
 						},
 	"samplers"		:	{
-							"fgTexture" : "EDGE_2D"
+							"diffuseTexture" : "EDGE_2D"
 						}
 }

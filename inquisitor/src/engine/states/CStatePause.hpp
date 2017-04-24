@@ -14,7 +14,11 @@ public:
 	virtual std::shared_ptr< CState > Update( void ) override;
 
 private:
-	const std::shared_ptr< CState > m_state;
+	const std::uint64_t m_startTime;
+
+	const std::shared_ptr< CState > m_pausedState;
+
+	std::shared_ptr< CMesh > m_meshText;
 };
 
 #endif // CSTATEPAUSE_HPP

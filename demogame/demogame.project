@@ -55,7 +55,6 @@
       <File Name="shaders/fs/schnarf.fs.glsl"/>
       <File Name="shaders/fs/wait_cursor.fs.glsl"/>
       <File Name="shaders/fs/pause_bg.fs.glsl"/>
-      <File Name="shaders/fs/pause_text.fs.glsl"/>
     </VirtualDirectory>
     <VirtualDirectory Name="vs">
       <File Name="shaders/vs/reflection.vs.glsl"/>
@@ -64,7 +63,6 @@
       <File Name="shaders/vs/superBox.vs.glsl"/>
       <File Name="shaders/vs/wait_cursor.vs.glsl"/>
       <File Name="shaders/vs/pause_bg.vs.glsl"/>
-      <File Name="shaders/vs/pause_text.vs.glsl"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="textures">
