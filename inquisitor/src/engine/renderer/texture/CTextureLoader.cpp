@@ -247,9 +247,9 @@ bool CTextureLoader::From2DArrayFile( const std::string &path, std::shared_ptr< 
 		logWARNING( "no layers defined in '{0}'", path );
 		return( false );
 	}
-	else if( json_layers->size() > UINT8_MAX )
+	else if( json_layers->size() > std::numeric_limits< std::uint8_t >::max() )
 	{
-		logWARNING( "more than the maximum of {0} layers defined in '{1}'", UINT8_MAX, path );
+		logWARNING( "more than the maximum of {0} layers defined in '{1}'", std::numeric_limits< std::uint8_t >::max(), path );
 		return( false );
 	}
 

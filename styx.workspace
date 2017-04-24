@@ -14,7 +14,7 @@
       <Project Name="inquisitor" ConfigName="Debug"/>
       <Project Name="resources" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="yes">
+    <WorkspaceConfiguration Name="Release" Selected="no">
       <Environment/>
       <Project Name="setup" ConfigName="Release"/>
       <Project Name="inquisitor" ConfigName="Release"/>
