@@ -14,9 +14,6 @@ using json = nlohmann::json;
 
 #include "src/engine/renderer/GLHelper.hpp"
 
-#include "src/engine/renderer/texture/CCubemapData.hpp"
-#include "src/engine/renderer/texture/C2DArrayData.hpp"
-
 CTextureLoader::CTextureLoader( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter ) :
 	m_filesystem { p_filesystem },
 	// clamp the value so we don't get too bad texture-quality
@@ -42,7 +39,7 @@ CTextureLoader::CTextureLoader( const CSettings &p_settings, const CFileSystem &
 }
 
 
-void CTextureLoader::FromFile( const std::string &path, std::shared_ptr< CTexture > tex ) const
+void CTextureLoader::FromFile( const std::string &path, std::shared_ptr< CTexture > &tex ) const
 {
 	// TODO implement loading of compressed images in our own format
 
@@ -79,38 +76,7 @@ void CTextureLoader::FromFile( const std::string &path, std::shared_ptr< CTextur
 	}
 }
 
-void CTextureLoader::FromImage( const std::shared_ptr< const CImage > &image, std::shared_ptr< CTexture > tex ) const
-{
-	tex->m_type = CTexture::type::TEX_2D;
-
-	glCreateTextures( GL_TEXTURE_2D, 1, &tex->m_texID );
-
-	const auto &size = image->Size();
-
-	const GLchar maxMipLevel = floor( glm::log2( std::max( size.width, size.height ) ) ) + 1;
-	glTextureParameteri( tex->m_texID, GL_TEXTURE_BASE_LEVEL, 0 );
-	glTextureParameteri( tex->m_texID, GL_TEXTURE_MAX_LEVEL, maxMipLevel );
-
-	glTextureStorage2D(	tex->m_texID,
-						maxMipLevel,
-						static_cast< GLenum >( m_internalTextureFormat2D ),
-						size.width,
-						size.height );
-
-	glTextureSubImage2D(	tex->m_texID,
-							0, // level
-							0, // xoffset
-							0, // yoffset
-							size.width,
-							size.height,
-							GLHelper::GLFormatFromImage( image ),
-							GL_UNSIGNED_BYTE,
-							image->RawPixelData() );
-
-	glGenerateTextureMipmap( tex->m_texID );
-}
-
-bool CTextureLoader::FromImageFile( const std::string &path, std::shared_ptr< CTexture > tex ) const
+bool CTextureLoader::FromImageFile( const std::string &path, std::shared_ptr< CTexture > &tex ) const
 {
 	const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path, m_iMaxTextureSize, m_iPicMip, false );
 
@@ -126,7 +92,7 @@ bool CTextureLoader::FromImageFile( const std::string &path, std::shared_ptr< CT
 	}
 }
 
-bool CTextureLoader::FromCubeFile( const std::string &path, std::shared_ptr< CTexture > tex ) const
+bool CTextureLoader::FromCubeFile( const std::string &path, std::shared_ptr< CTexture > &tex ) const
 {
 	json root;
 
@@ -181,51 +147,18 @@ bool CTextureLoader::FromCubeFile( const std::string &path, std::shared_ptr< CTe
 		}
 	}
 
-	if( cubemapData.isComplete() )
+	if( FromCubemapData( cubemapData, tex ) )
 	{
-		tex->m_type = CTexture::type::TEX_CUBE_MAP;
-
-		glCreateTextures( GL_TEXTURE_CUBE_MAP, 1, &tex->m_texID );
-
-		glTextureParameteri( tex->m_texID, GL_TEXTURE_BASE_LEVEL, 0 );
-		glTextureParameteri( tex->m_texID, GL_TEXTURE_MAX_LEVEL, 0 );
-
-		const auto &faces = cubemapData.getFaces();
-
-		const auto &size = faces[ 0 ]->Size();
-
-		glTextureStorage2D(	tex->m_texID,
-							1,
-							static_cast< GLenum >( m_internalTextureFormatCube ),
-							size.width,
-							size.height );
-
-		std::uint8_t faceNum = 0;
-		for( const auto &face : faces )
-		{
-			glTextureSubImage3D(	tex->m_texID,
-									0, // level
-									0, // xoffset
-									0, // yoffset
-									faceNum++, // zoffset
-									face->Size().width,
-									face->Size().height,
-									1, // depth
-									GLHelper::GLFormatFromImage( face ),
-									GL_UNSIGNED_BYTE,
-									face->RawPixelData() );
-		}
-
 		return( true );
 	}
 	else
 	{
-		logWARNING( "incomplete cubemap for '{0}'", path );
+		logWARNING( "unable to load cubemap for '{0}'", path );
 		return( false );
 	}
 }
 
-bool CTextureLoader::From2DArrayFile( const std::string &path, std::shared_ptr< CTexture > tex ) const
+bool CTextureLoader::From2DArrayFile( const std::string &path, std::shared_ptr< CTexture > &tex ) const
 {
 	json root;
 
@@ -276,47 +209,145 @@ bool CTextureLoader::From2DArrayFile( const std::string &path, std::shared_ptr< 
 		}
 	}
 
-	tex->m_type = CTexture::type::TEX_2D_ARRAY;
+	if( From2DArrayData( arrayData, tex ) )
+	{
+		return( true );
+	}
+	else
+	{
+		logWARNING( "unable to load 2D array for '{0}'", path );
+		return( false );
+	}
+}
 
-	glCreateTextures( GL_TEXTURE_2D_ARRAY, 1, &tex->m_texID );
+void CTextureLoader::FromImage( const std::shared_ptr< const CImage > &image, std::shared_ptr< CTexture > &tex ) const
+{
+	tex->m_type = CTexture::type::TEX_2D;
 
-	auto const layers = arrayData.getLayers();
+	glCreateTextures( GL_TEXTURE_2D, 1, &tex->m_texID );
 
-	const auto &size = layers[ 0 ]->Size();
+	const auto &size = image->Size();
 
 	const GLchar maxMipLevel = floor( glm::log2( std::max( size.width, size.height ) ) ) + 1;
 	glTextureParameteri( tex->m_texID, GL_TEXTURE_BASE_LEVEL, 0 );
 	glTextureParameteri( tex->m_texID, GL_TEXTURE_MAX_LEVEL, maxMipLevel );
 
-	glTextureStorage3D(	tex->m_texID,
+	glTextureStorage2D(	tex->m_texID,
 						maxMipLevel,
-						static_cast< GLenum >( m_internalTextureFormat2DArray ),
+						static_cast< GLenum >( m_internalTextureFormat2D ),
 						size.width,
-						size.height,
-						layers.size() );
+						size.height );
 
-	std::uint8_t layerNum = 0;
-	for( const auto layer : layers )
-	{
-		glTextureSubImage3D(	tex->m_texID,
-								0, // level
-								0, // xoffset
-								0, // yoffset
-								layerNum++, // zoffset
-								layer->Size().width,
-								layer->Size().height,
-								1, // depth
-								GLHelper::GLFormatFromImage( layer ),
-								GL_UNSIGNED_BYTE,
-								layer->RawPixelData() );
-	}
+	glTextureSubImage2D(	tex->m_texID,
+							0, // level
+							0, // xoffset
+							0, // yoffset
+							size.width,
+							size.height,
+							GLHelper::GLFormatFromImage( image ),
+							GL_UNSIGNED_BYTE,
+							image->RawPixelData() );
 
 	glGenerateTextureMipmap( tex->m_texID );
-
-	return( true );
 }
 
-void CTextureLoader::FromDummy( std::shared_ptr< CTexture > tex ) const
+bool CTextureLoader::FromCubemapData( const CCubemapData &cubemapData, std::shared_ptr< CTexture > &tex ) const
+{
+	if( cubemapData.isComplete() )
+	{
+		tex->m_type = CTexture::type::TEX_CUBE_MAP;
+
+		glCreateTextures( GL_TEXTURE_CUBE_MAP, 1, &tex->m_texID );
+
+		glTextureParameteri( tex->m_texID, GL_TEXTURE_BASE_LEVEL, 0 );
+		glTextureParameteri( tex->m_texID, GL_TEXTURE_MAX_LEVEL, 0 );
+
+		const auto &faces = cubemapData.getFaces();
+
+		const auto &size = faces[ 0 ]->Size();
+
+		glTextureStorage2D(	tex->m_texID,
+							1,
+							static_cast< GLenum >( m_internalTextureFormatCube ),
+							size.width,
+							size.height );
+
+		std::uint8_t faceNum = 0;
+		for( const auto &face : faces )
+		{
+			glTextureSubImage3D(	tex->m_texID,
+									0, // level
+									0, // xoffset
+									0, // yoffset
+									faceNum++, // zoffset
+									face->Size().width,
+									face->Size().height,
+									1, // depth
+									GLHelper::GLFormatFromImage( face ),
+									GL_UNSIGNED_BYTE,
+									face->RawPixelData() );
+		}
+
+		return( true );
+	}
+	else
+	{
+		logWARNING( "incomplete cubemap" );
+		return( false );
+	}
+}
+
+bool CTextureLoader::From2DArrayData( const C2DArrayData &arrayData, std::shared_ptr< CTexture > &tex ) const
+{
+	const auto &layers = arrayData.getLayers();
+
+	if( layers.size() > 0 )
+	{
+		tex->m_type = CTexture::type::TEX_2D_ARRAY;
+
+		glCreateTextures( GL_TEXTURE_2D_ARRAY, 1, &tex->m_texID );
+
+		const auto &size = layers[ 0 ]->Size();
+
+		const GLchar maxMipLevel = floor( glm::log2( std::max( size.width, size.height ) ) ) + 1;
+		glTextureParameteri( tex->m_texID, GL_TEXTURE_BASE_LEVEL, 0 );
+		glTextureParameteri( tex->m_texID, GL_TEXTURE_MAX_LEVEL, maxMipLevel );
+
+		glTextureStorage3D(	tex->m_texID,
+							maxMipLevel,
+							static_cast< GLenum >( m_internalTextureFormat2DArray ),
+							size.width,
+							size.height,
+							layers.size() );
+
+		std::uint8_t layerNum = 0;
+		for( const auto &layer : layers )
+		{
+			glTextureSubImage3D(	tex->m_texID,
+									0, // level
+									0, // xoffset
+									0, // yoffset
+									layerNum++, // zoffset
+									layer->Size().width,
+									layer->Size().height,
+									1, // depth
+									GLHelper::GLFormatFromImage( layer ),
+									GL_UNSIGNED_BYTE,
+									layer->RawPixelData() );
+		}
+
+		glGenerateTextureMipmap( tex->m_texID );
+
+		return( true );
+	}
+	else
+	{
+		logWARNING( "empty 2D array" );
+		return( false );
+	}
+}
+
+void CTextureLoader::FromDummy( std::shared_ptr< CTexture > &tex ) const
 {
 	tex->Reset();
 

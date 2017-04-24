@@ -12,20 +12,27 @@
 
 #include "src/engine/renderer/COpenGlAdapter.hpp"
 
+#include "src/engine/renderer/texture/CCubemapData.hpp"
+#include "src/engine/renderer/texture/C2DArrayData.hpp"
+
 class CTextureLoader final
 {
 public:
 	CTextureLoader( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter );
 
-	void FromFile( const std::string &path, std::shared_ptr< CTexture > tex ) const;
-	void FromImage( const std::shared_ptr< const CImage > &image, std::shared_ptr< CTexture > tex ) const;
+	void FromFile( const std::string &path, std::shared_ptr< CTexture > &tex ) const;
+
+	void FromImage( const std::shared_ptr< const CImage > &image, std::shared_ptr< CTexture > &tex ) const;
 
 private:
-	bool FromImageFile( const std::string &path, std::shared_ptr< CTexture > tex ) const;
-	bool FromCubeFile( const std::string &path, std::shared_ptr< CTexture > tex ) const;
-	bool From2DArrayFile( const std::string &path, std::shared_ptr< CTexture > tex ) const;
+	bool FromImageFile( const std::string &path, std::shared_ptr< CTexture > &tex ) const;
+	bool FromCubeFile( const std::string &path, std::shared_ptr< CTexture > &tex ) const;
+	bool From2DArrayFile( const std::string &path, std::shared_ptr< CTexture > &tex ) const;
 
-	void FromDummy( std::shared_ptr< CTexture > tex ) const;
+	bool FromCubemapData( const CCubemapData &cubemapData, std::shared_ptr< CTexture > &tex ) const;
+	bool From2DArrayData( const C2DArrayData &arrayData, std::shared_ptr< CTexture > &tex ) const;
+
+	void FromDummy( std::shared_ptr< CTexture > &tex ) const;
 
 	const CFileSystem &m_filesystem;
 
