@@ -190,9 +190,9 @@ bool CTextureLoader::FromCubeFile( const std::string &path, std::shared_ptr< CTe
 		glTextureParameteri( tex->m_texID, GL_TEXTURE_BASE_LEVEL, 0 );
 		glTextureParameteri( tex->m_texID, GL_TEXTURE_MAX_LEVEL, 0 );
 
-		const auto faces = cubemapData.getFaces();
+		const auto &faces = cubemapData.getFaces();
 
-		auto &size = faces[ 0 ]->Size();
+		const auto &size = faces[ 0 ]->Size();
 
 		glTextureStorage2D(	tex->m_texID,
 							1,
@@ -200,9 +200,8 @@ bool CTextureLoader::FromCubeFile( const std::string &path, std::shared_ptr< CTe
 							size.width,
 							size.height );
 
-		//for( std::uint8_t faceNum = 0; faceNum < CCubemapData::countCubemapFaces; faceNum++ )
 		std::uint8_t faceNum = 0;
-		for( const auto face : faces )
+		for( const auto &face : faces )
 		{
 			glTextureSubImage3D(	tex->m_texID,
 									0, // level
