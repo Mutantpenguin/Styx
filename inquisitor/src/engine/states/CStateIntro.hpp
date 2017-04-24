@@ -12,6 +12,7 @@ public:
 	~CStateIntro();
 
 	virtual std::shared_ptr< CState > Update( void ) override;
+
 private:
 	const std::uint64_t m_startTime;
 

@@ -15,15 +15,15 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	renderer.SetClearColor( CColor( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
-	auto cameraFree = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
-	cameraFree->SetPosition( { 0.0f, 0.0f, 5.0f } );
-	cameraFree->SetDirection( { 0.0f, 0.0f, -10.0f } );
+	auto camera = std::make_shared< CCamera >( m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
+	camera->SetPosition( { 0.0f, 0.0f, 5.0f } );
+	camera->SetDirection( { 0.0f, 0.0f, -10.0f } );
 
-	m_scene.Camera( cameraFree );
+	m_scene.Camera( camera );
 
 	auto &soundManager = m_engineSystems.SoundManager;
 
-	m_engineSystems.SoundManager.SetListener( cameraFree );
+	m_engineSystems.SoundManager.SetListener( camera );
 
 	const auto material = renderer.LoadMaterial( "materials/intro_icon.mat" );
 
