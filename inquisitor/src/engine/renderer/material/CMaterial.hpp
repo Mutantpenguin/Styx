@@ -22,7 +22,7 @@ public:
 
 	bool Blending( void ) const;
 
-	const std::shared_ptr< const CShaderProgram > Shader( void ) const;
+	const std::shared_ptr< const CShaderProgram > &Shader( void ) const;
 
 	const std::unordered_map< GLuint, std::unique_ptr< const CMaterialSamplerData > > &SamplerData( void ) const;
 
