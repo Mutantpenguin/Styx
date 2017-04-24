@@ -13,8 +13,6 @@ public:
 	CCameraFree( float aspectRatio, float fov, float zNear, float zFar );
 	~CCameraFree();
 
-	void	SetDirection( const glm::vec3 &direction );
-
 	void	MoveForward( const float distance );
 	void	MoveBackward( const float distance );
 	void	MoveUp( const float distance );

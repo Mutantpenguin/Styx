@@ -15,6 +15,7 @@ public:
 	void	SetZFar( float zFar );
 
 	void	SetPosition( const glm::vec3 &position );
+	void	SetDirection( const glm::vec3 &direction );
 
 	float	FOV( void ) const;
 	float	ZNear( void ) const;
@@ -36,9 +37,9 @@ protected:
 	glm::vec3 m_position	{ 0, 0, 0 };
 	glm::quat m_orientation	{ 1, 0, 0, 0 };
 
-	const glm::vec3 worldZ	{ 0.0f, 0.0f, 1.0f };
-	const glm::vec3 worldY	{ 0.0f, 1.0f, 0.0f };
-	const glm::vec3 worldX	{ 1.0f, 0.0f, 0.0f };
+	static constexpr glm::vec3 worldZ = { 0.0f, 0.0f, 1.0f };
+	static constexpr glm::vec3 worldY = { 0.0f, 1.0f, 0.0f };
+	static constexpr glm::vec3 worldX = { 1.0f, 0.0f, 0.0f };
 
 private:
 	const float	m_aspectRatio;

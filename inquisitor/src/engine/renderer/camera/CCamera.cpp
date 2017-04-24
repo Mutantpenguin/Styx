@@ -45,6 +45,13 @@ void CCamera::SetPosition( const glm::vec3 &position )
 	m_position = position;
 }
 
+void CCamera::SetDirection( const glm::vec3 &direction )
+{
+	const glm::mat4 RotationMatrix = glm::lookAt( m_position, m_position + direction, worldY );
+
+	m_orientation = glm::toQuat( RotationMatrix );
+}
+
 float CCamera::FOV( void ) const
 {
 	return( m_fov );

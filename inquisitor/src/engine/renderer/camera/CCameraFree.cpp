@@ -12,13 +12,6 @@ CCameraFree::~CCameraFree()
 {
 }
 
-void CCameraFree::SetDirection( const glm::vec3 &direction )
-{
-	glm::mat4 RotationMatrix = glm::lookAt( m_position, m_position + direction, worldY );
-
-	m_orientation = glm::toQuat( RotationMatrix );
-}
-
 void CCameraFree::MoveForward( const float distance )
 {
 	m_position -= Direction() * distance;
