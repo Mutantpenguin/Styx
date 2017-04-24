@@ -37,9 +37,10 @@ protected:
 	glm::vec3 m_position	{ 0, 0, 0 };
 	glm::quat m_orientation	{ 1, 0, 0, 0 };
 
-	static constexpr glm::vec3 worldZ = { 0.0f, 0.0f, 1.0f };
-	static constexpr glm::vec3 worldY = { 0.0f, 1.0f, 0.0f };
-	static constexpr glm::vec3 worldX = { 1.0f, 0.0f, 0.0f };
+	// TODO maybe create own static class for the world which holds these constants?
+	const glm::vec3 worldZ	{ 0.0f, 0.0f, 1.0f };
+	const glm::vec3 worldY	{ 0.0f, 1.0f, 0.0f };
+	const glm::vec3 worldX	{ 1.0f, 0.0f, 0.0f };
 
 private:
 	const float	m_aspectRatio;
