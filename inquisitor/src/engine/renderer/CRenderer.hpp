@@ -37,7 +37,7 @@ public:
 
 	void ReloadResources( void );
 
-	std::shared_ptr< CMaterial > LoadMaterial( const std::string &path );
+	[[nodiscard]] std::shared_ptr< CMaterial > LoadMaterial( const std::string &path );
 
 	void	SetClearColor( const CColor &color ) const;
 

@@ -20,7 +20,7 @@
       <Project Name="inquisitor" ConfigName="Release"/>
       <Project Name="resources" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Profile" Selected="yes">
+    <WorkspaceConfiguration Name="Profile" Selected="no">
       <Environment/>
       <Project Name="setup" ConfigName="Debug"/>
       <Project Name="inquisitor" ConfigName="Profile"/>

@@ -20,7 +20,7 @@ public:
 	void	SetListener( const std::shared_ptr< const CCamera > &camera );
 
 	// TODO - this is just for testing sound
-	std::shared_ptr< CSound > Load( const std::string &path ) const;
+	[[nodiscard]] std::shared_ptr< CSound > Load( const std::string &path ) const;
 	// TODO - this is just temporary to test sound-output
 	void	Play( const std::shared_ptr< const CSound > &sound ) const;
 

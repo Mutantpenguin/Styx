@@ -25,9 +25,9 @@ public:
 	CShaderManager( const CFileSystem &p_filesystem );
 	~CShaderManager();
 
-	std::shared_ptr< CShaderProgram > LoadProgram( const std::string &pathVertexShader, const std::string &pathFragmentShader );
+	[[nodiscard]] std::shared_ptr< CShaderProgram > LoadProgram( const std::string &pathVertexShader, const std::string &pathFragmentShader );
 
-	std::shared_ptr< CShaderProgram > GetDummyShader( void ) const;
+	[[nodiscard]] std::shared_ptr< CShaderProgram > GetDummyShader( void ) const;
 
 	constexpr static const GLint requiredCombinedTextureImageUnits { 16 };
 
@@ -44,9 +44,9 @@ private:
 
 	GLuint CreateProgram( const GLuint vertexShader, const GLuint fragmentShader );
 
-	GLuint LoadVertexShader( const std::string &path );
-	GLuint LoadFragmentShader( const std::string &path );
-	GLuint LoadShader( const GLenum type, const std::string &path );
+	[[nodiscard]] GLuint LoadVertexShader( const std::string &path );
+	[[nodiscard]] GLuint LoadFragmentShader( const std::string &path );
+	[[nodiscard]] GLuint LoadShader( const GLenum type, const std::string &path );
 
 	GLuint CreateShader( const GLenum type, const std::string &body );
 
