@@ -23,9 +23,9 @@ CMaterialManager::~CMaterialManager( void )
 	{
 		logWARNING( "there are still '{0}' existing materials", m_materialFiles.size() );
 		#ifdef INQ_DEBUG
-		for( const auto material : m_materialFiles )
+		for( const auto & [ filename, _ ] : m_materialFiles )
 		{
-			logDEBUG( "\t{0}", material.first );
+			logDEBUG( "\t{0}", filename );
 		}
 		#endif
 	}
@@ -74,18 +74,18 @@ void CMaterialManager::ReloadMaterials( void )
 
 	logINFO( "reloading materials:" );
 
-	for( auto &materialFile : m_materialFiles )
+	for( auto & [ filename, materialFile ] : m_materialFiles )
 	{
-		const auto mtime = m_filesystem.GetLastModTime( materialFile.first );
-		if( mtime > materialFile.second.mtime )
+		const auto mtime = m_filesystem.GetLastModTime( filename );
+		if( mtime > materialFile.mtime )
 		{
-			logINFO( "    {0}", materialFile.first );
+			logINFO( "    {0}", filename );
 
-			materialFile.second.material->Reset();
+			materialFile.material->Reset();
 
-			m_materialLoader.FromFile( materialFile.first, materialFile.second.material );
+			m_materialLoader.FromFile( filename, materialFile.material );
 
-			materialFile.second.mtime = mtime;
+			materialFile.mtime = mtime;
 		}
 	}
 }

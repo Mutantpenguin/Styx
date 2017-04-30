@@ -262,11 +262,9 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body 
 
 			source += "\n";
 
-			// TODO this will work with -std=c++17;
-			// for( const auto && [ location, interface ] : allowedAttributes )
-			for( const auto &attribute : allowedAttributes )
+			for( const auto & [ location, interface ] : allowedAttributes )
 			{
-				source += fmt::format( "layout( location = {0} ) in {1} {2};", static_cast< GLint >( attribute.first ), GLHelper::GLSLTypeToString( attribute.second.type ), attribute.second.name ) + "\n";
+				source += fmt::format( "layout( location = {0} ) in {1} {2};", static_cast< GLint >( location ), GLHelper::GLSLTypeToString( interface.type ), interface.name ) + "\n";
 			}
 
 			break;
@@ -285,9 +283,9 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body 
 	{
 		source += "\n";
 
-		for( const auto &engineUniform : engineUniforms )
+		for( const auto & [ _, interface ] : engineUniforms )
 		{
-			source += fmt::format( "uniform {0} {1};", GLHelper::GLSLTypeToString( engineUniform.second.type ), engineUniform.second.name ) + "\n";
+			source += fmt::format( "uniform {0} {1};", GLHelper::GLSLTypeToString( interface.type ), interface.name ) + "\n";
 		}
 	}
 

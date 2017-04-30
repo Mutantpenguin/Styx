@@ -21,9 +21,9 @@ CTextureManager::~CTextureManager( void )
 	{
 		logWARNING( "there are still '{0}' existing m_textures", m_textureFiles.size() );
 		#ifdef INQ_DEBUG
-		for( const auto texture : m_textureFiles )
+		for( const auto & [ filename, _ ] : m_textureFiles )
 		{
-			logDEBUG( "\t{0}", texture.first );
+			logDEBUG( "\t{0}", filename );
 		}
 		#endif
 	}
@@ -68,18 +68,18 @@ void CTextureManager::ReloadTextures( void )
 {
 	logINFO( "reloading textures:" );
 
-	for( auto &textureFile : m_textureFiles )
+	for( auto & [ filename, textureFile ] : m_textureFiles )
 	{
-		const auto mtime = m_filesystem.GetLastModTime( textureFile.first );
-		if( mtime > textureFile.second.mtime )
+		const auto mtime = m_filesystem.GetLastModTime( filename );
+		if( mtime > textureFile.mtime )
 		{
-			logINFO( "    {0}", textureFile.first );
+			logINFO( "    {0}", filename );
 
-			textureFile.second.texture->Reset();
+			textureFile.texture->Reset();
 
-			m_textureLoader.FromFile( textureFile.first, textureFile.second.texture );
+			m_textureLoader.FromFile( filename, textureFile.texture );
 
-			textureFile.second.mtime = mtime;
+			textureFile.mtime = mtime;
 		}
 	}
 }

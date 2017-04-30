@@ -212,22 +212,18 @@ void CRenderer::SetupMaterial( const CMaterial * const material ) const
 	material->Shader()->Use();
 
 	std::uint8_t textureUnit = 0;
-	for( const auto &samplerData : material->SamplerData() )
+	for( const auto & [ location, sampler ] : material->SamplerData() )
 	{
-		const auto location = samplerData.first;
-
 		glUniform1i( location, textureUnit );
 
-		samplerData.second->BindToUnit( textureUnit );
+		sampler->BindToUnit( textureUnit );
 
 		textureUnit++;
 	}
 
-	for( const auto &uniform : material->MaterialUniforms() )
+	for( const auto & [ location, uniform ] : material->MaterialUniforms() )
 	{
-		const auto location = uniform.first;
-
-		uniform.second->Set( location );
+		uniform->Set( location );
 	}
 }
 
@@ -247,15 +243,13 @@ void CRenderer::RenderQueueMeshes( const TRenderQueueMeshes &queueMeshes, const 
 
 void CRenderer::RenderQueueMaterials( const TRenderQueueMaterials &queueMaterials, const glm::mat4 &viewProjectionMatrix ) const
 {
-	for( const auto &queueMaterial : queueMaterials )
+	for( const auto & [ material, meshes ] : queueMaterials )
 	{
-		const CMaterial * const material = queueMaterial.first;
-
 		SetupMaterial( material );
 
 		const auto shader = material->Shader().get();
 
-		for( const auto * mesh : queueMaterial.second )
+		for( const auto * mesh : meshes )
 		{
 			RenderMesh( mesh, viewProjectionMatrix, shader );
 		}
@@ -264,11 +258,9 @@ void CRenderer::RenderQueueMaterials( const TRenderQueueMaterials &queueMaterial
 
 void CRenderer::RenderMesh( const CMesh * const mesh, const glm::mat4 &viewProjectionMatrix, const CShaderProgram * const shader ) const
 {
-	for( const auto &requiredEngineUniform : shader->RequiredEngineUniforms() )
+	for( const auto & [ location, engineUniform ] : shader->RequiredEngineUniforms() )
 	{
-		const auto location = requiredEngineUniform.first;
-
-		switch( requiredEngineUniform.second )
+		switch( engineUniform )
 		{
 			case EEngineUniform::modelViewProjectionMatrix:
 				glUniformMatrix4fv( location, 1, GL_FALSE, &( viewProjectionMatrix * mesh->ModelMatrix() )[ 0 ][ 0 ] );

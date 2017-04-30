@@ -173,13 +173,8 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 			}
 			else
 			{
-				// TODO this will work with -std=c++17;
-				// for( const auto && [ location, interface ] : shader->RequiredSamplers() )
-				for( const auto &requiredSampler : shader->RequiredSamplers() )
+				for( const auto & [ location, interface ] : shader->RequiredSamplers() )
 				{
-					const auto location = requiredSampler.first;
-					const auto interface = requiredSampler.second;
-
 					const auto mat_texture = mat_textures->find( interface.name );
 					if( mat_texture == mat_textures->cend() )
 					{
@@ -320,11 +315,8 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 			}
 			else
 			{
-				for( const auto requiredMaterialUniform : shader->RequiredMaterialUniforms() )
+				for( const auto & [ location, interface ] : shader->RequiredMaterialUniforms() )
 				{
-					const auto location = requiredMaterialUniform.first;
-					const auto interface = requiredMaterialUniform.second;
-
 					const auto mat_uniform = mat_uniforms->find( interface.name );
 					if( mat_uniform == mat_uniforms->cend() )
 					{
@@ -369,9 +361,11 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 								}
 								else
 								{
-									const std::uint8_t requiredAmountOfValues = [&]
+									const auto &type = interface.type;
+
+									const std::uint8_t requiredAmountOfValues = [&type]
 									{
-										switch( interface.type )
+										switch( type )
 										{
 											case GL_FLOAT_VEC2:
 												return( 2 );
