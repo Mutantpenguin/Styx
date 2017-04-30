@@ -201,7 +201,7 @@ namespace GLHelper
 		}
 	}
 
-	std::string GLSLTypeToString( GLenum type )
+	std::string GLSLTypeToString( const GLenum type )
 	{
 		switch( type )
 		{
