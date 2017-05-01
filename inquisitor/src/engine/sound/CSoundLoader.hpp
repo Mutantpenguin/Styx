@@ -12,7 +12,7 @@ class CSoundLoader
 private:
 	CSoundLoader( const CFileSystem &p_filesystem );
 
-	std::shared_ptr< CSound > CreateSoundFromFile( const std::string &path ) const;
+	[[nodiscard]] std::shared_ptr< CSound > CreateSoundFromFile( const std::string &path ) const;
 
 private:
 	const CFileSystem &m_filesystem;

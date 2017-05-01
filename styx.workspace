@@ -26,7 +26,7 @@
       <Project Name="inquisitor" ConfigName="Profile"/>
       <Project Name="resources" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Debug + Sanitizer" Selected="yes">
+    <WorkspaceConfiguration Name="Debug + Sanitizer" Selected="no">
       <Environment/>
       <Project Name="setup" ConfigName="Debug"/>
       <Project Name="inquisitor" ConfigName="Debug + Sanitizer"/>
