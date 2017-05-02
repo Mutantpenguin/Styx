@@ -256,7 +256,7 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 							}
 						}
 
-						mat->m_samplerData[ location ] = std::make_unique< CMaterialSamplerData >( interface.name, texture, sampler );
+						mat->m_samplerData.insert( std::make_pair( location, CMaterialSamplerData( interface.name, texture, sampler ) ) );
 					}
 				}
 			}

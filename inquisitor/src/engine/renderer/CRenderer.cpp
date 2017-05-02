@@ -217,7 +217,7 @@ void CRenderer::SetupMaterial( const CMaterial * const material ) const
 	{
 		glUniform1i( location, textureUnit );
 
-		sampler->BindToUnit( textureUnit );
+		sampler.BindToUnit( textureUnit );
 
 		textureUnit++;
 	}

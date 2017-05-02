@@ -4,7 +4,7 @@
 #include "src/engine/renderer/texture/CTexture.hpp"
 #include "src/engine/renderer/sampler/CSampler.hpp"
 
-class CMaterialSamplerData
+class CMaterialSamplerData final
 {
 public:
 	CMaterialSamplerData( const std::string &name, const std::shared_ptr< const CTexture > &texture, const std::shared_ptr< const CSampler > &sampler );

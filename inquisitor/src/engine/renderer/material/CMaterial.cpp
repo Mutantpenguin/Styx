@@ -27,7 +27,7 @@ const std::shared_ptr< const CShaderProgram > &CMaterial::Shader( void ) const
 	return( m_shader );
 }
 
-const std::unordered_map< GLuint, std::unique_ptr< const CMaterialSamplerData > > &CMaterial::SamplerData( void ) const
+const std::unordered_map< GLuint, const CMaterialSamplerData > &CMaterial::SamplerData( void ) const
 {
 	return( m_samplerData );
 }
