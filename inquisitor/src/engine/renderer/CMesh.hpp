@@ -17,7 +17,7 @@ public:
 	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat );
 
 	void SetMaterial( const std::shared_ptr< const CMaterial > &mat );
-	const std::shared_ptr< const CMaterial > Material( void ) const;
+	const std::shared_ptr< const CMaterial > &Material( void ) const;
 
 	void SetScale( const glm::vec3 &position );
 	const glm::vec3 &Scale( void ) const;

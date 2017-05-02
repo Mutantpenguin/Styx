@@ -47,13 +47,12 @@ CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::s
 	CalculateModelMatrix();
 }
 
-/**	Sets the material and creates enough texcoord-buffers for the coord-modifications of every layer. */
 void CMesh::SetMaterial( const std::shared_ptr< const CMaterial > &mat )
 {
 	m_material = mat;
 }
 
-const std::shared_ptr< const CMaterial > CMesh::Material( void ) const
+const std::shared_ptr< const CMaterial > &CMesh::Material( void ) const
 {
 	return( m_material );
 }
