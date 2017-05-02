@@ -404,7 +404,7 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 			case GL_SAMPLER_2D:
 			case GL_SAMPLER_CUBE:
 			case GL_SAMPLER_2D_ARRAY:
-				shaderProgram->m_requiredSamplers[ uniformLocation ] = { uniformName, uniformType };
+				shaderProgram->m_requiredSamplers.insert( std::make_pair( uniformLocation, SShaderInterface { uniformName, uniformType } ) );
 				if( shaderProgram->m_requiredSamplers.size() > CShaderManager::requiredCombinedTextureImageUnits )
 				{
 					logERROR( "uses {0} samplers but max {1} are allowed", shaderProgram->m_requiredSamplers.size(), CShaderManager::requiredCombinedTextureImageUnits );
@@ -440,14 +440,14 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 						}
 						else
 						{
-							shaderProgram->m_requiredEngineUniforms[ uniformLocation ] = engineUniformIt->first;
+							shaderProgram->m_requiredEngineUniforms.insert( std::make_pair( uniformLocation, engineUniformIt->first ) );
 						}
 					}
 					else
 					{
 						// uniform gets provided by the material
 
-						shaderProgram->m_requiredMaterialUniforms[ uniformLocation ] = { uniformName, uniformType };
+						shaderProgram->m_requiredMaterialUniforms.insert( std::make_pair( uniformLocation, SShaderInterface { uniformName, uniformType } ) );
 					}
 					break;
 				}
