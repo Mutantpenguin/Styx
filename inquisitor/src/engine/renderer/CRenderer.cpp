@@ -161,14 +161,14 @@ void CRenderer::RenderScene( const CScene &scene, const CTimer &timer ) const
 		UpdateUniformBuffers( camera, timer );
 
 		/*
-		 * set up the renderqueues
+		 * set up the renderbuckets
 		 */
 
-		// static queues so whe don't need to allocate new memory on every frame
+		// static buckets so whe don't need to allocate new memory on every frame
 		// get cleared at the end of this function
 
-		static TRenderQueueMaterials renderQueueMaterialsOpaque;
-		static TRenderQueueMeshes renderQueueMaterialsTranslucent;
+		static TRenderBucketMaterials renderBucketMaterialsOpaque;
+		static TRenderBucketMeshes renderBucketMaterialsTranslucent;
 
 		for( const std::shared_ptr< const CMesh > &mesh : scene.Meshes() )
 		{
@@ -176,32 +176,33 @@ void CRenderer::RenderScene( const CScene &scene, const CTimer &timer ) const
 			{
 				if( mesh->Material()->Blending() )
 				{
-					renderQueueMaterialsTranslucent.push_back( mesh.get() );
+					renderBucketMaterialsTranslucent.push_back( mesh.get() );
 				}
 				else
 				{
-					renderQueueMaterialsOpaque[ mesh->Material().get() ].push_back( mesh.get() );
+					renderBucketMaterialsOpaque[ mesh->Material().get() ].push_back( mesh.get() );
 				}
 			}
 		}
 
 		const glm::mat4 viewProjectionMatrix = camera->CalculateViewProjectionMatrix();
 
-		RenderQueueMaterials( renderQueueMaterialsOpaque, viewProjectionMatrix );
+		RenderBucketMaterials( renderBucketMaterialsOpaque, viewProjectionMatrix );
 
-		renderQueueMaterialsOpaque.clear();
+		renderBucketMaterialsOpaque.clear();
 
 		const glm::vec3 &cameraPosition = camera->Position();
 
+		// TODO multithreaded?
 		// sort translucent back to front
-		std::sort( std::begin( renderQueueMaterialsTranslucent ), std::end( renderQueueMaterialsTranslucent ),	[&]( const CMesh * const a, const CMesh * const b ) -> bool
+		std::sort( std::begin( renderBucketMaterialsTranslucent ), std::end( renderBucketMaterialsTranslucent ),	[&cameraPosition]( const CMesh * const a, const CMesh * const b ) -> bool
 																												{
 																													return( glm::length2( a->Position() - cameraPosition ) > glm::length2( b->Position() - cameraPosition ) );
 																												} );
 
-		RenderQueueMeshes( renderQueueMaterialsTranslucent, viewProjectionMatrix );
+		RenderBucketMeshes( renderBucketMaterialsTranslucent, viewProjectionMatrix );
 
-		renderQueueMaterialsTranslucent.clear();
+		renderBucketMaterialsTranslucent.clear();
 	}
 }
 
@@ -227,23 +228,23 @@ void CRenderer::SetupMaterial( const CMaterial * const material ) const
 	}
 }
 
-void CRenderer::RenderQueueMeshes( const TRenderQueueMeshes &queueMeshes, const glm::mat4 &viewProjectionMatrix ) const
+void CRenderer::RenderBucketMeshes( const TRenderBucketMeshes &bucketMeshes, const glm::mat4 &viewProjectionMatrix ) const
 {
-	for( const auto * queueMesh : queueMeshes )
+	for( const auto * bucketMesh : bucketMeshes )
 	{
-		const CMaterial * const material = queueMesh->Material().get();
+		const CMaterial * const material = bucketMesh->Material().get();
 
 		SetupMaterial( material );
 
 		const auto shader = material->Shader().get();
 
-		RenderMesh( queueMesh, viewProjectionMatrix, shader );
+		RenderMesh( bucketMesh, viewProjectionMatrix, shader );
 	}
 }
 
-void CRenderer::RenderQueueMaterials( const TRenderQueueMaterials &queueMaterials, const glm::mat4 &viewProjectionMatrix ) const
+void CRenderer::RenderBucketMaterials( const TRenderBucketMaterials &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const
 {
-	for( const auto & [ material, meshes ] : queueMaterials )
+	for( const auto & [ material, meshes ] : bucketMaterials )
 	{
 		SetupMaterial( material );
 

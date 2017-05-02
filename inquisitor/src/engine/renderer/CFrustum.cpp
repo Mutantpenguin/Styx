@@ -53,6 +53,7 @@ void CFrustum::Update( const glm::mat4 &viewProjectionMatrix )
 
 bool CFrustum::IsSphereInside( const glm::vec3 &position, const float boundingSphereRadius ) const
 {
+	// TODO multithreaded?
 	for( const CPlane &plane : m_planes )
 	{
 		if( plane.DistanceToPlane( position ) < -boundingSphereRadius )

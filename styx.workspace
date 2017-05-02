@@ -6,7 +6,7 @@
   </Environment>
   <Project Name="inquisitor" Path="inquisitor/inquisitor.project" Active="Yes"/>
   <Project Name="demogame" Path="demogame/demogame.project" Active="No"/>
-  <Project Name="resources" Path="resources/resources.project"/>
+  <Project Name="resources" Path="resources/resources.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
