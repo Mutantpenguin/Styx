@@ -50,8 +50,8 @@ CShaderManager::~CShaderManager()
 
 bool CShaderManager::CreateDummyProgram( void )
 {
-	const auto vertexAttribute = allowedAttributes.at( CVAO::EAttributeLocation::vertex );
-	const auto uniformModelViewProjectionMatrix = engineUniforms.at( EEngineUniform::modelViewProjectionMatrix );
+	const auto &vertexAttribute = allowedAttributes.at( CVAO::EAttributeLocation::vertex );
+	const auto &uniformModelViewProjectionMatrix = engineUniforms.at( EEngineUniform::modelViewProjectionMatrix );
 
 	const std::string vertexShaderBody = "void main()" \
 										"{" \
