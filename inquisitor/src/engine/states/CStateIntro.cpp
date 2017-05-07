@@ -23,13 +23,16 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	auto &soundManager = m_engineSystems.SoundManager;
 
-	m_engineSystems.SoundManager.SetListener( camera );
+	soundManager.SetListener( camera );
 
-	const auto material = renderer.LoadMaterial( "materials/intro_icon.mat" );
+	const auto material = renderer.MaterialManager().LoadMaterial( "materials/intro_icon.mat" );
 
-	m_mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material );
-	m_mesh->SetScale( { 3.0f, 3.0f, 1.0f } );
-	m_scene.AddMesh( m_mesh );
+	const CMesh::TTextures logoMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/styx/logo.png" ), renderer.SamplerManager().SamplerFromType( CSampler::Type::EDGE_2D ) ) } };
+
+	m_logoMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material, logoMeshTextures );
+	m_logoMesh->SetScale( { 3.0f, 3.0f, 1.0f } );
+
+	m_scene.AddMesh( m_logoMesh );
 
 	// TODO don't loop sound
 	const auto startupSound = m_engineSystems.SoundManager.Load( "sounds/startup_sound.ogg" );
@@ -44,10 +47,10 @@ std::shared_ptr< CState > CStateIntro::Update( void )
 {
 	const std::uint64_t elapsedTime = m_engineSystems.GlobalTimer.Time() - m_startTime;
 
-	glm::vec3 meshPosition = m_mesh->Position();
+	glm::vec3 meshPosition = m_logoMesh->Position();
 	meshPosition.z = elapsedTime / m_waitTime;
 	meshPosition.y = elapsedTime / m_waitTime;
-	m_mesh->SetPosition( meshPosition );
+	m_logoMesh->SetPosition( meshPosition );
 
 	const float fadeTime = m_waitTime - 2000000;
 	const float colorComponent = ( fadeTime - elapsedTime ) / fadeTime;

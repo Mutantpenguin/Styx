@@ -7,7 +7,6 @@
 #include "src/engine/renderer/material/CMaterial.hpp"
 
 #include "src/engine/renderer/shader/CShaderManager.hpp"
-#include "src/engine/renderer/texture/CTextureManager.hpp"
 #include "src/engine/renderer/sampler/CSamplerManager.hpp"
 
 #include "src/engine/renderer/material/CMaterialLoader.hpp"
@@ -27,13 +26,13 @@ public:
 		virtual ~Exception() throw() {}
 	};
 
-	void ReloadMaterials( void );
-
 private:
-	CMaterialManager( const CSettings &settings, const CFileSystem &filesystem, const CSamplerManager &samplerManager, const COpenGlAdapter &openGlAdapter );
+	CMaterialManager( const CFileSystem &filesystem );
 	virtual ~CMaterialManager( void );
 
-	void	Update( void );
+	void Update( void );
+
+	void ReloadMaterials( void );
 
 	struct sMaterialFile
 	{
@@ -41,15 +40,11 @@ private:
 		std::int64_t					mtime;
 	};
 
-private:
 	CShaderManager &ShaderManager( void );
 
 	const CFileSystem &m_filesystem;
 
-	const CSamplerManager &m_samplerManager;
-
 	CShaderManager	m_shaderManager;
-	CTextureManager m_textureManager;
 
 	const CMaterialLoader m_materialLoader;
 

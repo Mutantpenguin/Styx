@@ -4,11 +4,5 @@
 	"shaders"	:	{
 						"vs" : "shaders/vs/standard.vs.glsl",
 						"fs" : "shaders/fs/standard.fs.glsl"
-					},
-	"textures"	:	{
-						"diffuseTexture"		: "textures/texpack_2/stone_floor.png"
-					},
-	"samplers"	:	{
-						"diffuseTexture"	: "REPEAT_2D"
 					}
 }

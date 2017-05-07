@@ -9,11 +9,5 @@
 	"shaders"		:	{
 							"vs" : "shaders/vs/standard.vs.glsl",
 							"fs" : "shaders/fs/standard.fs.glsl"
-						},
-	"textures"		:	{
-							"diffuseTexture" : "textures/pause/fg.png"
-						},
-	"samplers"		:	{
-							"diffuseTexture" : "EDGE_2D"
 						}
 }

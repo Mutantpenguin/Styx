@@ -9,17 +9,26 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	m_startTime { engineSystems.GlobalTimer.Time() },
 	m_pausedState { state }
 {
+	auto &renderer = engineSystems.Renderer;
+
 	{
-		const auto materialPause = engineSystems.Renderer.LoadMaterial( "materials/pause_bg.mat" );
-		const auto screenMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialPause );
-		m_scene.AddMesh( screenMesh );
+		const auto materialPause = renderer.MaterialManager().LoadMaterial( "materials/pause_bg.mat" );
+
+		const CMesh::TTextures backgroundMeshTextures = { { "bgTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/pause/bg.png" ), renderer.SamplerManager().SamplerFromType( CSampler::Type::REPEAT_2D ) ) } };
+
+		const auto backgroundMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialPause, backgroundMeshTextures );
+
+		m_scene.AddMesh( backgroundMesh );
 	}
 
 	{
-		const auto materialPauseText = engineSystems.Renderer.LoadMaterial( "materials/pause_text.mat" );
+		const auto materialPauseText = renderer.MaterialManager().LoadMaterial( "materials/pause_text.mat" );
 
-		m_meshText = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialPauseText );
+		const CMesh::TTextures textMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/pause/fg.png" ), renderer.SamplerManager().SamplerFromType( CSampler::Type::EDGE_2D ) ) } };
+
+		m_meshText = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialPauseText, textMeshTextures );
 		m_meshText->SetScale( { 3.0f, 3.0f / 512.0f * 128.0f, 1.0f } );
+
 		m_scene.AddMesh( m_meshText );
 	}
 

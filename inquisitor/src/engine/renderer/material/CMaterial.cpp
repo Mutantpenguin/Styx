@@ -27,12 +27,7 @@ const std::shared_ptr< const CShaderProgram > &CMaterial::Shader( void ) const
 	return( m_shader );
 }
 
-const std::unordered_map< GLuint, const CMaterialSamplerData > &CMaterial::SamplerData( void ) const
-{
-	return( m_samplerData );
-}
-
-const std::unordered_map< GLuint, std::unique_ptr< const CMaterialUniform > > &CMaterial::MaterialUniforms( void ) const
+const std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &CMaterial::MaterialUniforms( void ) const
 {
 	return( m_materialUniforms );
 }
@@ -47,8 +42,6 @@ void CMaterial::Reset( void )
 	m_name = "";
 
 	m_shader = nullptr;
-
-	m_samplerData.clear();
 
 	m_materialUniforms.clear();
 

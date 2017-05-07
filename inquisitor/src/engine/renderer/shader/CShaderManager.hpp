@@ -50,7 +50,7 @@ private:
 
 	GLuint CreateShader( const GLenum type, const std::string &body );
 
-	bool InterfaceSetup( std::shared_ptr< CShaderProgram > shaderProgram );
+	bool InterfaceSetup( std::shared_ptr< CShaderProgram > &shaderProgram );
 
 	void RegisterUniformBuffer( const std::shared_ptr< const CUniformBuffer > &ubo );
 

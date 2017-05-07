@@ -22,16 +22,16 @@ public:
 
 	void Use( void ) const;
 
-	const std::unordered_map< GLint, const SShaderInterface > &RequiredSamplers( void ) const;
-	const std::unordered_map< GLint, const EEngineUniform > &RequiredEngineUniforms( void ) const;
-	const std::unordered_map< GLint, const SShaderInterface > &RequiredMaterialUniforms( void ) const;
+	const std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredSamplers( void ) const;
+	const std::vector< std::pair< GLint, const EEngineUniform > >	&RequiredEngineUniforms( void ) const;
+	const std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredMaterialUniforms( void ) const;
 
 private:
 	const GLuint m_program;
 
-	std::unordered_map< GLint, const SShaderInterface >	m_requiredSamplers;
-	std::unordered_map< GLint, const EEngineUniform >	m_requiredEngineUniforms;
-	std::unordered_map< GLint, const SShaderInterface >	m_requiredMaterialUniforms;
+	std::vector< std::pair< GLint, const SShaderInterface > >	m_requiredSamplers;
+	std::vector< std::pair< GLint, const EEngineUniform > >		m_requiredEngineUniforms;
+	std::vector< std::pair< GLint, const SShaderInterface > >	m_requiredMaterialUniforms;
 };
 
 #endif // CSHADERPROGRAM_HPP

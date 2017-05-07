@@ -334,7 +334,7 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body 
 	return( shader );
 }
 
-bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderProgram )
+bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > &shaderProgram )
 {
 	/*
 	 * active attributes
@@ -394,7 +394,7 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 
 		std::vector< char > nameData( values[ 2 ] );
 		glGetProgramResourceName( shaderProgram->m_program, GL_UNIFORM, uniformIndex, nameData.size(), NULL, &nameData[ 0 ] );
-		std::string uniformName( nameData.data() );
+		const std::string uniformName( nameData.data() );
 
 		const GLint  uniformLocation = values[ 3 ];
 		const GLenum uniformType = static_cast< GLenum>( values[ 1 ] );
@@ -404,7 +404,7 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 			case GL_SAMPLER_2D:
 			case GL_SAMPLER_CUBE:
 			case GL_SAMPLER_2D_ARRAY:
-				shaderProgram->m_requiredSamplers.insert( std::make_pair( uniformLocation, SShaderInterface { uniformName, uniformType } ) );
+				shaderProgram->m_requiredSamplers.emplace_back( std::make_pair( uniformLocation, SShaderInterface { uniformName, uniformType } ) );
 				if( shaderProgram->m_requiredSamplers.size() > CShaderManager::requiredCombinedTextureImageUnits )
 				{
 					logERROR( "uses {0} samplers but max {1} are allowed", shaderProgram->m_requiredSamplers.size(), CShaderManager::requiredCombinedTextureImageUnits );
@@ -440,14 +440,14 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > shaderPro
 						}
 						else
 						{
-							shaderProgram->m_requiredEngineUniforms.insert( std::make_pair( uniformLocation, engineUniformIt->first ) );
+							shaderProgram->m_requiredEngineUniforms.emplace_back( std::make_pair( uniformLocation, engineUniformIt->first ) );
 						}
 					}
 					else
 					{
 						// uniform gets provided by the material
 
-						shaderProgram->m_requiredMaterialUniforms.insert( std::make_pair( uniformLocation, SShaderInterface { uniformName, uniformType } ) );
+						shaderProgram->m_requiredMaterialUniforms.emplace_back( std::make_pair( uniformLocation, SShaderInterface { uniformName, uniformType } ) );
 					}
 					break;
 				}

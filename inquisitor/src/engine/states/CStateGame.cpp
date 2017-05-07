@@ -17,7 +17,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	renderer.SetClearColor( CColor( 0.0f, 0.0f, 4.0f, 0.0f ) );
 
-	m_cameraFree = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 90.0f, 0.1f, 1000.0f );
+	m_cameraFree = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 72.0f, 0.1f, 1000.0f );
 	m_cameraFree->SetPosition( { 0.0f, 10.0f, 10.0f } );
 	m_cameraFree->SetDirection( { 0.0f, 0.0f, -10.0f } );
 
@@ -27,9 +27,13 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	soundManager.SetListener( m_cameraFree );
 
+	auto &materialManager = renderer.MaterialManager();
+	auto &textureManager = renderer.TextureManager();
+	auto &samplerManager = renderer.SamplerManager();
+
 	// create floor
 	{
-		const auto material = renderer.LoadMaterial( "materials/floor.mat" );
+		const auto material = materialManager.LoadMaterial( "materials/floor.mat" );
 
 		auto floorMeshPrimitive = Primitives::quad;
 
@@ -38,29 +42,37 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			coord *= 10;
 		}
 
-		const auto floorMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, floorMeshPrimitive, material, glm::vec3( 0.0f, 0.0f, 0.0f ) );
+		const CMesh::TTextures floorMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/texpack_2/stone_floor.png" ), samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D ) ) } };
+
+		const auto floorMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, floorMeshPrimitive, material, glm::vec3( 0.0f, 0.0f, 0.0f ), floorMeshTextures );
 		floorMesh->SetScale( { 100.0f, 100.0f, 100.0f } );
 		floorMesh->SetOrientation( { -90.0f, 00.0f, 0.0f } );
 
 		m_scene.AddMesh( floorMesh );
 	}
 
-	//auto material2 = renderer.LoadMaterial( "materials/flames.mat" );
-	//auto material2 = renderer.LoadMaterial( "materials/texture_from_zip.mat" );
-	//auto material2 = renderer.LoadMaterial( "materials/newscast.mat" );
-	//auto material2 = renderer.LoadMaterial( "textures/texpack_1/killblockgeomtrn.png" );
+	//auto material2 = materialManager.LoadMaterial( "materials/flames.mat" );
+	//auto material2 = materialManager.LoadMaterial( "materials/texture_from_zip.mat" );
+	//auto material2 = materialManager.LoadMaterial( "materials/newscast.mat" );
+	//auto material2 = materialManager.LoadMaterial( "textures/texpack_1/killblockgeomtrn.png" );
 
 	{
-		const auto materialWaitCursor = renderer.LoadMaterial( "materials/wait_cursor.mat" );
+		const auto materialWaitCursor = materialManager.LoadMaterial( "materials/wait_cursor.mat" );
 
-		m_meshMovable = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialWaitCursor, glm::vec3( 0.0f, 10.0f, 20.0f ) );
-		m_meshMovable->SetScale( { 3.0f, 3.0f, 1.0f } );
-		m_scene.AddMesh( m_meshMovable );
+		const CMesh::TTextures movableMeshTextures = {	{ "skullTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/cursor/skull.png" ), samplerManager.SamplerFromType( CSampler::Type::EDGE_2D ) ) },
+														{ "waitTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/cursor/wait.png" ), samplerManager.SamplerFromType( CSampler::Type::EDGE_2D ) ) } };
+
+		m_movableMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialWaitCursor, glm::vec3( 0.0f, 10.0f, 20.0f ), movableMeshTextures );
+		m_movableMesh->SetScale( { 3.0f, 3.0f, 1.0f } );
+
+		m_scene.AddMesh( m_movableMesh );
 	}
 
 	// create small cube of cubes
 	{
-		const auto material1 = renderer.LoadMaterial( "materials/schnarf.mat" );
+		const auto material1 = materialManager.LoadMaterial( "materials/schnarf.mat" );
+
+		const CMesh::TTextures schnarfMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/texpack_1/window_buildingside_06.jpg" ), samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D ) ) } };
 
 		const std::uint16_t cubeSize { 4 };
 
@@ -70,7 +82,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			{
 				for( std::uint16_t k = 0; k < cubeSize; k++ )
 				{
-					const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, -10.0f + k * 4.0f ) );
+					const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, -10.0f + k * 4.0f ), schnarfMeshTextures );
 					mesh->SetScale( { 2.0f, 2.0f, 2.0f } );
 
 					m_scene.AddMesh( mesh );
@@ -80,11 +92,16 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	}
 
 	{
-		const auto materialSuperBox = renderer.LoadMaterial( "materials/superBox.mat" );
+		const auto materialSuperBox = materialManager.LoadMaterial( "materials/superBox.mat" );
+
+		const CMesh::TTextures superBoxMeshTextures = {	{ "bgTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/texpack_1/mybitmap.bmp" ), samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D ) ) },
+														{ "fgTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/texpack_1/senn_icyfangrate.tga" ), samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D ) ) },
+														{ "skyBoxTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/cube/sixtine/sixtine.cub" ), samplerManager.SamplerFromType( CSampler::Type::EDGE_CUBE ) ) } };
 
 		{
-			const auto m_mesh2 = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, glm::vec3( 0.0f, 10.0f, -10.0f ) );
+			const auto m_mesh2 = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, glm::vec3( 0.0f, 10.0f, -10.0f ), superBoxMeshTextures );
 			m_mesh2->SetScale( { 10.0f, 10.0f, 10.0f } );
+
 			m_scene.AddMesh( m_mesh2 );
 		}
 
@@ -98,7 +115,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				{
 					for( std::uint16_t k = 0; k < cubeSize; k++ )
 					{
-						const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, glm::vec3( 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f ) );
+						const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, glm::vec3( 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f ), superBoxMeshTextures );
 						mesh->SetScale( { 2.0f, 2.0f, 2.0f } );
 
 						m_scene.AddMesh( mesh );
@@ -109,37 +126,50 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	}
 
 	{
-		const auto fireMaterial = renderer.LoadMaterial( "materials/flames.mat" );
-		const auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, fireMaterial, glm::vec3( -5.0f, 10.0f, 1.0f ) );
+		const auto fireMaterial = materialManager.LoadMaterial( "materials/flames.mat" );
+
+		const CMesh::TTextures flamesMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/array/fire/fire.arr" ), samplerManager.SamplerFromType( CSampler::Type::EDGE_2D ) ) } };
+
+		const auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, fireMaterial, glm::vec3( -5.0f, 10.0f, 1.0f ), flamesMeshTextures );
 		mesh->SetScale( { 4.0f, 8.0f, 1.0f } );
+
 		m_scene.AddMesh( mesh );
 	}
 
 	{
-		const auto greenMaterial = renderer.LoadMaterial( "materials/green.mat" );
+		const auto greenMaterial = materialManager.LoadMaterial( "materials/green.mat" );
+
 		const auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, greenMaterial, glm::vec3( -4.0f, 10.0f, 1.0f ) );
 		mesh->SetScale( { 2.0f, 2.0f, 1.0f } );
+
 		m_scene.AddMesh( mesh );
 	}
 
 	{
-		const auto pulseMaterial = renderer.LoadMaterial( "materials/pulse_green_red.mat" );
+		const auto pulseMaterial = materialManager.LoadMaterial( "materials/pulse_green_red.mat" );
+
 		m_pulseMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, pulseMaterial, glm::vec3( 0.0f, 10.0f, 1.0f ) );
 		m_pulseMesh->SetScale( { 2.0f, 2.0f, 1.0f } );
+
 		m_scene.AddMesh( m_pulseMesh );
 	}
 
 	{
-		const auto redMaterial = renderer.LoadMaterial( "materials/red.mat" );
+		const auto redMaterial = materialManager.LoadMaterial( "materials/red.mat" );
+
 		const auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, redMaterial, glm::vec3( 4.0f, 10.0f, 1.0f ) );
 		mesh->SetScale( { 2.0f, 2.0f, 1.0f } );
+
 		m_scene.AddMesh( mesh );
 	}
 
 	{
-		const auto material3 = renderer.LoadMaterial( "materials/sky.mat" );
+		const auto material3 = materialManager.LoadMaterial( "materials/sky.mat" );
 
-		m_skyboxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material3 );
+		const CMesh::TTextures skyMeshTextures = { { "skyboxTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/cube/sixtine/sixtine.cub" ), samplerManager.SamplerFromType( CSampler::Type::EDGE_CUBE ) ) } };
+
+		m_skyboxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material3, skyMeshTextures );
+
 		m_scene.AddMesh( m_skyboxMesh );
 	}
 
@@ -190,46 +220,46 @@ std::shared_ptr< CState > CStateGame::Update( void )
 
 	if( input.KeyStillDown( SDL_SCANCODE_KP_6 ) )
 	{
-		glm::vec3 pos = m_meshMovable->Position();
+		glm::vec3 pos = m_movableMesh->Position();
 		pos.x += spp;
-		m_meshMovable->SetPosition( pos );
+		m_movableMesh->SetPosition( pos );
 	}
 	if( input.KeyStillDown( SDL_SCANCODE_KP_4 ) )
 	{
-		glm::vec3 pos = m_meshMovable->Position();
+		glm::vec3 pos = m_movableMesh->Position();
 		pos.x -= spp;
-		m_meshMovable->SetPosition( pos );
+		m_movableMesh->SetPosition( pos );
 	}
 
 	if( input.KeyStillDown( SDL_SCANCODE_KP_8 ) )
 	{
-		glm::vec3 pos = m_meshMovable->Position();
+		glm::vec3 pos = m_movableMesh->Position();
 		pos.y += spp;
-		m_meshMovable->SetPosition( pos );
+		m_movableMesh->SetPosition( pos );
 	}
 	if( input.KeyStillDown( SDL_SCANCODE_KP_2 ) )
 	{
-		glm::vec3 pos = m_meshMovable->Position();
+		glm::vec3 pos = m_movableMesh->Position();
 		pos.y -= spp;
-		m_meshMovable->SetPosition( pos );
+		m_movableMesh->SetPosition( pos );
 	}
 
 	if( input.KeyStillDown( SDL_SCANCODE_KP_PLUS ) )
 	{
-		glm::vec3 pos = m_meshMovable->Position();
+		glm::vec3 pos = m_movableMesh->Position();
 		pos.z += spp;
-		m_meshMovable->SetPosition( pos );
+		m_movableMesh->SetPosition( pos );
 	}
 	if( input.KeyStillDown( SDL_SCANCODE_KP_MINUS ) )
 	{
-		glm::vec3 pos = m_meshMovable->Position();
+		glm::vec3 pos = m_movableMesh->Position();
 		pos.z -= spp;
-		m_meshMovable->SetPosition( pos );
+		m_movableMesh->SetPosition( pos );
 	}
 
 	if( input.KeyStillDown( SDL_SCANCODE_KP_5 ) )
 	{
-		m_meshMovable->SetPosition( glm::vec3() );
+		m_movableMesh->SetPosition( glm::vec3() );
 	}
 
 	/*
@@ -350,7 +380,7 @@ std::shared_ptr< CState > CStateGame::Update( void )
 
 	if( !input.MouseStillDown( SDL_BUTTON_LEFT) )
 	{
-		m_meshMovable->SetOrientation( glm::vec3( m_yrot / 2, m_xrot / 2, 0.0f ) );
+		m_movableMesh->SetOrientation( glm::vec3( m_yrot / 2, m_xrot / 2, 0.0f ) );
 	}
 
 	m_rotx_ps = input.MouseDeltaX();

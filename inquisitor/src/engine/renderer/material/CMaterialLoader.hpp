@@ -12,23 +12,19 @@
 class CMaterialLoader final
 {
 public:
-	CMaterialLoader( const CFileSystem &filesystem, CTextureManager &textureManager, CShaderManager &shaderManager, const CSamplerManager &samplerManager );
+	CMaterialLoader( const CFileSystem &filesystem, CShaderManager &shaderManager );
 	~CMaterialLoader( void );
 
-	void FromFile( const std::string &path, std::shared_ptr< CMaterial > mat ) const;
+	void FromFile( const std::string &path, std::shared_ptr< CMaterial > &mat ) const;
 
 private:
-	bool FromMatFile( const std::string &path, std::shared_ptr< CMaterial > mat ) const;
+	bool FromMatFile( const std::string &path, std::shared_ptr< CMaterial > &mat ) const;
 
-	void FromDummy( std::shared_ptr< CMaterial > mat ) const;
+	void FromDummy( std::shared_ptr< CMaterial > &mat ) const;
 
 	const CFileSystem &m_filesystem;
 
-	CTextureManager &m_textureManager;
-
 	CShaderManager &m_shaderManager;
-
-	const CSamplerManager &m_samplerManager;
 
 	static std::uint16_t m_dummyCounter;
 };

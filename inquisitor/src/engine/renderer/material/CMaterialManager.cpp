@@ -2,13 +2,11 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-CMaterialManager::CMaterialManager( const CSettings &settings, const CFileSystem &filesystem, const CSamplerManager &samplerManager, const COpenGlAdapter &openGlAdapter )
+CMaterialManager::CMaterialManager( const CFileSystem &filesystem )
 	try :
 		m_filesystem { filesystem },
-		m_samplerManager { samplerManager },
 		m_shaderManager( filesystem ),
-		m_textureManager( settings, filesystem, openGlAdapter ),
-		m_materialLoader( filesystem, m_textureManager, m_shaderManager, m_samplerManager )
+		m_materialLoader( filesystem, m_shaderManager )
 {
 }
 catch( CShaderManager::Exception &e )
@@ -44,8 +42,6 @@ void CMaterialManager::Update( void )
 			++it;
 		}
 	}
-
-	m_textureManager.Update();
 }
 
 std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &path )
@@ -70,8 +66,6 @@ std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &
 
 void CMaterialManager::ReloadMaterials( void )
 {
-	m_textureManager.ReloadTextures();
-
 	logINFO( "reloading materials:" );
 
 	for( auto & [ filename, materialFile ] : m_materialFiles )

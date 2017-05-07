@@ -9,14 +9,6 @@
 							"vs" : "shaders/vs/wait_cursor.vs.glsl",
 							"fs" : "shaders/fs/wait_cursor.fs.glsl"
 						},
-	"textures"		:	{
-							"skullTexture" : "textures/cursor/skull.png",
-							"waitTexture" : "textures/cursor/wait.png"
-						},
-	"samplers"		:	{
-							"skullTexture" : "EDGE_2D",
-							"waitTexture" : "EDGE_2D"
-						},
 	"uniforms"		:	{
 							"waitRadsPerSecond" : 6.28319
 						}

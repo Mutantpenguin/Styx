@@ -9,11 +9,5 @@
 		"shaders"	:	{
 							"vs" : "shaders/vs/standard.vs.glsl",
 							"fs" : "shaders/fs/schnarf.fs.glsl"
-						},
-		"textures"	:	{
-							"diffuseTexture" : "textures/texpack_1/window_buildingside_06.jpg"
-						},
-		"samplers"	:	{
-							"diffuseTexture" : "REPEAT_2D"
 						}
 }

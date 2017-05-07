@@ -64,8 +64,6 @@
           <File Name="src/engine/renderer/material/CMaterialManager.hpp"/>
           <File Name="src/engine/renderer/material/CMaterialUniform.hpp"/>
           <File Name="src/engine/renderer/material/CMaterialUniform.cpp"/>
-          <File Name="src/engine/renderer/material/CMaterialSamplerData.hpp"/>
-          <File Name="src/engine/renderer/material/CMaterialSamplerData.cpp"/>
         </VirtualDirectory>
         <VirtualDirectory Name="texture">
           <File Name="src/engine/renderer/texture/CTexture.cpp"/>
@@ -91,9 +89,7 @@
         <File Name="src/engine/renderer/GLHelper.hpp"/>
         <File Name="src/engine/renderer/CVAO.hpp"/>
         <File Name="src/engine/renderer/CGLState.hpp"/>
-        <File Name="src/engine/renderer/CMesh.cpp"/>
         <File Name="src/engine/renderer/CFrustum.hpp"/>
-        <File Name="src/engine/renderer/CMesh.hpp"/>
         <File Name="src/engine/renderer/CVAO.cpp"/>
         <File Name="src/engine/renderer/GLHelper.cpp"/>
         <File Name="src/engine/renderer/CFrustum.cpp"/>
@@ -117,6 +113,12 @@
         </VirtualDirectory>
         <File Name="src/engine/renderer/COpenGlAdapter.cpp"/>
         <File Name="src/engine/renderer/COpenGlAdapter.hpp"/>
+        <VirtualDirectory Name="mesh">
+          <File Name="src/engine/renderer/mesh/CMesh.cpp"/>
+          <File Name="src/engine/renderer/mesh/CMesh.hpp"/>
+          <File Name="src/engine/renderer/mesh/CMeshTexture.hpp"/>
+          <File Name="src/engine/renderer/mesh/CMeshTexture.cpp"/>
+        </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="helper">
         <VirtualDirectory Name="image">

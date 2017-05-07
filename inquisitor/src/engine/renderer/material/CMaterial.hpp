@@ -7,7 +7,6 @@
 #include "src/engine/renderer/shader/CShaderProgram.hpp"
 
 #include "src/engine/renderer/material/CMaterialUniform.hpp"
-#include "src/engine/renderer/material/CMaterialSamplerData.hpp"
 
 class CMaterial final
 {
@@ -24,9 +23,7 @@ public:
 
 	const std::shared_ptr< const CShaderProgram > &Shader( void ) const;
 
-	const std::unordered_map< GLuint, const CMaterialSamplerData > &SamplerData( void ) const;
-
-	const std::unordered_map< GLuint, std::unique_ptr< const CMaterialUniform > > &MaterialUniforms( void ) const;
+	const std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &MaterialUniforms( void ) const;
 
 	const std::string &Name( void ) const;
 
@@ -37,9 +34,7 @@ private:
 
 	std::shared_ptr< const CShaderProgram >	m_shader;
 
-	std::unordered_map< GLuint, const CMaterialSamplerData > m_samplerData;
-
-	std::unordered_map< GLuint, std::unique_ptr< const CMaterialUniform > > m_materialUniforms;
+	std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > m_materialUniforms;
 
 	bool	m_bCullFace		{ false };
 	GLenum	m_cullfacemode	{ GL_NONE };	// GL_FRONT, GL_BACK or GL_FRONT_AND_BACK

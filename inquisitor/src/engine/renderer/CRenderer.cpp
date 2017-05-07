@@ -14,8 +14,9 @@
 CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 	try :
 		m_settings { settings },
+		m_textureManager( settings, filesystem, m_OpenGlAdapter ),
 		m_samplerManager( settings ),
-		m_materialManager( settings, filesystem, m_samplerManager, m_OpenGlAdapter )
+		m_materialManager( filesystem )
 {
 	glDepthFunc( GL_LEQUAL );
 	glEnable( GL_DEPTH_TEST );
@@ -101,6 +102,7 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &ca
 void CRenderer::Update( void )
 {
 	m_materialManager.Update();
+	m_textureManager.Update();
 }
 
 std::shared_ptr< CImage > CRenderer::GetScreenshot( void ) const
@@ -117,12 +119,23 @@ std::shared_ptr< CImage > CRenderer::GetScreenshot( void ) const
 
 void CRenderer::ReloadResources( void )
 {
+	m_textureManager.ReloadTextures();
 	m_materialManager.ReloadMaterials();
 }
 
-std::shared_ptr< CMaterial > CRenderer::LoadMaterial( const std::string &path )
+CTextureManager &CRenderer::TextureManager( void )
 {
-	return( m_materialManager.LoadMaterial( path ) );
+	return( m_textureManager );
+}
+
+CSamplerManager &CRenderer::SamplerManager( void )
+{
+	return( m_samplerManager );
+}
+
+CMaterialManager &CRenderer::MaterialManager( void )
+{
+	return( m_materialManager );
 }
 
 void CRenderer::SetClearColor( const CColor &color ) const
@@ -212,16 +225,6 @@ void CRenderer::SetupMaterial( const CMaterial * const material ) const
 
 	material->Shader()->Use();
 
-	std::uint8_t textureUnit = 0;
-	for( const auto & [ location, sampler ] : material->SamplerData() )
-	{
-		glUniform1i( location, textureUnit );
-
-		sampler.BindToUnit( textureUnit );
-
-		textureUnit++;
-	}
-
 	for( const auto & [ location, uniform ] : material->MaterialUniforms() )
 	{
 		uniform->Set( location );
@@ -259,6 +262,8 @@ void CRenderer::RenderBucketMaterials( const TRenderBucketMaterials &bucketMater
 
 void CRenderer::RenderMesh( const CMesh * const mesh, const glm::mat4 &viewProjectionMatrix, const CShaderProgram * const shader ) const
 {
+	mesh->BindTextures();
+
 	for( const auto & [ location, engineUniform ] : shader->RequiredEngineUniforms() )
 	{
 		switch( engineUniform )

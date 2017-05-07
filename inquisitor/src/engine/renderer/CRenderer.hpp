@@ -7,15 +7,17 @@
 
 #include "src/engine/renderer/camera/CCamera.hpp"
 
-#include "src/engine/renderer/CMesh.hpp"
+#include "src/engine/renderer/mesh/CMesh.hpp"
 
 #include "src/engine/system/CSettings.hpp"
 
 #include "src/engine/scene/CScene.hpp"
 
 #include "src/engine/renderer/COpenGlAdapter.hpp"
-#include "src/engine/renderer/material/CMaterialManager.hpp"
+
+#include "src/engine/renderer/texture/CTextureManager.hpp"
 #include "src/engine/renderer/sampler/CSamplerManager.hpp"
+#include "src/engine/renderer/material/CMaterialManager.hpp"
 
 #include "src/engine/helper/CColor.hpp"
 #include "src/engine/helper/image/CImage.hpp"
@@ -37,7 +39,9 @@ public:
 
 	void ReloadResources( void );
 
-	[[nodiscard]] std::shared_ptr< CMaterial > LoadMaterial( const std::string &path );
+	CMaterialManager	&MaterialManager( void );
+	CTextureManager		&TextureManager( void );
+	CSamplerManager		&SamplerManager( void );
 
 	void	SetClearColor( const CColor &color ) const;
 
@@ -54,13 +58,15 @@ public:
 	};
 
 private:
-	using TRenderBucketMeshes = std::vector< const CMesh * >;
-	using TRenderBucketMaterials = std::unordered_map< const CMaterial *, TRenderBucketMeshes >;
+	// TODO order by mesh?
+	using TRenderBucketMeshes		= std::vector< const CMesh * >;
+	using TRenderBucketMaterials	= std::unordered_map< const CMaterial *, TRenderBucketMeshes >;
 
 	const	CSettings &m_settings;
 
 	COpenGlAdapter m_OpenGlAdapter;
 
+	CTextureManager		m_textureManager;
 	CSamplerManager		m_samplerManager;
 	CMaterialManager	m_materialManager;
 
