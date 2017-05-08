@@ -173,7 +173,7 @@ void CMesh::ChangeTexture( const std::string &name, const std::shared_ptr< const
 	const auto meshTexture = m_textures.find( name );
 	if( meshTexture == std::cend( m_textures ) )
 	{
-		logWARNING( "changing texture {0} in mesh failed because it does not exist in the mesh", name );
+		logWARNING( "changing texture with the name {0} in mesh failed because it does not exist", name );
 	}
 	else
 	{
@@ -194,7 +194,7 @@ void CMesh::SetupMaterialTextureMapping( void )
 		}
 		else
 		{
-			logWARNING( "setting up texture mapping for mesh failed because texture '{0}' does not exist in the mesh", interface.name );
+			logWARNING( "setting up texture mapping for mesh failed because a texture with name '{0}' does not exist in the mesh", interface.name );
 		}
 	}
 }
