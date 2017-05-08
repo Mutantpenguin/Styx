@@ -113,11 +113,11 @@
         </VirtualDirectory>
         <File Name="src/engine/renderer/COpenGlAdapter.cpp"/>
         <File Name="src/engine/renderer/COpenGlAdapter.hpp"/>
-        <VirtualDirectory Name="mesh">
-          <File Name="src/engine/renderer/mesh/CMesh.cpp"/>
-          <File Name="src/engine/renderer/mesh/CMesh.hpp"/>
-          <File Name="src/engine/renderer/mesh/CMeshTexture.hpp"/>
-          <File Name="src/engine/renderer/mesh/CMeshTexture.cpp"/>
+        <VirtualDirectory Name="model">
+          <File Name="src/engine/renderer/model/CMesh.cpp"/>
+          <File Name="src/engine/renderer/model/CMesh.hpp"/>
+          <File Name="src/engine/renderer/model/CMeshTexture.cpp"/>
+          <File Name="src/engine/renderer/model/CMeshTexture.hpp"/>
         </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="helper">

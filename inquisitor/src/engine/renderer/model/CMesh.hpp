@@ -5,7 +5,7 @@
 
 #include <glm/glm.hpp>
 
-#include "src/engine/renderer/mesh/CMeshTexture.hpp"
+#include "src/engine/renderer/model/CMeshTexture.hpp"
 
 #include "src/engine/renderer/material/CMaterial.hpp"
 #include "src/engine/renderer/CVAO.hpp"

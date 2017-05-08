@@ -7,7 +7,7 @@
 
 #include "src/engine/renderer/camera/CCamera.hpp"
 
-#include "src/engine/renderer/mesh/CMesh.hpp"
+#include "src/engine/renderer/model/CMesh.hpp"
 
 #include "src/engine/system/CSettings.hpp"
 

@@ -4,7 +4,7 @@
 #include <list>
 
 #include "src/engine/renderer/camera/CCamera.hpp"
-#include "src/engine/renderer/mesh/CMesh.hpp"
+#include "src/engine/renderer/model/CMesh.hpp"
 
 class CScene
 {
