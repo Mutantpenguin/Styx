@@ -16,7 +16,9 @@ public:
 private:
 	const std::uint64_t m_startTime;
 
-	const float m_waitTime = 8000000;
+	const std::shared_ptr< CSound > m_startupSound;
+
+	const float m_waitTime;
 
 	std::shared_ptr< CMesh > m_logoMesh;
 };

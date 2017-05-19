@@ -83,13 +83,10 @@ void CSoundManager::Update( void )
 {
 }
 
-void CSoundManager::SetListener( const std::shared_ptr< const CCamera > &camera )
+void CSoundManager::SetListener( const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up )
 {
-	const glm::vec3 &position = camera->Position();
 	alListener3f( AL_POSITION, position.x, position.y, position.z );
 
-	const glm::vec3 &direction	= camera->Direction();
-	const glm::vec3 &up			= camera->Up();
 	const std::array< ALfloat, 6 > orientation = { { direction.x, direction.y, direction.z, up.x, up.y, up.z } };
 	alListenerfv( AL_ORIENTATION, orientation.data() );
 }

@@ -4,9 +4,9 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
-#include "src/engine/system/CSettings.hpp"
+#include <glm/glm.hpp>
 
-#include "src/engine/renderer/camera/CCamera.hpp"
+#include "src/engine/system/CSettings.hpp"
 
 #include "src/engine/sound/CSound.hpp"
 #include "src/engine/sound/CSoundLoader.hpp"
@@ -17,7 +17,7 @@ friend class CEngine;
 friend class CEngineSystems;
 
 public:
-	void	SetListener( const std::shared_ptr< const CCamera > &camera );
+	void	SetListener( const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up );
 
 	// TODO - this is just for testing sound
 	[[nodiscard]] std::shared_ptr< CSound > Load( const std::string &path ) const;

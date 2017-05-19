@@ -9,7 +9,9 @@
 
 CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems ) :
 	CState( "intro", filesystem, settings, engineSystems ),
-	m_startTime { engineSystems.GlobalTimer.Time() }
+	m_startTime { engineSystems.GlobalTimer.Time() },
+	m_startupSound { engineSystems.SoundManager.Load( "sounds/startup_sound.ogg" ) },
+	m_waitTime { m_startupSound->Duration() * 1000000 }
 {
 	auto &renderer = m_engineSystems.Renderer;
 
@@ -23,7 +25,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	auto &soundManager = m_engineSystems.SoundManager;
 
-	soundManager.SetListener( camera );
+	soundManager.SetListener( { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f } );
 
 	const auto material = renderer.MaterialManager().LoadMaterial( "materials/intro_icon.mat" );
 
@@ -35,8 +37,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 	m_scene.AddMesh( m_logoMesh );
 
 	// TODO don't loop sound
-	const auto startupSound = m_engineSystems.SoundManager.Load( "sounds/startup_sound.ogg" );
-	soundManager.Play( startupSound );
+	soundManager.Play( m_startupSound );
 }
 
 CStateIntro::~CStateIntro()

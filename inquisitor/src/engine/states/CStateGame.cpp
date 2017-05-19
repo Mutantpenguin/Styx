@@ -25,7 +25,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	auto &soundManager = m_engineSystems.SoundManager;
 
-	soundManager.SetListener( m_cameraFree );
+	soundManager.SetListener( m_cameraFree->Position(), m_cameraFree->Direction(), m_cameraFree->Up() );
 
 	auto &materialManager = renderer.MaterialManager();
 	auto &textureManager = renderer.TextureManager();
@@ -315,7 +315,7 @@ std::shared_ptr< CState > CStateGame::Update( void )
 		m_cameraFree->MoveDown( spp * ctrlPressedMult );
 	}
 
-	soundManager.SetListener( m_cameraFree );
+	soundManager.SetListener( m_cameraFree->Position(), m_cameraFree->Direction(), m_cameraFree->Up() );
 
 	/*
 	 * change FOV

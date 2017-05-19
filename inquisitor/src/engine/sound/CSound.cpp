@@ -1,6 +1,6 @@
 #include "CSound.hpp"
 
-CSound::CSound( const TSoundData &soundData, format format, std::int32_t frequency, float duration ) :
+CSound::CSound( const TSoundData &soundData, const format format, const std::int32_t frequency, float duration ) :
 	m_soundData { soundData },
 	m_format { format },
 	m_frequency { frequency },

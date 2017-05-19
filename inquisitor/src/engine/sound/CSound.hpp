@@ -15,7 +15,7 @@ public:
 		STEREO
 	};
 public:
-	CSound( const TSoundData &soundData, format format, std::int32_t frequency, float duration );
+	CSound( const TSoundData &soundData, const format format, const std::int32_t frequency, float duration );
 	~CSound( void );
 
 	const TSoundData &SoundData( void ) const;
