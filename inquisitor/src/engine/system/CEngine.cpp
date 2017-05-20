@@ -4,8 +4,6 @@
 
 #include "src/engine/states/CStateIntro.hpp"
 
-#include "CWindow.hpp"
-
 const std::string CEngine::m_name				{ "Inquisitor Engine" };
 const std::uint16_t CEngine::m_version_major	{ 17 };
 const std::uint16_t CEngine::m_version_minor	{ 4 };
