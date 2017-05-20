@@ -18,7 +18,7 @@ private:
 
 	const std::shared_ptr< CSound > m_startupSound;
 
-	const float m_waitTime;
+	const float m_introDuration;
 
 	std::shared_ptr< CMesh > m_logoMesh;
 };

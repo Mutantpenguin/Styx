@@ -11,7 +11,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 	CState( "intro", filesystem, settings, engineSystems ),
 	m_startTime { engineSystems.GlobalTimer.Time() },
 	m_startupSound { engineSystems.SoundManager.Load( "sounds/startup_sound.ogg" ) },
-	m_waitTime { m_startupSound->Duration() * 1000000 }
+	m_introDuration { m_startupSound->Duration() * 1000000 }
 {
 	auto &renderer = m_engineSystems.Renderer;
 
@@ -49,15 +49,15 @@ std::shared_ptr< CState > CStateIntro::Update( void )
 	const std::uint64_t elapsedTime = m_engineSystems.GlobalTimer.Time() - m_startTime;
 
 	glm::vec3 meshPosition = m_logoMesh->Position();
-	meshPosition.z = elapsedTime / m_waitTime;
-	meshPosition.y = elapsedTime / m_waitTime;
+	meshPosition.z = elapsedTime / m_introDuration;
+	meshPosition.y = elapsedTime / m_introDuration;
 	m_logoMesh->SetPosition( meshPosition );
 
-	const float fadeTime = m_waitTime - 2000000;
-	const float colorComponent = ( fadeTime - elapsedTime ) / fadeTime;
+	const float fadeDuration = m_introDuration * 0.75f ;
+	const float colorComponent = ( fadeDuration - elapsedTime ) / fadeDuration;
 	m_engineSystems.Renderer.SetClearColor( CColor( colorComponent, colorComponent, colorComponent, colorComponent ) );
 
-	if( ( elapsedTime > m_waitTime )
+	if( ( elapsedTime > m_introDuration )
 		||
 		m_engineSystems.Input.KeyDown( SDL_SCANCODE_ESCAPE ) )
 	{
