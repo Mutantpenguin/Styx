@@ -8,6 +8,10 @@ class CTexture final
 	friend class CTextureLoader;
 	friend class CTextureManager;
 
+private:
+	CTexture( const CTexture& rhs );
+	CTexture & operator = ( const CTexture& rhs );
+
 public:
 	enum struct type : std::uint8_t
 	{
@@ -18,6 +22,7 @@ public:
 
 	CTexture( void );
 	~CTexture( void );
+
 
 	void BindToUnit( const GLuint unit ) const;
 
