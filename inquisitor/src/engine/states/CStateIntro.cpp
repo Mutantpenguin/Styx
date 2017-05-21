@@ -20,10 +20,6 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	m_scene.Camera( camera );
 
-	auto &soundManager = m_engineSystems.SoundManager;
-
-	soundManager.SetListener( { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f } );
-
 	const auto material = renderer.MaterialManager().LoadMaterial( "materials/intro_icon.mat" );
 
 	const CMesh::TTextures logoMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/styx/logo.png" ), renderer.SamplerManager().SamplerFromType( CSampler::Type::EDGE_2D ) ) } };
@@ -34,6 +30,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 	m_scene.AddMesh( m_logoMesh );
 
 	m_introSound->Play();
+	m_introSound->SetRelativePositioning( true );
 }
 
 CStateIntro::~CStateIntro()
