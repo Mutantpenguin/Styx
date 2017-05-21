@@ -21,6 +21,8 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 	glDepthFunc( GL_LEQUAL );
 	glEnable( GL_DEPTH_TEST );
 
+	glEnable( GL_SAMPLE_ALPHA_TO_COVERAGE_ARB );
+
 	glEnable( GL_TEXTURE_CUBE_MAP_SEAMLESS );
 
 	CreateUniformBuffers();
