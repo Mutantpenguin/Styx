@@ -33,7 +33,7 @@ void CMaterialLoader::FromFile( const std::string &path, std::shared_ptr< CMater
 {
 	if( !m_filesystem.Exists( path ) )
 	{
-		logWARNING( "'{0}' does not exist", path );
+		logWARNING( "material file '{0}' does not exist", path );
 		FromDummy( mat );
 	}
 	else

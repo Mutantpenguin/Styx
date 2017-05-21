@@ -241,7 +241,7 @@ GLuint CShaderManager::LoadShader( const GLenum type, const std::string &path )
 {
 	if( !m_filesystem.Exists( path ) )
 	{
-		logWARNING( "'{0}' does not exist", path );
+		logWARNING( "shader file '{0}' does not exist", path );
 		return( 0 );
 	}
 	else

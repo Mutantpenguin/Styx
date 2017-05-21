@@ -45,7 +45,7 @@ void CTextureLoader::FromFile( const std::string &path, std::shared_ptr< CTextur
 
 	if( !m_filesystem.Exists( path ) )
 	{
-		logWARNING( "'{0}' does not exist", path );
+		logWARNING( "texture file '{0}' does not exist", path );
 		FromDummy( tex );
 	}
 	else
