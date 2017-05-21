@@ -4,14 +4,11 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "src/engine/sound/CSound.hpp"
-#include "src/engine/sound/CSoundLoader.hpp"
-
 CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems ) :
 	CState( "intro", filesystem, settings, engineSystems ),
 	m_startTime { engineSystems.GlobalTimer.Time() },
-	m_startupSound { engineSystems.SoundManager.Load( "sounds/startup_sound.ogg" ) },
-	m_introDuration { m_startupSound->Duration() * 1000000 }
+	m_introSound { std::make_shared< CSoundSource>( engineSystems.SoundManager.LoadSoundBuffer( "sounds/startup_sound.ogg" ) ) },
+	m_introDuration { m_introSound->Buffer()->Duration() * 1000000 }
 {
 	auto &renderer = m_engineSystems.Renderer;
 
@@ -36,8 +33,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	m_scene.AddMesh( m_logoMesh );
 
-	// TODO don't loop sound
-	soundManager.Play( m_startupSound );
+	m_introSound->Play();
 }
 
 CStateIntro::~CStateIntro()
@@ -53,7 +49,7 @@ std::shared_ptr< CState > CStateIntro::Update( void )
 	meshPosition.y = elapsedTime / m_introDuration;
 	m_logoMesh->SetPosition( meshPosition );
 
-	const float fadeDuration = m_introDuration * 0.75f ;
+	const float fadeDuration = m_introDuration * 0.66666f ;
 	const float colorComponent = ( fadeDuration - elapsedTime ) / fadeDuration;
 	m_engineSystems.Renderer.SetClearColor( CColor( colorComponent, colorComponent, colorComponent, colorComponent ) );
 

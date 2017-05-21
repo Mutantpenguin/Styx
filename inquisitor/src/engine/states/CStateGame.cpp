@@ -8,8 +8,6 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "src/engine/sound/CSound.hpp"
-
 CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems ) :
 	CState( "game", filesystem, settings, engineSystems )
 {
@@ -173,9 +171,9 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		m_scene.AddMesh( m_skyboxMesh );
 	}
 
-	// TODO port to SoundManager or something like this
-	const auto testSound = soundManager.Load( "music/rise_of_spirit.ogg" );
-	soundManager.Play( testSound );
+	m_backgroundMusic = std::make_shared< CSoundSource >( soundManager.LoadSoundBuffer( "music/rise_of_spirit.ogg" ) );
+	m_backgroundMusic->Play();
+	m_backgroundMusic->SetLooping( true );
 }
 
 CStateGame::~CStateGame()

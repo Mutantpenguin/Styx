@@ -7,6 +7,8 @@
 
 #include "src/engine/renderer/camera/CCameraFree.hpp"
 
+#include "src/engine/sound/CSoundSource.hpp"
+
 class CStateGame final : public CState
 {
 public:
@@ -26,6 +28,8 @@ private:
 	std::shared_ptr< CMesh >	m_movableMesh;
 	std::shared_ptr< CMesh >	m_skyboxMesh;
 	std::shared_ptr< CMesh >	m_pulseMesh;
+
+	std::shared_ptr< const CSoundSource > m_backgroundMusic;
 };
 
 #endif // CSTATEGAME_HPP

@@ -3,7 +3,7 @@
 
 #include "CState.hpp"
 
-#include "src/engine/renderer/camera/CCamera.hpp"
+#include "src/engine/sound/CSoundSource.hpp"
 
 class CStateIntro final : public CState
 {
@@ -16,7 +16,7 @@ public:
 private:
 	const std::uint64_t m_startTime;
 
-	const std::shared_ptr< CSound > m_startupSound;
+	const std::shared_ptr< CSoundSource > m_introSound;
 
 	const float m_introDuration;
 

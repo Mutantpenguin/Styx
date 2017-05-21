@@ -1,6 +1,8 @@
 #ifndef CSOUNDMANAGER_HPP
 #define CSOUNDMANAGER_HPP
 
+#include <unordered_map>
+
 #include <AL/al.h>
 #include <AL/alc.h>
 
@@ -8,8 +10,8 @@
 
 #include "src/engine/system/CSettings.hpp"
 
-#include "src/engine/sound/CSound.hpp"
-#include "src/engine/sound/CSoundLoader.hpp"
+#include "src/engine/sound/CSoundBuffer.hpp"
+#include "src/engine/sound/CSoundBufferLoader.hpp"
 
 class CSoundManager final
 {
@@ -19,10 +21,7 @@ friend class CEngineSystems;
 public:
 	void	SetListener( const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up );
 
-	// TODO - this is just for testing sound
-	[[nodiscard]] std::shared_ptr< CSound > Load( const std::string &path ) const;
-	// TODO - this is just temporary to test sound-output
-	void	Play( const std::shared_ptr< const CSound > &sound ) const;
+	[[nodiscard]] std::shared_ptr< CSoundBuffer > LoadSoundBuffer( const std::string &path );
 
 	class Exception: public std::exception
 	{
@@ -42,11 +41,24 @@ private:
 	void	Update( void );
 
 private:
-	const CSoundLoader m_soundloader;
+	void ReloadSoundBuffers( void );
+
+	const CFileSystem &m_filesystem;
+
+	struct sSoundBufferFile
+	{
+		std::shared_ptr< CSoundBuffer >	soundBuffer;
+		std::int64_t					mtime;
+	};
+
+	std::unordered_map< std::string, sSoundBufferFile > m_soundBufferFiles;
+
+	const CSoundBufferLoader m_soundBufferloader;
 
 	ALCdevice	*m_AL_device { nullptr };
 	ALCcontext	*m_AL_context { nullptr };
 
+	// TODO what does this do???
 	const std::uint32_t	m_buffer_size;
 };
 

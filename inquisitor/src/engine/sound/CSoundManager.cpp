@@ -5,7 +5,8 @@
 #include "src/engine/logger/CLogger.hpp"
 
 CSoundManager::CSoundManager( const CSettings &settings, const CFileSystem &p_filesystem ) :
-	m_soundloader { p_filesystem },
+	m_filesystem { p_filesystem },
+	m_soundBufferloader { p_filesystem },
 	m_buffer_size { settings.sound.buffer_size }
 {
 	m_AL_device = alcOpenDevice( nullptr );
@@ -52,35 +53,39 @@ CSoundManager::~CSoundManager( void )
 	alcCloseDevice( m_AL_device );
 }
 
-// TODO - this is just temporary to test sound-output
-std::shared_ptr< CSound > CSoundManager::Load( const std::string &path ) const
+std::shared_ptr< CSoundBuffer > CSoundManager::LoadSoundBuffer( const std::string &path )
 {
-	return( m_soundloader.CreateSoundFromFile( path ) );
-}
+	const auto it = m_soundBufferFiles.find( path );
+	if( std::end( m_soundBufferFiles ) != it )
+	{
+		return( it->second.soundBuffer );
+	}
 
-// TODO - this is just temporary to test sound-output
-void CSoundManager::Play( const std::shared_ptr< const CSound > &sound ) const
-{
-	ALuint bufferID;
-	alGenBuffers( 1, &bufferID );
+	auto newSoundBuffer = std::make_shared< CSoundBuffer >();
 
-	const CSound::TSoundData &soundData = sound->SoundData();
+	m_soundBufferloader.FromFile( path, newSoundBuffer );
 
-	alBufferData( bufferID, ( sound->Format() == CSound::format::MONO ) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, soundData.data(), static_cast< ALsizei >( soundData.size() ), sound->Frequency() );
+	auto &soundBufferFile = m_soundBufferFiles[ path ];
 
-	ALuint sourceID;
-	alGenSources( 1, &sourceID );
+	soundBufferFile.soundBuffer = newSoundBuffer;
+	soundBufferFile.mtime 		= m_filesystem.GetLastModTime( path );
 
-	alSource3f( sourceID, AL_POSITION, 0.0f, 0.0f, 0.0f );
-	alSourcei( sourceID, AL_LOOPING, AL_TRUE );
-
-	alSourcei( sourceID, AL_BUFFER, bufferID );
-
-	alSourcePlay( sourceID );
+	return( newSoundBuffer );
 }
 
 void CSoundManager::Update( void )
 {
+	for( auto it = std::cbegin( m_soundBufferFiles ); it != std::cend( m_soundBufferFiles ); )
+	{
+		if( it->second.soundBuffer.unique() )
+		{
+			m_soundBufferFiles.erase( it++ );
+		}
+		else
+		{
+			++it;
+		}
+	}
 }
 
 void CSoundManager::SetListener( const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up )
@@ -89,4 +94,25 @@ void CSoundManager::SetListener( const glm::vec3 &position, const glm::vec3 &dir
 
 	const std::array< ALfloat, 6 > orientation = { { direction.x, direction.y, direction.z, up.x, up.y, up.z } };
 	alListenerfv( AL_ORIENTATION, orientation.data() );
+}
+
+// TODO where to call?
+void CSoundManager::ReloadSoundBuffers( void )
+{
+	logINFO( "reloading sound buffers:" );
+
+	for( auto & [ filename, soundBufferFile ] : m_soundBufferFiles )
+	{
+		const auto mtime = m_filesystem.GetLastModTime( filename );
+		if( mtime > soundBufferFile.mtime )
+		{
+			logINFO( "    {0}", filename );
+
+			soundBufferFile.soundBuffer->Reset();
+
+			m_soundBufferloader.FromFile( filename, soundBufferFile.soundBuffer );
+
+			soundBufferFile.mtime = mtime;
+		}
+	}
 }
