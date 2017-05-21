@@ -118,6 +118,12 @@
           <File Name="src/engine/renderer/model/CMesh.hpp"/>
           <File Name="src/engine/renderer/model/CMeshTexture.cpp"/>
           <File Name="src/engine/renderer/model/CMeshTexture.hpp"/>
+          <File Name="src/engine/renderer/model/CModel.hpp"/>
+          <File Name="src/engine/renderer/model/CModel.cpp"/>
+          <File Name="src/engine/renderer/model/CModelManager.hpp"/>
+          <File Name="src/engine/renderer/model/CModelManager.cpp"/>
+          <File Name="src/engine/renderer/model/CModelLoader.hpp"/>
+          <File Name="src/engine/renderer/model/CModelLoader.cpp"/>
         </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="helper">
@@ -194,13 +200,15 @@
       <VirtualDirectory Name="sound">
         <File Name="src/engine/sound/CSoundManager.hpp"/>
         <File Name="src/engine/sound/CSoundManager.cpp"/>
-        <File Name="src/engine/sound/CSound.cpp"/>
-        <File Name="src/engine/sound/CSound.hpp"/>
         <File Name="src/engine/sound/ALHelper.hpp"/>
         <File Name="src/engine/sound/ALHelper.cpp"/>
-        <File Name="src/engine/sound/CSoundLoader.hpp"/>
-        <File Name="src/engine/sound/CSoundLoader.cpp"/>
         <File Name="src/engine/helper/image/CImage.cpp"/>
+        <File Name="src/engine/sound/CSoundBuffer.hpp"/>
+        <File Name="src/engine/sound/CSoundBuffer.cpp"/>
+        <File Name="src/engine/sound/CSoundBufferLoader.cpp"/>
+        <File Name="src/engine/sound/CSoundBufferLoader.hpp"/>
+        <File Name="src/engine/sound/CSoundSource.hpp"/>
+        <File Name="src/engine/sound/CSoundSource.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="states">
         <File Name="src/engine/states/CState.hpp"/>
@@ -276,6 +284,7 @@
         <Library Value="GL"/>
         <Library Value="glbinding"/>
         <Library Value="openal"/>
+        <Library Value="assimp"/>
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>

@@ -12,6 +12,8 @@
 
 class CMesh final
 {
+friend class CModelLoader;
+
 public:
 	using TTextures = std::unordered_map< std::string, std::shared_ptr< CMeshTexture > >;
 
