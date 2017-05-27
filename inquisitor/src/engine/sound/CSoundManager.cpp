@@ -22,8 +22,9 @@ CSoundManager::CSoundManager( const CSettings &settings, const CFileSystem &p_fi
 	alcGetIntegerv( m_AL_device, ALC_MAJOR_VERSION, 1, &versionMinor );
 
 	logINFO( "OpenAL" );
-	logINFO( "\t Version: {0}.{1}", versionMajor, versionMinor );
-	logINFO( "\t Device:  {0}", alcGetString( m_AL_device, ALC_DEVICE_SPECIFIER ) );
+	logINFO( "\tVersion: {0}.{1}", versionMajor, versionMinor );
+	logINFO( "\tDevice:  {0}", alcGetString( m_AL_device, ALC_DEVICE_SPECIFIER ) );
+
 
 	m_AL_context = alcCreateContext( m_AL_device, nullptr );
 	if( nullptr == m_AL_context )
@@ -38,12 +39,7 @@ CSoundManager::CSoundManager( const CSettings &settings, const CFileSystem &p_fi
 		throw Exception();
 	}
 
-	ALenum error = alGetError();
-	if( error != AL_NO_ERROR )
-	{
-		logERROR( "generating OpenAL buffers failed: {0}", ALHelper::GetOpenALErrorString( error ) );
-		throw Exception();
-	}
+	logINFO( "\tVendor:  {0}", alGetString( AL_VENDOR ) );
 }
 
 CSoundManager::~CSoundManager( void )
