@@ -5,6 +5,10 @@
 
 class CStatePause : public CState
 {
+private:
+	CStatePause( const CStatePause& rhs );
+	CStatePause& operator=( const CStatePause& rhs );
+
 public:
 	CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems, std::shared_ptr< CState > state );
 	~CStatePause();

@@ -1,8 +1,10 @@
 #include "CStateIntro.hpp"
 
-#include "CStateGame.hpp"
+#include "src/engine/states/CStateMainMenu.hpp"
 
 #include "src/engine/logger/CLogger.hpp"
+
+#include "src/engine/renderer/camera/CCameraFree.hpp"
 
 CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems ) :
 	CState( "intro", filesystem, settings, engineSystems ),
@@ -14,11 +16,13 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	renderer.SetClearColor( CColor( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
-	auto camera = std::make_shared< CCamera >( m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
-	camera->SetPosition( { 0.0f, 0.0f, 5.0f } );
-	camera->SetDirection( { 0.0f, 0.0f, -10.0f } );
+	{
+		auto camera = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
+		camera->SetPosition( { 0.0f, 0.0f, 5.0f } );
+		camera->SetDirection( { 0.0f, 0.0f, -10.0f } );
 
-	m_scene.Camera( camera );
+		m_scene.Camera( camera );
+	}
 
 	const auto material = renderer.MaterialManager().LoadMaterial( "materials/intro_icon.mat" );
 
@@ -56,7 +60,7 @@ std::shared_ptr< CState > CStateIntro::Update( void )
 	{
 		try
 		{
-			return( std::make_shared< CStateGame >( m_filesystem, m_settings, m_engineSystems ) );
+			return( std::make_shared< CStateMainMenu >( m_filesystem, m_settings, m_engineSystems ) );
 		}
 		catch( std::exception &e )
 		{

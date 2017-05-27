@@ -4,6 +4,8 @@
 
 #include "src/engine/renderer/camera/CCameraFree.hpp"
 
+#include "src/engine/states/CStateMainMenu.hpp"
+
 CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems, std::shared_ptr< CState > state ) :
 	CState( "pause", filesystem, settings, engineSystems ),
 	m_startTime { engineSystems.GlobalTimer.Time() },
@@ -33,7 +35,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	}
 
 	{
-		auto camera = std::make_shared< CCamera >( m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
+		auto camera = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
 		camera->SetPosition( { 0.0f, 0.0f, 5.0f } );
 		camera->SetDirection( { 0.0f, 0.0f, -10.0f } );
 
@@ -74,8 +76,8 @@ std::shared_ptr< CState > CStatePause::Update( void )
 	}
 	else if( input.KeyDown( SDL_SCANCODE_Q ) )
 	{
-		logINFO( "ESC pressed, shutting down..." );
-		return( nullptr );
+		logINFO( "ESC pressed, ending game..." );
+		return( std::make_shared< CStateMainMenu >( m_filesystem, m_settings, m_engineSystems ) );
 	}
 
 	return( shared_from_this() );

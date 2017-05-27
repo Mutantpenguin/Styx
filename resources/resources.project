@@ -4,13 +4,16 @@
     <VirtualDirectory Name="styx">
       <File Name="textures/styx/logo.svg"/>
     </VirtualDirectory>
+    <VirtualDirectory Name="menu">
+      <File Name="textures/menu/background.svg"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <Reconciliation>
     <Regexes/>
     <Excludepaths/>
     <Ignorefiles/>
     <Extensions>
-      <![CDATA[cpp;c;h;hpp;xrc;wxcp;fbp;png;svg]]>
+      <![CDATA[*.*]]>
     </Extensions>
     <Topleveldir>../resources</Topleveldir>
   </Reconciliation>
@@ -27,4 +30,20 @@
       <ResourceCompiler Options=""/>
     </GlobalSettings>
   </Settings>
+  <VirtualDirectory Name="models">
+    <VirtualDirectory Name="cubes">
+      <File Name="models/cubes/cube.blend"/>
+      <File Name="models/cubes/cube_textured.blend"/>
+      <File Name="models/cubes/cube_textured.blend1"/>
+      <File Name="models/cubes/cube_textured_clamp.blend"/>
+      <File Name="models/cubes/distorted_cube.blend"/>
+      <File Name="models/cubes/distorted_cube_highpoly.blend"/>
+      <File Name="models/cubes/killblockgeomtrn.png"/>
+      <File Name="models/cubes/cube_textured_clamp.blend1"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="stuff">
+      <File Name="models/stuff/monkey.blend"/>
+      <File Name="models/stuff/torus.blend"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
 </CodeLite_Project>

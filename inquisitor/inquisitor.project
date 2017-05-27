@@ -110,6 +110,8 @@
           <File Name="src/engine/renderer/camera/CCamera.hpp"/>
           <File Name="src/engine/renderer/camera/CCameraFree.hpp"/>
           <File Name="src/engine/renderer/camera/CCameraFree.cpp"/>
+          <File Name="src/engine/renderer/camera/CCameraOrtho.hpp"/>
+          <File Name="src/engine/renderer/camera/CCameraOrtho.cpp"/>
         </VirtualDirectory>
         <File Name="src/engine/renderer/COpenGlAdapter.cpp"/>
         <File Name="src/engine/renderer/COpenGlAdapter.hpp"/>
@@ -219,6 +221,8 @@
         <File Name="src/engine/states/CState.cpp"/>
         <File Name="src/engine/states/CStatePause.hpp"/>
         <File Name="src/engine/states/CStatePause.cpp"/>
+        <File Name="src/engine/states/CStateMainMenu.hpp"/>
+        <File Name="src/engine/states/CStateMainMenu.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="sdl">
         <File Name="src/engine/sdl/CSDL.hpp"/>

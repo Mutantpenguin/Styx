@@ -7,6 +7,10 @@
 
 class CStateIntro final : public CState
 {
+private:
+	CStateIntro( const CStateIntro& rhs );
+	CStateIntro& operator=( const CStateIntro& rhs );
+
 public:
 	CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems );
 	~CStateIntro();

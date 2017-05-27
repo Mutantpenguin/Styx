@@ -8,7 +8,7 @@
 class CFrustum
 {
 public:
-	void Update( const glm::mat4 &viewProjectionMatrix );
+	CFrustum( const glm::mat4 &viewProjectionMatrix );
 
 	bool IsSphereInside( const glm::vec3 &position, const float boundingSphereRadius ) const;
 

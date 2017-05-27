@@ -23,12 +23,12 @@ const std::list< std::shared_ptr< const CMesh > > &CScene::Meshes( void ) const
 	return( m_meshes );
 }
 
-const std::shared_ptr< CCamera > &CScene::Camera( void ) const
+const std::shared_ptr< const CCamera > &CScene::Camera( void ) const
 {
 	return( m_camera );
 }
 
-void CScene::Camera( const std::shared_ptr< CCamera > &camera )
+void CScene::Camera( const std::shared_ptr< const CCamera > &camera )
 {
 	m_camera = camera;
 }

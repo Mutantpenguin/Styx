@@ -1,6 +1,6 @@
 #include "CFrustum.hpp"
 
-void CFrustum::Update( const glm::mat4 &viewProjectionMatrix )
+CFrustum::CFrustum( const glm::mat4 &viewProjectionMatrix )
 {
 	// right
 	CPlane &right = m_planes[ 0 ];

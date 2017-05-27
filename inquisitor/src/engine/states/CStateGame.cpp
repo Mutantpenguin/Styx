@@ -31,7 +31,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	// create floor
 	{
-		const auto material = materialManager.LoadMaterial( "materials/floor.mat" );
+		const auto material = materialManager.LoadMaterial( "materials/standard.mat" );
 
 		auto floorMeshPrimitive = Primitives::quad;
 
@@ -208,7 +208,7 @@ std::shared_ptr< CState > CStateGame::Update( void )
 	 */
 	{
 		auto pos = m_pulseMesh->Position();
-		pos.y = 10.0f + ( sin( m_engineSystems.GlobalTimer.Time() / 2000000.0 ) * 5.0f );
+		pos.y = 10.0f + ( sin( m_engineSystems.GlobalTimer.Time() / 2000000.0f ) * 5.0f );
 		m_pulseMesh->SetPosition( pos );
 	}
 

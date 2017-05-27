@@ -11,6 +11,10 @@
 
 class CStateGame final : public CState
 {
+private:
+	CStateGame( const CStateGame& rhs );
+	CStateGame& operator=( const CStateGame& rhs );
+
 public:
 	CStateGame( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems );
 	~CStateGame();

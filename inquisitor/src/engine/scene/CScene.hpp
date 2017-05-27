@@ -17,13 +17,13 @@ public:
 
 	const std::list< std::shared_ptr< const CMesh > > &Meshes( void ) const;
 
-	const std::shared_ptr< CCamera > &Camera( void ) const;
-	void Camera( const std::shared_ptr< CCamera > &camera );
+	const std::shared_ptr< const CCamera > &Camera( void ) const;
+	void Camera( const std::shared_ptr< const CCamera > &camera );
 
 private:
 	std::list< std::shared_ptr< const CMesh > > m_meshes;
 
-	std::shared_ptr< CCamera > m_camera;
+	std::shared_ptr< const CCamera > m_camera;
 };
 
 #endif // CSCENE_HPP
