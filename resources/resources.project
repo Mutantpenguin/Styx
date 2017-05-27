@@ -6,6 +6,7 @@
     </VirtualDirectory>
     <VirtualDirectory Name="menu">
       <File Name="textures/menu/background.svg"/>
+      <File Name="textures/menu/title.xcf"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <Reconciliation>

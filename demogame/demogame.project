@@ -156,6 +156,7 @@
     </VirtualDirectory>
     <VirtualDirectory Name="menu">
       <File Name="textures/menu/background.jpg"/>
+      <File Name="textures/menu/title.png"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="demogame">
