@@ -3,6 +3,8 @@
 
 #include "CState.hpp"
 
+#include "src/engine/sound/CSoundSource.hpp"
+
 class CStateMainMenu final : public CState
 {
 private:
@@ -26,6 +28,8 @@ private:
 
 	std::shared_ptr< CMesh > m_meshStart;
 	std::shared_ptr< CMesh > m_meshExit;
+
+	const std::shared_ptr< const CSoundSource > m_buttonChangeSound;
 };
 
 #endif // CSTATEMAINMENU_HPP

@@ -7,8 +7,12 @@
 #include "src/engine/states/CStateGame.hpp"
 
 CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems ) :
-	CState( "main menu", filesystem, settings, engineSystems )
+	CState( "main menu", filesystem, settings, engineSystems ),
+	m_buttonChangeSound { std::make_shared< CSoundSource>( engineSystems.SoundManager.LoadSoundBuffer( "sounds/Pickup_Coin17.wav" ) ) }
 {
+	m_buttonChangeSound->SetLooping( false );
+	m_buttonChangeSound->SetRelativePositioning( true );
+
 	{
 		auto camera = std::make_shared< CCameraOrtho >( m_settings, 0.1f, 1000.0f );
 		camera->SetPosition( { 0.0f, 0.0f, 500.0f } );
@@ -122,6 +126,8 @@ std::shared_ptr<CState> CStateMainMenu::Update(void)
 		||
 		input.KeyDown( SDL_SCANCODE_DOWN ) )
 	{
+		m_buttonChangeSound->Play();
+
 		switch( m_currentState )
 		{
 			case eMenuState::START:
