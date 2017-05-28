@@ -26,11 +26,12 @@ private:
 private:
 	const CFileSystem &m_filesystem;
 
-	bool FromOggFile( const std::string &path, std::shared_ptr< CSoundBuffer > &soundBuffer ) const;
+	bool FromOggFile( const std::string &path, const std::shared_ptr< CSoundBuffer > &soundBuffer ) const;
+	bool FromWavFile( const std::string &path, const std::shared_ptr< CSoundBuffer > &soundBuffer ) const;
 
-	void FromDummy( std::shared_ptr< CSoundBuffer > &soundBuffer ) const;
+	void FromDummy( const std::shared_ptr< CSoundBuffer > &soundBuffer ) const;
 
-	void FromTSoundData( const TSoundData &soundData, std::shared_ptr< CSoundBuffer > &soundBuffer ) const;
+	void FromTSoundData( const TSoundData &soundData, const std::shared_ptr< CSoundBuffer > &soundBuffer ) const;
 };
 
 #endif // CSOUNDLOADER_HPP

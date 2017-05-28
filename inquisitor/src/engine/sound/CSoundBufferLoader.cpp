@@ -6,6 +6,10 @@
 
 #include "src/ext/stb/stb_vorbis.c"
 
+#define DR_WAV_IMPLEMENTATION
+#define DR_WAV_NO_STDIO
+#include "src/ext/dr_libs/dr_wav.h"
+
 CSoundBufferLoader::CSoundBufferLoader( const CFileSystem &p_filesystem ) :
 	m_filesystem { p_filesystem }
 {
@@ -29,10 +33,13 @@ void CSoundBufferLoader::FromFile( const std::string &path, std::shared_ptr< CSo
 				FromDummy( soundBuffer );
 			}
 		}
-		/* TODO implement loading of WAV
 		else if( fileExtension == std::string( "wav" ) )
 		{
-		}*/
+			if( !FromWavFile( path, soundBuffer ) )
+			{
+				FromDummy( soundBuffer );
+			}
+		}
 		else
 		{
 			logWARNING( "file type '{0}' of sound file '{1}' is not supported", fileExtension, path );
@@ -40,7 +47,7 @@ void CSoundBufferLoader::FromFile( const std::string &path, std::shared_ptr< CSo
 	}
 }
 
-bool CSoundBufferLoader::FromOggFile( const std::string &path, std::shared_ptr< CSoundBuffer > &soundBuffer ) const
+bool CSoundBufferLoader::FromOggFile( const std::string &path, const std::shared_ptr< CSoundBuffer > &soundBuffer ) const
 {
 	auto const fileBuffer = m_filesystem.LoadFileToBuffer( path );
 
@@ -91,7 +98,49 @@ bool CSoundBufferLoader::FromOggFile( const std::string &path, std::shared_ptr< 
 	}
 }
 
-void CSoundBufferLoader::FromTSoundData( const TSoundData &soundData, std::shared_ptr< CSoundBuffer > &soundBuffer ) const
+bool CSoundBufferLoader::FromWavFile( const std::string &path, const std::shared_ptr< CSoundBuffer > &soundBuffer ) const
+{
+	auto const fileBuffer = m_filesystem.LoadFileToBuffer( path );
+
+	if( !fileBuffer.empty() )
+	{
+		drwav wav;
+		if( !drwav_init_memory( &wav, fileBuffer.data(), fileBuffer.size() ) )
+		{
+			logWARNING( "error opening wav file: {0}", path );
+			return( false );
+		}
+
+		TSoundData bufferDecoded;
+		bufferDecoded.buffer.resize( wav.totalSampleCount * sizeof( std::int16_t ) );
+
+		bufferDecoded.duration = wav.totalSampleCount / wav.sampleRate;
+		bufferDecoded.format = ( 1 == wav.channels ) ? CSoundBuffer::format::MONO : CSoundBuffer::format::STEREO;
+		bufferDecoded.frequency = wav.sampleRate;
+
+		const size_t numberOfSamplesActuallyDecoded = drwav_read_s16( &wav, wav.totalSampleCount, &bufferDecoded.buffer[ 0 ] );
+
+		if( numberOfSamplesActuallyDecoded < wav.totalSampleCount )
+		{
+			logWARNING( "expected {0} samples but got {1} for wav file '{2}'", wav.totalSampleCount, numberOfSamplesActuallyDecoded, path );
+		}
+
+		drwav_uninit( &wav );
+
+		logDEBUG( "{0} / duration: {1:.0f}s / channels: {2} / sample rate: {3}", path, bufferDecoded.duration, wav.channels, bufferDecoded.frequency );
+
+		FromTSoundData( bufferDecoded, soundBuffer );
+
+		return( true );
+	}
+	else
+	{
+		logWARNING( "failed to load wav file '{0}'", path );
+		return( false );
+	}
+}
+
+void CSoundBufferLoader::FromTSoundData( const TSoundData &soundData, const std::shared_ptr< CSoundBuffer > &soundBuffer ) const
 {
 	soundBuffer->m_duration = soundData.duration;
 	soundBuffer->m_format = soundData.format;
@@ -101,7 +150,7 @@ void CSoundBufferLoader::FromTSoundData( const TSoundData &soundData, std::share
 	alBufferData( soundBuffer->m_bufferID, ( soundData.format == CSoundBuffer::format::MONO ) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, soundData.buffer.data(), static_cast< ALsizei >( soundData.buffer.size() ), soundData.frequency );
 }
 
-void CSoundBufferLoader::FromDummy( std::shared_ptr< CSoundBuffer > &soundBuffer ) const
+void CSoundBufferLoader::FromDummy( const std::shared_ptr< CSoundBuffer > &soundBuffer ) const
 {
 	soundBuffer->Reset();
 }

@@ -258,6 +258,9 @@
       <VirtualDirectory Name="json">
         <File Name="src/ext/json/json.hpp"/>
       </VirtualDirectory>
+      <VirtualDirectory Name="dr_libs">
+        <File Name="src/ext/dr_libs/dr_wav.h"/>
+      </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="inquisitor">
