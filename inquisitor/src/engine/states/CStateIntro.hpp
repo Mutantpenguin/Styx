@@ -20,7 +20,7 @@ public:
 private:
 	const std::uint64_t m_startTime;
 
-	const std::shared_ptr< CSoundSource > m_introSound;
+	const std::shared_ptr< const CSoundSource > m_introSound;
 
 	const float m_introDuration;
 
