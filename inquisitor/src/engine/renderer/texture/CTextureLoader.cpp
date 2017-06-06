@@ -1,6 +1,6 @@
 #include "CTextureLoader.hpp"
 
-#include <glm/glm.hpp>
+#include <cmath>
 
 #include "src/ext/json/json.hpp"
 using json = nlohmann::json;
@@ -228,7 +228,7 @@ void CTextureLoader::FromImage( const std::shared_ptr< const CImage > &image, st
 
 	const auto &size = image->Size();
 
-	const GLchar maxMipLevel = floor( glm::log2( std::max( size.width, size.height ) ) ) + 1;
+	const GLchar maxMipLevel = floor( log2( std::max( size.width, size.height ) ) ) + 1;
 	glTextureParameteri( tex->m_texID, GL_TEXTURE_BASE_LEVEL, 0 );
 	glTextureParameteri( tex->m_texID, GL_TEXTURE_MAX_LEVEL, maxMipLevel );
 
@@ -309,7 +309,7 @@ bool CTextureLoader::From2DArrayData( const C2DArrayData &arrayData, std::shared
 
 		const auto &size = layers[ 0 ]->Size();
 
-		const GLchar maxMipLevel = floor( glm::log2( std::max( size.width, size.height ) ) ) + 1;
+		const GLchar maxMipLevel = floor( log2( std::max( size.width, size.height ) ) ) + 1;
 		glTextureParameteri( tex->m_texID, GL_TEXTURE_BASE_LEVEL, 0 );
 		glTextureParameteri( tex->m_texID, GL_TEXTURE_MAX_LEVEL, maxMipLevel );
 
