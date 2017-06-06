@@ -15,7 +15,7 @@ CMaterialUniformFLOAT::CMaterialUniformFLOAT( const std::string &name, const glm
 	CMaterialUniform( name ),
 	m_value { value }
 {
-};
+}
 
 void CMaterialUniformFLOAT::Set( const GLuint location ) const
 {
@@ -27,7 +27,7 @@ CMaterialUniformUINT::CMaterialUniformUINT( const std::string &name, const glm::
 	CMaterialUniform( name ),
 	m_value { value }
 {
-};
+}
 
 void CMaterialUniformUINT::Set( const GLuint location ) const
 {
@@ -38,7 +38,7 @@ CMaterialUniformFLOATVEC2::CMaterialUniformFLOATVEC2( const std::string &name, c
 	CMaterialUniform( name ),
 	m_values { values }
 {
-};
+}
 
 void CMaterialUniformFLOATVEC2::Set( const GLuint location ) const
 {
@@ -49,7 +49,7 @@ CMaterialUniformFLOATVEC3::CMaterialUniformFLOATVEC3( const std::string &name, c
 	CMaterialUniform( name ),
 	m_values { values }
 {
-};
+}
 
 void CMaterialUniformFLOATVEC3::Set( const GLuint location ) const
 {
@@ -60,7 +60,7 @@ CMaterialUniformFLOATVEC4::CMaterialUniformFLOATVEC4( const std::string &name, c
 	CMaterialUniform( name ),
 	m_values { values }
 {
-};
+}
 
 void CMaterialUniformFLOATVEC4::Set( const GLuint location ) const
 {

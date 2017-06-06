@@ -5,7 +5,7 @@ CState::CState( const std::string &name, const CFileSystem &filesystem, const CS
 		m_filesystem { filesystem },
 		m_settings { settings },
 		m_engineSystems { engineSystems }
-{};
+{}
 
 void CState::Render( void ) const
 {

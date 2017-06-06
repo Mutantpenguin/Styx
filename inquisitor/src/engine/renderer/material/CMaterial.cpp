@@ -20,7 +20,7 @@ void CMaterial::Setup( void ) const
 bool CMaterial::Blending( void ) const
 {
 	return( m_blending );
-};
+}
 
 const std::shared_ptr< const CShaderProgram > &CMaterial::Shader( void ) const
 {
