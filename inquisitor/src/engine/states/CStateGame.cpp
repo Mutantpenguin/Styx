@@ -105,7 +105,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		// create big cube of cubes
 		{
-			const std::uint16_t cubeSize { 12 };
+			const std::uint16_t cubeSize { 14 };
 
 			for( std::uint16_t i = 0; i < cubeSize; i++ )
 			{
