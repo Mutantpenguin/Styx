@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+
+#include "src/engine/math/Math.hpp"
 #include "src/engine/helper/Date.hpp"
 #include "src/engine/helper/geom/Primitives.hpp"
 #include "src/engine/helper/image/ImageHandler.hpp"
@@ -114,6 +116,32 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 					for( std::uint16_t k = 0; k < cubeSize; k++ )
 					{
 						const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, glm::vec3( 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f ), superBoxMeshTextures );
+						mesh->SetScale( { 2.0f, 2.0f, 2.0f } );
+
+						m_scene.AddMesh( mesh );
+					}
+				}
+			}
+		}
+	}
+
+	// create big cube of cubes
+	{
+		const auto material = materialManager.LoadMaterial( "materials/standard.mat" );
+
+		const CMesh::TTextures meshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/texpack_1/black_border.png" ), samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D ) ) } };
+
+		const std::uint16_t cubeSize { 10  };
+
+		for( std::uint16_t i = 0; i < cubeSize; i++ )
+		{
+			for( std::uint16_t j = 0; j < cubeSize; j++ )
+			{
+				for( std::uint16_t k = 0; k < cubeSize; k++ )
+				{
+					if( Math::irand( 0, 1 ) == 1 )
+					{
+						const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material, glm::vec3( -40.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f ), meshTextures );
 						mesh->SetScale( { 2.0f, 2.0f, 2.0f } );
 
 						m_scene.AddMesh( mesh );
