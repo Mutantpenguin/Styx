@@ -3,6 +3,8 @@
 
 #include <list>
 
+#include "src/engine/helper/CColor.hpp"
+
 #include "src/engine/renderer/camera/CCamera.hpp"
 #include "src/engine/renderer/model/CMesh.hpp"
 
@@ -20,10 +22,15 @@ public:
 	const std::shared_ptr< const CCamera > &Camera( void ) const;
 	void Camera( const std::shared_ptr< const CCamera > &camera );
 
+	const CColor &ClearColor( void ) const;
+	void ClearColor( const CColor &clearColor );
+
 private:
 	std::list< std::shared_ptr< const CMesh > > m_meshes;
 
 	std::shared_ptr< const CCamera > m_camera;
+
+	CColor m_clearColor { 0.0f, 0.0f, 0.0f, 0.0f };
 };
 
 #endif // CSCENE_HPP

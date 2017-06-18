@@ -81,7 +81,9 @@ void CEngine::Run( void )
 
 		m_window.Update();
 
-		m_engineSystems.Renderer.RenderScene( m_currentState->Scene(), m_engineSystems.GlobalTimer );
+		m_engineSystems.Renderer.RenderSceneToFramebuffer( m_currentState->Scene(), m_currentState->FrameBuffer(), m_engineSystems.GlobalTimer );
+
+		m_engineSystems.Renderer.DisplayFramebuffer( m_currentState->FrameBuffer() );
 
 		m_engineSystems.SoundManager.Update();
 

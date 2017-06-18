@@ -15,6 +15,8 @@
 
 #include "src/engine/renderer/COpenGlAdapter.hpp"
 
+#include "src/engine/renderer/CFrameBuffer.hpp"
+
 #include "src/engine/renderer/texture/CTextureManager.hpp"
 #include "src/engine/renderer/sampler/CSamplerManager.hpp"
 #include "src/engine/renderer/material/CMaterialManager.hpp"
@@ -43,9 +45,9 @@ public:
 	CTextureManager		&TextureManager( void );
 	CSamplerManager		&SamplerManager( void );
 
-	void	SetClearColor( const CColor &color ) const;
+	void	RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffer &framebuffer, const CTimer &timer ) const;
 
-	void	RenderScene( const CScene &scene, const CTimer &timer ) const;
+	void	DisplayFramebuffer( const CFrameBuffer &framebuffer );
 
 	class Exception: public std::exception
 	{
@@ -66,12 +68,11 @@ private:
 
 	CTextureManager		m_textureManager;
 	CSamplerManager		m_samplerManager;
+	CShaderManager		m_shaderManager;
 	CMaterialManager	m_materialManager;
 
 	void CreateUniformBuffers( void );
 	void UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const CTimer &timer ) const;
-
-	void SetupMaterial( const CMaterial * const material ) const;
 
 	void RenderBucketMeshes( const TRenderBucketMeshes &bucketMeshes, const glm::mat4 &viewProjectionMatrix ) const;
 	void RenderBucketMaterials( const TRenderBucketMaterials &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const;
@@ -80,6 +81,8 @@ private:
 	std::shared_ptr< CUniformBuffer > m_uboCamera;
 	std::shared_ptr< CUniformBuffer > m_uboTimer;
 	std::shared_ptr< CUniformBuffer > m_uboScreen;
+
+	std::unique_ptr< CMesh >	m_meshFrameBuffer;
 };
 
 #endif // CRENDERER_HPP

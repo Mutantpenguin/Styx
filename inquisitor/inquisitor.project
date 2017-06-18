@@ -127,6 +127,8 @@
           <File Name="src/engine/renderer/model/CModelLoader.hpp"/>
           <File Name="src/engine/renderer/model/CModelLoader.cpp"/>
         </VirtualDirectory>
+        <File Name="src/engine/renderer/CFrameBuffer.hpp"/>
+        <File Name="src/engine/renderer/CFrameBuffer.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="helper">
         <VirtualDirectory Name="image">

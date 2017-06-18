@@ -15,7 +15,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 {
 	auto &renderer = m_engineSystems.Renderer;
 
-	renderer.SetClearColor( CColor( 0.0f, 0.0f, 4.0f, 0.0f ) );
+	m_scene.ClearColor( CColor( 0.0f, 0.0f, 4.0f, 0.0f ) );
 
 	m_cameraFree = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 72.0f, 0.1f, 1000.0f );
 	m_cameraFree->SetPosition( { 0.0f, 10.0f, 10.0f } );

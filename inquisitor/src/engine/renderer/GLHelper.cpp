@@ -174,21 +174,6 @@ namespace GLHelper
 		return( true );
 	}
 
-	bool isFramebufferComplete( void )
-	{
-		const GLenum status = glCheckFramebufferStatus( GL_FRAMEBUFFER );
-
-		if( GL_FRAMEBUFFER_COMPLETE == status )
-		{
-			return( true );
-		}
-		else
-		{
-			logERROR( "framebuffer is not complete: {0}", glbinding::Meta::getString( status ) );
-			return( false );
-		}
-	}
-
 	GLenum GLFormatFromImage( const std::shared_ptr< const CImage > &image )
 	{
 		if( image->HasAlpha() )

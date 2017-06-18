@@ -49,7 +49,7 @@ CStatePause::~CStatePause()
 
 std::shared_ptr< CState > CStatePause::Update( void )
 {
-	m_engineSystems.Renderer.SetClearColor( CColor( 0.3f, 0.3f, 0.3f, 0.0f ) );
+	m_scene.ClearColor( CColor( 0.3f, 0.3f, 0.3f, 0.0f ) );
 
 	auto pos = m_meshText->Position();
 	pos.z = ( sin( m_engineSystems.GlobalTimer.Time() / 2000000.0 ) * 0.5f );

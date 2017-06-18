@@ -2,10 +2,10 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-CMaterialManager::CMaterialManager( const CFileSystem &filesystem )
+CMaterialManager::CMaterialManager( const CFileSystem &filesystem, CShaderManager &shaderManager )
 	try :
 		m_filesystem { filesystem },
-		m_shaderManager( filesystem ),
+		m_shaderManager { shaderManager },
 		m_materialLoader( filesystem, m_shaderManager )
 {
 }

@@ -153,7 +153,43 @@ std::shared_ptr< CShaderProgram > CShaderManager::LoadProgram( const std::string
 	}
 }
 
-GLuint CShaderManager::CreateProgram( const GLuint vertexShader, const GLuint fragmentShader )
+std::shared_ptr< CShaderProgram > CShaderManager::CreateProgramFromStrings( const std::string &vertexShaderString, const std::string &fragmentShaderString ) const
+{
+	const GLuint vertexShader = CreateShader( GL_VERTEX_SHADER, vertexShaderString );
+	if( 0 == vertexShader )
+	{
+		logWARNING( "using dummy shader instead of vertex shader '{0}' and fragment shader '{1}'", vertexShaderString, fragmentShaderString );
+		return( m_dummyProgram );
+	}
+
+	const GLuint fragmentShader = CreateShader( GL_FRAGMENT_SHADER, fragmentShaderString );
+	if( 0 == fragmentShader )
+	{
+		logWARNING( "using dummy shader instead of vertex shader '{0}' and fragment shader '{1}'", vertexShaderString, fragmentShaderString );
+		return( m_dummyProgram );
+	}
+
+	const GLuint program = CreateProgram( vertexShader, fragmentShader );
+	if( 0 == program )
+	{
+		logWARNING( "program object from vertex shader '{0}' and fragment shader '{1}' is not valid", vertexShaderString, fragmentShaderString );
+		logWARNING( "using dummy shader" );
+		return( m_dummyProgram );
+	}
+
+	auto shaderProgram = std::make_shared< CShaderProgram >( program );
+
+	if( !InterfaceSetup( shaderProgram ) )
+	{
+		logWARNING( "unable to setup the interface for the program object from vertex shader '{0}' and fragment shader '{1}'", vertexShaderString, fragmentShaderString );
+		logWARNING( "using dummy shader" );
+		return( m_dummyProgram );
+	}
+
+	return( shaderProgram );
+}
+
+GLuint CShaderManager::CreateProgram( const GLuint vertexShader, const GLuint fragmentShader ) const
 {
 	const GLuint program = glCreateProgram();
 	if( 0 == program )
@@ -237,7 +273,7 @@ GLuint CShaderManager::LoadFragmentShader( const std::string &path )
 	}
 }
 
-GLuint CShaderManager::LoadShader( const GLenum type, const std::string &path )
+GLuint CShaderManager::LoadShader( const GLenum type, const std::string &path ) const
 {
 	if( !m_filesystem.Exists( path ) )
 	{
@@ -250,7 +286,7 @@ GLuint CShaderManager::LoadShader( const GLenum type, const std::string &path )
 	}
 }
 
-GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body )
+GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body ) const
 {
 	std::string source;
 
@@ -334,7 +370,7 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body 
 	return( shader );
 }
 
-bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > &shaderProgram )
+bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > &shaderProgram ) const
 {
 	/*
 	 * active attributes

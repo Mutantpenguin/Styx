@@ -7,6 +7,7 @@ class CTexture final
 {
 	friend class CTextureLoader;
 	friend class CTextureManager;
+	friend class CFrameBuffer;
 
 private:
 	CTexture( const CTexture& rhs );
@@ -23,7 +24,6 @@ public:
 	CTexture( void );
 	~CTexture( void );
 
-
 	void BindToUnit( const GLuint unit ) const;
 
 	type Type( void ) const;
@@ -33,7 +33,7 @@ private:
 
 	type m_type;
 
-	GLuint	m_texID;
+	GLuint	m_textureID;
 };
 
 #endif // CTEXTURE_HPP

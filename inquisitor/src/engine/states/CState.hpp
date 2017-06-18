@@ -5,6 +5,8 @@
 
 #include "src/engine/system/CEngineSystems.hpp"
 
+#include "src/engine/renderer/CFrameBuffer.hpp"
+
 #include "src/engine/scene/CScene.hpp"
 
 #include "src/engine/system/CFileSystem.hpp"
@@ -27,8 +29,12 @@ public:
 
 	virtual const std::string &Name( void ) const final;
 
+	const CFrameBuffer &FrameBuffer( void ) const;
+
 protected:
 	const std::string	m_name;
+
+	const CFrameBuffer m_frameBuffer;
 
 	const CFileSystem	&m_filesystem;
 	const CSettings		&m_settings;

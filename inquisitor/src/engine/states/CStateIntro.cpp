@@ -14,7 +14,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 {
 	auto &renderer = m_engineSystems.Renderer;
 
-	renderer.SetClearColor( CColor( 1.0f, 1.0f, 1.0f, 1.0f ) );
+	m_scene.ClearColor( CColor( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
 	{
 		auto camera = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
@@ -52,7 +52,7 @@ std::shared_ptr< CState > CStateIntro::Update( void )
 
 	const float fadeDuration = m_introDuration * 0.66666f ;
 	const float colorComponent = ( fadeDuration - elapsedTime ) / fadeDuration;
-	m_engineSystems.Renderer.SetClearColor( CColor( colorComponent, colorComponent, colorComponent, colorComponent ) );
+	m_scene.ClearColor( CColor( colorComponent, colorComponent, colorComponent, colorComponent ) );
 
 	if( ( elapsedTime > m_introDuration )
 		||

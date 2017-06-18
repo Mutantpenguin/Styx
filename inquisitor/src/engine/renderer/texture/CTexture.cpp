@@ -8,12 +8,12 @@ CTexture::CTexture( void )
 
 CTexture::~CTexture( void )
 {
-	glDeleteTextures( 1, &m_texID );
+	glDeleteTextures( 1, &m_textureID );
 }
 
 void CTexture::BindToUnit( const GLuint unit ) const
 {
-	CGLState::BindTextureToUnit( m_texID, unit );
+	CGLState::BindTextureToUnit( m_textureID, unit );
 }
 
 CTexture::type CTexture::Type( void ) const
@@ -23,7 +23,7 @@ CTexture::type CTexture::Type( void ) const
 
 void CTexture::Reset( void )
 {
-	glDeleteTextures( 1, &m_texID );
+	glDeleteTextures( 1, &m_textureID );
 
-	m_texID = 0;
+	m_textureID = 0;
 }

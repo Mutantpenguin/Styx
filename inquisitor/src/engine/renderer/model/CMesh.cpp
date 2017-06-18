@@ -186,15 +186,18 @@ void CMesh::SetupMaterialTextureMapping( void )
 {
 	m_materialTextureMapping.clear();
 
-	for( const auto & [ location, interface ] : m_material->Shader()->RequiredSamplers() )
+	if( m_material )
 	{
-		if( const auto texture = m_textures.find( interface.name ); texture != std::cend( m_textures ) )
+		for( const auto & [ location, interface ] : m_material->Shader()->RequiredSamplers() )
 		{
-			m_materialTextureMapping.emplace_back( std::make_pair( location, texture->second ) );
-		}
-		else
-		{
-			logWARNING( "setting up texture mapping for mesh failed because a texture with name '{0}' does not exist in the mesh", interface.name );
+			if( const auto texture = m_textures.find( interface.name ); texture != std::cend( m_textures ) )
+			{
+				m_materialTextureMapping.emplace_back( std::make_pair( location, texture->second ) );
+			}
+			else
+			{
+				logWARNING( "setting up texture mapping for mesh failed because a texture with name '{0}' does not exist in the mesh", interface.name );
+			}
 		}
 	}
 }

@@ -16,7 +16,8 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 		m_settings { settings },
 		m_textureManager( settings, filesystem, m_OpenGlAdapter ),
 		m_samplerManager( settings ),
-		m_materialManager( filesystem )
+		m_shaderManager( filesystem ),
+		m_materialManager( filesystem, m_shaderManager )
 {
 	glDepthFunc( GL_LEQUAL );
 	glEnable( GL_DEPTH_TEST );
@@ -26,6 +27,30 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 	glEnable( GL_TEXTURE_CUBE_MAP_SEAMLESS );
 
 	CreateUniformBuffers();
+
+	{
+		const std::string vertexShaderString =	"out vec2 UV;" \
+												"void main()" \
+												"{" \
+												"    gl_Position = vec4( vertex.x, vertex.y, 0.0, 1.0 );" \
+												"    UV = texcoord;" \
+												"}";
+		const std::string fragmentShaderString =	"out vec4 color;" \
+													"in vec2 UV;" \
+													"uniform sampler2D screenTexture;" \
+													"void main()" \
+													"{" \
+													"    color = texture( screenTexture, UV );" \
+													"}";
+
+		std::shared_ptr< CMaterial > materialFrameBuffer = std::make_shared< CMaterial >();
+		materialFrameBuffer->Shader( m_shaderManager.CreateProgramFromStrings( vertexShaderString, fragmentShaderString ) );
+		materialFrameBuffer->EnableBlending( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+
+		const CMesh::TTextures frameBufferMeshTextures = { { "screenTexture", std::make_shared< CMeshTexture >( nullptr, nullptr ) } };
+
+		m_meshFrameBuffer = std::make_unique< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialFrameBuffer, frameBufferMeshTextures );
+	}
 }
 catch( CMaterialManager::Exception &e )
 {
@@ -101,6 +126,8 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &ca
 	m_uboCamera->SubData( offset,	sizeof( viewProjectionMatrix ),	glm::value_ptr( viewProjectionMatrix ) );
 }
 
+
+// TODO not a great name for a function which essentially just does garbage collection...
 void CRenderer::Update( void )
 {
 	m_materialManager.Update();
@@ -140,12 +167,7 @@ CMaterialManager &CRenderer::MaterialManager( void )
 	return( m_materialManager );
 }
 
-void CRenderer::SetClearColor( const CColor &color ) const
-{
-	glClearColor( color.r(), color.g(), color.b(), color.a() );
-}
-
-void CRenderer::RenderScene( const CScene &scene, const CTimer &timer ) const
+void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffer &framebuffer, const CTimer &timer ) const
 {
 	const auto camera = scene.Camera();
 
@@ -155,6 +177,11 @@ void CRenderer::RenderScene( const CScene &scene, const CTimer &timer ) const
 	}
 	else
 	{
+		framebuffer.Bind();
+
+		const auto &clearColor = scene.ClearColor();
+		glClearColor( clearColor.r(), clearColor.g(), clearColor.b(), clearColor.a() );
+
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 		const auto &frustum = camera->CalculateFrustum();
@@ -197,26 +224,35 @@ void CRenderer::RenderScene( const CScene &scene, const CTimer &timer ) const
 		// TODO multithreaded?
 		// sort translucent back to front
 		std::sort( std::begin( renderBucketMaterialsTranslucent ), std::end( renderBucketMaterialsTranslucent ),	[&cameraPosition]( const CMesh * const a, const CMesh * const b ) -> bool
-																												{
-																													return( glm::length2( a->Position() - cameraPosition ) > glm::length2( b->Position() - cameraPosition ) );
-																												} );
+																													{
+																														return( glm::length2( a->Position() - cameraPosition ) > glm::length2( b->Position() - cameraPosition ) );
+																													} );
 
 		RenderBucketMeshes( renderBucketMaterialsTranslucent, viewProjectionMatrix );
 
 		renderBucketMaterialsTranslucent.clear();
+
+		framebuffer.Unbind();
 	}
 }
 
-void CRenderer::SetupMaterial( const CMaterial * const material ) const
+void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
 {
-	material->Setup();
+	glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
 
-	material->Shader()->Use();
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	for( const auto & [ location, uniform ] : material->MaterialUniforms() )
-	{
-		uniform->Set( location );
-	}
+	m_meshFrameBuffer->ChangeTexture( "screenTexture", framebuffer.ColorTexture(), m_samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D ) );
+
+	m_meshFrameBuffer->Material()->Setup();
+	m_meshFrameBuffer->BindTextures();
+
+	const CVAO &vao = m_meshFrameBuffer->VAO();
+
+	vao.Bind();
+
+	vao.Draw();
+
 }
 
 void CRenderer::RenderBucketMeshes( const TRenderBucketMeshes &bucketMeshes, const glm::mat4 &viewProjectionMatrix ) const
@@ -225,7 +261,7 @@ void CRenderer::RenderBucketMeshes( const TRenderBucketMeshes &bucketMeshes, con
 	{
 		const CMaterial * const material = bucketMesh->Material().get();
 
-		SetupMaterial( material );
+		material->Setup();
 
 		const auto shader = material->Shader().get();
 
@@ -237,7 +273,7 @@ void CRenderer::RenderBucketMaterials( const TRenderBucketMaterials &bucketMater
 {
 	for( const auto & [ material, meshes ] : bucketMaterials )
 	{
-		SetupMaterial( material );
+		material->Setup();
 
 		const auto shader = material->Shader().get();
 

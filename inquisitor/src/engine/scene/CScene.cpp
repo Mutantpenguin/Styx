@@ -32,3 +32,13 @@ void CScene::Camera( const std::shared_ptr< const CCamera > &camera )
 {
 	m_camera = camera;
 }
+
+const CColor &CScene::ClearColor( void ) const
+{
+	return( m_clearColor );
+}
+
+void CScene::ClearColor( const CColor &clearColor )
+{
+	m_clearColor = clearColor;
+}

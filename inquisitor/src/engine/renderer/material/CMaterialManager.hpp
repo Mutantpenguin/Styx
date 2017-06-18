@@ -27,7 +27,7 @@ public:
 	};
 
 private:
-	CMaterialManager( const CFileSystem &filesystem );
+	CMaterialManager( const CFileSystem &filesystem, CShaderManager	&shaderManager );
 	virtual ~CMaterialManager( void );
 
 	void Update( void );
@@ -44,7 +44,7 @@ private:
 
 	const CFileSystem &m_filesystem;
 
-	CShaderManager	m_shaderManager;
+	CShaderManager	&m_shaderManager;
 
 	const CMaterialLoader m_materialLoader;
 
