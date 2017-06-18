@@ -32,7 +32,7 @@ void CLogTargetConsole::Log( const std::unique_ptr< const CLogger::logEntry > &e
 
 	SetColor( COLOR_NORMAL );
 
-	std::cout << " : " << entry->m_message << std::endl;
+	std::cout << " :  " << entry->m_message << std::endl;
 }
 
 #ifndef WIN32
