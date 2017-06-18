@@ -81,7 +81,7 @@ void CEngine::Run( void )
 
 		m_window.Update();
 
-		m_currentState->Render();
+		m_engineSystems.Renderer.RenderScene( m_currentState->Scene(), m_engineSystems.GlobalTimer );
 
 		m_engineSystems.SoundManager.Update();
 

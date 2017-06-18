@@ -7,13 +7,6 @@ CState::CState( const std::string &name, const CFileSystem &filesystem, const CS
 		m_engineSystems { engineSystems }
 {}
 
-void CState::Render( void ) const
-{
-	m_engineSystems.Renderer.Clear( true, true );
-
-	m_engineSystems.Renderer.RenderScene( m_scene, m_engineSystems.GlobalTimer );
-}
-
 const CScene &CState::Scene( void ) const
 {
 	return( m_scene );

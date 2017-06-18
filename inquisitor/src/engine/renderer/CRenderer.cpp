@@ -145,22 +145,6 @@ void CRenderer::SetClearColor( const CColor &color ) const
 	glClearColor( color.r(), color.g(), color.b(), color.a() );
 }
 
-void CRenderer::Clear( bool colorBuffer, bool depthBuffer ) const
-{
-	if( colorBuffer && depthBuffer )
-	{
-		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-	}
-	else if( colorBuffer )
-	{
-		glClear( GL_COLOR_BUFFER_BIT );
-	}
-	else if( depthBuffer )
-	{
-		glClear( GL_DEPTH_BUFFER_BIT );
-	}
-}
-
 void CRenderer::RenderScene( const CScene &scene, const CTimer &timer ) const
 {
 	const auto camera = scene.Camera();
@@ -171,6 +155,8 @@ void CRenderer::RenderScene( const CScene &scene, const CTimer &timer ) const
 	}
 	else
 	{
+		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
 		const auto &frustum = camera->CalculateFrustum();
 
 		UpdateUniformBuffers( camera, timer );

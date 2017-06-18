@@ -13,8 +13,6 @@ public:
 	CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems, std::shared_ptr< CState > state );
 	~CStatePause();
 
-	virtual void Render( void ) const override;
-
 	virtual std::shared_ptr< CState > Update( void ) override;
 
 private:

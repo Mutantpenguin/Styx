@@ -23,8 +23,6 @@ protected:
 public:
 	virtual std::shared_ptr< CState > Update( void ) = 0;
 
-	virtual void Render( void ) const;
-
 	virtual const CScene &Scene( void ) const final;
 
 	virtual const std::string &Name( void ) const final;

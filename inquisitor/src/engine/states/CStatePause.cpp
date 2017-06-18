@@ -47,21 +47,10 @@ CStatePause::~CStatePause()
 {
 }
 
-void CStatePause::Render( void ) const
-{
-	const auto &renderer = m_engineSystems.Renderer;
-
-	renderer.Clear( true, true );
-
-	renderer.RenderScene( m_pausedState->Scene(), m_engineSystems.GlobalTimer );
-
-	renderer.Clear( false, true );
-
-	renderer.RenderScene( m_scene, m_engineSystems.GlobalTimer );
-}
-
 std::shared_ptr< CState > CStatePause::Update( void )
 {
+	m_engineSystems.Renderer.SetClearColor( CColor( 0.3f, 0.3f, 0.3f, 0.0f ) );
+
 	auto pos = m_meshText->Position();
 	pos.z = ( sin( m_engineSystems.GlobalTimer.Time() / 2000000.0 ) * 0.5f );
 	m_meshText->SetPosition( pos );

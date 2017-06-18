@@ -45,8 +45,6 @@ public:
 
 	void	SetClearColor( const CColor &color ) const;
 
-	void	Clear( bool colorBuffer, bool depthBuffer ) const;
-
 	void	RenderScene( const CScene &scene, const CTimer &timer ) const;
 
 	class Exception: public std::exception
