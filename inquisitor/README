@@ -7,3 +7,9 @@ HOW TO START:
 ./inquisitor --gameDirectory=../../../demogame/ 2>&1 | ../../asan_symbolize.py --demangle | c++filt
 
 GALLIUM_HUD=fps,cpu+GPU-load,VRAM-usage+GTT-usage,draw-calls ./inquisitor --gameDirectory=../../../demogame/
+
+
+
+
+clang compiler options:
+-Wmain;-pedantic-errors;-Wfatal-errors;-ansi;-pedantic;-Wall;-Wextra;-Wmissing-include-dirs;-Wmissing-declarations;-Wunreachable-code;-Winline;-Wfloat-equal;-Wundef;-Wcast-align;-Wredundant-decls;-Winit-self;-Wshadow;-Wint-to-void-pointer-cast;--system-header-prefix=src/ext/;-std=c++1z

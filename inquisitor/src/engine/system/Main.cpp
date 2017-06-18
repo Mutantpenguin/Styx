@@ -1,7 +1,5 @@
 #include <iostream>
 
-#include <boost/program_options.hpp>
-
 // explicitly include SDL2.h so it can do its thing with SDL_main
 #ifdef __linux__
 	#include <SDL2/SDL.h>
@@ -10,6 +8,8 @@
 #else
 	#error "unsupported platform"
 #endif
+
+#include "src/ext/CLI11/CLI11.hpp"
 
 #include "src/engine/logger/CLogger.hpp"
 #include "src/engine/logger/CLogTargetConsole.hpp"
@@ -27,65 +27,41 @@ int main( int argc, char *argv[] )
 
 	CLogger::CreateTarget< CLogTargetConsole >();
 
-	namespace po = boost::program_options;
-
-	po::options_description  generic( "Generic options" );
-	po::options_description  config( "Configuration" );
-	po::options_description  cmdline_options;
-	po::variables_map        vm;
-
+	std::string gameDirectory;
 	std::string settingsFile;
 
-	generic.add_options()
-		( "version,v", "produce version string" )
-		( "help,h",    "produce help message" );
+	CLI::App app { CEngine::GetVersionString() };
 
-	std::string gameDirectory;
+	app.add_option( "--gameDirectory,-g", gameDirectory, "directory of the game" )
+		->check( CLI::ExistingDirectory );
 
-	config.add_options()
-		( "gameDirectory", po::value< std::string >( &gameDirectory )->required(), "directory of the game" )
-		( "settingsFile", po::value< std::string >( &settingsFile ), "name of a settings-file" )
-		( "logToMsgBox", "show a message-box for errors" );
+	app.add_option( "--settingsFile,-s", settingsFile, "path to a settings-file" )
+		->check( CLI::ExistingFile );
 
-	cmdline_options.add( generic );
-	cmdline_options.add( config );
+	const auto logErrorsToMsgBoxOption = app.add_flag( "-l,--logErrorsToMsgBox", "show a message-box for errors" );
+
+	const auto showVersionOption = app.add_flag( "-v,--version", "produce version string" );
 
 	try
 	{
-	    po::store( po::parse_command_line( argc, argv, cmdline_options ), vm );
+		app.parse( argc, argv );
 	}
-	catch( std::exception &e )
+	catch( const CLI::ParseError &e )
 	{
-		logERROR( "failed to parse the command-line options: {0}", e.what() );
-		return( EXIT_FAILURE );
+		return( app.exit( e ) );
 	}
 
-	if( vm.count( "help" ) )
-	{
-		std::cout << cmdline_options << std::endl;
-		return( EXIT_SUCCESS );
-	}
-
-	if( vm.count( "version" ) )
+	if( showVersionOption->count() > 0 )
 	{
 		std::cout << CEngine::GetVersionString() << std::endl;
 		return( EXIT_SUCCESS );
 	}
 
-	try
-	{
-		po::notify( vm );
-	}
-	catch( std::exception &e )
-	{
-		logERROR( e.what() );
-		return( EXIT_FAILURE );
-	}
-
-	if( vm.count( "logToMsgBox" ) )
+	if( logErrorsToMsgBoxOption->count() > 0 )
 	{
 		CLogger::CreateTarget< CLogTargetMessageBox >();
 	}
+
 
 	logINFO( "--------------------------------------------------------------------------------" );
 	logINFO( "starting {0}", CEngine::GetVersionString() );
