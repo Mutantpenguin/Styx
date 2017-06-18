@@ -44,7 +44,7 @@ void CTextureManager::Update( void )
 	}
 }
 
-std::shared_ptr< CTexture > CTextureManager::LoadTexture( const std::string &path )
+const std::shared_ptr< const CTexture > CTextureManager::LoadTexture( const std::string &path )
 {
 	const auto it = m_textureFiles.find( path );
 	if( std::end( m_textureFiles ) != it )

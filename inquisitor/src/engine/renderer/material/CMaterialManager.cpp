@@ -44,7 +44,7 @@ void CMaterialManager::Update( void )
 	}
 }
 
-std::shared_ptr< CMaterial > CMaterialManager::LoadMaterial( const std::string &path )
+const std::shared_ptr< const CMaterial > CMaterialManager::LoadMaterial( const std::string &path )
 {
 	const auto it = m_materialFiles.find( path );
 	if( std::end( m_materialFiles ) != it )

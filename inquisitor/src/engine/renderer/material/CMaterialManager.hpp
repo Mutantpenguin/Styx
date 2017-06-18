@@ -16,7 +16,7 @@ class CMaterialManager final
 friend class CRenderer;
 
 public:
-	[[nodiscard]] std::shared_ptr< CMaterial > LoadMaterial( const std::string &path );
+	[[nodiscard]] const std::shared_ptr< const CMaterial > LoadMaterial( const std::string &path );
 
 	class Exception: public std::exception
 	{

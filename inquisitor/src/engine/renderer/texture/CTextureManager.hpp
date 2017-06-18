@@ -16,7 +16,7 @@ public:
 
 	void Update( void );
 
-	[[nodiscard]] std::shared_ptr< CTexture > LoadTexture( const std::string &path );
+	[[nodiscard]] const std::shared_ptr< const CTexture > LoadTexture( const std::string &path );
 
 	void ReloadTextures( void );
 
