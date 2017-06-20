@@ -19,10 +19,10 @@ public:
 
 	const std::list< std::shared_ptr< const CMesh > > &Meshes( void ) const;
 
-	const std::shared_ptr< const CCamera > &Camera( void ) const;
+	[[nodiscard]] const std::shared_ptr< const CCamera > &Camera( void ) const;
 	void Camera( const std::shared_ptr< const CCamera > &camera );
 
-	const CColor &ClearColor( void ) const;
+	[[nodiscard]] const CColor &ClearColor( void ) const;
 	void ClearColor( const CColor &clearColor );
 
 private:

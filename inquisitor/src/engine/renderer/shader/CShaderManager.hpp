@@ -42,17 +42,17 @@ public:
 	};
 
 private:
-	bool CreateDummyProgram( void );
+	[[nodiscard]] bool CreateDummyProgram( void );
 
-	GLuint CreateProgram( const GLuint vertexShader, const GLuint fragmentShader ) const;
+	[[nodiscard]] GLuint CreateProgram( const GLuint vertexShader, const GLuint fragmentShader ) const;
 
 	[[nodiscard]] GLuint LoadVertexShader( const std::string &path );
 	[[nodiscard]] GLuint LoadFragmentShader( const std::string &path );
 	[[nodiscard]] GLuint LoadShader( const GLenum type, const std::string &path ) const;
 
-	GLuint CreateShader( const GLenum type, const std::string &body ) const;
+	[[nodiscard]] GLuint CreateShader( const GLenum type, const std::string &body ) const;
 
-	bool InterfaceSetup( std::shared_ptr< CShaderProgram > &shaderProgram ) const;
+	[[nodiscard]] bool InterfaceSetup( std::shared_ptr< CShaderProgram > &shaderProgram ) const;
 
 	void RegisterUniformBuffer( const std::shared_ptr< const CUniformBuffer > &ubo );
 

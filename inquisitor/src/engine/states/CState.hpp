@@ -23,13 +23,13 @@ protected:
 	virtual ~CState() {};
 
 public:
-	virtual std::shared_ptr< CState > Update( void ) = 0;
+	[[nodiscard]] virtual std::shared_ptr< CState > Update( void ) = 0;
 
-	virtual const CScene &Scene( void ) const final;
+	[[nodiscard]] virtual const CScene &Scene( void ) const final;
 
-	virtual const std::string &Name( void ) const final;
+	[[nodiscard]] virtual const std::string &Name( void ) const final;
 
-	const CFrameBuffer &FrameBuffer( void ) const;
+	[[nodiscard]] const CFrameBuffer &FrameBuffer( void ) const;
 
 protected:
 	const std::string	m_name;
