@@ -10,8 +10,6 @@
 
 class CMaterial final
 {
-friend class CMaterialManager;
-
 public:
 	CMaterial( void );
 	~CMaterial( void );
