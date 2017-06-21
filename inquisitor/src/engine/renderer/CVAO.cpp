@@ -20,15 +20,15 @@ CVAO::CVAO( GLenum Mode, const Primitives::SPrimitive &primitive ) :
 	const auto normalSize	= sizeof( decltype( primitive.normals )::value_type );
 	const auto texcoordSize	= sizeof( decltype( primitive.texcoords )::value_type );
 
-	glCreateVertexArrays( 1, &m_vao );
+	glCreateVertexArrays( 1, &m_id );
 
-	glEnableVertexArrayAttrib( m_vao, attributeLocationVertex );
-	glEnableVertexArrayAttrib( m_vao, attributeLocationNormal );
-	glEnableVertexArrayAttrib( m_vao, attributeLocationTexcoord );
+	glEnableVertexArrayAttrib( m_id, attributeLocationVertex );
+	glEnableVertexArrayAttrib( m_id, attributeLocationNormal );
+	glEnableVertexArrayAttrib( m_id, attributeLocationTexcoord );
 
-	glVertexArrayAttribFormat( m_vao, attributeLocationVertex,		3, GL_FLOAT, GL_FALSE, 0 );
-	glVertexArrayAttribFormat( m_vao, attributeLocationNormal,		3, GL_FLOAT, GL_FALSE, 0 );
-	glVertexArrayAttribFormat( m_vao, attributeLocationTexcoord,	2, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( m_id, attributeLocationVertex,		3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( m_id, attributeLocationNormal,		3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( m_id, attributeLocationTexcoord,	2, GL_FLOAT, GL_FALSE, 0 );
 
 	glCreateBuffers( 1, &m_vboVertices );
 	glCreateBuffers( 1, &m_vboNormals );
@@ -38,13 +38,13 @@ CVAO::CVAO( GLenum Mode, const Primitives::SPrimitive &primitive ) :
 	glNamedBufferData( m_vboNormals,	m_vertexCount * normalSize,		primitive.normals.data(),	GL_STATIC_DRAW );
 	glNamedBufferData( m_vboTexcoords,	m_vertexCount * texcoordSize,	primitive.texcoords.data(),	GL_STATIC_DRAW );
 
-	glVertexArrayVertexBuffer( m_vao, CVAO::bindingIndexVertices,	m_vboVertices,	0, vertexSize );
-	glVertexArrayVertexBuffer( m_vao, CVAO::bindingIndexNormals,	m_vboNormals,	0, normalSize );
-	glVertexArrayVertexBuffer( m_vao, CVAO::bindingIndexTexcoords,	m_vboTexcoords,	0, texcoordSize );
+	glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexVertices,	m_vboVertices,	0, vertexSize );
+	glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexNormals,	m_vboNormals,	0, normalSize );
+	glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexTexcoords,	m_vboTexcoords,	0, texcoordSize );
 
-	glVertexArrayAttribBinding( m_vao, attributeLocationVertex,		CVAO::bindingIndexVertices );
-	glVertexArrayAttribBinding( m_vao, attributeLocationNormal,		CVAO::bindingIndexNormals );
-	glVertexArrayAttribBinding( m_vao, attributeLocationTexcoord,	CVAO::bindingIndexTexcoords );
+	glVertexArrayAttribBinding( m_id, attributeLocationVertex,		CVAO::bindingIndexVertices );
+	glVertexArrayAttribBinding( m_id, attributeLocationNormal,		CVAO::bindingIndexNormals );
+	glVertexArrayAttribBinding( m_id, attributeLocationTexcoord,	CVAO::bindingIndexTexcoords );
 }
 
 CVAO::~CVAO()
@@ -76,12 +76,12 @@ CVAO::~CVAO()
 		logERROR( "VBO for texcoords is not a buffer" );
 	}
 
-	glDeleteVertexArrays( 1, &m_vao );
+	glDeleteVertexArrays( 1, &m_id );
 }
 
 void CVAO::Bind( void ) const
 {
-	CGLState::BindVertexArray( m_vao );
+	CGLState::BindVertexArray( m_id );
 }
 
 void CVAO::Draw( void ) const

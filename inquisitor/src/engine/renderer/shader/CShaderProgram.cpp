@@ -2,22 +2,27 @@
 
 #include "src/engine/renderer/CGLState.hpp"
 
-CShaderProgram::CShaderProgram( GLuint program ) :
-	m_program { program }
+CShaderProgram::CShaderProgram( const GLuint id ) :
+	m_id { id }
 {
 }
 
 CShaderProgram::~CShaderProgram()
 {
-	if( glIsProgram( m_program ) == GL_TRUE )
+	if( glIsProgram( m_id ) == GL_TRUE )
 	{
-		glDeleteProgram( m_program );
+		glDeleteProgram( m_id );
 	}
 }
 
 void CShaderProgram::Use( void ) const
 {
-	CGLState::UseProgram( m_program );
+	CGLState::UseProgram( m_id );
+}
+
+const GLuint &CShaderProgram::OpenGLID( void ) const
+{
+	return( m_id );
 }
 
 const std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredSamplers( void ) const
@@ -31,6 +36,21 @@ const std::vector< std::pair< GLint, const EEngineUniform > > &CShaderProgram::R
 }
 
 const std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredMaterialUniforms( void ) const
+{
+	return( m_requiredMaterialUniforms );
+}
+
+std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredSamplers( void )
+{
+	return( m_requiredSamplers );
+}
+
+std::vector< std::pair< GLint, const EEngineUniform > > &CShaderProgram::RequiredEngineUniforms( void )
+{
+	return( m_requiredEngineUniforms );
+}
+
+std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredMaterialUniforms( void )
 {
 	return( m_requiredMaterialUniforms );
 }

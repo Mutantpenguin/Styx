@@ -29,6 +29,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 	CreateUniformBuffers();
 
 	{
+		// TODO write comments
 		const std::string vertexShaderString =	"out vec2 UV;" \
 												"void main()" \
 												"{" \
@@ -43,7 +44,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 													"    color = texture( screenTexture, UV );" \
 													"}";
 
-		std::shared_ptr< CMaterial > materialFrameBuffer = std::make_shared< CMaterial >();
+		const std::shared_ptr< CMaterial > materialFrameBuffer = std::make_shared< CMaterial >();
 		materialFrameBuffer->Shader( m_shaderManager.CreateProgramFromStrings( vertexShaderString, fragmentShaderString ) );
 		materialFrameBuffer->EnableBlending( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 
@@ -238,11 +239,12 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 
 void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
 {
-	glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+	// TODO why does this make the intro strange?
+	// glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	m_meshFrameBuffer->ChangeTexture( "screenTexture", framebuffer.ColorTexture(), m_samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D ) );
+	m_meshFrameBuffer->ChangeTexture( "screenTexture", framebuffer.ColorTexture(), m_samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) );
 
 	m_meshFrameBuffer->Material()->Setup();
 	m_meshFrameBuffer->BindTextures();

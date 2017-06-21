@@ -12,21 +12,19 @@
 
 class CSamplerManager final
 {
-friend class CRenderer;
-
 public:
-	bool SamplerFromString( const std::string &string, std::shared_ptr< const CSampler > &sampler ) const;
-
-	std::shared_ptr< const CSampler > SamplerFromType( CSampler::Type type ) const;
-
-private:
 	CSamplerManager( const CSettings &p_settings );
 
+	[[nodiscard]] bool SamplerFromString( const std::string &string, std::shared_ptr< const CSampler > &sampler ) const;
+
+	[[nodiscard]] const std::shared_ptr< const CSampler > SamplerFromSamplerType( const CSampler::SamplerType type ) const;
+
+private:
 	std::uint8_t m_iAnisotropicLevel;
 
-	std::shared_ptr< const CSampler > Generate( CSampler::Type type );
+	[[nodiscard]] const std::shared_ptr< const CSampler > Generate( const CSampler::SamplerType type );
 
-	std::array< std::shared_ptr< const CSampler >, static_cast< std::uint8_t >( CSampler::Type::MAX ) > m_samplers;
+	std::array< std::shared_ptr< const CSampler >, static_cast< std::uint8_t >( CSampler::SamplerType::MAX ) > m_samplers;
 };
 
 #endif // CSAMPLERMANAGER_HPP

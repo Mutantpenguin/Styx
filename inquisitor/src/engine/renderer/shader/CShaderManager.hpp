@@ -25,11 +25,11 @@ public:
 	CShaderManager( const CFileSystem &p_filesystem );
 	~CShaderManager();
 
-	[[nodiscard]] std::shared_ptr< CShaderProgram > LoadProgram( const std::string &pathVertexShader, const std::string &pathFragmentShader );
+	[[nodiscard]] const std::shared_ptr< const CShaderProgram > LoadProgram( const std::string &pathVertexShader, const std::string &pathFragmentShader );
 
-	[[nodiscard]] std::shared_ptr< CShaderProgram > CreateProgramFromStrings( const std::string &vertexShaderString, const std::string &fragmentShaderString ) const;
+	[[nodiscard]] const std::shared_ptr< const CShaderProgram > CreateProgramFromStrings( const std::string &vertexShaderString, const std::string &fragmentShaderString ) const;
 
-	[[nodiscard]] std::shared_ptr< CShaderProgram > GetDummyShader( void ) const;
+	[[nodiscard]] const std::shared_ptr< const CShaderProgram > GetDummyShader( void ) const;
 
 	constexpr static const GLint requiredCombinedTextureImageUnits { 16 };
 
@@ -52,7 +52,7 @@ private:
 
 	[[nodiscard]] GLuint CreateShader( const GLenum type, const std::string &body ) const;
 
-	[[nodiscard]] bool InterfaceSetup( std::shared_ptr< CShaderProgram > &shaderProgram ) const;
+	[[nodiscard]] bool InterfaceSetup( const std::shared_ptr< CShaderProgram > &shaderProgram ) const;
 
 	void RegisterUniformBuffer( const std::shared_ptr< const CUniformBuffer > &ubo );
 

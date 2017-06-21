@@ -32,7 +32,7 @@ private:
 	std::shared_ptr< CTexture > m_colorTexture;
 	std::shared_ptr< CTexture > m_depthTexture;
 
-	GLuint	m_frameBufferID;
+	GLuint	m_id;
 };
 
 #endif // CFRAMEBUFFER_HPP

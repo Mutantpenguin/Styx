@@ -5,16 +5,12 @@
 
 class CTexture final
 {
-	friend class CTextureLoader;
-	friend class CTextureManager;
-	friend class CFrameBuffer;
-
 private:
 	CTexture( const CTexture& rhs );
 	CTexture & operator = ( const CTexture& rhs );
 
 public:
-	enum struct type : std::uint8_t
+	enum struct TextureType : std::uint8_t
 	{
 		TEX_2D = 0,
 		TEX_CUBE_MAP,
@@ -26,14 +22,17 @@ public:
 
 	void BindToUnit( const GLuint unit ) const;
 
-	type Type( void ) const;
+	TextureType Type( void ) const;
+	void Type( const TextureType type );
 
-private:
 	void Reset( void );
 
-	type m_type;
+	GLuint &OpenGLID( void );
 
-	GLuint	m_textureID;
+private:
+	TextureType m_type;
+
+	GLuint m_id;
 };
 
 #endif // CTEXTURE_HPP

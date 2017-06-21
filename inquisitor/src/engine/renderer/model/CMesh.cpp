@@ -84,7 +84,7 @@ void CMesh::SetMaterial( const std::shared_ptr< const CMaterial > &mat )
 					switch( interface.type )
 					{
 						case GL_SAMPLER_2D:
-							if( texture->Type() != CTexture::type::TEX_2D )
+							if( texture->Type() != CTexture::TextureType::TEX_2D )
 							{
 								logWARNING( "required texture for sampler '{0}' has to be of type 2D in '{1}'", interface.name, path );
 								return( false );
@@ -92,7 +92,7 @@ void CMesh::SetMaterial( const std::shared_ptr< const CMaterial > &mat )
 							break;
 
 						case GL_SAMPLER_CUBE:
-							if( texture->Type() != CTexture::type::TEX_CUBE_MAP )
+							if( texture->Type() != CTexture::TextureType::TEX_CUBE_MAP )
 							{
 								logWARNING( "required texture for sampler '{0}' has to be of type CUBEMAP in '{1}'", interface.name, path );
 								return( false );
@@ -100,7 +100,7 @@ void CMesh::SetMaterial( const std::shared_ptr< const CMaterial > &mat )
 							break;
 
 						case GL_SAMPLER_2D_ARRAY:
-							if( texture->Type() != CTexture::type::TEX_2D_ARRAY )
+							if( texture->Type() != CTexture::TextureType::TEX_2D_ARRAY )
 							{
 								logWARNING( "required texture for sampler '{0}' has to be of type 2D_ARRAY in '{1}'", interface.name, path );
 								return( false );
@@ -144,16 +144,16 @@ const auto mat_samplers = mat_root.find( "samplers" );
 					// TODO by type of sampler
 					switch( texture->Type() )
 					{
-						case CTexture::type::TEX_2D:
-							sampler = m_samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D );
+						case CTexture::TextureType::TEX_2D:
+							sampler = m_samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D );
 							break;
 
-						case CTexture::type::TEX_CUBE_MAP:
-							sampler = m_samplerManager.SamplerFromType( CSampler::Type::REPEAT_CUBE );
+						case CTexture::TextureType::TEX_CUBE_MAP:
+							sampler = m_samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_CUBE );
 							break;
 
-						case CTexture::type::TEX_2D_ARRAY:
-							sampler = m_samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D );
+						case CTexture::TextureType::TEX_2D_ARRAY:
+							sampler = m_samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D );
 							break;
 
 						default:

@@ -13,7 +13,7 @@ public:
 	CSampler();
 	~CSampler();
 
-	enum class Type : std::uint8_t
+	enum class SamplerType : std::uint8_t
 	{
 		REPEAT_2D = 0,
 		BORDER_2D,

@@ -42,7 +42,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 			bgMeshPrimitive.vertices[ 3 ].x = static_cast< float >( windowSize.width );
 			bgMeshPrimitive.vertices[ 3 ].y = static_cast< float >( windowSize.height );
 
-			const CMesh::TTextures bgMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/menu/background.jpg" ), samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D ) ) } };
+			const CMesh::TTextures bgMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/menu/background.jpg" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 			const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, material, glm::vec3( 0.0f, 0.0f, 0.0f ), bgMeshTextures );
 
@@ -63,7 +63,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 			titleMeshPrimitive.vertices[ 3 ].x = halfTitleWidth;
 			titleMeshPrimitive.vertices[ 3 ].y = halfTitleHeight;
 
-			const CMesh::TTextures titleMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/menu/title.png" ), samplerManager.SamplerFromType( CSampler::Type::REPEAT_2D ) ) } };
+			const CMesh::TTextures titleMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/menu/title.png" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 			const auto bgTitle = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, titleMeshPrimitive, material, glm::vec3( windowSize.width / 2.0f, windowSize.height - halfTitleHeight, 5.0f ), titleMeshTextures );
 

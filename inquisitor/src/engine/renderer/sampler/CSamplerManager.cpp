@@ -26,25 +26,25 @@ CSamplerManager::CSamplerManager( const CSettings &p_settings ) :
 		logINFO( "anisotropic filtering is disbabled" );
 	}
 
-	const auto sampler2DRepeat = Generate( CSampler::Type::REPEAT_2D );
+	const auto sampler2DRepeat = Generate( CSampler::SamplerType::REPEAT_2D );
 	sampler2DRepeat->Parametere( GL_TEXTURE_WRAP_S, GL_REPEAT );
 	sampler2DRepeat->Parametere( GL_TEXTURE_WRAP_T, GL_REPEAT );
 	sampler2DRepeat->Parametere( GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
 	sampler2DRepeat->Parametere( GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
-	const auto sampler2DBorder = Generate( CSampler::Type::BORDER_2D );
+	const auto sampler2DBorder = Generate( CSampler::SamplerType::BORDER_2D );
 	sampler2DBorder->Parametere( GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER );
 	sampler2DBorder->Parametere( GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER );
 	sampler2DBorder->Parametere( GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
 	sampler2DBorder->Parametere( GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
-	const auto sampler2DEdge = Generate( CSampler::Type::EDGE_2D );
+	const auto sampler2DEdge = Generate( CSampler::SamplerType::EDGE_2D );
 	sampler2DEdge->Parametere( GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
 	sampler2DEdge->Parametere( GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
 	sampler2DEdge->Parametere( GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
 	sampler2DEdge->Parametere( GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
-	const auto sampler2DRepeatBorder = Generate( CSampler::Type::REPEAT_BORDER_2D );
+	const auto sampler2DRepeatBorder = Generate( CSampler::SamplerType::REPEAT_BORDER_2D );
 	sampler2DRepeatBorder->Parametere( GL_TEXTURE_WRAP_S, GL_REPEAT );
 	sampler2DRepeatBorder->Parametere( GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER );
 	sampler2DRepeatBorder->Parametere( GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
@@ -58,21 +58,21 @@ CSamplerManager::CSamplerManager( const CSettings &p_settings ) :
 		sampler2DRepeatBorder->Parameteri( GL_TEXTURE_MAX_ANISOTROPY_EXT, m_iAnisotropicLevel );
 	}
 
-	const auto samplerCubeRepeat = Generate( CSampler::Type::REPEAT_CUBE );
+	const auto samplerCubeRepeat = Generate( CSampler::SamplerType::REPEAT_CUBE );
 	samplerCubeRepeat->Parametere( GL_TEXTURE_WRAP_S, GL_REPEAT );
 	samplerCubeRepeat->Parametere( GL_TEXTURE_WRAP_T, GL_REPEAT );
 	samplerCubeRepeat->Parametere( GL_TEXTURE_WRAP_R, GL_REPEAT );
 	samplerCubeRepeat->Parametere( GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 	samplerCubeRepeat->Parametere( GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
-	const auto samplerCubeBorder = Generate( CSampler::Type::BORDER_CUBE );
+	const auto samplerCubeBorder = Generate( CSampler::SamplerType::BORDER_CUBE );
 	samplerCubeBorder->Parametere( GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER );
 	samplerCubeBorder->Parametere( GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER );
 	samplerCubeBorder->Parametere( GL_TEXTURE_WRAP_R, GL_CLAMP_TO_BORDER );
 	samplerCubeBorder->Parametere( GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 	samplerCubeBorder->Parametere( GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
-	const auto samplerCubeEdge = Generate( CSampler::Type::EDGE_CUBE );
+	const auto samplerCubeEdge = Generate( CSampler::SamplerType::EDGE_CUBE );
 	samplerCubeEdge->Parametere( GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
 	samplerCubeEdge->Parametere( GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
 	samplerCubeEdge->Parametere( GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE );
@@ -84,31 +84,31 @@ bool CSamplerManager::SamplerFromString( const std::string &string, std::shared_
 {
 	if( string == "REPEAT_2D" )
 	{
-		sampler = m_samplers[ static_cast< std::uint8_t >( CSampler::Type::REPEAT_2D ) ];
+		sampler = m_samplers[ static_cast< std::uint8_t >( CSampler::SamplerType::REPEAT_2D ) ];
 	}
 	else if( string == "BORDER_2D" )
 	{
-		sampler = m_samplers[ static_cast< std::uint8_t >( CSampler::Type::BORDER_2D ) ];
+		sampler = m_samplers[ static_cast< std::uint8_t >( CSampler::SamplerType::BORDER_2D ) ];
 	}
 	else if( string == "EDGE_2D" )
 	{
-		sampler = m_samplers[ static_cast< std::uint8_t >( CSampler::Type::EDGE_2D ) ];
+		sampler = m_samplers[ static_cast< std::uint8_t >( CSampler::SamplerType::EDGE_2D ) ];
 	}
 	else if( string == "REPEAT_BORDER_2D" )
 	{
-		sampler = m_samplers[ static_cast< std::uint8_t >( CSampler::Type::REPEAT_BORDER_2D ) ];
+		sampler = m_samplers[ static_cast< std::uint8_t >( CSampler::SamplerType::REPEAT_BORDER_2D ) ];
 	}
 	else if( string == "REPEAT_CUBE" )
 	{
-		sampler = m_samplers[ static_cast< std::uint8_t >( CSampler::Type::REPEAT_CUBE ) ];
+		sampler = m_samplers[ static_cast< std::uint8_t >( CSampler::SamplerType::REPEAT_CUBE ) ];
 	}
 	else if( string == "BORDER_CUBE" )
 	{
-		sampler = m_samplers[ static_cast< std::uint8_t >( CSampler::Type::BORDER_CUBE ) ];
+		sampler = m_samplers[ static_cast< std::uint8_t >( CSampler::SamplerType::BORDER_CUBE ) ];
 	}
 	else if( string == "EDGE_CUBE" )
 	{
-		sampler = m_samplers[ static_cast< std::uint8_t >( CSampler::Type::EDGE_CUBE ) ];
+		sampler = m_samplers[ static_cast< std::uint8_t >( CSampler::SamplerType::EDGE_CUBE ) ];
 	}
 	else
 	{
@@ -120,12 +120,12 @@ bool CSamplerManager::SamplerFromString( const std::string &string, std::shared_
 	return( true );
 }
 
-std::shared_ptr< const CSampler > CSamplerManager::SamplerFromType( CSampler::Type type ) const
+const std::shared_ptr< const CSampler > CSamplerManager::SamplerFromSamplerType( const CSampler::SamplerType type ) const
 {
 	return( m_samplers[ static_cast< std::uint8_t >( type ) ] );
 }
 
-std::shared_ptr< const CSampler > CSamplerManager::Generate( CSampler::Type type )
+const std::shared_ptr< const CSampler > CSamplerManager::Generate( CSampler::SamplerType type )
 {
 	const std::uint8_t index = static_cast< std::uint8_t >( type );
 

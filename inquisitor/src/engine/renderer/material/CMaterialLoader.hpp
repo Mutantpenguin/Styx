@@ -15,12 +15,12 @@ public:
 	CMaterialLoader( const CFileSystem &filesystem, CShaderManager &shaderManager );
 	~CMaterialLoader( void );
 
-	void FromFile( const std::string &path, std::shared_ptr< CMaterial > &mat ) const;
+	void FromFile( const std::string &path, const std::shared_ptr< CMaterial > &material ) const;
 
 private:
-	bool FromMatFile( const std::string &path, std::shared_ptr< CMaterial > &mat ) const;
+	bool FromMatFile( const std::string &path, const std::shared_ptr< CMaterial > &material ) const;
 
-	void FromDummy( std::shared_ptr< CMaterial > &mat ) const;
+	void FromDummy( const std::shared_ptr< CMaterial > &material ) const;
 
 	const CFileSystem &m_filesystem;
 

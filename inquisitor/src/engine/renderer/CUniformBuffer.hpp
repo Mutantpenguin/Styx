@@ -16,7 +16,7 @@ public:
 	const std::string &Source( void ) const;
 
 private:
-	GLuint	m_uniformBuffer;
+	GLuint	m_id;
 
 	const std::string m_source;
 };

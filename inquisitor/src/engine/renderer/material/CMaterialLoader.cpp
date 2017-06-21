@@ -29,12 +29,12 @@ CMaterialLoader::~CMaterialLoader( void )
 	#endif
 }
 
-void CMaterialLoader::FromFile( const std::string &path, std::shared_ptr< CMaterial > &mat ) const
+void CMaterialLoader::FromFile( const std::string &path, const std::shared_ptr< CMaterial > &material ) const
 {
 	if( !m_filesystem.Exists( path ) )
 	{
 		logWARNING( "material file '{0}' does not exist", path );
-		FromDummy( mat );
+		FromDummy( material );
 	}
 	else
 	{
@@ -44,26 +44,26 @@ void CMaterialLoader::FromFile( const std::string &path, std::shared_ptr< CMater
 		{
 			try
 			{
-				if( !FromMatFile( path, mat ) )
+				if( !FromMatFile( path, material ) )
 				{
-					FromDummy( mat );
+					FromDummy( material );
 				}
 			}
 			catch( std::exception &e )
 			{
 				logWARNING( "error loading material '{0}': {1}", path, e.what() );
-				FromDummy( mat );
+				FromDummy( material );
 			}
 		}
 		else
 		{
 			logWARNING( "file is not a material: '{0}'", path );
-			FromDummy( mat );
+			FromDummy( material );
 		}
 	}
 }
 
-bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMaterial > &mat ) const
+bool CMaterialLoader::FromMatFile( const std::string &path, const std::shared_ptr< CMaterial > &material ) const
 {
 	const std::string definition = m_filesystem.LoadFileToString( path );
 
@@ -81,7 +81,7 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 
 	const auto mat_name = mat_root[ "name" ];
 
-	mat->Name( mat_name.get<std::string>() );
+	material->Name( mat_name.get<std::string>() );
 
 	const auto mat_cullmode = mat_root.find( "cullmode" );
 	if( mat_cullmode != mat_root.cend() )
@@ -90,12 +90,12 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 
 		if( ( !mat_cullmode->get<std::string>().empty() ) && GLHelper::FaceModeFromString( mat_cullmode->get<std::string>(), cullfaceMode ) )
 		{
-			mat->EnableCulling( cullfaceMode );
+			material->EnableCulling( cullfaceMode );
 		}
 	}
 	else
 	{
-		mat->DisableCulling();
+		material->DisableCulling();
 	}
 
 	const auto mat_polygonmode = mat_root.find( "polygonmode" );
@@ -105,7 +105,7 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 
 		if( !GLHelper::PolygonModeFromString( mat_polygonmode->get<std::string>(), polygonmode ) )
 		{
-			mat->PolygonMode( polygonmode );
+			material->PolygonMode( polygonmode );
 		}
 	}
 
@@ -120,16 +120,16 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 
 		if( ( mat_blendingsrc != mat_blending->cend() ) && GLHelper::SrcBlendFuncFromString( mat_blendingsrc->get<std::string>(), blendSrc ) && ( mat_blendingdst != mat_blending->cend() ) && GLHelper::DstBlendFuncFromString( mat_blendingdst->get<std::string>(), blendDst ) )
 		{
-			mat->EnableBlending( blendSrc, blendDst );
+			material->EnableBlending( blendSrc, blendDst );
 		}
 		else
 		{
-			mat->DisableBlending();
+			material->DisableBlending();
 		}
 	}
 	else
 	{
-		mat->DisableBlending();
+		material->DisableBlending();
 	}
 
 	const auto mat_shaders = mat_root.find( "shaders" );
@@ -167,7 +167,7 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 
 		const auto shader = m_shaderManager.LoadProgram( shader_vs_path, shader_fs_path );
 
-		mat->Shader( shader );
+		material->Shader( shader );
 
 		if( !shader->RequiredMaterialUniforms().empty() )
 		{
@@ -199,7 +199,7 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 								}
 								else
 								{
-									mat->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformUINT >( interface.name, mat_uniform->get<glm::uint>() ) ) );
+									material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformUINT >( interface.name, mat_uniform->get<glm::uint>() ) ) );
 								}
 								break;
 
@@ -211,7 +211,7 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 								}
 								else
 								{
-									mat->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOAT >( interface.name, mat_uniform->get<glm::float32>() ) ) );
+									material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOAT >( interface.name, mat_uniform->get<glm::float32>() ) ) );
 								}
 								break;
 
@@ -260,7 +260,7 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 														&&
 														value1.is_number_float() )
 													{
-														mat->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOATVEC2 >( interface.name, glm::vec2( value0.get<float>(), value1.get<float>() ) ) ) );
+														material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOATVEC2 >( interface.name, glm::vec2( value0.get<float>(), value1.get<float>() ) ) ) );
 													}
 													else
 													{
@@ -282,7 +282,7 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 														&&
 														value2.is_number_float() )
 													{
-														mat->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOATVEC3 >( interface.name, glm::vec3( value0.get<float>(), value1.get<float>(), value2.get<float>() ) ) ) );
+														material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOATVEC3 >( interface.name, glm::vec3( value0.get<float>(), value1.get<float>(), value2.get<float>() ) ) ) );
 													}
 													else
 													{
@@ -307,7 +307,7 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 														&&
 														value3.is_number_float() )
 													{
-														mat->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOATVEC4 >( interface.name, glm::vec4( value0.get<float>(), value1.get<float>(), value2.get<float>(), value3.get<float>() ) ) ) );
+														material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOATVEC4 >( interface.name, glm::vec4( value0.get<float>(), value1.get<float>(), value2.get<float>(), value3.get<float>() ) ) ) );
 													}
 													else
 													{
@@ -339,11 +339,11 @@ bool CMaterialLoader::FromMatFile( const std::string &path, std::shared_ptr< CMa
 	return( true );
 }
 
-void CMaterialLoader::FromDummy( std::shared_ptr< CMaterial > &mat ) const
+void CMaterialLoader::FromDummy( const std::shared_ptr< CMaterial > &material ) const
 {
-	mat->Reset();
+	material->Reset();
 
-	mat->Name( "dummy " + std::to_string( ++m_dummyCounter ) );
+	material->Name( "dummy " + std::to_string( ++m_dummyCounter ) );
 
-	mat->Shader( m_shaderManager.GetDummyShader() );
+	material->Shader( m_shaderManager.GetDummyShader() );
 }

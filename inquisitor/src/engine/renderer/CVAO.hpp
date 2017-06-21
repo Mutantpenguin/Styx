@@ -31,7 +31,7 @@ private:
 
 	const size_t m_vertexCount;
 
-	GLuint	m_vao;
+	GLuint	m_id;
 
 	GLuint	m_vboVertices;
 	GLuint	m_vboNormals;

@@ -26,7 +26,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	const auto material = renderer.MaterialManager().LoadMaterial( "materials/intro_icon.mat" );
 
-	const CMesh::TTextures logoMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/styx/logo.png" ), renderer.SamplerManager().SamplerFromType( CSampler::Type::EDGE_2D ) ) } };
+	const CMesh::TTextures logoMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/styx/logo.png" ), renderer.SamplerManager().SamplerFromSamplerType( CSampler::SamplerType::EDGE_2D ) ) } };
 
 	m_logoMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material, logoMeshTextures );
 	m_logoMesh->SetScale( { 3.0f, 3.0f, 1.0f } );

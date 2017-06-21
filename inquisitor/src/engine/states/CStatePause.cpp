@@ -16,7 +16,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	{
 		const auto materialPause = renderer.MaterialManager().LoadMaterial( "materials/pause_bg.mat" );
 
-		const CMesh::TTextures backgroundMeshTextures = { { "bgTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/pause/bg.png" ), renderer.SamplerManager().SamplerFromType( CSampler::Type::REPEAT_2D ) ) } };
+		const CMesh::TTextures backgroundMeshTextures = { { "bgTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/pause/bg.png" ), renderer.SamplerManager().SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 		const auto backgroundMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialPause, backgroundMeshTextures );
 
@@ -26,7 +26,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	{
 		const auto materialPauseText = renderer.MaterialManager().LoadMaterial( "materials/pause_text.mat" );
 
-		const CMesh::TTextures textMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/pause/fg.png" ), renderer.SamplerManager().SamplerFromType( CSampler::Type::EDGE_2D ) ) } };
+		const CMesh::TTextures textMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/pause/fg.png" ), renderer.SamplerManager().SamplerFromSamplerType( CSampler::SamplerType::EDGE_2D ) ) } };
 
 		m_meshText = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialPauseText, textMeshTextures );
 		m_meshText->SetScale( { 3.0f, 3.0f / 512.0f * 128.0f, 1.0f } );

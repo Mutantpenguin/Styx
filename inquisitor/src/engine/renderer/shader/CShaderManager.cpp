@@ -53,25 +53,25 @@ bool CShaderManager::CreateDummyProgram( void )
 	const auto &vertexAttribute = allowedAttributes.at( CVAO::EAttributeLocation::vertex );
 	const auto &uniformModelViewProjectionMatrix = engineUniforms.at( EEngineUniform::modelViewProjectionMatrix );
 
-	const std::string vertexShaderBody = "void main()" \
-										"{" \
-										"	gl_Position = " + uniformModelViewProjectionMatrix.name + " * vec4( " + vertexAttribute.name + ", 1 );" \
-										"}";
+	const std::string vertexShaderString =	"void main()" \
+											"{" \
+											"	gl_Position = " + uniformModelViewProjectionMatrix.name + " * vec4( " + vertexAttribute.name + ", 1 );" \
+											"}";
 
-	const GLuint vertexShader = CreateShader( GL_VERTEX_SHADER, vertexShaderBody );
+	const GLuint vertexShader = CreateShader( GL_VERTEX_SHADER, vertexShaderString );
 	if( 0 == vertexShader )
 	{
 		logERROR( "couldn't create dummy vertex shader" );
 		return( false );
 	}
 
-	const std::string fragmentShaderBody = 	"out vec4 color;" \
-											"void main()" \
-											"{" \
-											"	color = vec4( 1, 0, 1, 1 ).rgba;" \
-											"}";
+	const std::string fragmentShaderString = 	"out vec4 color;" \
+												"void main()" \
+												"{" \
+												"	color = vec4( 1, 0, 1, 1 ).rgba;" \
+												"}";
 
-	const GLuint fragmentShader = CreateShader( GL_FRAGMENT_SHADER, fragmentShaderBody );
+	const GLuint fragmentShader = CreateShader( GL_FRAGMENT_SHADER, fragmentShaderString );
 	if( 0 == fragmentShader )
 	{
 		logERROR( "couldn't create dummy fragment shader" );
@@ -96,12 +96,12 @@ bool CShaderManager::CreateDummyProgram( void )
 	return( true );
 }
 
-std::shared_ptr< CShaderProgram > CShaderManager::GetDummyShader( void ) const
+const std::shared_ptr< const CShaderProgram > CShaderManager::GetDummyShader( void ) const
 {
 	return( m_dummyProgram );
 }
 
-std::shared_ptr< CShaderProgram > CShaderManager::LoadProgram( const std::string &pathVertexShader, const std::string &pathFragmentShader )
+const std::shared_ptr< const CShaderProgram > CShaderManager::LoadProgram( const std::string &pathVertexShader, const std::string &pathFragmentShader )
 {
 	const std::string programIdentifier = pathVertexShader + "|" + pathFragmentShader;
 
@@ -153,7 +153,7 @@ std::shared_ptr< CShaderProgram > CShaderManager::LoadProgram( const std::string
 	}
 }
 
-std::shared_ptr< CShaderProgram > CShaderManager::CreateProgramFromStrings( const std::string &vertexShaderString, const std::string &fragmentShaderString ) const
+const std::shared_ptr< const CShaderProgram > CShaderManager::CreateProgramFromStrings( const std::string &vertexShaderString, const std::string &fragmentShaderString ) const
 {
 	const GLuint vertexShader = CreateShader( GL_VERTEX_SHADER, vertexShaderString );
 	if( 0 == vertexShader )
@@ -370,19 +370,19 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body 
 	return( shader );
 }
 
-bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > &shaderProgram ) const
+bool CShaderManager::InterfaceSetup( const std::shared_ptr< CShaderProgram > &shaderProgram ) const
 {
 	/*
 	 * active attributes
 	 */
 	GLint numActiveAttributes = 0;
-	glGetProgramInterfaceiv( shaderProgram->m_program, GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &numActiveAttributes );
-	const std::array< GLenum, 3 > attributeProperties { { GL_TYPE, GL_NAME_LENGTH, GL_LOCATION } };
+	glGetProgramInterfaceiv( shaderProgram->OpenGLID(), GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &numActiveAttributes );
+	const std::array< GLenum, 3 > attributeProperties { GL_TYPE, GL_NAME_LENGTH, GL_LOCATION };
 
 	for( GLint attribIndex = 0; attribIndex < numActiveAttributes; ++attribIndex )
 	{
 		GLint values[ attributeProperties.size() ];
-		glGetProgramResourceiv( shaderProgram->m_program, GL_PROGRAM_INPUT, attribIndex, attributeProperties.size(), attributeProperties.data(), attributeProperties.size(), NULL, values );
+		glGetProgramResourceiv( shaderProgram->OpenGLID(), GL_PROGRAM_INPUT, attribIndex, attributeProperties.size(), attributeProperties.data(), attributeProperties.size(), NULL, values );
 
 		const GLint attributeLocation = values[ 2 ];
 
@@ -395,7 +395,7 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > &shaderPr
 		else
 		{
 			std::vector< char > nameData( values[ 1 ] );
-			glGetProgramResourceName( shaderProgram->m_program, GL_PROGRAM_INPUT, attribIndex, nameData.size(), nullptr, &nameData[ 0 ] );
+			glGetProgramResourceName( shaderProgram->OpenGLID(), GL_PROGRAM_INPUT, attribIndex, nameData.size(), nullptr, &nameData[ 0 ] );
 			const std::string attributeName( nameData.data() );
 
 			const GLenum attributeType = static_cast< GLenum>( values[ 0 ] );
@@ -414,13 +414,13 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > &shaderPr
 	 * active non-block uniforms
 	 */
 	GLint numActiveUniforms = 0;
-	glGetProgramInterfaceiv( shaderProgram->m_program, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numActiveUniforms );
+	glGetProgramInterfaceiv( shaderProgram->OpenGLID(), GL_UNIFORM, GL_ACTIVE_RESOURCES, &numActiveUniforms );
 	const std::array< GLenum, 4 > uniformProperties { { GL_BLOCK_INDEX, GL_TYPE, GL_NAME_LENGTH, GL_LOCATION } };
 
 	for( GLint uniformIndex = 0; uniformIndex < numActiveUniforms; ++uniformIndex )
 	{
 		GLint values[ uniformProperties.size() ];
-		glGetProgramResourceiv( shaderProgram->m_program, GL_UNIFORM, uniformIndex, uniformProperties.size(), uniformProperties.data(), uniformProperties.size(), nullptr, &values[ 0 ] );
+		glGetProgramResourceiv( shaderProgram->OpenGLID(), GL_UNIFORM, uniformIndex, uniformProperties.size(), uniformProperties.data(), uniformProperties.size(), nullptr, &values[ 0 ] );
 
 		// skip any uniforms that are in a block.
 		if( values[ 0 ] != -1 )
@@ -429,7 +429,7 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > &shaderPr
 		}
 
 		std::vector< char > nameData( values[ 2 ] );
-		glGetProgramResourceName( shaderProgram->m_program, GL_UNIFORM, uniformIndex, nameData.size(), NULL, &nameData[ 0 ] );
+		glGetProgramResourceName( shaderProgram->OpenGLID(), GL_UNIFORM, uniformIndex, nameData.size(), NULL, &nameData[ 0 ] );
 		const std::string uniformName( nameData.data() );
 
 		const GLint  uniformLocation = values[ 3 ];
@@ -440,10 +440,10 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > &shaderPr
 			case GL_SAMPLER_2D:
 			case GL_SAMPLER_CUBE:
 			case GL_SAMPLER_2D_ARRAY:
-				shaderProgram->m_requiredSamplers.emplace_back( std::make_pair( uniformLocation, SShaderInterface { uniformName, uniformType } ) );
-				if( shaderProgram->m_requiredSamplers.size() > CShaderManager::requiredCombinedTextureImageUnits )
+				shaderProgram->RequiredSamplers().emplace_back( std::make_pair( uniformLocation, SShaderInterface { uniformName, uniformType } ) );
+				if( shaderProgram->RequiredSamplers().size() > CShaderManager::requiredCombinedTextureImageUnits )
 				{
-					logERROR( "uses {0} samplers but max {1} are allowed", shaderProgram->m_requiredSamplers.size(), CShaderManager::requiredCombinedTextureImageUnits );
+					logERROR( "uses {0} samplers but max {1} are allowed", shaderProgram->RequiredSamplers().size(), CShaderManager::requiredCombinedTextureImageUnits );
 					return( false );
 				}
 				break;
@@ -476,14 +476,14 @@ bool CShaderManager::InterfaceSetup( std::shared_ptr< CShaderProgram > &shaderPr
 						}
 						else
 						{
-							shaderProgram->m_requiredEngineUniforms.emplace_back( std::make_pair( uniformLocation, engineUniformIt->first ) );
+							shaderProgram->RequiredEngineUniforms().emplace_back( std::make_pair( uniformLocation, engineUniformIt->first ) );
 						}
 					}
 					else
 					{
 						// uniform gets provided by the material
 
-						shaderProgram->m_requiredMaterialUniforms.emplace_back( std::make_pair( uniformLocation, SShaderInterface { uniformName, uniformType } ) );
+						shaderProgram->RequiredMaterialUniforms().emplace_back( std::make_pair( uniformLocation, SShaderInterface { uniformName, uniformType } ) );
 					}
 					break;
 				}
