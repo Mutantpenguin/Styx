@@ -6,5 +6,5 @@ out vec4 color;
 
 void main()
 {
-	color = texture( diffuseTexture, UV ).rgba;
+	color = texture( diffuseTexture, UV );
 }
