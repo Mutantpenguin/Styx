@@ -28,6 +28,7 @@
     <File Name="materials/pause_bg.mat"/>
     <File Name="materials/pause_text.mat"/>
     <File Name="materials/standard.mat"/>
+    <File Name="materials/standard_blend.mat"/>
   </VirtualDirectory>
   <VirtualDirectory Name="models">
     <VirtualDirectory Name="cubes">
