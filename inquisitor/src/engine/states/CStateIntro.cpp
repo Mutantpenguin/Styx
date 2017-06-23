@@ -12,9 +12,9 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 	m_introSound { std::make_shared< CSoundSource>( engineSystems.SoundManager.LoadSoundBuffer( "sounds/startup_sound.ogg" ) ) },
 	m_introDuration { m_introSound->Buffer()->Duration() * 1000000 }
 {
-	auto &renderer = m_engineSystems.Renderer;
-
 	m_scene.ClearColor( CColor( 1.0f, 1.0f, 1.0f, 1.0f ) );
+
+	auto &renderer = m_engineSystems.Renderer;
 
 	{
 		auto camera = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );

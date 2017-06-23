@@ -29,49 +29,46 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	const CSize &windowSize = settings.renderer.window.size;
 
 	{
+		const auto material = materialManager.LoadMaterial( "materials/standard.mat" );
 
-		{
-			const auto material = materialManager.LoadMaterial( "materials/standard.mat" );
+		auto bgMeshPrimitive = Primitives::quad;
+		bgMeshPrimitive.vertices[ 0 ].x = 0.0f;
+		bgMeshPrimitive.vertices[ 0 ].y = 0.0f;
+		bgMeshPrimitive.vertices[ 1 ].x = static_cast< float >( windowSize.width );
+		bgMeshPrimitive.vertices[ 1 ].y = 0.0f;
+		bgMeshPrimitive.vertices[ 2 ].x = 0.0f;
+		bgMeshPrimitive.vertices[ 2 ].y = static_cast< float >( windowSize.height );
+		bgMeshPrimitive.vertices[ 3 ].x = static_cast< float >( windowSize.width );
+		bgMeshPrimitive.vertices[ 3 ].y = static_cast< float >( windowSize.height );
 
-			auto bgMeshPrimitive = Primitives::quad;
-			bgMeshPrimitive.vertices[ 0 ].x = 0.0f;
-			bgMeshPrimitive.vertices[ 0 ].y = 0.0f;
-			bgMeshPrimitive.vertices[ 1 ].x = static_cast< float >( windowSize.width );
-			bgMeshPrimitive.vertices[ 1 ].y = 0.0f;
-			bgMeshPrimitive.vertices[ 2 ].x = 0.0f;
-			bgMeshPrimitive.vertices[ 2 ].y = static_cast< float >( windowSize.height );
-			bgMeshPrimitive.vertices[ 3 ].x = static_cast< float >( windowSize.width );
-			bgMeshPrimitive.vertices[ 3 ].y = static_cast< float >( windowSize.height );
+		const CMesh::TTextures bgMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/menu/background.jpg" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-			const CMesh::TTextures bgMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/menu/background.jpg" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, material, glm::vec3( 0.0f, 0.0f, 0.0f ), bgMeshTextures );
 
-			const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, material, glm::vec3( 0.0f, 0.0f, 0.0f ), bgMeshTextures );
+		m_scene.AddMesh( bgMesh );
+	}
 
-			m_scene.AddMesh( bgMesh );
-		}
+	{
+		const auto material = materialManager.LoadMaterial( "materials/standard_blend.mat" );
 
-		{
-			const auto material = materialManager.LoadMaterial( "materials/standard_blend.mat" );
+		const float halfTitleWidth = windowSize.width * 0.75f / 2;
+		const float halfTitleHeight = halfTitleWidth / 4.0f;
 
-			const float halfTitleWidth = windowSize.width * 0.75f / 2;
-			const float halfTitleHeight = halfTitleWidth / 4.0f;
+		auto titleMeshPrimitive = Primitives::quad;
+		titleMeshPrimitive.vertices[ 0 ].x = -halfTitleWidth;
+		titleMeshPrimitive.vertices[ 0 ].y = -halfTitleHeight;
+		titleMeshPrimitive.vertices[ 1 ].x = halfTitleWidth;
+		titleMeshPrimitive.vertices[ 1 ].y = -halfTitleHeight;
+		titleMeshPrimitive.vertices[ 2 ].x = -halfTitleWidth;
+		titleMeshPrimitive.vertices[ 2 ].y = halfTitleHeight;
+		titleMeshPrimitive.vertices[ 3 ].x = halfTitleWidth;
+		titleMeshPrimitive.vertices[ 3 ].y = halfTitleHeight;
 
-			auto titleMeshPrimitive = Primitives::quad;
-			titleMeshPrimitive.vertices[ 0 ].x = -halfTitleWidth;
-			titleMeshPrimitive.vertices[ 0 ].y = -halfTitleHeight;
-			titleMeshPrimitive.vertices[ 1 ].x = halfTitleWidth;
-			titleMeshPrimitive.vertices[ 1 ].y = -halfTitleHeight;
-			titleMeshPrimitive.vertices[ 2 ].x = -halfTitleWidth;
-			titleMeshPrimitive.vertices[ 2 ].y = halfTitleHeight;
-			titleMeshPrimitive.vertices[ 3 ].x = halfTitleWidth;
-			titleMeshPrimitive.vertices[ 3 ].y = halfTitleHeight;
+		const CMesh::TTextures titleMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/menu/title.png" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-			const CMesh::TTextures titleMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/menu/title.png" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const auto bgTitle = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, titleMeshPrimitive, material, glm::vec3( windowSize.width / 2.0f, windowSize.height - halfTitleHeight, 5.0f ), titleMeshTextures );
 
-			const auto bgTitle = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, titleMeshPrimitive, material, glm::vec3( windowSize.width / 2.0f, windowSize.height - halfTitleHeight, 5.0f ), titleMeshTextures );
-
-			m_scene.AddMesh( bgTitle );
-		}
+		m_scene.AddMesh( bgTitle );
 	}
 
 	const float halfButtonWidth = windowSize.width / 4 / 2;

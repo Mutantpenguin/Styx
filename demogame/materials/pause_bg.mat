@@ -8,10 +8,10 @@
 						},
 	"shaders"		:	{
 							"vs" : "shaders/vs/pause_bg.vs.glsl",
-							"fs" : "shaders/fs/pause_bg.fs.glsl"
+							"fs" : "shaders/fs/standard.fs.glsl"
 						},
 	"uniforms"		:	{
-							"bgRadsPerSecond" : 0.349066,
-							"bgScale" : [ 0.25, 0.25 ]
+							"bgRadsPerSecond" : 0.174533,
+							"bgScale" : [ 0.125, 0.125 ]
 						}
 }

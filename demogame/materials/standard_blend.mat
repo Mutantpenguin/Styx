@@ -1,5 +1,5 @@
 {
-	"name"			:	"standard",
+	"name"			:	"standard with blending",
 	"polygonmode"	:	"FILL",
 	"blending"		:	{
 							"src"	: "ONE",

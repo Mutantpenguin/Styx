@@ -26,7 +26,6 @@
     <File Name="materials/pulse_green_red.mat"/>
     <File Name="materials/superBox.mat"/>
     <File Name="materials/pause_bg.mat"/>
-    <File Name="materials/pause_text.mat"/>
     <File Name="materials/standard.mat"/>
     <File Name="materials/standard_blend.mat"/>
   </VirtualDirectory>
@@ -63,7 +62,6 @@
       <File Name="shaders/fs/superBox.fs.glsl"/>
       <File Name="shaders/fs/schnarf.fs.glsl"/>
       <File Name="shaders/fs/wait_cursor.fs.glsl"/>
-      <File Name="shaders/fs/pause_bg.fs.glsl"/>
     </VirtualDirectory>
     <VirtualDirectory Name="vs">
       <File Name="shaders/vs/reflection.vs.glsl"/>
