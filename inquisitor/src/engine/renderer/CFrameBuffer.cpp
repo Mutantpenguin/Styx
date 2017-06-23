@@ -11,11 +11,8 @@ CFrameBuffer::CFrameBuffer( const CSize &size ) :
 {
 	glCreateFramebuffers( 1, &m_id );
 
-	/* TODO
-	 * GLenum DrawBuffers[3] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2};
-	glGenFramebuffers(1, &FramebufferName);
-	glFramebufferDrawBuffersEXT(FramebufferName, 3, DrawBuffers);
-	 * */
+	std::array< GLenum, 1 > DrawBuffers { GL_COLOR_ATTACHMENT0 };
+	glFramebufferDrawBuffersEXT( m_id, DrawBuffers.size(), DrawBuffers.data() );
 
 	{
 		auto &colorTextureID = m_colorTexture->OpenGLID();
@@ -31,17 +28,7 @@ CFrameBuffer::CFrameBuffer( const CSize &size ) :
 							GL_RGBA8,
 							size.width,
 							size.height );
-/* TODO needed?
-		glTextureSubImage2D(	colorTextureID,
-								0, // level
-								0, // xoffset
-								0, // yoffset
-								size.width,
-								size.height,
-								GL_RGB,
-								GL_UNSIGNED_BYTE,
-								nullptr );
-*/
+
 		glNamedFramebufferTexture( m_id, GL_COLOR_ATTACHMENT0, colorTextureID, 0 );
 	}
 
@@ -59,17 +46,7 @@ CFrameBuffer::CFrameBuffer( const CSize &size ) :
 							GL_DEPTH_COMPONENT32F,
 							size.width,
 							size.height );
-/* TODO needed?
-		glTextureSubImage2D(	depthTextureID,
-								0, // level
-								0, // xoffset
-								0, // yoffset
-								size.width,
-								size.height,
-								GL_DEPTH_COMPONENT,
-								GL_UNSIGNED_BYTE,
-								nullptr );
-*/
+
 		glNamedFramebufferTexture( m_id, GL_DEPTH_ATTACHMENT, depthTextureID, 0 );
 	}
 

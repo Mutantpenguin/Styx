@@ -32,12 +32,6 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 		}
 	}
 
-	if( settings.renderer.window.antialiasing )
-	{
-		// TODO remove this when rendering is ported to framebuffers
-		SDL_GL_SetAttribute( SDL_GL_MULTISAMPLESAMPLES, 8 );
-	}
-
 	// 32 bpp
 	SDL_GL_SetAttribute( SDL_GL_RED_SIZE,	8 );
 	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE,	8 );
