@@ -2,12 +2,8 @@
 	"name"			:	"schnarf",
 	"cullmode"		:	"BACK",
 	"polygonmode"	:	"FILL",
-	"blending"		:	{
-							"src"	: "ONE",
-							"dst"	: "ONE_MINUS_SRC_ALPHA"
-						},
-		"shaders"	:	{
-							"vs" : "shaders/vs/standard.vs.glsl",
-							"fs" : "shaders/fs/schnarf.fs.glsl"
-						}
+	"shaders"	:	{
+						"vs" : "shaders/vs/standard.vs.glsl",
+						"fs" : "shaders/fs/schnarf.fs.glsl"
+					}
 }
