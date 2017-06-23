@@ -29,9 +29,10 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	const CSize &windowSize = settings.renderer.window.size;
 
 	{
-		const auto material = materialManager.LoadMaterial( "materials/standard.mat" );
 
 		{
+			const auto material = materialManager.LoadMaterial( "materials/standard.mat" );
+
 			auto bgMeshPrimitive = Primitives::quad;
 			bgMeshPrimitive.vertices[ 0 ].x = 0.0f;
 			bgMeshPrimitive.vertices[ 0 ].y = 0.0f;
@@ -50,6 +51,8 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		}
 
 		{
+			const auto material = materialManager.LoadMaterial( "materials/standard_blend.mat" );
+
 			const float halfTitleWidth = windowSize.width * 0.75f / 2;
 			const float halfTitleHeight = halfTitleWidth / 4.0f;
 
