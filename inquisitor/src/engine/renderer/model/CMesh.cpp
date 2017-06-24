@@ -170,7 +170,7 @@ const auto mat_samplers = mat_root.find( "samplers" );
 
 void CMesh::ChangeTexture( const std::string &name, const std::shared_ptr< const CTexture > &texture, const std::shared_ptr< const CSampler > &sampler )
 {
-	const auto meshTexture = m_textures.find( name );
+	const auto &meshTexture = m_textures.find( name );
 	if( meshTexture == std::cend( m_textures ) )
 	{
 		logWARNING( "changing texture with the name {0} in mesh failed because it does not exist", name );

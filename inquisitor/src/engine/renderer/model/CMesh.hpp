@@ -15,7 +15,7 @@ class CMesh final
 friend class CModelLoader;
 
 public:
-	using TTextures = std::unordered_map< std::string, std::shared_ptr< CMeshTexture > >;
+	using TTextures = std::unordered_map< std::string, const std::shared_ptr< CMeshTexture > >;
 
 	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const glm::vec3 &position, const glm::vec3 &orientation, const glm::vec3 &scale, const TTextures &textures = TTextures() );
 	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const glm::vec3 &position, const glm::vec3 &orientation, const TTextures &textures = TTextures() );
