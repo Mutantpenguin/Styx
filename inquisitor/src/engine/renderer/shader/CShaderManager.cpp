@@ -31,10 +31,14 @@ CShaderManager::CShaderManager( const CFileSystem &p_filesystem ) :
 	{
 		throw Exception();
 	}
+
+	logINFO( "shader manager was initialized" );
 }
 
 CShaderManager::~CShaderManager()
 {
+	logINFO( "shader manager is shutting down" );
+
 	for( const auto &vertexShader : m_vertexShaders )
 	{
 		glDeleteShader( vertexShader.second );

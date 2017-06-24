@@ -19,6 +19,7 @@ class CTextureLoader final
 {
 public:
 	CTextureLoader( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter );
+	~CTextureLoader( void );
 
 	void FromFile( const std::string &path, const std::shared_ptr< CTexture > &texture ) const;
 

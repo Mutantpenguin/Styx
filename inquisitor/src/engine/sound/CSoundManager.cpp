@@ -40,10 +40,14 @@ CSoundManager::CSoundManager( const CSettings &settings, const CFileSystem &p_fi
 	}
 
 	logINFO( "\tVendor:  {0}", alGetString( AL_VENDOR ) );
+
+	logINFO( "sound manager was initialized" );
 }
 
 CSoundManager::~CSoundManager( void )
 {
+	logINFO( "sound manager is shutting down" );
+
 	alcDestroyContext( m_AL_context );
 
 	alcCloseDevice( m_AL_device );

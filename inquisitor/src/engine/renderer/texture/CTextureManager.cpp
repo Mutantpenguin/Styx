@@ -13,13 +13,16 @@ CTextureManager::CTextureManager( const CSettings &p_settings, const CFileSystem
 	m_filesystem { p_filesystem },
 	m_textureLoader( p_settings, p_filesystem, openGlAdapter )
 {
+	logINFO( "texture manager was initialized" );
 }
 
 CTextureManager::~CTextureManager( void )
 {
+	logINFO( "texture manager is shutting down" );
+
 	if( !m_textureFiles.empty() )
 	{
-		logWARNING( "there are still '{0}' existing m_textures", m_textureFiles.size() );
+		logWARNING( "there are still '{0}' existing textures", m_textureFiles.size() );
 		#ifdef INQ_DEBUG
 		for( const auto & [ filename, _ ] : m_textureFiles )
 		{

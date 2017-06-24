@@ -17,10 +17,13 @@ CMaterialLoader::CMaterialLoader( const CFileSystem &filesystem, CShaderManager 
 	m_filesystem { filesystem },
 	m_shaderManager { shaderManager }
 {
+	logINFO( "material loader was initialized" );
 }
 
 CMaterialLoader::~CMaterialLoader( void )
 {
+	logINFO( "material loader is shutting down" );
+
 	#ifdef INQ_DEBUG
 	if( m_dummyCounter > 0 )
 	{

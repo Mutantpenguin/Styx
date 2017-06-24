@@ -13,6 +13,12 @@
 CSoundBufferLoader::CSoundBufferLoader( const CFileSystem &p_filesystem ) :
 	m_filesystem { p_filesystem }
 {
+	logINFO( "sound buffer loader was initialized" );
+}
+
+CSoundBufferLoader::~CSoundBufferLoader( void )
+{
+	logINFO( "sound buffer loader is shutting down" );
 }
 
 void CSoundBufferLoader::FromFile( const std::string &path, std::shared_ptr< CSoundBuffer > &soundBuffer ) const

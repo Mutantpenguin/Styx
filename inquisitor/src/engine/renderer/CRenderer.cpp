@@ -51,6 +51,8 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 
 		m_meshFrameBuffer = std::make_unique< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialFrameBuffer, frameBufferMeshTextures );
 	}
+
+	logINFO( "renderer was initialized" );
 }
 catch( CMaterialManager::Exception &e )
 {
@@ -61,6 +63,11 @@ catch( COpenGlAdapter::Exception &e )
 {
 	logERROR( "unable to initialize OpenGlAdapter" );
 	throw Exception();
+}
+
+CRenderer::~CRenderer( void )
+{
+	logINFO( "renderer is shutting down" );
 }
 
 void CRenderer::CreateUniformBuffers( void )

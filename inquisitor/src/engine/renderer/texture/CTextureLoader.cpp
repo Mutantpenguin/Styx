@@ -36,8 +36,14 @@ CTextureLoader::CTextureLoader( const CSettings &p_settings, const CFileSystem &
 		logERROR( "checker-image for the dummy-texture couldn't be generated" );
 		throw std::exception();
 	}
+
+	logINFO( "texture loader was initialized" );
 }
 
+CTextureLoader::~CTextureLoader( void )
+{
+	logINFO( "texture loader is shutting down" );
+}
 
 void CTextureLoader::FromFile( const std::string &path, const std::shared_ptr< CTexture > &texture ) const
 {

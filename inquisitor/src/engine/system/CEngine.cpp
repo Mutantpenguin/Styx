@@ -20,6 +20,7 @@ CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std
 		m_engineSystems( m_settings, m_filesystem ),
 		m_currentState { std::make_shared< CStateIntro >( m_filesystem, m_settings, m_engineSystems ) }
 {
+	logINFO( "engine was initialized" );
 }
 catch( CRenderer::Exception &e )
 {

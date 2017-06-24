@@ -94,10 +94,14 @@ CInput::CInput( const CSettings &settings, const CFileSystem &filesystem ) :
 	}
 
 	SDL_PumpEvents();
+
+	logINFO( "input was initialized" );
 }
 
 CInput::~CInput( void )
 {
+	logINFO( "input is shutting down" );
+
 	if( SDL_WasInit( SDL_INIT_GAMECONTROLLER ) != 0 )
 	{
 		SDL_QuitSubSystem( SDL_INIT_GAMECONTROLLER );

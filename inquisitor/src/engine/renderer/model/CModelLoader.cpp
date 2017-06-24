@@ -5,10 +5,12 @@
 CModelLoader::CModelLoader( const CFileSystem &p_filesystem ) :
 	m_filesystem { p_filesystem }
 {
+	logINFO( "model loader was initialized" );
 }
 
 CModelLoader::~CModelLoader()
 {
+	logINFO( "model loader is shutting down" );
 }
 
 void CModelLoader::FromFile( const std::string &path, std::shared_ptr< CModel > &model ) const

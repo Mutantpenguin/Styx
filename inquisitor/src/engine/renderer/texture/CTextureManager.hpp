@@ -12,7 +12,7 @@ class CTextureManager final
 {
 public:
 	CTextureManager( const CSettings &psettings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter );
-	virtual ~CTextureManager( void );
+	~CTextureManager( void );
 
 	void Update( void );
 

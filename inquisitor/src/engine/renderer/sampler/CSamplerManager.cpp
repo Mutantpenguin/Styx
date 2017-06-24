@@ -78,6 +78,13 @@ CSamplerManager::CSamplerManager( const CSettings &p_settings ) :
 	samplerCubeEdge->Parametere( GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE );
 	samplerCubeEdge->Parametere( GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 	samplerCubeEdge->Parametere( GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+
+	logINFO( "sampler manager was initialized" );
+}
+
+CSamplerManager::~CSamplerManager( void )
+{
+	logINFO( "sampler manager is shutting down" );
 }
 
 bool CSamplerManager::SamplerFromString( const std::string &string, std::shared_ptr< const CSampler > &sampler ) const

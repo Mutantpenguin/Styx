@@ -8,6 +8,7 @@ CMaterialManager::CMaterialManager( const CFileSystem &filesystem, CShaderManage
 		m_shaderManager { shaderManager },
 		m_materialLoader( filesystem, m_shaderManager )
 {
+	logINFO( "material manager was initialized" );
 }
 catch( CShaderManager::Exception &e )
 {
@@ -17,6 +18,8 @@ catch( CShaderManager::Exception &e )
 
 CMaterialManager::~CMaterialManager( void )
 {
+	logINFO( "material manager is shutting down" );
+
 	if( !m_materialFiles.empty() )
 	{
 		logWARNING( "there are still '{0}' existing materials", m_materialFiles.size() );

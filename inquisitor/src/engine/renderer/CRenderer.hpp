@@ -31,6 +31,9 @@ friend class CEngineSystems;
 
 private:
 	CRenderer( const CSettings &settings, const CFileSystem &filesystem );
+	~CRenderer( void );
+
+
 	CRenderer( const CRenderer &rhs ) = delete;
 	CRenderer& operator = ( const CRenderer &rhs ) = delete;
 

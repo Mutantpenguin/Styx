@@ -11,6 +11,7 @@ class CSoundBufferLoader final
 {
 public:
 	CSoundBufferLoader( const CFileSystem &p_filesystem );
+	~CSoundBufferLoader( void );
 
 	void FromFile( const std::string &path, std::shared_ptr< CSoundBuffer > &soundBuffer ) const;
 

@@ -92,10 +92,14 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	}
 
 	InitialiseFreeImageIO();
+
+	logINFO( "file system was initialized" );
 }
 
 CFileSystem::~CFileSystem( void )
 {
+	logINFO( "file system is shutting down" );
+
 	if( !PHYSFS_deinit() )
 	{
 		logWARNING( "deinitializing PhysicsFS failed because of: {0}", PHYSFS_getLastError() );
