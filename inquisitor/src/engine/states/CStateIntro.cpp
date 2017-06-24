@@ -56,7 +56,13 @@ std::shared_ptr< CState > CStateIntro::Update( void )
 
 	if( ( elapsedTime > m_introDuration )
 		||
-		m_engineSystems.Input.KeyDown( SDL_SCANCODE_ESCAPE ) )
+		m_engineSystems.Input.KeyDown( SDL_SCANCODE_ESCAPE )
+		||
+		m_engineSystems.Input.KeyDown( SDL_SCANCODE_SPACE )
+		||
+		m_engineSystems.Input.KeyDown( SDL_SCANCODE_RETURN )
+		||
+		m_engineSystems.Input.MouseDown( SDL_BUTTON_LEFT ) )
 	{
 		try
 		{
