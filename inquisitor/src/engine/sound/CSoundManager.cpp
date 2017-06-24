@@ -48,6 +48,17 @@ CSoundManager::~CSoundManager( void )
 {
 	logINFO( "sound manager is shutting down" );
 
+	if( !m_soundBufferFiles.empty() )
+	{
+		logWARNING( "there are still '{0}' existing sound", m_soundBufferFiles.size() );
+		#ifdef INQ_DEBUG
+		for( const auto & [ filename, _ ] : m_soundBufferFiles )
+		{
+			logDEBUG( "\t{0}", filename );
+		}
+		#endif
+	}
+
 	alcDestroyContext( m_AL_context );
 
 	alcCloseDevice( m_AL_device );
