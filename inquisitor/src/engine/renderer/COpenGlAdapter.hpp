@@ -10,7 +10,6 @@ class COpenGlAdapter final
 {
 public:
 	COpenGlAdapter();
-	~COpenGlAdapter();
 
 	GLint PreferredInternalTextureFormat2D( void ) const;
 	GLint PreferredInternalTextureFormatCube( void ) const;

@@ -152,10 +152,6 @@ COpenGlAdapter::COpenGlAdapter()
 	}
 }
 
-COpenGlAdapter::~COpenGlAdapter()
-{
-}
-
 GLint COpenGlAdapter::PreferredInternalTextureFormat2D( void ) const
 {
 	return( m_preferredInternalTextureFormat2D );
