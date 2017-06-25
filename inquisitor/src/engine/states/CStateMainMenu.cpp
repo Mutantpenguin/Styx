@@ -32,14 +32,14 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		const auto material = materialManager.LoadMaterial( "materials/standard.mat" );
 
 		auto bgMeshPrimitive = Primitives::quad;
-		bgMeshPrimitive.vertices[ 0 ].x = 0.0f;
-		bgMeshPrimitive.vertices[ 0 ].y = 0.0f;
-		bgMeshPrimitive.vertices[ 1 ].x = static_cast< float >( windowSize.width );
-		bgMeshPrimitive.vertices[ 1 ].y = 0.0f;
-		bgMeshPrimitive.vertices[ 2 ].x = 0.0f;
-		bgMeshPrimitive.vertices[ 2 ].y = static_cast< float >( windowSize.height );
-		bgMeshPrimitive.vertices[ 3 ].x = static_cast< float >( windowSize.width );
-		bgMeshPrimitive.vertices[ 3 ].y = static_cast< float >( windowSize.height );
+		bgMeshPrimitive.positions[ 0 ].x = 0.0f;
+		bgMeshPrimitive.positions[ 0 ].y = 0.0f;
+		bgMeshPrimitive.positions[ 1 ].x = static_cast< float >( windowSize.width );
+		bgMeshPrimitive.positions[ 1 ].y = 0.0f;
+		bgMeshPrimitive.positions[ 2 ].x = 0.0f;
+		bgMeshPrimitive.positions[ 2 ].y = static_cast< float >( windowSize.height );
+		bgMeshPrimitive.positions[ 3 ].x = static_cast< float >( windowSize.width );
+		bgMeshPrimitive.positions[ 3 ].y = static_cast< float >( windowSize.height );
 
 		const CMesh::TTextures bgMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/menu/background.jpg" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
@@ -55,14 +55,14 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		const float halfTitleHeight = halfTitleWidth / 4.0f;
 
 		auto titleMeshPrimitive = Primitives::quad;
-		titleMeshPrimitive.vertices[ 0 ].x = -halfTitleWidth;
-		titleMeshPrimitive.vertices[ 0 ].y = -halfTitleHeight;
-		titleMeshPrimitive.vertices[ 1 ].x = halfTitleWidth;
-		titleMeshPrimitive.vertices[ 1 ].y = -halfTitleHeight;
-		titleMeshPrimitive.vertices[ 2 ].x = -halfTitleWidth;
-		titleMeshPrimitive.vertices[ 2 ].y = halfTitleHeight;
-		titleMeshPrimitive.vertices[ 3 ].x = halfTitleWidth;
-		titleMeshPrimitive.vertices[ 3 ].y = halfTitleHeight;
+		titleMeshPrimitive.positions[ 0 ].x = -halfTitleWidth;
+		titleMeshPrimitive.positions[ 0 ].y = -halfTitleHeight;
+		titleMeshPrimitive.positions[ 1 ].x = halfTitleWidth;
+		titleMeshPrimitive.positions[ 1 ].y = -halfTitleHeight;
+		titleMeshPrimitive.positions[ 2 ].x = -halfTitleWidth;
+		titleMeshPrimitive.positions[ 2 ].y = halfTitleHeight;
+		titleMeshPrimitive.positions[ 3 ].x = halfTitleWidth;
+		titleMeshPrimitive.positions[ 3 ].y = halfTitleHeight;
 
 		const CMesh::TTextures titleMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/menu/title.png" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
@@ -75,14 +75,14 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	const float halfButtonHeight = windowSize.height / 6 / 2;
 
 	auto buttonMeshPrimitive = Primitives::quad;
-	buttonMeshPrimitive.vertices[ 0 ].x = -halfButtonWidth;
-	buttonMeshPrimitive.vertices[ 0 ].y = -halfButtonHeight;
-	buttonMeshPrimitive.vertices[ 1 ].x = halfButtonWidth;
-	buttonMeshPrimitive.vertices[ 1 ].y = -halfButtonHeight;
-	buttonMeshPrimitive.vertices[ 2 ].x = -halfButtonWidth;
-	buttonMeshPrimitive.vertices[ 2 ].y = halfButtonHeight;
-	buttonMeshPrimitive.vertices[ 3 ].x = halfButtonWidth;
-	buttonMeshPrimitive.vertices[ 3 ].y = halfButtonHeight;
+	buttonMeshPrimitive.positions[ 0 ].x = -halfButtonWidth;
+	buttonMeshPrimitive.positions[ 0 ].y = -halfButtonHeight;
+	buttonMeshPrimitive.positions[ 1 ].x = halfButtonWidth;
+	buttonMeshPrimitive.positions[ 1 ].y = -halfButtonHeight;
+	buttonMeshPrimitive.positions[ 2 ].x = -halfButtonWidth;
+	buttonMeshPrimitive.positions[ 2 ].y = halfButtonHeight;
+	buttonMeshPrimitive.positions[ 3 ].x = halfButtonWidth;
+	buttonMeshPrimitive.positions[ 3 ].y = halfButtonHeight;
 
 	{
 		const auto greenMaterial = materialManager.LoadMaterial( "materials/green.mat" );

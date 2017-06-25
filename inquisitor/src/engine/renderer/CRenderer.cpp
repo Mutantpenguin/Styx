@@ -33,7 +33,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 		const std::string vertexShaderString =	"out vec2 UV;" \
 												"void main()" \
 												"{" \
-												"    gl_Position = vec4( vertex.x, vertex.y, 0.0, 1.0 );" \
+												"    gl_Position = vec4( position.x, position.y, 0.0, 1.0 );" \
 												"    UV = texcoord;" \
 												"}";
 		const std::string fragmentShaderString =	"out vec4 color;" \

@@ -18,5 +18,5 @@ void main()
 
 	UV = ( ( mat2( bgAngleCos, bgAngleSin, -bgAngleSin, bgAngleCos  ) * ( texcoord - translation ) ) * bgScaleMat ) + translation;
 
-	gl_Position = modelViewProjectionMatrix * vec4( vertex, 1 );
+	gl_Position = modelViewProjectionMatrix * vec4( position, 1 );
 }

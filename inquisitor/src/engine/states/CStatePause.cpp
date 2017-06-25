@@ -29,14 +29,14 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		const auto materialPause = renderer.MaterialManager().LoadMaterial( "materials/pause_bg.mat" );
 
 		auto bgMeshPrimitive = Primitives::quad;
-		bgMeshPrimitive.vertices[ 0 ].x = 0.0f;
-		bgMeshPrimitive.vertices[ 0 ].y = 0.0f;
-		bgMeshPrimitive.vertices[ 1 ].x = static_cast< float >( windowSize.width );
-		bgMeshPrimitive.vertices[ 1 ].y = 0.0f;
-		bgMeshPrimitive.vertices[ 2 ].x = 0.0f;
-		bgMeshPrimitive.vertices[ 2 ].y = static_cast< float >( windowSize.height );
-		bgMeshPrimitive.vertices[ 3 ].x = static_cast< float >( windowSize.width );
-		bgMeshPrimitive.vertices[ 3 ].y = static_cast< float >( windowSize.height );
+		bgMeshPrimitive.positions[ 0 ].x = 0.0f;
+		bgMeshPrimitive.positions[ 0 ].y = 0.0f;
+		bgMeshPrimitive.positions[ 1 ].x = static_cast< float >( windowSize.width );
+		bgMeshPrimitive.positions[ 1 ].y = 0.0f;
+		bgMeshPrimitive.positions[ 2 ].x = 0.0f;
+		bgMeshPrimitive.positions[ 2 ].y = static_cast< float >( windowSize.height );
+		bgMeshPrimitive.positions[ 3 ].x = static_cast< float >( windowSize.width );
+		bgMeshPrimitive.positions[ 3 ].y = static_cast< float >( windowSize.height );
 
 		const CMesh::TTextures bgMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/pause/bg.png" ), renderer.SamplerManager().SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
@@ -55,14 +55,14 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 		{
 			auto pauseTextMeshPrimitive = Primitives::quad;
-			pauseTextMeshPrimitive.vertices[ 0 ].x = -halfPauseElementsWidth;
-			pauseTextMeshPrimitive.vertices[ 0 ].y = -halfPauseTextHeight;
-			pauseTextMeshPrimitive.vertices[ 1 ].x = halfPauseElementsWidth;
-			pauseTextMeshPrimitive.vertices[ 1 ].y = -halfPauseTextHeight;
-			pauseTextMeshPrimitive.vertices[ 2 ].x = -halfPauseElementsWidth;
-			pauseTextMeshPrimitive.vertices[ 2 ].y = halfPauseTextHeight;
-			pauseTextMeshPrimitive.vertices[ 3 ].x = halfPauseElementsWidth;
-			pauseTextMeshPrimitive.vertices[ 3 ].y = halfPauseTextHeight;
+			pauseTextMeshPrimitive.positions[ 0 ].x = -halfPauseElementsWidth;
+			pauseTextMeshPrimitive.positions[ 0 ].y = -halfPauseTextHeight;
+			pauseTextMeshPrimitive.positions[ 1 ].x = halfPauseElementsWidth;
+			pauseTextMeshPrimitive.positions[ 1 ].y = -halfPauseTextHeight;
+			pauseTextMeshPrimitive.positions[ 2 ].x = -halfPauseElementsWidth;
+			pauseTextMeshPrimitive.positions[ 2 ].y = halfPauseTextHeight;
+			pauseTextMeshPrimitive.positions[ 3 ].x = halfPauseElementsWidth;
+			pauseTextMeshPrimitive.positions[ 3 ].y = halfPauseTextHeight;
 
 			const CMesh::TTextures textMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/pause/fg.png" ), renderer.SamplerManager().SamplerFromSamplerType( CSampler::SamplerType::EDGE_2D ) ) } };
 
@@ -73,14 +73,14 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 		{
 			auto screenshotMeshPrimitive = Primitives::quad;
-			screenshotMeshPrimitive.vertices[ 0 ].x = -halfPauseElementsWidth;
-			screenshotMeshPrimitive.vertices[ 0 ].y = -halfScreenshotHeight;
-			screenshotMeshPrimitive.vertices[ 1 ].x = halfPauseElementsWidth;
-			screenshotMeshPrimitive.vertices[ 1 ].y = -halfScreenshotHeight;
-			screenshotMeshPrimitive.vertices[ 2 ].x = -halfPauseElementsWidth;
-			screenshotMeshPrimitive.vertices[ 2 ].y = halfScreenshotHeight;
-			screenshotMeshPrimitive.vertices[ 3 ].x = halfPauseElementsWidth;
-			screenshotMeshPrimitive.vertices[ 3 ].y = halfScreenshotHeight;
+			screenshotMeshPrimitive.positions[ 0 ].x = -halfPauseElementsWidth;
+			screenshotMeshPrimitive.positions[ 0 ].y = -halfScreenshotHeight;
+			screenshotMeshPrimitive.positions[ 1 ].x = halfPauseElementsWidth;
+			screenshotMeshPrimitive.positions[ 1 ].y = -halfScreenshotHeight;
+			screenshotMeshPrimitive.positions[ 2 ].x = -halfPauseElementsWidth;
+			screenshotMeshPrimitive.positions[ 2 ].y = halfScreenshotHeight;
+			screenshotMeshPrimitive.positions[ 3 ].x = halfPauseElementsWidth;
+			screenshotMeshPrimitive.positions[ 3 ].y = halfScreenshotHeight;
 
 			const CMesh::TTextures screenshotMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( m_pausedState->FrameBuffer().ColorTexture(), renderer.SamplerManager().SamplerFromSamplerType( CSampler::SamplerType::EDGE_2D ) ) } };
 

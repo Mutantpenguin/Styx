@@ -5,7 +5,7 @@ out vec2 UVwait;
 
 void main()
 {
-	gl_Position = modelViewProjectionMatrix * vec4( vertex, 1 );
+	gl_Position = modelViewProjectionMatrix * vec4( position, 1 );
 
 	const vec2 translation = vec2( 0.5f, 0.5f );
 

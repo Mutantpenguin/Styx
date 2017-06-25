@@ -11,7 +11,7 @@ out vec2 UVfg;
 
 void main()
 {
-	gl_Position = modelViewProjectionMatrix * vec4( vertex, 1 );
+	gl_Position = modelViewProjectionMatrix * vec4( position, 1 );
 
 	const vec2 translation = vec2( 0.5f, 0.5f );
 
@@ -32,5 +32,5 @@ void main()
 	UVfg = ( mat2( fgAngleCos, fgAngleSin, -fgAngleSin, fgAngleCos  ) * ( texcoord - translation ) ) + translation;
 
 	Normal = mat3( transpose( inverse( modelMatrix ) ) ) * normal;
-    Position = vec3( modelMatrix * vec4( vertex, 1.0f ) );
+    Position = vec3( modelMatrix * vec4( position, 1.0f ) );
 }

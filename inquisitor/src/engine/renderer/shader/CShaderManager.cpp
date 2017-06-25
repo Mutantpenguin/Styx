@@ -17,9 +17,11 @@ const std::string CShaderManager::srcAdditionShaderVersion = "#version 410\n";
 const std::string CShaderManager::srcAdditionVsShaderExtensions =	"#extension " + glbinding::Meta::getString( GLextension::GL_ARB_shading_language_420pack ) + " : require\n";
 const std::string CShaderManager::srcAdditionFsShaderExtensions =	"#extension " + glbinding::Meta::getString( GLextension::GL_ARB_shading_language_420pack ) + " : require\n";
 
-const std::map< const CVAO::EAttributeLocation, const SShaderInterface > CShaderManager::allowedAttributes = {	{ CVAO::EAttributeLocation::vertex,		{ "vertex",		GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
+const std::map< const CVAO::EAttributeLocation, const SShaderInterface > CShaderManager::allowedAttributes = {	{ CVAO::EAttributeLocation::position,	{ "position",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
 																												{ CVAO::EAttributeLocation::normal,		{ "normal",		GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
-																												{ CVAO::EAttributeLocation::texcoord,	{ "texcoord",	GLHelper::glmTypeToGLSLType< glm::vec2 >() } } };
+																												{ CVAO::EAttributeLocation::texcoord,	{ "texcoord",	GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
+																												{ CVAO::EAttributeLocation::tangent,	{ "tangent",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
+																												{ CVAO::EAttributeLocation::bitangent,	{ "bitangent",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } } };
 
 const std::unordered_map< const EEngineUniform, const SShaderInterface > CShaderManager::engineUniforms = {	{ EEngineUniform::modelViewProjectionMatrix,	{ "modelViewProjectionMatrix",	GLHelper::glmTypeToGLSLType< glm::mat4 >() } },
 																											{ EEngineUniform::modelMatrix,					{ "modelMatrix",				GLHelper::glmTypeToGLSLType< glm::mat4 >() } } };
@@ -54,12 +56,12 @@ CShaderManager::~CShaderManager()
 
 bool CShaderManager::CreateDummyProgram( void )
 {
-	const auto &vertexAttribute = allowedAttributes.at( CVAO::EAttributeLocation::vertex );
+	const auto &positionAttribute = allowedAttributes.at( CVAO::EAttributeLocation::position );
 	const auto &uniformModelViewProjectionMatrix = engineUniforms.at( EEngineUniform::modelViewProjectionMatrix );
 
 	const std::string vertexShaderString =	"void main()" \
 											"{" \
-											"	gl_Position = " + uniformModelViewProjectionMatrix.name + " * vec4( " + vertexAttribute.name + ", 1 );" \
+											"	gl_Position = " + uniformModelViewProjectionMatrix.name + " * vec4( " + positionAttribute.name + ", 1 );" \
 											"}";
 
 	const GLuint vertexShader = CreateShader( GL_VERTEX_SHADER, vertexShaderString );

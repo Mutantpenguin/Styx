@@ -21,9 +21,11 @@ public:
 
 	enum class EAttributeLocation : GLint
 	{
-		vertex = 0,
+		position = 0,
 		normal,
-		texcoord
+		texcoord,
+		tangent,
+		bitangent
 	};
 
 private:
@@ -33,13 +35,15 @@ private:
 
 	GLuint	m_id;
 
-	GLuint	m_vboVertices;
+	GLuint	m_vboPositions;
 	GLuint	m_vboNormals;
 	GLuint	m_vboTexcoords;
 
-	static const GLuint bindingIndexVertices	{ 0 };
+	static const GLuint bindingIndexPositions	{ 0 };
 	static const GLuint bindingIndexNormals		{ 1 };
 	static const GLuint bindingIndexTexcoords	{ 2 };
+	static const GLuint bindingIndexTangents	{ 3 };
+	static const GLuint bindingIndexBitangents	{ 4 };
 };
 
 #endif // CVAO_HPP
