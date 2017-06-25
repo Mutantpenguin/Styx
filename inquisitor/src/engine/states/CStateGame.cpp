@@ -37,9 +37,9 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		auto floorMeshPrimitive = Primitives::quad;
 
-		for( auto &coord : floorMeshPrimitive.texcoords )
+		for( auto &vertex : floorMeshPrimitive.Vertices )
 		{
-			coord *= 10;
+			vertex.TexCoord *= 10;
 		}
 
 		const CMesh::TTextures floorMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/texpack_2/stone_floor.png" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };

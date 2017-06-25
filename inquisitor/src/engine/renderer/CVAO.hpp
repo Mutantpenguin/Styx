@@ -31,13 +31,11 @@ public:
 private:
 	const GLenum m_mode; // GL_QUADS, GL_TRIS, ...
 
-	const size_t m_vertexCount;
-
 	GLuint	m_id;
 
-	GLuint	m_vboPositions;
-	GLuint	m_vboNormals;
-	GLuint	m_vboTexcoords;
+	GLuint	m_vboId;
+
+	const size_t m_vertexCount;
 
 	static const GLuint bindingIndexPositions	{ 0 };
 	static const GLuint bindingIndexNormals		{ 1 };

@@ -32,14 +32,14 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		const auto material = materialManager.LoadMaterial( "materials/standard.mat" );
 
 		auto bgMeshPrimitive = Primitives::quad;
-		bgMeshPrimitive.positions[ 0 ].x = 0.0f;
-		bgMeshPrimitive.positions[ 0 ].y = 0.0f;
-		bgMeshPrimitive.positions[ 1 ].x = static_cast< float >( windowSize.width );
-		bgMeshPrimitive.positions[ 1 ].y = 0.0f;
-		bgMeshPrimitive.positions[ 2 ].x = 0.0f;
-		bgMeshPrimitive.positions[ 2 ].y = static_cast< float >( windowSize.height );
-		bgMeshPrimitive.positions[ 3 ].x = static_cast< float >( windowSize.width );
-		bgMeshPrimitive.positions[ 3 ].y = static_cast< float >( windowSize.height );
+		bgMeshPrimitive.Vertices[ 0 ].Position.x = 0.0f;
+		bgMeshPrimitive.Vertices[ 0 ].Position.y = 0.0f;
+		bgMeshPrimitive.Vertices[ 1 ].Position.x = static_cast< float >( windowSize.width );
+		bgMeshPrimitive.Vertices[ 1 ].Position.y = 0.0f;
+		bgMeshPrimitive.Vertices[ 2 ].Position.x = 0.0f;
+		bgMeshPrimitive.Vertices[ 2 ].Position.y = static_cast< float >( windowSize.height );
+		bgMeshPrimitive.Vertices[ 3 ].Position.x = static_cast< float >( windowSize.width );
+		bgMeshPrimitive.Vertices[ 3 ].Position.y = static_cast< float >( windowSize.height );
 
 		const CMesh::TTextures bgMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/menu/background.jpg" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
@@ -55,14 +55,14 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		const float halfTitleHeight = halfTitleWidth / 4.0f;
 
 		auto titleMeshPrimitive = Primitives::quad;
-		titleMeshPrimitive.positions[ 0 ].x = -halfTitleWidth;
-		titleMeshPrimitive.positions[ 0 ].y = -halfTitleHeight;
-		titleMeshPrimitive.positions[ 1 ].x = halfTitleWidth;
-		titleMeshPrimitive.positions[ 1 ].y = -halfTitleHeight;
-		titleMeshPrimitive.positions[ 2 ].x = -halfTitleWidth;
-		titleMeshPrimitive.positions[ 2 ].y = halfTitleHeight;
-		titleMeshPrimitive.positions[ 3 ].x = halfTitleWidth;
-		titleMeshPrimitive.positions[ 3 ].y = halfTitleHeight;
+		titleMeshPrimitive.Vertices[ 0 ].Position.x = -halfTitleWidth;
+		titleMeshPrimitive.Vertices[ 0 ].Position.y = -halfTitleHeight;
+		titleMeshPrimitive.Vertices[ 1 ].Position.x = halfTitleWidth;
+		titleMeshPrimitive.Vertices[ 1 ].Position.y = -halfTitleHeight;
+		titleMeshPrimitive.Vertices[ 2 ].Position.x = -halfTitleWidth;
+		titleMeshPrimitive.Vertices[ 2 ].Position.y = halfTitleHeight;
+		titleMeshPrimitive.Vertices[ 3 ].Position.x = halfTitleWidth;
+		titleMeshPrimitive.Vertices[ 3 ].Position.y = halfTitleHeight;
 
 		const CMesh::TTextures titleMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/menu/title.png" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
@@ -75,14 +75,14 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	const float halfButtonHeight = windowSize.height / 6 / 2;
 
 	auto buttonMeshPrimitive = Primitives::quad;
-	buttonMeshPrimitive.positions[ 0 ].x = -halfButtonWidth;
-	buttonMeshPrimitive.positions[ 0 ].y = -halfButtonHeight;
-	buttonMeshPrimitive.positions[ 1 ].x = halfButtonWidth;
-	buttonMeshPrimitive.positions[ 1 ].y = -halfButtonHeight;
-	buttonMeshPrimitive.positions[ 2 ].x = -halfButtonWidth;
-	buttonMeshPrimitive.positions[ 2 ].y = halfButtonHeight;
-	buttonMeshPrimitive.positions[ 3 ].x = halfButtonWidth;
-	buttonMeshPrimitive.positions[ 3 ].y = halfButtonHeight;
+	buttonMeshPrimitive.Vertices[ 0 ].Position.x = -halfButtonWidth;
+	buttonMeshPrimitive.Vertices[ 0 ].Position.y = -halfButtonHeight;
+	buttonMeshPrimitive.Vertices[ 1 ].Position.x = halfButtonWidth;
+	buttonMeshPrimitive.Vertices[ 1 ].Position.y = -halfButtonHeight;
+	buttonMeshPrimitive.Vertices[ 2 ].Position.x = -halfButtonWidth;
+	buttonMeshPrimitive.Vertices[ 2 ].Position.y = halfButtonHeight;
+	buttonMeshPrimitive.Vertices[ 3 ].Position.x = halfButtonWidth;
+	buttonMeshPrimitive.Vertices[ 3 ].Position.y = halfButtonHeight;
 
 	{
 		const auto greenMaterial = materialManager.LoadMaterial( "materials/green.mat" );

@@ -8,72 +8,54 @@
 
 CVAO::CVAO( GLenum Mode, const Primitives::SPrimitive &primitive ) :
 	m_mode( Mode ),
-	m_vertexCount( primitive.positions.size() )
+	m_vertexCount( primitive.Vertices.size() )
 {
-	assert( ( m_vertexCount == primitive.normals.size() ) && ( m_vertexCount == primitive.texcoords.size() ) );
-
 	const auto attributeLocationPosition	= static_cast< GLint >( EAttributeLocation::position );
 	const auto attributeLocationNormal		= static_cast< GLint >( EAttributeLocation::normal );
 	const auto attributeLocationTexcoord	= static_cast< GLint >( EAttributeLocation::texcoord );
-
-	const auto vertexSize	= sizeof( decltype( primitive.positions )::value_type );
-	const auto normalSize	= sizeof( decltype( primitive.normals )::value_type );
-	const auto texcoordSize	= sizeof( decltype( primitive.texcoords )::value_type );
+	const auto attributeLocationTangent		= static_cast< GLint >( EAttributeLocation::tangent );
+	const auto attributeLocationBitangent	= static_cast< GLint >( EAttributeLocation::bitangent );
 
 	glCreateVertexArrays( 1, &m_id );
 
 	glEnableVertexArrayAttrib( m_id, attributeLocationPosition );
 	glEnableVertexArrayAttrib( m_id, attributeLocationNormal );
 	glEnableVertexArrayAttrib( m_id, attributeLocationTexcoord );
+	glEnableVertexArrayAttrib( m_id, attributeLocationTangent );
+	glEnableVertexArrayAttrib( m_id, attributeLocationBitangent );
 
 	glVertexArrayAttribFormat( m_id, attributeLocationPosition,		3, GL_FLOAT, GL_FALSE, 0 );
 	glVertexArrayAttribFormat( m_id, attributeLocationNormal,		3, GL_FLOAT, GL_FALSE, 0 );
-	glVertexArrayAttribFormat( m_id, attributeLocationTexcoord,	2, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( m_id, attributeLocationTexcoord,		2, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( m_id, attributeLocationTangent,		3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( m_id, attributeLocationBitangent,	3, GL_FLOAT, GL_FALSE, 0 );
 
-	glCreateBuffers( 1, &m_vboPositions );
-	glCreateBuffers( 1, &m_vboNormals );
-	glCreateBuffers( 1, &m_vboTexcoords );
+	glCreateBuffers( 1, &m_vboId );
 
-	glNamedBufferData( m_vboPositions,	m_vertexCount * vertexSize,		primitive.positions.data(),	GL_STATIC_DRAW );
-	glNamedBufferData( m_vboNormals,	m_vertexCount * normalSize,		primitive.normals.data(),	GL_STATIC_DRAW );
-	glNamedBufferData( m_vboTexcoords,	m_vertexCount * texcoordSize,	primitive.texcoords.data(),	GL_STATIC_DRAW );
+	glNamedBufferData( m_vboId, primitive.Vertices.size() * sizeof( Primitives::SVertex ), primitive.Vertices.data(), GL_STATIC_DRAW );
 
-	glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexPositions,	m_vboPositions,	0, vertexSize );
-	glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexNormals,		m_vboNormals,	0, normalSize );
-	glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexTexcoords,	m_vboTexcoords,	0, texcoordSize );
+	glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexPositions,	m_vboId,	0,											sizeof( Primitives::SVertex ) );
+	glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexNormals,		m_vboId,	offsetof( Primitives::SVertex, Normal ),	sizeof( Primitives::SVertex ) );
+	glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexTexcoords,	m_vboId,	offsetof( Primitives::SVertex, TexCoord ),	sizeof( Primitives::SVertex ) );
+	// TODO Tangents glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexTangents,	m_vboId,	offsetof( Primitives::SVertex, Tangent ),	sizeof( Primitives::SVertex ) );
+	// TODO Tangents glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexBitangents,	m_vboId,	offsetof( Primitives::SVertex, Bitangent ), sizeof( Primitives::SVertex ) );
 
 	glVertexArrayAttribBinding( m_id, attributeLocationPosition,	CVAO::bindingIndexPositions );
 	glVertexArrayAttribBinding( m_id, attributeLocationNormal,		CVAO::bindingIndexNormals );
 	glVertexArrayAttribBinding( m_id, attributeLocationTexcoord,	CVAO::bindingIndexTexcoords );
+	// TODO Tangents glVertexArrayAttribBinding( m_id, attributeLocationTangent,		CVAO::bindingIndexTangents );
+	// TODO Tangents glVertexArrayAttribBinding( m_id, attributeLocationBitangent,	CVAO::bindingIndexBitangents );
 }
 
 CVAO::~CVAO()
 {
-	if( glIsBuffer( m_vboPositions ) == GL_TRUE )
+	if( glIsBuffer( m_vboId ) == GL_TRUE )
 	{
-		glDeleteBuffers( 1, &m_vboPositions );
+		glDeleteBuffers( 1, &m_vboId );
 	}
 	else
 	{
-		logERROR( "VBO for positions is not a buffer" );
-	}
-
-	if( glIsBuffer( m_vboNormals ) == GL_TRUE )
-	{
-		glDeleteBuffers( 1, &m_vboNormals );
-	}
-	else
-	{
-		logERROR( "VBO for normals is not a buffer" );
-	}
-
-	if( glIsBuffer( m_vboTexcoords ) == GL_TRUE )
-	{
-		glDeleteBuffers( 1, &m_vboTexcoords );
-	}
-	else
-	{
-		logERROR( "VBO for texcoords is not a buffer" );
+		logERROR( "VBO is not a buffer" );
 	}
 
 	glDeleteVertexArrays( 1, &m_id );
