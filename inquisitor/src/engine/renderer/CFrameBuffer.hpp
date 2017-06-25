@@ -27,12 +27,13 @@ public:
 private:
 	bool isComplete( void );
 
-	CSize	m_size;
+	const CSize	m_size;
+	
+	GLuint	m_id;
 
 	std::shared_ptr< CTexture > m_colorTexture;
-	std::shared_ptr< CTexture > m_depthTexture;
 
-	GLuint	m_id;
+	GLuint m_renderBufferId;
 };
 
 #endif // CFRAMEBUFFER_HPP

@@ -131,7 +131,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const CMesh::TTextures meshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/texpack_1/black_border.png" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const std::uint16_t cubeSize { 10  };
+		const std::uint16_t cubeSize { 10 };
 
 		for( std::uint16_t i = 0; i < cubeSize; i++ )
 		{

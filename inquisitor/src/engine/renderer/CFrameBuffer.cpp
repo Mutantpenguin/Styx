@@ -6,8 +6,7 @@
 
 CFrameBuffer::CFrameBuffer( const CSize &size ) :
 	m_size { size },
-	m_colorTexture { std::make_shared< CTexture >() },
-	m_depthTexture { std::make_shared< CTexture >() }
+	m_colorTexture { std::make_shared< CTexture >() }
 {
 	glCreateFramebuffers( 1, &m_id );
 
@@ -32,23 +31,9 @@ CFrameBuffer::CFrameBuffer( const CSize &size ) :
 		glNamedFramebufferTexture( m_id, GL_COLOR_ATTACHMENT0, colorTextureID, 0 );
 	}
 
-	{
-		auto &depthTextureID = m_depthTexture->OpenGLID();
-
-		m_depthTexture->Type( CTexture::TextureType::TEX_2D );
-		glCreateTextures( GL_TEXTURE_2D, 1, &depthTextureID );
-
-		glTextureParameteri( depthTextureID, GL_TEXTURE_BASE_LEVEL, 0 );
-		glTextureParameteri( depthTextureID, GL_TEXTURE_MAX_LEVEL, 1 );
-
-		glTextureStorage2D(	depthTextureID,
-							1,
-							GL_DEPTH_COMPONENT32F,
-							size.width,
-							size.height );
-
-		glNamedFramebufferTexture( m_id, GL_DEPTH_ATTACHMENT, depthTextureID, 0 );
-	}
+	glCreateRenderbuffers( 1, &m_renderBufferId );
+	glNamedRenderbufferStorage( m_renderBufferId, GL_DEPTH24_STENCIL8, size.width, size.height );
+	glNamedFramebufferRenderbuffer( m_id, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_renderBufferId );
 
 	if( !isComplete() )
 	{
@@ -58,6 +43,8 @@ CFrameBuffer::CFrameBuffer( const CSize &size ) :
 
 CFrameBuffer::~CFrameBuffer()
 {
+	glDeleteRenderbuffers( 1, &m_renderBufferId );
+
 	glDeleteFramebuffers( 1, &m_id );
 }
 
