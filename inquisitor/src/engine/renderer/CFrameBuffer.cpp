@@ -4,13 +4,15 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
+const GLenum CFrameBuffer::attachmentColorTexture = GL_COLOR_ATTACHMENT0;
+
 CFrameBuffer::CFrameBuffer( const CSize &size ) :
 	m_size { size },
 	m_colorTexture { std::make_shared< CTexture >() }
 {
 	glCreateFramebuffers( 1, &m_id );
 
-	std::array< GLenum, 1 > DrawBuffers { GL_COLOR_ATTACHMENT0 };
+	std::array< GLenum, 1 > DrawBuffers { attachmentColorTexture };
 	glFramebufferDrawBuffersEXT( m_id, DrawBuffers.size(), DrawBuffers.data() );
 
 	{
@@ -28,7 +30,7 @@ CFrameBuffer::CFrameBuffer( const CSize &size ) :
 							size.width,
 							size.height );
 
-		glNamedFramebufferTexture( m_id, GL_COLOR_ATTACHMENT0, colorTextureID, 0 );
+		glNamedFramebufferTexture( m_id, attachmentColorTexture, colorTextureID, 0 );
 	}
 
 	glCreateRenderbuffers( 1, &m_renderBufferId );
@@ -61,6 +63,19 @@ void CFrameBuffer::Unbind( void ) const
 const std::shared_ptr< const CTexture > CFrameBuffer::ColorTexture( void ) const
 {
 	return( m_colorTexture );
+}
+
+std::shared_ptr< CImage > CFrameBuffer::ToImage( void ) const
+{
+	glNamedFramebufferReadBuffer( m_id, attachmentColorTexture );
+
+	const std::uint32_t pitch = m_size.width * 3;
+
+	auto pixels = std::make_unique< CImage::PixelBuffer >( pitch * m_size.height );
+
+	glReadPixels( 0, 0, m_size.width, m_size.height, GL_BGR, GL_UNSIGNED_BYTE, static_cast< void* >( pixels->data() ) );
+
+	return( std::make_shared< CImage >( m_size, m_size, true, 24, pitch, std::move( pixels ) ) );
 }
 
 bool CFrameBuffer::isComplete( void )

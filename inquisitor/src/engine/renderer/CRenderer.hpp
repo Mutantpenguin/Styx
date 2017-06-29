@@ -22,7 +22,6 @@
 #include "src/engine/renderer/material/CMaterialManager.hpp"
 
 #include "src/engine/helper/CColor.hpp"
-#include "src/engine/helper/image/CImage.hpp"
 
 class CRenderer final
 {
@@ -40,8 +39,6 @@ private:
 	void	Update( void );
 
 public:
-	std::shared_ptr< CImage > GetScreenshot( void ) const;
-
 	void ReloadResources( void );
 
 	CMaterialManager	&MaterialManager( void );

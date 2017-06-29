@@ -9,6 +9,8 @@
 
 #include "src/engine/helper/CSize.hpp"
 
+#include "src/engine/helper/image/CImage.hpp"
+
 class CFrameBuffer
 {
 private:
@@ -24,6 +26,8 @@ public:
 
 	const std::shared_ptr< const CTexture > ColorTexture( void ) const;
 
+	std::shared_ptr< CImage > ToImage( void ) const;
+
 private:
 	bool isComplete( void );
 
@@ -34,6 +38,8 @@ private:
 	std::shared_ptr< CTexture > m_colorTexture;
 
 	GLuint m_renderBufferId;
+
+	static const GLenum attachmentColorTexture;
 };
 
 #endif // CFRAMEBUFFER_HPP

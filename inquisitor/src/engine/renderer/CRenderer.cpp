@@ -141,18 +141,6 @@ void CRenderer::Update( void )
 	m_textureManager.Update();
 }
 
-std::shared_ptr< CImage > CRenderer::GetScreenshot( void ) const
-{
-	const CSize &size			= m_settings.renderer.window.size;
-	const std::uint32_t pitch	= size.width * 3;
-
-	auto pixels = std::make_unique< CImage::PixelBuffer >( pitch * size.height );
-
-	glReadPixels( 0, 0, size.width, size.height, GL_BGR, GL_UNSIGNED_BYTE, static_cast< void* >( pixels->data() ) );
-
-	return( std::make_shared< CImage >( size, size, true, 24, pitch, std::move( pixels ) ) );
-}
-
 void CRenderer::ReloadResources( void )
 {
 	m_textureManager.ReloadTextures();
@@ -260,7 +248,6 @@ void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
 	vao.Bind();
 
 	vao.Draw();
-
 }
 
 void CRenderer::RenderBucketMeshes( const TRenderBucketMeshes &bucketMeshes, const glm::mat4 &viewProjectionMatrix ) const
