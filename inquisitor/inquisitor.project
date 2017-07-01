@@ -243,6 +243,7 @@
         <File Name="src/ext/fmt/ostream.cc"/>
         <File Name="src/ext/fmt/posix.cc"/>
         <File Name="src/ext/fmt/printf.cc"/>
+        <File Name="src/ext/fmt/container.h"/>
       </VirtualDirectory>
       <VirtualDirectory Name="imgui">
         <File Name="src/ext/imgui/imconfig.h"/>

@@ -38,10 +38,10 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include <utility>
+#include <utility>  // for std::pair
 
 // The fmt library version in the form major * 10000 + minor * 100 + patch.
-#define FMT_VERSION 30002
+#define FMT_VERSION 40000
 
 #ifdef _SECURE_SCL
 # define FMT_SECURE_SCL _SECURE_SCL
@@ -107,6 +107,7 @@ typedef __int64          intmax_t;
 #endif
 
 #if defined(__clang__) && !defined(FMT_ICC_VERSION)
+# define FMT_CLANG_VERSION (__clang_major__ * 100 + __clang_minor__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # pragma clang diagnostic ignored "-Wpadded"
@@ -153,10 +154,6 @@ typedef __int64          intmax_t;
     (FMT_HAS_FEATURE(cxx_rvalue_references) || \
         (FMT_GCC_VERSION >= 403 && FMT_HAS_GXX_CXX11) || FMT_MSC_VER >= 1600)
 # endif
-#endif
-
-#if FMT_USE_RVALUE_REFERENCES
-# include <utility>  // for std::move
 #endif
 
 // Check if exceptions are disabled.
@@ -246,6 +243,20 @@ typedef __int64          intmax_t;
     TypeName& operator=(const TypeName&)
 #endif
 
+#ifndef FMT_USE_DEFAULTED_FUNCTIONS
+# define FMT_USE_DEFAULTED_FUNCTIONS 0
+#endif
+
+#ifndef FMT_DEFAULTED_COPY_CTOR
+# if FMT_USE_DEFAULTED_FUNCTIONS || FMT_HAS_FEATURE(cxx_defaulted_functions) || \
+   (FMT_GCC_VERSION >= 404 && FMT_HAS_GXX_CXX11) || FMT_MSC_VER >= 1800
+#  define FMT_DEFAULTED_COPY_CTOR(TypeName) \
+    TypeName(const TypeName&) = default;
+# else
+#  define FMT_DEFAULTED_COPY_CTOR(TypeName)
+# endif
+#endif
+
 #ifndef FMT_USE_USER_DEFINED_LITERALS
 // All compilers which support UDLs also support variadic templates. This
 // makes the fmt::literals implementation easier. However, an explicit check
@@ -259,12 +270,8 @@ typedef __int64          intmax_t;
 #endif
 
 #ifndef FMT_USE_EXTERN_TEMPLATES
-// Clang doesn't have a feature check for extern templates so we check
-// for variadic templates which were introduced in the same version.
-// For GCC according to cppreference.com they were introduced in 3.3.
 # define FMT_USE_EXTERN_TEMPLATES \
-    ((__clang__ && FMT_USE_VARIADIC_TEMPLATES) || \
-     (FMT_GCC_VERSION >= 303 && FMT_HAS_GXX_CXX11))
+    (FMT_CLANG_VERSION >= 209 || (FMT_GCC_VERSION >= 303 && FMT_HAS_GXX_CXX11))
 #endif
 
 #ifdef FMT_HEADER_ONLY
@@ -277,19 +284,23 @@ typedef __int64          intmax_t;
 # define FMT_ASSERT(condition, message) assert((condition) && message)
 #endif
 
-#if FMT_GCC_VERSION >= 400 || FMT_HAS_BUILTIN(__builtin_clz)
-# define FMT_BUILTIN_CLZ(n) __builtin_clz(n)
-#endif
+// __builtin_clz is broken in clang with Microsoft CodeGen:
+// https://github.com/fmtlib/fmt/issues/519
+#ifndef _MSC_VER
+# if FMT_GCC_VERSION >= 400 || FMT_HAS_BUILTIN(__builtin_clz)
+#  define FMT_BUILTIN_CLZ(n) __builtin_clz(n)
+# endif
 
-#if FMT_GCC_VERSION >= 400 || FMT_HAS_BUILTIN(__builtin_clzll)
-# define FMT_BUILTIN_CLZLL(n) __builtin_clzll(n)
+# if FMT_GCC_VERSION >= 400 || FMT_HAS_BUILTIN(__builtin_clzll)
+#  define FMT_BUILTIN_CLZLL(n) __builtin_clzll(n)
+# endif
 #endif
 
 // Some compilers masquerade as both MSVC and GCC-likes or
 // otherwise support __builtin_clz and __builtin_clzll, so
 // only define FMT_BUILTIN_CLZ using the MSVC intrinsics
 // if the clz and clzll builtins are not available.
-#if FMT_MSC_VER && !defined(FMT_BUILTIN_CLZLL)
+#if FMT_MSC_VER && !defined(FMT_BUILTIN_CLZLL) && !defined(_MANAGED)
 # include <intrin.h>  // _BitScanReverse, _BitScanReverse64
 
 namespace fmt {
@@ -598,7 +609,7 @@ class FormatError : public std::runtime_error {
   explicit FormatError(CStringRef message)
   : std::runtime_error(message.c_str()) {}
   FormatError(const FormatError &ferr) : std::runtime_error(ferr) {}
-  ~FormatError() FMT_DTOR_NOEXCEPT;
+  FMT_API ~FormatError() FMT_DTOR_NOEXCEPT;
 };
 
 namespace internal {
@@ -714,7 +725,8 @@ class Buffer {
 template <typename T>
 template <typename U>
 void Buffer<T>::append(const U *begin, const U *end) {
-  std::size_t new_size = size_ + internal::to_unsigned(end - begin);
+  FMT_ASSERT(end >= begin, "negative value");
+  std::size_t new_size = size_ + (end - begin);
   if (new_size > capacity_)
     grow(new_size);
   std::uninitialized_copy(begin, end,
@@ -1198,7 +1210,7 @@ template <>
 struct Not<false> { enum { value = 1 }; };
 
 template <typename T>
-struct False { enum { value = 0 }; };
+struct FalseType { enum { value = 0 }; };
 
 template <typename T, T> struct LConvCheck {
   LConvCheck(int) {}
@@ -1238,7 +1250,7 @@ inline fmt::StringRef thousands_sep(...) { return ""; }
 
 template <typename Formatter, typename Char, typename T>
 void format_arg(Formatter &, const Char *, const T &) {
-  FMT_STATIC_ASSERT(False<T>::value,
+  FMT_STATIC_ASSERT(FalseType<T>::value,
                     "Cannot format argument. To enable the use of ostream "
                     "operator<< include fmt/ostream.h. Otherwise provide "
                     "an overload of format_arg.");
@@ -1384,14 +1396,9 @@ class MakeValue : public Arg {
   }
 
   template <typename T>
-  MakeValue(const T &value,
-            typename EnableIf<ConvertToInt<T>::value, int>::type = 0) {
-    int_value = value;
-  }
-
-  template <typename T>
-  static uint64_t type(const T &) {
-    return ConvertToInt<T>::value ? Arg::INT : Arg::CUSTOM;
+  static typename EnableIf<Not<ConvertToInt<T>::value>::value, uint64_t>::type
+      type(const T &) {
+    return Arg::CUSTOM;
   }
 
   // Additional template param `Char_` is needed here because make_type always
@@ -1440,7 +1447,7 @@ class RuntimeError : public std::runtime_error {
  protected:
   RuntimeError() : std::runtime_error("") {}
   RuntimeError(const RuntimeError &rerr) : std::runtime_error(rerr) {}
-  ~RuntimeError() FMT_DTOR_NOEXCEPT;
+  FMT_API ~RuntimeError() FMT_DTOR_NOEXCEPT;
 };
 
 template <typename Char>
@@ -1941,6 +1948,9 @@ class ArgFormatterBase : public ArgVisitor<Impl, void> {
     writer_.write_int(reinterpret_cast<uintptr_t>(p), spec_);
   }
 
+  // workaround MSVC two-phase lookup issue
+  typedef internal::Arg Arg;
+
  protected:
   BasicWriter<Char> &writer() { return writer_; }
   Spec &spec() { return spec_; }
@@ -2012,13 +2022,14 @@ class ArgFormatterBase : public ArgVisitor<Impl, void> {
     write(value);
   }
 
-  void visit_string(Arg::StringValue<char> value) {
+  // Qualification with "internal" here and below is a workaround for nvcc.
+  void visit_string(internal::Arg::StringValue<char> value) {
     writer_.write_str(value, spec_);
   }
 
   using ArgVisitor<Impl, void>::visit_wstring;
 
-  void visit_wstring(Arg::StringValue<Char> value) {
+  void visit_wstring(internal::Arg::StringValue<Char> value) {
     writer_.write_str(value, spec_);
   }
 
@@ -2204,10 +2215,10 @@ inline uint64_t make_type(const T &arg) {
   return MakeValue< BasicFormatter<char> >::type(arg);
 }
 
-template <unsigned N, bool/*IsPacked*/= (N < ArgList::MAX_PACKED_ARGS)>
+template <std::size_t N, bool/*IsPacked*/= (N < ArgList::MAX_PACKED_ARGS)>
 struct ArgArray;
 
-template <unsigned N>
+template <std::size_t N>
 struct ArgArray<N, true/*IsPacked*/> {
   typedef Value Type[N > 0 ? N : 1];
 
@@ -2225,7 +2236,7 @@ struct ArgArray<N, true/*IsPacked*/> {
   }
 };
 
-template <unsigned N>
+template <std::size_t N>
 struct ArgArray<N, false/*IsPacked*/> {
   typedef Arg Type[N + 1]; // +1 for the list end Arg::NONE
 
@@ -2365,7 +2376,7 @@ inline uint64_t make_type(FMT_GEN15(FMT_ARG_TYPE_DEFAULT)) {
 */
 class SystemError : public internal::RuntimeError {
  private:
-  void init(int err_code, CStringRef format_str, ArgList args);
+  FMT_API void init(int err_code, CStringRef format_str, ArgList args);
 
  protected:
   int error_code_;
@@ -2396,9 +2407,10 @@ class SystemError : public internal::RuntimeError {
   SystemError(int error_code, CStringRef message) {
     init(error_code, message, ArgList());
   }
+  FMT_DEFAULTED_COPY_CTOR(SystemError)
   FMT_VARIADIC_CTOR(SystemError, init, int, CStringRef)
 
-  ~SystemError() FMT_DTOR_NOEXCEPT;
+  FMT_API ~SystemError() FMT_DTOR_NOEXCEPT;
 
   int error_code() const { return error_code_; }
 };
@@ -2915,7 +2927,7 @@ void BasicWriter<Char>::write_int(T value, Spec spec) {
   case 'n': {
     unsigned num_digits = internal::count_digits(abs_value);
     fmt::StringRef sep = "";
-#ifndef ANDROID
+#if !(defined(ANDROID) || defined(__ANDROID__))
     sep = internal::thousands_sep(std::localeconv());
 #endif
     unsigned size = static_cast<unsigned>(
@@ -3855,6 +3867,66 @@ void BasicFormatter<Char, AF>::format(BasicCStringRef<Char> format_str) {
     start = s = format(s, arg);
   }
   write(writer_, start, s);
+}
+
+template <typename Char, typename It>
+struct ArgJoin {
+  It first;
+  It last;
+  BasicCStringRef<Char> sep;
+
+  ArgJoin(It first, It last, const BasicCStringRef<Char>& sep) :
+    first(first),
+    last(last),
+    sep(sep) {}
+};
+
+template <typename It>
+ArgJoin<char, It> join(It first, It last, const BasicCStringRef<char>& sep) {
+  return ArgJoin<char, It>(first, last, sep);
+}
+
+template <typename It>
+ArgJoin<wchar_t, It> join(It first, It last, const BasicCStringRef<wchar_t>& sep) {
+  return ArgJoin<wchar_t, It>(first, last, sep);
+}
+
+#if FMT_HAS_GXX_CXX11
+template <typename Range>
+auto join(const Range& range, const BasicCStringRef<char>& sep)
+    -> ArgJoin<char, decltype(std::begin(range))> {
+  return join(std::begin(range), std::end(range), sep);
+}
+
+template <typename Range>
+auto join(const Range& range, const BasicCStringRef<wchar_t>& sep)
+    -> ArgJoin<wchar_t, decltype(std::begin(range))> {
+  return join(std::begin(range), std::end(range), sep);
+}
+#endif
+
+template <typename ArgFormatter, typename Char, typename It>
+void format_arg(fmt::BasicFormatter<Char, ArgFormatter> &f,
+    const Char *&format_str, const ArgJoin<Char, It>& e) {
+  const Char* end = format_str;
+  if (*end == ':')
+    ++end;
+  while (*end && *end != '}')
+    ++end;
+  if (*end != '}')
+    FMT_THROW(FormatError("missing '}' in format string"));
+
+  It it = e.first;
+  if (it != e.last) {
+    const Char* save = format_str;
+    f.format(format_str, internal::MakeArg<fmt::BasicFormatter<Char, ArgFormatter> >(*it++));
+    while (it != e.last) {
+      f.writer().write(e.sep);
+      format_str = save;
+      f.format(format_str, internal::MakeArg<fmt::BasicFormatter<Char, ArgFormatter> >(*it++));
+    }
+  }
+  format_str = end + 1;
 }
 }  // namespace fmt
 
