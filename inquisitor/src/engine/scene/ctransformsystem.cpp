@@ -2,10 +2,10 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "centity.hpp"
+#include "CEntity.hpp"
 #include "csystem.hpp"
 
-#include "components/transformcomponent.hpp"
+#include "components/CTransformComponent.hpp"
 
 glm::vec3 CTransformSystem::GetPosition( EntityID id ) const
 {

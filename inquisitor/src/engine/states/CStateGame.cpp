@@ -48,7 +48,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		floorMesh->SetScale( { 100.0f, 100.0f, 100.0f } );
 		floorMesh->SetOrientation( { -90.0f, 00.0f, 0.0f } );
 
-		m_scene.AddMesh( floorMesh );
+		std::shared_ptr< CEntity > floor = std::make_shared< CEntity >( "floor" );
+		floor->Mesh( floorMesh );
+
+		m_scene.AddEntity( floor );
 	}
 
 	//auto material2 = materialManager.LoadMaterial( "materials/flames.mat" );
@@ -65,7 +68,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		m_movableMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialWaitCursor, glm::vec3( 0.0f, 10.0f, 20.0f ), movableMeshTextures );
 		m_movableMesh->SetScale( { 3.0f, 3.0f, 1.0f } );
 
-		m_scene.AddMesh( m_movableMesh );
+		std::shared_ptr< CEntity > movable = std::make_shared< CEntity >( "wait_cursor" );
+		movable->Mesh( m_movableMesh );
+
+		m_scene.AddEntity( movable );
 	}
 
 	// create small cube of cubes
@@ -82,10 +88,13 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			{
 				for( std::uint16_t k = 0; k < cubeSize; k++ )
 				{
-					const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, -10.0f + k * 4.0f ), schnarfMeshTextures );
-					mesh->SetScale( { 2.0f, 2.0f, 2.0f } );
+					const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, glm::vec3( 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, -10.0f + k * 4.0f ), schnarfMeshTextures );
+					cubeMesh->SetScale( { 2.0f, 2.0f, 2.0f } );
 
-					m_scene.AddMesh( mesh );
+					std::shared_ptr< CEntity > cube = std::make_shared< CEntity >( "cube" );
+					cube->Mesh( cubeMesh );
+
+					m_scene.AddEntity( cube );
 				}
 			}
 		}
@@ -99,10 +108,13 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 														{ "skyBoxTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/cube/sixtine/sixtine.cub" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::EDGE_CUBE ) ) } };
 
 		{
-			const auto m_mesh2 = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, glm::vec3( 0.0f, 10.0f, -10.0f ), superBoxMeshTextures );
-			m_mesh2->SetScale( { 10.0f, 10.0f, 10.0f } );
+			const auto superBoxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, glm::vec3( 0.0f, 10.0f, -10.0f ), superBoxMeshTextures );
+			superBoxMesh->SetScale( { 10.0f, 10.0f, 10.0f } );
 
-			m_scene.AddMesh( m_mesh2 );
+			std::shared_ptr< CEntity > superBox = std::make_shared< CEntity >( "superBox" );
+			superBox->Mesh( superBoxMesh );
+
+			m_scene.AddEntity( superBox );
 		}
 
 		// create big cube of cubes
@@ -115,10 +127,13 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				{
 					for( std::uint16_t k = 0; k < cubeSize; k++ )
 					{
-						const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, glm::vec3( 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f ), superBoxMeshTextures );
-						mesh->SetScale( { 2.0f, 2.0f, 2.0f } );
+						const auto superBoxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, glm::vec3( 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f ), superBoxMeshTextures );
+						superBoxMesh->SetScale( { 2.0f, 2.0f, 2.0f } );
 
-						m_scene.AddMesh( mesh );
+						std::shared_ptr< CEntity > superBox = std::make_shared< CEntity >( "cube" );
+						superBox->Mesh( superBoxMesh );
+
+						m_scene.AddEntity( superBox );
 					}
 				}
 			}
@@ -141,10 +156,13 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				{
 					if( Math::irand( 0, 1 ) == 1 )
 					{
-						const auto mesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material, glm::vec3( -40.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f ), meshTextures );
-						mesh->SetScale( { 2.0f, 2.0f, 2.0f } );
+						const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material, glm::vec3( -40.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f ), meshTextures );
+						cubeMesh->SetScale( { 2.0f, 2.0f, 2.0f } );
 
-						m_scene.AddMesh( mesh );
+						std::shared_ptr< CEntity > cube = std::make_shared< CEntity >( "cube" );
+						cube->Mesh( cubeMesh );
+
+						m_scene.AddEntity( cube );
 					}
 				}
 			}
@@ -156,19 +174,25 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const CMesh::TTextures flamesMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/array/fire/fire.arr" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-		const auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, fireMaterial, glm::vec3( -5.0f, 10.0f, 1.0f ), flamesMeshTextures );
-		mesh->SetScale( { 4.0f, 8.0f, 1.0f } );
+		const auto flamesMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, fireMaterial, glm::vec3( -5.0f, 10.0f, 1.0f ), flamesMeshTextures );
+		flamesMesh->SetScale( { 4.0f, 8.0f, 1.0f } );
 
-		m_scene.AddMesh( mesh );
+		std::shared_ptr< CEntity > flames = std::make_shared< CEntity >( "flames" );
+		flames->Mesh( flamesMesh );
+
+		m_scene.AddEntity( flames );
 	}
 
 	{
 		const auto greenMaterial = materialManager.LoadMaterial( "materials/green.mat" );
 
-		const auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, greenMaterial, glm::vec3( -4.0f, 10.0f, 1.0f ) );
-		mesh->SetScale( { 2.0f, 2.0f, 1.0f } );
+		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, greenMaterial, glm::vec3( -4.0f, 10.0f, 1.0f ) );
+		cubeMesh->SetScale( { 2.0f, 2.0f, 1.0f } );
 
-		m_scene.AddMesh( mesh );
+		std::shared_ptr< CEntity > cube = std::make_shared< CEntity >( "green_cube" );
+		cube->Mesh( cubeMesh );
+
+		m_scene.AddEntity( cube );
 	}
 
 	{
@@ -177,16 +201,22 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		m_pulseMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, pulseMaterial, glm::vec3( 0.0f, 10.0f, 1.0f ) );
 		m_pulseMesh->SetScale( { 2.0f, 2.0f, 1.0f } );
 
-		m_scene.AddMesh( m_pulseMesh );
+		std::shared_ptr< CEntity > cube = std::make_shared< CEntity >( "pulse_cube" );
+		cube->Mesh( m_pulseMesh );
+
+		m_scene.AddEntity( cube );
 	}
 
 	{
 		const auto redMaterial = materialManager.LoadMaterial( "materials/red.mat" );
 
-		const auto mesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, redMaterial, glm::vec3( 4.0f, 10.0f, 1.0f ) );
-		mesh->SetScale( { 2.0f, 2.0f, 1.0f } );
+		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, redMaterial, glm::vec3( 4.0f, 10.0f, 1.0f ) );
+		cubeMesh->SetScale( { 2.0f, 2.0f, 1.0f } );
 
-		m_scene.AddMesh( mesh );
+		std::shared_ptr< CEntity > cube = std::make_shared< CEntity >( "red_cube" );
+		cube->Mesh( cubeMesh );
+
+		m_scene.AddEntity( cube );
 	}
 
 	{
@@ -196,7 +226,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		m_skyboxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material3, skyMeshTextures );
 
-		m_scene.AddMesh( m_skyboxMesh );
+		std::shared_ptr< CEntity > skybox = std::make_shared< CEntity >( "skybox" );
+		skybox->Mesh( m_skyboxMesh );
+
+		m_scene.AddEntity( skybox );
 	}
 
 	m_backgroundMusic = std::make_shared< CSoundSource >( soundManager.LoadSoundBuffer( "music/rise_of_spirit.ogg" ) );
@@ -415,7 +448,7 @@ std::shared_ptr< CState > CStateGame::Update( void )
 	m_xrot += m_rotx_ps;
 	m_yrot += m_roty_ps;
 
-	// m_cameraFree->SetDirection( mesh->Position() - m_cameraFree->Position() );
+	// TODO m_cameraFree->SetDirection( m_movableMesh->Position() - m_cameraFree->Position() );
 
 	m_skyboxMesh->SetPosition( m_cameraFree->Position() );
 

@@ -2,6 +2,8 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
+#include "src/engine/helper/geom/Primitives.hpp"
+
 CModelLoader::CModelLoader( const CFileSystem &p_filesystem ) :
 	m_filesystem { p_filesystem }
 {
@@ -25,7 +27,7 @@ void CModelLoader::FromFile( const std::string &path, std::shared_ptr< CModel > 
 
 	Assimp::Importer importer;
 
-	const aiScene *scene = importer.ReadFileFromMemory( buffer.data(), buffer.size(), aiProcess_Triangulate | aiProcess_FlipUVs, nullptr );
+	const aiScene *scene = importer.ReadFileFromMemory( buffer.data(), buffer.size(), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace, nullptr );
 
 	if( !scene || ( scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ) || !scene->mRootNode )
     {
@@ -33,11 +35,9 @@ void CModelLoader::FromFile( const std::string &path, std::shared_ptr< CModel > 
         FromDummy( model );
     }
 
-	/*TODO
-    this->directory = path.substr(0, path.find_last_of('/'));
+	const std::string directory = path.substr( 0, path.find_last_of( m_filesystem.GetDirSeparator() ) );
 
-    this->processNode(scene->mRootNode, scene);
-	 * */
+	ProcessNode( scene->mRootNode, scene, model );
 }
 
 void CModelLoader::ProcessNode( const aiNode *node, const aiScene *scene, std::shared_ptr< CModel > &model ) const
@@ -48,6 +48,7 @@ void CModelLoader::ProcessNode( const aiNode *node, const aiScene *scene, std::s
         aiMesh* mesh = scene->mMeshes[ node->mMeshes[ i ] ];
         ProcessMesh( mesh, scene, model );
     }
+
     // Then do the same for each of its children
     for( GLuint i = 0; i < node->mNumChildren; i++ )
     {
@@ -57,8 +58,36 @@ void CModelLoader::ProcessNode( const aiNode *node, const aiScene *scene, std::s
 
 void CModelLoader::ProcessMesh( const aiMesh *mesh, const aiScene *scene, std::shared_ptr< CModel > &model ) const
 {
-	// TODO
-	//model->m_meshes.emplace_back( )
+	//CMesh mesh(
+
+	for( unsigned int i = 0; i < mesh->mNumVertices; i++ )
+	{
+		Primitives::SVertex vertex;
+
+		vertex.Position = { mesh->mVertices[ i ].x, mesh->mVertices[ i ].y, mesh->mVertices[ i ].z };
+
+		vertex.Normal = { mesh->mNormals[ i ].x, mesh->mNormals[ i ].y, mesh->mNormals[ i ].z };
+
+		if( mesh->mTextureCoords[ 0 ] )
+		{
+			vertex.TexCoord = { mesh->mTextureCoords[ 0 ][ i ].x, mesh->mTextureCoords[ 0 ][ i ].y };
+		}
+
+		/* TODO Tangents
+		vertex.Tangent = { mesh->mTangents[ i ].x, mesh->mTangents[ i ].y, mesh->mTangents[ i ].z };
+
+		vertex.Bitangent = { mesh->mBitangents[ i ].x, mesh->mBitangents[ i ].y, mesh->mBitangents[ i ].z };
+		*/
+	}
+
+
+	/*
+
+
+	// TODO do the work
+
+	model->m_meshes.emplace_back( mesh );
+	 * */
 }
 
 void CModelLoader::FromDummy( std::shared_ptr< CModel > &model ) const

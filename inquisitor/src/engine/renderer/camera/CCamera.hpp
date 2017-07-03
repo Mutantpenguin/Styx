@@ -32,8 +32,8 @@ public:
 	const glm::mat4 CalculateViewProjectionMatrix( void ) const;
 
 protected:
-	glm::vec3 m_position	{ 0, 0, 0 };
-	glm::quat m_orientation	{ 1, 0, 0, 0 };
+	glm::vec3 m_position	{ 0.0f, 0.0f, 0.0f };
+	glm::quat m_orientation	{ 1.0f, 0.0f, 0.0f, 0.0f };
 
 	float	m_zNear;
 	float	m_zFar;

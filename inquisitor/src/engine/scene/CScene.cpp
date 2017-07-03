@@ -8,19 +8,37 @@ CScene::~CScene()
 {
 }
 
-void CScene::AddMesh( const std::shared_ptr< const CMesh > &mesh )
+void CScene::AddEntity( const std::shared_ptr< const CEntity > &entity )
 {
-	m_meshes.push_back( mesh );
+	m_entities.push_back( entity );
 }
 
-void CScene::RemoveMesh( const std::shared_ptr< const CMesh > &mesh )
+void CScene::RemoveEntity( const std::shared_ptr< const CEntity > &entity )
 {
-	m_meshes.remove( mesh );
+	m_entities.erase( std::remove( std::begin( m_entities ), std::end( m_entities ), entity ), std::end( m_entities ) );
 }
 
-const std::list< std::shared_ptr< const CMesh > > &CScene::Meshes( void ) const
+const std::vector< const CMesh * > &CScene::Meshes( void ) const
 {
-	return( m_meshes );
+	static std::vector< const CMesh * > meshes( 5000 );
+	meshes.clear();
+
+	const auto &frustum = m_camera->CalculateFrustum();
+
+	for( const auto &entity : m_entities )
+	{
+		const auto &mesh = entity->Mesh().get();
+
+		if( mesh )
+		{
+			if( frustum.IsSphereInside( mesh->Position(), mesh->BoundingSphereRadius() ) )
+			{
+				meshes.push_back( mesh );
+			}
+		}
+	}
+
+	return( meshes );
 }
 
 const std::shared_ptr< const CCamera > &CScene::Camera( void ) const

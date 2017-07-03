@@ -1,12 +1,13 @@
 #ifndef CSCENE_HPP
 #define CSCENE_HPP
 
-#include <list>
+#include <vector>
 
 #include "src/engine/helper/CColor.hpp"
 
 #include "src/engine/renderer/camera/CCamera.hpp"
-#include "src/engine/renderer/model/CMesh.hpp"
+
+#include "src/engine/scene/CEntity.hpp"
 
 class CScene
 {
@@ -14,10 +15,10 @@ public:
 	CScene();
 	~CScene();
 
-	void AddMesh( const std::shared_ptr< const CMesh > &mesh );
-	void RemoveMesh( const std::shared_ptr< const CMesh > &mesh );
+	void AddEntity( const std::shared_ptr< const CEntity > &entity );
+	void RemoveEntity( const std::shared_ptr< const CEntity > &entity );
 
-	const std::list< std::shared_ptr< const CMesh > > &Meshes( void ) const;
+	const std::vector< const CMesh * > &Meshes( void ) const;
 
 	[[nodiscard]] const std::shared_ptr< const CCamera > &Camera( void ) const;
 	void Camera( const std::shared_ptr< const CCamera > &camera );
@@ -26,7 +27,7 @@ public:
 	void ClearColor( const CColor &clearColor );
 
 private:
-	std::list< std::shared_ptr< const CMesh > > m_meshes;
+	std::vector< std::shared_ptr< const CEntity > > m_entities;
 
 	std::shared_ptr< const CCamera > m_camera;
 

@@ -42,7 +42,10 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, materialPause, glm::vec3( 0.0f, 0.0f, 0.0f ), bgMeshTextures );
 
-		m_scene.AddMesh( bgMesh );
+		std::shared_ptr< CEntity > bg = std::make_shared< CEntity >( "background" );
+		bg->Mesh( bgMesh );
+
+		m_scene.AddEntity( bg );
 	}
 
 	{
@@ -68,7 +71,10 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 			m_meshText = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, pauseTextMeshPrimitive, materialPauseText, glm::vec3( windowSize.width / 2.0f, windowSize.height - ( 2 * halfPauseTextHeight ) - ( 2 * halfScreenshotHeight ), 5.0f ), textMeshTextures );
 
-			m_scene.AddMesh( m_meshText );
+			std::shared_ptr< CEntity > text = std::make_shared< CEntity >( "text" );
+			text->Mesh( m_meshText );
+
+			m_scene.AddEntity( text );
 		}
 
 		{
@@ -86,7 +92,10 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 			m_screenshotMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, screenshotMeshPrimitive, materialPauseText, glm::vec3( windowSize.width / 2.0f, windowSize.height - halfPauseTextHeight - halfScreenshotHeight, 5.0f ), screenshotMeshTextures );
 
-			m_scene.AddMesh( m_screenshotMesh );
+			std::shared_ptr< CEntity > screenshot = std::make_shared< CEntity >( "screenshot" );
+			screenshot->Mesh( m_screenshotMesh );
+
+			m_scene.AddEntity( screenshot );
 		}
 	}
 }

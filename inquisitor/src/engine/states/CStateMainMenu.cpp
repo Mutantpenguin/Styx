@@ -45,7 +45,10 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 
 		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, material, glm::vec3( 0.0f, 0.0f, 0.0f ), bgMeshTextures );
 
-		m_scene.AddMesh( bgMesh );
+		std::shared_ptr< CEntity > bg = std::make_shared< CEntity >( "background" );
+		bg->Mesh( bgMesh );
+
+		m_scene.AddEntity( bg );
 	}
 
 	{
@@ -66,9 +69,12 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 
 		const CMesh::TTextures titleMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/menu/title.png" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto bgTitle = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, titleMeshPrimitive, material, glm::vec3( windowSize.width / 2.0f, windowSize.height - halfTitleHeight, 5.0f ), titleMeshTextures );
+		const auto bgTitleMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, titleMeshPrimitive, material, glm::vec3( windowSize.width / 2.0f, windowSize.height - halfTitleHeight, 5.0f ), titleMeshTextures );
 
-		m_scene.AddMesh( bgTitle );
+		std::shared_ptr< CEntity > bgTitle = std::make_shared< CEntity >( "title" );
+		bgTitle->Mesh( bgTitleMesh );
+
+		m_scene.AddEntity( bgTitle );
 	}
 
 	const float halfButtonWidth = windowSize.width / 4 / 2;
@@ -89,7 +95,10 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 
 		m_meshStart = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonMeshPrimitive, greenMaterial, glm::vec3( windowSize.width / 2.0f, 2 * windowSize.height / 4.0f, 10.0f ) );
 
-		m_scene.AddMesh( m_meshStart );
+		std::shared_ptr< CEntity > start = std::make_shared< CEntity >( "start_button" );
+		start->Mesh( m_meshStart );
+
+		m_scene.AddEntity( start );
 	}
 
 	{
@@ -97,7 +106,10 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 
 		m_meshExit = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonMeshPrimitive, redMaterial, glm::vec3( windowSize.width / 2.0f, windowSize.height / 4.0f, 10.0f ) );
 
-		m_scene.AddMesh( m_meshExit );
+		std::shared_ptr< CEntity > exit = std::make_shared< CEntity >( "exit_button" );
+		exit->Mesh( m_meshExit );
+
+		m_scene.AddEntity( exit );
 	}
 }
 

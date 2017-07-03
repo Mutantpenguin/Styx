@@ -150,13 +150,9 @@
       </VirtualDirectory>
       <VirtualDirectory Name="scene">
         <VirtualDirectory Name="components">
-          <File Name="src/engine/scene/components/transformcomponent.hpp" ExcludeProjConfig=""/>
-          <File Name="src/engine/scene/components/cbasecomponent.cpp" ExcludeProjConfig=""/>
-          <File Name="src/engine/scene/components/cbasecomponent.hpp" ExcludeProjConfig=""/>
+          <File Name="src/engine/scene/components/CBaseComponent.hpp"/>
+          <File Name="src/engine/scene/components/CTransformComponent.hpp"/>
         </VirtualDirectory>
-        <File Name="src/engine/scene/centity.cpp" ExcludeProjConfig=""/>
-        <File Name="src/engine/scene/ccomponentsystem.hpp" ExcludeProjConfig=""/>
-        <File Name="src/engine/scene/centity.hpp" ExcludeProjConfig=""/>
         <File Name="src/engine/scene/csystem.hpp" ExcludeProjConfig=""/>
         <File Name="src/engine/scene/ctransformsystem.cpp" ExcludeProjConfig=""/>
         <File Name="src/engine/scene/ctransformsystem.hpp" ExcludeProjConfig=""/>
@@ -164,6 +160,9 @@
         <File Name="src/engine/scene/csystemmanager.hpp" ExcludeProjConfig=""/>
         <File Name="src/engine/scene/CScene.hpp" ExcludeProjConfig=""/>
         <File Name="src/engine/scene/CScene.cpp" ExcludeProjConfig=""/>
+        <File Name="src/engine/scene/CEntity.hpp"/>
+        <File Name="src/engine/scene/CEntity.cpp"/>
+        <File Name="src/engine/scene/CComponentSystem.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="system">
         <File Name="src/engine/system/CFileSystem.cpp"/>

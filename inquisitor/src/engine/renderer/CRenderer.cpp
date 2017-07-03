@@ -164,7 +164,7 @@ CMaterialManager &CRenderer::MaterialManager( void )
 
 void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffer &framebuffer, const CTimer &timer ) const
 {
-	const auto camera = scene.Camera();
+	const auto &camera = scene.Camera();
 
 	if( !camera )
 	{
@@ -179,8 +179,6 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-		const auto &frustum = camera->CalculateFrustum();
-
 		UpdateUniformBuffers( camera, timer );
 
 		/*
@@ -193,18 +191,15 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 		static TRenderBucketMaterials renderBucketMaterialsOpaque;
 		static TRenderBucketMeshes renderBucketMaterialsTranslucent;
 
-		for( const std::shared_ptr< const CMesh > &mesh : scene.Meshes() )
+		for( const auto &mesh : scene.Meshes() )
 		{
-			if( frustum.IsSphereInside( mesh->Position(), mesh->BoundingSphereRadius() ) )
+			if( mesh->Material()->Blending() )
 			{
-				if( mesh->Material()->Blending() )
-				{
-					renderBucketMaterialsTranslucent.push_back( mesh.get() );
-				}
-				else
-				{
-					renderBucketMaterialsOpaque[ mesh->Material().get() ].push_back( mesh.get() );
-				}
+				renderBucketMaterialsTranslucent.push_back( mesh );
+			}
+			else
+			{
+				renderBucketMaterialsOpaque[ mesh->Material().get() ].push_back( mesh );
 			}
 		}
 

@@ -1,11 +1,11 @@
 #ifndef CTRANSFORMSYSTEM_HPP
 #define CTRANSFORMSYSTEM_HPP
 
-#include "ccomponentsystem.hpp"
+#include "CComponentSystem.hpp"
 
-#include "components/transformcomponent.hpp"
+#include "components/CTransformComponent.hpp"
 
-class CTransformSystem : public CComponentSystem<TransformComponent>
+class CTransformSystem : public CComponentSystem<CTransformComponent>
 {
 public:
 	static SystemID systemID;

@@ -31,7 +31,10 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 	m_logoMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material, logoMeshTextures );
 	m_logoMesh->SetScale( { 3.0f, 3.0f, 1.0f } );
 
-	m_scene.AddMesh( m_logoMesh );
+	std::shared_ptr< CEntity > logo = std::make_shared< CEntity >( "logo" );
+	logo->Mesh( m_logoMesh );
+
+	m_scene.AddEntity( logo );
 
 	m_introSound->Play();
 	m_introSound->SetRelativePositioning( true );
