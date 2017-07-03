@@ -1,5 +1,7 @@
 #include "CSoundManager.hpp"
 
+#include <array>
+
 #include "ALHelper.hpp"
 
 #include "src/engine/logger/CLogger.hpp"
