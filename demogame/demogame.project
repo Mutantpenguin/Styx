@@ -28,6 +28,7 @@
     <File Name="materials/pause_bg.mat"/>
     <File Name="materials/standard.mat"/>
     <File Name="materials/standard_blend.mat"/>
+    <File Name="materials/pause_screenshot.mat"/>
   </VirtualDirectory>
   <VirtualDirectory Name="models">
     <VirtualDirectory Name="cubes">
@@ -62,6 +63,7 @@
       <File Name="shaders/fs/superBox.fs.glsl"/>
       <File Name="shaders/fs/schnarf.fs.glsl"/>
       <File Name="shaders/fs/wait_cursor.fs.glsl"/>
+      <File Name="shaders/fs/radial_blur.fs.glsl"/>
     </VirtualDirectory>
     <VirtualDirectory Name="vs">
       <File Name="shaders/vs/reflection.vs.glsl"/>

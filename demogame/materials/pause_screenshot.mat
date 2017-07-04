@@ -1,0 +1,14 @@
+{
+	"name"			:	"radial_blur",
+	"polygonmode"	:	"FILL",
+	"shaders"	:	{
+						"vs" : "shaders/vs/standard.vs.glsl",
+						"fs" : "shaders/fs/radial_blur.fs.glsl"
+					},
+	"uniforms"	:	{
+						"radialSize"	: [ 0.1, 0.1 ],
+						"radialBlur"	: 0.1,
+						"radialBright"	: 1.0,
+						"radialOrigin"	: [ 0.5, 0.5 ]
+					}
+}
