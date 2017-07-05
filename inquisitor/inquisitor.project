@@ -163,6 +163,7 @@
         <File Name="src/engine/scene/CEntity.hpp"/>
         <File Name="src/engine/scene/CEntity.cpp"/>
         <File Name="src/engine/scene/CComponentSystem.hpp"/>
+        <File Name="src/engine/scene/CWorld.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="system">
         <File Name="src/engine/system/CFileSystem.cpp"/>

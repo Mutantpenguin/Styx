@@ -5,6 +5,8 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
+#include "src/engine/scene/CWorld.hpp"
+
 
 CCamera::CCamera( float zNear, float zFar ) :
 	m_zNear { zNear },
@@ -29,7 +31,7 @@ void CCamera::SetPosition( const glm::vec3 &position )
 
 void CCamera::SetDirection( const glm::vec3 &direction )
 {
-	const glm::mat4 RotationMatrix = glm::lookAt( m_position, m_position + direction, worldY );
+	const glm::mat4 RotationMatrix = glm::lookAt( m_position, m_position + direction, CWorld::Y );
 
 	m_orientation = glm::toQuat( RotationMatrix );
 }
@@ -51,12 +53,12 @@ glm::vec3 const &CCamera::Position( void ) const
 
 glm::vec3 const CCamera::Direction( void ) const
 {
-	return( worldZ * m_orientation );
+	return( CWorld::Z * m_orientation );
 }
 
 glm::vec3 const CCamera::Up( void ) const
 {
-	return( worldY * m_orientation );
+	return( CWorld::Y * m_orientation );
 }
 
 const CFrustum CCamera::CalculateFrustum( void ) const

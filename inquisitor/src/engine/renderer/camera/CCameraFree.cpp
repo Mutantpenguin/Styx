@@ -3,6 +3,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 
+#include "src/engine/scene/CWorld.hpp"
+
 CCameraFree::CCameraFree( float aspectRatio, float fov, float zNear, float zFar ) :
 	CCamera( zNear, zFar ),
 	m_aspectRatio { aspectRatio },
@@ -47,12 +49,12 @@ void CCameraFree::MoveBackward( const float distance )
 
 void CCameraFree::MoveUp( const float distance )
 {
-	m_position += worldY * distance;
+	m_position += CWorld::Y * distance;
 }
 
 void CCameraFree::MoveDown( const float distance )
 {
-	m_position -= worldY * distance;
+	m_position -= CWorld::Y * distance;
 }
 
 void CCameraFree::MoveLeft( const float distance )
@@ -67,7 +69,7 @@ void CCameraFree::MoveRight( const float distance )
 
 void CCameraFree::Rotate( const float pitchAngle, const float yawAngle )
 {
-	m_orientation = glm::angleAxis( glm::radians( pitchAngle ), worldX ) * m_orientation * glm::angleAxis( glm::radians( yawAngle ), worldY );
+	m_orientation = glm::angleAxis( glm::radians( pitchAngle ), CWorld::X ) * m_orientation * glm::angleAxis( glm::radians( yawAngle ), CWorld::Y );
 }
 
 const glm::mat4 CCameraFree::CalculateProjectionMatrix( void ) const
