@@ -5,7 +5,7 @@
 
 #include "src/engine/states/CStatePause.hpp"
 
-#include "src/engine/renderer/camera/CCameraFree.hpp"
+#include "src/engine/scene/camera/CCameraFree.hpp"
 
 #include "src/engine/sound/CSoundSource.hpp"
 
@@ -29,9 +29,9 @@ private:
 	float	m_rotx_ps = 0.0f;
 	float	m_roty_ps = 0.0f;
 
-	std::shared_ptr< CMesh >	m_movableMesh;
-	std::shared_ptr< CMesh >	m_skyboxMesh;
-	std::shared_ptr< CMesh >	m_pulseMesh;
+	std::shared_ptr< CEntity >	m_movableEntity;
+	std::shared_ptr< CEntity >	m_skyboxEntity;
+	std::shared_ptr< CEntity >	m_pulseEntity;
 
 	std::shared_ptr< const CSoundSource > m_backgroundMusic;
 };

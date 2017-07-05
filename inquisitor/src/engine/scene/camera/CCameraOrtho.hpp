@@ -3,7 +3,7 @@
 
 #include "src/engine/system/CSettings.hpp"
 
-#include "src/engine/renderer/camera/CCamera.hpp"
+#include "src/engine/scene/camera/CCamera.hpp"
 
 class CCameraOrtho : public CCamera
 {
@@ -12,11 +12,11 @@ private:
 	CCameraOrtho& operator=( const CCameraOrtho& rhs );
 
 public:
-	CCameraOrtho( const CSettings &settings, float zNear, float zFar );
+	CCameraOrtho( const std::string &name, const CSettings &settings, float zNear, float zFar );
 	~CCameraOrtho();
 
 public:
-	virtual const glm::mat4 CalculateProjectionMatrix( void ) const override;
+	virtual const glm::mat4 ProjectionMatrix( void ) const override;
 
 private:
 	const std::uint32_t m_screenWidth;

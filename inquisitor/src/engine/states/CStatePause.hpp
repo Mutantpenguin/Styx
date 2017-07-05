@@ -20,8 +20,8 @@ private:
 
 	const std::shared_ptr< CState > m_pausedState;
 
-	std::shared_ptr< CMesh > m_meshText;
-	std::shared_ptr< CMesh > m_screenshotMesh;
+	std::shared_ptr< CEntity > m_textEntity;
+	std::shared_ptr< CEntity > m_screenshotEntity;
 };
 
 #endif // CSTATEPAUSE_HPP

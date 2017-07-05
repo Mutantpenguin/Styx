@@ -10,7 +10,7 @@
 
 using EntityID = std::uint32_t;
 
-class CEntity final
+class CEntity
 {
 public:
 	CEntity( const std::string &name );
@@ -19,7 +19,7 @@ public:
 	void Mesh( const std::shared_ptr< const CMesh > &mesh );
 	const std::shared_ptr< const CMesh > Mesh( void ) const;
 
-	CTransformComponent Tranform;
+	CTransformComponent Transform;
 
 private:
 	const std::string m_name;

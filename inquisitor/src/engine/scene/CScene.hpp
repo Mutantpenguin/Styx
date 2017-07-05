@@ -5,9 +5,11 @@
 
 #include "src/engine/helper/CColor.hpp"
 
-#include "src/engine/renderer/camera/CCamera.hpp"
-
 #include "src/engine/scene/CEntity.hpp"
+
+#include "src/engine/scene/components/CTransformComponent.hpp"
+
+#include "src/engine/scene/camera/CCamera.hpp"
 
 class CScene
 {
@@ -15,8 +17,7 @@ public:
 	struct MeshInstance
 	{
 		const CMesh * mesh;
-		glm::vec3 position;
-		// TODO tranform CTransformComponent
+		CTransformComponent transform;
 	};
 
 	using TMeshes = std::vector< MeshInstance >;

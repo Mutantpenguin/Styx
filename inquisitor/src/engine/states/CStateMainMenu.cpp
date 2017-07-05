@@ -2,7 +2,7 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "src/engine/renderer/camera/CCameraOrtho.hpp"
+#include "src/engine/scene/camera/CCameraOrtho.hpp"
 
 #include "src/engine/states/CStateGame.hpp"
 
@@ -14,9 +14,9 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	m_buttonChangeSound->SetRelativePositioning( true );
 
 	{
-		auto camera = std::make_shared< CCameraOrtho >( m_settings, 0.1f, 1000.0f );
-		camera->SetPosition( { 0.0f, 0.0f, 500.0f } );
-		camera->SetDirection( { 0.0f, 0.0f, -10.0f } );
+		auto camera = std::make_shared< CCameraOrtho >( "ortho camera", m_settings, 0.1f, 1000.0f );
+		camera->Transform.Position( { 0.0f, 0.0f, 500.0f } );
+		camera->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
 
 		m_scene.Camera( camera );
 	}
@@ -43,7 +43,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 
 		const CMesh::TTextures bgMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/menu/background.jpg" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, material, glm::vec3( 0.0f, 0.0f, 0.0f ), bgMeshTextures );
+		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, material, bgMeshTextures );
 
 		std::shared_ptr< CEntity > bg = std::make_shared< CEntity >( "background" );
 		bg->Mesh( bgMesh );
@@ -69,9 +69,10 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 
 		const CMesh::TTextures titleMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/menu/title.png" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto bgTitleMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, titleMeshPrimitive, material, glm::vec3( windowSize.width / 2.0f, windowSize.height - halfTitleHeight, 5.0f ), titleMeshTextures );
+		const auto bgTitleMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, titleMeshPrimitive, material, titleMeshTextures );
 
 		std::shared_ptr< CEntity > bgTitle = std::make_shared< CEntity >( "title" );
+		bgTitle->Transform.Position( { windowSize.width / 2.0f, windowSize.height - halfTitleHeight, 5.0f } );
 		bgTitle->Mesh( bgTitleMesh );
 
 		m_scene.AddEntity( bgTitle );
@@ -93,23 +94,25 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	{
 		const auto greenMaterial = materialManager.LoadMaterial( "materials/green.mat" );
 
-		m_meshStart = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonMeshPrimitive, greenMaterial, glm::vec3( windowSize.width / 2.0f, 2 * windowSize.height / 4.0f, 10.0f ) );
+		m_startMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonMeshPrimitive, greenMaterial );
 
-		std::shared_ptr< CEntity > start = std::make_shared< CEntity >( "start_button" );
-		start->Mesh( m_meshStart );
+		const auto startEntity = std::make_shared< CEntity >( "start_button" );
+		startEntity->Transform.Position( { windowSize.width / 2.0f, 2 * windowSize.height / 4.0f, 10.0f } );
+		startEntity->Mesh( m_startMesh );
 
-		m_scene.AddEntity( start );
+		m_scene.AddEntity( startEntity );
 	}
 
 	{
 		const auto redMaterial = materialManager.LoadMaterial( "materials/red.mat" );
 
-		m_meshExit = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonMeshPrimitive, redMaterial, glm::vec3( windowSize.width / 2.0f, windowSize.height / 4.0f, 10.0f ) );
+		m_exitMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonMeshPrimitive, redMaterial );
 
-		std::shared_ptr< CEntity > exit = std::make_shared< CEntity >( "exit_button" );
-		exit->Mesh( m_meshExit );
+		const auto exitEntity = std::make_shared< CEntity >( "exit_button" );
+		exitEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height / 4.0f, 10.0f } );
+		exitEntity->Mesh( m_exitMesh );
 
-		m_scene.AddEntity( exit );
+		m_scene.AddEntity( exitEntity );
 	}
 }
 
@@ -143,11 +146,11 @@ std::shared_ptr<CState> CStateMainMenu::Update(void)
 		switch( m_currentState )
 		{
 			case eMenuState::START:
-				m_meshStart->SetScale( { 1.0f, 1.0f, 1.0f } );
+				m_startMesh->Scale( { 1.0f, 1.0f, 1.0f } );
 				m_currentState = eMenuState::EXIT;
 				break;
 			case eMenuState::EXIT:
-				m_meshExit->SetScale( { 1.0f, 1.0f, 1.0f } );
+				m_exitMesh->Scale( { 1.0f, 1.0f, 1.0f } );
 				m_currentState = eMenuState::START;
 				break;
 		}
@@ -166,10 +169,10 @@ std::shared_ptr<CState> CStateMainMenu::Update(void)
 		switch( m_currentState )
 		{
 			case eMenuState::START:
-				m_meshStart->SetScale( buttonPulseVec3 );
+				m_startMesh->Scale( buttonPulseVec3 );
 				break;
 			case eMenuState::EXIT:
-				m_meshExit->SetScale( buttonPulseVec3 );
+				m_exitMesh->Scale( buttonPulseVec3 );
 				break;
 		}
 	}
