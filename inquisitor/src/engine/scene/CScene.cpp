@@ -18,9 +18,9 @@ void CScene::RemoveEntity( const std::shared_ptr< const CEntity > &entity )
 	m_entities.erase( std::remove( std::begin( m_entities ), std::end( m_entities ), entity ), std::end( m_entities ) );
 }
 
-const std::vector< const CMesh * > &CScene::Meshes( void ) const
+const CScene::TMeshes &CScene::Meshes( void ) const
 {
-	static std::vector< const CMesh * > meshes( 5000 );
+	static CScene::TMeshes meshes;
 	meshes.clear();
 
 	const auto &frustum = m_camera->CalculateFrustum();
@@ -31,9 +31,11 @@ const std::vector< const CMesh * > &CScene::Meshes( void ) const
 
 		if( mesh )
 		{
+			// TODO implement Octree here
 			if( frustum.IsSphereInside( mesh->Position(), mesh->BoundingSphereRadius() ) )
 			{
-				meshes.push_back( mesh );
+				// TODO tranform
+				meshes.push_back( { mesh, { 1.0f, 1.0f, 1.0f } } );
 			}
 		}
 	}

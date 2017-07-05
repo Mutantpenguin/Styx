@@ -58,9 +58,7 @@ public:
 	};
 
 private:
-	// TODO order by mesh?
-	using TRenderBucketMeshes		= std::vector< const CMesh * >;
-	using TRenderBucketMaterials	= std::unordered_map< const CMaterial *, TRenderBucketMeshes >;
+	using TRenderBucket	= std::vector< CScene::MeshInstance >;
 
 	const	CSettings &m_settings;
 
@@ -74,8 +72,7 @@ private:
 	void CreateUniformBuffers( void );
 	void UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const CTimer &timer ) const;
 
-	void RenderBucketMeshes( const TRenderBucketMeshes &bucketMeshes, const glm::mat4 &viewProjectionMatrix ) const;
-	void RenderBucketMaterials( const TRenderBucketMaterials &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const;
+	void RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const;
 	void RenderMesh( const CMesh * const mesh, const glm::mat4 &viewProjectionMatrix, const CShaderProgram * const shader ) const;
 
 	std::shared_ptr< CUniformBuffer > m_uboCamera;

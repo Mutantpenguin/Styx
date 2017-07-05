@@ -188,39 +188,45 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 		// static buckets so whe don't need to allocate new memory on every frame
 		// get cleared at the end of this function
 
-		static TRenderBucketMaterials renderBucketMaterialsOpaque;
-		static TRenderBucketMeshes renderBucketMaterialsTranslucent;
+		static TRenderBucket renderBucketMaterialsOpaque;
+		renderBucketMaterialsOpaque.clear();
 
-		for( const auto &mesh : scene.Meshes() )
+		static TRenderBucket renderBucketMaterialsTranslucent;
+		renderBucketMaterialsTranslucent.clear();
+
+		for( const auto &meshInstance : scene.Meshes() )
 		{
-			if( mesh->Material()->Blending() )
+			if( meshInstance.mesh->Material()->Blending() )
 			{
-				renderBucketMaterialsTranslucent.push_back( mesh );
+				renderBucketMaterialsTranslucent.push_back( meshInstance );
 			}
 			else
 			{
-				renderBucketMaterialsOpaque[ mesh->Material().get() ].push_back( mesh );
+				renderBucketMaterialsOpaque.push_back( meshInstance );
 			}
 		}
 
 		const glm::mat4 viewProjectionMatrix = camera->CalculateViewProjectionMatrix();
 
-		RenderBucketMaterials( renderBucketMaterialsOpaque, viewProjectionMatrix );
+		/* TODO this makes everything slower
+		std::sort( std::begin( renderBucketMaterialsOpaque ), std::end( renderBucketMaterialsOpaque ),	[]( const CScene::MeshInstance &a, const CScene::MeshInstance &b ) -> bool
+																										{
+																											return( a.mesh->Material() > b.mesh->Material() );
+																										} );
+		//*/
 
-		renderBucketMaterialsOpaque.clear();
+		RenderBucket( renderBucketMaterialsOpaque, viewProjectionMatrix );
 
 		const glm::vec3 &cameraPosition = camera->Position();
 
 		// TODO multithreaded?
 		// sort translucent back to front
-		std::sort( std::begin( renderBucketMaterialsTranslucent ), std::end( renderBucketMaterialsTranslucent ),	[&cameraPosition]( const CMesh * const a, const CMesh * const b ) -> bool
+		std::sort( std::begin( renderBucketMaterialsTranslucent ), std::end( renderBucketMaterialsTranslucent ),	[&cameraPosition]( const CScene::MeshInstance &a, const CScene::MeshInstance &b ) -> bool
 																													{
-																														return( glm::length2( a->Position() - cameraPosition ) > glm::length2( b->Position() - cameraPosition ) );
+																														return( glm::length2( a.mesh->Position() - cameraPosition ) > glm::length2( b.mesh->Position() - cameraPosition ) );
 																													} );
 
-		RenderBucketMeshes( renderBucketMaterialsTranslucent, viewProjectionMatrix );
-
-		renderBucketMaterialsTranslucent.clear();
+		RenderBucket( renderBucketMaterialsTranslucent, viewProjectionMatrix );
 
 		framebuffer.Unbind();
 	}
@@ -245,32 +251,25 @@ void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
 	vao.Draw();
 }
 
-void CRenderer::RenderBucketMeshes( const TRenderBucketMeshes &bucketMeshes, const glm::mat4 &viewProjectionMatrix ) const
+void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const
 {
-	for( const auto * bucketMesh : bucketMeshes )
+	std::shared_ptr< const CMaterial > currentMaterial { nullptr };
+
+	for( const auto &meshInstance : bucketMaterials )
 	{
-		const CMaterial * const material = bucketMesh->Material().get();
+		const auto material = meshInstance.mesh->Material();
 
-		material->Setup();
-
-		const auto shader = material->Shader().get();
-
-		RenderMesh( bucketMesh, viewProjectionMatrix, shader );
-	}
-}
-
-void CRenderer::RenderBucketMaterials( const TRenderBucketMaterials &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const
-{
-	for( const auto & [ material, meshes ] : bucketMaterials )
-	{
-		material->Setup();
-
-		const auto shader = material->Shader().get();
-
-		for( const auto * mesh : meshes )
+		if( currentMaterial.get() != material.get() )
 		{
-			RenderMesh( mesh, viewProjectionMatrix, shader );
+			material->Setup();
+			currentMaterial = material;
 		}
+
+
+		// TODO this isn't really good code architecture
+		const auto shader = material->Shader().get();
+
+		RenderMesh( meshInstance.mesh, viewProjectionMatrix, shader );
 	}
 }
 
