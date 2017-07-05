@@ -7,6 +7,9 @@
 
 #include "components/CTransformComponent.hpp"
 
+/* TODO maybe delete?
+ *
+
 glm::vec3 CTransformSystem::GetPosition( EntityID id ) const
 {
 	const auto it = m_components.find( id );
@@ -39,3 +42,4 @@ void CSystem::Update( const double )
 }
 
 SystemID CTransformSystem::systemID = -1;
+*/

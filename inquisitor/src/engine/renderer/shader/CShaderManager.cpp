@@ -4,7 +4,6 @@
 
 #include <glbinding/Meta.h>
 
-#include "src/engine/renderer/camera/CCamera.hpp"
 #include "src/engine/renderer/GLHelper.hpp"
 
 #include "src/engine/logger/CLogger.hpp"

@@ -5,7 +5,7 @@
 
 #include "src/engine/system/CTimer.hpp"
 
-#include "src/engine/renderer/camera/CCamera.hpp"
+#include "src/engine/scene/camera/CCamera.hpp"
 
 #include "src/engine/renderer/model/CMesh.hpp"
 
@@ -73,7 +73,9 @@ private:
 	void UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const CTimer &timer ) const;
 
 	void RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const;
-	void RenderMesh( const CMesh * const mesh, const glm::mat4 &viewProjectionMatrix, const CShaderProgram * const shader ) const;
+	void RenderMesh( const CScene::MeshInstance &meshInstance, const glm::mat4 &viewProjectionMatrix, const CShaderProgram * const shader ) const;
+
+	glm::mat4 CalculateModelMatrix( const CScene::MeshInstance &meshInstance ) const;
 
 	std::shared_ptr< CUniformBuffer > m_uboCamera;
 	std::shared_ptr< CUniformBuffer > m_uboTimer;

@@ -89,10 +89,8 @@
         <File Name="src/engine/renderer/GLHelper.hpp"/>
         <File Name="src/engine/renderer/CVAO.hpp"/>
         <File Name="src/engine/renderer/CGLState.hpp"/>
-        <File Name="src/engine/renderer/CFrustum.hpp"/>
         <File Name="src/engine/renderer/CVAO.cpp"/>
         <File Name="src/engine/renderer/GLHelper.cpp"/>
-        <File Name="src/engine/renderer/CFrustum.cpp"/>
         <File Name="src/engine/renderer/GL.h"/>
         <File Name="src/engine/renderer/CRenderer.hpp"/>
         <File Name="src/engine/renderer/CRenderer.cpp"/>
@@ -104,14 +102,6 @@
           <File Name="src/engine/renderer/sampler/CSamplerManager.cpp"/>
           <File Name="src/engine/renderer/sampler/CSampler.hpp"/>
           <File Name="src/engine/renderer/sampler/CSampler.cpp"/>
-        </VirtualDirectory>
-        <VirtualDirectory Name="camera">
-          <File Name="src/engine/renderer/camera/CCamera.cpp"/>
-          <File Name="src/engine/renderer/camera/CCamera.hpp"/>
-          <File Name="src/engine/renderer/camera/CCameraFree.hpp"/>
-          <File Name="src/engine/renderer/camera/CCameraFree.cpp"/>
-          <File Name="src/engine/renderer/camera/CCameraOrtho.hpp"/>
-          <File Name="src/engine/renderer/camera/CCameraOrtho.cpp"/>
         </VirtualDirectory>
         <File Name="src/engine/renderer/COpenGlAdapter.cpp"/>
         <File Name="src/engine/renderer/COpenGlAdapter.hpp"/>
@@ -152,6 +142,7 @@
         <VirtualDirectory Name="components">
           <File Name="src/engine/scene/components/CBaseComponent.hpp"/>
           <File Name="src/engine/scene/components/CTransformComponent.hpp"/>
+          <File Name="src/engine/scene/components/CTransformComponent.cpp"/>
         </VirtualDirectory>
         <File Name="src/engine/scene/csystem.hpp" ExcludeProjConfig=""/>
         <File Name="src/engine/scene/ctransformsystem.cpp" ExcludeProjConfig=""/>
@@ -164,6 +155,16 @@
         <File Name="src/engine/scene/CEntity.cpp"/>
         <File Name="src/engine/scene/CComponentSystem.hpp"/>
         <File Name="src/engine/scene/CWorld.hpp"/>
+        <File Name="src/engine/scene/CFrustum.cpp"/>
+        <File Name="src/engine/scene/CFrustum.hpp"/>
+        <VirtualDirectory Name="camera">
+          <File Name="src/engine/scene/camera/CCamera.cpp"/>
+          <File Name="src/engine/scene/camera/CCamera.hpp"/>
+          <File Name="src/engine/scene/camera/CCameraFree.cpp"/>
+          <File Name="src/engine/scene/camera/CCameraFree.hpp"/>
+          <File Name="src/engine/scene/camera/CCameraOrtho.cpp"/>
+          <File Name="src/engine/scene/camera/CCameraOrtho.hpp"/>
+        </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="system">
         <File Name="src/engine/system/CFileSystem.cpp"/>
@@ -278,6 +279,7 @@
     <File Name="README"/>
     <File Name="doxyfile"/>
     <File Name="asan_symbolize.py"/>
+    <File Name="TODO"/>
   </VirtualDirectory>
   <Dependencies Name="Debug"/>
   <Dependencies Name="Profile"/>

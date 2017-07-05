@@ -1,7 +1,7 @@
 #ifndef CCAMERAFREE_HPP
 #define CCAMERAFREE_HPP
 
-#include "CCamera.hpp"
+#include "src/engine/scene/camera/CCamera.hpp"
 
 class CCameraFree final : public CCamera
 {
@@ -10,7 +10,7 @@ private:
 	CCameraFree& operator=(const CCameraFree& rhs);
 
 public:
-	CCameraFree( float aspectRatio, float fov, float zNear, float zFar );
+	CCameraFree( const std::string &name, float aspectRatio, float fov, float zNear, float zFar );
 	~CCameraFree();
 
 	void	SetFOV( float fov );
@@ -25,7 +25,7 @@ public:
 
 	void	Rotate( const float pitchAngle, const float yawAngle );
 
-	virtual const glm::mat4 CalculateProjectionMatrix( void ) const override;
+	virtual const glm::mat4 ProjectionMatrix( void ) const override;
 
 private:
 	const float	m_aspectRatio;

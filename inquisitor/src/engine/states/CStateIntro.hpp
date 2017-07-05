@@ -24,7 +24,7 @@ private:
 
 	const float m_introDuration;
 
-	std::shared_ptr< CMesh > m_logoMesh;
+	std::shared_ptr< CEntity > m_logoEntity;
 };
 
 #endif // CSTATEINTRO_HPP

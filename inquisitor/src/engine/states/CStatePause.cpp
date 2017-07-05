@@ -2,7 +2,7 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "src/engine/renderer/camera/CCameraOrtho.hpp"
+#include "src/engine/scene/camera/CCameraOrtho.hpp"
 
 #include "src/engine/states/CStateMainMenu.hpp"
 
@@ -16,9 +16,9 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	auto &renderer = engineSystems.Renderer;
 
 	{
-		auto camera = std::make_shared< CCameraOrtho >( m_settings, 0.1f, 1000.0f );
-		camera->SetPosition( { 0.0f, 0.0f, 500.0f } );
-		camera->SetDirection( { 0.0f, 0.0f, -10.0f } );
+		auto camera = std::make_shared< CCameraOrtho >( "ortho camera", m_settings, 0.1f, 1000.0f );
+		camera->Transform.Position( { 0.0f, 0.0f, 500.0f } );
+		camera->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
 
 		m_scene.Camera( camera );
 	}
@@ -40,7 +40,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 		const CMesh::TTextures bgMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/pause/bg.png" ), renderer.SamplerManager().SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, materialPause, glm::vec3( 0.0f, 0.0f, 0.0f ), bgMeshTextures );
+		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, materialPause, bgMeshTextures );
 
 		std::shared_ptr< CEntity > bg = std::make_shared< CEntity >( "background" );
 		bg->Mesh( bgMesh );
@@ -69,12 +69,13 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 			const CMesh::TTextures textMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/pause/fg.png" ), renderer.SamplerManager().SamplerFromSamplerType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-			m_meshText = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, pauseTextMeshPrimitive, materialPauseText, glm::vec3( windowSize.width / 2.0f, windowSize.height - ( 2 * halfPauseTextHeight ) - ( 2 * halfScreenshotHeight ), 5.0f ), textMeshTextures );
+			const auto meshText = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, pauseTextMeshPrimitive, materialPauseText, textMeshTextures );
 
-			std::shared_ptr< CEntity > text = std::make_shared< CEntity >( "text" );
-			text->Mesh( m_meshText );
+			m_textEntity = std::make_shared< CEntity >( "text" );
+			m_textEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height - ( 2 * halfPauseTextHeight ) - ( 2 * halfScreenshotHeight ), 5.0f } );
+			m_textEntity->Mesh( meshText );
 
-			m_scene.AddEntity( text );
+			m_scene.AddEntity( m_textEntity );
 		}
 
 		{
@@ -92,12 +93,13 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 			const CMesh::TTextures screenshotMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( m_pausedState->FrameBuffer().ColorTexture(), renderer.SamplerManager().SamplerFromSamplerType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-			m_screenshotMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, screenshotMeshPrimitive, materialPauseText, glm::vec3( windowSize.width / 2.0f, windowSize.height - halfPauseTextHeight - halfScreenshotHeight, 5.0f ), screenshotMeshTextures );
+			const auto screenshotMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, screenshotMeshPrimitive, materialPauseText, screenshotMeshTextures );
 
-			std::shared_ptr< CEntity > screenshot = std::make_shared< CEntity >( "screenshot" );
-			screenshot->Mesh( m_screenshotMesh );
+			m_screenshotEntity = std::make_shared< CEntity >( "screenshot" );
+			m_screenshotEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height - halfPauseTextHeight - halfScreenshotHeight, 5.0f } );
+			m_screenshotEntity->Mesh( screenshotMesh );
 
-			m_scene.AddEntity( screenshot );
+			m_scene.AddEntity( m_screenshotEntity );
 		}
 	}
 }
@@ -110,13 +112,13 @@ std::shared_ptr< CState > CStatePause::Update( void )
 {
 	const auto yOffset = ( sin( m_engineSystems.GlobalTimer.Time() / 2000000.0 ) * 0.5f );
 
-	auto posText = m_meshText->Position();
+	auto posText = m_textEntity->Transform.Position();
 	posText.y -= yOffset;
-	m_meshText->SetPosition( posText );
+	m_textEntity->Transform.Position( posText );
 
-	auto posScreenshot = m_screenshotMesh->Position();
+	auto posScreenshot = m_screenshotEntity->Transform.Position();
 	posScreenshot.y -= yOffset;
-	m_screenshotMesh->SetPosition( posScreenshot );
+	m_screenshotEntity->Transform.Position( posScreenshot );
 
 	const auto &input = m_engineSystems.Input;
 

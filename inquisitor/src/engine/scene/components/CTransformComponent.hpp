@@ -4,11 +4,23 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-struct CTransformComponent
+class CTransformComponent final
 {
-	glm::vec3	position	{ 0.0f, 0.0f, 0.0f };
-	glm::quat	orientation	{ 1.0f, 0.0f, 0.0f, 0.0f };
-	glm::vec3	scale		{ 1.0f, 1.0f, 1.0f };
+public:
+	void Position( const glm::vec3 &position );
+	glm::vec3 const &Position( void ) const;
+	
+	void Orientation( const glm::quat &orientation );
+	const glm::quat &Orientation( void ) const;
+
+	void Direction( const glm::vec3 &direction );
+	glm::vec3 const Direction( void ) const;
+
+	const glm::mat4 ViewMatrix( void ) const;
+
+private:
+	glm::vec3	m_position		{ 0.0f, 0.0f, 0.0f };
+	glm::quat	m_orientation	{ 1.0f, 0.0f, 0.0f, 0.0f };
 };
 
 #endif // TRANSFORMCOMPONENT_HPP

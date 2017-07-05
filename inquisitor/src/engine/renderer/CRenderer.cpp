@@ -4,6 +4,7 @@
 
 #include <glm/gtx/norm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <glbinding/Meta.h>
 
@@ -115,11 +116,11 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &ca
 	 * Update calculated values into the uniform buffer
 	 */
 
-	const glm::vec3 &position = camera->Position();
-	const glm::vec3 &direction = camera->Direction();
-	const glm::mat4 &projectionMatrix = camera->CalculateProjectionMatrix();
-	const glm::mat4 &viewMatrix = camera->CalculateViewMatrix();
-	const glm::mat4 &viewProjectionMatrix = camera->CalculateViewProjectionMatrix();
+	const glm::vec3 &position = camera->Transform.Position();
+	const glm::vec3 &direction = camera->Transform.Direction();
+	const glm::mat4 &projectionMatrix = camera->ProjectionMatrix();
+	const glm::mat4 &viewMatrix = camera->Transform.ViewMatrix();
+	const glm::mat4 &viewProjectionMatrix = camera->ViewProjectionMatrix();
 
 	std::uint32_t offset = 0;
 	m_uboCamera->SubData( offset,	sizeof( position ),				glm::value_ptr( position ) );
@@ -206,7 +207,7 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 			}
 		}
 
-		const glm::mat4 viewProjectionMatrix = camera->CalculateViewProjectionMatrix();
+		const glm::mat4 viewProjectionMatrix = camera->ViewProjectionMatrix();
 
 		/* TODO this makes everything slower
 		std::sort( std::begin( renderBucketMaterialsOpaque ), std::end( renderBucketMaterialsOpaque ),	[]( const CScene::MeshInstance &a, const CScene::MeshInstance &b ) -> bool
@@ -217,13 +218,13 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 
 		RenderBucket( renderBucketMaterialsOpaque, viewProjectionMatrix );
 
-		const glm::vec3 &cameraPosition = camera->Position();
+		const glm::vec3 &cameraPosition = camera->Transform.Position();
 
 		// TODO multithreaded?
 		// sort translucent back to front
 		std::sort( std::begin( renderBucketMaterialsTranslucent ), std::end( renderBucketMaterialsTranslucent ),	[&cameraPosition]( const CScene::MeshInstance &a, const CScene::MeshInstance &b ) -> bool
 																													{
-																														return( glm::length2( a.mesh->Position() - cameraPosition ) > glm::length2( b.mesh->Position() - cameraPosition ) );
+																														return( glm::length2( a.transform.Position() - cameraPosition ) > glm::length2( b.transform.Position() - cameraPosition ) );
 																													} );
 
 		RenderBucket( renderBucketMaterialsTranslucent, viewProjectionMatrix );
@@ -253,47 +254,75 @@ void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
 
 void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const
 {
+	const CMesh * currentMesh = nullptr;
 	std::shared_ptr< const CMaterial > currentMaterial { nullptr };
+
+	const CShaderProgram * currentShader = nullptr;
 
 	for( const auto &meshInstance : bucketMaterials )
 	{
-		const auto material = meshInstance.mesh->Material();
+		const auto mesh = meshInstance.mesh;
 
-		if( currentMaterial.get() != material.get() )
+		if( currentMesh != mesh )
 		{
-			material->Setup();
-			currentMaterial = material;
+			currentMesh = mesh;
+
+			const auto material = mesh->Material();
+
+			if( currentMaterial.get() != material.get() )
+			{
+				currentMaterial = material;
+				material->Setup();
+
+				currentShader = material->Shader().get();
+			}
+
+			mesh->BindTextures();
 		}
 
-
-		// TODO this isn't really good code architecture
-		const auto shader = material->Shader().get();
-
-		RenderMesh( meshInstance.mesh, viewProjectionMatrix, shader );
+		RenderMesh( meshInstance, viewProjectionMatrix, currentShader );
 	}
 }
 
-void CRenderer::RenderMesh( const CMesh * const mesh, const glm::mat4 &viewProjectionMatrix, const CShaderProgram * const shader ) const
+void CRenderer::RenderMesh( const CScene::MeshInstance &meshInstance, const glm::mat4 &viewProjectionMatrix, const CShaderProgram * const shader ) const
 {
-	mesh->BindTextures();
-
+	// TODO this isn't really good code architecture
 	for( const auto & [ location, engineUniform ] : shader->RequiredEngineUniforms() )
 	{
 		switch( engineUniform )
 		{
 			case EEngineUniform::modelViewProjectionMatrix:
-				glUniformMatrix4fv( location, 1, GL_FALSE, &( viewProjectionMatrix * mesh->ModelMatrix() )[ 0 ][ 0 ] );
+				glUniformMatrix4fv( location, 1, GL_FALSE, &( viewProjectionMatrix * CalculateModelMatrix( meshInstance ) )[ 0 ][ 0 ] );
 				break;
 
 			case EEngineUniform::modelMatrix:
-				glUniformMatrix4fv( location, 1, GL_FALSE, &mesh->ModelMatrix()[ 0 ][ 0 ] );
+				glUniformMatrix4fv( location, 1, GL_FALSE, &CalculateModelMatrix( meshInstance )[ 0 ][ 0 ] );
 				break;
 		}
 	}
 
-	const CVAO &vao = mesh->VAO();
+	const CVAO &vao = meshInstance.mesh->VAO();
 
 	vao.Bind();
 
 	vao.Draw();
 }
+
+[[nodiscard]] glm::mat4 CRenderer::CalculateModelMatrix( const CScene::MeshInstance &meshInstance ) const
+{
+	const auto &transform = meshInstance.transform;
+
+	glm::mat4 modelMatrix = glm::mat4();
+
+	modelMatrix = glm::translate( modelMatrix, transform.Position() );
+
+	const auto &orientation = transform.Orientation();
+
+	const glm::vec3 rotationRadians = glm::vec3( glm::radians( orientation.x ), glm::radians( orientation.y ), glm::radians( orientation.z ) );
+	modelMatrix = modelMatrix * glm::toMat4( glm::quat( rotationRadians ) );
+
+	modelMatrix = glm::scale( modelMatrix, meshInstance.mesh->Scale() );
+
+	return( modelMatrix );
+}
+

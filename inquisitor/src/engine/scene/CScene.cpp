@@ -23,7 +23,7 @@ const CScene::TMeshes &CScene::Meshes( void ) const
 	static CScene::TMeshes meshes;
 	meshes.clear();
 
-	const auto &frustum = m_camera->CalculateFrustum();
+	const auto &frustum = m_camera->Frustum();
 
 	for( const auto &entity : m_entities )
 	{
@@ -32,10 +32,9 @@ const CScene::TMeshes &CScene::Meshes( void ) const
 		if( mesh )
 		{
 			// TODO implement Octree here
-			if( frustum.IsSphereInside( mesh->Position(), mesh->BoundingSphereRadius() ) )
+			if( frustum.IsSphereInside( entity->Transform.Position(), mesh->BoundingSphereRadius() ) )
 			{
-				// TODO tranform
-				meshes.push_back( { mesh, { 1.0f, 1.0f, 1.0f } } );
+				meshes.push_back( { mesh, entity->Transform } );
 			}
 		}
 	}

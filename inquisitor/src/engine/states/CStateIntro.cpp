@@ -4,7 +4,7 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "src/engine/renderer/camera/CCameraFree.hpp"
+#include "src/engine/scene/camera/CCameraFree.hpp"
 
 CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems ) :
 	CState( "intro", filesystem, settings, engineSystems ),
@@ -17,9 +17,9 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 	auto &renderer = m_engineSystems.Renderer;
 
 	{
-		auto camera = std::make_shared< CCameraFree >( m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
-		camera->SetPosition( { 0.0f, 0.0f, 5.0f } );
-		camera->SetDirection( { 0.0f, 0.0f, -10.0f } );
+		auto camera = std::make_shared< CCameraFree >( "free camera", m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
+		camera->Transform.Position( { 0.0f, 0.0f, 5.0f } );
+		camera->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
 
 		m_scene.Camera( camera );
 	}
@@ -28,13 +28,12 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	const CMesh::TTextures logoMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/styx/logo.png" ), renderer.SamplerManager().SamplerFromSamplerType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-	m_logoMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material, logoMeshTextures );
-	m_logoMesh->SetScale( { 3.0f, 3.0f, 1.0f } );
+	const auto logoMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material, glm::vec3( 3.0f, 3.0f, 1.0f ), logoMeshTextures );
 
-	std::shared_ptr< CEntity > logo = std::make_shared< CEntity >( "logo" );
-	logo->Mesh( m_logoMesh );
+	m_logoEntity = std::make_shared< CEntity >( "logo" );
+	m_logoEntity->Mesh( logoMesh );
 
-	m_scene.AddEntity( logo );
+	m_scene.AddEntity( m_logoEntity );
 
 	m_introSound->Play();
 	m_introSound->SetRelativePositioning( true );
@@ -48,10 +47,10 @@ std::shared_ptr< CState > CStateIntro::Update( void )
 {
 	const std::uint64_t elapsedTime = m_engineSystems.GlobalTimer.Time() - m_startTime;
 
-	glm::vec3 meshPosition = m_logoMesh->Position();
-	meshPosition.z = elapsedTime / m_introDuration;
-	meshPosition.y = elapsedTime / m_introDuration;
-	m_logoMesh->SetPosition( meshPosition );
+	glm::vec3 entityPosition = m_logoEntity->Transform.Position();
+	entityPosition.z = elapsedTime / m_introDuration;
+	entityPosition.y = elapsedTime / m_introDuration;
+	m_logoEntity->Transform.Position( entityPosition );
 
 	const float fadeDuration = m_introDuration * 0.66666f ;
 	const float colorComponent = ( fadeDuration - elapsedTime ) / fadeDuration;
