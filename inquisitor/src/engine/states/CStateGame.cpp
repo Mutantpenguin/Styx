@@ -19,13 +19,13 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	m_cameraFree = std::make_shared< CCameraFree >( "free camera", m_settings.renderer.window.aspect_ratio, 72.0f, 0.1f, 1000.0f );
 	m_cameraFree->Transform.Position( { 0.0f, 10.0f, 10.0f } );
-	m_cameraFree->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
+	m_cameraFree->Direction( { 0.0f, 0.0f, -10.0f } );
 
 	m_scene.Camera( m_cameraFree );
 
 	auto &soundManager = m_engineSystems.SoundManager;
 
-	soundManager.SetListener( m_cameraFree->Transform.Position(), m_cameraFree->Transform.Direction(), m_cameraFree->Up() );
+	soundManager.SetListener( m_cameraFree->Transform.Position(), m_cameraFree->Direction(), m_cameraFree->Up() );
 
 	auto &materialManager = renderer.MaterialManager();
 	auto &textureManager = renderer.TextureManager();
@@ -46,11 +46,11 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const auto floorMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, floorMeshPrimitive, material, glm::vec3( 100.0f, 100.0f, 100.0f ), floorMeshTextures );
 
-		std::shared_ptr< CEntity > floor = std::make_shared< CEntity >( "floor" );
-		floor->Mesh( floorMesh );
-		floor->Transform.Direction( { -45.0f, 0.0f, 0.0f } );
+		const auto floorEntity = std::make_shared< CEntity >( "floor" );
+		floorEntity->Mesh( floorMesh );
+		floorEntity->Transform.Rotate( 90.0f, 0.0f, 0.0f );
 
-		m_scene.AddEntity( floor );
+		m_scene.AddEntity( floorEntity );
 	}
 
 	//auto material2 = materialManager.LoadMaterial( "materials/flames.mat" );
@@ -373,7 +373,7 @@ std::shared_ptr< CState > CStateGame::Update( void )
 		m_cameraFree->MoveDown( spp * ctrlPressedMult );
 	}
 
-	soundManager.SetListener( m_cameraFree->Transform.Position(), m_cameraFree->Transform.Direction(), m_cameraFree->Up() );
+	soundManager.SetListener( m_cameraFree->Transform.Position(), m_cameraFree->Direction(), m_cameraFree->Up() );
 
 	/*
 	 * change FOV
@@ -382,7 +382,7 @@ std::shared_ptr< CState > CStateGame::Update( void )
 	{
 		auto fov = m_cameraFree->FOV();
 		fov++;
-		m_cameraFree->SetFOV( fov );
+		m_cameraFree->FOV( fov );
 		logDEBUG( "new FOV: {0}", fov );
 
 	}
@@ -390,7 +390,7 @@ std::shared_ptr< CState > CStateGame::Update( void )
 	{
 		auto fov = m_cameraFree->FOV();
 		fov--;
-		m_cameraFree->SetFOV( fov );
+		m_cameraFree->FOV( fov );
 		logDEBUG( "new FOV: {0}", fov );
 	}
 
@@ -438,16 +438,13 @@ std::shared_ptr< CState > CStateGame::Update( void )
 
 	if( !input.MouseStillDown( SDL_BUTTON_LEFT) )
 	{
-		m_movableEntity->Transform.Orientation( glm::vec3( m_yrot / 2, m_xrot / 2, 0.0f ) );
+		m_movableEntity->Transform.Rotate( m_roty_ps, m_rotx_ps, 0.0f );
 	}
 
 	m_rotx_ps = input.MouseDeltaX();
 	m_roty_ps = input.MouseDeltaY();
 
-	m_xrot += m_rotx_ps;
-	m_yrot += m_roty_ps;
-
-	// TODO m_cameraFree->SetDirection( m_movableMesh->Position() - m_cameraFree->Position() );
+	// TODO m_cameraFree->Direction( m_movableEntity->Transform.Position() - m_cameraFree->Transform.Position() );
 
 	m_skyboxEntity->Transform.Position( m_cameraFree->Transform.Position() );
 

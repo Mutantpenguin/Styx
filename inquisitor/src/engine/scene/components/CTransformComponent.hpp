@@ -8,15 +8,14 @@ class CTransformComponent final
 {
 public:
 	void Position( const glm::vec3 &position );
-	glm::vec3 const &Position( void ) const;
+	[[nodiscard]] const glm::vec3 &Position( void ) const;
 	
 	void Orientation( const glm::quat &orientation );
-	const glm::quat &Orientation( void ) const;
+	[[nodiscard]] const glm::quat &Orientation( void ) const;
 
-	void Direction( const glm::vec3 &direction );
-	glm::vec3 const Direction( void ) const;
+	void Rotate( const float pitchAngle, const float yawAngle, const float rollAngle );
 
-	const glm::mat4 ViewMatrix( void ) const;
+	[[nodiscard]] const glm::mat4 ViewMatrix( void ) const;
 
 private:
 	glm::vec3	m_position		{ 0.0f, 0.0f, 0.0f };

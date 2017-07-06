@@ -18,7 +18,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	{
 		auto camera = std::make_shared< CCameraOrtho >( "ortho camera", m_settings, 0.1f, 1000.0f );
 		camera->Transform.Position( { 0.0f, 0.0f, 500.0f } );
-		camera->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
+		camera->Direction( { 0.0f, 0.0f, -10.0f } );
 
 		m_scene.Camera( camera );
 	}

@@ -19,7 +19,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 	{
 		auto camera = std::make_shared< CCameraFree >( "free camera", m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
 		camera->Transform.Position( { 0.0f, 0.0f, 5.0f } );
-		camera->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
+		camera->Direction( { 0.0f, 0.0f, -10.0f } );
 
 		m_scene.Camera( camera );
 	}

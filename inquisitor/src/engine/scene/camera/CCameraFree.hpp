@@ -13,8 +13,8 @@ public:
 	CCameraFree( const std::string &name, float aspectRatio, float fov, float zNear, float zFar );
 	~CCameraFree();
 
-	void	SetFOV( float fov );
-	float	FOV( void ) const;
+	void FOV( float fov );
+	[[nodiscard]] float FOV( void ) const;
 
 	void	MoveForward( const float distance );
 	void	MoveBackward( const float distance );
@@ -23,9 +23,9 @@ public:
 	void	MoveLeft( const float distance );
 	void	MoveRight( const float distance );
 
-	void	Rotate( const float pitchAngle, const float yawAngle );
+	void Rotate( const float pitchAngle, const float yawAngle );
 
-	virtual const glm::mat4 ProjectionMatrix( void ) const override;
+	[[nodiscard]] virtual const glm::mat4 ProjectionMatrix( void ) const override;
 
 private:
 	const float	m_aspectRatio;

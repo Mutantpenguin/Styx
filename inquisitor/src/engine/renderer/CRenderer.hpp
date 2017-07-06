@@ -73,9 +73,8 @@ private:
 	void UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const CTimer &timer ) const;
 
 	void RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const;
-	void RenderMesh( const CScene::MeshInstance &meshInstance, const glm::mat4 &viewProjectionMatrix, const CShaderProgram * const shader ) const;
 
-	glm::mat4 CalculateModelMatrix( const CScene::MeshInstance &meshInstance ) const;
+	[[nodiscard]] glm::mat4 CalculateModelMatrix( const CTransformComponent &transform, const glm::vec3 &scale ) const;
 
 	std::shared_ptr< CUniformBuffer > m_uboCamera;
 	std::shared_ptr< CUniformBuffer > m_uboTimer;

@@ -14,18 +14,21 @@ class CCamera : public CEntity
 public:
 	CCamera( const std::string &name, float zNear, float zFar );
 
-	void	SetZNear( float zNear );
-	void	SetZFar( float zFar );
+	void	ZNear( float zNear );
+	[[nodiscard]] float	ZNear( void ) const;
 
-	float	ZNear( void ) const;
-	float	ZFar( void ) const;
+	void	ZFar( float zFar );
+	[[nodiscard]]float	ZFar( void ) const;
 
-	glm::vec3	const  Up( void ) const;
+	[[nodiscard]] glm::vec3 const Up( void ) const;
 
-	const CFrustum Frustum( void ) const;
+	void Direction( const glm::vec3 &direction );
+	[[nodiscard]] const glm::vec3 Direction( void ) const;
 
-	virtual const glm::mat4 ProjectionMatrix( void ) const = 0;
-	const glm::mat4 ViewProjectionMatrix( void ) const;
+	[[nodiscard]] const CFrustum Frustum( void ) const;
+
+	[[nodiscard]] virtual const glm::mat4 ProjectionMatrix( void ) const = 0;
+	[[nodiscard]] const glm::mat4 ViewProjectionMatrix( void ) const;
 
 protected:
 	float	m_zNear;

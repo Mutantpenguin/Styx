@@ -17,7 +17,7 @@ public:
 	struct MeshInstance
 	{
 		const CMesh * mesh;
-		CTransformComponent transform;
+		CTransformComponent Transform;
 	};
 
 	using TMeshes = std::vector< MeshInstance >;

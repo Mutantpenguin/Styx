@@ -25,16 +25,11 @@ const glm::quat &CTransformComponent::Orientation( void ) const
 	return( m_orientation );
 }
 
-void CTransformComponent::Direction( const glm::vec3 &direction )
+void CTransformComponent::Rotate( const float pitchAngle, const float yawAngle, const float rollAngle )
 {
-	const glm::mat4 RotationMatrix = glm::lookAt( m_position, m_position + direction, CWorld::Y );
-
-	m_orientation = glm::toQuat( RotationMatrix );
-}
-
-glm::vec3 const CTransformComponent::Direction( void ) const
-{
-	return( CWorld::Z * m_orientation );
+	m_orientation = glm::angleAxis( glm::radians( pitchAngle ), CWorld::X ) * m_orientation;
+	m_orientation = glm::angleAxis( glm::radians( yawAngle ), CWorld::Y ) * m_orientation;
+	m_orientation = glm::angleAxis( glm::radians( rollAngle ), CWorld::Z ) * m_orientation;
 }
 
 const glm::mat4 CTransformComponent::ViewMatrix( void ) const

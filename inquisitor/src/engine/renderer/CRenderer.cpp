@@ -117,7 +117,7 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &ca
 	 */
 
 	const glm::vec3 &position = camera->Transform.Position();
-	const glm::vec3 &direction = camera->Transform.Direction();
+	const glm::vec3 &direction = camera->Direction();
 	const glm::mat4 &projectionMatrix = camera->ProjectionMatrix();
 	const glm::mat4 &viewMatrix = camera->Transform.ViewMatrix();
 	const glm::mat4 &viewProjectionMatrix = camera->ViewProjectionMatrix();
@@ -224,7 +224,7 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 		// sort translucent back to front
 		std::sort( std::begin( renderBucketMaterialsTranslucent ), std::end( renderBucketMaterialsTranslucent ),	[&cameraPosition]( const CScene::MeshInstance &a, const CScene::MeshInstance &b ) -> bool
 																													{
-																														return( glm::length2( a.transform.Position() - cameraPosition ) > glm::length2( b.transform.Position() - cameraPosition ) );
+																														return( glm::length2( a.Transform.Position() - cameraPosition ) > glm::length2( b.Transform.Position() - cameraPosition ) );
 																													} );
 
 		RenderBucket( renderBucketMaterialsTranslucent, viewProjectionMatrix );
@@ -259,10 +259,8 @@ void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::m
 
 	const CShaderProgram * currentShader = nullptr;
 
-	for( const auto &meshInstance : bucketMaterials )
+	for( const auto & [ mesh, transform ] : bucketMaterials )
 	{
-		const auto mesh = meshInstance.mesh;
-
 		if( currentMesh != mesh )
 		{
 			currentMesh = mesh;
@@ -278,50 +276,37 @@ void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::m
 			}
 
 			mesh->BindTextures();
+
+			mesh->VAO().Bind();
 		}
 
-		RenderMesh( meshInstance, viewProjectionMatrix, currentShader );
-	}
-}
-
-void CRenderer::RenderMesh( const CScene::MeshInstance &meshInstance, const glm::mat4 &viewProjectionMatrix, const CShaderProgram * const shader ) const
-{
-	// TODO this isn't really good code architecture
-	for( const auto & [ location, engineUniform ] : shader->RequiredEngineUniforms() )
-	{
-		switch( engineUniform )
+		for( const auto & [ location, engineUniform ] : currentShader->RequiredEngineUniforms() )
 		{
-			case EEngineUniform::modelViewProjectionMatrix:
-				glUniformMatrix4fv( location, 1, GL_FALSE, &( viewProjectionMatrix * CalculateModelMatrix( meshInstance ) )[ 0 ][ 0 ] );
-				break;
+			switch( engineUniform )
+			{
+				case EEngineUniform::modelViewProjectionMatrix:
+					glUniformMatrix4fv( location, 1, GL_FALSE, &( viewProjectionMatrix * CalculateModelMatrix( transform, mesh->Scale() ) )[ 0 ][ 0 ] );
+					break;
 
-			case EEngineUniform::modelMatrix:
-				glUniformMatrix4fv( location, 1, GL_FALSE, &CalculateModelMatrix( meshInstance )[ 0 ][ 0 ] );
-				break;
+				case EEngineUniform::modelMatrix:
+					glUniformMatrix4fv( location, 1, GL_FALSE, &CalculateModelMatrix( transform, mesh->Scale() )[ 0 ][ 0 ] );
+					break;
+			}
 		}
+
+		mesh->VAO().Draw();
 	}
-
-	const CVAO &vao = meshInstance.mesh->VAO();
-
-	vao.Bind();
-
-	vao.Draw();
 }
 
-[[nodiscard]] glm::mat4 CRenderer::CalculateModelMatrix( const CScene::MeshInstance &meshInstance ) const
+[[nodiscard]] glm::mat4 CRenderer::CalculateModelMatrix( const CTransformComponent &transform, const glm::vec3 &scale ) const
 {
-	const auto &transform = meshInstance.transform;
-
 	glm::mat4 modelMatrix = glm::mat4();
 
 	modelMatrix = glm::translate( modelMatrix, transform.Position() );
 
-	const auto &orientation = transform.Orientation();
+	modelMatrix = modelMatrix * glm::toMat4( transform.Orientation() );
 
-	const glm::vec3 rotationRadians = glm::vec3( glm::radians( orientation.x ), glm::radians( orientation.y ), glm::radians( orientation.z ) );
-	modelMatrix = modelMatrix * glm::toMat4( glm::quat( rotationRadians ) );
-
-	modelMatrix = glm::scale( modelMatrix, meshInstance.mesh->Scale() );
+	modelMatrix = glm::scale( modelMatrix, scale );
 
 	return( modelMatrix );
 }

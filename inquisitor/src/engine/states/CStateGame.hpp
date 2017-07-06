@@ -24,8 +24,6 @@ public:
 private:
 	std::shared_ptr< CCameraFree > m_cameraFree;
 
-	float	m_xrot = 0.0f;
-	float	m_yrot = 0.0f;
 	float	m_rotx_ps = 0.0f;
 	float	m_roty_ps = 0.0f;
 

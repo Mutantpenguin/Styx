@@ -16,7 +16,7 @@ CCameraFree::~CCameraFree()
 {
 }
 
-void CCameraFree::SetFOV( float fov )
+void CCameraFree::FOV( float fov )
 {
 	if( fov > 155 )
 	{
@@ -39,12 +39,12 @@ float CCameraFree::FOV( void ) const
 
 void CCameraFree::MoveForward( const float distance )
 {
-	Transform.Position( Transform.Position() - ( Transform.Direction() * distance ) );
+	Transform.Position( Transform.Position() - ( Direction() * distance ) );
 }
 
 void CCameraFree::MoveBackward( const float distance )
 {
-	Transform.Position( Transform.Position() + ( Transform.Direction() * distance ) );
+	Transform.Position( Transform.Position() + ( Direction() * distance ) );
 }
 
 void CCameraFree::MoveUp( const float distance )
@@ -59,12 +59,12 @@ void CCameraFree::MoveDown( const float distance )
 
 void CCameraFree::MoveLeft( const float distance )
 {
-	Transform.Position( Transform.Position() - ( glm::cross( Up(), Transform.Direction() ) * distance ) );
+	Transform.Position( Transform.Position() - ( glm::cross( Up(), Direction() ) * distance ) );
 }
 
 void CCameraFree::MoveRight( const float distance )
 {
-	Transform.Position( Transform.Position() + ( glm::cross( Up(), Transform.Direction() ) * distance ) );
+	Transform.Position( Transform.Position() + ( glm::cross( Up(), Direction() ) * distance ) );
 }
 
 void CCameraFree::Rotate( const float pitchAngle, const float yawAngle )

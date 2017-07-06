@@ -16,7 +16,7 @@ public:
 	~CCameraOrtho();
 
 public:
-	virtual const glm::mat4 ProjectionMatrix( void ) const override;
+	[[nodiscard]] virtual const glm::mat4 ProjectionMatrix( void ) const override;
 
 private:
 	const std::uint32_t m_screenWidth;
