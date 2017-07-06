@@ -44,8 +44,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const CMesh::TTextures floorMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/texpack_2/stone_floor.png" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto floorMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, floorMeshPrimitive, material, floorMeshTextures );
-		floorMesh->Scale( { 100.0f, 100.0f, 100.0f } );
+		const auto floorMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, floorMeshPrimitive, material, glm::vec3( 100.0f, 100.0f, 100.0f ), floorMeshTextures );
 
 		std::shared_ptr< CEntity > floor = std::make_shared< CEntity >( "floor" );
 		floor->Mesh( floorMesh );
@@ -65,8 +64,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const CMesh::TTextures movableMeshTextures = {	{ "skullTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/cursor/skull.png" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::EDGE_2D ) ) },
 														{ "waitTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/cursor/wait.png" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-		const auto movableMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialWaitCursor, movableMeshTextures );
-		movableMesh->Scale( { 3.0f, 3.0f, 1.0f } );
+		const auto movableMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialWaitCursor, glm::vec3( 3.0f, 3.0f, 1.0f ), movableMeshTextures );
 
 		m_movableEntity = std::make_shared< CEntity >( "wait_cursor" );
 		m_movableEntity->Transform.Position( { 0.0f, 10.0f, 20.0f } );
