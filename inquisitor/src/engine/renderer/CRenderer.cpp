@@ -255,7 +255,7 @@ void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
 void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const
 {
 	const CMesh * currentMesh = nullptr;
-	std::shared_ptr< const CMaterial > currentMaterial { nullptr };
+	const CMaterial * currentMaterial = nullptr;
 
 	const CShaderProgram * currentShader = nullptr;
 
@@ -267,9 +267,9 @@ void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::m
 
 			const auto material = mesh->Material();
 
-			if( currentMaterial.get() != material.get() )
+			if( currentMaterial != material.get() )
 			{
-				currentMaterial = material;
+				currentMaterial = material.get();
 				material->Setup();
 
 				currentShader = material->Shader().get();
