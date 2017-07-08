@@ -147,21 +147,46 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material, glm::vec3( 2.0f, 2.0f, 2.0f ), meshTextures );
 
-		const std::uint16_t cubeSize { 10 };
-
-		for( std::uint16_t i = 0; i < cubeSize; i++ )
 		{
-			for( std::uint16_t j = 0; j < cubeSize; j++ )
-			{
-				for( std::uint16_t k = 0; k < cubeSize; k++ )
-				{
-					if( Math::irand( 0, 1 ) == 1 )
-					{
-						std::shared_ptr< CEntity > cube = std::make_shared< CEntity >( "cube" );
-						cube->Transform.Position( { -40.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
-						cube->Mesh( cubeMesh );
+			const std::uint16_t cubeSize { 10 };
 
-						m_scene.AddEntity( cube );
+			for( std::uint16_t i = 0; i < cubeSize; i++ )
+			{
+				for( std::uint16_t j = 0; j < cubeSize; j++ )
+				{
+					for( std::uint16_t k = 0; k < cubeSize; k++ )
+					{
+						if( Math::irand( 0, 1 ) == 1 )
+						{
+							std::shared_ptr< CEntity > cube = std::make_shared< CEntity >( "cube" );
+							cube->Transform.Position( { -40.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
+							cube->Mesh( cubeMesh );
+
+							m_scene.AddEntity( cube );
+						}
+					}
+				}
+			}
+		}
+
+		{
+			const std::uint16_t cubeSize { 10 };
+
+			for( std::uint16_t i = 0; i < cubeSize; i++ )
+			{
+				for( std::uint16_t j = 0; j < cubeSize; j++ )
+				{
+					for( std::uint16_t k = 0; k < cubeSize; k++ )
+					{
+						if( Math::irand( 0, 1 ) == 1 )
+						{
+							std::shared_ptr< CEntity > cube = std::make_shared< CEntity >( "cube" );
+							cube->Transform.Position( { -90.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
+							cube->Transform.Rotate( Math::irand( 0, 90 ), Math::irand( 0, 90 ), Math::irand( 0, 90 ) );
+							cube->Mesh( cubeMesh );
+
+							m_scene.AddEntity( cube );
+						}
 					}
 				}
 			}

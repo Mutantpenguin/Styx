@@ -16,6 +16,6 @@ namespace Math
 
 	std::int32_t irand( const std::int32_t min, const std::int32_t max )
 	{
-		return( min + (rand()%(max-min+1) ) );
+		return( min + (std::rand()%(max-min+1) ) );
 	}
 }

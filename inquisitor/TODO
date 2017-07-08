@@ -1,13 +1,1 @@
-[[nodiscard]] glm::mat4 CMesh::ModelMatrix( const CTransformComponent &transform, const glm::vec3 &scale ) const
-{
-	glm::mat4 modelMatrix = glm::mat4();
 
-	modelMatrix = glm::translate( modelMatrix, transform.Position() );
-
-	const auto &orientation = transform.Orientation();
-
-	const glm::vec3 rotationRadians = glm::vec3( glm::radians( orientation.x ), glm::radians( orientation.y ), glm::radians( orientation.z ) );
-	modelMatrix = modelMatrix * glm::toMat4( glm::quat( rotationRadians ) );
-
-	modelMatrix = glm::scale( modelMatrix, scale );
-}
