@@ -1,7 +1,5 @@
 #include "CEntity.hpp"
 
-#include "components/CBaseComponent.hpp"
-
 #include "src/engine/logger/CLogger.hpp"
 
 EntityID CEntity::s_lastId = 0;
