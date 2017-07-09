@@ -11,7 +11,7 @@ namespace Math
 
 	float frand( const float min, const float max )
 	{
-		return( min + ( static_cast< float >( rand() ) / static_cast< float >( RAND_MAX ) ) * ( max - min ) );
+		return( min + ( static_cast< float >( std::rand() ) / static_cast< float >( RAND_MAX ) ) * ( max - min ) );
 	}
 
 	std::int32_t irand( const std::int32_t min, const std::int32_t max )

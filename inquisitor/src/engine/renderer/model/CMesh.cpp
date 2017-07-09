@@ -7,23 +7,11 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const glm::vec3 &scale, const TTextures &textures ) :
-	m_vao( Mode, primitive ),
-	m_material { mat },
-	m_textures { textures },
-	m_scale { scale },
-	m_boundingSphereRadiusVector { CalculatedBoundingSphereRadiusVector( primitive ) },
-	m_boundingSphereRadius { CalculatedBoundingSphereRadius( m_boundingSphereRadiusVector, m_scale ) }
-{
-	SetupMaterialTextureMapping();
-}
-
 CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const TTextures &textures ) :
 	m_vao( Mode, primitive ),
 	m_material { mat },
 	m_textures { textures },
-	m_boundingSphereRadiusVector { CalculatedBoundingSphereRadiusVector( primitive ) },
-	m_boundingSphereRadius { CalculatedBoundingSphereRadius( m_boundingSphereRadiusVector, m_scale ) }
+	m_boundingSphereRadiusVector { CalculateBoundingSphereRadiusVector( primitive ) }
 {
 	SetupMaterialTextureMapping();
 }
@@ -173,35 +161,19 @@ const std::shared_ptr< const CMaterial > &CMesh::Material( void ) const
 	return( m_material );
 }
 
-void CMesh::Scale( const glm::vec3 &scale )
-{
-	m_scale = scale;
-	m_boundingSphereRadius = CalculatedBoundingSphereRadius( m_boundingSphereRadiusVector, m_scale );
-}
-
-const glm::vec3 &CMesh::Scale( void ) const
-{
-	return( m_scale );
-}
-
 const CVAO &CMesh::VAO( void ) const
 {
 	return( m_vao );
 }
 
-float CMesh::BoundingSphereRadius( void ) const
+const glm::vec3 &CMesh::BoundingSphereRadiusVector( void ) const
 {
-	return( m_boundingSphereRadius );
+	return( m_boundingSphereRadiusVector );
 }
 
-glm::vec3 CMesh::CalculatedBoundingSphereRadiusVector( const Primitives::SPrimitive &primitive )
+glm::vec3 CMesh::CalculateBoundingSphereRadiusVector( const Primitives::SPrimitive &primitive )
 {
 	return( (*std::max_element( std::cbegin( primitive.Vertices ), std::cend( primitive.Vertices ), []( const Primitives::SVertex &a, const Primitives::SVertex &b ){ return( glm::length2( a.Position ) > glm::length2( b.Position ) ); } ) ).Position );
-}
-
-float CMesh::CalculatedBoundingSphereRadius( const glm::vec3 &radiusVector, const glm::vec3 &scale )
-{
-	return( glm::length( radiusVector * scale ) );
 }
 
 void CMesh::BindTextures( void ) const

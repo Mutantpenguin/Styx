@@ -17,18 +17,14 @@ friend class CModelLoader;
 public:
 	using TTextures = std::unordered_map< std::string, const std::shared_ptr< CMeshTexture > >;
 
-	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const glm::vec3 &scale, const TTextures &textures = TTextures() );
-	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const TTextures &textures = TTextures());
+	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const TTextures &textures = TTextures() );
 
 	void SetMaterial( const std::shared_ptr< const CMaterial > &mat );
 	const std::shared_ptr< const CMaterial > &Material( void ) const;
 
 	void ChangeTexture( const std::string &name, const std::shared_ptr< const CTexture > &texture, const std::shared_ptr< const CSampler > &sampler );
 
-	void Scale( const glm::vec3 &position );
-	const glm::vec3 &Scale( void ) const;
-
-	float BoundingSphereRadius( void ) const;
+	const glm::vec3 &BoundingSphereRadiusVector( void ) const;
 
 	const CVAO &VAO( void ) const;
 
@@ -45,13 +41,9 @@ private:
 
 	void SetupMaterialTextureMapping( void );
 
-	static glm::vec3 CalculatedBoundingSphereRadiusVector( const Primitives::SPrimitive &primitive );
-	static float CalculatedBoundingSphereRadius( const glm::vec3 &radiusVector, const glm::vec3 &scale );
+	[[nodiscard]] static glm::vec3 CalculateBoundingSphereRadiusVector( const Primitives::SPrimitive &primitive );
 
-	glm::vec3	m_scale { 1.0f, 1.0f, 1.0f };
-
-	glm::vec3	m_boundingSphereRadiusVector;
-	float		m_boundingSphereRadius;
+	const glm::vec3	m_boundingSphereRadiusVector;
 };
 
 #endif // CMESH_HPP

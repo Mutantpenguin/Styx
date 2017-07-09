@@ -32,7 +32,7 @@ const CScene::TMeshes &CScene::Meshes( void ) const
 		if( mesh )
 		{
 			// TODO implement Octree here
-			if( frustum.IsSphereInside( entity->Transform.Position(), mesh->BoundingSphereRadius() ) )
+			if( frustum.IsSphereInside( entity->Transform.Position(), glm::length( mesh->BoundingSphereRadiusVector() * entity->Transform.Scale() ) ) )
 			{
 				meshes.push_back( { mesh, entity->Transform } );
 			}

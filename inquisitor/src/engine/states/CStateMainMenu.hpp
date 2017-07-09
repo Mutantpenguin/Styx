@@ -26,8 +26,8 @@ private:
 
 	eMenuState m_currentState { eMenuState::START };
 
-	std::shared_ptr< CMesh > m_startMesh;
-	std::shared_ptr< CMesh > m_exitMesh;
+	std::shared_ptr< CEntity > m_startEntity;
+	std::shared_ptr< CEntity > m_exitEntity;
 
 	const std::shared_ptr< const CSoundSource > m_buttonChangeSound;
 };

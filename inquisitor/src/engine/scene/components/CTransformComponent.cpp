@@ -20,6 +20,16 @@ void CTransformComponent::Orientation( const glm::quat &orientation )
 	m_orientation = orientation;
 }
 
+void CTransformComponent::Scale( const glm::vec3 &scale )
+{
+	m_scale = scale;
+}
+
+const glm::vec3 &CTransformComponent::Scale( void ) const
+{
+	return( m_scale );
+}
+
 const glm::quat &CTransformComponent::Orientation( void ) const
 {
 	return( m_orientation );

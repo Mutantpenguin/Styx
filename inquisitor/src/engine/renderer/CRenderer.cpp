@@ -285,11 +285,11 @@ void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::m
 			switch( engineUniform )
 			{
 				case EEngineUniform::modelViewProjectionMatrix:
-					glUniformMatrix4fv( location, 1, GL_FALSE, &( viewProjectionMatrix * CalculateModelMatrix( transform, mesh->Scale() ) )[ 0 ][ 0 ] );
+					glUniformMatrix4fv( location, 1, GL_FALSE, &( viewProjectionMatrix * CalculateModelMatrix( transform ) )[ 0 ][ 0 ] );
 					break;
 
 				case EEngineUniform::modelMatrix:
-					glUniformMatrix4fv( location, 1, GL_FALSE, &CalculateModelMatrix( transform, mesh->Scale() )[ 0 ][ 0 ] );
+					glUniformMatrix4fv( location, 1, GL_FALSE, &CalculateModelMatrix( transform )[ 0 ][ 0 ] );
 					break;
 			}
 		}
@@ -298,7 +298,7 @@ void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::m
 	}
 }
 
-[[nodiscard]] glm::mat4 CRenderer::CalculateModelMatrix( const CTransformComponent &transform, const glm::vec3 &scale ) const
+[[nodiscard]] glm::mat4 CRenderer::CalculateModelMatrix( const CTransformComponent &transform ) const
 {
 	glm::mat4 modelMatrix = glm::mat4();
 
@@ -306,7 +306,7 @@ void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::m
 
 	modelMatrix = modelMatrix * glm::toMat4( transform.Orientation() );
 
-	modelMatrix = glm::scale( modelMatrix, scale );
+	modelMatrix = glm::scale( modelMatrix, transform.Scale() );
 
 	return( modelMatrix );
 }

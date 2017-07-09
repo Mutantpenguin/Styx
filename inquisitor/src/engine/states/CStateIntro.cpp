@@ -28,9 +28,10 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	const CMesh::TTextures logoMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/styx/logo.png" ), renderer.SamplerManager().SamplerFromSamplerType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-	const auto logoMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material, glm::vec3( 3.0f, 3.0f, 1.0f ), logoMeshTextures );
+	const auto logoMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material, logoMeshTextures );
 
 	m_logoEntity = std::make_shared< CEntity >( "logo" );
+	m_logoEntity->Transform.Scale( { 3.0f, 3.0f, 1.0f } );
 	m_logoEntity->Mesh( logoMesh );
 
 	m_scene.AddEntity( m_logoEntity );
