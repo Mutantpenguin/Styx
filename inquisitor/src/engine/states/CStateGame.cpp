@@ -49,7 +49,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto floorEntity = std::make_shared< CEntity >( "floor" );
 		floorEntity->Mesh( floorMesh );
 		floorEntity->Transform.Scale( { 100.0f, 100.0f, 100.0f } );
-		floorEntity->Transform.Rotate( 90.0f, 0.0f, 0.0f );
+		floorEntity->Transform.Rotate( -90.0f, 0.0f, 0.0f );
 
 		m_scene.AddEntity( floorEntity );
 	}
