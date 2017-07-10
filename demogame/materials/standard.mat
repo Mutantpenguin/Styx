@@ -1,5 +1,6 @@
 {
 	"name"			:	"standard",
+	"cullmode"		:	"BACK",
 	"polygonmode"	:	"FILL",
 	"shaders"	:	{
 						"vs" : "shaders/vs/standard.vs.glsl",
