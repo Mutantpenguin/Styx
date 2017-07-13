@@ -1,5 +1,6 @@
 {
 	"name"			:	"standard with blending",
+	"cullmode"		:	"BACK",
 	"polygonmode"	:	"FILL",
 	"blending"		:	{
 							"src"	: "ONE",
