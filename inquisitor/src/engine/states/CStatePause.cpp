@@ -20,6 +20,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		camera->Transform.Position( { 0.0f, 0.0f, 500.0f } );
 		camera->Direction( { 0.0f, 0.0f, -10.0f } );
 
+		m_scene.AddEntity( camera );
 		m_scene.Camera( camera );
 	}
 

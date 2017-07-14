@@ -21,6 +21,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	m_cameraFree->Transform.Position( { 0.0f, 10.0f, 10.0f } );
 	m_cameraFree->Direction( { 0.0f, 0.0f, -10.0f } );
 
+	m_scene.AddEntity( m_cameraFree );
 	m_scene.Camera( m_cameraFree );
 
 	auto &soundManager = m_engineSystems.SoundManager;
