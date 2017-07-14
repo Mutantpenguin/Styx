@@ -91,7 +91,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			{
 				for( std::uint16_t k = 0; k < cubeSize; k++ )
 				{
-					std::shared_ptr< CEntity > cube = std::make_shared< CEntity >( "cube" );
+					const auto cube = std::make_shared< CEntity >( "cube" );
 					cube->Transform.Position( { 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, -10.0f + k * 4.0f } );
 					cube->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
 					cube->Mesh( cubeMesh );
@@ -112,7 +112,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		{
 			const auto superBoxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, superBoxMeshTextures );
 
-			std::shared_ptr< CEntity > superBox = std::make_shared< CEntity >( "superBox" );
+			const auto superBox = std::make_shared< CEntity >( "superBox" );
 			superBox->Transform.Position( { 0.0f, 10.0f, -10.0f } );
 			superBox->Transform.Scale( { 10.0f, 10.0f, 10.0f } );
 			superBox->Mesh( superBoxMesh );
@@ -132,7 +132,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				{
 					for( std::uint16_t k = 0; k < cubeSize; k++ )
 					{
-						std::shared_ptr< CEntity > superBox = std::make_shared< CEntity >( "cube" );
+						const auto superBox = std::make_shared< CEntity >( "cube" );
 						superBox->Transform.Position( { 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
 						superBox->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
 						superBox->Mesh( superBoxMesh );
@@ -163,7 +163,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 					{
 						if( Math::irand( 0, 1 ) == 1 )
 						{
-							std::shared_ptr< CEntity > cube = std::make_shared< CEntity >( "cube" );
+							const auto cube = std::make_shared< CEntity >( "cube" );
 							cube->Transform.Position( { -40.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
 							cube->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
 							cube->Mesh( cubeMesh );
@@ -186,7 +186,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 					{
 						if( Math::irand( 0, 1 ) == 1 )
 						{
-							std::shared_ptr< CEntity > cube = std::make_shared< CEntity >( "cube" );
+							const auto cube = std::make_shared< CEntity >( "cube" );
 							cube->Transform.Position( { -90.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
 							cube->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
 							cube->Transform.Rotate( Math::irand( 0, 90 ), Math::irand( 0, 90 ), Math::irand( 0, 90 ) );
@@ -207,7 +207,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const auto flamesMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, fireMaterial, flamesMeshTextures );
 
-		std::shared_ptr< CEntity > flames = std::make_shared< CEntity >( "flames" );
+		const auto flames = std::make_shared< CEntity >( "flames" );
 		flames->Transform.Position( { -5.0f, 10.0f, 1.0f } );
 		flames->Transform.Scale( { 4.0f, 8.0f, 1.0f } );
 		flames->Mesh( flamesMesh );
@@ -220,7 +220,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, greenMaterial );
 
-		std::shared_ptr< CEntity > cube = std::make_shared< CEntity >( "green_cube" );
+		const auto cube = std::make_shared< CEntity >( "green_cube" );
 		cube->Transform.Position( { -4.0f, 10.0f, 1.0f } );
 		cube->Transform.Scale( { 2.0f, 2.0f, 1.0f } );
 		cube->Mesh( cubeMesh );
@@ -246,7 +246,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, redMaterial );
 
-		std::shared_ptr< CEntity > cube = std::make_shared< CEntity >( "red_cube" );
+		const auto cube = std::make_shared< CEntity >( "red_cube" );
 		cube->Transform.Position( { 4.0f, 10.0f, 1.0f } );
 		cube->Transform.Scale( { 2.0f, 2.0f, 1.0f } );
 		cube->Mesh( cubeMesh );
