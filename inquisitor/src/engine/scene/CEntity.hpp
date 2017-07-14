@@ -19,6 +19,8 @@ public:
 	void Mesh( const std::shared_ptr< const CMesh > &mesh );
 	const std::shared_ptr< const CMesh > Mesh( void ) const;
 
+	const std::string &Name( void ) const;
+
 	CTransformComponent Transform;
 
 private:

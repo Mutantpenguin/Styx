@@ -23,3 +23,8 @@ const std::shared_ptr< const CMesh > CEntity::Mesh( void ) const
 {
 	return( m_mesh );
 }
+
+const std::string &CEntity::Name( void ) const
+{
+	return( m_name );
+}
