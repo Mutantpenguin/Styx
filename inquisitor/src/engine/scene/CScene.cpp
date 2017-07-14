@@ -1,5 +1,7 @@
 #include "CScene.hpp"
 
+#include "src/engine/logger/CLogger.hpp"
+
 CScene::CScene()
 {
 }
@@ -10,12 +12,12 @@ CScene::~CScene()
 
 void CScene::AddEntity( const std::shared_ptr< const CEntity > &entity )
 {
-	m_entities.push_back( entity );
+	m_entities.insert( entity );
 }
 
 void CScene::RemoveEntity( const std::shared_ptr< const CEntity > &entity )
 {
-	m_entities.erase( std::remove( std::begin( m_entities ), std::end( m_entities ), entity ), std::end( m_entities ) );
+	m_entities.erase( entity );
 }
 
 const CScene::TMeshes &CScene::Meshes( void ) const
@@ -49,7 +51,15 @@ const std::shared_ptr< const CCamera > &CScene::Camera( void ) const
 
 void CScene::Camera( const std::shared_ptr< const CCamera > &camera )
 {
-	m_camera = camera;
+	const auto it = std::find( std::cbegin( m_entities ), std::cend( m_entities ), camera );
+	if( it == std::cend( m_entities ) )
+	{
+		logERROR( "camera '{0}' does not belong to this scene", camera->Name() );
+	}
+	else
+	{
+		m_camera = camera;
+	}
 }
 
 const CColor &CScene::ClearColor( void ) const

@@ -2,6 +2,7 @@
 #define CSCENE_HPP
 
 #include <vector>
+#include <set>
 
 #include "src/engine/helper/CColor.hpp"
 
@@ -38,7 +39,7 @@ public:
 	void ClearColor( const CColor &clearColor );
 
 private:
-	std::vector< std::shared_ptr< const CEntity > > m_entities;
+	std::set< std::shared_ptr< const CEntity > > m_entities;
 
 	std::shared_ptr< const CCamera > m_camera;
 
