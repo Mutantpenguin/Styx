@@ -3,12 +3,14 @@
 
 #include "src/engine/sdl/CSDL.hpp"
 
-#include "CGameInfo.hpp"
-#include "CFileSystem.hpp"
-#include "CSettings.hpp"
-#include "CWindow.hpp"
+#include "src/engine/system/CGameInfo.hpp"
+#include "src/engine/system/CFileSystem.hpp"
+#include "src/engine/system/CSettings.hpp"
+#include "src/engine/system/CWindow.hpp"
 
-#include "CEngineSystems.hpp"
+#include "src/engine/system/CEngineSystems.hpp"
+
+#include "src/engine/resource/CResourceCacheManager.hpp"
 
 #include "src/engine/states/CState.hpp"
 
@@ -42,6 +44,8 @@ private:
 	const CWindow	m_window;
 
 	CEngineSystems m_engineSystems;
+
+	CResourceCacheManager m_resourceCacheManager;
 
 	std::shared_ptr< CState > m_currentState;
 };

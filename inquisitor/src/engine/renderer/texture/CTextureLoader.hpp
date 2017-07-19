@@ -23,9 +23,9 @@ public:
 
 	void FromFile( const std::string &path, const std::shared_ptr< CTexture > &texture ) const;
 
+private:
 	void FromImage( const std::shared_ptr< const CImage > &image, const std::shared_ptr< CTexture > &texture ) const;
 
-private:
 	bool FromImageFile( const std::string &path, const std::shared_ptr< CTexture > &texture ) const;
 	bool FromCubeFile( const std::string &path, const std::shared_ptr< CTexture > &texture ) const;
 	bool From2DArrayFile( const std::string &path, const std::shared_ptr< CTexture > &texture ) const;

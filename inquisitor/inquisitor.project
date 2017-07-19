@@ -119,6 +119,7 @@
         </VirtualDirectory>
         <File Name="src/engine/renderer/CFrameBuffer.hpp"/>
         <File Name="src/engine/renderer/CFrameBuffer.cpp"/>
+        <VirtualDirectory Name="resource"/>
       </VirtualDirectory>
       <VirtualDirectory Name="helper">
         <VirtualDirectory Name="image">
@@ -230,6 +231,13 @@
       <VirtualDirectory Name="sdl">
         <File Name="src/engine/sdl/CSDL.hpp"/>
         <File Name="src/engine/sdl/CSDL.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="resource">
+        <File Name="src/engine/resource/CResourceCacheManager.cpp"/>
+        <File Name="src/engine/resource/CResourceCacheManager.hpp"/>
+        <File Name="src/engine/resource/CAbstractResourceCache.hpp"/>
+        <File Name="src/engine/resource/CAbstractResourceCache.cpp"/>
+        <File Name="src/engine/resource/CFileResourceCache.hpp"/>
       </VirtualDirectory>
     </VirtualDirectory>
     <VirtualDirectory Name="ext">

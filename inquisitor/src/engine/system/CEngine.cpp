@@ -98,6 +98,8 @@ void CEngine::Run( void )
 			lastUpdatedTime += m_settings.engine.tick;
 		}
 
+		m_resourceCacheManager.GarbageCollect();
+
 		m_engineSystems.Renderer.Update();
 
 		#ifdef INQ_DEBUG
