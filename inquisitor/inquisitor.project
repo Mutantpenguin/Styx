@@ -235,9 +235,9 @@
       <VirtualDirectory Name="resource">
         <File Name="src/engine/resource/CResourceCacheManager.cpp"/>
         <File Name="src/engine/resource/CResourceCacheManager.hpp"/>
-        <File Name="src/engine/resource/CAbstractResourceCache.hpp"/>
-        <File Name="src/engine/resource/CAbstractResourceCache.cpp"/>
         <File Name="src/engine/resource/CFileResourceCache.hpp"/>
+        <File Name="src/engine/resource/CResourceCache.cpp"/>
+        <File Name="src/engine/resource/CResourceCache.hpp"/>
       </VirtualDirectory>
     </VirtualDirectory>
     <VirtualDirectory Name="ext">

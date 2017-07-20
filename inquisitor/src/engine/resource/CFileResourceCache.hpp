@@ -4,7 +4,7 @@
 #include <memory>
 #include <unordered_map>
 
-#include "src/engine/resource/CAbstractResourceCache.hpp"
+#include "src/engine/resource/CResourceCache.hpp"
 
 #include "src/engine/logger/CLogger.hpp"
 
@@ -12,7 +12,7 @@
 
 
 template <typename TResource>
-class CFileResourceCache : public CAbstractResourceCache
+class CFileResourceCache : public CResourceCache
 {
 private:
 	CFileResourceCache( const CFileResourceCache& rhs );
@@ -20,7 +20,7 @@ private:
 
 protected:
 	CFileResourceCache( const std::string name, const CFileSystem &p_filesystem ) :
-		CAbstractResourceCache( name ),
+		CResourceCache( name ),
 		m_filesystem { p_filesystem }
 	{}
 

@@ -21,12 +21,21 @@ CResourceCacheManager::~CResourceCacheManager( void )
 	}
 }
 
-void CResourceCacheManager::RegisterResourceCache( const std::shared_ptr< CAbstractResourceCache > &resourceCache )
+void CResourceCacheManager::RegisterResourceCache( const std::shared_ptr< CResourceCache > &resourceCache )
 {
-	m_resourceCaches.insert( resourceCache );
+	const auto it = m_resourceCaches.find( resourceCache );
+
+	if( it == std::cend( m_resourceCaches ) )
+	{
+		m_resourceCaches.insert( resourceCache );
+	}
+	else
+	{
+		logWARNING( "resource cache '{0}' already registered", resourceCache->Name() )
+	}
 }
 
-void CResourceCacheManager::UnRegisterResourceCache( const std::shared_ptr< CAbstractResourceCache > &resourceCache )
+void CResourceCacheManager::UnRegisterResourceCache( const std::shared_ptr< CResourceCache > &resourceCache )
 {
 	const auto it = m_resourceCaches.find( resourceCache );
 

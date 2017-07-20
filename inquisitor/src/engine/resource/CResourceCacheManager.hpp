@@ -19,12 +19,12 @@ public:
 	CResourceCacheManager( void );
 	~CResourceCacheManager( void );
 
-	void RegisterResourceCache( const std::shared_ptr< CAbstractResourceCache > &resourceCache );
-	void UnRegisterResourceCache( const std::shared_ptr< CAbstractResourceCache > &resourceCache );
+	void RegisterResourceCache( const std::shared_ptr< CResourceCache > &resourceCache );
+	void UnRegisterResourceCache( const std::shared_ptr< CResourceCache > &resourceCache );
 
 	void GarbageCollect( void );
 
-	std::set< std::shared_ptr< CAbstractResourceCache > > m_resourceCaches;
+	std::set< std::shared_ptr< CResourceCache > > m_resourceCaches;
 };
 
 #endif // CRESOURCECACHEMANAGER_HPP

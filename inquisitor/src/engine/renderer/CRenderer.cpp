@@ -142,6 +142,7 @@ void CRenderer::Update( void )
 	m_textureManager.Update();
 }
 
+// TODO this is done by the ResourceCacheManager in the future
 void CRenderer::ReloadResources( void )
 {
 	m_textureManager.ReloadTextures();
