@@ -1,5 +1,7 @@
 #include "CResourceCacheManager.hpp"
 
+#include "src/engine/logger/CLogger.hpp"
+
 CResourceCacheManager::CResourceCacheManager( void )
 {
 	logINFO( "resource cache manager was initialized" );

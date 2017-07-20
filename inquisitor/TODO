@@ -1,11 +1,17 @@
 
+#include "src/engine/resource/CFileResourceCache.hpp"
+
+#include "src/engine/renderer/texture/CTexture.hpp"
+
+#include "src/engine/renderer/texture/CTextureLoader.hpp"
+
 class CTextureCache : public CFileResourceCache< CTexture >
 {
 public:
 	CTextureCache( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter );
 
 private:
-	void FromFile( const std::string &path, std::shared_ptr< CTexture > &resource ) override;
+	void FromFile( const std::string &path, const std::shared_ptr< CTexture > &resource ) override;
 
 	const CTextureLoader m_textureLoader;
 };
@@ -14,10 +20,9 @@ CTextureCache::CTextureCache( const CSettings &p_settings, const CFileSystem &p_
 	CFileResourceCache( "texture ", p_filesystem ),
 	m_textureLoader( p_settings, p_filesystem, openGlAdapter )
 {
-	logINFO( "texture manager was initialized" );
 }
 
-void CTextureCache::FromFile( const std::string &path, std::shared_ptr< CTexture > &resource )
+void CTextureCache::FromFile( const std::string &path, const std::shared_ptr< CTexture > &resource )
 {
 	m_textureLoader.FromFile( path, resource );
 }

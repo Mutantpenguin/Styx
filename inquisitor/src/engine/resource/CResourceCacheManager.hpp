@@ -2,12 +2,9 @@
 #define CRESOURCECACHEMANAGER_HPP
 
 #include <set>
+#include <memory>
 
-#include "src/engine/resource/CFileResourceCache.hpp"
-
-#include "src/engine/renderer/texture/CTexture.hpp"
-
-#include "src/engine/renderer/texture/CTextureLoader.hpp"
+#include "src/engine/resource/CResourceCache.hpp"
 
 class CResourceCacheManager
 {
