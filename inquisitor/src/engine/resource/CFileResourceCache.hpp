@@ -26,16 +26,17 @@ protected:
 
 	virtual ~CFileResourceCache( void )
 	{
+		#ifdef INQ_DEBUG
 		if( !m_resourceFiles.empty() )
 		{
 			logWARNING( "there are still '{0}' resources in '{1}' cache", m_resourceFiles.size(), m_name );
-			#ifdef INQ_DEBUG
+
 			for( const auto & [ filename, resourceFile ] : m_resourceFiles )
 			{
 				logDEBUG( "\t{0}: {1}", filename, resourceFile.resource.use_count() );
 			}
-			#endif
 		}
+		#endif
 	}
 
 public:

@@ -11,16 +11,16 @@ CResourceCacheManager::~CResourceCacheManager( void )
 {
 	logINFO( "resource cache manager is shutting down" );
 
+	#ifdef INQ_DEBUG
 	if( !m_resourceCaches.empty() )
 	{
 		logWARNING( "there are still '{0}' registered caches", m_resourceCaches.size() );
-		#ifdef INQ_DEBUG
 		for( const auto &cache : m_resourceCaches )
 		{
 			logDEBUG( "\t{0}:", cache->Name() );
 		}
-		#endif
 	}
+	#endif
 }
 
 void CResourceCacheManager::RegisterResourceCache( const std::shared_ptr< CResourceCache > &resourceCache )
