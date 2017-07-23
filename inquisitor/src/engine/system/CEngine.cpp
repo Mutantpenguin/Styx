@@ -17,8 +17,8 @@ CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std
 		m_settings( m_filesystem, settingsFile ),
 		m_sdl(),
 		m_window( m_settings, m_filesystem, m_gameInfo.GetName(), m_gameInfo.GetIconPath() ),
-		m_engineSystems( m_settings, m_filesystem ),
-		m_currentState { std::make_shared< CStateIntro >( m_filesystem, m_settings, m_engineSystems ) }
+		m_engineInterface( m_settings, m_filesystem ),
+		m_currentState { std::make_shared< CStateIntro >( m_filesystem, m_settings, m_engineInterface ) }
 {
 	logINFO( "engine was initialized" );
 }
@@ -74,24 +74,24 @@ void CEngine::Run( void )
 
 	logINFO( "" );
 
-	std::uint64_t lastUpdatedTime = m_engineSystems.GlobalTimer.Time();
+	std::uint64_t lastUpdatedTime = m_engineInterface.GlobalTimer.Time();
 
 	while( m_currentState )
 	{
-		m_engineSystems.GlobalTimer.Update();
+		m_engineInterface.GlobalTimer.Update();
 
 		m_window.Update();
 
-		m_engineSystems.Renderer.RenderSceneToFramebuffer( m_currentState->Scene(), m_currentState->FrameBuffer(), m_engineSystems.GlobalTimer );
+		m_engineInterface.Renderer.RenderSceneToFramebuffer( m_currentState->Scene(), m_currentState->FrameBuffer(), m_engineInterface.GlobalTimer );
 
-		m_engineSystems.Renderer.DisplayFramebuffer( m_currentState->FrameBuffer() );
+		m_engineInterface.Renderer.DisplayFramebuffer( m_currentState->FrameBuffer() );
 
-		m_engineSystems.SoundManager.Update();
+		m_engineInterface.SoundManager.Update();
 
-		const std::uint64_t currentTime = m_engineSystems.GlobalTimer.Time();
+		const std::uint64_t currentTime = m_engineInterface.GlobalTimer.Time();
 		while( m_currentState && ( currentTime - lastUpdatedTime ) > m_settings.engine.tick )
 		{
-			m_engineSystems.Input.Update();
+			m_engineInterface.Input.Update();
 
 			m_currentState = m_currentState->Update();
 
@@ -100,13 +100,13 @@ void CEngine::Run( void )
 
 		m_resourceCacheManager.GarbageCollect();
 
-		m_engineSystems.Renderer.Update();
+		m_engineInterface.Renderer.Update();
 
 		#ifdef INQ_DEBUG
-			if( m_engineSystems.GlobalTimer.dT() > m_settings.engine.tick )
+			if( m_engineInterface.GlobalTimer.dT() > m_settings.engine.tick )
 			{
 				// a frame takes more time than m_settings.engine.tick, so we have fewer than 30fps
-				logWARNING( "ATTENTION: frame-time is {0}ms", m_engineSystems.GlobalTimer.dT() );
+				logWARNING( "ATTENTION: frame-time is {0}ms", m_engineInterface.GlobalTimer.dT() );
 			}
 		#endif // INQ_DEBUG
 	}

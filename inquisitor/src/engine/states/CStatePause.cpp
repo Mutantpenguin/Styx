@@ -6,14 +6,14 @@
 
 #include "src/engine/states/CStateMainMenu.hpp"
 
-CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems, std::shared_ptr< CState > pausedState ) :
-	CState( "pause", filesystem, settings, engineSystems ),
-	m_startTime { engineSystems.GlobalTimer.Time() },
+CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface, std::shared_ptr< CState > pausedState ) :
+	CState( "pause", filesystem, settings, engineInterface ),
+	m_startTime { engineInterface.GlobalTimer.Time() },
 	m_pausedState { pausedState }
 {
 	m_scene.ClearColor( CColor( 0.3f, 0.3f, 0.3f, 0.0f ) );
 
-	auto &renderer = engineSystems.Renderer;
+	auto &renderer = engineInterface.Renderer;
 
 	{
 		auto camera = std::make_shared< CCameraOrtho >( "ortho camera", m_settings, 0.1f, 1000.0f );
@@ -111,7 +111,7 @@ CStatePause::~CStatePause()
 
 std::shared_ptr< CState > CStatePause::Update( void )
 {
-	const auto yOffset = ( sin( m_engineSystems.GlobalTimer.Time() / 2000000.0 ) * 0.5f );
+	const auto yOffset = ( sin( m_engineInterface.GlobalTimer.Time() / 2000000.0 ) * 0.5f );
 
 	auto posText = m_textEntity->Transform.Position();
 	posText.y -= yOffset;
@@ -121,7 +121,7 @@ std::shared_ptr< CState > CStatePause::Update( void )
 	posScreenshot.y -= yOffset;
 	m_screenshotEntity->Transform.Position( posScreenshot );
 
-	const auto &input = m_engineSystems.Input;
+	const auto &input = m_engineInterface.Input;
 
 	if( input.KeyDown( SDL_SCANCODE_ESCAPE ) )
 	{
@@ -131,7 +131,7 @@ std::shared_ptr< CState > CStatePause::Update( void )
 	else if( input.KeyDown( SDL_SCANCODE_Q ) )
 	{
 		logINFO( "ESC pressed, ending game..." );
-		return( std::make_shared< CStateMainMenu >( m_filesystem, m_settings, m_engineSystems ) );
+		return( std::make_shared< CStateMainMenu >( m_filesystem, m_settings, m_engineInterface ) );
 	}
 
 	return( shared_from_this() );

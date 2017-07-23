@@ -12,7 +12,7 @@ private:
 	CStateIntro& operator=( const CStateIntro& rhs );
 
 public:
-	CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems );
+	CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface );
 	~CStateIntro();
 
 	virtual std::shared_ptr< CState > Update( void ) override;

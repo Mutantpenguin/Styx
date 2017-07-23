@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "src/engine/system/CEngineSystems.hpp"
+#include "src/engine/system/CEngineInterface.hpp"
 
 #include "src/engine/renderer/CFrameBuffer.hpp"
 
@@ -19,7 +19,7 @@ private:
 	CState& operator = ( const CState &rhs ) = delete;
 
 protected:
-	CState( const std::string &name, const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems );
+	CState( const std::string &name, const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface );
 	virtual ~CState() {};
 
 public:
@@ -41,7 +41,7 @@ protected:
 
 	CScene m_scene;
 
-	CEngineSystems &m_engineSystems;
+	CEngineInterface &m_engineInterface;
 };
 
 #endif // CSTATE_HPP

@@ -10,7 +10,7 @@ private:
 	CStatePause& operator=( const CStatePause& rhs );
 
 public:
-	CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems, std::shared_ptr< CState > pausedState );
+	CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface, std::shared_ptr< CState > pausedState );
 	~CStatePause();
 
 	virtual std::shared_ptr< CState > Update( void ) override;

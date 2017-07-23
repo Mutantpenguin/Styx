@@ -40,7 +40,7 @@ protected:
 	}
 
 public:
-	[[nodiscard]] const std::shared_ptr< const TResource > Get( const std::string &path )
+	[[nodiscard]] const std::shared_ptr< const TResource > GetFromFile( const std::string &path )
 	{
 		const auto it = m_resourceFiles.find( path );
 		if( std::end( m_resourceFiles ) != it )
@@ -50,7 +50,7 @@ public:
 
 		auto newResource = std::make_shared< TResource >();
 
-		FromFile( path, newResource );
+		GetFromFile( path, newResource );
 
 		auto &resourceFile = m_resourceFiles[ path ];
 
@@ -96,7 +96,7 @@ public:
 	}
 
 private:
-	virtual void FromFile( const std::string &path, std::shared_ptr< TResource > &resource ) = 0;
+	virtual void GetFromFile( const std::string &path, std::shared_ptr< TResource > &resource ) = 0;
 
 	struct sResourceFile
 	{

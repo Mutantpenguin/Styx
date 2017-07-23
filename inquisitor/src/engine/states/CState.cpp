@@ -1,11 +1,11 @@
 #include "CState.hpp"
 
-CState::CState( const std::string &name, const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems ) :
+CState::CState( const std::string &name, const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 		m_name { name },
 		m_frameBuffer( settings.renderer.window.size ),
 		m_filesystem { filesystem },
 		m_settings { settings },
-		m_engineSystems { engineSystems }
+		m_engineInterface { engineInterface }
 {}
 
 const CScene &CState::Scene( void ) const

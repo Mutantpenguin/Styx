@@ -26,7 +26,7 @@
 class CRenderer final
 {
 friend class CEngine;
-friend class CEngineSystems;
+friend class CEngineInterface;
 
 private:
 	CRenderer( const CSettings &settings, const CFileSystem &filesystem );

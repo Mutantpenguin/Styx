@@ -6,9 +6,9 @@
 
 #include "src/engine/states/CStateGame.hpp"
 
-CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems ) :
-	CState( "main menu", filesystem, settings, engineSystems ),
-	m_buttonChangeSound { std::make_shared< CSoundSource>( engineSystems.SoundManager.LoadSoundBuffer( "sounds/Pickup_Coin17.wav" ) ) }
+CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
+	CState( "main menu", filesystem, settings, engineInterface ),
+	m_buttonChangeSound { std::make_shared< CSoundSource>( engineInterface.SoundManager.LoadSoundBuffer( "sounds/Pickup_Coin17.wav" ) ) }
 {
 	m_buttonChangeSound->SetLooping( false );
 	m_buttonChangeSound->SetRelativePositioning( true );
@@ -22,7 +22,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		m_scene.Camera( camera );
 	}
 
-	auto &renderer = m_engineSystems.Renderer;
+	auto &renderer = m_engineInterface.Renderer;
 	auto &materialManager = renderer.MaterialManager();
 	auto &textureManager = renderer.TextureManager();
 	auto &samplerManager = renderer.SamplerManager();
@@ -123,14 +123,14 @@ CStateMainMenu::~CStateMainMenu()
 
 std::shared_ptr<CState> CStateMainMenu::Update(void)
 {
-	const auto &input = m_engineSystems.Input;
+	const auto &input = m_engineInterface.Input;
 
 	if( input.KeyDown( SDL_SCANCODE_RETURN ) )
 	{
 		switch( m_currentState )
 		{
 			case eMenuState::START:
-				return( std::make_shared< CStateGame >( m_filesystem, m_settings, m_engineSystems ) );
+				return( std::make_shared< CStateGame >( m_filesystem, m_settings, m_engineInterface ) );
 				break;
 			case eMenuState::EXIT:
 				return( nullptr );
@@ -163,7 +163,7 @@ std::shared_ptr<CState> CStateMainMenu::Update(void)
 
 		const float halfRange = (max - min) / 2.0f;
 
-		const float buttonPulse = min + halfRange + sin( m_engineSystems.GlobalTimer.Time() / 100000.0f ) * halfRange;
+		const float buttonPulse = min + halfRange + sin( m_engineInterface.GlobalTimer.Time() / 100000.0f ) * halfRange;
 
 		const glm::vec3 buttonPulseVec3 = { buttonPulse, buttonPulse, buttonPulse };
 

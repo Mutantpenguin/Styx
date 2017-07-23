@@ -8,7 +8,7 @@
 #include "src/engine/system/CSettings.hpp"
 #include "src/engine/system/CWindow.hpp"
 
-#include "src/engine/system/CEngineSystems.hpp"
+#include "src/engine/system/CEngineInterface.hpp"
 
 #include "src/engine/resource/CResourceCacheManager.hpp"
 
@@ -43,7 +43,7 @@ private:
 
 	const CWindow	m_window;
 
-	CEngineSystems m_engineSystems;
+	CEngineInterface m_engineInterface;
 
 	CResourceCacheManager m_resourceCacheManager;
 

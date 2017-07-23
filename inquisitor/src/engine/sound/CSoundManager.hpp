@@ -16,7 +16,7 @@
 class CSoundManager final
 {
 friend class CEngine;
-friend class CEngineSystems;
+friend class CEngineInterface;
 
 public:
 	void	SetListener( const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up );

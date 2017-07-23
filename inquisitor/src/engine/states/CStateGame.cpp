@@ -10,12 +10,12 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems ) :
-	CState( "game", filesystem, settings, engineSystems )
+CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
+	CState( "game", filesystem, settings, engineInterface )
 {
 	m_scene.ClearColor( CColor( 0.0f, 0.0f, 4.0f, 0.0f ) );
 
-	auto &renderer = m_engineSystems.Renderer;
+	auto &renderer = m_engineInterface.Renderer;
 
 	m_cameraFree = std::make_shared< CCameraFree >( "free camera", m_settings.renderer.window.aspect_ratio, 72.0f, 0.1f, 1000.0f );
 	m_cameraFree->Transform.Position( { 0.0f, 10.0f, 10.0f } );
@@ -24,7 +24,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	m_scene.AddEntity( m_cameraFree );
 	m_scene.Camera( m_cameraFree );
 
-	auto &soundManager = m_engineSystems.SoundManager;
+	auto &soundManager = m_engineInterface.SoundManager;
 
 	soundManager.SetListener( m_cameraFree->Transform.Position(), m_cameraFree->Direction(), m_cameraFree->Up() );
 
@@ -279,16 +279,16 @@ CStateGame::~CStateGame()
 
 std::shared_ptr< CState > CStateGame::Update( void )
 {
-	auto &renderer = m_engineSystems.Renderer;
+	auto &renderer = m_engineInterface.Renderer;
 
-	auto &soundManager = m_engineSystems.SoundManager;
+	auto &soundManager = m_engineInterface.SoundManager;
 
-	const auto &input = m_engineSystems.Input;
+	const auto &input = m_engineInterface.Input;
 
 	if( input.KeyDown( SDL_SCANCODE_ESCAPE ) )
 	{
 		logINFO( "pause" );
-		return( std::make_shared< CStatePause >( m_filesystem, m_settings, m_engineSystems, shared_from_this() ) );
+		return( std::make_shared< CStatePause >( m_filesystem, m_settings, m_engineInterface, shared_from_this() ) );
 	}
 
 	const float spp = 2.0f * m_settings.engine.tick / 1000000;
@@ -305,7 +305,7 @@ std::shared_ptr< CState > CStateGame::Update( void )
 	 */
 	{
 		auto pos = m_pulseEntity->Transform.Position();
-		pos.y = 10.0f + ( sin( m_engineSystems.GlobalTimer.Time() / 2000000.0f ) * 5.0f );
+		pos.y = 10.0f + ( sin( m_engineInterface.GlobalTimer.Time() / 2000000.0f ) * 5.0f );
 		m_pulseEntity->Transform.Position( pos );
 	}
 

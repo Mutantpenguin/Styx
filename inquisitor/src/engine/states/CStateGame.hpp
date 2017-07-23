@@ -16,7 +16,7 @@ private:
 	CStateGame& operator=( const CStateGame& rhs );
 
 public:
-	CStateGame( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems );
+	CStateGame( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface );
 	~CStateGame();
 
 	virtual std::shared_ptr< CState > Update( void ) override;

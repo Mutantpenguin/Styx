@@ -12,7 +12,7 @@ private:
 	CStateMainMenu& operator=( const CStateMainMenu& rhs );
 
 public:
-	CStateMainMenu( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems );
+	CStateMainMenu( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface );
 	~CStateMainMenu();
 
 	virtual std::shared_ptr< CState > Update( void ) override;

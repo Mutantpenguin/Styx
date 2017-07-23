@@ -6,15 +6,15 @@
 
 #include "src/engine/scene/camera/CCameraFree.hpp"
 
-CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineSystems &engineSystems ) :
-	CState( "intro", filesystem, settings, engineSystems ),
-	m_startTime { engineSystems.GlobalTimer.Time() },
-	m_introSound { std::make_shared< CSoundSource>( engineSystems.SoundManager.LoadSoundBuffer( "sounds/startup_sound.ogg" ) ) },
+CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
+	CState( "intro", filesystem, settings, engineInterface ),
+	m_startTime { engineInterface.GlobalTimer.Time() },
+	m_introSound { std::make_shared< CSoundSource>( engineInterface.SoundManager.LoadSoundBuffer( "sounds/startup_sound.ogg" ) ) },
 	m_introDuration { m_introSound->Buffer()->Duration() * 1000000 }
 {
 	m_scene.ClearColor( CColor( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
-	auto &renderer = m_engineSystems.Renderer;
+	auto &renderer = m_engineInterface.Renderer;
 
 	{
 		auto camera = std::make_shared< CCameraFree >( "free camera", m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
@@ -47,7 +47,7 @@ CStateIntro::~CStateIntro()
 
 std::shared_ptr< CState > CStateIntro::Update( void )
 {
-	const std::uint64_t elapsedTime = m_engineSystems.GlobalTimer.Time() - m_startTime;
+	const std::uint64_t elapsedTime = m_engineInterface.GlobalTimer.Time() - m_startTime;
 
 	glm::vec3 entityPosition = m_logoEntity->Transform.Position();
 	entityPosition.z = elapsedTime / m_introDuration;
@@ -60,17 +60,17 @@ std::shared_ptr< CState > CStateIntro::Update( void )
 
 	if( ( elapsedTime > m_introDuration )
 		||
-		m_engineSystems.Input.KeyDown( SDL_SCANCODE_ESCAPE )
+		m_engineInterface.Input.KeyDown( SDL_SCANCODE_ESCAPE )
 		||
-		m_engineSystems.Input.KeyDown( SDL_SCANCODE_SPACE )
+		m_engineInterface.Input.KeyDown( SDL_SCANCODE_SPACE )
 		||
-		m_engineSystems.Input.KeyDown( SDL_SCANCODE_RETURN )
+		m_engineInterface.Input.KeyDown( SDL_SCANCODE_RETURN )
 		||
-		m_engineSystems.Input.MouseDown( SDL_BUTTON_LEFT ) )
+		m_engineInterface.Input.MouseDown( SDL_BUTTON_LEFT ) )
 	{
 		try
 		{
-			return( std::make_shared< CStateMainMenu >( m_filesystem, m_settings, m_engineSystems ) );
+			return( std::make_shared< CStateMainMenu >( m_filesystem, m_settings, m_engineInterface ) );
 		}
 		catch( std::exception &e )
 		{

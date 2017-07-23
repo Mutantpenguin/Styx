@@ -16,7 +16,7 @@
 class CInput final
 {
 friend class CEngine;
-friend class CEngineSystems;
+friend class CEngineInterface;
 
 private:
 	CInput( const CInput &rhs ) = delete;
