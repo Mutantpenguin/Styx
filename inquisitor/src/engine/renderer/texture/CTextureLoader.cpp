@@ -18,19 +18,9 @@ CTextureLoader::CTextureLoader( const CSettings &p_settings, const CFileSystem &
 	m_filesystem { p_filesystem },
 	// clamp the value so we don't get too bad texture-quality
 	m_iPicMip { std::min( p_settings.renderer.textures.picmip, MAX_TEXTURE_PICMIP ) },
-	m_internalTextureFormat2D { openGlAdapter.PreferredInternalTextureFormat2D() },
-	m_internalTextureFormatCube { openGlAdapter.PreferredInternalTextureFormatCube() },
-	m_internalTextureFormat2DArray { openGlAdapter.PreferredInternalTextureFormat2DArray() },
+	m_openGlAdapter { openGlAdapter },
 	m_dummyImage { ImageHandler::GenerateCheckerImage( CSize( 64, 64 ) ) }
 {
-	// fetch the maximal texture size
-	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &m_iMaxTextureSize );
-	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_TEXTURE_SIZE ), m_iMaxTextureSize );
-
-	// fetch the maximal cubemap texture size
-	glGetIntegerv( GL_MAX_CUBE_MAP_TEXTURE_SIZE, &m_iMaxCubeMapTextureSize );
-	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_CUBE_MAP_TEXTURE_SIZE ), m_iMaxCubeMapTextureSize );
-
 	if( !m_dummyImage )
 	{
 		logERROR( "checker-image for the dummy-texture couldn't be generated" );
@@ -85,7 +75,7 @@ void CTextureLoader::FromFile( const std::string &path, const std::shared_ptr< C
 
 bool CTextureLoader::FromImageFile( const std::string &path, const std::shared_ptr< CTexture > &texture ) const
 {
-	const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path, m_iMaxTextureSize, m_iPicMip, false );
+	const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path, m_openGlAdapter.MaxTextureSize(), m_iPicMip, false );
 
 	if( !image )
 	{
@@ -138,7 +128,7 @@ bool CTextureLoader::FromCubeFile( const std::string &path, const std::shared_pt
 	for( std::uint8_t faceNum = 0; faceNum < CCubemapData::countCubemapFaces; ++faceNum )
 	{
 		const std::string path_to_face = path_to_faces + (*json_faces)[ faceNum ].get<std::string>();
-		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path_to_face, m_iMaxCubeMapTextureSize, m_iPicMip, true );
+		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path_to_face, m_openGlAdapter.MaxCubeMapTextureSize(), m_iPicMip, true );
 		if( nullptr == image )
 		{
 			logWARNING( "failed to load image '{0}' for cubemap '{1}'", path_to_face, path );
@@ -199,7 +189,7 @@ bool CTextureLoader::From2DArrayFile( const std::string &path, const std::shared
 	for( const auto &layer : (*json_layers) )
 	{
 		const std::string path_to_layer = path_to_layers + layer.get<std::string>();
-		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path_to_layer, m_iMaxTextureSize, m_iPicMip, false );
+		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path_to_layer, m_openGlAdapter.MaxTextureSize(), m_iPicMip, false );
 
 		if( nullptr == image )
 		{
@@ -243,7 +233,7 @@ void CTextureLoader::FromImage( const std::shared_ptr< const CImage > &image, co
 
 	glTextureStorage2D(	id,
 						maxMipLevel,
-						static_cast< GLenum >( m_internalTextureFormat2D ),
+						static_cast< GLenum >( m_openGlAdapter.PreferredInternalTextureFormat2D() ),
 						size.width,
 						size.height );
 
@@ -279,7 +269,7 @@ bool CTextureLoader::FromCubemapData( const CCubemapData &cubemapData, const std
 
 		glTextureStorage2D(	id,
 							1,
-							static_cast< GLenum >( m_internalTextureFormatCube ),
+							static_cast< GLenum >( m_openGlAdapter.PreferredInternalTextureFormatCube() ),
 							size.width,
 							size.height );
 
@@ -328,7 +318,7 @@ bool CTextureLoader::From2DArrayData( const C2DArrayData &arrayData, const std::
 
 		glTextureStorage3D(	id,
 							maxMipLevel,
-							static_cast< GLenum >( m_internalTextureFormat2DArray ),
+							static_cast< GLenum >( m_openGlAdapter.PreferredInternalTextureFormat2DArray() ),
 							size.width,
 							size.height,
 							layers.size() );

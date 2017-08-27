@@ -39,12 +39,7 @@ private:
 
 	const std::uint8_t m_iPicMip { 0 };
 
-	GLint m_iMaxTextureSize;
-	GLint m_iMaxCubeMapTextureSize;
-
-	const GLint m_internalTextureFormat2D;
-	const GLint m_internalTextureFormatCube;
-	const GLint m_internalTextureFormat2DArray;
+	const COpenGlAdapter &m_openGlAdapter;
 
 	const std::uint8_t MAX_TEXTURE_PICMIP { 4 };
 
