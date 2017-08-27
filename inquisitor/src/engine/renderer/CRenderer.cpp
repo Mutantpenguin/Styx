@@ -12,10 +12,11 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
+CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, CResourceCacheManager &resourceCacheManager )
 	try :
 		m_settings { settings },
-		m_textureManager( settings, filesystem, m_OpenGlAdapter ),
+		m_resourceCacheManager { resourceCacheManager },
+		m_textureCache { std::make_shared< CTextureCache >( settings, filesystem, m_OpenGlAdapter ) },
 		m_samplerManager( settings ),
 		m_shaderManager( filesystem ),
 		m_materialManager( filesystem, m_shaderManager )
@@ -53,6 +54,8 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem )
 		m_meshFrameBuffer = std::make_unique< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialFrameBuffer, frameBufferMeshTextures );
 	}
 
+	m_resourceCacheManager.Register< CTexture >( m_textureCache );
+
 	logINFO( "renderer was initialized" );
 }
 catch( CMaterialManager::Exception &e )
@@ -69,6 +72,8 @@ catch( COpenGlAdapter::Exception &e )
 CRenderer::~CRenderer( void )
 {
 	logINFO( "renderer is shutting down" );
+
+	m_resourceCacheManager.DeRegister( m_textureCache );
 }
 
 void CRenderer::CreateUniformBuffers( void )
@@ -81,14 +86,14 @@ void CRenderer::CreateUniformBuffers( void )
 										"mat4 viewProjectionMatrix;";
 
 		m_uboCamera = std::make_shared< CUniformBuffer >( ( 2 * sizeof( glm::vec4 ) ) + ( 3 * sizeof( glm::mat4 ) ), GL_DYNAMIC_DRAW, EUniformBufferLocation::CAMERA, "Camera", cameraBody );
-		m_materialManager.ShaderManager().RegisterUniformBuffer( m_uboCamera );
+		m_shaderManager.RegisterUniformBuffer( m_uboCamera );
 	}
 
 	{
 		const std::string timerBody = "uint time;";
 
 		m_uboTimer = std::make_shared< CUniformBuffer >( sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::TIME, "Timer", timerBody );
-		m_materialManager.ShaderManager().RegisterUniformBuffer( m_uboTimer );
+		m_shaderManager.RegisterUniformBuffer( m_uboTimer );
 	}
 
 	{
@@ -96,7 +101,7 @@ void CRenderer::CreateUniformBuffers( void )
 										"uint height;";
 
 		m_uboScreen = std::make_shared< CUniformBuffer >( 2 * sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::SCREEN, "Screen", screenBody );
-		m_materialManager.ShaderManager().RegisterUniformBuffer( m_uboScreen );
+		m_shaderManager.RegisterUniformBuffer( m_uboScreen );
 
 		m_uboScreen->SubData( 0,					sizeof( glm::uint ), &m_settings.renderer.window.size.width );
 		m_uboScreen->SubData( sizeof( glm::uint ),	sizeof( glm::uint ), &m_settings.renderer.window.size.height );
@@ -134,26 +139,6 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &ca
 	m_uboCamera->SubData( offset,	sizeof( viewProjectionMatrix ),	glm::value_ptr( viewProjectionMatrix ) );
 }
 
-
-// TODO not a great name for a function which essentially just does garbage collection...
-void CRenderer::Update( void )
-{
-	m_materialManager.Update();
-	m_textureManager.Update();
-}
-
-// TODO this is done by the ResourceCacheManager in the future
-void CRenderer::ReloadResources( void )
-{
-	m_textureManager.ReloadTextures();
-	m_materialManager.ReloadMaterials();
-}
-
-CTextureManager &CRenderer::TextureManager( void )
-{
-	return( m_textureManager );
-}
-
 CSamplerManager &CRenderer::SamplerManager( void )
 {
 	return( m_samplerManager );
@@ -162,6 +147,11 @@ CSamplerManager &CRenderer::SamplerManager( void )
 CMaterialManager &CRenderer::MaterialManager( void )
 {
 	return( m_materialManager );
+}
+
+COpenGlAdapter &CRenderer::OpenGlAdapter( void )
+{
+	return( m_OpenGlAdapter );
 }
 
 void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffer &framebuffer, const CTimer &timer ) const
@@ -240,7 +230,7 @@ void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	m_meshFrameBuffer->ChangeTexture( "screenTexture", framebuffer.ColorTexture(), m_samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) );
+	m_meshFrameBuffer->ChangeTexture( "screenTexture", framebuffer.ColorTexture(), m_samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) );
 
 	m_meshFrameBuffer->Material()->Setup();
 

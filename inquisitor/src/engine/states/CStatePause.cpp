@@ -13,6 +13,8 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 {
 	m_scene.ClearColor( CColor( 0.3f, 0.3f, 0.3f, 0.0f ) );
 
+	auto &resourceCache = engineInterface.ResourceCacheManager;
+
 	auto &renderer = engineInterface.Renderer;
 
 	{
@@ -39,7 +41,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		bgMeshPrimitive.Vertices[ 3 ].Position.x = static_cast< float >( windowSize.width );
 		bgMeshPrimitive.Vertices[ 3 ].Position.y = static_cast< float >( windowSize.height );
 
-		const CMesh::TTextures bgMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/pause/bg.png" ), renderer.SamplerManager().SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TTextures bgMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource<CTexture>( "textures/pause/bg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, materialPause, bgMeshTextures );
 
@@ -68,7 +70,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 			const auto materialPauseText = renderer.MaterialManager().LoadMaterial( "materials/standard_blend.mat" );
 
-			const CMesh::TTextures textMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( renderer.TextureManager().LoadTexture( "textures/pause/fg.png" ), renderer.SamplerManager().SamplerFromSamplerType( CSampler::SamplerType::EDGE_2D ) ) } };
+			const CMesh::TTextures textMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource<CTexture>( "textures/pause/fg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
 			const auto meshText = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, pauseTextMeshPrimitive, materialPauseText, textMeshTextures );
 
@@ -92,7 +94,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 			const auto materialPauseText = renderer.MaterialManager().LoadMaterial( "materials/pause_screenshot.mat" );
 
-			const CMesh::TTextures screenshotMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( m_pausedState->FrameBuffer().ColorTexture(), renderer.SamplerManager().SamplerFromSamplerType( CSampler::SamplerType::EDGE_2D ) ) } };
+			const CMesh::TTextures screenshotMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( m_pausedState->FrameBuffer().ColorTexture(), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
 			const auto screenshotMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, screenshotMeshPrimitive, materialPauseText, screenshotMeshTextures );
 

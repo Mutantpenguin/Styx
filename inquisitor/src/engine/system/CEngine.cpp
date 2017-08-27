@@ -98,9 +98,14 @@ void CEngine::Run( void )
 			lastUpdatedTime += m_settings.engine.tick;
 		}
 
-		m_resourceCacheManager.GarbageCollect();
+		m_engineInterface.ResourceCacheManager.CollectGarbage();
 
-		m_engineInterface.Renderer.Update();
+		#ifdef INQ_DEBUG
+			if( m_engineInterface.Input.KeyDown( SDL_SCANCODE_F12 ) )
+			{
+				m_engineInterface.ResourceCacheManager.Reload();
+			}
+		#endif
 
 		#ifdef INQ_DEBUG
 			if( m_engineInterface.GlobalTimer.dT() > m_settings.engine.tick )

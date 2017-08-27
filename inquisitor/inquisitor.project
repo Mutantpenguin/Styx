@@ -67,8 +67,6 @@
         </VirtualDirectory>
         <VirtualDirectory Name="texture">
           <File Name="src/engine/renderer/texture/CTexture.cpp"/>
-          <File Name="src/engine/renderer/texture/CTextureManager.hpp"/>
-          <File Name="src/engine/renderer/texture/CTextureManager.cpp"/>
           <File Name="src/engine/renderer/texture/CCubemapData.cpp"/>
           <File Name="src/engine/renderer/texture/CCubemapData.hpp"/>
           <File Name="src/engine/renderer/texture/CTexture.hpp"/>
@@ -76,6 +74,8 @@
           <File Name="src/engine/renderer/texture/C2DArrayData.cpp"/>
           <File Name="src/engine/renderer/texture/CTextureLoader.hpp"/>
           <File Name="src/engine/renderer/texture/CTextureLoader.cpp"/>
+          <File Name="src/engine/renderer/texture/CTextureCache.hpp"/>
+          <File Name="src/engine/renderer/texture/CTextureCache.cpp"/>
         </VirtualDirectory>
         <VirtualDirectory Name="shader">
           <File Name="src/engine/renderer/shader/SShaderInterface.hpp"/>
@@ -235,8 +235,8 @@
       <VirtualDirectory Name="resource">
         <File Name="src/engine/resource/CResourceCacheManager.cpp"/>
         <File Name="src/engine/resource/CResourceCacheManager.hpp"/>
-        <File Name="src/engine/resource/CFileResourceCache.hpp"/>
-        <File Name="src/engine/resource/CResourceCache.cpp"/>
+        <File Name="src/engine/resource/CResourceCacheBase.hpp"/>
+        <File Name="src/engine/resource/CResourceCacheBase.cpp"/>
         <File Name="src/engine/resource/CResourceCache.hpp"/>
       </VirtualDirectory>
     </VirtualDirectory>

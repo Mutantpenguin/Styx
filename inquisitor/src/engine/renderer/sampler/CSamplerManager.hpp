@@ -16,9 +16,9 @@ public:
 	CSamplerManager( const CSettings &p_settings );
 	~CSamplerManager( void );
 
-	[[nodiscard]] bool SamplerFromString( const std::string &string, std::shared_ptr< const CSampler > &sampler ) const;
+	[[nodiscard]] bool GetFromString( const std::string &string, std::shared_ptr< const CSampler > &sampler ) const;
 
-	[[nodiscard]] const std::shared_ptr< const CSampler > SamplerFromSamplerType( const CSampler::SamplerType type ) const;
+	[[nodiscard]] const std::shared_ptr< const CSampler > GetFromType( const CSampler::SamplerType type ) const;
 
 private:
 	std::uint8_t m_iAnisotropicLevel;

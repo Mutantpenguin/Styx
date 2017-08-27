@@ -10,8 +10,6 @@
 
 #include "src/engine/system/CEngineInterface.hpp"
 
-#include "src/engine/resource/CResourceCacheManager.hpp"
-
 #include "src/engine/states/CState.hpp"
 
 class CEngine final
@@ -44,8 +42,6 @@ private:
 	const CWindow	m_window;
 
 	CEngineInterface m_engineInterface;
-
-	CResourceCacheManager m_resourceCacheManager;
 
 	std::shared_ptr< CState > m_currentState;
 };

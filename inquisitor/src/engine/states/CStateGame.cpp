@@ -29,7 +29,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	soundManager.SetListener( m_cameraFree->Transform.Position(), m_cameraFree->Direction(), m_cameraFree->Up() );
 
 	auto &materialManager = renderer.MaterialManager();
-	auto &textureManager = renderer.TextureManager();
+	auto &resourceCache = m_engineInterface.ResourceCacheManager;
 	auto &samplerManager = renderer.SamplerManager();
 
 	// create floor
@@ -43,7 +43,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			vertex.TexCoord *= 10;
 		}
 
-		const CMesh::TTextures floorMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/texpack_2/stone_floor.png" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TTextures floorMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource<CTexture>( "textures/texpack_2/stone_floor.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 		const auto floorMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, floorMeshPrimitive, material, floorMeshTextures );
 
@@ -63,8 +63,8 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{
 		const auto materialWaitCursor = materialManager.LoadMaterial( "materials/wait_cursor.mat" );
 
-		const CMesh::TTextures movableMeshTextures = {	{ "skullTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/cursor/skull.png" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::EDGE_2D ) ) },
-														{ "waitTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/cursor/wait.png" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::EDGE_2D ) ) } };
+		const CMesh::TTextures movableMeshTextures = {	{ "skullTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource<CTexture>( "textures/cursor/skull.png" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) },
+														{ "waitTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource<CTexture>( "textures/cursor/wait.png" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
 		const auto movableMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialWaitCursor, movableMeshTextures );
 
@@ -80,7 +80,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{
 		const auto material1 = materialManager.LoadMaterial( "materials/schnarf.mat" );
 
-		const CMesh::TTextures schnarfMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/texpack_1/window_buildingside_06.jpg" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TTextures schnarfMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource<CTexture>( "textures/texpack_1/window_buildingside_06.jpg" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, schnarfMeshTextures );
 
@@ -106,9 +106,9 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{
 		const auto materialSuperBox = materialManager.LoadMaterial( "materials/superBox.mat" );
 
-		const CMesh::TTextures superBoxMeshTextures = {	{ "bgTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/texpack_1/mybitmap.bmp" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) },
-														{ "fgTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/texpack_1/senn_icyfangrate.tga" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) },
-														{ "skyBoxTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/cube/sixtine/sixtine.cub" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::EDGE_CUBE ) ) } };
+		const CMesh::TTextures superBoxMeshTextures = {	{ "bgTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource<CTexture>( "textures/texpack_1/mybitmap.bmp" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) },
+														{ "fgTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource<CTexture>( "textures/texpack_1/senn_icyfangrate.tga" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) },
+														{ "skyBoxTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource<CTexture>( "textures/cube/sixtine/sixtine.cub" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_CUBE ) ) } };
 
 		{
 			const auto superBoxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, superBoxMeshTextures );
@@ -149,7 +149,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{
 		const auto material = materialManager.LoadMaterial( "materials/standard.mat" );
 
-		const CMesh::TTextures meshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/texpack_1/black_border.png" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TTextures meshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource<CTexture>( "textures/texpack_1/black_border.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material, meshTextures );
 
@@ -204,7 +204,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{
 		const auto fireMaterial = materialManager.LoadMaterial( "materials/flames.mat" );
 
-		const CMesh::TTextures flamesMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/array/fire/fire.arr" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::EDGE_2D ) ) } };
+		const CMesh::TTextures flamesMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource<CTexture>( "textures/array/fire/fire.arr" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
 		const auto flamesMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, fireMaterial, flamesMeshTextures );
 
@@ -258,7 +258,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{
 		const auto material3 = materialManager.LoadMaterial( "materials/sky.mat" );
 
-		const CMesh::TTextures skyMeshTextures = { { "skyboxTexture", std::make_shared< CMeshTexture >( textureManager.LoadTexture( "textures/cube/sixtine/sixtine.cub" ), samplerManager.SamplerFromSamplerType( CSampler::SamplerType::EDGE_CUBE ) ) } };
+		const CMesh::TTextures skyMeshTextures = { { "skyboxTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource<CTexture>( "textures/cube/sixtine/sixtine.cub" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_CUBE ) ) } };
 
 		const auto skyboxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material3, skyMeshTextures );
 
@@ -279,8 +279,6 @@ CStateGame::~CStateGame()
 
 std::shared_ptr< CState > CStateGame::Update( void )
 {
-	auto &renderer = m_engineInterface.Renderer;
-
 	auto &soundManager = m_engineInterface.SoundManager;
 
 	const auto &input = m_engineInterface.Input;
@@ -293,12 +291,7 @@ std::shared_ptr< CState > CStateGame::Update( void )
 
 	const float spp = 2.0f * m_settings.engine.tick / 1000000;
 
-	// TODO 1: create a way to reload all resources with one function
-	// TODO 2: maybe create a way for systems to hook into the inputsystem, so we can provide globally active keyboard-shortcuts?
-	if( input.KeyDown( SDL_SCANCODE_F8 ) )
-	{
-		renderer.ReloadResources();
-	}
+	// TODO maybe create a way for systems to hook into the inputsystem, so we can provide globally active keyboard-shortcuts?
 
 	/*
 	 * move pulseMesh

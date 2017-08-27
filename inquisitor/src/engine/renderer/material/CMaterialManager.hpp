@@ -40,11 +40,7 @@ private:
 		std::int64_t					mtime;
 	};
 
-	CShaderManager &ShaderManager( void );
-
 	const CFileSystem &m_filesystem;
-
-	CShaderManager	&m_shaderManager;
 
 	const CMaterialLoader m_materialLoader;
 

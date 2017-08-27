@@ -10,6 +10,7 @@
 #include "src/engine/renderer/model/CMesh.hpp"
 
 #include "src/engine/system/CSettings.hpp"
+#include "src/engine/resource/CResourceCacheManager.hpp"
 
 #include "src/engine/scene/CScene.hpp"
 
@@ -17,7 +18,7 @@
 
 #include "src/engine/renderer/CFrameBuffer.hpp"
 
-#include "src/engine/renderer/texture/CTextureManager.hpp"
+#include "src/engine/renderer/texture/CTextureCache.hpp"
 #include "src/engine/renderer/sampler/CSamplerManager.hpp"
 #include "src/engine/renderer/material/CMaterialManager.hpp"
 
@@ -29,21 +30,17 @@ friend class CEngine;
 friend class CEngineInterface;
 
 private:
-	CRenderer( const CSettings &settings, const CFileSystem &filesystem );
+	CRenderer( const CSettings &settings, const CFileSystem &filesystem, CResourceCacheManager &resourceCacheManager );
 	~CRenderer( void );
-
 
 	CRenderer( const CRenderer &rhs ) = delete;
 	CRenderer& operator = ( const CRenderer &rhs ) = delete;
 
-	void	Update( void );
-
 public:
-	void ReloadResources( void );
-
 	CMaterialManager	&MaterialManager( void );
-	CTextureManager		&TextureManager( void );
 	CSamplerManager		&SamplerManager( void );
+
+	COpenGlAdapter	&OpenGlAdapter( void );
 
 	void	RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffer &framebuffer, const CTimer &timer ) const;
 
@@ -62,9 +59,12 @@ private:
 
 	const	CSettings &m_settings;
 
+	CResourceCacheManager &m_resourceCacheManager;
+
 	COpenGlAdapter m_OpenGlAdapter;
 
-	CTextureManager		m_textureManager;
+	std::shared_ptr< CTextureCache >	m_textureCache;
+
 	CSamplerManager		m_samplerManager;
 	CShaderManager		m_shaderManager;
 	CMaterialManager	m_materialManager;

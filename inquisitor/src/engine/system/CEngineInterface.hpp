@@ -8,11 +8,15 @@
 
 #include "src/engine/renderer/CRenderer.hpp"
 
+#include "src/engine/resource/CResourceCacheManager.hpp"
+
 class CEngineInterface final
 {
 public:
 	CEngineInterface( const CSettings &settings, const CFileSystem &filesystem );
 	~CEngineInterface();
+
+	CResourceCacheManager ResourceCacheManager;
 
 	CInput			Input;
 	CRenderer		Renderer;

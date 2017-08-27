@@ -1,5 +1,7 @@
 #include "CResourceCacheManager.hpp"
 
+#include <algorithm>
+
 #include "src/engine/logger/CLogger.hpp"
 
 CResourceCacheManager::CResourceCacheManager( void )
@@ -17,29 +19,15 @@ CResourceCacheManager::~CResourceCacheManager( void )
 		logWARNING( "there are still '{0}' registered caches", m_resourceCaches.size() );
 		for( const auto &cache : m_resourceCaches )
 		{
-			logDEBUG( "\t{0}:", cache->Name() );
+			logDEBUG( "\t{0}", cache.second->Name() );
 		}
 	}
 	#endif
 }
 
-void CResourceCacheManager::RegisterResourceCache( const std::shared_ptr< CResourceCache > &resourceCache )
+void CResourceCacheManager::DeRegister( const std::shared_ptr< CResourceCacheBase > &resourceCache )
 {
-	const auto it = m_resourceCaches.find( resourceCache );
-
-	if( it == std::cend( m_resourceCaches ) )
-	{
-		m_resourceCaches.insert( resourceCache );
-	}
-	else
-	{
-		logWARNING( "resource cache '{0}' already registered", resourceCache->Name() )
-	}
-}
-
-void CResourceCacheManager::UnRegisterResourceCache( const std::shared_ptr< CResourceCache > &resourceCache )
-{
-	const auto it = m_resourceCaches.find( resourceCache );
+	const auto it = std::find_if( std::cbegin( m_resourceCaches ), std::cend( m_resourceCaches ), [&] ( auto &x ) { return( x.second == resourceCache ); } );
 
 	if( it == std::cend( m_resourceCaches ) )
 	{
@@ -51,10 +39,19 @@ void CResourceCacheManager::UnRegisterResourceCache( const std::shared_ptr< CRes
 	}
 }
 
-void CResourceCacheManager::GarbageCollect( void )
+void CResourceCacheManager::CollectGarbage( void )
 {
 	for( auto &resourceCache : m_resourceCaches )
 	{
-		resourceCache->GarbageCollect();
+		resourceCache.second->CollectGarbage();
+	}
+}
+
+
+void CResourceCacheManager::Reload( void )
+{
+	for( auto &resourceCache : m_resourceCaches )
+	{
+		resourceCache.second->Reload();
 	}
 }

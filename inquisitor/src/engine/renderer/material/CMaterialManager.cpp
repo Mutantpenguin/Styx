@@ -5,8 +5,7 @@
 CMaterialManager::CMaterialManager( const CFileSystem &filesystem, CShaderManager &shaderManager )
 	try :
 		m_filesystem { filesystem },
-		m_shaderManager { shaderManager },
-		m_materialLoader( filesystem, m_shaderManager )
+		m_materialLoader( filesystem, shaderManager )
 {
 	logINFO( "material manager was initialized" );
 }
@@ -24,9 +23,9 @@ CMaterialManager::~CMaterialManager( void )
 	{
 		logWARNING( "there are still '{0}' existing materials", m_materialFiles.size() );
 		#ifdef INQ_DEBUG
-		for( const auto & [ filename, _ ] : m_materialFiles )
+		for( const auto & file : m_materialFiles )
 		{
-			logDEBUG( "\t{0}", filename );
+			logDEBUG( "\t{0}", file.first );
 		}
 		#endif
 	}
@@ -85,9 +84,4 @@ void CMaterialManager::ReloadMaterials( void )
 			materialFile.mtime = mtime;
 		}
 	}
-}
-
-CShaderManager &CMaterialManager::ShaderManager( void )
-{
-	return( m_shaderManager );
 }

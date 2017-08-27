@@ -87,7 +87,7 @@ CSamplerManager::~CSamplerManager( void )
 	logINFO( "sampler manager is shutting down" );
 }
 
-bool CSamplerManager::SamplerFromString( const std::string &string, std::shared_ptr< const CSampler > &sampler ) const
+bool CSamplerManager::GetFromString( const std::string &string, std::shared_ptr< const CSampler > &sampler ) const
 {
 	if( string == "REPEAT_2D" )
 	{
@@ -127,7 +127,7 @@ bool CSamplerManager::SamplerFromString( const std::string &string, std::shared_
 	return( true );
 }
 
-const std::shared_ptr< const CSampler > CSamplerManager::SamplerFromSamplerType( const CSampler::SamplerType type ) const
+const std::shared_ptr< const CSampler > CSamplerManager::GetFromType( const CSampler::SamplerType type ) const
 {
 	return( m_samplers[ static_cast< std::uint8_t >( type ) ] );
 }

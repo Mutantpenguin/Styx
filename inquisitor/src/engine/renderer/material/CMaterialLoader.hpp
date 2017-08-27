@@ -6,7 +6,7 @@
 #include "CMaterial.hpp"
 
 #include "src/engine/renderer/shader/CShaderManager.hpp"
-#include "src/engine/renderer/texture/CTextureManager.hpp"
+#include "src/engine/renderer/texture/CTextureCache.hpp"
 #include "src/engine/renderer/sampler/CSamplerManager.hpp"
 
 class CMaterialLoader final
