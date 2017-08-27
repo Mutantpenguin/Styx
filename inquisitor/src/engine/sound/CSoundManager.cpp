@@ -52,11 +52,11 @@ CSoundManager::~CSoundManager( void )
 
 	if( !m_soundBufferFiles.empty() )
 	{
-		logWARNING( "there are still '{0}' existing sound", m_soundBufferFiles.size() );
+		logWARNING( "there are still '{0}' existing sounds", m_soundBufferFiles.size() );
 		#ifdef INQ_DEBUG
-		for( const auto & [ filename, _ ] : m_soundBufferFiles )
+		for( const auto &file : m_soundBufferFiles )
 		{
-			logDEBUG( "\t{0}", filename );
+			logDEBUG( "\t{0}", file.first );
 		}
 		#endif
 	}
