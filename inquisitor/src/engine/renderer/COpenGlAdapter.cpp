@@ -48,7 +48,7 @@ COpenGlAdapter::COpenGlAdapter()
 		}
 		else
 		{
-			logWARNING( "neither {0} nor {1} are available", glbinding::Meta::getString( GLextension::GL_KHR_debug ), glbinding::Meta::getString( GLextension::GL_ARB_debug_output ) );
+			logWARNING( "since neither {0} nor {1} are available, OpenGL debug output is disabled", glbinding::Meta::getString( GLextension::GL_KHR_debug ), glbinding::Meta::getString( GLextension::GL_ARB_debug_output ) );
 		}
 	#endif
 
