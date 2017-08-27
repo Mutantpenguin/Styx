@@ -150,6 +150,24 @@ COpenGlAdapter::COpenGlAdapter()
 		glGetInternalformativ( GL_TEXTURE_CUBE_MAP,	GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_preferredInternalTextureFormatCube );
 		glGetInternalformativ( GL_TEXTURE_2D_ARRAY,	GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_preferredInternalTextureFormat2DArray );
 	}
+
+	// fetch the maximal texture size
+	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &m_maxTextureSize );
+	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_TEXTURE_SIZE ), m_maxTextureSize );
+
+	// fetch the maximal cubemap texture size
+	glGetIntegerv( GL_MAX_CUBE_MAP_TEXTURE_SIZE, &m_maxCubeMapTextureSize );
+	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_CUBE_MAP_TEXTURE_SIZE ), m_maxCubeMapTextureSize );
+}
+
+GLint COpenGlAdapter::MaxTextureSize( void ) const
+{
+	return( m_maxTextureSize );
+}
+
+GLint COpenGlAdapter::MaxCubeMapTextureSize( void ) const
+{
+	return( m_maxCubeMapTextureSize );
 }
 
 GLint COpenGlAdapter::PreferredInternalTextureFormat2D( void ) const
