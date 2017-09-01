@@ -30,7 +30,7 @@ public:
 	void AddEntity( const std::shared_ptr< const CEntity > &entity );
 	void RemoveEntity( const std::shared_ptr< const CEntity > &entity );
 
-	const TMeshes &Meshes( void ) const;
+	[[nodiscard]] const TMeshes &Meshes( void ) const;
 
 	[[nodiscard]] const std::shared_ptr< const CCamera > &Camera( void ) const;
 	void Camera( const std::shared_ptr< const CCamera > &camera );

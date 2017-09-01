@@ -2,17 +2,11 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-CMaterialManager::CMaterialManager( const CFileSystem &filesystem, CShaderManager &shaderManager )
-	try :
-		m_filesystem { filesystem },
-		m_materialLoader( filesystem, shaderManager )
+CMaterialManager::CMaterialManager( const CFileSystem &filesystem, CShaderManager &shaderManager ) :
+	m_filesystem { filesystem },
+	m_materialLoader( filesystem, shaderManager )
 {
 	logINFO( "material manager was initialized" );
-}
-catch( CShaderManager::Exception &e )
-{
-	logERROR( "unable to initialize ShaderManager" );
-	throw Exception();
 }
 
 CMaterialManager::~CMaterialManager( void )

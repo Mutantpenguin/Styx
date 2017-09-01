@@ -63,6 +63,11 @@ catch( CMaterialManager::Exception &e )
 	logERROR( "unable to initialize MaterialManager" );
 	throw Exception();
 }
+catch( CShaderManager::Exception &e )
+{
+	logERROR( "unable to initialize ShaderManager" );
+	throw Exception();
+}
 catch( COpenGlAdapter::Exception &e )
 {
 	logERROR( "unable to initialize OpenGlAdapter" );
