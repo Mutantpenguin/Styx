@@ -23,14 +23,13 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	}
 
 	auto &renderer = m_engineInterface.Renderer;
-	auto &materialManager = renderer.MaterialManager();
 	auto &resourceCache = m_engineInterface.ResourceCacheManager;
 	auto &samplerManager = renderer.SamplerManager();
 
 	const CSize &windowSize = settings.renderer.window.size;
 
 	{
-		const auto material = materialManager.LoadMaterial( "materials/standard.mat" );
+		const auto material = resourceCache.GetResource< CMaterial >( "materials/standard.mat" );
 
 		auto bgMeshPrimitive = Primitives::quad;
 		bgMeshPrimitive.Vertices[ 0 ].Position.x = 0.0f;
@@ -53,7 +52,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	}
 
 	{
-		const auto material = materialManager.LoadMaterial( "materials/standard_blend.mat" );
+		const auto material = resourceCache.GetResource< CMaterial >( "materials/standard_blend.mat" );
 
 		const float halfTitleWidth = windowSize.width * 0.75f / 2;
 		const float halfTitleHeight = halfTitleWidth / 4.0f;
@@ -93,7 +92,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	buttonMeshPrimitive.Vertices[ 3 ].Position.y = halfButtonHeight;
 
 	{
-		const auto greenMaterial = materialManager.LoadMaterial( "materials/green.mat" );
+		const auto greenMaterial = resourceCache.GetResource< CMaterial >( "materials/green.mat" );
 
 		const auto startMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonMeshPrimitive, greenMaterial );
 
@@ -105,7 +104,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	}
 
 	{
-		const auto redMaterial = materialManager.LoadMaterial( "materials/red.mat" );
+		const auto redMaterial = resourceCache.GetResource< CMaterial >( "materials/red.mat" );
 
 		const auto exitMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonMeshPrimitive, redMaterial );
 

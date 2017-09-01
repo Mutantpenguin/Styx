@@ -19,7 +19,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 		m_textureCache { std::make_shared< CTextureCache >( settings, filesystem, m_OpenGlAdapter ) },
 		m_samplerManager( settings ),
 		m_shaderManager( filesystem ),
-		m_materialManager( filesystem, m_shaderManager )
+		m_materialCache { std::make_shared< CMaterialCache >( filesystem, m_shaderManager ) }
 {
 	glDepthFunc( GL_LEQUAL );
 	glEnable( GL_DEPTH_TEST );
@@ -55,13 +55,9 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 	}
 
 	m_resourceCacheManager.Register< CTexture >( m_textureCache );
+	m_resourceCacheManager.Register< CMaterial >( m_materialCache );
 
 	logINFO( "renderer was initialized" );
-}
-catch( CMaterialManager::Exception &e )
-{
-	logERROR( "unable to initialize MaterialManager" );
-	throw Exception();
 }
 catch( CShaderManager::Exception &e )
 {
@@ -78,6 +74,7 @@ CRenderer::~CRenderer( void )
 {
 	logINFO( "renderer is shutting down" );
 
+	m_resourceCacheManager.DeRegister( m_materialCache );
 	m_resourceCacheManager.DeRegister( m_textureCache );
 }
 
@@ -147,11 +144,6 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &ca
 CSamplerManager &CRenderer::SamplerManager( void )
 {
 	return( m_samplerManager );
-}
-
-CMaterialManager &CRenderer::MaterialManager( void )
-{
-	return( m_materialManager );
 }
 
 COpenGlAdapter &CRenderer::OpenGlAdapter( void )

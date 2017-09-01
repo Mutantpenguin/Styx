@@ -29,7 +29,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	const CSize &windowSize = settings.renderer.window.size;
 
 	{
-		const auto materialPause = renderer.MaterialManager().LoadMaterial( "materials/pause_bg.mat" );
+		const auto materialPause = resourceCache.GetResource< CMaterial >( "materials/pause_bg.mat" );
 
 		auto bgMeshPrimitive = Primitives::quad;
 		bgMeshPrimitive.Vertices[ 0 ].Position.x = 0.0f;
@@ -68,7 +68,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 			pauseTextMeshPrimitive.Vertices[ 3 ].Position.x = halfPauseElementsWidth;
 			pauseTextMeshPrimitive.Vertices[ 3 ].Position.y = halfPauseTextHeight;
 
-			const auto materialPauseText = renderer.MaterialManager().LoadMaterial( "materials/standard_blend.mat" );
+			const auto materialPauseText = resourceCache.GetResource< CMaterial >( "materials/standard_blend.mat" );
 
 			const CMesh::TTextures textMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource<CTexture>( "textures/pause/fg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
@@ -92,7 +92,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 			screenshotMeshPrimitive.Vertices[ 3 ].Position.x = halfPauseElementsWidth;
 			screenshotMeshPrimitive.Vertices[ 3 ].Position.y = halfScreenshotHeight;
 
-			const auto materialPauseText = renderer.MaterialManager().LoadMaterial( "materials/pause_screenshot.mat" );
+			const auto materialPauseText = resourceCache.GetResource< CMaterial >( "materials/pause_screenshot.mat" );
 
 			const CMesh::TTextures screenshotMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( m_pausedState->FrameBuffer().ColorTexture(), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 

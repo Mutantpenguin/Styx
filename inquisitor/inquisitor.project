@@ -59,11 +59,11 @@
           <File Name="src/engine/renderer/material/CMaterial.hpp"/>
           <File Name="src/engine/renderer/material/CMaterial.cpp"/>
           <File Name="src/engine/renderer/material/CMaterialLoader.cpp"/>
-          <File Name="src/engine/renderer/material/CMaterialManager.cpp"/>
           <File Name="src/engine/renderer/material/CMaterialLoader.hpp"/>
-          <File Name="src/engine/renderer/material/CMaterialManager.hpp"/>
           <File Name="src/engine/renderer/material/CMaterialUniform.hpp"/>
           <File Name="src/engine/renderer/material/CMaterialUniform.cpp"/>
+          <File Name="src/engine/renderer/material/CMaterialCache.cpp"/>
+          <File Name="src/engine/renderer/material/CMaterialCache.hpp"/>
         </VirtualDirectory>
         <VirtualDirectory Name="texture">
           <File Name="src/engine/renderer/texture/CTexture.cpp"/>
