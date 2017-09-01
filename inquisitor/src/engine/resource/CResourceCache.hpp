@@ -1,5 +1,5 @@
-#ifndef CFILERESOURCECACHE_HPP
-#define CFILERESOURCECACHE_HPP
+#ifndef CESOURCECACHE_HPP
+#define CESOURCECACHE_HPP
 
 #include <memory>
 #include <unordered_map>
@@ -109,4 +109,4 @@ private:
 	std::unordered_map< std::string, sResourceFile > m_resourceFiles;
 };
 
-#endif // CFILERESOURCECACHE_HPP
+#endif // CESOURCECACHE_HPP
