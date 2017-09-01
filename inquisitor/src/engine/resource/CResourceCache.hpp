@@ -50,7 +50,7 @@ public:
 
 		auto newResource = std::make_shared< T >();
 
-		LoadFromFile( path, newResource );
+		LoadFromFile( newResource, path );
 
 		auto &resourceFile = m_resourceFiles[ path ];
 
@@ -88,7 +88,7 @@ public:
 
 				resourceFile.resource->Reset();
 
-				LoadFromFile( filename, resourceFile.resource );
+				LoadFromFile( resourceFile.resource, filename );
 
 				resourceFile.mtime = currentMtime;
 			}
@@ -96,7 +96,7 @@ public:
 	}
 
 private:
-	virtual void LoadFromFile( const std::string &path, const std::shared_ptr< T > &resource ) = 0;
+	virtual void LoadFromFile( const std::shared_ptr< T > &resource, const std::string &path ) = 0;
 
 	struct sResourceFile
 	{

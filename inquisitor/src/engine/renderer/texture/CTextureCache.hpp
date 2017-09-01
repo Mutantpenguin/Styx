@@ -16,7 +16,7 @@ public:
 	CTextureCache( const CSettings &psettings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter );
 
 private:
-	void LoadFromFile( const std::string &path, const std::shared_ptr< CTexture > &resource ) override;
+	void LoadFromFile( const std::shared_ptr< CTexture > &resource, const std::string &path ) override;
 
 	const CTextureLoader m_textureLoader;
 };
