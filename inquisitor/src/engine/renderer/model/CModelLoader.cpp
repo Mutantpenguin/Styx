@@ -15,7 +15,7 @@ CModelLoader::~CModelLoader()
 	logINFO( "model loader is shutting down" );
 }
 
-void CModelLoader::FromFile( const std::string &path, std::shared_ptr< CModel > &model ) const
+void CModelLoader::FromFile( const std::shared_ptr< CModel > &model, const std::string &path ) const
 {
 	if( !m_filesystem.Exists( path ) )
 	{
@@ -37,26 +37,26 @@ void CModelLoader::FromFile( const std::string &path, std::shared_ptr< CModel > 
 
 	const std::string directory = path.substr( 0, path.find_last_of( m_filesystem.GetDirSeparator() ) );
 
-	ProcessNode( scene->mRootNode, scene, model );
+	ProcessNode( model, scene->mRootNode, scene );
 }
 
-void CModelLoader::ProcessNode( const aiNode *node, const aiScene *scene, std::shared_ptr< CModel > &model ) const
+void CModelLoader::ProcessNode( const std::shared_ptr< CModel > &model, const aiNode *node, const aiScene *scene ) const
 {
     // Process all the node's meshes (if any)
     for( GLuint i = 0; i < node->mNumMeshes; i++ )
     {
         aiMesh* mesh = scene->mMeshes[ node->mMeshes[ i ] ];
-        ProcessMesh( mesh, scene, model );
+        ProcessMesh( model, mesh, scene );
     }
 
     // Then do the same for each of its children
     for( GLuint i = 0; i < node->mNumChildren; i++ )
     {
-        ProcessNode( node->mChildren[ i ], scene, model );
+        ProcessNode( model, node->mChildren[ i ], scene );
     }
 }
 
-void CModelLoader::ProcessMesh( const aiMesh *mesh, const aiScene *scene, std::shared_ptr< CModel > &model ) const
+void CModelLoader::ProcessMesh( const std::shared_ptr< CModel > &model, const aiMesh *mesh, const aiScene *scene ) const
 {
 	//CMesh mesh(
 
@@ -90,7 +90,7 @@ void CModelLoader::ProcessMesh( const aiMesh *mesh, const aiScene *scene, std::s
 	 * */
 }
 
-void CModelLoader::FromDummy( std::shared_ptr< CModel > &model ) const
+void CModelLoader::FromDummy( const std::shared_ptr< CModel > &model ) const
 {
 	logERROR( "not implemented yet" );
 	throw new std::logic_error( "Function not yet implemented" );

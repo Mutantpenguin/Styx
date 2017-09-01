@@ -23,16 +23,16 @@ public:
 	CModelLoader( const CFileSystem &p_filesystem );
 	~CModelLoader();
 
-	void FromFile( const std::string &path, std::shared_ptr< CModel > &model ) const;
+	void FromFile( const std::shared_ptr< CModel > &model, const std::string &path ) const;
 
 private:
 	const CFileSystem &m_filesystem;
 
-	void ProcessNode( const aiNode *node, const aiScene *scene, std::shared_ptr< CModel > &model ) const;
+	void ProcessNode( const std::shared_ptr< CModel > &model, const aiNode *node, const aiScene *scene ) const;
 
-	void ProcessMesh( const aiMesh *mesh, const aiScene *scene, std::shared_ptr< CModel > &model ) const;
+	void ProcessMesh( const std::shared_ptr< CModel > &model, const aiMesh *mesh, const aiScene *scene ) const;
 
-	void FromDummy( std::shared_ptr< CModel > &model ) const;
+	void FromDummy( const std::shared_ptr< CModel > &model ) const;
 };
 
 #endif // CMODELLOADER_HPP
