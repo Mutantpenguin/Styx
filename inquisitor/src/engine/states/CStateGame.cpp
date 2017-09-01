@@ -267,7 +267,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		m_scene.AddEntity( m_skyboxEntity );
 	}
 
-	m_backgroundMusic = std::make_shared< CSoundSource >( soundManager.LoadSoundBuffer( "music/rise_of_spirit.ogg" ) );
+	m_backgroundMusic = std::make_shared< CSoundSource >( resourceCache.GetResource< CSoundBuffer >( "music/rise_of_spirit.ogg" ) );
 	m_backgroundMusic->Play();
 	m_backgroundMusic->SetLooping( true );
 }

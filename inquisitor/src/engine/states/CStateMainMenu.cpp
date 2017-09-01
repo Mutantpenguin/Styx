@@ -8,7 +8,7 @@
 
 CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "main menu", filesystem, settings, engineInterface ),
-	m_buttonChangeSound { std::make_shared< CSoundSource>( engineInterface.SoundManager.LoadSoundBuffer( "sounds/Pickup_Coin17.wav" ) ) }
+	m_buttonChangeSound { std::make_shared< CSoundSource>( engineInterface.ResourceCacheManager.GetResource< CSoundBuffer >( "sounds/Pickup_Coin17.wav" ) ) }
 {
 	m_buttonChangeSound->SetLooping( false );
 	m_buttonChangeSound->SetRelativePositioning( true );

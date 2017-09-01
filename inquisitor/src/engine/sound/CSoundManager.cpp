@@ -6,9 +6,9 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-CSoundManager::CSoundManager( const CSettings &settings, const CFileSystem &p_filesystem ) :
-	m_filesystem { p_filesystem },
-	m_soundBufferloader { p_filesystem },
+CSoundManager::CSoundManager( const CSettings &settings, const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager ) :
+	m_soundBufferCache { std::make_shared< CSoundBufferCache >( p_filesystem ) },
+	m_resourceCacheManager { resourceCacheManager },
 	m_buffer_size { settings.sound.buffer_size }
 {
 	m_AL_device = alcOpenDevice( nullptr );
@@ -43,6 +43,8 @@ CSoundManager::CSoundManager( const CSettings &settings, const CFileSystem &p_fi
 
 	logINFO( "\tVendor:  {0}", alGetString( AL_VENDOR ) );
 
+	m_resourceCacheManager.Register< CSoundBuffer >( m_soundBufferCache );
+
 	logINFO( "sound manager was initialized" );
 }
 
@@ -50,55 +52,11 @@ CSoundManager::~CSoundManager( void )
 {
 	logINFO( "sound manager is shutting down" );
 
-	if( !m_soundBufferFiles.empty() )
-	{
-		logWARNING( "there are still '{0}' existing sounds", m_soundBufferFiles.size() );
-		#ifdef INQ_DEBUG
-		for( const auto &file : m_soundBufferFiles )
-		{
-			logDEBUG( "\t{0}", file.first );
-		}
-		#endif
-	}
+	m_resourceCacheManager.DeRegister( m_soundBufferCache );
 
 	alcDestroyContext( m_AL_context );
 
 	alcCloseDevice( m_AL_device );
-}
-
-std::shared_ptr< CSoundBuffer > CSoundManager::LoadSoundBuffer( const std::string &path )
-{
-	const auto it = m_soundBufferFiles.find( path );
-	if( std::end( m_soundBufferFiles ) != it )
-	{
-		return( it->second.soundBuffer );
-	}
-
-	auto newSoundBuffer = std::make_shared< CSoundBuffer >();
-
-	m_soundBufferloader.FromFile( newSoundBuffer, path );
-
-	auto &soundBufferFile = m_soundBufferFiles[ path ];
-
-	soundBufferFile.soundBuffer = newSoundBuffer;
-	soundBufferFile.mtime 		= m_filesystem.GetLastModTime( path );
-
-	return( newSoundBuffer );
-}
-
-void CSoundManager::Update( void )
-{
-	for( auto it = std::cbegin( m_soundBufferFiles ); it != std::cend( m_soundBufferFiles ); )
-	{
-		if( it->second.soundBuffer.unique() )
-		{
-			m_soundBufferFiles.erase( it++ );
-		}
-		else
-		{
-			++it;
-		}
-	}
 }
 
 void CSoundManager::SetListener( const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up )
@@ -107,25 +65,4 @@ void CSoundManager::SetListener( const glm::vec3 &position, const glm::vec3 &dir
 
 	const std::array< ALfloat, 6 > orientation = { { direction.x, direction.y, direction.z, up.x, up.y, up.z } };
 	alListenerfv( AL_ORIENTATION, orientation.data() );
-}
-
-// TODO where to call?
-void CSoundManager::ReloadSoundBuffers( void )
-{
-	logINFO( "reloading sound buffers:" );
-
-	for( auto & [ filename, soundBufferFile ] : m_soundBufferFiles )
-	{
-		const auto mtime = m_filesystem.GetLastModTime( filename );
-		if( mtime > soundBufferFile.mtime )
-		{
-			logINFO( "    {0}", filename );
-
-			soundBufferFile.soundBuffer->Reset();
-
-			m_soundBufferloader.FromFile( soundBufferFile.soundBuffer, filename );
-
-			soundBufferFile.mtime = mtime;
-		}
-	}
 }

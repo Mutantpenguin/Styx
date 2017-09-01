@@ -86,8 +86,6 @@ void CEngine::Run( void )
 
 		m_engineInterface.Renderer.DisplayFramebuffer( m_currentState->FrameBuffer() );
 
-		m_engineInterface.SoundManager.Update();
-
 		const std::uint64_t currentTime = m_engineInterface.GlobalTimer.Time();
 		while( m_currentState && ( currentTime - lastUpdatedTime ) > m_settings.engine.tick )
 		{

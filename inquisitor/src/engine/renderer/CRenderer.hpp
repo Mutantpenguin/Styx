@@ -10,6 +10,7 @@
 #include "src/engine/renderer/model/CMesh.hpp"
 
 #include "src/engine/system/CSettings.hpp"
+
 #include "src/engine/resource/CResourceCacheManager.hpp"
 
 #include "src/engine/scene/CScene.hpp"
