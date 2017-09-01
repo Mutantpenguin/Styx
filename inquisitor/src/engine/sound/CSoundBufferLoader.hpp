@@ -13,7 +13,7 @@ public:
 	CSoundBufferLoader( const CFileSystem &p_filesystem );
 	~CSoundBufferLoader( void );
 
-	void FromFile( std::shared_ptr< CSoundBuffer > &soundBuffer, const std::string &path ) const;
+	void FromFile( const std::shared_ptr< CSoundBuffer > &soundBuffer, const std::string &path ) const;
 
 private:
 	using TSoundData = struct

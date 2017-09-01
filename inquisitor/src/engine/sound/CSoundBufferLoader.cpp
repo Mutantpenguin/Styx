@@ -21,7 +21,7 @@ CSoundBufferLoader::~CSoundBufferLoader( void )
 	logINFO( "sound buffer loader is shutting down" );
 }
 
-void CSoundBufferLoader::FromFile( std::shared_ptr< CSoundBuffer > &soundBuffer, const std::string &path ) const
+void CSoundBufferLoader::FromFile( const std::shared_ptr< CSoundBuffer > &soundBuffer, const std::string &path ) const
 {
 	if( !m_filesystem.Exists( path ) )
 	{
