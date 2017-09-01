@@ -9,7 +9,7 @@
 CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "intro", filesystem, settings, engineInterface ),
 	m_startTime { engineInterface.GlobalTimer.Time() },
-	m_introSound { std::make_shared< CSoundSource>( engineInterface.SoundManager.LoadSoundBuffer( "sounds/startup_sound.ogg" ) ) },
+	m_introSound { std::make_shared< CSoundSource>( engineInterface.ResourceCacheManager.GetResource< CSoundBuffer >( "sounds/startup_sound.ogg" ) ) },
 	m_introDuration { m_introSound->Buffer()->Duration() * 1000000 }
 {
 	m_scene.ClearColor( CColor( 1.0f, 1.0f, 1.0f, 1.0f ) );

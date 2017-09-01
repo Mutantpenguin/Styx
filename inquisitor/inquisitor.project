@@ -214,6 +214,8 @@
         <File Name="src/engine/sound/CSoundBufferLoader.hpp"/>
         <File Name="src/engine/sound/CSoundSource.hpp"/>
         <File Name="src/engine/sound/CSoundSource.cpp"/>
+        <File Name="src/engine/sound/CSoundBufferCache.cpp"/>
+        <File Name="src/engine/sound/CSoundBufferCache.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="states">
         <File Name="src/engine/states/CState.hpp"/>

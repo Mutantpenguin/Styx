@@ -9,12 +9,11 @@
 class CSoundBuffer final
 {
 	friend class CSoundBufferLoader;
-	friend class CSoundManager;
 	friend class CSoundSource;
 
 private:
-	CSoundBuffer(const CSoundBuffer& rhs);
-	CSoundBuffer& operator=(const CSoundBuffer& rhs);
+	CSoundBuffer( const CSoundBuffer& rhs );
+	CSoundBuffer & operator = ( const CSoundBuffer& rhs );
 
 public:
 	CSoundBuffer();
@@ -29,9 +28,9 @@ public:
 	format Format( void ) const;
 	float Duration( void ) const;
 
-private:
 	void Reset( void );
 
+private:
 	ALuint m_bufferID;
 
 	format	m_format;
