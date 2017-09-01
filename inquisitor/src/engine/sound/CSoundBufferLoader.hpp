@@ -13,7 +13,7 @@ public:
 	CSoundBufferLoader( const CFileSystem &p_filesystem );
 	~CSoundBufferLoader( void );
 
-	void FromFile( const std::string &path, std::shared_ptr< CSoundBuffer > &soundBuffer ) const;
+	void FromFile( std::shared_ptr< CSoundBuffer > &soundBuffer, const std::string &path ) const;
 
 private:
 	using TSoundData = struct
@@ -27,12 +27,12 @@ private:
 private:
 	const CFileSystem &m_filesystem;
 
-	bool FromOggFile( const std::string &path, const std::shared_ptr< CSoundBuffer > &soundBuffer ) const;
-	bool FromWavFile( const std::string &path, const std::shared_ptr< CSoundBuffer > &soundBuffer ) const;
+	bool FromOggFile( const std::shared_ptr< CSoundBuffer > &soundBuffer, const std::string &path ) const;
+	bool FromWavFile( const std::shared_ptr< CSoundBuffer > &soundBuffer, const std::string &path ) const;
 
 	void FromDummy( const std::shared_ptr< CSoundBuffer > &soundBuffer ) const;
 
-	void FromTSoundData( const TSoundData &soundData, const std::shared_ptr< CSoundBuffer > &soundBuffer ) const;
+	void FromTSoundData( const std::shared_ptr< CSoundBuffer > &soundBuffer, const TSoundData &soundData ) const;
 };
 
 #endif // CSOUNDLOADER_HPP

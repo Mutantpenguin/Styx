@@ -76,7 +76,7 @@ std::shared_ptr< CSoundBuffer > CSoundManager::LoadSoundBuffer( const std::strin
 
 	auto newSoundBuffer = std::make_shared< CSoundBuffer >();
 
-	m_soundBufferloader.FromFile( path, newSoundBuffer );
+	m_soundBufferloader.FromFile( newSoundBuffer, path );
 
 	auto &soundBufferFile = m_soundBufferFiles[ path ];
 
@@ -123,7 +123,7 @@ void CSoundManager::ReloadSoundBuffers( void )
 
 			soundBufferFile.soundBuffer->Reset();
 
-			m_soundBufferloader.FromFile( filename, soundBufferFile.soundBuffer );
+			m_soundBufferloader.FromFile( soundBufferFile.soundBuffer, filename );
 
 			soundBufferFile.mtime = mtime;
 		}

@@ -21,7 +21,7 @@ CSoundBufferLoader::~CSoundBufferLoader( void )
 	logINFO( "sound buffer loader is shutting down" );
 }
 
-void CSoundBufferLoader::FromFile( const std::string &path, std::shared_ptr< CSoundBuffer > &soundBuffer ) const
+void CSoundBufferLoader::FromFile( std::shared_ptr< CSoundBuffer > &soundBuffer, const std::string &path ) const
 {
 	if( !m_filesystem.Exists( path ) )
 	{
@@ -34,14 +34,14 @@ void CSoundBufferLoader::FromFile( const std::string &path, std::shared_ptr< CSo
 
 		if( fileExtension == std::string( "ogg" ) )
 		{
-			if( !FromOggFile( path, soundBuffer ) )
+			if( !FromOggFile( soundBuffer, path ) )
 			{
 				FromDummy( soundBuffer );
 			}
 		}
 		else if( fileExtension == std::string( "wav" ) )
 		{
-			if( !FromWavFile( path, soundBuffer ) )
+			if( !FromWavFile( soundBuffer, path ) )
 			{
 				FromDummy( soundBuffer );
 			}
@@ -53,7 +53,7 @@ void CSoundBufferLoader::FromFile( const std::string &path, std::shared_ptr< CSo
 	}
 }
 
-bool CSoundBufferLoader::FromOggFile( const std::string &path, const std::shared_ptr< CSoundBuffer > &soundBuffer ) const
+bool CSoundBufferLoader::FromOggFile( const std::shared_ptr< CSoundBuffer > &soundBuffer, const std::string &path ) const
 {
 	auto const fileBuffer = m_filesystem.LoadFileToBuffer( path );
 
@@ -92,7 +92,7 @@ bool CSoundBufferLoader::FromOggFile( const std::string &path, const std::shared
 
 			logDEBUG( "{0} / duration: {1:.0f}s / channels: {2} / sample rate: {3}", path, bufferDecoded.duration, info.channels, bufferDecoded.frequency );
 
-			FromTSoundData( bufferDecoded, soundBuffer );
+			FromTSoundData( soundBuffer, bufferDecoded );
 
 			return( true );
 		}
@@ -104,7 +104,7 @@ bool CSoundBufferLoader::FromOggFile( const std::string &path, const std::shared
 	}
 }
 
-bool CSoundBufferLoader::FromWavFile( const std::string &path, const std::shared_ptr< CSoundBuffer > &soundBuffer ) const
+bool CSoundBufferLoader::FromWavFile( const std::shared_ptr< CSoundBuffer > &soundBuffer, const std::string &path ) const
 {
 	auto const fileBuffer = m_filesystem.LoadFileToBuffer( path );
 
@@ -135,7 +135,7 @@ bool CSoundBufferLoader::FromWavFile( const std::string &path, const std::shared
 
 		logDEBUG( "{0} / duration: {1:.0f}s / channels: {2} / sample rate: {3}", path, bufferDecoded.duration, wav.channels, bufferDecoded.frequency );
 
-		FromTSoundData( bufferDecoded, soundBuffer );
+		FromTSoundData( soundBuffer, bufferDecoded );
 
 		return( true );
 	}
@@ -146,7 +146,7 @@ bool CSoundBufferLoader::FromWavFile( const std::string &path, const std::shared
 	}
 }
 
-void CSoundBufferLoader::FromTSoundData( const TSoundData &soundData, const std::shared_ptr< CSoundBuffer > &soundBuffer ) const
+void CSoundBufferLoader::FromTSoundData( const std::shared_ptr< CSoundBuffer > &soundBuffer, const TSoundData &soundData ) const
 {
 	soundBuffer->m_duration = soundData.duration;
 	soundBuffer->m_format = soundData.format;
