@@ -35,7 +35,7 @@ CTextureLoader::~CTextureLoader( void )
 	logINFO( "texture loader is shutting down" );
 }
 
-void CTextureLoader::FromFile( const std::string &path, const std::shared_ptr< CTexture > &texture ) const
+void CTextureLoader::FromFile( const std::shared_ptr< CTexture > &texture, const std::string &path ) const
 {
 	// TODO implement loading of compressed images in our own format
 	// TODO or just use libktx?
@@ -51,21 +51,21 @@ void CTextureLoader::FromFile( const std::string &path, const std::shared_ptr< C
 
 		if( fileExtension == std::string( "cub" ) )
 		{
-			if( !FromCubeFile( path, texture ) )
+			if( !FromCubeFile( texture, path ) )
 			{
 				FromDummy( texture );
 			}
 		}
 		else if( fileExtension == std::string( "arr" ) )
 		{
-			if( !From2DArrayFile( path, texture ) )
+			if( !From2DArrayFile( texture, path ) )
 			{
 				FromDummy( texture );
 			}
 		}
 		else
 		{
-			if( !FromImageFile( path, texture ) )
+			if( !FromImageFile( texture, path ) )
 			{
 				FromDummy( texture );
 			}
@@ -73,7 +73,7 @@ void CTextureLoader::FromFile( const std::string &path, const std::shared_ptr< C
 	}
 }
 
-bool CTextureLoader::FromImageFile( const std::string &path, const std::shared_ptr< CTexture > &texture ) const
+bool CTextureLoader::FromImageFile( const std::shared_ptr< CTexture > &texture, const std::string &path ) const
 {
 	const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path, m_openGlAdapter.MaxTextureSize(), m_iPicMip, false );
 
@@ -84,12 +84,12 @@ bool CTextureLoader::FromImageFile( const std::string &path, const std::shared_p
 	}
 	else
 	{
-		FromImage( image, texture );
+		FromImage( texture, image );
 		return( true );
 	}
 }
 
-bool CTextureLoader::FromCubeFile( const std::string &path, const std::shared_ptr< CTexture > &texture ) const
+bool CTextureLoader::FromCubeFile( const std::shared_ptr< CTexture > &texture, const std::string &path ) const
 {
 	json root;
 
@@ -144,7 +144,7 @@ bool CTextureLoader::FromCubeFile( const std::string &path, const std::shared_pt
 		}
 	}
 
-	if( FromCubemapData( cubemapData, texture ) )
+	if( FromCubemapData( texture, cubemapData ) )
 	{
 		return( true );
 	}
@@ -155,7 +155,7 @@ bool CTextureLoader::FromCubeFile( const std::string &path, const std::shared_pt
 	}
 }
 
-bool CTextureLoader::From2DArrayFile( const std::string &path, const std::shared_ptr< CTexture > &texture ) const
+bool CTextureLoader::From2DArrayFile( const std::shared_ptr< CTexture > &texture, const std::string &path ) const
 {
 	json root;
 
@@ -206,7 +206,7 @@ bool CTextureLoader::From2DArrayFile( const std::string &path, const std::shared
 		}
 	}
 
-	if( From2DArrayData( arrayData, texture ) )
+	if( From2DArrayData( texture, arrayData ) )
 	{
 		return( true );
 	}
@@ -217,7 +217,7 @@ bool CTextureLoader::From2DArrayFile( const std::string &path, const std::shared
 	}
 }
 
-void CTextureLoader::FromImage( const std::shared_ptr< const CImage > &image, const std::shared_ptr< CTexture > &texture ) const
+void CTextureLoader::FromImage( const std::shared_ptr< CTexture > &texture, const std::shared_ptr< const CImage > &image ) const
 {
 	texture->Type( CTexture::TextureType::TEX_2D );
 
@@ -250,7 +250,7 @@ void CTextureLoader::FromImage( const std::shared_ptr< const CImage > &image, co
 	glGenerateTextureMipmap( id );
 }
 
-bool CTextureLoader::FromCubemapData( const CCubemapData &cubemapData, const std::shared_ptr< CTexture > &texture ) const
+bool CTextureLoader::FromCubemapData( const std::shared_ptr< CTexture > &texture, const CCubemapData &cubemapData ) const
 {
 	if( cubemapData.isComplete() )
 	{
@@ -298,7 +298,7 @@ bool CTextureLoader::FromCubemapData( const CCubemapData &cubemapData, const std
 	}
 }
 
-bool CTextureLoader::From2DArrayData( const C2DArrayData &arrayData, const std::shared_ptr< CTexture > &texture ) const
+bool CTextureLoader::From2DArrayData( const std::shared_ptr< CTexture > &texture, const C2DArrayData &arrayData ) const
 {
 	const auto &layers = arrayData.getLayers();
 
@@ -355,5 +355,5 @@ void CTextureLoader::FromDummy( const std::shared_ptr< CTexture > &texture ) con
 	texture->Reset();
 
 	// Creates a checkerboard-like dummy-texture
-	FromImage( m_dummyImage, texture );
+	FromImage( texture, m_dummyImage );
 }

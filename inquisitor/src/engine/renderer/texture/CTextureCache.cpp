@@ -13,5 +13,5 @@ CTextureCache::CTextureCache( const CSettings &p_settings, const CFileSystem &p_
 
 void CTextureCache::LoadFromFile( const std::shared_ptr< CTexture > &resource, const std::string &path )
 {
-	m_textureLoader.FromFile( path, resource );
+	m_textureLoader.FromFile( resource, path );
 }

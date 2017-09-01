@@ -21,17 +21,17 @@ public:
 	CTextureLoader( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter );
 	~CTextureLoader( void );
 
-	void FromFile( const std::string &path, const std::shared_ptr< CTexture > &texture ) const;
+	void FromFile( const std::shared_ptr< CTexture > &texture, const std::string &path ) const;
 
 private:
-	void FromImage( const std::shared_ptr< const CImage > &image, const std::shared_ptr< CTexture > &texture ) const;
+	void FromImage( const std::shared_ptr< CTexture > &texture, const std::shared_ptr< const CImage > &image ) const;
 
-	bool FromImageFile( const std::string &path, const std::shared_ptr< CTexture > &texture ) const;
-	bool FromCubeFile( const std::string &path, const std::shared_ptr< CTexture > &texture ) const;
-	bool From2DArrayFile( const std::string &path, const std::shared_ptr< CTexture > &texture ) const;
+	bool FromImageFile( const std::shared_ptr< CTexture > &texture, const std::string &path ) const;
+	bool FromCubeFile( const std::shared_ptr< CTexture > &texture, const std::string &path ) const;
+	bool From2DArrayFile( const std::shared_ptr< CTexture > &texture, const std::string &path ) const;
 
-	bool FromCubemapData( const CCubemapData &cubemapData, const std::shared_ptr< CTexture > &texture ) const;
-	bool From2DArrayData( const C2DArrayData &arrayData, const std::shared_ptr< CTexture > &texture ) const;
+	bool FromCubemapData( const std::shared_ptr< CTexture > &texture, const CCubemapData &cubemapData ) const;
+	bool From2DArrayData( const std::shared_ptr< CTexture > &texture, const C2DArrayData &arrayData ) const;
 
 	void FromDummy( const std::shared_ptr< CTexture > &texture ) const;
 
