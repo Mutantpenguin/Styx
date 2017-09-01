@@ -32,7 +32,7 @@ CMaterialLoader::~CMaterialLoader( void )
 	#endif
 }
 
-void CMaterialLoader::FromFile( const std::string &path, const std::shared_ptr< CMaterial > &material ) const
+void CMaterialLoader::FromFile( const std::shared_ptr< CMaterial > &material, const std::string &path ) const
 {
 	if( !m_filesystem.Exists( path ) )
 	{
@@ -47,7 +47,7 @@ void CMaterialLoader::FromFile( const std::string &path, const std::shared_ptr< 
 		{
 			try
 			{
-				if( !FromMatFile( path, material ) )
+				if( !FromMatFile( material, path ) )
 				{
 					FromDummy( material );
 				}
@@ -66,7 +66,7 @@ void CMaterialLoader::FromFile( const std::string &path, const std::shared_ptr< 
 	}
 }
 
-bool CMaterialLoader::FromMatFile( const std::string &path, const std::shared_ptr< CMaterial > &material ) const
+bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material, const std::string &path ) const
 {
 	const std::string definition = m_filesystem.LoadFileToString( path );
 

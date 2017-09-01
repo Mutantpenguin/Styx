@@ -50,7 +50,7 @@ const std::shared_ptr< const CMaterial > CMaterialManager::LoadMaterial( const s
 
 	auto newMaterial = std::make_shared< CMaterial >();
 
-	m_materialLoader.FromFile( path, newMaterial );
+	m_materialLoader.FromFile( newMaterial, path );
 
 	auto &materialFile = m_materialFiles[ path ];
 
@@ -73,7 +73,7 @@ void CMaterialManager::ReloadMaterials( void )
 
 			materialFile.material->Reset();
 
-			m_materialLoader.FromFile( filename, materialFile.material );
+			m_materialLoader.FromFile( materialFile.material, filename );
 
 			materialFile.mtime = mtime;
 		}
