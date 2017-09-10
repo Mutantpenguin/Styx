@@ -109,7 +109,6 @@
       <File Name="textures/cursor/wait.png"/>
     </VirtualDirectory>
     <VirtualDirectory Name="texpack_1">
-      <VirtualDirectory Name="fire"/>
       <VirtualDirectory Name="newscast">
         <File Name="textures/texpack_1/newscast/banner.png"/>
         <File Name="textures/texpack_1/newscast/newscast_1.png"/>
@@ -151,6 +150,7 @@
     </VirtualDirectory>
     <VirtualDirectory Name="texpack_2">
       <File Name="textures/texpack_2/stone_floor.png"/>
+      <File Name="textures/texpack_2/stained_glass.png"/>
     </VirtualDirectory>
     <VirtualDirectory Name="styx">
       <File Name="textures/styx/logo.png"/>

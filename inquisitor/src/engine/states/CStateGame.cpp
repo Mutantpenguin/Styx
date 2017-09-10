@@ -146,11 +146,13 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	// create big cube of cubes
 	{
-		const auto material = resourceCache.GetResource< CMaterial >( "materials/standard.mat" );
+		const auto materialSimple = resourceCache.GetResource< CMaterial >( "materials/standard.mat" );
+		const CMesh::TTextures meshTexturesSimple = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/texpack_1/black_border.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const auto cubeMeshSimple = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSimple, meshTexturesSimple );
 
-		const CMesh::TTextures meshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/texpack_1/black_border.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
-
-		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material, meshTextures );
+		const auto materialTransparent = resourceCache.GetResource< CMaterial >( "materials/standard_blend.mat" );
+		const CMesh::TTextures meshTexturesTransparent = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/texpack_2/stained_glass.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const auto cubeMeshTransparent = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialTransparent, meshTexturesTransparent );
 
 		{
 			const std::uint16_t cubeSize { 10 };
@@ -161,15 +163,20 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				{
 					for( std::uint16_t k = 0; k < cubeSize; k++ )
 					{
+						const auto cube = std::make_shared< CEntity >( "cube" );
+						cube->Transform.Position( { -40.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
+						cube->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
+
 						if( Math::irand( 0, 1 ) == 1 )
 						{
-							const auto cube = std::make_shared< CEntity >( "cube" );
-							cube->Transform.Position( { -40.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
-							cube->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
-							cube->Mesh( cubeMesh );
-
-							m_scene.AddEntity( cube );
+							cube->Mesh( cubeMeshSimple );
 						}
+						else
+						{
+							cube->Mesh( cubeMeshTransparent );
+						}
+
+						m_scene.AddEntity( cube );
 					}
 				}
 			}
@@ -184,16 +191,21 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				{
 					for( std::uint16_t k = 0; k < cubeSize; k++ )
 					{
+						const auto cube = std::make_shared< CEntity >( "cube" );
+						cube->Transform.Position( { -90.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
+						cube->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
+						cube->Transform.Rotate( Math::irand( 0, 90 ), Math::irand( 0, 90 ), Math::irand( 0, 90 ) );
+
 						if( Math::irand( 0, 1 ) == 1 )
 						{
-							const auto cube = std::make_shared< CEntity >( "cube" );
-							cube->Transform.Position( { -90.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
-							cube->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
-							cube->Transform.Rotate( Math::irand( 0, 90 ), Math::irand( 0, 90 ), Math::irand( 0, 90 ) );
-							cube->Mesh( cubeMesh );
-
-							m_scene.AddEntity( cube );
+							cube->Mesh( cubeMeshSimple );
 						}
+						else
+						{
+							cube->Mesh( cubeMeshTransparent );
+						}
+
+						m_scene.AddEntity( cube );
 					}
 				}
 			}
