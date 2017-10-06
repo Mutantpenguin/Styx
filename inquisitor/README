@@ -13,3 +13,6 @@ GALLIUM_HUD=fps,cpu+GPU-load,VRAM-usage+GTT-usage,draw-calls ./inquisitor -g ../
 
 clang compiler options:
 -Wmain;-pedantic-errors;-Wfatal-errors;-ansi;-pedantic;-Wall;-Wextra;-Wmissing-include-dirs;-Wmissing-declarations;-Wunreachable-code;-Winline;-Wfloat-equal;-Wundef;-Wcast-align;-Wredundant-decls;-Winit-self;-Wshadow;-Wint-to-void-pointer-cast;--system-header-prefix=src/ext/;-std=c++1z
+
+cpp compiler options:
+-Wextra;-Wmissing-include-dirs;-Wmissing-declarations;-Wunreachable-code;-Winline;-Wfloat-equal;-Wundef;-Wcast-align;-Wredundant-decls;-Winit-self;-Wshadow;-Wint-to-pointer-cast;-std=c++1z
