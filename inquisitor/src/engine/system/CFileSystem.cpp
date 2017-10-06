@@ -1,6 +1,6 @@
 #include "CFileSystem.hpp"
 
-#include <physfs.h>
+#include "src/ext/physfs/physfs.h"
 
 #include "src/engine/logger/CLogger.hpp"
 #include "src/engine/logger/CLogTargetFile.hpp"
@@ -28,7 +28,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 
 	if( !PHYSFS_init( argv0 ) )
 	{
-		logERROR( "initializing PhysicsFS failed because of: {0}", PHYSFS_getLastError() );
+		logERROR( "initializing PhysicsFS failed because of: {0}", PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
 		throw Exception();
 	}
 
@@ -38,7 +38,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	std::string prefsDir = PHYSFS_getPrefDir( organisation.c_str(), gamename.c_str() );
 	if( prefsDir.empty() )
 	{
-		logERROR( "not possible to get prefs-directory because of: {0}", PHYSFS_getLastError() );
+		logERROR( "not possible to get prefs-directory because of: {0}", PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
 		throw Exception();
 	}
 
@@ -46,7 +46,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 
 	if( !PHYSFS_setWriteDir( prefsDir.c_str() ) )
 	{
-		logERROR( "couldn't set write-dir to '{0}' because of: {1}", prefsDir, PHYSFS_getLastError() );
+		logERROR( "couldn't set write-dir to '{0}' because of: {1}", prefsDir, PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
 		throw Exception();
 	}
 
@@ -55,7 +55,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	{
 		if( !PHYSFS_mkdir( logDir.c_str() ) )
 		{
-			logERROR( "couldn't create log-directory '{0}' because of: {1}", logDir, PHYSFS_getLastError() );
+			logERROR( "couldn't create log-directory '{0}' because of: {1}", logDir, PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
 			throw Exception();
 		}
 	}
@@ -66,7 +66,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	// put write-dir first in search path
 	if( !PHYSFS_mount( PHYSFS_getWriteDir(), nullptr, 0 ) )
 	{
-		logERROR( "adding '{0}' to search path failed because of: {1}", PHYSFS_getWriteDir(), PHYSFS_getLastError() );
+		logERROR( "adding '{0}' to search path failed because of: {1}", PHYSFS_getWriteDir(), PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
 		throw Exception();
 	}
 
@@ -79,7 +79,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 
 		if( !PHYSFS_mount( asset_path.c_str(), nullptr, 1 ) )
 		{
-			logERROR( "adding asset-path '{0}' to search path failed because of: {1}", asset_path, PHYSFS_getLastError() );
+			logERROR( "adding asset-path '{0}' to search path failed because of: {1}", asset_path, PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
 			throw Exception();
 		}
 	}
@@ -87,7 +87,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	// put base dir last in search path
 	if( !PHYSFS_mount( PHYSFS_getBaseDir(), nullptr, 1 ) )
 	{
-		logERROR( "adding '{0}' to search path failed because of: {1}", PHYSFS_getBaseDir(), PHYSFS_getLastError() );
+		logERROR( "adding '{0}' to search path failed because of: {1}", PHYSFS_getBaseDir(), PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
 		throw Exception();
 	}
 
@@ -102,7 +102,7 @@ CFileSystem::~CFileSystem( void )
 
 	if( !PHYSFS_deinit() )
 	{
-		logWARNING( "deinitializing PhysicsFS failed because of: {0}", PHYSFS_getLastError() );
+		logWARNING( "deinitializing PhysicsFS failed because of: {0}", PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
 	}
 }
 
@@ -139,7 +139,7 @@ bool CFileSystem::MakeDir( const std::string &dirname ) const
 
 const char* CFileSystem::GetLastError( void ) const
 {
-	return( PHYSFS_getLastError() );
+	return( PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
 }
 
 const char *CFileSystem::GetDirSeparator( void )
@@ -164,7 +164,7 @@ CFileSystem::FileBuffer CFileSystem::LoadFileToBuffer( const std::string &filena
 
 	if( lengthRead != length )
 	{
-		logERROR( "couldn't read all of file '{0}' because of: {1}", filename, PHYSFS_getLastError() );
+		logERROR( "couldn't read all of file '{0}' because of: {1}", filename, PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
 		return {};
 	}
 
@@ -179,7 +179,7 @@ bool CFileSystem::SaveBufferToFile( const FileBuffer &buffer, const std::string 
 
 	if( nullptr == f )
 	{
-		logERROR( "File '{0}' couldn't be opened for writing because of: {1}", filename, PHYSFS_getLastError() );
+		logERROR( "File '{0}' couldn't be opened for writing because of: {1}", filename, PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
 		return( false );
 	}
 
@@ -189,7 +189,7 @@ bool CFileSystem::SaveBufferToFile( const FileBuffer &buffer, const std::string 
 
 	if( lengthWrite != buffer.size() )
 	{
-		logERROR( "couldn't write all of file '{0}' because of: {1}", filename, PHYSFS_getLastError() );
+		logERROR( "couldn't write all of file '{0}' because of: {1}", filename, PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
 		return( false );
 	}
 

@@ -277,6 +277,36 @@
       <VirtualDirectory Name="CLI11">
         <File Name="src/ext/CLI11/CLI11.hpp"/>
       </VirtualDirectory>
+      <VirtualDirectory Name="physfs">
+        <File Name="src/ext/physfs/physfs.c"/>
+        <File Name="src/ext/physfs/physfs.h"/>
+        <File Name="src/ext/physfs/physfs_archiver_7z.c"/>
+        <File Name="src/ext/physfs/physfs_archiver_dir.c"/>
+        <File Name="src/ext/physfs/physfs_archiver_grp.c"/>
+        <File Name="src/ext/physfs/physfs_archiver_hog.c"/>
+        <File Name="src/ext/physfs/physfs_archiver_iso9660.c"/>
+        <File Name="src/ext/physfs/physfs_archiver_mvl.c"/>
+        <File Name="src/ext/physfs/physfs_archiver_qpak.c"/>
+        <File Name="src/ext/physfs/physfs_archiver_slb.c"/>
+        <File Name="src/ext/physfs/physfs_archiver_unpacked.c"/>
+        <File Name="src/ext/physfs/physfs_archiver_vdf.c"/>
+        <File Name="src/ext/physfs/physfs_archiver_wad.c"/>
+        <File Name="src/ext/physfs/physfs_archiver_zip.c"/>
+        <File Name="src/ext/physfs/physfs_byteorder.c"/>
+        <File Name="src/ext/physfs/physfs_casefolding.h"/>
+        <File Name="src/ext/physfs/physfs_internal.h"/>
+        <File Name="src/ext/physfs/physfs_lzmasdk.h"/>
+        <File Name="src/ext/physfs/physfs_miniz.h"/>
+        <File Name="src/ext/physfs/physfs_platform_haiku.cpp"/>
+        <File Name="src/ext/physfs/physfs_platform_os2.c"/>
+        <File Name="src/ext/physfs/physfs_platform_posix.c"/>
+        <File Name="src/ext/physfs/physfs_platform_qnx.c"/>
+        <File Name="src/ext/physfs/physfs_platform_unix.c"/>
+        <File Name="src/ext/physfs/physfs_platform_windows.c"/>
+        <File Name="src/ext/physfs/physfs_platform_winrt.cpp"/>
+        <File Name="src/ext/physfs/physfs_platforms.h"/>
+        <File Name="src/ext/physfs/physfs_unicode.c"/>
+      </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="inquisitor">
@@ -301,7 +331,6 @@
       </Compiler>
       <Linker Options="">
         <LibraryPath Value="."/>
-        <Library Value="physfs"/>
         <Library Value="freeimageplus"/>
         <Library Value="SDL2"/>
         <Library Value="GL"/>
