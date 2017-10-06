@@ -7,9 +7,9 @@
 #include "src/engine/logger/CLogger.hpp"
 
 CSoundManager::CSoundManager( const CSettings &settings, const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager ) :
-	m_soundBufferCache { std::make_shared< CSoundBufferCache >( p_filesystem ) },
+	m_buffer_size { settings.sound.buffer_size },
 	m_resourceCacheManager { resourceCacheManager },
-	m_buffer_size { settings.sound.buffer_size }
+	m_soundBufferCache { std::make_shared< CSoundBufferCache >( p_filesystem ) }
 {
 	m_AL_device = alcOpenDevice( nullptr );
 	if( nullptr == m_AL_device )

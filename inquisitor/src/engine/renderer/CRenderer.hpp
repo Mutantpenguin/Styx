@@ -63,11 +63,11 @@ private:
 
 	COpenGlAdapter m_OpenGlAdapter;
 
-	std::shared_ptr< CTextureCache >	m_textureCache;
-	std::shared_ptr< CMaterialCache >	m_materialCache;
-
 	CSamplerManager		m_samplerManager;
 	CShaderManager		m_shaderManager;
+
+	std::shared_ptr< CTextureCache >	m_textureCache;
+	std::shared_ptr< CMaterialCache >	m_materialCache;
 
 	void CreateUniformBuffers( void );
 	void UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const CTimer &timer ) const;

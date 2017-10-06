@@ -16,9 +16,9 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 	try :
 		m_settings { settings },
 		m_resourceCacheManager { resourceCacheManager },
-		m_textureCache { std::make_shared< CTextureCache >( settings, filesystem, m_OpenGlAdapter ) },
 		m_samplerManager( settings ),
 		m_shaderManager( filesystem ),
+		m_textureCache { std::make_shared< CTextureCache >( settings, filesystem, m_OpenGlAdapter ) },
 		m_materialCache { std::make_shared< CMaterialCache >( filesystem, m_shaderManager ) }
 {
 	glDepthFunc( GL_LEQUAL );

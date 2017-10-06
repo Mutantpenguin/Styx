@@ -12,7 +12,7 @@ CFrameBuffer::CFrameBuffer( const CSize &size ) :
 {
 	glCreateFramebuffers( 1, &m_id );
 
-	std::array< GLenum, 1 > DrawBuffers { attachmentColorTexture };
+	std::array< GLenum, 1 > DrawBuffers { { attachmentColorTexture } };
 	glFramebufferDrawBuffersEXT( m_id, DrawBuffers.size(), DrawBuffers.data() );
 
 	{
