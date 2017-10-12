@@ -46,6 +46,7 @@
   </VirtualDirectory>
   <VirtualDirectory Name="music">
     <File Name="music/rise_of_spirit.ogg"/>
+    <File Name="music/Sad Robot.ogg"/>
   </VirtualDirectory>
   <VirtualDirectory Name="sounds">
     <File Name="sounds/startup_sound.ogg"/>

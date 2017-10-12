@@ -30,6 +30,8 @@ private:
 	std::shared_ptr< CEntity > m_exitEntity;
 
 	const std::shared_ptr< const CSoundSource > m_buttonChangeSound;
+
+	std::shared_ptr< const CSoundSource > m_backgroundMusic;
 };
 
 #endif // CSTATEMAINMENU_HPP

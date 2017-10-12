@@ -114,6 +114,10 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 
 		m_scene.AddEntity( m_exitEntity );
 	}
+
+	m_backgroundMusic = std::make_shared< CSoundSource >( resourceCache.GetResource< CSoundBuffer >( "music/Sad Robot.ogg" ) );
+	m_backgroundMusic->Play();
+	m_backgroundMusic->SetLooping( true );
 }
 
 CStateMainMenu::~CStateMainMenu()
