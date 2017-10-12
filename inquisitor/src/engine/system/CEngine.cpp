@@ -1,5 +1,7 @@
 #include "CEngine.hpp"
 
+#include "src/ext/minitrace/minitrace.h"
+
 #include "src/engine/logger/CLogger.hpp"
 
 #include "src/engine/states/CStateIntro.hpp"
@@ -66,6 +68,8 @@ CEngine::~CEngine( void )
 
 void CEngine::Run( void )
 {
+	mtr_init( "trace.json" );
+
 	logINFO( "" );
 
 	logINFO( "--------------------------------------------------------------------------------" );
@@ -75,6 +79,8 @@ void CEngine::Run( void )
 	logINFO( "" );
 
 	std::uint64_t lastUpdatedTime = m_engineInterface.GlobalTimer.Time();
+
+	MTR_BEGIN( "main", "outer" );
 
 	while( m_currentState )
 	{
@@ -91,7 +97,9 @@ void CEngine::Run( void )
 		{
 			m_engineInterface.Input.Update();
 
+			MTR_BEGIN( "state", "update" );
 			m_currentState = m_currentState->Update();
+			MTR_END( "state", "update" );
 
 			#ifdef INQ_DEBUG
 				if( m_engineInterface.Input.KeyDown( SDL_SCANCODE_F12 ) )
@@ -115,6 +123,8 @@ void CEngine::Run( void )
 		#endif // INQ_DEBUG
 	}
 
+	MTR_END( "main", "outer" );
+
 
 	logINFO( "" );
 
@@ -123,6 +133,9 @@ void CEngine::Run( void )
 	logINFO( "--------------------------------------------------------------------------------" );
 
 	logINFO( "" );
+
+	mtr_flush();
+	mtr_shutdown();
 }
 
 std::string CEngine::GetVersionString( void )

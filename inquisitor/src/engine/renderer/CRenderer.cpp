@@ -8,6 +8,8 @@
 
 #include <glbinding/Meta.h>
 
+#include "src/ext/minitrace/minitrace.h"
+
 #include "src/engine/renderer/CGLState.hpp"
 
 #include "src/engine/logger/CLogger.hpp"
@@ -153,6 +155,8 @@ COpenGlAdapter &CRenderer::OpenGlAdapter( void )
 
 void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffer &framebuffer, const CTimer &timer ) const
 {
+	MTR_SCOPE( "GFX", "RenderSceneToFramebuffer" );
+
 	const auto &camera = scene.Camera();
 
 	if( !camera )
@@ -183,6 +187,7 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 		static TRenderBucket renderBucketMaterialsTranslucent;
 		renderBucketMaterialsTranslucent.clear();
 
+		MTR_BEGIN( "GFX", "fill render buckets" );
 		for( const auto &meshInstance : scene.Meshes() )
 		{
 			if( meshInstance.mesh->Material()->Blending() )
@@ -194,14 +199,17 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 				renderBucketMaterialsOpaque.push_back( meshInstance );
 			}
 		}
+		MTR_END( "GFX", "fill render buckets" );
 
 		const glm::mat4 viewProjectionMatrix = camera->ViewProjectionMatrix();
 
-		/* TODO this makes everything slower
+		//* TODO this makes everything slower
+		MTR_BEGIN( "GFX", "sort opaque" );
 		std::sort( std::begin( renderBucketMaterialsOpaque ), std::end( renderBucketMaterialsOpaque ),	[]( const CScene::MeshInstance &a, const CScene::MeshInstance &b ) -> bool
 																										{
 																											return( a.mesh->Material() > b.mesh->Material() );
 																										} );
+		MTR_END( "GFX", "sort opaque" );
 		//*/
 
 		RenderBucket( renderBucketMaterialsOpaque, viewProjectionMatrix );
@@ -210,10 +218,12 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 
 		// TODO multithreaded?
 		// sort translucent back to front
+		MTR_BEGIN( "GFX", "sort translucent" );
 		std::sort( std::begin( renderBucketMaterialsTranslucent ), std::end( renderBucketMaterialsTranslucent ),	[&cameraPosition]( const CScene::MeshInstance &a, const CScene::MeshInstance &b ) -> bool
 																													{
 																														return( glm::length2( a.Transform.Position() - cameraPosition ) > glm::length2( b.Transform.Position() - cameraPosition ) );
 																													} );
+		MTR_END( "GFX", "sort translucent" );
 
 		RenderBucket( renderBucketMaterialsTranslucent, viewProjectionMatrix );
 
@@ -242,6 +252,8 @@ void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
 
 void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const
 {
+	MTR_SCOPE( "GFX", "RenderBucket" );
+
 	const CMesh * currentMesh = nullptr;
 	const CMaterial * currentMaterial = nullptr;
 

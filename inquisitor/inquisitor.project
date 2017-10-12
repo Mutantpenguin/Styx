@@ -307,6 +307,10 @@
         <File Name="src/ext/physfs/physfs_platforms.h"/>
         <File Name="src/ext/physfs/physfs_unicode.c"/>
       </VirtualDirectory>
+      <VirtualDirectory Name="minitrace">
+        <File Name="src/ext/minitrace/minitrace.c"/>
+        <File Name="src/ext/minitrace/minitrace.h"/>
+      </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="inquisitor">
@@ -328,6 +332,7 @@
       <Compiler Options="-Wmain;-pedantic-errors;-Wfatal-errors;-ansi;-pedantic;-Wall;-Wextra;-Wmissing-include-dirs;-Wmissing-declarations;-Wunreachable-code;-Winline;-Wfloat-equal;-Wundef;-Wcast-align;-Wredundant-decls;-Winit-self;-Wshadow;-Wint-to-void-pointer-cast;--system-header-prefix=src/ext/;-std=c++1z" C_Options="-Wall" Assembler="">
         <IncludePath Value="."/>
         <Preprocessor Value="GLM_FORCE_RADIANS"/>
+        <Preprocessor Value="MTR_ENABLED"/>
       </Compiler>
       <Linker Options="">
         <LibraryPath Value="."/>
