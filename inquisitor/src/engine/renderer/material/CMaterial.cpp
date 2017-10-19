@@ -65,7 +65,7 @@ const std::shared_ptr< const CShaderProgram > &CMaterial::Shader( void ) const
 	return( m_shader );
 }
 
-void CMaterial::Shader( const std::shared_ptr< const CShaderProgram > shader )
+void CMaterial::Shader( const std::shared_ptr< const CShaderProgram > &shader )
 {
 	m_shader = shader;
 }

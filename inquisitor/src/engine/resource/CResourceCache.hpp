@@ -19,7 +19,7 @@ private:
 	CResourceCache& operator = ( const CResourceCache& rhs );
 
 protected:
-	CResourceCache( const std::string name, const CFileSystem &p_filesystem ) :
+	CResourceCache( const std::string &name, const CFileSystem &p_filesystem ) :
 		CResourceCacheBase( name ),
 		m_filesystem { p_filesystem }
 	{}
