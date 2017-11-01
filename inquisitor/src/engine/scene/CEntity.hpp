@@ -21,6 +21,8 @@ public:
 
 	const std::string &Name( void ) const;
 
+	EntityID Id( void ) const;
+
 	CTransformComponent Transform;
 
 private:

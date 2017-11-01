@@ -28,3 +28,8 @@ const std::string &CEntity::Name( void ) const
 {
 	return( m_name );
 }
+
+EntityID CEntity::Id( void ) const
+{
+	return( m_id );
+}
