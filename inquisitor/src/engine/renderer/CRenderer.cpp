@@ -203,25 +203,25 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 
 		const glm::mat4 viewProjectionMatrix = camera->ViewProjectionMatrix();
 
-		//* TODO this makes everything slower
+		// TODO multithreaded?
+		// sort opaque for material, and then front to back (to reduce overdraw)
 		MTR_BEGIN( "GFX", "sort opaque" );
 		std::sort( std::begin( renderBucketMaterialsOpaque ), std::end( renderBucketMaterialsOpaque ),	[]( const CScene::MeshInstance &a, const CScene::MeshInstance &b ) -> bool
 																										{
-																											return( a.mesh->Material() > b.mesh->Material() );
+																											return( ( a.mesh->Material() > b.mesh->Material() )
+																													||
+																													( ( a.mesh->Material() == b.mesh->Material() ) && ( a.viewDepth < b.viewDepth ) ) );
 																										} );
 		MTR_END( "GFX", "sort opaque" );
-		//*/
 
 		RenderBucket( renderBucketMaterialsOpaque, viewProjectionMatrix );
-
-		const glm::vec3 &cameraPosition = camera->Transform.Position();
 
 		// TODO multithreaded?
 		// sort translucent back to front
 		MTR_BEGIN( "GFX", "sort translucent" );
-		std::sort( std::begin( renderBucketMaterialsTranslucent ), std::end( renderBucketMaterialsTranslucent ),	[&cameraPosition]( const CScene::MeshInstance &a, const CScene::MeshInstance &b ) -> bool
+		std::sort( std::begin( renderBucketMaterialsTranslucent ), std::end( renderBucketMaterialsTranslucent ),	[]( const CScene::MeshInstance &a, const CScene::MeshInstance &b ) -> bool
 																													{
-																														return( glm::length2( a.Transform.Position() - cameraPosition ) > glm::length2( b.Transform.Position() - cameraPosition ) );
+																														return( a.viewDepth > b.viewDepth );
 																													} );
 		MTR_END( "GFX", "sort translucent" );
 
@@ -259,7 +259,7 @@ void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::m
 
 	const CShaderProgram * currentShader = nullptr;
 
-	for( const auto & [ mesh, transform ] : bucketMaterials )
+	for( const auto & [ mesh, transform, viewDepth ] : bucketMaterials )
 	{
 		if( currentMesh != mesh )
 		{

@@ -1,5 +1,9 @@
 #include "CScene.hpp"
 
+#include <glm/gtx/norm.hpp>
+
+#include "src/ext/minitrace/minitrace.h"
+
 #include "src/engine/logger/CLogger.hpp"
 
 CScene::CScene()
@@ -22,6 +26,8 @@ void CScene::RemoveEntity( const std::shared_ptr< const CEntity > &entity )
 
 const CScene::TMeshes &CScene::Meshes( void ) const
 {
+	MTR_SCOPE( "scene", "collect visible meshes" );
+
 	static CScene::TMeshes meshes;
 	meshes.clear();
 
@@ -36,7 +42,7 @@ const CScene::TMeshes &CScene::Meshes( void ) const
 			// TODO implement Octree here
 			if( frustum.IsSphereInside( entity->Transform.Position(), glm::length( mesh->BoundingSphereRadiusVector() * entity->Transform.Scale() ) ) )
 			{
-				meshes.push_back( { mesh, entity->Transform } );
+				meshes.push_back( { mesh, entity->Transform, glm::length2( entity->Transform.Position() - m_camera->Transform.Position() ) } );
 			}
 		}
 	}

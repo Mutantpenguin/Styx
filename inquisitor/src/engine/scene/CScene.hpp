@@ -19,6 +19,7 @@ public:
 	{
 		const CMesh * mesh;
 		CTransformComponent Transform;
+		float viewDepth;
 	};
 
 	using TMeshes = std::vector< MeshInstance >;
