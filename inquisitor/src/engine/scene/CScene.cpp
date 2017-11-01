@@ -60,7 +60,7 @@ void CScene::Camera( const std::shared_ptr< const CCamera > &camera )
 	const auto it = std::find( std::cbegin( m_entities ), std::cend( m_entities ), camera );
 	if( it == std::cend( m_entities ) )
 	{
-		logERROR( "camera '{0}' does not belong to this scene", camera->Name() );
+		logERROR( "camera '{0}' with id '{1}' does not belong to this scene", camera->Name(), camera->Id() );
 	}
 	else
 	{
