@@ -27,9 +27,11 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 
 		if( showWindowOnDisplay >= numberOfDisplays )
 		{
-			logWARNING( "display is set to a non existing display" );
+			logWARNING( "display is set to the non existing display '{0}'", showWindowOnDisplay );
 			showWindowOnDisplay = 0;
 		}
+
+		logINFO( "using display '{0} - {1}'", showWindowOnDisplay, SDL_GetDisplayName( showWindowOnDisplay ) );
 	}
 
 	// 32 bpp

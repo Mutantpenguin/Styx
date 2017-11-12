@@ -3,6 +3,7 @@
 								"window"		:	{
 														"width"			: 1024,
 														"height"		: 768,
+														"display"		: 1,
 														"fullscreen"	: false,
 														"vsync"			: false,
 														"gamma"			: 1.0,

@@ -66,6 +66,16 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 
 				renderer.window.aspect_ratio = static_cast< float >( renderer.window.size.width ) / static_cast< float >( renderer.window.size.height );
 
+				const auto display = window_root->find( "display" );
+				if( window_root->end() == display )
+				{
+					logWARNING( "'settings.renderer.window.display' not found" );
+				}
+				else
+				{
+					renderer.window.display = display->get<int>();
+				}
+
 				const auto fullsreen = window_root->find( "fullscreen" );
 				if( window_root->end() == fullsreen )
 				{
