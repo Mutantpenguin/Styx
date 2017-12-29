@@ -382,7 +382,7 @@ bool CShaderManager::InterfaceSetup( const std::shared_ptr< CShaderProgram > &sh
 	 */
 	GLint numActiveAttributes = 0;
 	glGetProgramInterfaceiv( shaderProgram->OpenGLID(), GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &numActiveAttributes );
-	const std::array< GLenum, 3 > attributeProperties { GL_TYPE, GL_NAME_LENGTH, GL_LOCATION };
+	const std::array< GLenum, 3 > attributeProperties { { GL_TYPE, GL_NAME_LENGTH, GL_LOCATION } };
 
 	for( GLint attribIndex = 0; attribIndex < numActiveAttributes; ++attribIndex )
 	{
