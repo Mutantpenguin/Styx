@@ -105,7 +105,7 @@ bool CTextureLoader::FromCubeFile( const std::shared_ptr< CTexture > &texture, c
 
 	const auto json_faces = root.find( "faces" );
 
-	if(	json_faces == root.cend() )
+	if( json_faces == root.end() )
 	{
 		logWARNING( "no faces defined in '{0}'", path );
 		return( false );
@@ -171,7 +171,7 @@ bool CTextureLoader::From2DArrayFile( const std::shared_ptr< CTexture > &texture
 
 	const auto json_layers = root.find( "layers" );
 
-	if( json_layers == root.cend() )
+	if( json_layers == root.end() )
 	{
 		logWARNING( "no layers defined in '{0}'", path );
 		return( false );
