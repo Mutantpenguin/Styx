@@ -66,8 +66,6 @@ private:
 	std::unordered_set< std::shared_ptr< const CUniformBuffer > > m_registeredUniformBuffers;
 
 	static const std::string srcAdditionShaderVersion;
-	static const std::string srcAdditionVsShaderExtensions;
-	static const std::string srcAdditionFsShaderExtensions;
 
 	static const std::map< const CVAO::EAttributeLocation, const SShaderInterface > allowedAttributes;
 

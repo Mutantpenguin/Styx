@@ -32,9 +32,9 @@ private:
 	GLint m_maxTextureSize;
 	GLint m_maxCubeMapTextureSize;
 
-	GLint m_preferredInternalTextureFormat2D		{ static_cast< GLint >( GL_RGBA8 ) };
-	GLint m_preferredInternalTextureFormatCube		{ static_cast< GLint >( GL_RGBA8 ) };
-	GLint m_preferredInternalTextureFormat2DArray 	{ static_cast< GLint >( GL_RGBA8 ) };
+	GLint m_preferredInternalTextureFormat2D;
+	GLint m_preferredInternalTextureFormatCube;
+	GLint m_preferredInternalTextureFormat2DArray;
 };
 
 #endif // COPENGLADAPTER_HPP

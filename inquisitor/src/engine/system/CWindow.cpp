@@ -43,7 +43,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE,	24 );
 
 	SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 4 );
-	SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 1 );
+	SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 3 );
 
 	SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
 
