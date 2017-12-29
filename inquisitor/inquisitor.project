@@ -329,7 +329,7 @@
   <Dependencies Name="Release"/>
   <Settings Type="Executable">
     <GlobalSettings>
-      <Compiler Options="-Wmain;-pedantic-errors;-Wfatal-errors;-ansi;-pedantic;-Wall;-Wextra;-Wmissing-include-dirs;-Wmissing-declarations;-Wunreachable-code;-Winline;-Wfloat-equal;-Wundef;-Wcast-align;-Wredundant-decls;-Winit-self;-Wshadow;-Wint-to-void-pointer-cast;--system-header-prefix=src/ext/;-std=c++1z" C_Options="-Wall" Assembler="">
+      <Compiler Options="-Wmain;-pedantic-errors;-Wfatal-errors;-ansi;-pedantic;-Wall;-Wextra;-Wmissing-include-dirs;-Wmissing-declarations;-Wunreachable-code;-Winline;-Wfloat-equal;-Wundef;-Wcast-align;-Wredundant-decls;-Winit-self;-Wshadow;-Wint-to-void-pointer-cast;--system-header-prefix=src/ext/;-std=c++17" C_Options="-Wall" Assembler="">
         <IncludePath Value="."/>
         <Preprocessor Value="GLM_FORCE_RADIANS"/>
         <Preprocessor Value="MTR_ENABLED"/>
@@ -465,8 +465,8 @@
         <SearchPaths>$(ProjectPath)</SearchPaths>
       </Completion>
     </Configuration>
-    <Configuration Name="Release" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-O3;-fexpensive-optimizations" C_Options="-O2" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+    <Configuration Name="Release" CompilerType="clang" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-O3" C_Options="-O2" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
       </Compiler>
       <Linker Options="-s" Required="yes"/>
