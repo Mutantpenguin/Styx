@@ -108,14 +108,14 @@
         <VirtualDirectory Name="model">
           <File Name="src/engine/renderer/model/CMesh.cpp"/>
           <File Name="src/engine/renderer/model/CMesh.hpp"/>
-          <File Name="src/engine/renderer/model/CMeshTexture.cpp"/>
-          <File Name="src/engine/renderer/model/CMeshTexture.hpp"/>
           <File Name="src/engine/renderer/model/CModel.hpp"/>
           <File Name="src/engine/renderer/model/CModel.cpp"/>
           <File Name="src/engine/renderer/model/CModelManager.hpp"/>
           <File Name="src/engine/renderer/model/CModelManager.cpp"/>
           <File Name="src/engine/renderer/model/CModelLoader.hpp"/>
           <File Name="src/engine/renderer/model/CModelLoader.cpp"/>
+          <File Name="src/engine/renderer/model/CMeshTextureSlot.cpp"/>
+          <File Name="src/engine/renderer/model/CMeshTextureSlot.hpp"/>
         </VirtualDirectory>
         <File Name="src/engine/renderer/CFrameBuffer.hpp"/>
         <File Name="src/engine/renderer/CFrameBuffer.cpp"/>

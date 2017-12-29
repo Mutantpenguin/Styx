@@ -42,9 +42,9 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			vertex.TexCoord *= 10;
 		}
 
-		const CMesh::TTextures floorMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/texpack_2/stone_floor.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TMeshTextureSlots floorMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/texpack_2/stone_floor.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto floorMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, floorMeshPrimitive, material, floorMeshTextures );
+		const auto floorMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, floorMeshPrimitive, material, floorMeshTextureSlots );
 
 		const auto floorEntity = std::make_shared< CEntity >( "floor" );
 		floorEntity->Mesh( floorMesh );
@@ -62,10 +62,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{
 		const auto materialWaitCursor = resourceCache.GetResource< CMaterial >( "materials/wait_cursor.mat" );
 
-		const CMesh::TTextures movableMeshTextures = {	{ "skullTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/cursor/skull.png" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) },
-														{ "waitTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/cursor/wait.png" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+		const CMesh::TMeshTextureSlots movableMeshTextureSlots = {	{ "skullTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/cursor/skull.png" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) },
+																	{ "waitTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/cursor/wait.png" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-		const auto movableMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialWaitCursor, movableMeshTextures );
+		const auto movableMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialWaitCursor, movableMeshTextureSlots );
 
 		m_movableEntity = std::make_shared< CEntity >( "wait_cursor" );
 		m_movableEntity->Transform.Position( { 0.0f, 10.0f, 20.0f } );
@@ -79,9 +79,9 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{
 		const auto material1 = resourceCache.GetResource< CMaterial >( "materials/schnarf.mat" );
 
-		const CMesh::TTextures schnarfMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/texpack_1/window_buildingside_06.jpg" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TMeshTextureSlots schnarfMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/texpack_1/window_buildingside_06.jpg" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, schnarfMeshTextures );
+		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, schnarfMeshTextureSlots );
 
 		const std::uint16_t cubeSize { 4 };
 
@@ -105,12 +105,12 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{
 		const auto materialSuperBox = resourceCache.GetResource< CMaterial >( "materials/superBox.mat" );
 
-		const CMesh::TTextures superBoxMeshTextures = {	{ "bgTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/texpack_1/mybitmap.bmp" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) },
-														{ "fgTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/texpack_1/senn_icyfangrate.tga" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) },
-														{ "skyBoxTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/cube/sixtine/sixtine.cub" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_CUBE ) ) } };
+		const CMesh::TMeshTextureSlots superBoxMeshTextureSlots = {	{ "bgTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/texpack_1/mybitmap.bmp" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) },
+																	{ "fgTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/texpack_1/senn_icyfangrate.tga" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) },
+																	{ "skyBoxTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/cube/sixtine/sixtine.cub" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_CUBE ) ) } };
 
 		{
-			const auto superBoxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, superBoxMeshTextures );
+			const auto superBoxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, superBoxMeshTextureSlots );
 
 			const auto superBox = std::make_shared< CEntity >( "superBox" );
 			superBox->Transform.Position( { 0.0f, 10.0f, -10.0f } );
@@ -122,7 +122,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		// create big cube of cubes
 		{
-			const auto superBoxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, superBoxMeshTextures );
+			const auto superBoxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, superBoxMeshTextureSlots );
 
 			const std::uint16_t cubeSize { 14 };
 
@@ -147,12 +147,12 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	// create big cube of cubes
 	{
 		const auto materialSimple = resourceCache.GetResource< CMaterial >( "materials/standard.mat" );
-		const CMesh::TTextures meshTexturesSimple = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/texpack_1/black_border.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
-		const auto cubeMeshSimple = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSimple, meshTexturesSimple );
+		const CMesh::TMeshTextureSlots simpleMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/texpack_1/black_border.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const auto cubeMeshSimple = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSimple, simpleMeshTextureSlots );
 
 		const auto materialTransparent = resourceCache.GetResource< CMaterial >( "materials/standard_blend.mat" );
-		const CMesh::TTextures meshTexturesTransparent = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/texpack_2/stained_glass.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
-		const auto cubeMeshTransparent = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialTransparent, meshTexturesTransparent );
+		const CMesh::TMeshTextureSlots transparentMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/texpack_2/stained_glass.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const auto cubeMeshTransparent = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialTransparent, transparentMeshTextureSlots );
 
 		{
 			const std::uint16_t cubeSize { 10 };
@@ -215,9 +215,9 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{
 		const auto fireMaterial = resourceCache.GetResource< CMaterial >( "materials/flames.mat" );
 
-		const CMesh::TTextures flamesMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/array/fire/fire.arr" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+		const CMesh::TMeshTextureSlots flamesMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/array/fire/fire.arr" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-		const auto flamesMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, fireMaterial, flamesMeshTextures );
+		const auto flamesMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, fireMaterial, flamesMeshTextureSlots );
 
 		const auto flames = std::make_shared< CEntity >( "flames" );
 		flames->Transform.Position( { -5.0f, 10.0f, 1.0f } );
@@ -269,9 +269,9 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{
 		const auto material3 = resourceCache.GetResource< CMaterial >( "materials/sky.mat" );
 
-		const CMesh::TTextures skyMeshTextures = { { "skyboxTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/cube/sixtine/sixtine.cub" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_CUBE ) ) } };
+		const CMesh::TMeshTextureSlots skyMeshTextureSlots = { { "skyboxTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/cube/sixtine/sixtine.cub" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_CUBE ) ) } };
 
-		const auto skyboxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material3, skyMeshTextures );
+		const auto skyboxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material3, skyMeshTextureSlots );
 
 		m_skyboxEntity = std::make_shared< CEntity >( "skybox" );
 		m_skyboxEntity->Mesh( skyboxMesh );
