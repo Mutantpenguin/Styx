@@ -17,7 +17,7 @@ private:
 	CSoundSource & operator=( const CSoundSource &rhs );
 
 public:
-	CSoundSource( const std::shared_ptr< const CSoundBuffer > &soundBuffer );
+	explicit CSoundSource( const std::shared_ptr< const CSoundBuffer > &soundBuffer );
 	~CSoundSource();
 
 	void SetSoundBuffer( const std::shared_ptr< const CSoundBuffer > &soundBuffer );

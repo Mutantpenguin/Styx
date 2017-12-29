@@ -18,7 +18,7 @@ private:
 	CFrameBuffer & operator = (const CFrameBuffer &rhs );
 
 public:
-	CFrameBuffer( const CSize &size );
+	explicit CFrameBuffer( const CSize &size );
 	~CFrameBuffer();
 
 	void Bind( void ) const;

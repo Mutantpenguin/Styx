@@ -22,7 +22,7 @@ class CShaderManager
 	friend class CRenderer;
 
 public:
-	CShaderManager( const CFileSystem &p_filesystem );
+	explicit CShaderManager( const CFileSystem &p_filesystem );
 	~CShaderManager();
 
 	[[nodiscard]] const std::shared_ptr< const CShaderProgram > LoadProgram( const std::string &pathVertexShader, const std::string &pathFragmentShader );

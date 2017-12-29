@@ -8,7 +8,7 @@ class CLogTargetMessageBox final : public CLogger::CLogTarget
 	friend class CLogger;
 
 public:
-	CLogTargetMessageBox( const CLogger::TLogBuffer & ) {};
+	explicit CLogTargetMessageBox( const CLogger::TLogBuffer & ) {};
 
 private:
 	virtual void Log( const std::unique_ptr< const CLogger::logEntry > &entry ) override;

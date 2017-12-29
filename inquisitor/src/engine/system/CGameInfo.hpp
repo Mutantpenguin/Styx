@@ -8,7 +8,7 @@
 class CGameInfo final
 {
 public:
-	CGameInfo( const std::string &p_gamedir  );
+	explicit CGameInfo( const std::string &p_gamedir  );
 
 	const std::string &GetDir( void ) const;
 

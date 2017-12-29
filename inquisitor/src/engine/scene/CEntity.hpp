@@ -13,7 +13,7 @@ using EntityID = std::uint32_t;
 class CEntity
 {
 public:
-	CEntity( const std::string &name );
+	explicit CEntity( const std::string &name );
 	~CEntity();
 
 	void Mesh( const std::shared_ptr< const CMesh > &mesh );
