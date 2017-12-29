@@ -1,15 +1,15 @@
-#ifndef CMESHTEXTURE_HPP
-#define CMESHTEXTURE_HPP
+#ifndef CMESHTEXTURESLOT_HPP
+#define CMESHTEXTURESLOT_HPP
 
 #include <memory>
 
 #include "src/engine/renderer/texture/CTexture.hpp"
 #include "src/engine/renderer/sampler/CSampler.hpp"
 
-class CMeshTexture final
+class CMeshTextureSlot final
 {
 public:
-	CMeshTexture( const std::shared_ptr< const CTexture > &texture, const std::shared_ptr< const CSampler > &sampler );
+	CMeshTextureSlot( const std::shared_ptr< const CTexture > &texture, const std::shared_ptr< const CSampler > &sampler );
 
 	void BindToUnit( const GLuint unit ) const;
 
@@ -17,4 +17,4 @@ public:
 	std::shared_ptr< const CSampler >	m_sampler;
 };
 
-#endif // CMESHTEXTURE_HPP
+#endif // CMESHTEXTURESLOT_HPP

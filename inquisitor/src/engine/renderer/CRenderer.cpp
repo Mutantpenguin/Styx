@@ -51,9 +51,9 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 		const std::shared_ptr< CMaterial > materialFrameBuffer = std::make_shared< CMaterial >();
 		materialFrameBuffer->Shader( m_shaderManager.CreateProgramFromStrings( vertexShaderString, fragmentShaderString ) );
 
-		const CMesh::TTextures frameBufferMeshTextures = { { m_textureNameFrameBuffer, std::make_shared< CMeshTexture >( nullptr, nullptr ) } };
+		const CMesh::TMeshTextureSlots frameBufferMeshTextureSlots = { { m_textureNameFrameBuffer, std::make_shared< CMeshTextureSlot >( nullptr, m_samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		m_meshFrameBuffer = std::make_unique< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialFrameBuffer, frameBufferMeshTextures );
+		m_meshFrameBuffer = std::make_unique< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialFrameBuffer, frameBufferMeshTextureSlots );
 	}
 
 	m_resourceCacheManager.Register< CTexture >( m_textureCache );
@@ -237,7 +237,7 @@ void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	m_meshFrameBuffer->ChangeTexture( m_textureNameFrameBuffer, framebuffer.ColorTexture(), m_samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) );
+	m_meshFrameBuffer->ChangeTexture( m_textureNameFrameBuffer, framebuffer.ColorTexture() );
 
 	m_meshFrameBuffer->Material()->Setup();
 

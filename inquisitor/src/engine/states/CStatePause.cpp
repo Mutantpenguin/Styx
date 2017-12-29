@@ -41,9 +41,9 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		bgMeshPrimitive.Vertices[ 3 ].Position.x = static_cast< float >( windowSize.width );
 		bgMeshPrimitive.Vertices[ 3 ].Position.y = static_cast< float >( windowSize.height );
 
-		const CMesh::TTextures bgMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/pause/bg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/pause/bg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, materialPause, bgMeshTextures );
+		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, materialPause, bgMeshTextureSlots );
 
 		std::shared_ptr< CEntity > bg = std::make_shared< CEntity >( "background" );
 		bg->Mesh( bgMesh );
@@ -70,9 +70,9 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 			const auto materialPauseText = resourceCache.GetResource< CMaterial >( "materials/standard_blend.mat" );
 
-			const CMesh::TTextures textMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/pause/fg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+			const CMesh::TMeshTextureSlots textMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/pause/fg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-			const auto meshText = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, pauseTextMeshPrimitive, materialPauseText, textMeshTextures );
+			const auto meshText = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, pauseTextMeshPrimitive, materialPauseText, textMeshTextureSlots );
 
 			m_textEntity = std::make_shared< CEntity >( "text" );
 			m_textEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height - ( 2 * halfPauseTextHeight ) - ( 2 * halfScreenshotHeight ), 5.0f } );
@@ -94,9 +94,9 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 			const auto materialPauseText = resourceCache.GetResource< CMaterial >( "materials/pause_screenshot.mat" );
 
-			const CMesh::TTextures screenshotMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( m_pausedState->FrameBuffer().ColorTexture(), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+			const CMesh::TMeshTextureSlots screenshotMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( m_pausedState->FrameBuffer().ColorTexture(), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-			const auto screenshotMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, screenshotMeshPrimitive, materialPauseText, screenshotMeshTextures );
+			const auto screenshotMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, screenshotMeshPrimitive, materialPauseText, screenshotMeshTextureSlots );
 
 			m_screenshotEntity = std::make_shared< CEntity >( "screenshot" );
 			m_screenshotEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height - halfPauseTextHeight - halfScreenshotHeight, 5.0f } );

@@ -29,9 +29,9 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	const auto material = resourceCache.GetResource< CMaterial >( "materials/intro_icon.mat" );
 
-	const CMesh::TTextures logoMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/styx/logo.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+	const CMesh::TMeshTextureSlots logoMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/styx/logo.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-	const auto logoMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material, logoMeshTextures );
+	const auto logoMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material, logoMeshTextureSlots );
 
 	m_logoEntity = std::make_shared< CEntity >( "logo" );
 	m_logoEntity->Transform.Scale( { 3.0f, 3.0f, 1.0f } );

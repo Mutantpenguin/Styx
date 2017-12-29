@@ -7,10 +7,10 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const TTextures &textures ) :
+CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const TMeshTextureSlots &textureSlots ) :
 	m_vao( Mode, primitive ),
 	m_material { mat },
-	m_textures { textures },
+	m_textureSlots { textureSlots },
 	m_boundingSphereRadiusVector { CalculateBoundingSphereRadiusVector( primitive ) }
 {
 	SetupMaterialTextureMapping();
@@ -122,35 +122,61 @@ const auto mat_samplers = mat_root.find( "samplers" );
  * */
 }
 
-void CMesh::ChangeTexture( const std::string &name, const std::shared_ptr< const CTexture > &texture, const std::shared_ptr< const CSampler > &sampler )
+void CMesh::ChangeTexture( const std::string &slotName, const std::shared_ptr< const CTexture > &texture )
 {
-	const auto &meshTexture = m_textures.find( name );
-	if( meshTexture == std::cend( m_textures ) )
+	const auto &meshTextureSlot = m_textureSlots.find( slotName );
+	if( meshTextureSlot == std::cend( m_textureSlots ) )
 	{
-		logWARNING( "changing texture with the name {0} in mesh failed because it does not exist", name );
+		logWARNING( "changing texture for slot {0} in mesh failed because it does not exist", slotName );
 	}
 	else
 	{
-		meshTexture->second->m_texture	= texture;
-		meshTexture->second->m_sampler	= sampler;
+		meshTextureSlot->second->m_texture = texture;
+	}
+}
+
+void CMesh::ChangeSampler( const std::string &slotName, const std::shared_ptr< const CSampler > &sampler )
+{
+	const auto &meshTextureSlot = m_textureSlots.find( slotName );
+	if( meshTextureSlot == std::cend( m_textureSlots ) )
+	{
+		logWARNING( "changing sampler for slot {0} in mesh failed because it does not exist", slotName );
+	}
+	else
+	{
+		meshTextureSlot->second->m_sampler = sampler;
+	}
+}
+
+void CMesh::ChangeTextureAndSampler( const std::string &slotName, const std::shared_ptr< const CTexture > &texture, const std::shared_ptr< const CSampler > &sampler )
+{
+	const auto &meshTextureSlot = m_textureSlots.find( slotName );
+	if( meshTextureSlot == std::cend( m_textureSlots ) )
+	{
+		logWARNING( "changing texture and sampler for slot {0} in mesh failed because it does not exist", slotName );
+	}
+	else
+	{
+		meshTextureSlot->second->m_texture	= texture;
+		meshTextureSlot->second->m_sampler	= sampler;
 	}
 }
 
 void CMesh::SetupMaterialTextureMapping( void )
 {
-	m_materialTextureMapping.clear();
+	m_materialTextureSlotMapping.clear();
 
 	if( m_material )
 	{
 		for( const auto & [ location, interface ] : m_material->Shader()->RequiredSamplers() )
 		{
-			if( const auto texture = m_textures.find( interface.name ); texture != std::cend( m_textures ) )
+			if( const auto textureSlot = m_textureSlots.find( interface.name ); textureSlot != std::cend( m_textureSlots ) )
 			{
-				m_materialTextureMapping.emplace_back( std::make_pair( location, texture->second ) );
+				m_materialTextureSlotMapping.emplace_back( std::make_pair( location, textureSlot->second ) );
 			}
 			else
 			{
-				logWARNING( "setting up texture mapping for mesh failed because a texture with name '{0}' does not exist in the mesh", interface.name );
+				logWARNING( "setting up texture mapping for mesh failed because a slot with the name '{0}' does not exist in the mesh", interface.name );
 			}
 		}
 	}
@@ -179,7 +205,7 @@ glm::vec3 CMesh::CalculateBoundingSphereRadiusVector( const Primitives::SPrimiti
 void CMesh::BindTextures( void ) const
 {
 	std::uint8_t textureUnit = 0;
-	for( const auto & [ location, meshTexture ] : m_materialTextureMapping )
+	for( const auto & [ location, meshTexture ] : m_materialTextureSlotMapping )
 	{
 		glUniform1i( location, textureUnit );
 
