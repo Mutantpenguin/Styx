@@ -81,6 +81,7 @@ private:
 	std::shared_ptr< CUniformBuffer > m_uboScreen;
 
 	std::unique_ptr< CMesh >	m_meshFrameBuffer;
+	const std::string m_textureNameFrameBuffer = "screenTexture";
 };
 
 #endif // CRENDERER_HPP
