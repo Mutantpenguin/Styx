@@ -42,16 +42,16 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 												"}";
 		const std::string fragmentShaderString =	"out vec4 color;" \
 													"in vec2 UV;" \
-													"uniform sampler2D " + m_textureNameFrameBuffer + ";" \
+													"uniform sampler2D " + m_slotNameFrameBuffer + ";" \
 													"void main()" \
 													"{" \
-													"    color = texture( " + m_textureNameFrameBuffer + ", UV );" \
+													"    color = texture( " + m_slotNameFrameBuffer + ", UV );" \
 													"}";
 
 		const std::shared_ptr< CMaterial > materialFrameBuffer = std::make_shared< CMaterial >();
 		materialFrameBuffer->Shader( m_shaderManager.CreateProgramFromStrings( vertexShaderString, fragmentShaderString ) );
 
-		const CMesh::TMeshTextureSlots frameBufferMeshTextureSlots = { { m_textureNameFrameBuffer, std::make_shared< CMeshTextureSlot >( nullptr, m_samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TMeshTextureSlots frameBufferMeshTextureSlots = { { m_slotNameFrameBuffer, std::make_shared< CMeshTextureSlot >( nullptr, m_samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 		m_meshFrameBuffer = std::make_unique< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialFrameBuffer, frameBufferMeshTextureSlots );
 	}
@@ -237,7 +237,7 @@ void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	m_meshFrameBuffer->ChangeTexture( m_textureNameFrameBuffer, framebuffer.ColorTexture() );
+	m_meshFrameBuffer->ChangeTexture( m_slotNameFrameBuffer, framebuffer.ColorTexture() );
 
 	m_meshFrameBuffer->Material()->Setup();
 
