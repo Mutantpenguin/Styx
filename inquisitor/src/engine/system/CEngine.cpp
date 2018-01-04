@@ -93,7 +93,7 @@ void CEngine::Run( void )
 		m_engineInterface.Renderer.DisplayFramebuffer( m_currentState->FrameBuffer() );
 
 		const std::uint64_t currentTime = m_engineInterface.GlobalTimer.Time();
-		while( m_currentState && ( currentTime - lastUpdatedTime ) > m_settings.engine.tick )
+		while( m_currentState && ( ( currentTime - lastUpdatedTime ) > m_settings.engine.tick ) )
 		{
 			m_engineInterface.Input.Update();
 
