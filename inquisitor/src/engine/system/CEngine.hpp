@@ -43,6 +43,7 @@ private:
 
 	CEngineInterface m_engineInterface;
 
+	// TODO prune this!!!
 	std::shared_ptr< CState > m_currentState;
 };
 

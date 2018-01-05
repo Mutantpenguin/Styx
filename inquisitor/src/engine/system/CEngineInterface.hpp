@@ -2,7 +2,6 @@
 #define CENGINEINTERFACE_HPP
 
 #include "CInput.hpp"
-#include "CTimer.hpp"
 
 #include "src/engine/sound/CSoundManager.hpp"
 
@@ -21,7 +20,6 @@ public:
 	CInput			Input;
 	CRenderer		Renderer;
 	CSoundManager	SoundManager;
-	CTimer			GlobalTimer;
 
 private:
 	CEngineInterface( const CEngineInterface &rhs ) = delete;

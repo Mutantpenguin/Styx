@@ -309,7 +309,7 @@ std::shared_ptr< CState > CStateGame::Update( void )
 	 */
 	{
 		auto pos = m_pulseEntity->Transform.Position();
-		pos.y = 10.0f + ( sin( m_engineInterface.GlobalTimer.Time() / 2000000.0f ) * 5.0f );
+		pos.y = 10.0f + ( sin( m_timer.Time() / 2000000.0f ) * 5.0f );
 		m_pulseEntity->Transform.Position( pos );
 	}
 

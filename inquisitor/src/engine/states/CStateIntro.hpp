@@ -2,6 +2,7 @@
 #define CSTATEINTRO_HPP
 
 #include "CState.hpp"
+#include "src/engine/system/CTimer.hpp"
 
 #include "src/engine/sound/CSoundSource.hpp"
 

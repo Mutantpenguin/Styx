@@ -46,6 +46,7 @@ public:
 
 	struct s_Sound final
 	{
+		float			volume { 1.0f };
 		std::uint16_t	buffer_size	{ 4096 };
 	} sound;
 

@@ -166,7 +166,7 @@ std::shared_ptr<CState> CStateMainMenu::Update(void)
 
 		const float halfRange = (max - min) / 2.0f;
 
-		const float buttonPulse = min + halfRange + sin( m_engineInterface.GlobalTimer.Time() / 100000.0f ) * halfRange;
+		const float buttonPulse = min + halfRange + sin( m_timer.Time() / 100000.0f ) * halfRange;
 
 		const glm::vec3 buttonPulseVec3 = { buttonPulse, buttonPulse, buttonPulse };
 

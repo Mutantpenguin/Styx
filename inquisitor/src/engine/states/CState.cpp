@@ -22,3 +22,8 @@ const CFrameBuffer &CState::FrameBuffer( void ) const
 {
 	return( m_frameBuffer );
 }
+
+const CTimer &CState::Timer( void ) const
+{
+	return( m_timer );
+}

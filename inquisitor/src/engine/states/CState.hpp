@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "src/engine/system/CEngineInterface.hpp"
+#include "src/engine/system/CTimer.hpp"
 
 #include "src/engine/renderer/CFrameBuffer.hpp"
 
@@ -23,13 +24,17 @@ protected:
 	virtual ~CState() {};
 
 public:
+
+
 	[[nodiscard]] virtual std::shared_ptr< CState > Update( void ) = 0;
 
 	[[nodiscard]] virtual const CScene &Scene( void ) const final;
 
 	[[nodiscard]] virtual const std::string &Name( void ) const final;
 
-	[[nodiscard]] const CFrameBuffer &FrameBuffer( void ) const;
+	[[nodiscard]] virtual const CFrameBuffer &FrameBuffer( void ) const final;
+
+	[[nodiscard]] virtual const CTimer &Timer( void ) const final;
 
 protected:
 	const std::string	m_name;
@@ -38,6 +43,8 @@ protected:
 
 	const CFileSystem	&m_filesystem;
 	const CSettings		&m_settings;
+
+	CTimer m_timer;
 
 	CScene m_scene;
 

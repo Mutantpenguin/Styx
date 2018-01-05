@@ -181,6 +181,16 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 		}
 		else
 		{
+			const auto volume = sound_root->find( "volume" );
+			if( sound_root->end() == volume )
+			{
+				logWARNING( "'settings.sound.volume' not found" );
+			}
+			else
+			{
+				sound.volume = volume->get<float>();
+			}
+
 			const auto buffer_size = sound_root->find( "buffer_size" );
 			if( sound_root->end() == buffer_size )
 			{

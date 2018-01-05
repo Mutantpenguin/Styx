@@ -8,7 +8,7 @@
 
 CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface, std::shared_ptr< CState > pausedState ) :
 	CState( "pause", filesystem, settings, engineInterface ),
-	m_startTime { engineInterface.GlobalTimer.Time() },
+	m_startTime { m_timer.Time() },
 	m_pausedState { pausedState }
 {
 	m_scene.ClearColor( CColor( 0.3f, 0.3f, 0.3f, 0.0f ) );
@@ -113,7 +113,7 @@ CStatePause::~CStatePause()
 
 std::shared_ptr< CState > CStatePause::Update( void )
 {
-	const auto yOffset = ( sin( m_engineInterface.GlobalTimer.Time() / 2000000.0 ) * 0.5f );
+	const auto yOffset = ( sin( m_timer.Time() / 2000000.0 ) * 0.5f );
 
 	auto posText = m_textEntity->Transform.Position();
 	posText.y -= yOffset;
