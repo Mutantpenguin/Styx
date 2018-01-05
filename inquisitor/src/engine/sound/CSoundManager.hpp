@@ -22,6 +22,7 @@ friend class CEngineInterface;
 
 public:
 	void	SetListener( const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up );
+	void	SetVolume( const float volume );
 
 	class Exception: public std::exception
 	{

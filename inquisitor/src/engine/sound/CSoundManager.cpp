@@ -45,6 +45,8 @@ CSoundManager::CSoundManager( const CSettings &settings, const CFileSystem &p_fi
 
 	m_resourceCacheManager.Register< CSoundBuffer >( m_soundBufferCache );
 
+	SetVolume( settings.sound.volume );
+
 	logINFO( "sound manager was initialized" );
 }
 
@@ -65,4 +67,22 @@ void CSoundManager::SetListener( const glm::vec3 &position, const glm::vec3 &dir
 
 	const std::array< ALfloat, 6 > orientation = { { direction.x, direction.y, direction.z, up.x, up.y, up.z } };
 	alListenerfv( AL_ORIENTATION, orientation.data() );
+}
+
+void CSoundManager::SetVolume( const float volume )
+{
+	float newVolume = volume;
+
+	if( volume < 0.0f )
+	{
+		logWARNING( "volume was set too low: {0}", volume );
+		newVolume = 0.0f;
+	}
+	else if( volume > 1.0f )
+	{
+		logWARNING( "volume was set too high: {0}", volume );
+		newVolume = 1.0f;
+	}
+
+	alListenerf( AL_GAIN, newVolume );
 }

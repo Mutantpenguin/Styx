@@ -122,9 +122,10 @@
       </VirtualDirectory>
       <VirtualDirectory Name="helper">
         <VirtualDirectory Name="image">
-          <File Name="src/engine/helper/image/ImageHandler.hpp"/>
+          <File Name="src/engine/helper/image/CImage.cpp"/>
           <File Name="src/engine/helper/image/CImage.hpp"/>
           <File Name="src/engine/helper/image/ImageHandler.cpp"/>
+          <File Name="src/engine/helper/image/ImageHandler.hpp"/>
         </VirtualDirectory>
         <VirtualDirectory Name="geom">
           <File Name="src/engine/helper/geom/CPlane.cpp"/>
@@ -207,7 +208,6 @@
         <File Name="src/engine/sound/CSoundManager.cpp"/>
         <File Name="src/engine/sound/ALHelper.hpp"/>
         <File Name="src/engine/sound/ALHelper.cpp"/>
-        <File Name="src/engine/helper/image/CImage.cpp"/>
         <File Name="src/engine/sound/CSoundBuffer.hpp"/>
         <File Name="src/engine/sound/CSoundBuffer.cpp"/>
         <File Name="src/engine/sound/CSoundBufferLoader.cpp"/>
