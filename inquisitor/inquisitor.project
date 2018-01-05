@@ -329,7 +329,7 @@
   <Dependencies Name="Release"/>
   <Settings Type="Executable">
     <GlobalSettings>
-      <Compiler Options="-Wmain;-pedantic-errors;-Wfatal-errors;-ansi;-pedantic;-Wall;-Wextra;-Wmissing-include-dirs;-Wmissing-declarations;-Wunreachable-code;-Winline;-Wfloat-equal;-Wundef;-Wcast-align;-Wredundant-decls;-Winit-self;-Wshadow;-Wint-to-void-pointer-cast;--system-header-prefix=src/ext/;-std=c++17" C_Options="-Wall" Assembler="">
+      <Compiler Options="-Wmain;-pedantic-errors;-Wfatal-errors;-ansi;-pedantic;-Wall;-Wextra;-Wmissing-include-dirs;-Wmissing-declarations;-Wunreachable-code;-Winline;-Wfloat-equal;-Wundef;-Wcast-align;-Wredundant-decls;-Winit-self;-Wshadow;-Wint-to-void-pointer-cast;-Wcast-qual;-Wunused-lambda-capture;-std=c++17;--system-header-prefix=src/ext/" C_Options="-Wall" Assembler="">
         <IncludePath Value="."/>
         <Preprocessor Value="GLM_FORCE_RADIANS"/>
         <Preprocessor Value="MTR_ENABLED"/>
