@@ -8,6 +8,41 @@ CState::CState( const std::string &name, const CFileSystem &filesystem, const CS
 		m_engineInterface { engineInterface }
 {}
 
+std::shared_ptr< CState > CState::Update( void )
+{
+	switch( m_status )
+	{
+		case eStatus::RUNNING:
+			return( OnUpdate() );
+		case eStatus::PAUSED:
+			return( shared_from_this() );
+	};
+}
+
+void CState::Pause( void )
+{
+	if( eStatus::RUNNING == m_status )
+	{
+		OnPause();
+
+		m_timer.Pause();
+
+		m_status = eStatus::PAUSED;
+	};
+}
+
+void CState::Resume( void )
+{
+	if( eStatus::PAUSED == m_status )
+	{
+		OnResume();
+
+		m_timer.Resume();
+
+		m_status = eStatus::RUNNING;
+	};
+}
+
 const CScene &CState::Scene( void ) const
 {
 	return( m_scene );

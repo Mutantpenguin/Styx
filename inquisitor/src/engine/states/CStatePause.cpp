@@ -11,6 +11,8 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	m_startTime { m_timer.Time() },
 	m_pausedState { pausedState }
 {
+	m_pausedState->Pause();
+
 	m_scene.ClearColor( CColor( 0.3f, 0.3f, 0.3f, 0.0f ) );
 
 	auto &resourceCache = engineInterface.ResourceCacheManager;
@@ -111,7 +113,7 @@ CStatePause::~CStatePause()
 {
 }
 
-std::shared_ptr< CState > CStatePause::Update( void )
+std::shared_ptr< CState > CStatePause::OnUpdate( void )
 {
 	const auto yOffset = ( sin( m_timer.Time() / 2000000.0 ) * 0.5f );
 
@@ -128,6 +130,7 @@ std::shared_ptr< CState > CStatePause::Update( void )
 	if( input.KeyDown( SDL_SCANCODE_ESCAPE ) )
 	{
 		logINFO( "returning to calling state '{0}'", m_pausedState->Name() );
+		m_pausedState->Resume();
 		return( m_pausedState );
 	}
 	else if( input.KeyDown( SDL_SCANCODE_Q ) )

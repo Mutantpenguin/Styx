@@ -124,7 +124,7 @@ CStateMainMenu::~CStateMainMenu()
 {
 }
 
-std::shared_ptr<CState> CStateMainMenu::Update(void)
+std::shared_ptr<CState> CStateMainMenu::OnUpdate(void)
 {
 	const auto &input = m_engineInterface.Input;
 

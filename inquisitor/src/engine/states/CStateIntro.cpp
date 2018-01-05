@@ -47,7 +47,7 @@ CStateIntro::~CStateIntro()
 {
 }
 
-std::shared_ptr< CState > CStateIntro::Update( void )
+std::shared_ptr< CState > CStateIntro::OnUpdate( void )
 {
 	const std::uint64_t elapsedTime = m_timer.Time() - m_startTime;
 

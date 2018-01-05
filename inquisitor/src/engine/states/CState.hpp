@@ -24,9 +24,14 @@ protected:
 	virtual ~CState() {};
 
 public:
+	[[nodiscard]] virtual std::shared_ptr< CState > Update( void ) final;
+	[[nodiscard]] virtual std::shared_ptr< CState > OnUpdate( void ) = 0;
 
+	virtual void Pause( void ) final;
+	virtual void OnPause( void ) {};
 
-	[[nodiscard]] virtual std::shared_ptr< CState > Update( void ) = 0;
+	virtual void Resume( void ) final;
+	virtual void OnResume( void ) {};
 
 	[[nodiscard]] virtual const CScene &Scene( void ) const final;
 
@@ -49,6 +54,15 @@ protected:
 	CScene m_scene;
 
 	CEngineInterface &m_engineInterface;
+
+private:
+	enum class eStatus
+	{
+		RUNNING,
+		PAUSED
+	};
+
+	eStatus m_status = eStatus::RUNNING;
 };
 
 #endif // CSTATE_HPP

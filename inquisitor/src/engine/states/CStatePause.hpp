@@ -13,7 +13,7 @@ public:
 	CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface, std::shared_ptr< CState > pausedState );
 	~CStatePause();
 
-	virtual std::shared_ptr< CState > Update( void ) override;
+	virtual std::shared_ptr< CState > OnUpdate( void ) override;
 
 private:
 	const std::uint64_t m_startTime;

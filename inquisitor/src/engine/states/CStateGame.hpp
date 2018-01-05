@@ -19,7 +19,7 @@ public:
 	CStateGame( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface );
 	~CStateGame();
 
-	virtual std::shared_ptr< CState > Update( void ) override;
+	virtual std::shared_ptr< CState > OnUpdate( void ) override;
 
 private:
 	std::shared_ptr< CCameraFree > m_cameraFree;

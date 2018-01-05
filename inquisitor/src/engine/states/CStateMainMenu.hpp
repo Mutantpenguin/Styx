@@ -15,7 +15,7 @@ public:
 	CStateMainMenu( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface );
 	~CStateMainMenu();
 
-	virtual std::shared_ptr< CState > Update( void ) override;
+	virtual std::shared_ptr< CState > OnUpdate( void ) override;
 
 private:
 	enum class eMenuState
