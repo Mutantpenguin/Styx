@@ -20,8 +20,7 @@ CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std
 		m_settings( m_filesystem, settingsFile ),
 		m_sdl(),
 		m_window( m_settings, m_filesystem, m_gameInfo.GetName(), m_gameInfo.GetIconPath() ),
-		m_engineInterface( m_settings, m_filesystem ),
-		m_currentState { std::make_shared< CStateIntro >( m_filesystem, m_settings, m_engineInterface ) }
+		m_engineInterface( m_settings, m_filesystem )
 {
 	logINFO( "engine was initialized" );
 }
@@ -89,7 +88,9 @@ void CEngine::Run( void )
 
 	MTR_BEGIN( "main", "outer" );
 
-	while( m_currentState )
+	std::shared_ptr< CState > currentState = std::make_shared< CStateIntro >( m_filesystem, m_settings, m_engineInterface );
+
+	while( currentState )
 	{
 		#ifdef INQ_DEBUG
 			lastTime = renderTimer.Time();
@@ -97,16 +98,16 @@ void CEngine::Run( void )
 
 		m_window.Update();
 
-		m_engineInterface.Renderer.RenderSceneToFramebuffer( m_currentState->Scene(), m_currentState->FrameBuffer(), m_currentState->Timer() );
+		m_engineInterface.Renderer.RenderSceneToFramebuffer( currentState->Scene(), currentState->FrameBuffer(), currentState->Timer() );
 
-		m_engineInterface.Renderer.DisplayFramebuffer( m_currentState->FrameBuffer() );
+		m_engineInterface.Renderer.DisplayFramebuffer( currentState->FrameBuffer() );
 
-		while( m_currentState && ( ( renderTimer.Time() - lastUpdatedTime ) > m_settings.engine.tick ) )
+		while( currentState && ( ( renderTimer.Time() - lastUpdatedTime ) > m_settings.engine.tick ) )
 		{
 			m_engineInterface.Input.Update();
 
 			MTR_BEGIN( "state", "update" );
-			m_currentState = m_currentState->Update();
+			currentState = currentState->Update();
 			MTR_END( "state", "update" );
 
 			#ifdef INQ_DEBUG

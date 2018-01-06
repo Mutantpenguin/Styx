@@ -18,7 +18,7 @@ public:
 	CEngine( const char *argv0, const std::string &gameDirectory, const std::string &settingsFile );
 	~CEngine( void );
 
-	void    Run( void );
+	void Run( void );
 
 	static std::string GetVersionString( void );
 
@@ -42,9 +42,6 @@ private:
 	const CWindow	m_window;
 
 	CEngineInterface m_engineInterface;
-
-	// TODO prune this!!!
-	std::shared_ptr< CState > m_currentState;
 };
 
 #endif // CENGINE_HPP
