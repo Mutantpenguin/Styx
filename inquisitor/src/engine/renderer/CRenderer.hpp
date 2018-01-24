@@ -74,7 +74,7 @@ private:
 
 	void RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const;
 
-	[[nodiscard]] glm::mat4 CalculateModelMatrix( const CTransformComponent &transform ) const;
+	[[nodiscard]] glm::mat4 CalculateModelMatrix( const CTransform &transform ) const;
 
 	std::shared_ptr< CUniformBuffer > m_uboCamera;
 	std::shared_ptr< CUniformBuffer > m_uboTimer;

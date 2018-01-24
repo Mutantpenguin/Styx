@@ -142,8 +142,6 @@
       <VirtualDirectory Name="scene">
         <VirtualDirectory Name="components">
           <File Name="src/engine/scene/components/CBaseComponent.hpp"/>
-          <File Name="src/engine/scene/components/CTransformComponent.hpp"/>
-          <File Name="src/engine/scene/components/CTransformComponent.cpp"/>
         </VirtualDirectory>
         <File Name="src/engine/scene/csystem.hpp" ExcludeProjConfig=""/>
         <File Name="src/engine/scene/ctransformsystem.cpp" ExcludeProjConfig=""/>
@@ -166,6 +164,8 @@
           <File Name="src/engine/scene/camera/CCameraOrtho.cpp"/>
           <File Name="src/engine/scene/camera/CCameraOrtho.hpp"/>
         </VirtualDirectory>
+        <File Name="src/engine/scene/CTransform.cpp"/>
+        <File Name="src/engine/scene/CTransform.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="system">
         <File Name="src/engine/system/CFileSystem.cpp"/>

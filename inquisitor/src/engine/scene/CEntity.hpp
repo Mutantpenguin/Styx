@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 
-#include "src/engine/scene/components/CTransformComponent.hpp"
+#include "src/engine/scene/components/CTransform.hpp"
 
 #include "src/engine/renderer/model/CMesh.hpp"
 
@@ -23,7 +23,7 @@ public:
 
 	EntityID Id( void ) const;
 
-	CTransformComponent Transform;
+	CTransform Transform;
 
 private:
 	const std::string m_name;

@@ -8,7 +8,7 @@
 
 #include "src/engine/scene/CEntity.hpp"
 
-#include "src/engine/scene/components/CTransformComponent.hpp"
+#include "src/engine/scene/components/CTransform.hpp"
 
 #include "src/engine/scene/camera/CCamera.hpp"
 
@@ -18,7 +18,7 @@ public:
 	struct MeshInstance
 	{
 		const CMesh * mesh;
-		CTransformComponent Transform;
+		CTransform Transform;
 		float viewDepth;
 	};
 

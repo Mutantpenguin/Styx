@@ -3,9 +3,9 @@
 
 #include "CComponentSystem.hpp"
 
-#include "components/CTransformComponent.hpp"
+#include "components/CTransform.hpp"
 
-class CTransformSystem : public CComponentSystem<CTransformComponent>
+class CTransformSystem : public CComponentSystem<CTransform>
 {
 public:
 	static SystemID systemID;

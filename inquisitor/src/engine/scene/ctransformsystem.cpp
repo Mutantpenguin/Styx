@@ -5,7 +5,7 @@
 #include "CEntity.hpp"
 #include "csystem.hpp"
 
-#include "components/CTransformComponent.hpp"
+#include "components/CTransform.hpp"
 
 /* TODO maybe delete?
  *
