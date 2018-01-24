@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 
-#include "src/engine/scene/components/CTransform.hpp"
+#include "src/engine/scene/CTransform.hpp"
 
 #include "src/engine/renderer/model/CMesh.hpp"
 

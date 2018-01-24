@@ -1,4 +1,4 @@
-#include "src/engine/scene/components/CTransform.hpp"
+#include "src/engine/scene/CTransform.hpp"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
