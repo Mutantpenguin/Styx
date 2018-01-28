@@ -21,8 +21,8 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 	{
 		auto cameraEntity = m_scene.CreateEntity( "free camera" );
 		cameraEntity->Transform.Position( { 0.0f, 0.0f, 5.0f } );
-		auto camera = cameraEntity->Add<CCameraFreeComponent>( m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
-		camera->Direction( { 0.0f, 0.0f, -10.0f } );
+		cameraEntity->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
+		cameraEntity->Add<CCameraFreeComponent>( m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
 
 		m_scene.Camera( cameraEntity );
 	}

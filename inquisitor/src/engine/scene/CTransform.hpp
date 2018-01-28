@@ -16,6 +16,11 @@ public:
 	void Scale( const glm::vec3 &position );
 	[[nodiscard]] const glm::vec3 &Scale( void ) const;
 
+	void Direction( const glm::vec3 &direction );
+	[[nodiscard]] const glm::vec3 Direction( void ) const;
+
+	[[nodiscard]] glm::vec3 const Up( void ) const;
+
 	void Rotate( const float pitchAngle, const float yawAngle, const float rollAngle );
 
 	[[nodiscard]] const glm::mat4 ViewMatrix( void ) const;

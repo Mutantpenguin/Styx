@@ -22,14 +22,14 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	m_cameraEntity = m_scene.CreateEntity( "free camera" );
 	m_cameraEntity->Transform.Position( { 0.0f, 10.0f, 10.0f } );
-	auto camera = m_cameraEntity->Add<CCameraFreeComponent>( m_settings.renderer.window.aspect_ratio, 72.0f, 0.1f, 1000.0f );
-	camera->Direction( { 0.0f, 0.0f, -10.0f } );
+	m_cameraEntity->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
+	m_cameraEntity->Add<CCameraFreeComponent>( m_settings.renderer.window.aspect_ratio, 72.0f, 0.1f, 1000.0f );
 
 	m_scene.Camera( m_cameraEntity );
 
 	auto &soundManager = m_engineInterface.SoundManager;
 
-	soundManager.SetListener( m_cameraEntity->Transform.Position(), camera->Direction(), camera->Up() );
+	soundManager.SetListener( m_cameraEntity->Transform.Position(), m_cameraEntity->Transform.Direction(), m_cameraEntity->Transform.Up() );
 
 	auto &resourceCache = m_engineInterface.ResourceCacheManager;
 	auto &samplerManager = renderer.SamplerManager();
@@ -395,7 +395,7 @@ std::shared_ptr< CState > CStateGame::OnUpdate( void )
 		cameraFree->MoveDown( spp * ctrlPressedMult );
 	}
 
-	soundManager.SetListener( m_cameraEntity->Transform.Position(), cameraFree->Direction(), cameraFree->Up() );
+	soundManager.SetListener( m_cameraEntity->Transform.Position(), m_cameraEntity->Transform.Direction(), m_cameraEntity->Transform.Up() );
 
 	/*
 	 * change FOV

@@ -23,12 +23,6 @@ public:
 	void	ZFar( float zFar );
 	[[nodiscard]]float	ZFar( void ) const;
 
-	[[nodiscard]] glm::vec3 const Up( void ) const;
-
-	// TODO port direction to the Transform???
-	void Direction( const glm::vec3 &direction );
-	[[nodiscard]] const glm::vec3 Direction( void ) const;
-
 	[[nodiscard]] const CFrustum Frustum( void ) const;
 
 	[[nodiscard]] virtual const glm::mat4 ProjectionMatrix( void ) const = 0;

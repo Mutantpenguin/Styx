@@ -35,23 +35,6 @@ float CCameraComponent::ZFar( void ) const
 	return( m_zFar );
 }
 
-glm::vec3 const CCameraComponent::Up( void ) const
-{
-	return( CWorld::Y * m_parent->Transform.Orientation() );
-}
-
-void CCameraComponent::Direction( const glm::vec3 &direction )
-{
-	const glm::mat4 RotationMatrix = glm::lookAt( m_parent->Transform.Position(), m_parent->Transform.Position() + direction, CWorld::Y );
-
-	m_parent->Transform.Orientation( glm::toQuat( RotationMatrix ) );
-}
-
-const glm::vec3 CCameraComponent::Direction( void ) const
-{
-	return( CWorld::Z * m_parent->Transform.Orientation() );
-}
-
 const CFrustum CCameraComponent::Frustum( void ) const
 {
 	return( CFrustum( ViewProjectionMatrix() ) );

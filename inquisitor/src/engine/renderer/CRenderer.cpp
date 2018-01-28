@@ -130,7 +130,7 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CEntity > &ca
 	const auto &camera = cameraEntity->Get<CCameraComponent>();
 
 	const glm::vec3 &position = cameraEntity->Transform.Position();
-	const glm::vec3 &direction = camera->Direction();
+	const glm::vec3 &direction = cameraEntity->Transform.Direction();
 	const glm::mat4 &projectionMatrix = camera->ProjectionMatrix();
 	const glm::mat4 &viewMatrix = cameraEntity->Transform.ViewMatrix();
 	const glm::mat4 &viewProjectionMatrix = camera->ViewProjectionMatrix();

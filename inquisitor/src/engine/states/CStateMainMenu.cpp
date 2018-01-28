@@ -16,8 +16,8 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	{
 		auto cameraEntity = m_scene.CreateEntity( "ortho camera" );
 		cameraEntity->Transform.Position( { 0.0f, 0.0f, 500.0f } );
-		auto camera = cameraEntity->Add<CCameraOrthoComponent>( m_settings.renderer.window.size, 0.1f, 1000.0f );
-		camera->Direction( { 0.0f, 0.0f, -10.0f } );
+		cameraEntity->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
+		cameraEntity->Add<CCameraOrthoComponent>( m_settings.renderer.window.size, 0.1f, 1000.0f );
 
 		m_scene.Camera( cameraEntity );
 	}
