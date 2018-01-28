@@ -10,6 +10,8 @@
 
 #include "src/ext/minitrace/minitrace.h"
 
+#include "src/engine/scene/components/camera/CCameraComponent.hpp"
+
 #include "src/engine/renderer/CGLState.hpp"
 
 #include "src/engine/logger/CLogger.hpp"
@@ -112,7 +114,7 @@ void CRenderer::CreateUniformBuffers( void )
 	}
 }
 
-void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const CTimer &timer ) const
+void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CEntity > &cameraEntity, const CTimer &timer ) const
 {
 	/*
 	 * Update time into the uniform buffer
@@ -125,10 +127,12 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &ca
 	 * Update calculated values into the uniform buffer
 	 */
 
-	const glm::vec3 &position = camera->Transform.Position();
+	const auto &camera = cameraEntity->Get<CCameraComponent>();
+
+	const glm::vec3 &position = cameraEntity->Transform.Position();
 	const glm::vec3 &direction = camera->Direction();
 	const glm::mat4 &projectionMatrix = camera->ProjectionMatrix();
-	const glm::mat4 &viewMatrix = camera->Transform.ViewMatrix();
+	const glm::mat4 &viewMatrix = cameraEntity->Transform.ViewMatrix();
 	const glm::mat4 &viewProjectionMatrix = camera->ViewProjectionMatrix();
 
 	std::uint32_t offset = 0;
@@ -157,9 +161,9 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 {
 	MTR_SCOPE( "GFX", "RenderSceneToFramebuffer" );
 
-	const auto &camera = scene.Camera();
+	const auto &cameraEntity = scene.Camera();
 
-	if( !camera )
+	if( !cameraEntity )
 	{
 		logWARNING( "scene has no camera" );
 	}
@@ -172,7 +176,7 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-		UpdateUniformBuffers( camera, timer );
+		UpdateUniformBuffers( cameraEntity, timer );
 
 		/*
 		 * set up the renderbuckets
@@ -200,6 +204,8 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 			}
 		}
 		MTR_END( "GFX", "fill render buckets" );
+
+		const auto &camera = cameraEntity->Get<CCameraComponent>();
 
 		const glm::mat4 viewProjectionMatrix = camera->ViewProjectionMatrix();
 

@@ -5,8 +5,6 @@
 
 #include "src/engine/system/CTimer.hpp"
 
-#include "src/engine/scene/camera/CCamera.hpp"
-
 #include "src/engine/renderer/model/CMesh.hpp"
 
 #include "src/engine/system/CSettings.hpp"
@@ -70,7 +68,7 @@ private:
 	std::shared_ptr< CMaterialCache >	m_materialCache;
 
 	void CreateUniformBuffers( void );
-	void UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const CTimer &timer ) const;
+	void UpdateUniformBuffers( const std::shared_ptr< const CEntity > &cameraEntity, const CTimer &timer ) const;
 
 	void RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const;
 

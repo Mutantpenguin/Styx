@@ -1,18 +1,21 @@
-#ifndef CCAMERA_HPP
-#define CCAMERA_HPP
+#ifndef CCAMERACOMPONENT_HPP
+#define CCAMERACOMPONENT_HPP
 
 #include <glm/gtc/quaternion.hpp>
 
-#include "src/engine/scene/CEntity.hpp"
+#include "src/engine/scene/components/CBaseComponent.hpp"
 
 #include "src/engine/scene/CFrustum.hpp"
 
 #include "src/engine/helper/CSize.hpp"
 
-class CCamera : public CEntity
+class CCameraComponent : public CBaseComponent
 {
 public:
-	CCamera( const std::string &name, float zNear, float zFar );
+	CCameraComponent( const std::shared_ptr< CEntity > &parent, float zNear, float zFar );
+	virtual ~CCameraComponent() {};
+
+	static const std::uint16_t Index = static_cast<std::uint16_t>( EComponentIndex::CAMERA );
 
 	void	ZNear( float zNear );
 	[[nodiscard]] float	ZNear( void ) const;
@@ -22,6 +25,7 @@ public:
 
 	[[nodiscard]] glm::vec3 const Up( void ) const;
 
+	// TODO port direction to the Transform???
 	void Direction( const glm::vec3 &direction );
 	[[nodiscard]] const glm::vec3 Direction( void ) const;
 
@@ -35,4 +39,4 @@ protected:
 	float	m_zFar;
 };
 
-#endif // CCAMERA_HPP
+#endif // CCAMERACOMPONENT_HPP

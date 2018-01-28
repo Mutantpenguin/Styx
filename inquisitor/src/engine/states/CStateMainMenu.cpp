@@ -2,7 +2,7 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "src/engine/scene/camera/CCameraOrtho.hpp"
+#include "src/engine/scene/components/camera/CCameraOrthoComponent.hpp"
 
 #include "src/engine/states/CStateGame.hpp"
 
@@ -14,12 +14,12 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	m_buttonChangeSound->SetRelativePositioning( true );
 
 	{
-		auto camera = std::make_shared< CCameraOrtho >( "ortho camera", m_settings, 0.1f, 1000.0f );
-		camera->Transform.Position( { 0.0f, 0.0f, 500.0f } );
+		auto cameraEntity = m_scene.CreateEntity( "ortho camera" );
+		cameraEntity->Transform.Position( { 0.0f, 0.0f, 500.0f } );
+		auto camera = cameraEntity->Add<CCameraOrthoComponent>( m_settings.renderer.window.size, 0.1f, 1000.0f );
 		camera->Direction( { 0.0f, 0.0f, -10.0f } );
 
-		m_scene.AddEntity( camera );
-		m_scene.Camera( camera );
+		m_scene.Camera( cameraEntity );
 	}
 
 	auto &renderer = m_engineInterface.Renderer;
@@ -45,10 +45,8 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 
 		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, material, bgMeshTextureSlots );
 
-		std::shared_ptr< CEntity > bg = std::make_shared< CEntity >( "background" );
+		auto bg = m_scene.CreateEntity( "background" );
 		bg->Mesh( bgMesh );
-
-		m_scene.AddEntity( bg );
 	}
 
 	{
@@ -71,11 +69,9 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 
 		const auto bgTitleMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, titleMeshPrimitive, material, titleMeshTextureSlots );
 
-		std::shared_ptr< CEntity > bgTitle = std::make_shared< CEntity >( "title" );
+		auto bgTitle = m_scene.CreateEntity( "title" );
 		bgTitle->Transform.Position( { windowSize.width / 2.0f, windowSize.height - halfTitleHeight, 5.0f } );
 		bgTitle->Mesh( bgTitleMesh );
-
-		m_scene.AddEntity( bgTitle );
 	}
 
 	const float halfButtonWidth = windowSize.width / 4 / 2;
@@ -96,11 +92,9 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 
 		const auto startMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonMeshPrimitive, greenMaterial );
 
-		m_startEntity = std::make_shared< CEntity >( "start_button" );
+		m_startEntity = m_scene.CreateEntity( "start_button" );
 		m_startEntity->Transform.Position( { windowSize.width / 2.0f, 2 * windowSize.height / 4.0f, 10.0f } );
 		m_startEntity->Mesh( startMesh );
-
-		m_scene.AddEntity( m_startEntity );
 	}
 
 	{
@@ -108,11 +102,9 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 
 		const auto exitMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonMeshPrimitive, redMaterial );
 
-		m_exitEntity = std::make_shared< CEntity >( "exit_button" );
+		m_exitEntity = m_scene.CreateEntity( "exit_button" );
 		m_exitEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height / 4.0f, 10.0f } );
 		m_exitEntity->Mesh( exitMesh );
-
-		m_scene.AddEntity( m_exitEntity );
 	}
 
 	m_backgroundMusic = std::make_shared< CSoundSource >( resourceCache.GetResource< CSoundBuffer >( "music/Sad Robot.ogg" ) );

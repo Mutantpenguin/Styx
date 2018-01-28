@@ -2,6 +2,9 @@
 
 #include <algorithm>
 
+#include "src/engine/scene/components/camera/CCameraFreeComponent.hpp"
+
+#include "src/engine/states/CStatePause.hpp"
 
 #include "src/engine/math/Math.hpp"
 #include "src/engine/helper/Date.hpp"
@@ -17,16 +20,16 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	auto &renderer = m_engineInterface.Renderer;
 
-	m_cameraFree = std::make_shared< CCameraFree >( "free camera", m_settings.renderer.window.aspect_ratio, 72.0f, 0.1f, 1000.0f );
-	m_cameraFree->Transform.Position( { 0.0f, 10.0f, 10.0f } );
-	m_cameraFree->Direction( { 0.0f, 0.0f, -10.0f } );
+	m_cameraEntity = m_scene.CreateEntity( "free camera" );
+	m_cameraEntity->Transform.Position( { 0.0f, 10.0f, 10.0f } );
+	auto camera = m_cameraEntity->Add<CCameraFreeComponent>( m_settings.renderer.window.aspect_ratio, 72.0f, 0.1f, 1000.0f );
+	camera->Direction( { 0.0f, 0.0f, -10.0f } );
 
-	m_scene.AddEntity( m_cameraFree );
-	m_scene.Camera( m_cameraFree );
+	m_scene.Camera( m_cameraEntity );
 
 	auto &soundManager = m_engineInterface.SoundManager;
 
-	soundManager.SetListener( m_cameraFree->Transform.Position(), m_cameraFree->Direction(), m_cameraFree->Up() );
+	soundManager.SetListener( m_cameraEntity->Transform.Position(), camera->Direction(), camera->Up() );
 
 	auto &resourceCache = m_engineInterface.ResourceCacheManager;
 	auto &samplerManager = renderer.SamplerManager();
@@ -46,12 +49,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const auto floorMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, floorMeshPrimitive, material, floorMeshTextureSlots );
 
-		const auto floorEntity = std::make_shared< CEntity >( "floor" );
+		const auto floorEntity = m_scene.CreateEntity( "floor" );
 		floorEntity->Mesh( floorMesh );
 		floorEntity->Transform.Scale( { 100.0f, 100.0f, 100.0f } );
 		floorEntity->Transform.Rotate( -90.0f, 0.0f, 0.0f );
-
-		m_scene.AddEntity( floorEntity );
 	}
 
 	//auto material2 = resourceCache.GetResource< CMaterial >( "materials/flames.mat" );
@@ -67,12 +68,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const auto movableMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialWaitCursor, movableMeshTextureSlots );
 
-		m_movableEntity = std::make_shared< CEntity >( "wait_cursor" );
+		m_movableEntity = m_scene.CreateEntity( "wait_cursor" );
 		m_movableEntity->Transform.Position( { 0.0f, 10.0f, 20.0f } );
 		m_movableEntity->Transform.Scale( { 3.0f, 3.0f, 1.0f } );
 		m_movableEntity->Mesh( movableMesh );
-
-		m_scene.AddEntity( m_movableEntity );
 	}
 
 	// create small cube of cubes
@@ -91,12 +90,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			{
 				for( std::uint16_t k = 0; k < cubeSize; k++ )
 				{
-					const auto cube = std::make_shared< CEntity >( "cube" );
-					cube->Transform.Position( { 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, -10.0f + k * 4.0f } );
-					cube->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
-					cube->Mesh( cubeMesh );
-
-					m_scene.AddEntity( cube );
+					const auto cubeEntity = m_scene.CreateEntity( "cube" );
+					cubeEntity->Transform.Position( { 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, -10.0f + k * 4.0f } );
+					cubeEntity->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
+					cubeEntity->Mesh( cubeMesh );
 				}
 			}
 		}
@@ -112,12 +109,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		{
 			const auto superBoxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, superBoxMeshTextureSlots );
 
-			const auto superBox = std::make_shared< CEntity >( "superBox" );
-			superBox->Transform.Position( { 0.0f, 10.0f, -10.0f } );
-			superBox->Transform.Scale( { 10.0f, 10.0f, 10.0f } );
-			superBox->Mesh( superBoxMesh );
-
-			m_scene.AddEntity( superBox );
+			const auto superBoxEntity = m_scene.CreateEntity( "superBox" );
+			superBoxEntity->Transform.Position( { 0.0f, 10.0f, -10.0f } );
+			superBoxEntity->Transform.Scale( { 10.0f, 10.0f, 10.0f } );
+			superBoxEntity->Mesh( superBoxMesh );
 		}
 
 		// create big cube of cubes
@@ -132,12 +127,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				{
 					for( std::uint16_t k = 0; k < cubeSize; k++ )
 					{
-						const auto superBox = std::make_shared< CEntity >( "cube" );
-						superBox->Transform.Position( { 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
-						superBox->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
-						superBox->Mesh( superBoxMesh );
-
-						m_scene.AddEntity( superBox );
+						const auto superBoxEntity = m_scene.CreateEntity( "cube" );
+						superBoxEntity->Transform.Position( { 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
+						superBoxEntity->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
+						superBoxEntity->Mesh( superBoxMesh );
 					}
 				}
 			}
@@ -163,20 +156,18 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				{
 					for( std::uint16_t k = 0; k < cubeSize; k++ )
 					{
-						const auto cube = std::make_shared< CEntity >( "cube" );
-						cube->Transform.Position( { -40.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
-						cube->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
+						const auto cubeEntity = m_scene.CreateEntity( "cube" );
+						cubeEntity->Transform.Position( { -40.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
+						cubeEntity->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
 
 						if( Math::irand( 0, 1 ) == 1 )
 						{
-							cube->Mesh( cubeMeshSimple );
+							cubeEntity->Mesh( cubeMeshSimple );
 						}
 						else
 						{
-							cube->Mesh( cubeMeshTransparent );
+							cubeEntity->Mesh( cubeMeshTransparent );
 						}
-
-						m_scene.AddEntity( cube );
 					}
 				}
 			}
@@ -191,21 +182,19 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				{
 					for( std::uint16_t k = 0; k < cubeSize; k++ )
 					{
-						const auto cube = std::make_shared< CEntity >( "cube" );
-						cube->Transform.Position( { -90.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
-						cube->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
-						cube->Transform.Rotate( Math::irand( 0, 90 ), Math::irand( 0, 90 ), Math::irand( 0, 90 ) );
+						const auto cubeEntity = m_scene.CreateEntity( "cube" );
+						cubeEntity->Transform.Position( { -90.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
+						cubeEntity->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
+						cubeEntity->Transform.Rotate( Math::irand( 0, 90 ), Math::irand( 0, 90 ), Math::irand( 0, 90 ) );
 
 						if( Math::irand( 0, 1 ) == 1 )
 						{
-							cube->Mesh( cubeMeshSimple );
+							cubeEntity->Mesh( cubeMeshSimple );
 						}
 						else
 						{
-							cube->Mesh( cubeMeshTransparent );
+							cubeEntity->Mesh( cubeMeshTransparent );
 						}
-
-						m_scene.AddEntity( cube );
 					}
 				}
 			}
@@ -219,12 +208,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const auto flamesMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, fireMaterial, flamesMeshTextureSlots );
 
-		const auto flames = std::make_shared< CEntity >( "flames" );
-		flames->Transform.Position( { -5.0f, 10.0f, 1.0f } );
-		flames->Transform.Scale( { 4.0f, 8.0f, 1.0f } );
-		flames->Mesh( flamesMesh );
-
-		m_scene.AddEntity( flames );
+		const auto flamesEntity = m_scene.CreateEntity( "flames" );
+		flamesEntity->Transform.Position( { -5.0f, 10.0f, 1.0f } );
+		flamesEntity->Transform.Scale( { 4.0f, 8.0f, 1.0f } );
+		flamesEntity->Mesh( flamesMesh );
 	}
 
 	{
@@ -232,12 +219,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, greenMaterial );
 
-		const auto cube = std::make_shared< CEntity >( "green_cube" );
-		cube->Transform.Position( { -4.0f, 10.0f, 1.0f } );
-		cube->Transform.Scale( { 2.0f, 2.0f, 1.0f } );
-		cube->Mesh( cubeMesh );
-
-		m_scene.AddEntity( cube );
+		const auto cubeEntity = m_scene.CreateEntity( "green_cube" );
+		cubeEntity->Transform.Position( { -4.0f, 10.0f, 1.0f } );
+		cubeEntity->Transform.Scale( { 2.0f, 2.0f, 1.0f } );
+		cubeEntity->Mesh( cubeMesh );
 	}
 
 	{
@@ -245,12 +230,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const auto pulseMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, pulseMaterial );
 
-		m_pulseEntity = std::make_shared< CEntity >( "pulse_cube" );
+		m_pulseEntity = m_scene.CreateEntity( "pulse_cube" );
 		m_pulseEntity->Transform.Position( { 0.0f, 10.0f, 1.0f } );
 		m_pulseEntity->Transform.Scale( { 2.0f, 2.0f, 1.0f } );
 		m_pulseEntity->Mesh( pulseMesh );
-
-		m_scene.AddEntity( m_pulseEntity );
 	}
 
 	{
@@ -258,12 +241,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::cube, redMaterial );
 
-		const auto cube = std::make_shared< CEntity >( "red_cube" );
-		cube->Transform.Position( { 4.0f, 10.0f, 1.0f } );
-		cube->Transform.Scale( { 2.0f, 2.0f, 1.0f } );
-		cube->Mesh( cubeMesh );
-
-		m_scene.AddEntity( cube );
+		const auto cubeEntity = m_scene.CreateEntity( "red_cube" );
+		cubeEntity->Transform.Position( { 4.0f, 10.0f, 1.0f } );
+		cubeEntity->Transform.Scale( { 2.0f, 2.0f, 1.0f } );
+		cubeEntity->Mesh( cubeMesh );
 	}
 
 	{
@@ -273,10 +254,8 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const auto skyboxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material3, skyMeshTextureSlots );
 
-		m_skyboxEntity = std::make_shared< CEntity >( "skybox" );
+		m_skyboxEntity = m_scene.CreateEntity( "skybox" );
 		m_skyboxEntity->Mesh( skyboxMesh );
-
-		m_scene.AddEntity( m_skyboxEntity );
 	}
 
 	m_backgroundMusic = std::make_shared< CSoundSource >( resourceCache.GetResource< CSoundBuffer >( "music/rise_of_spirit.ogg" ) );
@@ -367,71 +346,73 @@ std::shared_ptr< CState > CStateGame::OnUpdate( void )
 
 	const float ctrlPressedMult = input.KeyStillDown( SDL_SCANCODE_LCTRL ) ? 1 : 10;
 
+	const auto &cameraFree = m_cameraEntity->Get<CCameraFreeComponent>();
+
 	if( input.MouseStillDown( SDL_BUTTON_LEFT) )
 	{
-		m_cameraFree->Rotate( input.MouseDeltaY(), input.MouseDeltaX() );
+		cameraFree->Rotate( input.MouseDeltaY(), input.MouseDeltaX() );
 	}
 
 	if( input.KeyDown( SDL_SCANCODE_A )
         ||
 		input.KeyStillDown( SDL_SCANCODE_A ) )
 	{
-		m_cameraFree->MoveLeft( spp * ctrlPressedMult );
+		cameraFree->MoveLeft( spp * ctrlPressedMult );
 	}
 
 	if( input.KeyDown( SDL_SCANCODE_D )
         ||
 		input.KeyStillDown( SDL_SCANCODE_D ) )
 	{
-		m_cameraFree->MoveRight( spp * ctrlPressedMult );
+		cameraFree->MoveRight( spp * ctrlPressedMult );
 	}
 
 	if( input.KeyDown( SDL_SCANCODE_W )
         ||
 		input.KeyStillDown( SDL_SCANCODE_W ) )
 	{
-		m_cameraFree->MoveForward( spp * ctrlPressedMult );
+		cameraFree->MoveForward( spp * ctrlPressedMult );
 	}
 
 	if( input.KeyDown( SDL_SCANCODE_S )
         ||
 		input.KeyStillDown( SDL_SCANCODE_S ) )
 	{
-		m_cameraFree->MoveBackward( spp * ctrlPressedMult );
+		cameraFree->MoveBackward( spp * ctrlPressedMult );
 	}
 
 	if( input.KeyDown( SDL_SCANCODE_SPACE )
         ||
 		input.KeyStillDown( SDL_SCANCODE_SPACE ) )
 	{
-		m_cameraFree->MoveUp( spp * ctrlPressedMult );
+		cameraFree->MoveUp( spp * ctrlPressedMult );
 	}
 
 	if( input.KeyDown( SDL_SCANCODE_LSHIFT )
         ||
 		input.KeyStillDown( SDL_SCANCODE_LSHIFT ) )
 	{
-		m_cameraFree->MoveDown( spp * ctrlPressedMult );
+		cameraFree->MoveDown( spp * ctrlPressedMult );
 	}
 
-	soundManager.SetListener( m_cameraFree->Transform.Position(), m_cameraFree->Direction(), m_cameraFree->Up() );
+	soundManager.SetListener( m_cameraEntity->Transform.Position(), cameraFree->Direction(), cameraFree->Up() );
 
 	/*
 	 * change FOV
 	 */
 	if( input.KeyStillDown( SDL_SCANCODE_PAGEUP ) )
 	{
-		auto fov = m_cameraFree->FOV();
+		auto fov = cameraFree->FOV();
 		fov++;
-		m_cameraFree->FOV( fov );
+		cameraFree->FOV( fov );
 		logDEBUG( "new FOV: {0}", fov );
 
 	}
 	if( input.KeyStillDown( SDL_SCANCODE_PAGEDOWN ) )
 	{
-		auto fov = m_cameraFree->FOV();
+		auto fov = cameraFree->FOV();
 		fov--;
-		m_cameraFree->FOV( fov );
+		cameraFree->FOV( fov );
 		logDEBUG( "new FOV: {0}", fov );
 	}
 
@@ -485,9 +466,9 @@ std::shared_ptr< CState > CStateGame::OnUpdate( void )
 	m_rotx_ps = input.MouseDeltaX();
 	m_roty_ps = input.MouseDeltaY();
 
-	// TODO m_cameraFree->Direction( m_movableEntity->Transform.Position() - m_cameraFree->Transform.Position() );
+	// TODO cameraFree->Direction( m_movableEntity->Transform.Position() - m_cameraFree->Transform.Position() );
 
-	m_skyboxEntity->Transform.Position( m_cameraFree->Transform.Position() );
+	m_skyboxEntity->Transform.Position( m_cameraEntity->Transform.Position() );
 
 	return( shared_from_this() );
 }

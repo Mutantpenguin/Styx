@@ -142,23 +142,23 @@
       <VirtualDirectory Name="scene">
         <VirtualDirectory Name="components">
           <File Name="src/engine/scene/components/CBaseComponent.hpp"/>
+          <File Name="src/engine/scene/components/EComponentIndex.hpp"/>
+          <VirtualDirectory Name="camera">
+            <File Name="src/engine/scene/components/camera/CCameraComponent.cpp"/>
+            <File Name="src/engine/scene/components/camera/CCameraComponent.hpp"/>
+            <File Name="src/engine/scene/components/camera/CCameraFreeComponent.cpp"/>
+            <File Name="src/engine/scene/components/camera/CCameraFreeComponent.hpp"/>
+            <File Name="src/engine/scene/components/camera/CCameraOrthoComponent.cpp"/>
+            <File Name="src/engine/scene/components/camera/CCameraOrthoComponent.hpp"/>
+          </VirtualDirectory>
         </VirtualDirectory>
         <File Name="src/engine/scene/CScene.hpp" ExcludeProjConfig=""/>
         <File Name="src/engine/scene/CScene.cpp" ExcludeProjConfig=""/>
         <File Name="src/engine/scene/CEntity.hpp"/>
         <File Name="src/engine/scene/CEntity.cpp"/>
-        <File Name="src/engine/scene/CComponentSystem.hpp"/>
         <File Name="src/engine/scene/CWorld.hpp"/>
         <File Name="src/engine/scene/CFrustum.cpp"/>
         <File Name="src/engine/scene/CFrustum.hpp"/>
-        <VirtualDirectory Name="camera">
-          <File Name="src/engine/scene/camera/CCamera.cpp"/>
-          <File Name="src/engine/scene/camera/CCamera.hpp"/>
-          <File Name="src/engine/scene/camera/CCameraFree.cpp"/>
-          <File Name="src/engine/scene/camera/CCameraFree.hpp"/>
-          <File Name="src/engine/scene/camera/CCameraOrtho.cpp"/>
-          <File Name="src/engine/scene/camera/CCameraOrtho.hpp"/>
-        </VirtualDirectory>
         <File Name="src/engine/scene/CTransform.cpp"/>
         <File Name="src/engine/scene/CTransform.hpp"/>
       </VirtualDirectory>

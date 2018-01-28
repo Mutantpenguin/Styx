@@ -4,7 +4,7 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "src/engine/scene/camera/CCameraFree.hpp"
+#include "src/engine/scene/components/camera/CCameraFreeComponent.hpp"
 
 CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "intro", filesystem, settings, engineInterface ),
@@ -19,12 +19,12 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 	auto &renderer = m_engineInterface.Renderer;
 
 	{
-		auto camera = std::make_shared< CCameraFree >( "free camera", m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
-		camera->Transform.Position( { 0.0f, 0.0f, 5.0f } );
+		auto cameraEntity = m_scene.CreateEntity( "free camera" );
+		cameraEntity->Transform.Position( { 0.0f, 0.0f, 5.0f } );
+		auto camera = cameraEntity->Add<CCameraFreeComponent>( m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
 		camera->Direction( { 0.0f, 0.0f, -10.0f } );
 
-		m_scene.AddEntity( camera );
-		m_scene.Camera( camera );
+		m_scene.Camera( cameraEntity );
 	}
 
 	const auto material = resourceCache.GetResource< CMaterial >( "materials/intro_icon.mat" );
@@ -33,11 +33,9 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	const auto logoMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material, logoMeshTextureSlots );
 
-	m_logoEntity = std::make_shared< CEntity >( "logo" );
+	m_logoEntity = m_scene.CreateEntity( "logo" );
 	m_logoEntity->Transform.Scale( { 3.0f, 3.0f, 1.0f } );
 	m_logoEntity->Mesh( logoMesh );
-
-	m_scene.AddEntity( m_logoEntity );
 
 	m_introSound->Play();
 	m_introSound->SetRelativePositioning( true );
