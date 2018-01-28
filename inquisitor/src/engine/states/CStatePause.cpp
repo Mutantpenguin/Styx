@@ -3,6 +3,7 @@
 #include "src/engine/logger/CLogger.hpp"
 
 #include "src/engine/scene/components/camera/CCameraOrthoComponent.hpp"
+#include "src/engine/renderer/components/CModelComponent.hpp"
 
 #include "src/engine/states/CStateMainMenu.hpp"
 
@@ -48,7 +49,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, materialPause, bgMeshTextureSlots );
 
 		auto bg = m_scene.CreateEntity( "background" );
-		bg->Mesh( bgMesh );
+		bg->Add<CModelComponent>( bgMesh );
 	}
 
 	{
@@ -76,7 +77,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 			m_textEntity = m_scene.CreateEntity( "text" );
 			m_textEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height - ( 2 * halfPauseTextHeight ) - ( 2 * halfScreenshotHeight ), 5.0f } );
-			m_textEntity->Mesh( meshText );
+			m_textEntity->Add<CModelComponent>( meshText );
 		}
 
 		{
@@ -98,7 +99,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 			m_screenshotEntity = m_scene.CreateEntity( "screenshot" );
 			m_screenshotEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height - halfPauseTextHeight - halfScreenshotHeight, 5.0f } );
-			m_screenshotEntity->Mesh( screenshotMesh );
+			m_screenshotEntity->Add<CModelComponent>( screenshotMesh );
 		}
 	}
 }

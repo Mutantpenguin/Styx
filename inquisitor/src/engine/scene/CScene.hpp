@@ -3,10 +3,13 @@
 
 #include <vector>
 #include <set>
+#include <functional>
 
 #include "src/engine/helper/CColor.hpp"
 
 #include "src/engine/scene/CEntity.hpp"
+
+#include "src/engine/renderer/model/CMesh.hpp"
 
 #include "src/engine/scene/components/camera/CCameraComponent.hpp"
 
@@ -38,7 +41,7 @@ public:
 	void ClearColor( const CColor &clearColor );
 
 	template<typename... T_Components>
-	std::vector<std::shared_ptr<const CEntity>> GetEntitiesWithComponents()
+	std::vector<std::shared_ptr<const CEntity>> GetEntitiesWithComponents() const
 	{
 		std::vector<std::shared_ptr<const CEntity>> entities;
 		entities.reserve( m_entities.size() / 4 );
@@ -55,7 +58,7 @@ public:
 	};
 
 	template<typename... T_Components>
-	void Each( std::function<void( const std::shared_ptr<const CEntity>& )> lambda )
+	void Each( std::function<void( const std::shared_ptr<const CEntity>& )> lambda ) const
 	{
 		for( const auto &entity : m_entities )
 		{

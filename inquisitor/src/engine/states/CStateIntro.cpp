@@ -5,6 +5,7 @@
 #include "src/engine/logger/CLogger.hpp"
 
 #include "src/engine/scene/components/camera/CCameraFreeComponent.hpp"
+#include "src/engine/renderer/components/CModelComponent.hpp"
 
 CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "intro", filesystem, settings, engineInterface ),
@@ -35,7 +36,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	m_logoEntity = m_scene.CreateEntity( "logo" );
 	m_logoEntity->Transform.Scale( { 3.0f, 3.0f, 1.0f } );
-	m_logoEntity->Mesh( logoMesh );
+	m_logoEntity->Add<CModelComponent>( logoMesh );
 
 	m_introSound->Play();
 	m_introSound->SetRelativePositioning( true );

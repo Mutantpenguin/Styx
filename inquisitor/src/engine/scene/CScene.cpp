@@ -6,6 +6,9 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
+// TODO not nice, scene shouldn't know about the rendere at all
+#include "src/engine/renderer/components/CModelComponent.hpp"
+
 std::uint16_t CScene::s_lastId = 0;
 
 CScene::CScene()
@@ -40,19 +43,19 @@ const CScene::TMeshes &CScene::Meshes( void ) const
 
 	const auto &frustum = m_cameraEntity->Get<CCameraComponent>()->Frustum();
 
-	for( const auto &entity : m_entities )
-	{
-		const auto &mesh = entity->Mesh().get();
+	auto gnah = GetEntitiesWithComponents<CModelComponent>();
 
-		if( mesh )
+	Each<CModelComponent>( [&frustum,this] ( const std::shared_ptr<const CEntity> &entity )
+	{
+		const auto &mesh = entity->Get<CModelComponent>()->Mesh().get();
+
+		// TODO implement Octree here
+		if( frustum.IsSphereInside( entity->Transform.Position(), glm::length( mesh->BoundingSphereRadiusVector() * entity->Transform.Scale() ) ) )
 		{
-			// TODO implement Octree here
-			if( frustum.IsSphereInside( entity->Transform.Position(), glm::length( mesh->BoundingSphereRadiusVector() * entity->Transform.Scale() ) ) )
-			{
-				meshes.push_back( { mesh, entity->Transform, glm::length2( entity->Transform.Position() - m_cameraEntity->Transform.Position() ) } );
-			}
+			// TODO why push_back instead of emplace_back?
+			meshes.push_back( { mesh, entity->Transform, glm::length2( entity->Transform.Position() - m_cameraEntity->Transform.Position() ) } );
 		}
-	}
+	} );
 
 	return( meshes );
 }

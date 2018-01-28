@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "src/engine/scene/components/camera/CCameraFreeComponent.hpp"
+#include "src/engine/renderer/components/CModelComponent.hpp"
 
 #include "src/engine/states/CStatePause.hpp"
 
@@ -50,9 +51,9 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto floorMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, floorMeshPrimitive, material, floorMeshTextureSlots );
 
 		const auto floorEntity = m_scene.CreateEntity( "floor" );
-		floorEntity->Mesh( floorMesh );
 		floorEntity->Transform.Scale( { 100.0f, 100.0f, 100.0f } );
 		floorEntity->Transform.Rotate( -90.0f, 0.0f, 0.0f );
+		floorEntity->Add<CModelComponent>( floorMesh );
 	}
 
 	//auto material2 = resourceCache.GetResource< CMaterial >( "materials/flames.mat" );
@@ -71,7 +72,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		m_movableEntity = m_scene.CreateEntity( "wait_cursor" );
 		m_movableEntity->Transform.Position( { 0.0f, 10.0f, 20.0f } );
 		m_movableEntity->Transform.Scale( { 3.0f, 3.0f, 1.0f } );
-		m_movableEntity->Mesh( movableMesh );
+		m_movableEntity->Add<CModelComponent>( movableMesh );
 	}
 
 	// create small cube of cubes
@@ -93,7 +94,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 					const auto cubeEntity = m_scene.CreateEntity( "cube" );
 					cubeEntity->Transform.Position( { 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, -10.0f + k * 4.0f } );
 					cubeEntity->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
-					cubeEntity->Mesh( cubeMesh );
+					cubeEntity->Add<CModelComponent>( cubeMesh );
 				}
 			}
 		}
@@ -112,7 +113,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			const auto superBoxEntity = m_scene.CreateEntity( "superBox" );
 			superBoxEntity->Transform.Position( { 0.0f, 10.0f, -10.0f } );
 			superBoxEntity->Transform.Scale( { 10.0f, 10.0f, 10.0f } );
-			superBoxEntity->Mesh( superBoxMesh );
+			superBoxEntity->Add<CModelComponent>( superBoxMesh );
 		}
 
 		// create big cube of cubes
@@ -130,7 +131,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 						const auto superBoxEntity = m_scene.CreateEntity( "cube" );
 						superBoxEntity->Transform.Position( { 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
 						superBoxEntity->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
-						superBoxEntity->Mesh( superBoxMesh );
+						superBoxEntity->Add<CModelComponent>( superBoxMesh );
 					}
 				}
 			}
@@ -162,11 +163,11 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 						if( Math::irand( 0, 1 ) == 1 )
 						{
-							cubeEntity->Mesh( cubeMeshSimple );
+							cubeEntity->Add<CModelComponent>( cubeMeshSimple );
 						}
 						else
 						{
-							cubeEntity->Mesh( cubeMeshTransparent );
+							cubeEntity->Add<CModelComponent>( cubeMeshTransparent );
 						}
 					}
 				}
@@ -189,11 +190,11 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 						if( Math::irand( 0, 1 ) == 1 )
 						{
-							cubeEntity->Mesh( cubeMeshSimple );
+							cubeEntity->Add<CModelComponent>( cubeMeshSimple );
 						}
 						else
 						{
-							cubeEntity->Mesh( cubeMeshTransparent );
+							cubeEntity->Add<CModelComponent>( cubeMeshTransparent );
 						}
 					}
 				}
@@ -211,7 +212,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto flamesEntity = m_scene.CreateEntity( "flames" );
 		flamesEntity->Transform.Position( { -5.0f, 10.0f, 1.0f } );
 		flamesEntity->Transform.Scale( { 4.0f, 8.0f, 1.0f } );
-		flamesEntity->Mesh( flamesMesh );
+		flamesEntity->Add<CModelComponent>( flamesMesh );
 	}
 
 	{
@@ -222,7 +223,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto cubeEntity = m_scene.CreateEntity( "green_cube" );
 		cubeEntity->Transform.Position( { -4.0f, 10.0f, 1.0f } );
 		cubeEntity->Transform.Scale( { 2.0f, 2.0f, 1.0f } );
-		cubeEntity->Mesh( cubeMesh );
+		cubeEntity->Add<CModelComponent>( cubeMesh );
 	}
 
 	{
@@ -233,7 +234,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		m_pulseEntity = m_scene.CreateEntity( "pulse_cube" );
 		m_pulseEntity->Transform.Position( { 0.0f, 10.0f, 1.0f } );
 		m_pulseEntity->Transform.Scale( { 2.0f, 2.0f, 1.0f } );
-		m_pulseEntity->Mesh( pulseMesh );
+		m_pulseEntity->Add<CModelComponent>( pulseMesh );
 	}
 
 	{
@@ -244,7 +245,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto cubeEntity = m_scene.CreateEntity( "red_cube" );
 		cubeEntity->Transform.Position( { 4.0f, 10.0f, 1.0f } );
 		cubeEntity->Transform.Scale( { 2.0f, 2.0f, 1.0f } );
-		cubeEntity->Mesh( cubeMesh );
+		cubeEntity->Add<CModelComponent>( cubeMesh );
 	}
 
 	{
@@ -255,7 +256,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto skyboxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material3, skyMeshTextureSlots );
 
 		m_skyboxEntity = m_scene.CreateEntity( "skybox" );
-		m_skyboxEntity->Mesh( skyboxMesh );
+		m_skyboxEntity->Add<CModelComponent>( skyboxMesh );
 	}
 
 	m_backgroundMusic = std::make_shared< CSoundSource >( resourceCache.GetResource< CSoundBuffer >( "music/rise_of_spirit.ogg" ) );

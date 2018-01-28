@@ -8,24 +8,17 @@
 
 #include "src/engine/scene/components/EComponentIndex.hpp"
 
-#include "src/engine/renderer/model/CMesh.hpp"
-
 #include "src/engine/logger/CLogger.hpp"
 
 class CBaseComponent;
 
-// TODO declare final after changing the cameras
-class CEntity : public std::enable_shared_from_this< CEntity >
+class CEntity final : public std::enable_shared_from_this< CEntity >
 {
 	friend class CScene;
 
 public:
 	explicit CEntity( const std::string &name, const std::uint16_t sceneId );
 	~CEntity();
-
-	// TODO remove, and port to a component?
-	void Mesh( const std::shared_ptr< const CMesh > &mesh );
-	const std::shared_ptr< const CMesh > Mesh( void ) const;
 
 	const std::string &Name( void ) const;
 
@@ -106,9 +99,6 @@ private:
 	const std::string m_name;
 
 	const std::uint16_t m_sceneId;
-
-	// TODO remove, and port to a component?
-	std::shared_ptr< const CMesh > m_mesh = nullptr;
 
 	static std::uint32_t s_lastId;
 };

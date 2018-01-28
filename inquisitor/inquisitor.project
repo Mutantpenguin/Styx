@@ -119,6 +119,10 @@
         </VirtualDirectory>
         <File Name="src/engine/renderer/CFrameBuffer.hpp"/>
         <File Name="src/engine/renderer/CFrameBuffer.cpp"/>
+        <VirtualDirectory Name="components">
+          <File Name="src/engine/renderer/components/CModelComponent.hpp"/>
+          <File Name="src/engine/renderer/components/CModelComponent.cpp"/>
+        </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="helper">
         <VirtualDirectory Name="image">
