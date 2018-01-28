@@ -35,37 +35,44 @@ float CCameraFreeComponent::FOV( void ) const
 
 void CCameraFreeComponent::MoveForward( const float distance )
 {
-	m_parent->Transform.Position( m_parent->Transform.Position() - ( m_parent->Transform.Direction() * distance ) );
+	auto &transform = m_parent->Transform;
+	transform.Position( transform.Position() - ( transform.Direction() * distance ) );
 }
 
 void CCameraFreeComponent::MoveBackward( const float distance )
 {
-	m_parent->Transform.Position( m_parent->Transform.Position() + ( m_parent->Transform.Direction() * distance ) );
+	auto &transform = m_parent->Transform;
+	transform.Position( transform.Position() + ( transform.Direction() * distance ) );
 }
 
 void CCameraFreeComponent::MoveUp( const float distance )
 {
-	m_parent->Transform.Position( m_parent->Transform.Position() + ( CWorld::Y * distance ) );
+	auto &transform = m_parent->Transform;
+	transform.Position( transform.Position() + ( CWorld::Y * distance ) );
 }
 
 void CCameraFreeComponent::MoveDown( const float distance )
 {
-	m_parent->Transform.Position( m_parent->Transform.Position() - ( CWorld::Y * distance ) );
+	auto &transform = m_parent->Transform;
+	transform.Position( transform.Position() - ( CWorld::Y * distance ) );
 }
 
 void CCameraFreeComponent::MoveLeft( const float distance )
 {
-	m_parent->Transform.Position( m_parent->Transform.Position() - ( glm::cross( m_parent->Transform.Up(), m_parent->Transform.Direction() ) * distance ) );
+	auto &transform = m_parent->Transform;
+	transform.Position( transform.Position() - ( glm::cross( transform.Up(), transform.Direction() ) * distance ) );
 }
 
 void CCameraFreeComponent::MoveRight( const float distance )
 {
-	m_parent->Transform.Position( m_parent->Transform.Position() + ( glm::cross( m_parent->Transform.Up(), m_parent->Transform.Direction() ) * distance ) );
+	auto &transform = m_parent->Transform;
+	transform.Position( transform.Position() + ( glm::cross( transform.Up(), transform.Direction() ) * distance ) );
 }
 
 void CCameraFreeComponent::Rotate( const float pitchAngle, const float yawAngle )
 {
-	m_parent->Transform.Orientation( glm::angleAxis( glm::radians( pitchAngle ), CWorld::X ) * m_parent->Transform.Orientation() * glm::angleAxis( glm::radians( yawAngle ), CWorld::Y ) );
+	auto &transform = m_parent->Transform;
+	transform.Orientation( glm::angleAxis( glm::radians( pitchAngle ), CWorld::X ) * transform.Orientation() * glm::angleAxis( glm::radians( yawAngle ), CWorld::Y ) );
 }
 
 const glm::mat4 CCameraFreeComponent::ProjectionMatrix( void ) const
