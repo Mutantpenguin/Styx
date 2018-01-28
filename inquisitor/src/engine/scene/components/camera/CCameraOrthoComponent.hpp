@@ -5,7 +5,7 @@
 
 #include "src/engine/scene/components/camera/CCameraComponent.hpp"
 
-class CCameraOrthoComponent : public CCameraComponent
+class CCameraOrthoComponent final : public CCameraComponent
 {
 private:
 	CCameraOrthoComponent( const CCameraOrthoComponent& rhs );
