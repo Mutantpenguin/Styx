@@ -61,8 +61,12 @@ CSoundManager::~CSoundManager( void )
 	alcCloseDevice( m_AL_device );
 }
 
-void CSoundManager::SetListener( const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up )
+void CSoundManager::SetListener( const CTransform &transform )
 {
+	const glm::vec3 &position  = transform.Position();
+	const glm::vec3 &direction = transform.Direction();
+	const glm::vec3 &up        = transform.Up();
+
 	alListener3f( AL_POSITION, position.x, position.y, position.z );
 
 	const std::array< ALfloat, 6 > orientation = { { direction.x, direction.y, direction.z, up.x, up.y, up.z } };

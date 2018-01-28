@@ -29,7 +29,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	auto &soundManager = m_engineInterface.SoundManager;
 
-	soundManager.SetListener( m_cameraEntity->Transform.Position(), m_cameraEntity->Transform.Direction(), m_cameraEntity->Transform.Up() );
+	soundManager.SetListener( m_cameraEntity->Transform );
 
 	auto &resourceCache = m_engineInterface.ResourceCacheManager;
 	auto &samplerManager = renderer.SamplerManager();
@@ -395,7 +395,7 @@ std::shared_ptr< CState > CStateGame::OnUpdate( void )
 		cameraFree->MoveDown( spp * ctrlPressedMult );
 	}
 
-	soundManager.SetListener( m_cameraEntity->Transform.Position(), m_cameraEntity->Transform.Direction(), m_cameraEntity->Transform.Up() );
+	soundManager.SetListener( m_cameraEntity->Transform );
 
 	/*
 	 * change FOV
