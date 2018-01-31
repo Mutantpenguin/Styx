@@ -5,6 +5,8 @@
 #include <set>
 #include <functional>
 
+#include <glm/gtx/norm.hpp>
+
 #include "src/engine/helper/CColor.hpp"
 
 #include "src/engine/scene/CEntity.hpp"
@@ -67,6 +69,21 @@ public:
 				lambda( entity );
 			}
 		}
+	};
+
+	template<typename... T_Components>
+	void EachInRadius( const glm::vec3 &position, const float radius, std::function<void( const std::shared_ptr<const CEntity>& )> lambda2 ) const
+	{
+		const auto radiusSquared = std::pow( radius, 2 );
+
+		Each<T_Components...>( [ &position, &radiusSquared, &lambda2 ] ( const std::shared_ptr<const CEntity> &entity )
+		{
+			// TODO use OcTree
+			if( glm::length2( position - entity->Transform.Position() ) <= radiusSquared )
+			{
+				lambda2( entity );
+			}
+		} );
 	};
 
 private:
