@@ -1,7 +1,5 @@
 #include "CEntity.hpp"
 
-#include "src/engine/logger/CLogger.hpp"
-
 std::uint32_t CEntity::s_lastId = 0;
 
 CEntity::CEntity( const std::string &name, const std::uint16_t sceneId ) :
