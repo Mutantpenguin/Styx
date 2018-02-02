@@ -43,8 +43,6 @@ const CScene::TMeshes &CScene::Meshes( void ) const
 
 	const auto &frustum = m_cameraEntity->Get<CCameraComponent>()->Frustum();
 
-	auto gnah = GetEntitiesWithComponents<CModelComponent>();
-
 	Each<CModelComponent>( [&frustum,this] ( const std::shared_ptr<const CEntity> &entity )
 	{
 		const auto &mesh = entity->Get<CModelComponent>()->Mesh().get();
