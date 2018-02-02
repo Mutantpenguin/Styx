@@ -53,7 +53,20 @@ public:
 	};
 
 private:
-	using TRenderBucket	= std::vector< CScene::MeshInstance >;
+	struct MeshInstance
+	{
+		MeshInstance( const CMesh * p_mesh, const CTransform &p_transform, float p_viewDepth ) :
+			mesh { p_mesh },
+			Transform { p_transform },
+			viewDepth { p_viewDepth }
+		{}
+
+		const CMesh * mesh;
+		CTransform Transform;
+		float viewDepth;
+	};
+
+	using TRenderBucket	= std::vector< MeshInstance >;
 
 	const	CSettings &m_settings;
 

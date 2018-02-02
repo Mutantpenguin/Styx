@@ -11,28 +11,10 @@
 
 #include "src/engine/scene/CEntity.hpp"
 
-#include "src/engine/renderer/model/CMesh.hpp"
-
 #include "src/engine/scene/components/camera/CCameraComponent.hpp"
 
 class CScene
 {
-public:
-	struct MeshInstance
-	{
-		MeshInstance( const CMesh * p_mesh, const CTransform &p_transform, float p_viewDepth ) :
-			mesh { p_mesh },
-			Transform { p_transform },
-			viewDepth { p_viewDepth }
-		{}
-
-		const CMesh * mesh;
-		CTransform Transform;
-		float viewDepth;
-	};
-
-	using TMeshes = std::vector< MeshInstance >;
-
 public:
 	CScene();
 	~CScene();
@@ -42,8 +24,6 @@ public:
 
 	[[nodiscard]] const std::shared_ptr< const CEntity > &Camera( void ) const;
 	void Camera( const std::shared_ptr< const CEntity > &cameraEntity );
-
-	[[nodiscard]] const TMeshes &Meshes( void ) const;
 
 	[[nodiscard]] const CColor &ClearColor( void ) const;
 	void ClearColor( const CColor &clearColor );

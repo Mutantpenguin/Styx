@@ -10,6 +10,7 @@
 
 #include "src/ext/minitrace/minitrace.h"
 
+#include "src/engine/renderer/components/CModelComponent.hpp"
 #include "src/engine/scene/components/camera/CCameraComponent.hpp"
 
 #include "src/engine/renderer/CGLState.hpp"
@@ -191,17 +192,25 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 		renderBucketMaterialsTranslucent.clear();
 
 		MTR_BEGIN( "GFX", "fill render buckets" );
-		for( const auto &meshInstance : scene.Meshes() )
+		const auto &frustum = cameraEntity->Get<CCameraComponent>()->Frustum();
+
+		scene.Each<CModelComponent>( [&frustum,&cameraEntity] ( const std::shared_ptr<const CEntity> &entity )
 		{
-			if( meshInstance.mesh->Material()->Blending() )
+			const auto &mesh = entity->Get<CModelComponent>()->Mesh().get();
+
+			// TODO use Octree here
+			if( frustum.IsSphereInside( entity->Transform.Position(), glm::length( mesh->BoundingSphereRadiusVector() * entity->Transform.Scale() ) ) )
 			{
-				renderBucketMaterialsTranslucent.push_back( meshInstance );
+				if( mesh->Material()->Blending() )
+				{
+					renderBucketMaterialsTranslucent.emplace_back( mesh, entity->Transform, glm::length2( entity->Transform.Position() - cameraEntity->Transform.Position() ) );
+				}
+				else
+				{
+					renderBucketMaterialsOpaque.emplace_back( mesh, entity->Transform, glm::length2( entity->Transform.Position() - cameraEntity->Transform.Position() ) );
+				}
 			}
-			else
-			{
-				renderBucketMaterialsOpaque.push_back( meshInstance );
-			}
-		}
+		} );
 		MTR_END( "GFX", "fill render buckets" );
 
 		const auto &camera = cameraEntity->Get<CCameraComponent>();
@@ -211,7 +220,7 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 		// TODO multithreaded?
 		// sort opaque for material, and then front to back (to reduce overdraw)
 		MTR_BEGIN( "GFX", "sort opaque" );
-		std::sort( std::begin( renderBucketMaterialsOpaque ), std::end( renderBucketMaterialsOpaque ),	[]( const CScene::MeshInstance &a, const CScene::MeshInstance &b ) -> bool
+		std::sort( std::begin( renderBucketMaterialsOpaque ), std::end( renderBucketMaterialsOpaque ),	[]( const MeshInstance &a, const MeshInstance &b ) -> bool
 																										{
 																											return( ( a.mesh->Material() > b.mesh->Material() )
 																													||
@@ -224,7 +233,7 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 		// TODO multithreaded?
 		// sort translucent back to front
 		MTR_BEGIN( "GFX", "sort translucent" );
-		std::sort( std::begin( renderBucketMaterialsTranslucent ), std::end( renderBucketMaterialsTranslucent ),	[]( const CScene::MeshInstance &a, const CScene::MeshInstance &b ) -> bool
+		std::sort( std::begin( renderBucketMaterialsTranslucent ), std::end( renderBucketMaterialsTranslucent ),	[]( const MeshInstance &a, const MeshInstance &b ) -> bool
 																													{
 																														return( a.viewDepth > b.viewDepth );
 																													} );

@@ -6,9 +6,6 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-// TODO not nice, scene shouldn't know about the rendere at all
-#include "src/engine/renderer/components/CModelComponent.hpp"
-
 std::uint16_t CScene::s_lastId = 0;
 
 CScene::CScene()
@@ -32,29 +29,6 @@ void CScene::DeleteEntity( const std::shared_ptr< const CEntity > &entity )
 {
 	// TODO only erase, when the are no shared_ptr pointing to it?
 	m_entities.erase( entity );
-}
-
-const CScene::TMeshes &CScene::Meshes( void ) const
-{
-	MTR_SCOPE( "scene", "collect visible meshes" );
-
-	static CScene::TMeshes meshes;
-	meshes.clear();
-
-	const auto &frustum = m_cameraEntity->Get<CCameraComponent>()->Frustum();
-
-	Each<CModelComponent>( [&frustum,this] ( const std::shared_ptr<const CEntity> &entity )
-	{
-		const auto &mesh = entity->Get<CModelComponent>()->Mesh().get();
-
-		// TODO use Octree here
-		if( frustum.IsSphereInside( entity->Transform.Position(), glm::length( mesh->BoundingSphereRadiusVector() * entity->Transform.Scale() ) ) )
-		{
-			meshes.emplace_back( mesh, entity->Transform, glm::length2( entity->Transform.Position() - m_cameraEntity->Transform.Position() ) );
-		}
-	} );
-
-	return( meshes );
 }
 
 const std::shared_ptr< const CEntity > &CScene::Camera( void ) const
