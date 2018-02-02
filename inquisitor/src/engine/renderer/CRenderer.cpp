@@ -183,7 +183,6 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 		 */
 
 		// static buckets so whe don't need to allocate new memory on every frame
-		// get cleared at the end of this function
 
 		static TRenderBucket renderBucketMaterialsOpaque;
 		renderBucketMaterialsOpaque.clear();
@@ -196,12 +195,10 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 		{
 			if( meshInstance.mesh->Material()->Blending() )
 			{
-				// TODO why push_back instead of emplace_back?
 				renderBucketMaterialsTranslucent.push_back( meshInstance );
 			}
 			else
 			{
-				// TODO why push_back instead of emplace_back?
 				renderBucketMaterialsOpaque.push_back( meshInstance );
 			}
 		}
