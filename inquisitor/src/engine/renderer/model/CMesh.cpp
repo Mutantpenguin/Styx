@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include <glbinding/Meta.h>
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 
@@ -13,65 +15,16 @@ CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::s
 	m_textureSlots { textureSlots },
 	m_boundingSphereRadiusVector { CalculateBoundingSphereRadiusVector( primitive ) }
 {
-	SetupMaterialTextureMapping();
+	SetupMaterialTextureSlotMapping();
 }
 
 void CMesh::SetMaterial( const std::shared_ptr< const CMaterial > &mat )
 {
 	m_material = mat;
 
-	SetupMaterialTextureMapping();
+	SetupMaterialTextureSlotMapping();
 
 	/* TODO setup the necessary things for the material
-	 * const auto mat_texture = mat_textures->find( interface.name );
-				if( mat_texture == mat_textures->cend() )
-				{
-					logWARNING( "required texture for sampler '{0}' not specified in '{1}'", interface.name, path );
-					return( false );
-				}
-				else
-				{
-					// check that sampler-type and type of texture match
-
-					const std::shared_ptr< const CTexture > texture = m_textureManager.LoadTexture( mat_texture->get<std::string>() );
-
-					switch( interface.type )
-					{
-						case GL_SAMPLER_2D:
-							if( texture->Type() != CTexture::TextureType::TEX_2D )
-							{
-								logWARNING( "required texture for sampler '{0}' has to be of type 2D in '{1}'", interface.name, path );
-								return( false );
-							}
-							break;
-
-						case GL_SAMPLER_CUBE:
-							if( texture->Type() != CTexture::TextureType::TEX_CUBE_MAP )
-							{
-								logWARNING( "required texture for sampler '{0}' has to be of type CUBEMAP in '{1}'", interface.name, path );
-								return( false );
-							}
-							break;
-
-						case GL_SAMPLER_2D_ARRAY:
-							if( texture->Type() != CTexture::TextureType::TEX_2D_ARRAY )
-							{
-								logWARNING( "required texture for sampler '{0}' has to be of type 2D_ARRAY in '{1}'", interface.name, path );
-								return( false );
-							}
-							break;
-
-						default:
-							logERROR( "unhandled type '{0}' for sampler '{1}'", glbinding::Meta::getString( interface.type ), interface.name );
-							return( false );
-					}
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-const auto mat_samplers = mat_root.find( "samplers" );
 
 		if( !shader->RequiredSamplers().empty() )
 		{
@@ -91,32 +44,6 @@ const auto mat_samplers = mat_root.find( "samplers" );
 						}
 					}
 				}
-
-				// TODO set default samplers where not already set
-				if( !sampler )
-				{
-					// TODO by type of sampler
-					switch( texture->Type() )
-					{
-						case CTexture::TextureType::TEX_2D:
-							sampler = m_samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D );
-							break;
-
-						case CTexture::TextureType::TEX_CUBE_MAP:
-							sampler = m_samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_CUBE );
-							break;
-
-						case CTexture::TextureType::TEX_2D_ARRAY:
-							sampler = m_samplerManager.SamplerFromSamplerType( CSampler::SamplerType::REPEAT_2D );
-							break;
-
-						default:
-							logWARNING( "unknown type for sampler specified for texture '{0}' in '{1}'", interface.name, path );
-							return( false );
-					}
-				}
-
-				mat->m_samplerData.insert( std::make_pair( location, CMaterialSamplerData( interface.name, sampler ) ) );
 			}
 		}
  * */
@@ -162,7 +89,7 @@ void CMesh::ChangeTextureAndSampler( const std::string &slotName, const std::sha
 	}
 }
 
-void CMesh::SetupMaterialTextureMapping( void )
+void CMesh::SetupMaterialTextureSlotMapping( void )
 {
 	m_materialTextureSlotMapping.clear();
 
@@ -172,6 +99,40 @@ void CMesh::SetupMaterialTextureMapping( void )
 		{
 			if( const auto textureSlot = m_textureSlots.find( interface.name ); textureSlot != std::cend( m_textureSlots ) )
 			{
+				if( const auto texture = textureSlot->second->m_texture; nullptr != texture )
+				{
+					switch( interface.type )
+					{
+						case GL_SAMPLER_2D:
+							if( texture->Type() != CTexture::TextureType::TEX_2D )
+							{
+								logWARNING( "setting up texture mapping for mesh failed because the texture for slot '{0}' has to be of type 2D", interface.name );
+								continue;
+							}
+							break;
+
+						case GL_SAMPLER_CUBE:
+							if( texture->Type() != CTexture::TextureType::TEX_CUBE_MAP )
+							{
+								logWARNING( "setting up texture mapping for mesh failed because the texture for slot '{0}' has to be of type CUBEMAP", interface.name );
+								continue;
+							}
+							break;
+
+						case GL_SAMPLER_2D_ARRAY:
+							if( texture->Type() != CTexture::TextureType::TEX_2D_ARRAY )
+							{
+								logWARNING( "setting up texture mapping for mesh failed because the texture for slot '{0}' has to be of type 2D_ARRAY", interface.name );
+								continue;
+							}
+							break;
+
+						default:
+							logERROR( "unhandled type '{0}' for slot '{1}'", glbinding::Meta::getString( interface.type ), interface.name );
+							continue;
+					}
+				}
+
 				m_materialTextureSlotMapping.emplace_back( std::make_pair( location, textureSlot->second ) );
 			}
 			else

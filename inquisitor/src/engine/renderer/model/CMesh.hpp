@@ -41,7 +41,7 @@ private:
 
 	std::vector< std::pair< GLuint, const std::shared_ptr< const CMeshTextureSlot > > > m_materialTextureSlotMapping;
 
-	void SetupMaterialTextureMapping( void );
+	void SetupMaterialTextureSlotMapping( void );
 
 	[[nodiscard]] static glm::vec3 CalculateBoundingSphereRadiusVector( const Primitives::SPrimitive &primitive );
 
