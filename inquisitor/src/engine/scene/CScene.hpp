@@ -20,6 +20,12 @@ class CScene
 public:
 	struct MeshInstance
 	{
+		MeshInstance( const CMesh * p_mesh, const CTransform &p_transform, float p_viewDepth ) :
+			mesh { p_mesh },
+			Transform { p_transform },
+			viewDepth { p_viewDepth }
+		{}
+
 		const CMesh * mesh;
 		CTransform Transform;
 		float viewDepth;

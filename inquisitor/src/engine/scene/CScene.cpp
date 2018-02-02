@@ -47,11 +47,10 @@ const CScene::TMeshes &CScene::Meshes( void ) const
 	{
 		const auto &mesh = entity->Get<CModelComponent>()->Mesh().get();
 
-		// TODO implement Octree here
+		// TODO use Octree here
 		if( frustum.IsSphereInside( entity->Transform.Position(), glm::length( mesh->BoundingSphereRadiusVector() * entity->Transform.Scale() ) ) )
 		{
-			// TODO why push_back instead of emplace_back?
-			meshes.push_back( { mesh, entity->Transform, glm::length2( entity->Transform.Position() - m_cameraEntity->Transform.Position() ) } );
+			meshes.emplace_back( mesh, entity->Transform, glm::length2( entity->Transform.Position() - m_cameraEntity->Transform.Position() ) );
 		}
 	} );
 
