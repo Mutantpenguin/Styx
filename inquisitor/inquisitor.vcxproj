@@ -20,70 +20,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\engine\helper\Date.cpp" />
-    <ClCompile Include="src\engine\helper\geom\CPlane.cpp" />
-    <ClCompile Include="src\engine\helper\image\CImage.cpp" />
-    <ClCompile Include="src\engine\helper\image\ImageHandler.cpp" />
-    <ClCompile Include="src\engine\helper\String.cpp" />
-    <ClCompile Include="src\engine\logger\CLogger.cpp" />
-    <ClCompile Include="src\engine\logger\CLogTargetConsole.cpp" />
-    <ClCompile Include="src\engine\logger\CLogTargetFile.cpp" />
-    <ClCompile Include="src\engine\logger\CLogTargetMessageBox.cpp" />
-    <ClCompile Include="src\engine\math\Math.cpp" />
-    <ClCompile Include="src\engine\renderer\camera\CCamera.cpp" />
-    <ClCompile Include="src\engine\renderer\camera\CCameraFree.cpp" />
-    <ClCompile Include="src\engine\renderer\CFrustum.cpp" />
-    <ClCompile Include="src\engine\renderer\CGLState.cpp" />
-    <ClCompile Include="src\engine\renderer\CMesh.cpp" />
-    <ClCompile Include="src\engine\renderer\COpenGlAdapter.cpp" />
-    <ClCompile Include="src\engine\renderer\CRenderer.cpp" />
-    <ClCompile Include="src\engine\renderer\CUniformBuffer.cpp" />
-    <ClCompile Include="src\engine\renderer\CVAO.cpp" />
-    <ClCompile Include="src\engine\renderer\GLHelper.cpp" />
-    <ClCompile Include="src\engine\renderer\material\CMaterial.cpp" />
-    <ClCompile Include="src\engine\renderer\material\CMaterialLoader.cpp" />
-    <ClCompile Include="src\engine\renderer\material\CMaterialManager.cpp" />
-    <ClCompile Include="src\engine\renderer\material\CMaterialSamplerData.cpp" />
-    <ClCompile Include="src\engine\renderer\material\CMaterialUniform.cpp" />
-    <ClCompile Include="src\engine\renderer\sampler\CSampler.cpp" />
-    <ClCompile Include="src\engine\renderer\sampler\CSamplerManager.cpp" />
-    <ClCompile Include="src\engine\renderer\shader\CShaderManager.cpp" />
-    <ClCompile Include="src\engine\renderer\shader\CShaderProgram.cpp" />
-    <ClCompile Include="src\engine\renderer\texture\C2DArrayData.cpp" />
-    <ClCompile Include="src\engine\renderer\texture\CCubemapData.cpp" />
-    <ClCompile Include="src\engine\renderer\texture\CTexture.cpp" />
-    <ClCompile Include="src\engine\renderer\texture\CTextureLoader.cpp" />
-    <ClCompile Include="src\engine\renderer\texture\CTextureManager.cpp" />
-    <ClCompile Include="src\engine\scene\centity.cpp" />
-    <ClCompile Include="src\engine\scene\components\cbasecomponent.cpp" />
-    <ClCompile Include="src\engine\scene\CScene.cpp" />
-    <ClCompile Include="src\engine\scene\csystemmanager.cpp" />
-    <ClCompile Include="src\engine\scene\ctransformsystem.cpp" />
-    <ClCompile Include="src\engine\sdl\CSDL.cpp" />
-    <ClCompile Include="src\engine\sound\ALHelper.cpp" />
-    <ClCompile Include="src\engine\sound\CSound.cpp" />
-    <ClCompile Include="src\engine\sound\CSoundLoader.cpp" />
-    <ClCompile Include="src\engine\sound\CSoundManager.cpp" />
-    <ClCompile Include="src\engine\states\CState.cpp" />
-    <ClCompile Include="src\engine\states\CStateGame.cpp" />
-    <ClCompile Include="src\engine\states\CStateIntro.cpp" />
-    <ClCompile Include="src\engine\states\CStatePause.cpp" />
-    <ClCompile Include="src\engine\system\CEngine.cpp" />
-    <ClCompile Include="src\engine\system\CFileSystem.cpp" />
-    <ClCompile Include="src\engine\system\CGameInfo.cpp" />
-    <ClCompile Include="src\engine\system\CInput.cpp" />
-    <ClCompile Include="src\engine\system\ComputerInfo.cpp" />
-    <ClCompile Include="src\engine\system\CSettings.cpp" />
-    <ClCompile Include="src\engine\system\CTimer.cpp" />
-    <ClCompile Include="src\engine\system\CWindow.cpp" />
-    <ClCompile Include="src\engine\system\Main.cpp" />
-    <ClCompile Include="src\ext\fmt\format.cc" />
-    <ClCompile Include="src\ext\fmt\ostream.cc" />
-    <ClCompile Include="src\ext\fmt\posix.cc" />
-    <ClCompile Include="src\ext\fmt\printf.cc" />
-    <ClCompile Include="src\ext\imgui\imgui.cpp" />
-    <ClCompile Include="src\ext\imgui\imgui_draw.cpp" />
-    <ClCompile Include="src\ext\stb\stb_vorbis.c" />
+    <None Include="asan_symbolize.py" />
+    <None Include="AUTHORS" />
+    <None Include="BUILD" />
+    <None Include="COMPILERS" />
+    <None Include="COPYING" />
+    <None Include="doxyfile" />
+    <None Include="DoxySfile" />
+    <None Include="inquisitor.cbp" />
+    <None Include="inquisitor.project" />
+    <None Include="packages.config" />
+    <None Include="README" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="design_document.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\helper\CColor.hpp" />
@@ -100,11 +50,8 @@
     <ClInclude Include="src\engine\logger\CLogTargetMessageBox.hpp" />
     <ClInclude Include="src\engine\logger\LogHelper.hpp" />
     <ClInclude Include="src\engine\math\Math.hpp" />
-    <ClInclude Include="src\engine\renderer\camera\CCamera.hpp" />
-    <ClInclude Include="src\engine\renderer\camera\CCameraFree.hpp" />
-    <ClInclude Include="src\engine\renderer\CFrustum.hpp" />
+    <ClInclude Include="src\engine\renderer\CFrameBuffer.hpp" />
     <ClInclude Include="src\engine\renderer\CGLState.hpp" />
-    <ClInclude Include="src\engine\renderer\CMesh.hpp" />
     <ClInclude Include="src\engine\renderer\COpenGlAdapter.hpp" />
     <ClInclude Include="src\engine\renderer\CRenderer.hpp" />
     <ClInclude Include="src\engine\renderer\CUniformBuffer.hpp" />
@@ -113,10 +60,14 @@
     <ClInclude Include="src\engine\renderer\GL.h" />
     <ClInclude Include="src\engine\renderer\GLHelper.hpp" />
     <ClInclude Include="src\engine\renderer\material\CMaterial.hpp" />
+    <ClInclude Include="src\engine\renderer\material\CMaterialCache.hpp" />
     <ClInclude Include="src\engine\renderer\material\CMaterialLoader.hpp" />
-    <ClInclude Include="src\engine\renderer\material\CMaterialManager.hpp" />
-    <ClInclude Include="src\engine\renderer\material\CMaterialSamplerData.hpp" />
     <ClInclude Include="src\engine\renderer\material\CMaterialUniform.hpp" />
+    <ClInclude Include="src\engine\renderer\model\CMesh.hpp" />
+    <ClInclude Include="src\engine\renderer\model\CMeshTexture.hpp" />
+    <ClInclude Include="src\engine\renderer\model\CModel.hpp" />
+    <ClInclude Include="src\engine\renderer\model\CModelLoader.hpp" />
+    <ClInclude Include="src\engine\renderer\model\CModelManager.hpp" />
     <ClInclude Include="src\engine\renderer\sampler\CSampler.hpp" />
     <ClInclude Include="src\engine\renderer\sampler\CSamplerManager.hpp" />
     <ClInclude Include="src\engine\renderer\shader\CShaderManager.hpp" />
@@ -126,26 +77,38 @@
     <ClInclude Include="src\engine\renderer\texture\C2DArrayData.hpp" />
     <ClInclude Include="src\engine\renderer\texture\CCubemapData.hpp" />
     <ClInclude Include="src\engine\renderer\texture\CTexture.hpp" />
+    <ClInclude Include="src\engine\renderer\texture\CTextureCache.hpp" />
     <ClInclude Include="src\engine\renderer\texture\CTextureLoader.hpp" />
-    <ClInclude Include="src\engine\renderer\texture\CTextureManager.hpp" />
-    <ClInclude Include="src\engine\scene\ccomponentsystem.hpp" />
-    <ClInclude Include="src\engine\scene\centity.hpp" />
-    <ClInclude Include="src\engine\scene\components\cbasecomponent.hpp" />
-    <ClInclude Include="src\engine\scene\components\transformcomponent.hpp" />
+    <ClInclude Include="src\engine\resource\CResourceCache.hpp" />
+    <ClInclude Include="src\engine\resource\CResourceCacheBase.hpp" />
+    <ClInclude Include="src\engine\resource\CResourceCacheManager.hpp" />
+    <ClInclude Include="src\engine\scene\camera\CCamera.hpp" />
+    <ClInclude Include="src\engine\scene\camera\CCameraFree.hpp" />
+    <ClInclude Include="src\engine\scene\camera\CCameraOrtho.hpp" />
+    <ClInclude Include="src\engine\scene\CComponentSystem.hpp" />
+    <ClInclude Include="src\engine\scene\CEntity.hpp" />
+    <ClInclude Include="src\engine\scene\CFrustum.hpp" />
+    <ClInclude Include="src\engine\scene\components\CBaseComponent.hpp" />
+    <ClInclude Include="src\engine\scene\components\CTransformComponent.hpp" />
     <ClInclude Include="src\engine\scene\CScene.hpp" />
     <ClInclude Include="src\engine\scene\csystem.hpp" />
     <ClInclude Include="src\engine\scene\csystemmanager.hpp" />
     <ClInclude Include="src\engine\scene\ctransformsystem.hpp" />
+    <ClInclude Include="src\engine\scene\CWorld.hpp" />
     <ClInclude Include="src\engine\sdl\CSDL.hpp" />
     <ClInclude Include="src\engine\sound\ALHelper.hpp" />
-    <ClInclude Include="src\engine\sound\CSound.hpp" />
-    <ClInclude Include="src\engine\sound\CSoundLoader.hpp" />
+    <ClInclude Include="src\engine\sound\CSoundBuffer.hpp" />
+    <ClInclude Include="src\engine\sound\CSoundBufferCache.hpp" />
+    <ClInclude Include="src\engine\sound\CSoundBufferLoader.hpp" />
     <ClInclude Include="src\engine\sound\CSoundManager.hpp" />
+    <ClInclude Include="src\engine\sound\CSoundSource.hpp" />
     <ClInclude Include="src\engine\states\CState.hpp" />
     <ClInclude Include="src\engine\states\CStateGame.hpp" />
     <ClInclude Include="src\engine\states\CStateIntro.hpp" />
+    <ClInclude Include="src\engine\states\CStateMainMenu.hpp" />
     <ClInclude Include="src\engine\states\CStatePause.hpp" />
     <ClInclude Include="src\engine\system\CEngine.hpp" />
+    <ClInclude Include="src\engine\system\CEngineInterface.hpp" />
     <ClInclude Include="src\engine\system\CFileSystem.hpp" />
     <ClInclude Include="src\engine\system\CGameInfo.hpp" />
     <ClInclude Include="src\engine\system\CInput.hpp" />
@@ -153,6 +116,9 @@
     <ClInclude Include="src\engine\system\CSettings.hpp" />
     <ClInclude Include="src\engine\system\CTimer.hpp" />
     <ClInclude Include="src\engine\system\CWindow.hpp" />
+    <ClInclude Include="src\ext\CLI11\CLI11.hpp" />
+    <ClInclude Include="src\ext\dr_libs\dr_wav.h" />
+    <ClInclude Include="src\ext\fmt\container.h" />
     <ClInclude Include="src\ext\fmt\format.h" />
     <ClInclude Include="src\ext\fmt\ostream.h" />
     <ClInclude Include="src\ext\fmt\posix.h" />
@@ -162,25 +128,122 @@
     <ClInclude Include="src\ext\imgui\imconfig.h" />
     <ClInclude Include="src\ext\imgui\imgui.h" />
     <ClInclude Include="src\ext\imgui\imgui_internal.h" />
+    <ClInclude Include="src\ext\json\json.hpp" />
+    <ClInclude Include="src\ext\minitrace\minitrace.h" />
+    <ClInclude Include="src\ext\physfs\physfs.h" />
+    <ClInclude Include="src\ext\physfs\physfs_casefolding.h" />
+    <ClInclude Include="src\ext\physfs\physfs_internal.h" />
+    <ClInclude Include="src\ext\physfs\physfs_lzmasdk.h" />
+    <ClInclude Include="src\ext\physfs\physfs_miniz.h" />
+    <ClInclude Include="src\ext\physfs\physfs_platforms.h" />
     <ClInclude Include="src\ext\stb\stb_rect_pack.h" />
     <ClInclude Include="src\ext\stb\stb_textedit.h" />
     <ClInclude Include="src\ext\stb\stb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="asan_symbolize.py" />
-    <None Include="AUTHORS" />
-    <None Include="BUILD" />
-    <None Include="COMPILERS" />
-    <None Include="COPYING" />
-    <None Include="doxyfile" />
-    <None Include="DoxySfile" />
-    <None Include="inquisitor.cbp" />
-    <None Include="inquisitor.project" />
-    <None Include="packages.config" />
-    <None Include="README" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="design_document.txt" />
+    <ClCompile Include="src\engine\helper\Date.cpp" />
+    <ClCompile Include="src\engine\helper\geom\CPlane.cpp" />
+    <ClCompile Include="src\engine\helper\image\CImage.cpp" />
+    <ClCompile Include="src\engine\helper\image\ImageHandler.cpp" />
+    <ClCompile Include="src\engine\helper\String.cpp" />
+    <ClCompile Include="src\engine\logger\CLogger.cpp" />
+    <ClCompile Include="src\engine\logger\CLogTargetConsole.cpp" />
+    <ClCompile Include="src\engine\logger\CLogTargetFile.cpp" />
+    <ClCompile Include="src\engine\logger\CLogTargetMessageBox.cpp" />
+    <ClCompile Include="src\engine\math\Math.cpp" />
+    <ClCompile Include="src\engine\renderer\CFrameBuffer.cpp" />
+    <ClCompile Include="src\engine\renderer\CGLState.cpp" />
+    <ClCompile Include="src\engine\renderer\COpenGlAdapter.cpp" />
+    <ClCompile Include="src\engine\renderer\CRenderer.cpp" />
+    <ClCompile Include="src\engine\renderer\CUniformBuffer.cpp" />
+    <ClCompile Include="src\engine\renderer\CVAO.cpp" />
+    <ClCompile Include="src\engine\renderer\GLHelper.cpp" />
+    <ClCompile Include="src\engine\renderer\material\CMaterial.cpp" />
+    <ClCompile Include="src\engine\renderer\material\CMaterialCache.cpp" />
+    <ClCompile Include="src\engine\renderer\material\CMaterialLoader.cpp" />
+    <ClCompile Include="src\engine\renderer\material\CMaterialUniform.cpp" />
+    <ClCompile Include="src\engine\renderer\model\CMesh.cpp" />
+    <ClCompile Include="src\engine\renderer\model\CMeshTexture.cpp" />
+    <ClCompile Include="src\engine\renderer\model\CModel.cpp" />
+    <ClCompile Include="src\engine\renderer\model\CModelLoader.cpp" />
+    <ClCompile Include="src\engine\renderer\model\CModelManager.cpp" />
+    <ClCompile Include="src\engine\renderer\sampler\CSampler.cpp" />
+    <ClCompile Include="src\engine\renderer\sampler\CSamplerManager.cpp" />
+    <ClCompile Include="src\engine\renderer\shader\CShaderManager.cpp" />
+    <ClCompile Include="src\engine\renderer\shader\CShaderProgram.cpp" />
+    <ClCompile Include="src\engine\renderer\texture\C2DArrayData.cpp" />
+    <ClCompile Include="src\engine\renderer\texture\CCubemapData.cpp" />
+    <ClCompile Include="src\engine\renderer\texture\CTexture.cpp" />
+    <ClCompile Include="src\engine\renderer\texture\CTextureCache.cpp" />
+    <ClCompile Include="src\engine\renderer\texture\CTextureLoader.cpp" />
+    <ClCompile Include="src\engine\resource\CResourceCacheBase.cpp" />
+    <ClCompile Include="src\engine\resource\CResourceCacheManager.cpp" />
+    <ClCompile Include="src\engine\scene\camera\CCamera.cpp" />
+    <ClCompile Include="src\engine\scene\camera\CCameraFree.cpp" />
+    <ClCompile Include="src\engine\scene\camera\CCameraOrtho.cpp" />
+    <ClCompile Include="src\engine\scene\CEntity.cpp" />
+    <ClCompile Include="src\engine\scene\CFrustum.cpp" />
+    <ClCompile Include="src\engine\scene\components\CTransformComponent.cpp" />
+    <ClCompile Include="src\engine\scene\CScene.cpp" />
+    <ClCompile Include="src\engine\scene\csystemmanager.cpp" />
+    <ClCompile Include="src\engine\scene\ctransformsystem.cpp" />
+    <ClCompile Include="src\engine\sdl\CSDL.cpp" />
+    <ClCompile Include="src\engine\sound\ALHelper.cpp" />
+    <ClCompile Include="src\engine\sound\CSoundBuffer.cpp" />
+    <ClCompile Include="src\engine\sound\CSoundBufferCache.cpp" />
+    <ClCompile Include="src\engine\sound\CSoundBufferLoader.cpp" />
+    <ClCompile Include="src\engine\sound\CSoundManager.cpp" />
+    <ClCompile Include="src\engine\sound\CSoundSource.cpp" />
+    <ClCompile Include="src\engine\states\CState.cpp" />
+    <ClCompile Include="src\engine\states\CStateGame.cpp" />
+    <ClCompile Include="src\engine\states\CStateIntro.cpp" />
+    <ClCompile Include="src\engine\states\CStateMainMenu.cpp" />
+    <ClCompile Include="src\engine\states\CStatePause.cpp" />
+    <ClCompile Include="src\engine\system\CEngine.cpp" />
+    <ClCompile Include="src\engine\system\CEngineInterface.cpp" />
+    <ClCompile Include="src\engine\system\CFileSystem.cpp" />
+    <ClCompile Include="src\engine\system\CGameInfo.cpp" />
+    <ClCompile Include="src\engine\system\CInput.cpp" />
+    <ClCompile Include="src\engine\system\ComputerInfo.cpp" />
+    <ClCompile Include="src\engine\system\CSettings.cpp" />
+    <ClCompile Include="src\engine\system\CTimer.cpp" />
+    <ClCompile Include="src\engine\system\CWindow.cpp" />
+    <ClCompile Include="src\engine\system\Main.cpp" />
+    <ClCompile Include="src\ext\fmt\format.cc" />
+    <ClCompile Include="src\ext\fmt\ostream.cc" />
+    <ClCompile Include="src\ext\fmt\posix.cc" />
+    <ClCompile Include="src\ext\fmt\printf.cc" />
+    <ClCompile Include="src\ext\imgui\imgui.cpp" />
+    <ClCompile Include="src\ext\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\ext\minitrace\minitrace.c" />
+    <ClCompile Include="src\ext\physfs\physfs.c" />
+    <ClCompile Include="src\ext\physfs\physfs_archiver_7z.c" />
+    <ClCompile Include="src\ext\physfs\physfs_archiver_dir.c" />
+    <ClCompile Include="src\ext\physfs\physfs_archiver_grp.c" />
+    <ClCompile Include="src\ext\physfs\physfs_archiver_hog.c" />
+    <ClCompile Include="src\ext\physfs\physfs_archiver_iso9660.c" />
+    <ClCompile Include="src\ext\physfs\physfs_archiver_mvl.c" />
+    <ClCompile Include="src\ext\physfs\physfs_archiver_qpak.c" />
+    <ClCompile Include="src\ext\physfs\physfs_archiver_slb.c" />
+    <ClCompile Include="src\ext\physfs\physfs_archiver_unpacked.c" />
+    <ClCompile Include="src\ext\physfs\physfs_archiver_vdf.c" />
+    <ClCompile Include="src\ext\physfs\physfs_archiver_wad.c" />
+    <ClCompile Include="src\ext\physfs\physfs_archiver_zip.c" />
+    <ClCompile Include="src\ext\physfs\physfs_byteorder.c" />
+    <ClCompile Include="src\ext\physfs\physfs_platform_haiku.cpp" />
+    <ClCompile Include="src\ext\physfs\physfs_platform_os2.c" />
+    <ClCompile Include="src\ext\physfs\physfs_platform_posix.c" />
+    <ClCompile Include="src\ext\physfs\physfs_platform_qnx.c" />
+    <ClCompile Include="src\ext\physfs\physfs_platform_unix.c" />
+    <ClCompile Include="src\ext\physfs\physfs_platform_windows.c" />
+    <ClCompile Include="src\ext\physfs\physfs_platform_winrt.cpp" />
+    <ClCompile Include="src\ext\physfs\physfs_unicode.c" />
+    <ClCompile Include="src\ext\stb\stb_vorbis.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5A269590-059F-4366-A5A9-B75002190AD2}</ProjectGuid>
@@ -248,7 +311,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);INQ_DEBUG</PreprocessorDefinitions>
-      <AdditionalOptions>/std:c++latest /permissive-</AdditionalOptions>
+      <AdditionalOptions>/std:c++17 /permissive- /wd4251</AdditionalOptions>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -262,7 +325,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/std:c++latest /permissive-</AdditionalOptions>
+      <AdditionalOptions>/std:c++17 /permissive- /wd4251</AdditionalOptions>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -275,13 +338,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);INQ_DEBUG</PreprocessorDefinitions>
-      <AdditionalOptions>/std:c++latest /permissive-</AdditionalOptions>
+      <AdditionalOptions>/std:c++17 /permissive- /wd4251</AdditionalOptions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;_CONSOLE;%(PreprocessorDefinitions);</PreprocessorDefinitions>
-      <AdditionalOptions>/std:c++latest /permissive-</AdditionalOptions>
+      <AdditionalOptions>/std:c++17 /permissive- /wd4251</AdditionalOptions>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
