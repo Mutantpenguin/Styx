@@ -10,6 +10,9 @@
 
 #include "src/ext/minitrace/minitrace.h"
 
+#include "src/engine/renderer/components/CModelComponent.hpp"
+#include "src/engine/scene/components/camera/CCameraComponent.hpp"
+
 #include "src/engine/renderer/CGLState.hpp"
 
 #include "src/engine/logger/CLogger.hpp"
@@ -42,18 +45,18 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 												"}";
 		const std::string fragmentShaderString =	"out vec4 color;" \
 													"in vec2 UV;" \
-													"uniform sampler2D screenTexture;" \
+													"uniform sampler2D " + m_slotNameFrameBuffer + ";" \
 													"void main()" \
 													"{" \
-													"    color = texture( screenTexture, UV );" \
+													"    color = texture( " + m_slotNameFrameBuffer + ", UV );" \
 													"}";
 
 		const std::shared_ptr< CMaterial > materialFrameBuffer = std::make_shared< CMaterial >();
 		materialFrameBuffer->Shader( m_shaderManager.CreateProgramFromStrings( vertexShaderString, fragmentShaderString ) );
 
-		const CMesh::TTextures frameBufferMeshTextures = { { "screenTexture", std::make_shared< CMeshTexture >( nullptr, nullptr ) } };
+		const CMesh::TMeshTextureSlots frameBufferMeshTextureSlots = { { m_slotNameFrameBuffer, std::make_shared< CMeshTextureSlot >( nullptr, m_samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		m_meshFrameBuffer = std::make_unique< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialFrameBuffer, frameBufferMeshTextures );
+		m_meshFrameBuffer = std::make_unique< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialFrameBuffer, frameBufferMeshTextureSlots );
 	}
 
 	m_resourceCacheManager.Register< CTexture >( m_textureCache );
@@ -112,7 +115,7 @@ void CRenderer::CreateUniformBuffers( void )
 	}
 }
 
-void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const CTimer &timer ) const
+void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CEntity > &cameraEntity, const CTimer &timer ) const
 {
 	/*
 	 * Update time into the uniform buffer
@@ -125,10 +128,12 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CCamera > &ca
 	 * Update calculated values into the uniform buffer
 	 */
 
-	const glm::vec3 &position = camera->Transform.Position();
-	const glm::vec3 &direction = camera->Direction();
+	const auto &camera = cameraEntity->Get<CCameraComponent>();
+
+	const glm::vec3 &position = cameraEntity->Transform.Position();
+	const glm::vec3 &direction = cameraEntity->Transform.Direction();
 	const glm::mat4 &projectionMatrix = camera->ProjectionMatrix();
-	const glm::mat4 &viewMatrix = camera->Transform.ViewMatrix();
+	const glm::mat4 &viewMatrix = cameraEntity->Transform.ViewMatrix();
 	const glm::mat4 &viewProjectionMatrix = camera->ViewProjectionMatrix();
 
 	std::uint32_t offset = 0;
@@ -157,9 +162,9 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 {
 	MTR_SCOPE( "GFX", "RenderSceneToFramebuffer" );
 
-	const auto &camera = scene.Camera();
+	const auto &cameraEntity = scene.Camera();
 
-	if( !camera )
+	if( !cameraEntity )
 	{
 		logWARNING( "scene has no camera" );
 	}
@@ -172,14 +177,13 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-		UpdateUniformBuffers( camera, timer );
+		UpdateUniformBuffers( cameraEntity, timer );
 
 		/*
 		 * set up the renderbuckets
 		 */
 
 		// static buckets so whe don't need to allocate new memory on every frame
-		// get cleared at the end of this function
 
 		static TRenderBucket renderBucketMaterialsOpaque;
 		renderBucketMaterialsOpaque.clear();
@@ -188,40 +192,50 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 		renderBucketMaterialsTranslucent.clear();
 
 		MTR_BEGIN( "GFX", "fill render buckets" );
-		for( const auto &meshInstance : scene.Meshes() )
+		const auto &frustum = cameraEntity->Get<CCameraComponent>()->Frustum();
+
+		scene.Each<CModelComponent>( [&frustum,&cameraEntity] ( const std::shared_ptr<const CEntity> &entity )
 		{
-			if( meshInstance.mesh->Material()->Blending() )
+			const auto &mesh = entity->Get<CModelComponent>()->Mesh().get();
+
+			// TODO use Octree here
+			if( frustum.IsSphereInside( entity->Transform.Position(), glm::length( mesh->BoundingSphereRadiusVector() * entity->Transform.Scale() ) ) )
 			{
-				renderBucketMaterialsTranslucent.push_back( meshInstance );
+				if( mesh->Material()->Blending() )
+				{
+					renderBucketMaterialsTranslucent.emplace_back( mesh, entity->Transform, glm::length2( entity->Transform.Position() - cameraEntity->Transform.Position() ) );
+				}
+				else
+				{
+					renderBucketMaterialsOpaque.emplace_back( mesh, entity->Transform, glm::length2( entity->Transform.Position() - cameraEntity->Transform.Position() ) );
+				}
 			}
-			else
-			{
-				renderBucketMaterialsOpaque.push_back( meshInstance );
-			}
-		}
+		} );
 		MTR_END( "GFX", "fill render buckets" );
+
+		const auto &camera = cameraEntity->Get<CCameraComponent>();
 
 		const glm::mat4 viewProjectionMatrix = camera->ViewProjectionMatrix();
 
-		//* TODO this makes everything slower
+		// TODO multithreaded?
+		// sort opaque for material, and then front to back (to reduce overdraw)
 		MTR_BEGIN( "GFX", "sort opaque" );
-		std::sort( std::begin( renderBucketMaterialsOpaque ), std::end( renderBucketMaterialsOpaque ),	[]( const CScene::MeshInstance &a, const CScene::MeshInstance &b ) -> bool
+		std::sort( std::begin( renderBucketMaterialsOpaque ), std::end( renderBucketMaterialsOpaque ),	[]( const MeshInstance &a, const MeshInstance &b ) -> bool
 																										{
-																											return( a.mesh->Material() > b.mesh->Material() );
+																											return( ( a.mesh->Material() > b.mesh->Material() )
+																													||
+																													( ( a.mesh->Material() == b.mesh->Material() ) && ( a.viewDepth < b.viewDepth ) ) );
 																										} );
 		MTR_END( "GFX", "sort opaque" );
-		//*/
 
 		RenderBucket( renderBucketMaterialsOpaque, viewProjectionMatrix );
-
-		const glm::vec3 &cameraPosition = camera->Transform.Position();
 
 		// TODO multithreaded?
 		// sort translucent back to front
 		MTR_BEGIN( "GFX", "sort translucent" );
-		std::sort( std::begin( renderBucketMaterialsTranslucent ), std::end( renderBucketMaterialsTranslucent ),	[&cameraPosition]( const CScene::MeshInstance &a, const CScene::MeshInstance &b ) -> bool
+		std::sort( std::begin( renderBucketMaterialsTranslucent ), std::end( renderBucketMaterialsTranslucent ),	[]( const MeshInstance &a, const MeshInstance &b ) -> bool
 																													{
-																														return( glm::length2( a.Transform.Position() - cameraPosition ) > glm::length2( b.Transform.Position() - cameraPosition ) );
+																														return( a.viewDepth > b.viewDepth );
 																													} );
 		MTR_END( "GFX", "sort translucent" );
 
@@ -237,7 +251,7 @@ void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	m_meshFrameBuffer->ChangeTexture( "screenTexture", framebuffer.ColorTexture(), m_samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) );
+	m_meshFrameBuffer->ChangeTexture( m_slotNameFrameBuffer, framebuffer.ColorTexture() );
 
 	m_meshFrameBuffer->Material()->Setup();
 
@@ -259,7 +273,7 @@ void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::m
 
 	const CShaderProgram * currentShader = nullptr;
 
-	for( const auto & [ mesh, transform ] : bucketMaterials )
+	for( const auto & [ mesh, transform, viewDepth ] : bucketMaterials )
 	{
 		if( currentMesh != mesh )
 		{
@@ -298,7 +312,7 @@ void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::m
 	}
 }
 
-[[nodiscard]] glm::mat4 CRenderer::CalculateModelMatrix( const CTransformComponent &transform ) const
+[[nodiscard]] glm::mat4 CRenderer::CalculateModelMatrix( const CTransform &transform ) const
 {
 	glm::mat4 modelMatrix = glm::mat4();
 

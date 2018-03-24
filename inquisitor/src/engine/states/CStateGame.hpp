@@ -3,10 +3,6 @@
 
 #include "src/engine/states/CState.hpp"
 
-#include "src/engine/states/CStatePause.hpp"
-
-#include "src/engine/scene/camera/CCameraFree.hpp"
-
 #include "src/engine/sound/CSoundSource.hpp"
 
 class CStateGame final : public CState
@@ -19,10 +15,10 @@ public:
 	CStateGame( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface );
 	~CStateGame();
 
-	virtual std::shared_ptr< CState > Update( void ) override;
+	virtual std::shared_ptr< CState > OnUpdate( void ) override;
 
 private:
-	std::shared_ptr< CCameraFree > m_cameraFree;
+	std::shared_ptr< CEntity > m_cameraEntity;
 
 	float	m_rotx_ps = 0.0f;
 	float	m_roty_ps = 0.0f;

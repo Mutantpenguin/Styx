@@ -20,7 +20,7 @@ private:
 	CModelLoader& operator=(const CModelLoader& rhs);
 
 public:
-	CModelLoader( const CFileSystem &p_filesystem );
+	explicit CModelLoader( const CFileSystem &p_filesystem );
 	~CModelLoader();
 
 	void FromFile( const std::shared_ptr< CModel > &model, const std::string &path ) const;

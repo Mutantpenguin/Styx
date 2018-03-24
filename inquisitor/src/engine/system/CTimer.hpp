@@ -6,36 +6,31 @@
 
 class CTimer final
 {
-friend class CEngine;
-friend class CEngineInterface;
-
 public:
-	inline float dT( void ) const
-	{
-		return( m_dT );
-	};
+	CTimer( void );
 
-	inline std::uint64_t Time( void ) const
-	{
-		return( m_time );
-	};
+	[[nodiscard]] std::uint64_t Time( void ) const;
+
+	void Pause( void );
+	void Resume( void );
 
 private:
-	CTimer( void );
 	CTimer( const CTimer &rhs ) = delete;
 	CTimer& operator = ( const CTimer &rhs ) = delete;
 
-	void	Update( void );
+	enum class eStatus
+	{
+		RUNNING,
+		PAUSED
+	};
 
-private:
 	const std::chrono::high_resolution_clock::time_point	m_startTime;
 
-	std::chrono::high_resolution_clock::time_point	m_currentTime;
-	std::chrono::high_resolution_clock::time_point	m_lastTime;
+	eStatus m_status = eStatus::RUNNING;
 
-	float	m_dT { 0.0f };
+	std::chrono::high_resolution_clock::time_point	m_pauseStartTime;
 
-	std::uint64_t m_time { 0 };
+	std::uint64_t	m_accumulatedPausedTime { 0 };
 };
 
 #endif // CTIMER_HPP

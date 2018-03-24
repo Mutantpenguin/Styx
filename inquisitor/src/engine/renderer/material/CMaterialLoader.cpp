@@ -87,7 +87,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 	material->Name( mat_name.get<std::string>() );
 
 	const auto mat_cullmode = mat_root.find( "cullmode" );
-	if( mat_cullmode != mat_root.cend() )
+	if( mat_cullmode != mat_root.end() )
 	{
 		GLenum cullfaceMode;
 
@@ -102,7 +102,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 	}
 
 	const auto mat_polygonmode = mat_root.find( "polygonmode" );
-	if( mat_polygonmode != mat_root.cend() )
+	if( mat_polygonmode != mat_root.end() )
 	{
 		GLenum polygonmode;
 
@@ -113,7 +113,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 	}
 
 	const auto mat_blending = mat_root.find( "blending" );
-	if( mat_blending != mat_root.cend() )
+	if( mat_blending != mat_root.end() )
 	{
 		const auto mat_blendingsrc = mat_blending->find( "src" );
 		const auto mat_blendingdst = mat_blending->find( "dst" );
@@ -121,7 +121,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 		GLenum	blendSrc;
 		GLenum	blendDst;
 
-		if( ( mat_blendingsrc != mat_blending->cend() ) && GLHelper::SrcBlendFuncFromString( mat_blendingsrc->get<std::string>(), blendSrc ) && ( mat_blendingdst != mat_blending->cend() ) && GLHelper::DstBlendFuncFromString( mat_blendingdst->get<std::string>(), blendDst ) )
+		if( ( mat_blendingsrc != mat_blending->end() ) && GLHelper::SrcBlendFuncFromString( mat_blendingsrc->get<std::string>(), blendSrc ) && ( mat_blendingdst != mat_blending->end() ) && GLHelper::DstBlendFuncFromString( mat_blendingdst->get<std::string>(), blendDst ) )
 		{
 			material->EnableBlending( blendSrc, blendDst );
 		}
@@ -136,7 +136,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 	}
 
 	const auto mat_shaders = mat_root.find( "shaders" );
-	if( mat_shaders == mat_root.cend() )
+	if( mat_shaders == mat_root.end() )
 	{
 		logWARNING( "no shaders specified in '{0}'", path );
 		return( false );
@@ -147,7 +147,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 		std::string shader_fs_path;
 
 		const auto mat_shader_vs = mat_shaders->find( "vs" );
-		if( mat_shader_vs == mat_shaders->cend() )
+		if( mat_shader_vs == mat_shaders->end() )
 		{
 			logWARNING( "no vertex shader specified in '{0}'", path );
 			return( false );
@@ -158,7 +158,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 		}
 
 		const auto mat_shader_fs = mat_shaders->find( "fs" );
-		if( mat_shader_fs == mat_shaders->cend() )
+		if( mat_shader_fs == mat_shaders->end() )
 		{
 			logWARNING( "no fragment shader specified in '{0}'", path );
 			return( false );
@@ -175,7 +175,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 		if( !shader->RequiredMaterialUniforms().empty() )
 		{
 			const auto mat_uniforms = mat_root.find( "uniforms" );
-			if(	mat_uniforms == mat_root.cend() )
+			if( mat_uniforms == mat_root.end() )
 			{
 				logWARNING( "no required uniforms specified in '{0}'", path );
 				return( false );
@@ -185,7 +185,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 				for( const auto & [ location, interface ] : shader->RequiredMaterialUniforms() )
 				{
 					const auto mat_uniform = mat_uniforms->find( interface.name );
-					if( mat_uniform == mat_uniforms->cend() )
+					if( mat_uniform == mat_uniforms->end() )
 					{
 						logWARNING( "required uniform '{0}' not specified in '{1}'", interface.name, path );
 						return( false );

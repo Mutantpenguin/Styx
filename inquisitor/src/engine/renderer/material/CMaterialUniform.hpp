@@ -13,7 +13,7 @@ public:
 	const std::string &Name( void ) const;
 
 protected:
-	CMaterialUniform( const std::string &name );
+	explicit CMaterialUniform( const std::string &name );
 
 	const std::string m_name;
 };

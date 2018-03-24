@@ -2,15 +2,18 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-#include "src/engine/scene/camera/CCameraOrtho.hpp"
+#include "src/engine/scene/components/camera/CCameraOrthoComponent.hpp"
+#include "src/engine/renderer/components/CModelComponent.hpp"
 
 #include "src/engine/states/CStateMainMenu.hpp"
 
 CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface, std::shared_ptr< CState > pausedState ) :
 	CState( "pause", filesystem, settings, engineInterface ),
-	m_startTime { engineInterface.GlobalTimer.Time() },
+	m_startTime { m_timer.Time() },
 	m_pausedState { pausedState }
 {
+	m_pausedState->Pause();
+
 	m_scene.ClearColor( CColor( 0.3f, 0.3f, 0.3f, 0.0f ) );
 
 	auto &resourceCache = engineInterface.ResourceCacheManager;
@@ -18,12 +21,12 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	auto &renderer = engineInterface.Renderer;
 
 	{
-		auto camera = std::make_shared< CCameraOrtho >( "ortho camera", m_settings, 0.1f, 1000.0f );
-		camera->Transform.Position( { 0.0f, 0.0f, 500.0f } );
-		camera->Direction( { 0.0f, 0.0f, -10.0f } );
+		auto cameraEntity = m_scene.CreateEntity( "ortho camera" );
+		cameraEntity->Transform.Position( { 0.0f, 0.0f, 500.0f } );
+		cameraEntity->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
+		cameraEntity->Add<CCameraOrthoComponent>( m_settings.renderer.window.size, 0.1f, 1000.0f );
 
-		m_scene.AddEntity( camera );
-		m_scene.Camera( camera );
+		m_scene.Camera( cameraEntity );
 	}
 
 	const CSize &windowSize = settings.renderer.window.size;
@@ -41,14 +44,12 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		bgMeshPrimitive.Vertices[ 3 ].Position.x = static_cast< float >( windowSize.width );
 		bgMeshPrimitive.Vertices[ 3 ].Position.y = static_cast< float >( windowSize.height );
 
-		const CMesh::TTextures bgMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/pause/bg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/pause/bg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, materialPause, bgMeshTextures );
+		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, materialPause, bgMeshTextureSlots );
 
-		std::shared_ptr< CEntity > bg = std::make_shared< CEntity >( "background" );
-		bg->Mesh( bgMesh );
-
-		m_scene.AddEntity( bg );
+		auto bg = m_scene.CreateEntity( "background" );
+		bg->Add<CModelComponent>( bgMesh );
 	}
 
 	{
@@ -70,15 +71,13 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 			const auto materialPauseText = resourceCache.GetResource< CMaterial >( "materials/standard_blend.mat" );
 
-			const CMesh::TTextures textMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( resourceCache.GetResource< CTexture >( "textures/pause/fg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+			const CMesh::TMeshTextureSlots textMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/pause/fg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-			const auto meshText = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, pauseTextMeshPrimitive, materialPauseText, textMeshTextures );
+			const auto meshText = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, pauseTextMeshPrimitive, materialPauseText, textMeshTextureSlots );
 
-			m_textEntity = std::make_shared< CEntity >( "text" );
+			m_textEntity = m_scene.CreateEntity( "text" );
 			m_textEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height - ( 2 * halfPauseTextHeight ) - ( 2 * halfScreenshotHeight ), 5.0f } );
-			m_textEntity->Mesh( meshText );
-
-			m_scene.AddEntity( m_textEntity );
+			m_textEntity->Add<CModelComponent>( meshText );
 		}
 
 		{
@@ -94,15 +93,13 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 			const auto materialPauseText = resourceCache.GetResource< CMaterial >( "materials/pause_screenshot.mat" );
 
-			const CMesh::TTextures screenshotMeshTextures = { { "diffuseTexture", std::make_shared< CMeshTexture >( m_pausedState->FrameBuffer().ColorTexture(), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+			const CMesh::TMeshTextureSlots screenshotMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( m_pausedState->FrameBuffer().ColorTexture(), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-			const auto screenshotMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, screenshotMeshPrimitive, materialPauseText, screenshotMeshTextures );
+			const auto screenshotMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, screenshotMeshPrimitive, materialPauseText, screenshotMeshTextureSlots );
 
-			m_screenshotEntity = std::make_shared< CEntity >( "screenshot" );
+			m_screenshotEntity = m_scene.CreateEntity( "screenshot" );
 			m_screenshotEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height - halfPauseTextHeight - halfScreenshotHeight, 5.0f } );
-			m_screenshotEntity->Mesh( screenshotMesh );
-
-			m_scene.AddEntity( m_screenshotEntity );
+			m_screenshotEntity->Add<CModelComponent>( screenshotMesh );
 		}
 	}
 }
@@ -111,9 +108,9 @@ CStatePause::~CStatePause()
 {
 }
 
-std::shared_ptr< CState > CStatePause::Update( void )
+std::shared_ptr< CState > CStatePause::OnUpdate( void )
 {
-	const auto yOffset = ( sin( m_engineInterface.GlobalTimer.Time() / 2000000.0 ) * 0.5f );
+	const auto yOffset = ( sin( m_timer.Time() / 2000000.0 ) * 0.5f );
 
 	auto posText = m_textEntity->Transform.Position();
 	posText.y -= yOffset;
@@ -128,6 +125,7 @@ std::shared_ptr< CState > CStatePause::Update( void )
 	if( input.KeyDown( SDL_SCANCODE_ESCAPE ) )
 	{
 		logINFO( "returning to calling state '{0}'", m_pausedState->Name() );
+		m_pausedState->Resume();
 		return( m_pausedState );
 	}
 	else if( input.KeyDown( SDL_SCANCODE_Q ) )

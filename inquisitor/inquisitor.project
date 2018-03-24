@@ -108,23 +108,28 @@
         <VirtualDirectory Name="model">
           <File Name="src/engine/renderer/model/CMesh.cpp"/>
           <File Name="src/engine/renderer/model/CMesh.hpp"/>
-          <File Name="src/engine/renderer/model/CMeshTexture.cpp"/>
-          <File Name="src/engine/renderer/model/CMeshTexture.hpp"/>
           <File Name="src/engine/renderer/model/CModel.hpp"/>
           <File Name="src/engine/renderer/model/CModel.cpp"/>
           <File Name="src/engine/renderer/model/CModelManager.hpp"/>
           <File Name="src/engine/renderer/model/CModelManager.cpp"/>
           <File Name="src/engine/renderer/model/CModelLoader.hpp"/>
           <File Name="src/engine/renderer/model/CModelLoader.cpp"/>
+          <File Name="src/engine/renderer/model/CMeshTextureSlot.cpp"/>
+          <File Name="src/engine/renderer/model/CMeshTextureSlot.hpp"/>
         </VirtualDirectory>
         <File Name="src/engine/renderer/CFrameBuffer.hpp"/>
         <File Name="src/engine/renderer/CFrameBuffer.cpp"/>
+        <VirtualDirectory Name="components">
+          <File Name="src/engine/renderer/components/CModelComponent.hpp"/>
+          <File Name="src/engine/renderer/components/CModelComponent.cpp"/>
+        </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="helper">
         <VirtualDirectory Name="image">
-          <File Name="src/engine/helper/image/ImageHandler.hpp"/>
+          <File Name="src/engine/helper/image/CImage.cpp"/>
           <File Name="src/engine/helper/image/CImage.hpp"/>
           <File Name="src/engine/helper/image/ImageHandler.cpp"/>
+          <File Name="src/engine/helper/image/ImageHandler.hpp"/>
         </VirtualDirectory>
         <VirtualDirectory Name="geom">
           <File Name="src/engine/helper/geom/CPlane.cpp"/>
@@ -141,30 +146,25 @@
       <VirtualDirectory Name="scene">
         <VirtualDirectory Name="components">
           <File Name="src/engine/scene/components/CBaseComponent.hpp"/>
-          <File Name="src/engine/scene/components/CTransformComponent.hpp"/>
-          <File Name="src/engine/scene/components/CTransformComponent.cpp"/>
+          <File Name="src/engine/scene/components/EComponentIndex.hpp"/>
+          <VirtualDirectory Name="camera">
+            <File Name="src/engine/scene/components/camera/CCameraComponent.cpp"/>
+            <File Name="src/engine/scene/components/camera/CCameraComponent.hpp"/>
+            <File Name="src/engine/scene/components/camera/CCameraFreeComponent.cpp"/>
+            <File Name="src/engine/scene/components/camera/CCameraFreeComponent.hpp"/>
+            <File Name="src/engine/scene/components/camera/CCameraOrthoComponent.cpp"/>
+            <File Name="src/engine/scene/components/camera/CCameraOrthoComponent.hpp"/>
+          </VirtualDirectory>
         </VirtualDirectory>
-        <File Name="src/engine/scene/csystem.hpp" ExcludeProjConfig=""/>
-        <File Name="src/engine/scene/ctransformsystem.cpp" ExcludeProjConfig=""/>
-        <File Name="src/engine/scene/ctransformsystem.hpp" ExcludeProjConfig=""/>
-        <File Name="src/engine/scene/csystemmanager.cpp" ExcludeProjConfig=""/>
-        <File Name="src/engine/scene/csystemmanager.hpp" ExcludeProjConfig=""/>
         <File Name="src/engine/scene/CScene.hpp" ExcludeProjConfig=""/>
         <File Name="src/engine/scene/CScene.cpp" ExcludeProjConfig=""/>
         <File Name="src/engine/scene/CEntity.hpp"/>
         <File Name="src/engine/scene/CEntity.cpp"/>
-        <File Name="src/engine/scene/CComponentSystem.hpp"/>
         <File Name="src/engine/scene/CWorld.hpp"/>
         <File Name="src/engine/scene/CFrustum.cpp"/>
         <File Name="src/engine/scene/CFrustum.hpp"/>
-        <VirtualDirectory Name="camera">
-          <File Name="src/engine/scene/camera/CCamera.cpp"/>
-          <File Name="src/engine/scene/camera/CCamera.hpp"/>
-          <File Name="src/engine/scene/camera/CCameraFree.cpp"/>
-          <File Name="src/engine/scene/camera/CCameraFree.hpp"/>
-          <File Name="src/engine/scene/camera/CCameraOrtho.cpp"/>
-          <File Name="src/engine/scene/camera/CCameraOrtho.hpp"/>
-        </VirtualDirectory>
+        <File Name="src/engine/scene/CTransform.cpp"/>
+        <File Name="src/engine/scene/CTransform.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="system">
         <File Name="src/engine/system/CFileSystem.cpp"/>
@@ -207,7 +207,6 @@
         <File Name="src/engine/sound/CSoundManager.cpp"/>
         <File Name="src/engine/sound/ALHelper.hpp"/>
         <File Name="src/engine/sound/ALHelper.cpp"/>
-        <File Name="src/engine/helper/image/CImage.cpp"/>
         <File Name="src/engine/sound/CSoundBuffer.hpp"/>
         <File Name="src/engine/sound/CSoundBuffer.cpp"/>
         <File Name="src/engine/sound/CSoundBufferLoader.cpp"/>
@@ -329,7 +328,7 @@
   <Dependencies Name="Release"/>
   <Settings Type="Executable">
     <GlobalSettings>
-      <Compiler Options="-Wmain;-pedantic-errors;-Wfatal-errors;-ansi;-pedantic;-Wall;-Wextra;-Wmissing-include-dirs;-Wmissing-declarations;-Wunreachable-code;-Winline;-Wfloat-equal;-Wundef;-Wcast-align;-Wredundant-decls;-Winit-self;-Wshadow;-Wint-to-void-pointer-cast;--system-header-prefix=src/ext/;-std=c++1z" C_Options="-Wall" Assembler="">
+      <Compiler Options="-Wmain;-pedantic-errors;-Wfatal-errors;-ansi;-pedantic;-Wall;-Wextra;-Wmissing-include-dirs;-Wmissing-declarations;-Wunreachable-code;-Winline;-Wfloat-equal;-Wundef;-Wcast-align;-Wredundant-decls;-Winit-self;-Wshadow;-Wint-to-void-pointer-cast;-Wcast-qual;-Wunused-lambda-capture;-std=c++17;--system-header-prefix=src/ext/" C_Options="-Wall" Assembler="">
         <IncludePath Value="."/>
         <Preprocessor Value="GLM_FORCE_RADIANS"/>
         <Preprocessor Value="MTR_ENABLED"/>
@@ -465,8 +464,8 @@
         <SearchPaths>$(ProjectPath)</SearchPaths>
       </Completion>
     </Configuration>
-    <Configuration Name="Release" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-O3;-fexpensive-optimizations" C_Options="-O2" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+    <Configuration Name="Release" CompilerType="clang" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-O3" C_Options="-O2" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
       </Compiler>
       <Linker Options="-s" Required="yes"/>

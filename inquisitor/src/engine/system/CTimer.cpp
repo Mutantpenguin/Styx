@@ -2,19 +2,31 @@
 
 CTimer::CTimer( void ) :
 	m_startTime { std::chrono::high_resolution_clock::now() },
-	m_currentTime { m_startTime },
-	m_lastTime { m_currentTime }
+	m_pauseStartTime { m_startTime }
 {
 }
 
-void CTimer::Update( void )
+std::uint64_t CTimer::Time( void ) const
 {
-	// TODO implement smoothing?
+	return( std::chrono::duration_cast< std::chrono::microseconds >( std::chrono::high_resolution_clock::now() - m_startTime ).count() - m_accumulatedPausedTime );
+}
 
-	m_lastTime		= m_currentTime;
-	m_currentTime	= std::chrono::high_resolution_clock::now();
+void CTimer::Pause( void )
+{
+	if( eStatus::RUNNING == m_status )
+	{
+		m_pauseStartTime = std::chrono::high_resolution_clock::now();
 
-	m_dT = std::chrono::duration_cast< std::chrono::milliseconds >( m_currentTime - m_lastTime ).count() / 1000.0f;
+		m_status = eStatus::PAUSED;
+	}
+}
 
-	m_time = std::chrono::duration_cast< std::chrono::microseconds >( m_currentTime - m_startTime ).count();
+void CTimer::Resume( void )
+{
+	if( eStatus::PAUSED == m_status )
+	{
+		m_accumulatedPausedTime += std::chrono::duration_cast< std::chrono::microseconds >( std::chrono::high_resolution_clock::now() - m_pauseStartTime ).count();
+
+		m_status = eStatus::RUNNING;
+	}
 }

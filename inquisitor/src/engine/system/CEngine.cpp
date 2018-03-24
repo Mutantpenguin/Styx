@@ -1,4 +1,5 @@
 #include "CEngine.hpp"
+#include "CTimer.hpp"
 
 #include "src/ext/minitrace/minitrace.h"
 
@@ -19,8 +20,7 @@ CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std
 		m_settings( m_filesystem, settingsFile ),
 		m_sdl(),
 		m_window( m_settings, m_filesystem, m_gameInfo.GetName(), m_gameInfo.GetIconPath() ),
-		m_engineInterface( m_settings, m_filesystem ),
-		m_currentState { std::make_shared< CStateIntro >( m_filesystem, m_settings, m_engineInterface ) }
+		m_engineInterface( m_settings, m_filesystem )
 {
 	logINFO( "engine was initialized" );
 }
@@ -78,27 +78,36 @@ void CEngine::Run( void )
 
 	logINFO( "" );
 
-	std::uint64_t lastUpdatedTime = m_engineInterface.GlobalTimer.Time();
+	CTimer renderTimer;
+
+	std::uint64_t lastUpdatedTime = renderTimer.Time();
+
+	#ifdef INQ_DEBUG
+		std::uint64_t lastTime = renderTimer.Time();
+	#endif
 
 	MTR_BEGIN( "main", "outer" );
 
-	while( m_currentState )
+	std::shared_ptr< CState > currentState = std::make_shared< CStateIntro >( m_filesystem, m_settings, m_engineInterface );
+
+	while( currentState )
 	{
-		m_engineInterface.GlobalTimer.Update();
+		#ifdef INQ_DEBUG
+			lastTime = renderTimer.Time();
+		#endif
 
 		m_window.Update();
 
-		m_engineInterface.Renderer.RenderSceneToFramebuffer( m_currentState->Scene(), m_currentState->FrameBuffer(), m_engineInterface.GlobalTimer );
+		m_engineInterface.Renderer.RenderSceneToFramebuffer( currentState->Scene(), currentState->FrameBuffer(), currentState->Timer() );
 
-		m_engineInterface.Renderer.DisplayFramebuffer( m_currentState->FrameBuffer() );
+		m_engineInterface.Renderer.DisplayFramebuffer( currentState->FrameBuffer() );
 
-		const std::uint64_t currentTime = m_engineInterface.GlobalTimer.Time();
-		while( m_currentState && ( currentTime - lastUpdatedTime ) > m_settings.engine.tick )
+		while( currentState && ( ( renderTimer.Time() - lastUpdatedTime ) > m_settings.engine.tick ) )
 		{
 			m_engineInterface.Input.Update();
 
 			MTR_BEGIN( "state", "update" );
-			m_currentState = m_currentState->Update();
+			currentState = currentState->Update();
 			MTR_END( "state", "update" );
 
 			#ifdef INQ_DEBUG
@@ -111,14 +120,15 @@ void CEngine::Run( void )
 			lastUpdatedTime += m_settings.engine.tick;
 		}
 
+		// TODO maybe only collect garbage when changing states?
 		m_engineInterface.ResourceCacheManager.CollectGarbage();
 
-
 		#ifdef INQ_DEBUG
-			if( m_engineInterface.GlobalTimer.dT() > m_settings.engine.tick )
+			const float deltaTime = ( renderTimer.Time() - lastTime );
+			if( deltaTime > m_settings.engine.tick )
 			{
 				// a frame takes more time than m_settings.engine.tick, so we have fewer than 30fps
-				logWARNING( "ATTENTION: frame-time is {0}ms", m_engineInterface.GlobalTimer.dT() );
+				logWARNING( "ATTENTION: frame-time is {0}ms", ( deltaTime / 1000.0f ) );
 			}
 		#endif // INQ_DEBUG
 	}

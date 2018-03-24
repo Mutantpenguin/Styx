@@ -1,17 +1,17 @@
-#ifndef CCAMERAFREE_HPP
-#define CCAMERAFREE_HPP
+#ifndef CCAMERAFREECOMPONENT_HPP
+#define CCAMERAFREECOMPONENT_HPP
 
-#include "src/engine/scene/camera/CCamera.hpp"
+#include "src/engine/scene/components/camera/CCameraComponent.hpp"
 
-class CCameraFree final : public CCamera
+class CCameraFreeComponent final : public CCameraComponent
 {
 private:
-	CCameraFree(const CCameraFree& rhs);
-	CCameraFree& operator=(const CCameraFree& rhs);
+	CCameraFreeComponent(const CCameraFreeComponent& rhs);
+	CCameraFreeComponent& operator=(const CCameraFreeComponent& rhs);
 
 public:
-	CCameraFree( const std::string &name, float aspectRatio, float fov, float zNear, float zFar );
-	~CCameraFree();
+	CCameraFreeComponent( const std::shared_ptr< CEntity > &parent, float aspectRatio, float fov, float zNear, float zFar );
+	~CCameraFreeComponent() {};
 
 	void FOV( float fov );
 	[[nodiscard]] float FOV( void ) const;
@@ -33,4 +33,4 @@ private:
 	float	m_fov;
 };
 
-#endif // CCAMERAFREE_HPP
+#endif // CCAMERAFREECOMPONENT_HPP

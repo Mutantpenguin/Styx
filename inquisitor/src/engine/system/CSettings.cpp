@@ -66,6 +66,16 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 
 				renderer.window.aspect_ratio = static_cast< float >( renderer.window.size.width ) / static_cast< float >( renderer.window.size.height );
 
+				const auto display = window_root->find( "display" );
+				if( window_root->end() == display )
+				{
+					logWARNING( "'settings.renderer.window.display' not found" );
+				}
+				else
+				{
+					renderer.window.display = display->get<int>();
+				}
+
 				const auto fullsreen = window_root->find( "fullscreen" );
 				if( window_root->end() == fullsreen )
 				{
@@ -171,6 +181,16 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 		}
 		else
 		{
+			const auto volume = sound_root->find( "volume" );
+			if( sound_root->end() == volume )
+			{
+				logWARNING( "'settings.sound.volume' not found" );
+			}
+			else
+			{
+				sound.volume = volume->get<float>();
+			}
+
 			const auto buffer_size = sound_root->find( "buffer_size" );
 			if( sound_root->end() == buffer_size )
 			{

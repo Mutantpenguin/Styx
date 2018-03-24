@@ -1,11 +1,9 @@
 #ifndef CRENDERER_HPP
 #define CRENDERER_HPP
 
-#include <list>
+#include <vector>
 
 #include "src/engine/system/CTimer.hpp"
-
-#include "src/engine/scene/camera/CCamera.hpp"
 
 #include "src/engine/renderer/model/CMesh.hpp"
 
@@ -55,7 +53,20 @@ public:
 	};
 
 private:
-	using TRenderBucket	= std::vector< CScene::MeshInstance >;
+	struct MeshInstance
+	{
+		MeshInstance( const CMesh * p_mesh, const CTransform &p_transform, float p_viewDepth ) :
+			mesh { p_mesh },
+			Transform { p_transform },
+			viewDepth { p_viewDepth }
+		{}
+
+		const CMesh * mesh;
+		CTransform Transform;
+		float viewDepth;
+	};
+
+	using TRenderBucket	= std::vector< MeshInstance >;
 
 	const	CSettings &m_settings;
 
@@ -70,17 +81,18 @@ private:
 	std::shared_ptr< CMaterialCache >	m_materialCache;
 
 	void CreateUniformBuffers( void );
-	void UpdateUniformBuffers( const std::shared_ptr< const CCamera > &camera, const CTimer &timer ) const;
+	void UpdateUniformBuffers( const std::shared_ptr< const CEntity > &cameraEntity, const CTimer &timer ) const;
 
 	void RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const;
 
-	[[nodiscard]] glm::mat4 CalculateModelMatrix( const CTransformComponent &transform ) const;
+	[[nodiscard]] glm::mat4 CalculateModelMatrix( const CTransform &transform ) const;
 
 	std::shared_ptr< CUniformBuffer > m_uboCamera;
 	std::shared_ptr< CUniformBuffer > m_uboTimer;
 	std::shared_ptr< CUniformBuffer > m_uboScreen;
 
 	std::unique_ptr< CMesh >	m_meshFrameBuffer;
+	const std::string m_slotNameFrameBuffer = "screenTexture";
 };
 
 #endif // CRENDERER_HPP

@@ -15,7 +15,7 @@
 class CShaderProgram final
 {
 public:
-	CShaderProgram( const GLuint id );
+	explicit CShaderProgram( const GLuint id );
 	~CShaderProgram();
 
 	void Use( void ) const;

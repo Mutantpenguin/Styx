@@ -13,7 +13,6 @@
   <Dependencies/>
   <VirtualDirectory Name="materials">
     <File Name="materials/flames.mat"/>
-    <File Name="materials/glow.mat"/>
     <File Name="materials/newscast.mat"/>
     <File Name="materials/schnarf.mat"/>
     <File Name="materials/sky.mat"/>
@@ -129,8 +128,6 @@
       <File Name="textures/texpack_1/senn_icesky1.tga"/>
       <File Name="textures/texpack_1/senn_icesky2.jpg"/>
       <File Name="textures/texpack_1/senn_icyfangrate.tga"/>
-      <File Name="textures/texpack_1/window_buildingside_06.jpg"/>
-      <File Name="textures/texpack_1/window_buildingside_06_blend.jpg"/>
     </VirtualDirectory>
     <VirtualDirectory Name="array">
       <VirtualDirectory Name="fire">
@@ -152,6 +149,7 @@
     <VirtualDirectory Name="texpack_2">
       <File Name="textures/texpack_2/stone_floor.png"/>
       <File Name="textures/texpack_2/stained_glass.png"/>
+      <File Name="textures/texpack_2/pattern_07.png"/>
     </VirtualDirectory>
     <VirtualDirectory Name="styx">
       <File Name="textures/styx/logo.png"/>

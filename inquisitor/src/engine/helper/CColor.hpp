@@ -8,6 +8,16 @@ public:
 	{
 	}
 
+	inline CColor& operator= ( const CColor &c )
+	{
+		m_r = c.m_r;
+		m_g = c.m_g;
+		m_b = c.m_b;
+		m_a = c.m_a;
+
+		return( *this );
+	}
+
 	inline CColor( float pr, float pg, float pb, float pa ) :
 		m_r( pr ),
 		m_g( pg ),

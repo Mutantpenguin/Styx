@@ -22,7 +22,7 @@ class CShaderManager
 	friend class CRenderer;
 
 public:
-	CShaderManager( const CFileSystem &p_filesystem );
+	explicit CShaderManager( const CFileSystem &p_filesystem );
 	~CShaderManager();
 
 	[[nodiscard]] const std::shared_ptr< const CShaderProgram > LoadProgram( const std::string &pathVertexShader, const std::string &pathFragmentShader );
@@ -66,8 +66,6 @@ private:
 	std::unordered_set< std::shared_ptr< const CUniformBuffer > > m_registeredUniformBuffers;
 
 	static const std::string srcAdditionShaderVersion;
-	static const std::string srcAdditionVsShaderExtensions;
-	static const std::string srcAdditionFsShaderExtensions;
 
 	static const std::map< const CVAO::EAttributeLocation, const SShaderInterface > allowedAttributes;
 

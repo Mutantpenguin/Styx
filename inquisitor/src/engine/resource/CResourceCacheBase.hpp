@@ -11,7 +11,7 @@ private:
 	CResourceCacheBase& operator = ( const CResourceCacheBase& rhs );
 
 protected:
-	CResourceCacheBase( const std::string &name );
+	explicit CResourceCacheBase( const std::string &name );
 	virtual ~CResourceCacheBase( void );
 
 public:

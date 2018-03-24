@@ -1,10 +1,10 @@
-#ifndef TRANSFORMCOMPONENT_HPP
-#define TRANSFORMCOMPONENT_HPP
+#ifndef CTRANSFORM_HPP
+#define CTRANSFORM_HPP
 
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-class CTransformComponent final
+class CTransform final
 {
 public:
 	void Position( const glm::vec3 &position );
@@ -16,6 +16,11 @@ public:
 	void Scale( const glm::vec3 &position );
 	[[nodiscard]] const glm::vec3 &Scale( void ) const;
 
+	void Direction( const glm::vec3 &direction );
+	[[nodiscard]] const glm::vec3 Direction( void ) const;
+
+	[[nodiscard]] glm::vec3 const Up( void ) const;
+
 	void Rotate( const float pitchAngle, const float yawAngle, const float rollAngle );
 
 	[[nodiscard]] const glm::mat4 ViewMatrix( void ) const;
@@ -26,4 +31,4 @@ private:
 	glm::vec3	m_scale			{ 1.0f, 1.0f, 1.0f };
 };
 
-#endif // TRANSFORMCOMPONENT_HPP
+#endif // CTRANSFORM_HPP

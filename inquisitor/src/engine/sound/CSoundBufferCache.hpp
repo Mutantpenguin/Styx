@@ -9,7 +9,7 @@
 class CSoundBufferCache final : public CResourceCache< CSoundBuffer >
 {
 public:
-	CSoundBufferCache( const CFileSystem &filesystem );
+	explicit CSoundBufferCache( const CFileSystem &filesystem );
 
 public:
 	virtual void LoadFromFile( const std::shared_ptr< CSoundBuffer > &resource, const std::string &path );

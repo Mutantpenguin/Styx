@@ -15,13 +15,16 @@
 #include "src/engine/sound/CSoundBuffer.hpp"
 #include "src/engine/sound/CSoundBufferCache.hpp"
 
+#include "src/engine/scene/CTransform.hpp"
+
 class CSoundManager final
 {
 friend class CEngine;
 friend class CEngineInterface;
 
 public:
-	void	SetListener( const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up );
+	void	SetListener( const CTransform &transform );
+	void	SetVolume( const float volume );
 
 	class Exception: public std::exception
 	{

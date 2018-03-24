@@ -1,6 +1,12 @@
 #include "CScene.hpp"
 
+#include <glm/gtx/norm.hpp>
+
+#include "src/ext/minitrace/minitrace.h"
+
 #include "src/engine/logger/CLogger.hpp"
+
+std::uint16_t CScene::s_lastId = 0;
 
 CScene::CScene()
 {
@@ -10,56 +16,41 @@ CScene::~CScene()
 {
 }
 
-void CScene::AddEntity( const std::shared_ptr< const CEntity > &entity )
+std::shared_ptr< CEntity > CScene::CreateEntity( const std::string &name )
 {
+	auto entity = std::make_shared< CEntity >( name, m_id );
+
 	m_entities.insert( entity );
+
+	return( entity );
 }
 
-void CScene::RemoveEntity( const std::shared_ptr< const CEntity > &entity )
+void CScene::DeleteEntity( const std::shared_ptr< const CEntity > &entity )
 {
+	// TODO only erase, when the are no shared_ptr pointing to it?
 	m_entities.erase( entity );
 }
 
-const CScene::TMeshes &CScene::Meshes( void ) const
+const std::shared_ptr< const CEntity > &CScene::Camera( void ) const
 {
-	static CScene::TMeshes meshes;
-	meshes.clear();
-
-	const auto &frustum = m_camera->Frustum();
-
-	for( const auto &entity : m_entities )
-	{
-		const auto &mesh = entity->Mesh().get();
-
-		if( mesh )
-		{
-			// TODO implement Octree here
-			if( frustum.IsSphereInside( entity->Transform.Position(), glm::length( mesh->BoundingSphereRadiusVector() * entity->Transform.Scale() ) ) )
-			{
-				meshes.push_back( { mesh, entity->Transform } );
-			}
-		}
-	}
-
-	return( meshes );
+	return( m_cameraEntity );
 }
 
-const std::shared_ptr< const CCamera > &CScene::Camera( void ) const
+void CScene::Camera( const std::shared_ptr< const CEntity > &cameraEntity )
 {
-	return( m_camera );
-}
+	if( !cameraEntity->HasComponents<CCameraComponent>() )
+	{
+		logWARNING( "entity '{0}' with id '{1}' has no CCameraComponent", cameraEntity->Name(), cameraEntity->Id );
+		return;
+	}
 
-void CScene::Camera( const std::shared_ptr< const CCamera > &camera )
-{
-	const auto it = std::find( std::cbegin( m_entities ), std::cend( m_entities ), camera );
-	if( it == std::cend( m_entities ) )
+	if( cameraEntity->m_sceneId != m_id )
 	{
-		logERROR( "camera '{0}' does not belong to this scene", camera->Name() );
+		logWARNING( "camera '{0}' with id '{1}' does not belong to this scene", cameraEntity->Name(), cameraEntity->Id );
+		return;
 	}
-	else
-	{
-		m_camera = camera;
-	}
+
+	m_cameraEntity = cameraEntity;
 }
 
 const CColor &CScene::ClearColor( void ) const

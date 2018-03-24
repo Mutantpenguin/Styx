@@ -2,6 +2,7 @@
 #define CSTATEINTRO_HPP
 
 #include "CState.hpp"
+#include "src/engine/system/CTimer.hpp"
 
 #include "src/engine/sound/CSoundSource.hpp"
 
@@ -15,7 +16,7 @@ public:
 	CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface );
 	~CStateIntro();
 
-	virtual std::shared_ptr< CState > Update( void ) override;
+	virtual std::shared_ptr< CState > OnUpdate( void ) override;
 
 private:
 	const std::uint64_t m_startTime;

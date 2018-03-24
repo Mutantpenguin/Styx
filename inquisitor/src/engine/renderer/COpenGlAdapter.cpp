@@ -65,11 +65,6 @@ COpenGlAdapter::COpenGlAdapter()
 
 	logINFO( "required OpenGL extensions:" );
 	const auto requiredOpenGLExtensions = {	GLextension::GL_EXT_texture_filter_anisotropic,
-											// TODO not needed anymore when we can switch to a 4.2 core context (or higher)
-											GLextension::GL_ARB_shading_language_420pack,
-											GLextension::GL_ARB_texture_storage,
-											// TODO not needed anymore when we can switch to a 4.3 core context (or higher)
-											GLextension::GL_ARB_program_interface_query,
 											// TODO not needed anymore when we can switch to a 4.5 core context (or higher)
 											GLextension::GL_ARB_direct_state_access };
 
@@ -141,15 +136,10 @@ COpenGlAdapter::COpenGlAdapter()
 		}
 	}
 
-
-	if( isSupported( supportedOpenGLExtensions, GLextension::GL_ARB_internalformat_query2 ) )
-	{
-		logINFO( "using {0} for internal texture formats", glbinding::Meta::getString( GLextension::GL_ARB_internalformat_query2 ) );
-
-		glGetInternalformativ( GL_TEXTURE_2D,		GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_preferredInternalTextureFormat2D );
-		glGetInternalformativ( GL_TEXTURE_CUBE_MAP,	GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_preferredInternalTextureFormatCube );
-		glGetInternalformativ( GL_TEXTURE_2D_ARRAY,	GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_preferredInternalTextureFormat2DArray );
-	}
+	// fetch the preferred internal texture formats
+	glGetInternalformativ( GL_TEXTURE_2D,		GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_preferredInternalTextureFormat2D );
+	glGetInternalformativ( GL_TEXTURE_CUBE_MAP,	GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_preferredInternalTextureFormatCube );
+	glGetInternalformativ( GL_TEXTURE_2D_ARRAY,	GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_preferredInternalTextureFormat2DArray );
 
 	// fetch the maximal texture size
 	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &m_maxTextureSize );

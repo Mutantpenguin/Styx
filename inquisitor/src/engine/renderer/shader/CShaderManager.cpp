@@ -10,11 +10,7 @@
 
 constexpr const GLint CShaderManager::requiredCombinedTextureImageUnits;
 
-const std::string CShaderManager::srcAdditionShaderVersion = "#version 410\n";
-
-// TODO not needed anymore when we can switch to a 4.2 core context (or higher)
-const std::string CShaderManager::srcAdditionVsShaderExtensions =	"#extension " + glbinding::Meta::getString( GLextension::GL_ARB_shading_language_420pack ) + " : require\n";
-const std::string CShaderManager::srcAdditionFsShaderExtensions =	"#extension " + glbinding::Meta::getString( GLextension::GL_ARB_shading_language_420pack ) + " : require\n";
+const std::string CShaderManager::srcAdditionShaderVersion = "#version 430\n";
 
 const std::map< const CVAO::EAttributeLocation, const SShaderInterface > CShaderManager::allowedAttributes = {	{ CVAO::EAttributeLocation::position,	{ "position",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
 																												{ CVAO::EAttributeLocation::normal,		{ "normal",		GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
@@ -293,14 +289,11 @@ GLuint CShaderManager::LoadShader( const GLenum type, const std::string &path ) 
 
 GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body ) const
 {
-	std::string source;
+	std::string source = srcAdditionShaderVersion;
 
 	switch( type )
 	{
 		case GL_VERTEX_SHADER:
-			source =	srcAdditionShaderVersion +
-						srcAdditionVsShaderExtensions;
-
 			source += "\n";
 
 			for( const auto & [ location, interface ] : allowedAttributes )
@@ -311,8 +304,7 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body 
 			break;
 
 		case GL_FRAGMENT_SHADER:
-			source =	srcAdditionShaderVersion +
-						srcAdditionFsShaderExtensions;
+			source = srcAdditionShaderVersion;
 			break;
 
 		default:
@@ -382,7 +374,7 @@ bool CShaderManager::InterfaceSetup( const std::shared_ptr< CShaderProgram > &sh
 	 */
 	GLint numActiveAttributes = 0;
 	glGetProgramInterfaceiv( shaderProgram->OpenGLID(), GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &numActiveAttributes );
-	const std::array< GLenum, 3 > attributeProperties { GL_TYPE, GL_NAME_LENGTH, GL_LOCATION };
+	const std::array< GLenum, 3 > attributeProperties { { GL_TYPE, GL_NAME_LENGTH, GL_LOCATION } };
 
 	for( GLint attribIndex = 0; attribIndex < numActiveAttributes; ++attribIndex )
 	{
