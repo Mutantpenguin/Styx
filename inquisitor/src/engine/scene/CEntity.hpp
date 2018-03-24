@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include <array>
 
 #include "src/engine/scene/CTransform.hpp"
 
