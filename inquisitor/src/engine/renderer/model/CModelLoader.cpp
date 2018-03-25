@@ -35,7 +35,7 @@ void CModelLoader::FromFile( const std::shared_ptr< CModel > &model, const std::
         FromDummy( model );
     }
 
-	const std::string directory = path.substr( 0, path.find_last_of( m_filesystem.GetDirSeparator() ) );
+	const std::string directory = path.substr( 0, path.find_last_of( "/" ) );
 
 	ProcessNode( model, scene->mRootNode, scene );
 }

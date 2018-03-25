@@ -142,11 +142,6 @@ const char* CFileSystem::GetLastError( void ) const
 	return( PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
 }
 
-const char *CFileSystem::GetDirSeparator( void )
-{
-	return( PHYSFS_getDirSeparator() );
-}
-
 CFileSystem::FileBuffer CFileSystem::LoadFileToBuffer( const std::string &filename ) const
 {
 	PHYSFS_file* f = PHYSFS_openRead( filename.c_str() );

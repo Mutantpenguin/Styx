@@ -121,7 +121,7 @@ bool CTextureLoader::FromCubeFile( const std::shared_ptr< CTexture > &texture, c
 		return( false );
 	}
 
-	const std::string path_to_faces = path.substr( 0, path.find_last_of( CFileSystem::GetDirSeparator() ) + 1 );
+	const std::string path_to_faces = path.substr( 0, path.find_last_of( "/" ) + 1 );
 
 	CCubemapData cubemapData;
 
@@ -182,7 +182,7 @@ bool CTextureLoader::From2DArrayFile( const std::shared_ptr< CTexture > &texture
 		return( false );
 	}
 
-	const std::string path_to_layers = path.substr( 0, path.find_last_of( CFileSystem::GetDirSeparator() ) + 1 );
+	const std::string path_to_layers = path.substr( 0, path.find_last_of( "/" ) + 1 );
 
 	C2DArrayData arrayData;
 

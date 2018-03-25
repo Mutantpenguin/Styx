@@ -28,8 +28,6 @@ public :
 
 	const char*	GetLastError( void ) const;
 
-	static const char *GetDirSeparator( void );
-
 	using FileBuffer = std::vector< std::uint8_t >;
 
 	[[nodiscard]] FileBuffer LoadFileToBuffer( const std::string &filename ) const;
