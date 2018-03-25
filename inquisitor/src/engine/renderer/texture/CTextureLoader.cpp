@@ -268,7 +268,7 @@ bool CTextureLoader::FromCubemapData( const std::shared_ptr< CTexture > &texture
 		const auto &size = faces[ 0 ]->Size();
 
 		glTextureStorage2D(	id,
-							1,
+							1, // levels
 							static_cast< GLenum >( m_openGlAdapter.PreferredInternalTextureFormatCube() ),
 							size.width,
 							size.height );

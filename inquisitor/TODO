@@ -1,3 +1,6 @@
+On Windows:
+- glTextureSubImage3D throws (GL_INVALID_VALUE) 
+
 Create different dummy textures
 - 2D
 - 2D Array
