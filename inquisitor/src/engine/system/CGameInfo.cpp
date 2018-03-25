@@ -9,13 +9,14 @@ using json = nlohmann::json;
 
 #include "CFileSystem.hpp"
 
+const std::string CGameInfo::gameinfoFilename { "gameinfo.json" };
 
 CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 	m_gamedir( p_gamedir )
 {
 	logDEBUG( "'gamedir' is: '{0}'", m_gamedir );
 
-	const std::string gamefile = m_gamedir + CFileSystem::GetDirSeparator() + "gameinfo.json";
+	const std::string gamefile = fmt::format( "{0}/{1}", m_gamedir, gameinfoFilename );
 
 	std::ifstream fin( gamefile );
 

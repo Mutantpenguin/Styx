@@ -37,7 +37,9 @@ private:
 	CGameInfo( const CGameInfo &rhs ) = delete;
 	CGameInfo& operator = ( const CGameInfo &rhs ) = delete;
 
-	std::string m_gamedir;
+	static const std::string gameinfoFilename;
+
+	const std::string m_gamedir;
 
 	std::string m_name;
 	std::string m_name_short;
