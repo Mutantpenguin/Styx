@@ -61,7 +61,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	}
 
 	// pass an absolut path since CLogTargetFile doesn't use Physfs to write the log
-	CLogger::CreateTarget< CLogTargetFile >( std::string( PHYSFS_getWriteDir() ) + std::string( PHYSFS_getDirSeparator() ) + logDir + std::string( PHYSFS_getDirSeparator() ) );
+	CLogger::CreateTarget< CLogTargetFile >( std::string( PHYSFS_getWriteDir() ) + logDir + std::string( PHYSFS_getDirSeparator() ) );
 
 	// put write-dir first in search path
 	if( !PHYSFS_mount( PHYSFS_getWriteDir(), nullptr, 0 ) )

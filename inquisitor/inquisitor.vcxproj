@@ -132,6 +132,9 @@
     <ClCompile Include="src\ext\physfs\physfs_platform_windows.c" />
     <ClCompile Include="src\ext\physfs\physfs_platform_winrt.cpp" />
     <ClCompile Include="src\ext\physfs\physfs_unicode.c" />
+    <None Include="src\ext\stb\stb_vorbis.c">
+      <FileType>CppCode</FileType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\helper\CColor.hpp" />

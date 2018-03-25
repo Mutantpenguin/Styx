@@ -26,6 +26,9 @@
     <None Include="inquisitor.cbp" />
     <None Include="inquisitor.project" />
     <None Include="packages.config" />
+    <None Include="src\ext\stb\stb_vorbis.c">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="design_document.txt" />

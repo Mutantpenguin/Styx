@@ -1,11 +1,11 @@
 #ifndef DATE_HPP
 #define DATE_HPP
 
-#include <string>
+#include <ctime>
 
 namespace Date
 {
-	std::string GetCurrentDateTimeString( void );
+	std::time_t GetCurrentDateTime( void );
 }
 
 #endif // DATE_HPP

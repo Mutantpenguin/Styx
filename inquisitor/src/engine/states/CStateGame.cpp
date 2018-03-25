@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "src/ext/fmt/time.h"
+
 #include "src/engine/scene/components/camera/CCameraFreeComponent.hpp"
 #include "src/engine/renderer/components/CModelComponent.hpp"
 
@@ -433,10 +435,7 @@ std::shared_ptr< CState > CStateGame::OnUpdate( void )
 			}
 		}
 
-		std::string datetime = Date::GetCurrentDateTimeString();
-		std::replace( std::begin( datetime ), std::end( datetime ), ':', '.' );
-
-		const std::string screenshotPath = screenshotDir + CFileSystem::GetDirSeparator() + datetime + "." + m_settings.renderer.screenshot.format;
+		const std::string screenshotPath = fmt::format( "{0}/{1:%Y-%m-%d_%H-%M-%S}.{2}", screenshotDir, fmt::localtime( Date::GetCurrentDateTime() ), m_settings.renderer.screenshot.format );
 
 		logINFO( "taking screenshot '{0}'", screenshotPath );
 
