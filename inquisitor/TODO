@@ -1,3 +1,8 @@
+Create different dummy textures
+- 2D
+- 2D Array
+- CUBE
+
 Resources
 - rename the CResourceCacheManager to something better
 - Shorten "GetResource"?
