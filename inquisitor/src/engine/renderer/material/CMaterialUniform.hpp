@@ -8,6 +8,8 @@
 class CMaterialUniform
 {
 public:
+	virtual ~CMaterialUniform() {};
+
 	virtual void Set( const GLuint location ) const = 0;
 
 	const std::string &Name( void ) const;
