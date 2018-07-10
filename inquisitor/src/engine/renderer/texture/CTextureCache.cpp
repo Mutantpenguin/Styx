@@ -1,7 +1,5 @@
 #include "CTextureCache.hpp"
 
-#include "src/engine/renderer/CGLState.hpp"
-
 #include "src/engine/logger/CLogger.hpp"
 
 

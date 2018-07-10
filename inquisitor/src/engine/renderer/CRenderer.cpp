@@ -13,8 +13,6 @@
 #include "src/engine/renderer/components/CModelComponent.hpp"
 #include "src/engine/scene/components/camera/CCameraComponent.hpp"
 
-#include "src/engine/renderer/CGLState.hpp"
-
 #include "src/engine/logger/CLogger.hpp"
 
 CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, CResourceCacheManager &resourceCacheManager )
