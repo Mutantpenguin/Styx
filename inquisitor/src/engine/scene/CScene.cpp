@@ -1,7 +1,5 @@
 #include "CScene.hpp"
 
-#include <glm/gtx/norm.hpp>
-
 #include "src/ext/minitrace/minitrace.h"
 
 #include "src/engine/logger/CLogger.hpp"
