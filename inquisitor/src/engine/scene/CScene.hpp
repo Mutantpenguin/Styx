@@ -13,7 +13,7 @@
 
 #include "src/engine/scene/components/camera/CCameraComponent.hpp"
 
-class CScene
+class CScene final
 {
 public:
 	CScene();
