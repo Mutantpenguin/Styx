@@ -34,7 +34,7 @@ CVAO::CVAO( GLenum Mode, const Primitives::SPrimitive &primitive ) :
 
 	glNamedBufferData( m_vboId, primitive.Vertices.size() * sizeof( Primitives::SVertex ), primitive.Vertices.data(), GL_STATIC_DRAW );
 
-	glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexPositions,	m_vboId,	0,											sizeof( Primitives::SVertex ) );
+	glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexPositions,	m_vboId,	offsetof( Primitives::SVertex, Position ),	sizeof( Primitives::SVertex ) );
 	glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexNormals,		m_vboId,	offsetof( Primitives::SVertex, Normal ),	sizeof( Primitives::SVertex ) );
 	glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexTexcoords,	m_vboId,	offsetof( Primitives::SVertex, TexCoord ),	sizeof( Primitives::SVertex ) );
 	// TODO Tangents glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexTangents,	m_vboId,	offsetof( Primitives::SVertex, Tangent ),	sizeof( Primitives::SVertex ) );
