@@ -13,22 +13,22 @@ CVAO::CVAO( GLenum Mode, const Primitives::SPrimitive &primitive ) :
 	const auto attributeLocationPosition	= static_cast< GLint >( EAttributeLocation::position );
 	const auto attributeLocationNormal		= static_cast< GLint >( EAttributeLocation::normal );
 	const auto attributeLocationTexcoord	= static_cast< GLint >( EAttributeLocation::texcoord );
-	const auto attributeLocationTangent		= static_cast< GLint >( EAttributeLocation::tangent );
-	const auto attributeLocationBitangent	= static_cast< GLint >( EAttributeLocation::bitangent );
+	// TODO const auto attributeLocationTangent		= static_cast< GLint >( EAttributeLocation::tangent );
+	// TODO const auto attributeLocationBitangent	= static_cast< GLint >( EAttributeLocation::bitangent );
 
 	glCreateVertexArrays( 1, &m_id );
 
 	glEnableVertexArrayAttrib( m_id, attributeLocationPosition );
 	glEnableVertexArrayAttrib( m_id, attributeLocationNormal );
 	glEnableVertexArrayAttrib( m_id, attributeLocationTexcoord );
-	glEnableVertexArrayAttrib( m_id, attributeLocationTangent );
-	glEnableVertexArrayAttrib( m_id, attributeLocationBitangent );
+	// TODO glEnableVertexArrayAttrib( m_id, attributeLocationTangent );
+	// TODO glEnableVertexArrayAttrib( m_id, attributeLocationBitangent );
 
 	glVertexArrayAttribFormat( m_id, attributeLocationPosition,		3, GL_FLOAT, GL_FALSE, 0 );
 	glVertexArrayAttribFormat( m_id, attributeLocationNormal,		3, GL_FLOAT, GL_FALSE, 0 );
 	glVertexArrayAttribFormat( m_id, attributeLocationTexcoord,		2, GL_FLOAT, GL_FALSE, 0 );
-	glVertexArrayAttribFormat( m_id, attributeLocationTangent,		3, GL_FLOAT, GL_FALSE, 0 );
-	glVertexArrayAttribFormat( m_id, attributeLocationBitangent,	3, GL_FLOAT, GL_FALSE, 0 );
+	// TODO glVertexArrayAttribFormat( m_id, attributeLocationTangent,		3, GL_FLOAT, GL_FALSE, 0 );
+	// TODO glVertexArrayAttribFormat( m_id, attributeLocationBitangent,	3, GL_FLOAT, GL_FALSE, 0 );
 
 	glCreateBuffers( 1, &m_vboId );
 
