@@ -1,8 +1,0 @@
-What follows is a description of the steps required to compile the Inquisitor-Engine.
-
-
-Unix and Windows platforms
---------------------------
-
-At this very moment the Inquisitor-Engine only supports the GCC compiler on both platforms.
-Others Compilers may work too, but are not actively supported.
