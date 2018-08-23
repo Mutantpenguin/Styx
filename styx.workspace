@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Workspace Name="adeptus" Database="./adeptus.tags" Version="10.0.0">
+<CodeLite_Workspace Name="styx" Database="./styx.tags" Version="10.0.0">
   <Project Name="setup" Path="setup/setup.project" Active="No"/>
   <Environment>
     <![CDATA[]]>
   </Environment>
-  <Project Name="inquisitor" Path="inquisitor/inquisitor.project" Active="Yes"/>
   <Project Name="demogame" Path="demogame/demogame.project" Active="No"/>
   <Project Name="resources" Path="resources/resources.project" Active="No"/>
+  <Project Name="styx" Path="styx/styx.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
       <Project Name="setup" ConfigName="Debug"/>
-      <Project Name="inquisitor" ConfigName="Debug"/>
+      <Project Name="styx" ConfigName="Debug"/>
+      <Project Name="styx" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="no">
+    <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
       <Project Name="setup" ConfigName="Release"/>
-      <Project Name="inquisitor" ConfigName="Release"/>
+      <Project Name="styx" ConfigName="Release"/>
       <Project Name="resources" ConfigName="Debug"/>
+      <Project Name="styx" ConfigName="Release"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Profile" Selected="no">
+    <WorkspaceConfiguration Name="Profile" Selected="yes">
       <Environment/>
       <Project Name="setup" ConfigName="Debug"/>
-      <Project Name="inquisitor" ConfigName="Profile"/>
+      <Project Name="styx" ConfigName="Profile"/>
       <Project Name="resources" ConfigName="Debug"/>
+      <Project Name="styx" ConfigName="Profile"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Debug + Sanitizer" Selected="no">
+    <WorkspaceConfiguration Name="Debug + Sanitizer" Selected="yes">
       <Environment/>
       <Project Name="setup" ConfigName="Debug"/>
-      <Project Name="inquisitor" ConfigName="Debug + Sanitizer"/>
+      <Project Name="styx" ConfigName="Debug + Sanitizer"/>
       <Project Name="resources" ConfigName="Debug"/>
+      <Project Name="styx" ConfigName="Debug + Sanitizer"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

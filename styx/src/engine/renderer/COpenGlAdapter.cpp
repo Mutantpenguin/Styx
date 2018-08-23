@@ -25,7 +25,7 @@ COpenGlAdapter::COpenGlAdapter()
 	logINFO( "\tVersion:  {0}",          glGetString( GL_SHADING_LANGUAGE_VERSION ) );
 	logINFO( "" );
 
-	#ifdef INQ_DEBUG
+	#ifdef STYX_DEBUG
 		if( isSupported( supportedOpenGLExtensions, GLextension::GL_KHR_debug )
 			||
 			isSupported( supportedOpenGLExtensions, GLextension::GL_ARB_debug_output ) )

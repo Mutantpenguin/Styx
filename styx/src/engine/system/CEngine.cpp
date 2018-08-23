@@ -7,8 +7,8 @@
 
 #include "src/engine/states/CStateIntro.hpp"
 
-const std::string CEngine::m_name				{ "Inquisitor Engine" };
-const std::uint16_t CEngine::m_version_major	{ 17 };
+const std::string CEngine::m_name				{ "Styx Engine" };
+const std::uint16_t CEngine::m_version_major	{ 18 };
 const std::uint16_t CEngine::m_version_minor	{ 8 };
 const std::uint16_t CEngine::m_version_patch	{ 0 };
 const std::string CEngine::m_status				{ "pre-alpha" };
@@ -82,7 +82,7 @@ void CEngine::Run( void )
 
 	std::uint64_t lastUpdatedTime = renderTimer.Time();
 
-	#ifdef INQ_DEBUG
+	#ifdef STYX_DEBUG
 		std::uint64_t lastTime = renderTimer.Time();
 	#endif
 
@@ -92,7 +92,7 @@ void CEngine::Run( void )
 
 	while( currentState )
 	{
-		#ifdef INQ_DEBUG
+		#ifdef STYX_DEBUG
 			lastTime = renderTimer.Time();
 		#endif
 
@@ -110,7 +110,7 @@ void CEngine::Run( void )
 			currentState = currentState->Update();
 			MTR_END( "state", "update" );
 
-			#ifdef INQ_DEBUG
+			#ifdef STYX_DEBUG
 				if( m_engineInterface.Input.KeyDown( SDL_SCANCODE_F12 ) )
 				{
 					m_engineInterface.ResourceCacheManager.Reload();
@@ -123,14 +123,14 @@ void CEngine::Run( void )
 		// TODO maybe only collect garbage when changing states?
 		m_engineInterface.ResourceCacheManager.CollectGarbage();
 
-		#ifdef INQ_DEBUG
+		#ifdef STYX_DEBUG
 			const float deltaTime = ( renderTimer.Time() - lastTime );
 			if( deltaTime > m_settings.engine.tick )
 			{
 				// a frame takes more time than m_settings.engine.tick, so we have fewer than 30fps
 				logWARNING( "ATTENTION: frame-time is {0}ms", ( deltaTime / 1000.0f ) );
 			}
-		#endif // INQ_DEBUG
+		#endif // STYX_DEBUG
 	}
 
 	MTR_END( "main", "outer" );

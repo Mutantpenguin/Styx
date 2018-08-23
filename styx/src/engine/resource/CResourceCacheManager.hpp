@@ -44,7 +44,7 @@ public:
 	template < typename T >
 	const std::shared_ptr< const T > GetResource( const std::string &path )
 	{
-		#ifdef INQ_DEBUG
+		#ifdef STYX_DEBUG
 			auto it = m_resourceCaches.find( std::type_index( typeid( T ) ) );
 
 			if( std::cend( m_resourceCaches ) == it )

@@ -13,7 +13,7 @@ CResourceCacheManager::~CResourceCacheManager( void )
 {
 	logINFO( "resource cache manager is shutting down" );
 
-	#ifdef INQ_DEBUG
+	#ifdef STYX_DEBUG
 	if( !m_resourceCaches.empty() )
 	{
 		logWARNING( "there are still '{0}' registered caches", m_resourceCaches.size() );

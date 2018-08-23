@@ -24,7 +24,7 @@ CMaterialLoader::~CMaterialLoader( void )
 {
 	logINFO( "material loader is shutting down" );
 
-	#ifdef INQ_DEBUG
+	#ifdef STYX_DEBUG
 	if( m_dummyCounter > 0 )
 	{
 		logWARNING( "{0} dummy materials were being created", m_dummyCounter );

@@ -11,7 +11,7 @@
 
 #include "src/engine/logger/LogHelper.hpp"
 
-#ifdef INQ_DEBUG
+#ifdef STYX_DEBUG
 	#ifdef __linux__
 		#if 0
 			#define LOG( logLevel, ... ) CLogger::Log( logLevel, fmt::format( "{0}:{1}\nFunction: {2}\nMessage: {3}", __FILE__, __LINE__, LogHelper::prettyFunctionNicer( __PRETTY_FUNCTION__ ), fmt::format( __VA_ARGS__ ) ) );
@@ -35,7 +35,7 @@
 #define logWARNING( ... ) LOG( e_loglevel::eWARNING, __VA_ARGS__ );
 #define logINFO( ... ) LOG( e_loglevel::eINFO, __VA_ARGS__ );
 
-#ifdef INQ_DEBUG
+#ifdef STYX_DEBUG
 	#define logDEBUG( ... ) LOG( e_loglevel::eDEBUG, __VA_ARGS__ );
 #else
 	#define logDEBUG( ... )

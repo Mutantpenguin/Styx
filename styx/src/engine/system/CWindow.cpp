@@ -47,7 +47,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 
 	SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
 
-	#ifdef INQ_DEBUG
+	#ifdef STYX_DEBUG
 		SDL_GL_SetAttribute( SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG );
 	#endif
 
@@ -56,7 +56,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 	SDL_GL_SetAttribute( SDL_GL_ACCELERATED_VISUAL, 1 );
 
 	int window_flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
-	#ifndef INQ_DEBUG
+	#ifndef STYX_DEBUG
 		window_flags |= SDL_WINDOW_INPUT_GRABBED;
 	#endif
 
@@ -155,7 +155,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 		}
 	}
 
-	#ifndef INQ_DEBUG
+	#ifndef STYX_DEBUG
 	    logDEBUG( "using relative mouse-mode" );
 		SDL_SetRelativeMouseMode( SDL_FALSE );
 	#endif

@@ -26,7 +26,7 @@ protected:
 
 	virtual ~CResourceCache( void )
 	{
-		#ifdef INQ_DEBUG
+		#ifdef STYX_DEBUG
 		if( !m_resourceFiles.empty() )
 		{
 			logWARNING( "there are still '{0}' resources in '{1}' cache", m_resourceFiles.size(), m_name );

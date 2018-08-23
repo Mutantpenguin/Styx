@@ -44,6 +44,8 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 		{
 			m_name_short = name_short->get<std::string>();
 		}
+		
+		m_info = root.value( "info", "" );
 
 		const auto name = root.find( "name" );
 		if( ( std::end( root ) == name ) || name->empty() )
@@ -158,6 +160,11 @@ const std::string &CGameInfo::GetName( void ) const
 const std::string &CGameInfo::GetShortName( void ) const
 {
 	return( m_name_short );
+}
+
+const std::string &CGameInfo::GetInfo( void ) const
+{
+	return( m_info );
 }
 
 const std::string &CGameInfo::GetVersion( void ) const

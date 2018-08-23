@@ -1,12 +1,13 @@
 {
-	"name"				: "Inquisitor Demo-Game",
-	"name_short"		: "inq_demo_game",
+	"name"				: "Deus Ex Machina",
+	"name_short"		: "deus_ex_machina",
+	"info"				: "Styx Demo-Game",
 	"version"			: "0.1",
 	"organisation"		: "PIB productions",
 	"author"			: "Markus Lobedann",
 	"author_email"		: "markus.lobedann@gmail.com",
 	"website"			: "http://exitus.dynalias.org",
-	"icon"				: "icons/inq_demo_icon_big.png",
+	"icon"				: "icons/styx_demo_icon_big.png",
 	"assets"			: [ ".", "./textures_zip.zip" ],
 	"templates"			: [ "templates/player.json", "templates/objects.json" ],
 	"menu_background"	: "background.json"

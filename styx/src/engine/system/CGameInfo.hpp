@@ -14,6 +14,7 @@ public:
 
 	const std::string &GetName( void ) const;
 	const std::string &GetShortName( void ) const;
+	const std::string &GetInfo( void ) const; // TODO print this out into the console!
 	const std::string &GetVersion( void ) const;
 	const std::string &GetOrganisation( void ) const;
 	const std::string &GetAuthor( void ) const;
@@ -43,6 +44,7 @@ private:
 
 	std::string m_name;
 	std::string m_name_short;
+	std::string m_info;
 	std::string m_version;
 	std::string m_organisation;
 	std::string m_author;
