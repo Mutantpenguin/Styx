@@ -145,6 +145,11 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 	}
 
 	logINFO( "game is: '{0} {1}'", m_name, m_version );
+	
+	if( m_info.length() > 0 )
+	{
+		logINFO( m_info );
+	}
 }
 
 const std::string &CGameInfo::GetDir( void ) const
