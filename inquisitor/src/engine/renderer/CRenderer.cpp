@@ -311,7 +311,7 @@ void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::m
 
 [[nodiscard]] glm::mat4 CRenderer::CalculateModelMatrix( const CTransform &transform ) const
 {
-	glm::mat4 modelMatrix = glm::mat4();
+	glm::mat4 modelMatrix = glm::mat4( 1.0f );
 
 	modelMatrix = glm::translate( modelMatrix, transform.Position() );
 

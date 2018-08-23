@@ -340,7 +340,7 @@ std::shared_ptr< CState > CStateGame::OnUpdate( void )
 
 	if( input.KeyStillDown( SDL_SCANCODE_KP_5 ) )
 	{
-		m_movableEntity->Transform.Position( glm::vec3() );
+		m_movableEntity->Transform.Position( glm::vec3( 1.0f ) );
 	}
 
 	/*
