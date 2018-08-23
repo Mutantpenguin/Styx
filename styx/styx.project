@@ -125,6 +125,8 @@
         </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="helper">
+        <File Name="src/engine/helper/Path.hpp"/>
+        <File Name="src/engine/helper/Path.cpp"/>
         <VirtualDirectory Name="image">
           <File Name="src/engine/helper/image/CImage.cpp"/>
           <File Name="src/engine/helper/image/CImage.hpp"/>

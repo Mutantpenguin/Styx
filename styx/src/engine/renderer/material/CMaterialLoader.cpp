@@ -9,6 +9,8 @@ using json = nlohmann::json;
 
 #include "src/engine/logger/CLogger.hpp"
 
+#include "src/engine/helper/Path.hpp"
+
 #include "src/engine/renderer/GLHelper.hpp"
 
 std::uint16_t CMaterialLoader::m_dummyCounter { 0 };
@@ -41,7 +43,7 @@ void CMaterialLoader::FromFile( const std::shared_ptr< CMaterial > &material, co
 	}
 	else
 	{
-		const std::string fileExtension = path.substr( path.find_last_of( "." ) + 1 );
+		const std::string fileExtension = Path::Extension( path );
 
 		if( std::string( "mat" ) == fileExtension )
 		{

@@ -2,6 +2,8 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
+#include "src/engine/helper/Path.hpp"
+
 #include "src/engine/helper/geom/Primitives.hpp"
 
 CModelLoader::CModelLoader( const CFileSystem &p_filesystem ) :
@@ -35,7 +37,7 @@ void CModelLoader::FromFile( const std::shared_ptr< CModel > &model, const std::
         FromDummy( model );
     }
 
-	const std::string directory = path.substr( 0, path.find_last_of( "/" ) );
+	const std::string directory = Path::Directory( path );
 
 	ProcessNode( model, scene->mRootNode, scene );
 }

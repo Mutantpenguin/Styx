@@ -4,6 +4,8 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
+#include "src/engine/helper/Path.hpp"
+
 #include "src/ext/stb/stb_vorbis.c"
 
 #define DR_WAV_IMPLEMENTATION
@@ -30,7 +32,7 @@ void CSoundBufferLoader::FromFile( const std::shared_ptr< CSoundBuffer > &soundB
 	}
 	else
 	{
-		const std::string fileExtension = path.substr( path.find_last_of( "." ) + 1 );
+		const std::string fileExtension = Path::Extension( path );
 
 		if( fileExtension == std::string( "ogg" ) )
 		{

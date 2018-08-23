@@ -10,6 +10,8 @@ using json = nlohmann::json;
 
 #include "src/engine/logger/CLogger.hpp"
 
+#include "src/engine/helper/Path.hpp"
+
 #include "src/engine/helper/image/ImageHandler.hpp"
 
 #include "src/engine/renderer/GLHelper.hpp"
@@ -47,7 +49,7 @@ void CTextureLoader::FromFile( const std::shared_ptr< CTexture > &texture, const
 	}
 	else
 	{
-		const std::string fileExtension = path.substr( path.find_last_of( "." ) + 1 );
+		const std::string fileExtension = Path::Extension( path );
 
 		if( fileExtension == std::string( "cub" ) )
 		{
@@ -121,17 +123,17 @@ bool CTextureLoader::FromCubeFile( const std::shared_ptr< CTexture > &texture, c
 		return( false );
 	}
 
-	const std::string path_to_faces = path.substr( 0, path.find_last_of( "/" ) + 1 );
+	const std::string directoryOfFaces = Path::Directory( path );
 
 	CCubemapData cubemapData;
 
 	for( std::uint8_t faceNum = 0; faceNum < CCubemapData::countCubemapFaces; ++faceNum )
 	{
-		const std::string path_to_face = path_to_faces + (*json_faces)[ faceNum ].get<std::string>();
-		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path_to_face, m_openGlAdapter.MaxCubeMapTextureSize(), m_iPicMip, true );
+		const std::string pathOfFace = directoryOfFaces + (*json_faces)[ faceNum ].get<std::string>();
+		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, pathOfFace, m_openGlAdapter.MaxCubeMapTextureSize(), m_iPicMip, true );
 		if( nullptr == image )
 		{
-			logWARNING( "failed to load image '{0}' for cubemap '{1}'", path_to_face, path );
+			logWARNING( "failed to load image '{0}' for cubemap '{1}'", pathOfFace, path );
 			return( false );
 		}
 		else
@@ -182,18 +184,18 @@ bool CTextureLoader::From2DArrayFile( const std::shared_ptr< CTexture > &texture
 		return( false );
 	}
 
-	const std::string path_to_layers = path.substr( 0, path.find_last_of( "/" ) + 1 );
+	const std::string directoryOfLayers = Path::Directory( path );
 
 	C2DArrayData arrayData;
 
 	for( const auto &layer : (*json_layers) )
 	{
-		const std::string path_to_layer = path_to_layers + layer.get<std::string>();
-		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path_to_layer, m_openGlAdapter.MaxTextureSize(), m_iPicMip, false );
+		const std::string pathOfLayer = directoryOfLayers + layer.get<std::string>();
+		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, pathOfLayer, m_openGlAdapter.MaxTextureSize(), m_iPicMip, false );
 
 		if( nullptr == image )
 		{
-			logWARNING( "failed to load image '{0}' for array texture '{1}'", path_to_layer, path );
+			logWARNING( "failed to load image '{0}' for array texture '{1}'", pathOfLayer, path );
 			return( false );
 		}
 		else
