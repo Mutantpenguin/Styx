@@ -31,6 +31,7 @@
     <None Include="inquisitor.project" />
     <None Include="packages.config" />
     <None Include="README" />
+    <None Include="TODO" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="design_document.txt" />

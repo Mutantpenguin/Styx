@@ -29,6 +29,7 @@
     <None Include="src\ext\stb\stb_vorbis.c">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="TODO" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="design_document.txt" />
