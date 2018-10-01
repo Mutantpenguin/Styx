@@ -322,6 +322,9 @@
     <ClCompile Include="src\ext\physfs\physfs_platform_qnx.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\helper\Path.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ext\fmt\time.h">
@@ -625,6 +628,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\sound\ALHelper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\helper\Path.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

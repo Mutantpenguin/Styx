@@ -40,6 +40,7 @@
     <ClCompile Include="src\engine\helper\geom\CPlane.cpp" />
     <ClCompile Include="src\engine\helper\image\CImage.cpp" />
     <ClCompile Include="src\engine\helper\image\ImageHandler.cpp" />
+    <ClCompile Include="src\engine\helper\Path.cpp" />
     <ClCompile Include="src\engine\helper\String.cpp" />
     <ClCompile Include="src\engine\logger\CLogger.cpp" />
     <ClCompile Include="src\engine\logger\CLogTargetConsole.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="src\engine\helper\geom\Primitives.hpp" />
     <ClInclude Include="src\engine\helper\image\CImage.hpp" />
     <ClInclude Include="src\engine\helper\image\ImageHandler.hpp" />
+    <ClInclude Include="src\engine\helper\Path.hpp" />
     <ClInclude Include="src\engine\helper\String.hpp" />
     <ClInclude Include="src\engine\logger\CLogger.hpp" />
     <ClInclude Include="src\engine\logger\CLogTargetConsole.hpp" />
@@ -294,7 +296,7 @@
     <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir);$(IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
