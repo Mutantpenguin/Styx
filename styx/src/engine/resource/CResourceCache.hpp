@@ -4,6 +4,8 @@
 #include <memory>
 #include <unordered_map>
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/resource/CResourceCacheBase.hpp"
 
 #include "src/engine/logger/CLogger.hpp"
@@ -101,7 +103,7 @@ private:
 	struct sResourceFile
 	{
 		std::shared_ptr< T >	resource;
-		std::int64_t			mtime;
+		i64						mtime;
 	};
 
 	const CFileSystem &m_filesystem;

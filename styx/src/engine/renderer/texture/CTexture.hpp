@@ -1,6 +1,8 @@
 #ifndef CTEXTURE_HPP
 #define CTEXTURE_HPP
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/renderer/GL.h"
 
 class CTexture final
@@ -10,7 +12,7 @@ private:
 	CTexture & operator = ( const CTexture& rhs );
 
 public:
-	enum struct TextureType : std::uint8_t
+	enum struct TextureType : u8
 	{
 		TEX_2D = 0,
 		TEX_CUBE_MAP,

@@ -14,8 +14,8 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 		throw Exception();
 	}
 
-	std::uint8_t showWindowOnDisplay = settings.renderer.window.display;
-	const std::int16_t numberOfDisplays = SDL_GetNumVideoDisplays();
+	u8 showWindowOnDisplay = settings.renderer.window.display;
+	const i16 numberOfDisplays = SDL_GetNumVideoDisplays();
 	if( numberOfDisplays < 0 )
 	{
 		logERROR( "couldn't get number of displays: {0}", SDL_GetError() );

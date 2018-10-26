@@ -1,10 +1,10 @@
 #ifndef CSOUNDBUFFER_HPP
 #define CSOUNDBUFFER_HPP
 
-#include <cstdint>
-
 #include <AL/al.h>
 #include <AL/alc.h>
+
+#include "src/engine/helper/Types.hpp"
 
 class CSoundBuffer final
 {
@@ -19,7 +19,7 @@ public:
 	CSoundBuffer();
 	~CSoundBuffer();
 
-	enum struct format : std::uint8_t
+	enum struct format : u8
 	{
 		MONO,
 		STEREO

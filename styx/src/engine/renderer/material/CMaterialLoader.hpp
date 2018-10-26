@@ -1,7 +1,7 @@
 #ifndef CMATERIALLOADER_HPP
 #define CMATERIALLOADER_HPP
 
-#include <cstdint>
+#include "src/engine/helper/Types.hpp"
 
 #include "CMaterial.hpp"
 
@@ -26,7 +26,7 @@ private:
 
 	CShaderManager &m_shaderManager;
 
-	static std::uint16_t m_dummyCounter;
+	static u16 m_dummyCounter;
 };
 
 #endif // CMATERIALLOADER_HPP

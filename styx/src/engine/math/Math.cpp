@@ -4,7 +4,7 @@
 
 namespace Math
 {
-	bool IsPowerOfTwo( const std::int32_t number )
+	bool IsPowerOfTwo( const i32 number )
 	{
 		return( ( number & ( number - 1 ) ) == 0 );
 	}
@@ -14,7 +14,7 @@ namespace Math
 		return( min + ( static_cast< float >( std::rand() ) / static_cast< float >( RAND_MAX ) ) * ( max - min ) );
 	}
 
-	std::int32_t irand( const std::int32_t min, const std::int32_t max )
+	i32 irand( const i32 min, const i32 max )
 	{
 		return( min + (std::rand()%(max-min+1) ) );
 	}

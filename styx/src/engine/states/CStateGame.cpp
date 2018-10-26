@@ -85,13 +85,13 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, material1, schnarfMeshTextureSlots );
 
-		const std::uint16_t cubeSize { 4 };
+		const u16 cubeSize { 4 };
 
-		for( std::uint16_t i = 0; i < cubeSize; i++ )
+		for( u16 i = 0; i < cubeSize; i++ )
 		{
-			for( std::uint16_t j = 0; j < cubeSize; j++ )
+			for( u16 j = 0; j < cubeSize; j++ )
 			{
-				for( std::uint16_t k = 0; k < cubeSize; k++ )
+				for( u16 k = 0; k < cubeSize; k++ )
 				{
 					const auto cubeEntity = m_scene.CreateEntity( "cube" );
 					cubeEntity->Transform.Position( { 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, -10.0f + k * 4.0f } );
@@ -122,13 +122,13 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		{
 			const auto superBoxMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialSuperBox, superBoxMeshTextureSlots );
 
-			const std::uint16_t cubeSize { 14 };
+			const u16 cubeSize { 14 };
 
-			for( std::uint16_t i = 0; i < cubeSize; i++ )
+			for( u16 i = 0; i < cubeSize; i++ )
 			{
-				for( std::uint16_t j = 0; j < cubeSize; j++ )
+				for( u16 j = 0; j < cubeSize; j++ )
 				{
-					for( std::uint16_t k = 0; k < cubeSize; k++ )
+					for( u16 k = 0; k < cubeSize; k++ )
 					{
 						const auto superBoxEntity = m_scene.CreateEntity( "cube" );
 						superBoxEntity->Transform.Position( { 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
@@ -151,13 +151,13 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto cubeMeshTransparent = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, materialTransparent, transparentMeshTextureSlots );
 
 		{
-			const std::uint16_t cubeSize { 10 };
+			const u16 cubeSize { 10 };
 
-			for( std::uint16_t i = 0; i < cubeSize; i++ )
+			for( u16 i = 0; i < cubeSize; i++ )
 			{
-				for( std::uint16_t j = 0; j < cubeSize; j++ )
+				for( u16 j = 0; j < cubeSize; j++ )
 				{
-					for( std::uint16_t k = 0; k < cubeSize; k++ )
+					for( u16 k = 0; k < cubeSize; k++ )
 					{
 						const auto cubeEntity = m_scene.CreateEntity( "cube" );
 						cubeEntity->Transform.Position( { -40.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
@@ -177,13 +177,13 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		}
 
 		{
-			const std::uint16_t cubeSize { 10 };
+			const u16 cubeSize { 10 };
 
-			for( std::uint16_t i = 0; i < cubeSize; i++ )
+			for( u16 i = 0; i < cubeSize; i++ )
 			{
-				for( std::uint16_t j = 0; j < cubeSize; j++ )
+				for( u16 j = 0; j < cubeSize; j++ )
 				{
-					for( std::uint16_t k = 0; k < cubeSize; k++ )
+					for( u16 k = 0; k < cubeSize; k++ )
 					{
 						const auto cubeEntity = m_scene.CreateEntity( "cube" );
 						cubeEntity->Transform.Position( { -90.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );

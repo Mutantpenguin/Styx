@@ -44,7 +44,7 @@ CInput::CInput( const CSettings &settings, const CFileSystem &filesystem ) :
 			}
 		}
 
-		const std::int32_t js_num = SDL_NumJoysticks();
+		const i32 js_num = SDL_NumJoysticks();
 		if( js_num < 0 )
 		{
 			logWARNING( "unable to retrieve number of attached joysticks: {0}", SDL_GetError() );
@@ -52,7 +52,7 @@ CInput::CInput( const CSettings &settings, const CFileSystem &filesystem ) :
 		else
 		{
 			logINFO( "'{0}' joysticks available", js_num );
-			for( std::int32_t i = 0; i < js_num; ++i )
+			for( i32 i = 0; i < js_num; ++i )
 			{
 				logDEBUG( "Joystick #{0}", i );
 

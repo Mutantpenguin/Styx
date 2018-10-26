@@ -13,7 +13,7 @@ namespace ImageHandler
 	/**	Loads an bitmap using FreeImage into a CImage.
 		If necessary it gets rescaled to maxSize
 	*/
-	std::shared_ptr< CImage > Load( const CFileSystem &p_filesystem, const std::string &path, const std::uint32_t maxSize, const std::uint8_t picMip, const bool flipVertically )
+	std::shared_ptr< CImage > Load( const CFileSystem &p_filesystem, const std::string &path, const u32 maxSize, const u8 picMip, const bool flipVertically )
 	{
 		if( !p_filesystem.Exists( path ) )
 		{
@@ -50,7 +50,7 @@ namespace ImageHandler
 				}
 
 				const CSize originalSize { image.getWidth(), image.getHeight() };
-				const std::uint8_t bpp	= image.getBitsPerPixel();
+				const u8 bpp	= image.getBitsPerPixel();
 
 				if(	!Math::IsPowerOfTwo( originalSize.width )
 					||
@@ -89,8 +89,8 @@ namespace ImageHandler
 				}
 
 				// if width or height are below 1 we can't rescale
-				resizedSize.width	= (std::max)( static_cast< std::uint32_t >( 1 ), resizedSize.width );
-				resizedSize.height	= (std::max)( static_cast< std::uint32_t >( 1 ), resizedSize.height );
+				resizedSize.width	= (std::max)( static_cast< u32 >( 1 ), resizedSize.width );
+				resizedSize.height	= (std::max)( static_cast< u32 >( 1 ), resizedSize.height );
 
 				if( resize )
 				{
@@ -109,7 +109,7 @@ namespace ImageHandler
 
 				const bool alpha = image.isTransparent();
 
-				const std::uint32_t pitch = image.getScanWidth();
+				const u32 pitch = image.getScanWidth();
 
 				auto imageData = std::make_unique< CImage::PixelBuffer >( pitch * resizedSize.height );
 
@@ -155,7 +155,7 @@ namespace ImageHandler
 			}
 
 			FREE_IMAGE_FORMAT fiFormat;
-			std::int32_t flags;
+			i32 flags;
 			if( format == "png" )
 			{
 				fiFormat	= FIF_PNG;
@@ -209,17 +209,17 @@ namespace ImageHandler
 		{
 			auto checkerImageData = std::make_unique< CImage::PixelBuffer >( size.width * size.height * 4 );
 
-			for( std::uint32_t i = 0; i < size.height; ++i )
+			for( u32 i = 0; i < size.height; ++i )
 			{
-				for( std::uint32_t j = 0; j < size.width; ++j )
+				for( u32 j = 0; j < size.width; ++j )
 				{
-					const std::uint32_t c = ( ( ( i & 0x8 ) == 0 ) ^ ( ( j & 0x8 ) == 0  ) ) * 255;
-					const std::uint32_t index = ( ( i * size.width ) * 4 ) + ( j * 4 );
+					const u32 c = ( ( ( i & 0x8 ) == 0 ) ^ ( ( j & 0x8 ) == 0  ) ) * 255;
+					const u32 index = ( ( i * size.width ) * 4 ) + ( j * 4 );
 
-					checkerImageData->at( index + 0 ) = static_cast< std::uint8_t >( c );	// red
-					checkerImageData->at( index + 1 ) = static_cast< std::uint8_t >( 0 );	// green
-					checkerImageData->at( index + 2 ) = static_cast< std::uint8_t >( c );	// blue
-					checkerImageData->at( index + 3 ) = static_cast< std::uint8_t >( 255 );	// alpha
+					checkerImageData->at( index + 0 ) = static_cast< u8 >( c );	// red
+					checkerImageData->at( index + 1 ) = static_cast< u8 >( 0 );	// green
+					checkerImageData->at( index + 2 ) = static_cast< u8 >( c );	// blue
+					checkerImageData->at( index + 3 ) = static_cast< u8 >( 255 );	// alpha
 				}
 			}
 

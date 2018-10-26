@@ -127,7 +127,7 @@ bool CTextureLoader::FromCubeFile( const std::shared_ptr< CTexture > &texture, c
 
 	CCubemapData cubemapData;
 
-	for( std::uint8_t faceNum = 0; faceNum < CCubemapData::countCubemapFaces; ++faceNum )
+	for( u8 faceNum = 0; faceNum < CCubemapData::countCubemapFaces; ++faceNum )
 	{
 		const std::string pathOfFace = directoryOfFaces + (*json_faces)[ faceNum ].get<std::string>();
 		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, pathOfFace, m_openGlAdapter.MaxCubeMapTextureSize(), m_iPicMip, true );
@@ -178,9 +178,9 @@ bool CTextureLoader::From2DArrayFile( const std::shared_ptr< CTexture > &texture
 		logWARNING( "no layers defined in '{0}'", path );
 		return( false );
 	}
-	else if( json_layers->size() > std::numeric_limits< std::uint8_t >::max() )
+	else if( json_layers->size() > std::numeric_limits< u8 >::max() )
 	{
-		logWARNING( "more than the maximum of {0} layers defined in '{1}'", std::numeric_limits< std::uint8_t >::max(), path );
+		logWARNING( "more than the maximum of {0} layers defined in '{1}'", std::numeric_limits< u8 >::max(), path );
 		return( false );
 	}
 
@@ -275,7 +275,7 @@ bool CTextureLoader::FromCubemapData( const std::shared_ptr< CTexture > &texture
 							size.width,
 							size.height );
 
-		std::uint8_t faceNum = 0;
+		u8 faceNum = 0;
 		for( const auto &face : faces )
 		{
 			glTextureSubImage3D(	id,
@@ -325,7 +325,7 @@ bool CTextureLoader::From2DArrayData( const std::shared_ptr< CTexture > &texture
 							size.height,
 							layers.size() );
 
-		std::uint8_t layerNum = 0;
+		u8 layerNum = 0;
 		for( const auto &layer : layers )
 		{
 			glTextureSubImage3D(	id,

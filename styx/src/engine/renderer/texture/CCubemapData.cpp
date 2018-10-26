@@ -2,7 +2,7 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-bool CCubemapData::AddFace( const std::uint8_t faceNum, const std::shared_ptr< const CImage > &image )
+bool CCubemapData::AddFace( const u8 faceNum, const std::shared_ptr< const CImage > &image )
 {
 	if( faceNum >= countCubemapFaces )
 	{

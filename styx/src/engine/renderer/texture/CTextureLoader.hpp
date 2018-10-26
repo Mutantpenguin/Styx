@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/helper/image/CImage.hpp"
 
 #include "src/engine/system/CSettings.hpp"
@@ -37,11 +39,11 @@ private:
 
 	const CFileSystem &m_filesystem;
 
-	const std::uint8_t m_iPicMip { 0 };
+	const u8 m_iPicMip { 0 };
 
 	const COpenGlAdapter &m_openGlAdapter;
 
-	const std::uint8_t MAX_TEXTURE_PICMIP { 4 };
+	const u8 MAX_TEXTURE_PICMIP { 4 };
 
 	const std::shared_ptr< const CImage > m_dummyImage;
 };

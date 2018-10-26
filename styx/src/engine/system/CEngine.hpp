@@ -1,6 +1,8 @@
 #ifndef CENGINE_HPP
 #define CENGINE_HPP
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/sdl/CSDL.hpp"
 
 #include "src/engine/system/CGameInfo.hpp"
@@ -26,11 +28,11 @@ private:
 	CEngine( const CEngine &rhs ) = delete;
 	CEngine& operator = ( const CEngine &rhs ) = delete;
 
-	static const std::string m_name;
-	static const std::uint16_t m_version_major;
-	static const std::uint16_t m_version_minor;
-	static const std::uint16_t m_version_patch;
-	static const std::string m_status;
+	static const std::string	m_name;
+	static const u16			m_version_major;
+	static const u16			m_version_minor;
+	static const u16 			m_version_patch;
+	static const std::string	m_status;
 
 	const CGameInfo		m_gameInfo;
 

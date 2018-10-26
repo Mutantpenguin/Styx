@@ -133,7 +133,7 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CEntity > &ca
 	const glm::mat4 &viewMatrix = cameraEntity->Transform.ViewMatrix();
 	const glm::mat4 &viewProjectionMatrix = camera->ViewProjectionMatrix();
 
-	std::uint32_t offset = 0;
+	u32 offset = 0;
 	m_uboCamera->SubData( offset,	sizeof( position ),				glm::value_ptr( position ) );
 	offset += sizeof( glm::vec4 );
 	m_uboCamera->SubData( offset,	sizeof( direction ),			glm::value_ptr( direction ) );

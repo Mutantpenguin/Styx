@@ -6,7 +6,7 @@ CTimer::CTimer( void ) :
 {
 }
 
-std::uint64_t CTimer::Time( void ) const
+u64 CTimer::Time( void ) const
 {
 	return( std::chrono::duration_cast< std::chrono::microseconds >( std::chrono::high_resolution_clock::now() - m_startTime ).count() - m_accumulatedPausedTime );
 }

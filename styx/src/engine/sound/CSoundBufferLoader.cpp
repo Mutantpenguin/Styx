@@ -61,7 +61,7 @@ bool CSoundBufferLoader::FromOggFile( const std::shared_ptr< CSoundBuffer > &sou
 
 	if( !fileBuffer.empty() )
 	{
-		std::int32_t errorCode;
+		i32 errorCode;
 
 		stb_vorbis *stream = stb_vorbis_open_memory( fileBuffer.data(), fileBuffer.size(), &errorCode, nullptr );
 
@@ -74,7 +74,7 @@ bool CSoundBufferLoader::FromOggFile( const std::shared_ptr< CSoundBuffer > &sou
 		{
 			const stb_vorbis_info info = stb_vorbis_get_info( stream );
 
-			const std::uint32_t lengthSamples = stb_vorbis_stream_length_in_samples( stream ) * info.channels * sizeof( std::int16_t );
+			const u32 lengthSamples = stb_vorbis_stream_length_in_samples( stream ) * info.channels * sizeof( i16 );
 
 			TSoundData bufferDecoded;
 			bufferDecoded.buffer.resize( lengthSamples );
@@ -120,7 +120,7 @@ bool CSoundBufferLoader::FromWavFile( const std::shared_ptr< CSoundBuffer > &sou
 		}
 
 		TSoundData bufferDecoded;
-		bufferDecoded.buffer.resize( wav.totalSampleCount * sizeof( std::int16_t ) );
+		bufferDecoded.buffer.resize( wav.totalSampleCount * sizeof( i16 ) );
 
 		bufferDecoded.duration = wav.totalSampleCount / wav.sampleRate;
 		bufferDecoded.format = ( 1 == wav.channels ) ? CSoundBuffer::format::MONO : CSoundBuffer::format::STEREO;

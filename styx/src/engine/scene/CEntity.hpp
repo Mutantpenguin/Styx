@@ -18,7 +18,7 @@ class CEntity final : public std::enable_shared_from_this< CEntity >
 	friend class CScene;
 
 public:
-	explicit CEntity( const std::string &name, const std::uint16_t sceneId );
+	explicit CEntity( const std::string &name, const u16 sceneId );
 	~CEntity();
 
 	const std::string &Name( void ) const;
@@ -90,18 +90,18 @@ public:
 		return( HasComponents< First >() && HasComponents< Second, Rest... >() );
 	};
 
-	const std::uint32_t Id = ++s_lastId;
+	const u32 Id = ++s_lastId;
 
 	CTransform Transform;
 
 private:
-	std::array< std::shared_ptr< CBaseComponent >, static_cast< std::uint16_t >( EComponentIndex::MAX) > m_components;
+	std::array< std::shared_ptr< CBaseComponent >, static_cast< u16 >( EComponentIndex::MAX) > m_components;
 
 	const std::string m_name;
 
-	const std::uint16_t m_sceneId;
+	const u16 m_sceneId;
 
-	static std::uint32_t s_lastId;
+	static u32 s_lastId;
 };
 
 #endif // COBJECT_HPP

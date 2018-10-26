@@ -13,7 +13,7 @@ using json = nlohmann::json;
 
 #include "src/engine/renderer/GLHelper.hpp"
 
-std::uint16_t CMaterialLoader::m_dummyCounter { 0 };
+u16 CMaterialLoader::m_dummyCounter { 0 };
 
 CMaterialLoader::CMaterialLoader( const CFileSystem &filesystem, CShaderManager &shaderManager ) :
 	m_filesystem { filesystem },
@@ -232,7 +232,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 								{
 									const auto &type = interface.type;
 
-									const std::uint8_t requiredAmountOfValues = [&type]
+									const u8 requiredAmountOfValues = [&type]
 									{
 										switch( type )
 										{

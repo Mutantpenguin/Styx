@@ -3,6 +3,8 @@
 #include "src/ext/json/json.hpp"
 using json = nlohmann::json;
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/logger/CLogger.hpp"
 
 
@@ -51,7 +53,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 				}
 				else
 				{
-					renderer.window.size.width = width->get<std::uint32_t>();
+					renderer.window.size.width = width->get<u32>();
 				}
 
 				const auto height = window_root->find( "height" );
@@ -61,7 +63,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 				}
 				else
 				{
-					renderer.window.size.height = height->get<std::uint32_t>();
+					renderer.window.size.height = height->get<u32>();
 				}
 
 				renderer.window.aspect_ratio = static_cast< float >( renderer.window.size.width ) / static_cast< float >( renderer.window.size.height );
@@ -131,7 +133,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 				}
 				else
 				{
-					renderer.textures.anisotropic = anisotropic->get<std::uint8_t>();
+					renderer.textures.anisotropic = anisotropic->get<u8>();
 				}
 
 				const auto picmip = textures_root->find( "picmip" );
@@ -141,7 +143,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 				}
 				else
 				{
-					renderer.textures.picmip = picmip->get<std::uint8_t>();
+					renderer.textures.picmip = picmip->get<u8>();
 				}
 			}
 
@@ -198,7 +200,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 			}
 			else
 			{
-				sound.buffer_size = buffer_size->get<std::uint16_t>();
+				sound.buffer_size = buffer_size->get<u16>();
 			}
 		}
 

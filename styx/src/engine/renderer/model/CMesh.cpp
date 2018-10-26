@@ -166,7 +166,7 @@ glm::vec3 CMesh::CalculateBoundingSphereRadiusVector( const Primitives::SPrimiti
 
 void CMesh::BindTextures( void ) const
 {
-	std::uint8_t textureUnit = 0;
+	u8 textureUnit = 0;
 	for( const auto & [ location, meshTextureSlot ] : m_materialTextureSlotMapping )
 	{
 		glUniform1i( location, textureUnit );

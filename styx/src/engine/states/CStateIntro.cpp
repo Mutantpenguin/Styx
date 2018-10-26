@@ -48,7 +48,7 @@ CStateIntro::~CStateIntro()
 
 std::shared_ptr< CState > CStateIntro::OnUpdate( void )
 {
-	const std::uint64_t elapsedTime = m_timer.Time() - m_startTime;
+	const u64 elapsedTime = m_timer.Time() - m_startTime;
 
 	glm::vec3 entityPosition = m_logoEntity->Transform.Position();
 	entityPosition.z = elapsedTime / m_introDuration;

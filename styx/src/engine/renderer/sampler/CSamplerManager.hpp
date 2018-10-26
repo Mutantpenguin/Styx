@@ -4,6 +4,8 @@
 #include <array>
 #include <memory>
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/renderer/GL.h"
 
 #include "src/engine/system/CSettings.hpp"
@@ -21,11 +23,11 @@ public:
 	[[nodiscard]] const std::shared_ptr< const CSampler > GetFromType( const CSampler::SamplerType type ) const;
 
 private:
-	std::uint8_t m_iAnisotropicLevel;
+	u8 m_iAnisotropicLevel;
 
 	[[nodiscard]] const std::shared_ptr< const CSampler > Generate( const CSampler::SamplerType type );
 
-	std::array< std::shared_ptr< const CSampler >, static_cast< std::uint8_t >( CSampler::SamplerType::MAX ) > m_samplers;
+	std::array< std::shared_ptr< const CSampler >, static_cast< u8 >( CSampler::SamplerType::MAX ) > m_samplers;
 };
 
 #endif // CSAMPLERMANAGER_HPP

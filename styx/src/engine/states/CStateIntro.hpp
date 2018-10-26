@@ -1,6 +1,8 @@
 #ifndef CSTATEINTRO_HPP
 #define CSTATEINTRO_HPP
 
+#include "src/engine/helper/Types.hpp"
+
 #include "CState.hpp"
 #include "src/engine/system/CTimer.hpp"
 
@@ -19,7 +21,7 @@ public:
 	virtual std::shared_ptr< CState > OnUpdate( void ) override;
 
 private:
-	const std::uint64_t m_startTime;
+	const u64 m_startTime;
 
 	const std::shared_ptr< const CSoundSource > m_introSound;
 

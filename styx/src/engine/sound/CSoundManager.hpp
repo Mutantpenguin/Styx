@@ -8,6 +8,8 @@
 
 #include <glm/glm.hpp>
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/system/CSettings.hpp"
 
 #include "src/engine/resource/CResourceCacheManager.hpp"
@@ -46,7 +48,7 @@ private:
 	ALCcontext	*m_AL_context { nullptr };
 
 	// TODO what does this do???
-	const std::uint32_t	m_buffer_size;
+	const u32	m_buffer_size;
 
 	CResourceCacheManager &m_resourceCacheManager;
 

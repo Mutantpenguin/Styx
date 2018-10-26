@@ -4,12 +4,14 @@
 #include <cstdint>
 #include <chrono>
 
+#include "src/engine/helper/Types.hpp"
+
 class CTimer final
 {
 public:
 	CTimer( void );
 
-	[[nodiscard]] std::uint64_t Time( void ) const;
+	[[nodiscard]] u64 Time( void ) const;
 
 	void Pause( void );
 	void Resume( void );
@@ -30,7 +32,7 @@ private:
 
 	std::chrono::high_resolution_clock::time_point	m_pauseStartTime;
 
-	std::uint64_t	m_accumulatedPausedTime { 0 };
+	u64 m_accumulatedPausedTime { 0 };
 };
 
 #endif // CTIMER_HPP

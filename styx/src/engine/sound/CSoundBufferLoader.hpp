@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/sound/CSoundBuffer.hpp"
 
 #include "src/engine/system/CFileSystem.hpp"
@@ -18,10 +20,10 @@ public:
 private:
 	using TSoundData = struct
 	{
-		std::vector< std::int16_t >	buffer;
-		CSoundBuffer::format		format;
-		std::uint32_t				frequency;
-		float						duration;
+		std::vector< i16 >		buffer;
+		CSoundBuffer::format	format;
+		u32						frequency;
+		float					duration;
 	};
 
 private:

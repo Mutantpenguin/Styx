@@ -119,7 +119,7 @@ bool CFileSystem::IsDirectory( const std::string &name ) const
 	return( stat.filetype == PHYSFS_FILETYPE_DIRECTORY );
 }
 
-std::int64_t CFileSystem::GetLastModTime( const std::string &filename ) const
+i64 CFileSystem::GetLastModTime( const std::string &filename ) const
 {
 	PHYSFS_Stat stat;
 	PHYSFS_stat( filename.c_str(), &stat );

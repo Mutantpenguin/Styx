@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include <cstdint>
+#include "src/engine/helper/Types.hpp"
 
 #include "src/engine/renderer/GL.h"
 
@@ -13,7 +13,7 @@ public:
 	CSampler();
 	~CSampler();
 
-	enum class SamplerType : std::uint8_t
+	enum class SamplerType : u8
 	{
 		REPEAT_2D = 0,
 		BORDER_2D,

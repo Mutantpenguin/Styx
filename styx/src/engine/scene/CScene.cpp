@@ -4,7 +4,7 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-std::uint16_t CScene::s_lastId = 0;
+u16 CScene::s_lastId = 0;
 
 CScene::CScene()
 {

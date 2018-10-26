@@ -3,6 +3,8 @@
 
 #include <glm/gtc/quaternion.hpp>
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/scene/components/CBaseComponent.hpp"
 
 #include "src/engine/scene/CFrustum.hpp"
@@ -15,7 +17,7 @@ public:
 	CCameraComponent( const std::shared_ptr< CEntity > &parent, float zNear, float zFar );
 	virtual ~CCameraComponent() {};
 
-	static const std::uint16_t Index = static_cast<std::uint16_t>( EComponentIndex::CAMERA );
+	static const u16 Index = static_cast<u16>( EComponentIndex::CAMERA );
 
 	void	ZNear( float zNear );
 	[[nodiscard]] float	ZNear( void ) const;

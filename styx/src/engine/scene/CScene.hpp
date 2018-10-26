@@ -7,6 +7,8 @@
 
 #include <glm/gtx/norm.hpp>
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/helper/CColor.hpp"
 
 #include "src/engine/scene/CEntity.hpp"
@@ -79,9 +81,9 @@ private:
 
 	CColor m_clearColor { 0.0f, 0.0f, 0.0f, 0.0f };
 
-	const std::uint16_t m_id = ++s_lastId;
+	const u16 m_id = ++s_lastId;
 
-	static std::uint16_t s_lastId;
+	static u16 s_lastId;
 };
 
 #endif // CSCENE_HPP

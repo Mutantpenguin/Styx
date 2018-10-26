@@ -5,15 +5,17 @@
 #include <vector>
 #include <string>
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/helper/CSize.hpp"
 
 class CImage final
 {
 public:
-	using PixelBuffer = std::vector< std::uint8_t >;
+	using PixelBuffer = std::vector< u8 >;
 
 public:
-	CImage( const CSize &size, const CSize &originalSize, bool alpha, std::uint8_t bpp, std::uint32_t pitch, std::unique_ptr< PixelBuffer > imageData );
+	CImage( const CSize &size, const CSize &originalSize, bool alpha, u8 bpp, u32 pitch, std::unique_ptr< PixelBuffer > imageData );
 
 	const CSize &Size( void ) const;
 
@@ -21,18 +23,18 @@ public:
 
 	bool HasAlpha( void ) const;
 
-	std::uint8_t BPP( void ) const;
+	u8 BPP( void ) const;
 
-	std::uint32_t Pitch( void ) const;
+	u32 Pitch( void ) const;
 
-	const std::uint8_t *RawPixelData( void ) const;
+	const u8 *RawPixelData( void ) const;
 
 private:
-	const CSize			m_size;
-	const CSize			m_originalSize;
-	const bool			m_alpha;
-	const std::uint8_t	m_bpp;
-	const std::uint32_t	m_pitch;
+	const CSize	m_size;
+	const CSize	m_originalSize;
+	const bool	m_alpha;
+	const u8	m_bpp;
+	const u32	m_pitch;
 
 	const std::unique_ptr< PixelBuffer > m_imageData;
 };

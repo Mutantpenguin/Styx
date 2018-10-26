@@ -69,7 +69,7 @@ std::shared_ptr< CImage > CFrameBuffer::ToImage( void ) const
 {
 	glNamedFramebufferReadBuffer( m_id, attachmentColorTexture );
 
-	const std::uint32_t pitch = m_size.width * 3;
+	const u32 pitch = m_size.width * 3;
 
 	auto pixels = std::make_unique< CImage::PixelBuffer >( pitch * m_size.height );
 

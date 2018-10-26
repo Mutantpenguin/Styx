@@ -6,13 +6,12 @@
 class CWorld final
 {
 private:
-	CWorld(const CWorld& rhs);
-	CWorld& operator=(const CWorld& rhs);
+	CWorld() = delete;
+	~CWorld() = delete;
+	CWorld( const CWorld& rhs ) = delete;
+	CWorld& operator=( const CWorld& rhs ) = delete;
 
 public:
-	CWorld();
-	~CWorld();
-
 	static constexpr glm::vec3 Z	{ 0.0f, 0.0f, 1.0f };
 	static constexpr glm::vec3 Y	{ 0.0f, 1.0f, 0.0f };
 	static constexpr glm::vec3 X	{ 1.0f, 0.0f, 0.0f };

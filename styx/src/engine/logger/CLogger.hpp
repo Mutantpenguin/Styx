@@ -9,6 +9,8 @@
 
 #include "src/ext/fmt/format.h"
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/logger/LogHelper.hpp"
 
 #ifdef STYX_DEBUG
@@ -41,7 +43,7 @@
 	#define logDEBUG( ... )
 #endif
 
-enum struct e_loglevel : std::uint8_t
+enum struct e_loglevel : u8
 {
 	eERROR,
 	eWARNING,

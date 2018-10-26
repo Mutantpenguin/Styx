@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/helper/CSize.hpp"
 
 #include "src/engine/system/CFileSystem.hpp"
@@ -14,26 +16,26 @@ public:
 
 	struct s_Engine
 	{
-		const std::uint64_t tick { 33333 };
+		const u64 tick { 33333 };
 	} engine;
 
 	struct s_Renderer final
 	{
 		struct s_Window final
 		{
-			CSize			size			{ 640, 480 };
-			float			aspect_ratio	{ static_cast< float >( size.width ) / static_cast< float >( size.height ) };
-			std::uint8_t	display			{ 0 };
-			bool			fullscreen		{ false };
-			bool			vsync			{ true };
-			float			gamma			{ 1.0f };
-			bool			antialiasing	{ false };
+			CSize	size			{ 640, 480 };
+			float	aspect_ratio	{ static_cast< float >( size.width ) / static_cast< float >( size.height ) };
+			u8		display			{ 0 };
+			bool	fullscreen		{ false };
+			bool	vsync			{ true };
+			float	gamma			{ 1.0f };
+			bool	antialiasing	{ false };
 		} window;
 
 		struct s_Textures final
 		{
-			std::uint8_t	anisotropic		{ 1 };
-			std::uint8_t	picmip			{ 0 };
+			u8	anisotropic	{ 1 };
+			u8	picmip		{ 0 };
 		} textures;
 
 		struct s_Screenshot final
@@ -46,8 +48,8 @@ public:
 
 	struct s_Sound final
 	{
-		float			volume { 1.0f };
-		std::uint16_t	buffer_size	{ 4096 };
+		float	volume { 1.0f };
+		u16		buffer_size	{ 4096 };
 	} sound;
 
 	struct s_Input final

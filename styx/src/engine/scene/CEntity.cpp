@@ -1,8 +1,8 @@
 #include "CEntity.hpp"
 
-std::uint32_t CEntity::s_lastId = 0;
+u32 CEntity::s_lastId = 0;
 
-CEntity::CEntity( const std::string &name, const std::uint16_t sceneId ) :
+CEntity::CEntity( const std::string &name, const u16 sceneId ) :
 	m_name{ name },
 	m_sceneId { sceneId }
 {

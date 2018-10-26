@@ -5,11 +5,13 @@
 #include <string>
 #include <vector>
 
+#include "src/engine/helper/Types.hpp"
+
 class CFileSystem final
 {
 public :
 
-	enum struct e_openmode : std::uint8_t
+	enum struct e_openmode : u8
 	{
 		READ,
 		WRITE,
@@ -19,16 +21,16 @@ public :
 	CFileSystem( const char *argv0, const std::string &organisation, const std::string &gamename, const std::string &gamedir, const std::vector< std::string > &assets );
 	~CFileSystem( void );
 
-	bool			Exists( const std::string &filename ) const;
-	bool			IsDirectory( const std::string &name ) const;
-	std::int64_t	GetLastModTime( const std::string &filename ) const;
+	bool	Exists( const std::string &filename ) const;
+	bool	IsDirectory( const std::string &name ) const;
+	i64		GetLastModTime( const std::string &filename ) const;
 
 	std::string	GetWriteDir( void ) const;
 	bool			MakeDir( const std::string &dirname ) const;
 
 	const char*	GetLastError( void ) const;
 
-	using FileBuffer = std::vector< std::uint8_t >;
+	using FileBuffer = std::vector< u8 >;
 
 	[[nodiscard]] FileBuffer LoadFileToBuffer( const std::string &filename ) const;
 	bool SaveBufferToFile( const FileBuffer &buffer, const std::string &filename ) const;

@@ -23,7 +23,7 @@ namespace Primitives
 		// TODO put mode (i.e. GL_TRIANGLE_STRIP or GL_TRIANGLES ) into the struct
 
 		std::vector< SVertex > Vertices;
-		// TODO assimp std::vector< std::uint32_t > Indices;
+		// TODO assimp std::vector< u32 > Indices;
 	};
 
 	static const SPrimitive quad	{

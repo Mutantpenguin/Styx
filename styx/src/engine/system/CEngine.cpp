@@ -7,11 +7,11 @@
 
 #include "src/engine/states/CStateIntro.hpp"
 
-const std::string CEngine::m_name				{ "Styx Engine" };
-const std::uint16_t CEngine::m_version_major	{ 18 };
-const std::uint16_t CEngine::m_version_minor	{ 8 };
-const std::uint16_t CEngine::m_version_patch	{ 0 };
-const std::string CEngine::m_status				{ "pre-alpha" };
+const std::string	CEngine::m_name				{ "Styx Engine" };
+const u16			CEngine::m_version_major	{ 18 };
+const u16			CEngine::m_version_minor	{ 8 };
+const u16			CEngine::m_version_patch	{ 0 };
+const std::string	CEngine::m_status			{ "pre-alpha" };
 
 CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std::string &settingsFile )
 	try :
@@ -80,10 +80,10 @@ void CEngine::Run( void )
 
 	CTimer renderTimer;
 
-	std::uint64_t lastUpdatedTime = renderTimer.Time();
+	u64 lastUpdatedTime = renderTimer.Time();
 
 	#ifdef STYX_DEBUG
-		std::uint64_t lastTime = renderTimer.Time();
+		u64 lastTime = renderTimer.Time();
 	#endif
 
 	MTR_BEGIN( "main", "outer" );

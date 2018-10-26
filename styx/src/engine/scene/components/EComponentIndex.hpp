@@ -1,8 +1,8 @@
 #pragma once
 
-#include <cstdint>
+#include "src/engine/helper/Types.hpp"
 
-enum class EComponentIndex : std::uint16_t
+enum class EComponentIndex : u16
 {
 	CAMERA = 0,
 	MODEL,
