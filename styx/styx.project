@@ -46,9 +46,9 @@
     <Excludepaths/>
     <Ignorefiles/>
     <Extensions>
-      <![CDATA[cpp;c;h;hpp;xrc;wxcp;fbp;cc]]>
+      <![CDATA[*.cpp;*.c;*.h;*.hpp;*.xrc;*.wxcp;*.fbp;*.cc]]>
     </Extensions>
-    <Topleveldir>../inquisitor</Topleveldir>
+    <Topleveldir>/home/charon/Projekte/styx/styx</Topleveldir>
   </Reconciliation>
   <Description/>
   <Dependencies/>
@@ -245,17 +245,17 @@
     </VirtualDirectory>
     <VirtualDirectory Name="ext">
       <VirtualDirectory Name="fmt">
-        <File Name="src/ext/fmt/format.h"/>
-        <File Name="src/ext/fmt/ostream.h"/>
-        <File Name="src/ext/fmt/posix.h"/>
-        <File Name="src/ext/fmt/printf.h"/>
-        <File Name="src/ext/fmt/string.h"/>
-        <File Name="src/ext/fmt/time.h"/>
-        <File Name="src/ext/fmt/format.cc"/>
-        <File Name="src/ext/fmt/ostream.cc"/>
         <File Name="src/ext/fmt/posix.cc"/>
-        <File Name="src/ext/fmt/printf.cc"/>
-        <File Name="src/ext/fmt/container.h"/>
+        <File Name="src/ext/fmt/format.cc"/>
+        <File Name="src/ext/fmt/time.h"/>
+        <File Name="src/ext/fmt/ranges.h"/>
+        <File Name="src/ext/fmt/printf.h"/>
+        <File Name="src/ext/fmt/posix.h"/>
+        <File Name="src/ext/fmt/ostream.h"/>
+        <File Name="src/ext/fmt/format.h"/>
+        <File Name="src/ext/fmt/format-inl.h"/>
+        <File Name="src/ext/fmt/core.h"/>
+        <File Name="src/ext/fmt/color.h"/>
       </VirtualDirectory>
       <VirtualDirectory Name="imgui">
         <File Name="src/ext/imgui/imconfig.h"/>
