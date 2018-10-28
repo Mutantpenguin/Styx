@@ -2,6 +2,8 @@
 
 #include "src/ext/physfs/physfs.h"
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/logger/CLogger.hpp"
 #include "src/engine/logger/CLogTargetFile.hpp"
 
@@ -178,7 +180,7 @@ bool CFileSystem::SaveBufferToFile( const FileBuffer &buffer, const std::string 
 		return( false );
 	}
 
-	const unsigned long lengthWrite = PHYSFS_writeBytes( f, &buffer[ 0 ], buffer.size() );
+	const u64 lengthWrite = PHYSFS_writeBytes( f, &buffer[ 0 ], buffer.size() );
 
 	PHYSFS_close( f );
 
