@@ -56,6 +56,7 @@ static int64_t time_offset;
 static int first_line = 1;
 static FILE *f;
 static __thread int cur_thread_id;	// Thread local storage
+static int cur_process_id;
 static pthread_mutex_t mutex;
 
 #define STRING_POOL_SIZE 100
@@ -64,11 +65,15 @@ static char *str_pool[100];
 // Tiny portability layer.
 // Exposes:
 //	 get_cur_thread_id()
+//	 get_cur_process_id()
 //	 mtr_time_s()
 //	 pthread basics
 #ifdef _WIN32
 static int get_cur_thread_id() {
 	return (int)GetCurrentThreadId();
+}
+static int get_cur_process_id() {
+	return (int)GetCurrentProcessId();
 }
 
 static uint64_t _frequency = 0;
@@ -103,6 +108,9 @@ void mtr_register_sigint_handler() {
 static inline int get_cur_thread_id() {
 	return (int)(intptr_t)pthread_self();
 }
+static inline int get_cur_process_id() {
+	return (int)getpid();
+}
 
 #if defined(BLACKBERRY)
 double mtr_time_s() {
@@ -124,6 +132,7 @@ double mtr_time_s() {
 #endif	// !BLACKBERRY
 
 static void termination_handler(int signum) {
+	(void) signum;
 	if (is_tracing) {
 		printf("Ctrl-C detected! Flushing trace and shutting down.\n\n");
 		mtr_flush();
@@ -298,6 +307,9 @@ void internal_mtr_raw_event(const char *category, const char *name, char ph, voi
 	if (!cur_thread_id) {
 		cur_thread_id = get_cur_thread_id();
 	}
+	if (!cur_process_id) {
+		cur_process_id = get_cur_process_id();
+	}
 
 #if 0 && _WIN32	// TODO: This needs testing
 	int bufPos = InterlockedIncrement(&count);
@@ -322,7 +334,7 @@ void internal_mtr_raw_event(const char *category, const char *name, char ph, voi
 		ev->ts = (int64_t)(ts * 1000000);
 	}
 	ev->tid = cur_thread_id;
-	ev->pid = 0;
+	ev->pid = cur_process_id;
 }
 
 void internal_mtr_raw_event_arg(const char *category, const char *name, char ph, void *id, mtr_arg_type arg_type, const char *arg_name, void *arg_value) {
@@ -333,6 +345,9 @@ void internal_mtr_raw_event_arg(const char *category, const char *name, char ph,
 		return;
 	if (!cur_thread_id) {
 		cur_thread_id = get_cur_thread_id();
+	}
+	if (!cur_process_id) {
+		cur_process_id = get_cur_process_id();
 	}
 	double ts = mtr_time_s();
 
@@ -352,7 +367,7 @@ void internal_mtr_raw_event_arg(const char *category, const char *name, char ph,
 	ev->ts = (int64_t)(ts * 1000000);
 	ev->ph = ph;
 	ev->tid = cur_thread_id;
-	ev->pid = 0;
+	ev->pid = cur_process_id;
 	ev->arg_type = arg_type;
 	ev->arg_name = arg_name;
 	switch (arg_type) {
