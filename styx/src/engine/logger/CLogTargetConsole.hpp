@@ -1,5 +1,4 @@
-#ifndef CLOGTARGETCONSOLE_HPP
-#define CLOGTARGETCONSOLE_HPP
+#pragma once
 
 #include "src/engine/logger/CLogger.hpp"
 
@@ -21,5 +20,3 @@ private:
 	void	SetColor( const int &color ) const;
 #endif
 };
-
-#endif // CLOGTARGETCONSOLE_HPP

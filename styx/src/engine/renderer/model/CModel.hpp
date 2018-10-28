@@ -1,5 +1,4 @@
-#ifndef CMODEL_HPP
-#define CMODEL_HPP
+#pragma once
 
 #include <vector>
 
@@ -17,5 +16,3 @@ public:
 private:
 	std::vector< CMesh > m_meshes;
 };
-
-#endif // CMODEL_HPP

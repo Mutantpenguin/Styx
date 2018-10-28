@@ -1,5 +1,4 @@
-#ifndef CSETTINGS_HPP
-#define CSETTINGS_HPP
+#pragma once
 
 #include <string>
 
@@ -69,5 +68,3 @@ private:
 	CSettings( const CSettings &rhs ) = delete;
 	CSettings& operator = ( const CSettings &rhs ) = delete;
 };
-
-#endif // CSETTINGS_HPP

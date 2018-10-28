@@ -1,5 +1,4 @@
-#ifndef CTRANSFORM_HPP
-#define CTRANSFORM_HPP
+#pragma once
 
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
@@ -30,5 +29,3 @@ private:
 	glm::quat	m_orientation	{ 1.0f, 0.0f, 0.0f, 0.0f };
 	glm::vec3	m_scale			{ 1.0f, 1.0f, 1.0f };
 };
-
-#endif // CTRANSFORM_HPP

@@ -1,5 +1,4 @@
-#ifndef CRESOURCECACHEBASE_HPP
-#define CRESOURCECACHEBASE_HPP
+#pragma once
 
 #include <string>
 #include <memory>
@@ -23,5 +22,3 @@ public:
 protected:
 	const std::string m_name;
 };
-
-#endif // CRESOURCECACHEBASE_HPP

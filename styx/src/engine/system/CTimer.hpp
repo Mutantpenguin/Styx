@@ -1,5 +1,4 @@
-#ifndef CTIMER_HPP
-#define CTIMER_HPP
+#pragma once
 
 #include <cstdint>
 #include <chrono>
@@ -34,5 +33,3 @@ private:
 
 	u64 m_accumulatedPausedTime { 0 };
 };
-
-#endif // CTIMER_HPP

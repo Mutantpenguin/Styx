@@ -1,5 +1,4 @@
-#ifndef CMODELLOADER_HPP
-#define CMODELLOADER_HPP
+#pragma once
 
 #include <string>
 #include <memory>
@@ -34,5 +33,3 @@ private:
 
 	void FromDummy( const std::shared_ptr< CModel > &model ) const;
 };
-
-#endif // CMODELLOADER_HPP

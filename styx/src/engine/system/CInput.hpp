@@ -1,5 +1,4 @@
-#ifndef CINPUT_HPP
-#define CINPUT_HPP
+#pragma once
 
 #ifdef __linux__
 	#include <SDL2/SDL.h>
@@ -63,5 +62,3 @@ private:
 	bool inline CurrentMouse( const u32 button ) const	{ return( ( m_buttons & SDL_BUTTON( button ) ) != 0 ); }
 	bool inline OldMouse( const u32 button ) const		{ return( ( m_oldButtons & SDL_BUTTON( button ) ) != 0 ); }
 };
-
-#endif // CINPUT_HPP

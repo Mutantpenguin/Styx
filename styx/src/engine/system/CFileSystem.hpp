@@ -1,5 +1,4 @@
-#ifndef CFILESYSTEM_HPP
-#define CFILESYSTEM_HPP
+#pragma once
 
 #include <exception>
 #include <string>
@@ -53,5 +52,3 @@ private:
 	CFileSystem( const CFileSystem &rhs ) = delete;
 	CFileSystem& operator = ( const CFileSystem &rhs ) = delete;
 };
-
-#endif // CFILESYSTEM_HPP

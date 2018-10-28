@@ -1,5 +1,4 @@
-#ifndef CSOUNDMANAGER_HPP
-#define CSOUNDMANAGER_HPP
+#pragma once
 
 #include <unordered_map>
 
@@ -54,5 +53,3 @@ private:
 
 	std::shared_ptr< CSoundBufferCache > m_soundBufferCache;
 };
-
-#endif // CSOUNDMANAGER_HPP

@@ -1,5 +1,4 @@
-#ifndef ALHELPER_HPP
-#define ALHELPER_HPP
+#pragma once
 
 #include <string>
 
@@ -9,5 +8,3 @@ namespace ALHelper
 {
 	std::string GetOpenALErrorString( const ALenum error );
 }
-
-#endif // ALHELPER_HPP

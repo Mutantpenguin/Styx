@@ -1,5 +1,4 @@
-#ifndef C2DARRAYDATA_HPP
-#define C2DARRAYDATA_HPP
+#pragma once
 
 #include <cstdint>
 #include <vector>
@@ -17,5 +16,3 @@ public:
 private:
 	std::vector< std::shared_ptr< const CImage > > m_layers;
 };
-
-#endif // C2DARRAYDATA_HPP

@@ -1,5 +1,4 @@
-#ifndef CGLSTATE_HPP
-#define CGLSTATE_HPP
+#pragma once
 
 #include <array>
 
@@ -46,5 +45,3 @@ private:
 
 	static GLuint boundVertexArray;
 };
-
-#endif // CGLSTATE_HPP

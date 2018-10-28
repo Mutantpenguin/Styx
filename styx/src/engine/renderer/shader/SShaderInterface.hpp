@@ -1,5 +1,4 @@
-#ifndef SSHADERINTERFACE_HPP
-#define SSHADERINTERFACE_HPP
+#pragma once
 
 #include <string>
 
@@ -10,5 +9,3 @@ struct SShaderInterface
 	std::string name;
 	GLenum		type;
 };
-
-#endif

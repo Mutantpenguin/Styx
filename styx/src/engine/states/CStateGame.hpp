@@ -1,5 +1,4 @@
-#ifndef CSTATEGAME_HPP
-#define CSTATEGAME_HPP
+#pragma once
 
 #include "src/engine/states/CState.hpp"
 
@@ -29,5 +28,3 @@ private:
 
 	std::shared_ptr< const CSoundSource > m_backgroundMusic;
 };
-
-#endif // CSTATEGAME_HPP

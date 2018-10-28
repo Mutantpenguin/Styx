@@ -1,9 +1,8 @@
-#ifndef CSDL_HPP
-#define CSDL_HPP
+#pragma once
 
 #include <exception>
 
-class CSDL
+class CSDL final
 {
 public:
 	CSDL();
@@ -17,5 +16,3 @@ public:
 		virtual ~Exception() throw() {}
 	};
 };
-
-#endif // CSDL_HPP

@@ -1,5 +1,4 @@
-#ifndef CMODELMANAGER_HPP
-#define CMODELMANAGER_HPP
+#pragma once
 
 // TODO fill it with functionality
 class CModelManager
@@ -13,5 +12,3 @@ public:
 	~CModelManager();
 
 };
-
-#endif // CMODELMANAGER_HPP

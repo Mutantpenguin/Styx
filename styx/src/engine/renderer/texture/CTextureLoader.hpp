@@ -1,5 +1,4 @@
-#ifndef CTEXTURELOADER_HPP
-#define CTEXTURELOADER_HPP
+#pragma once
 
 #include <memory>
 
@@ -47,5 +46,3 @@ private:
 
 	const std::shared_ptr< const CImage > m_dummyImage;
 };
-
-#endif // CTEXTURELOADER_HPP

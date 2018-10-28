@@ -1,5 +1,4 @@
-#ifndef CMATERIALCACHE_HPP
-#define CMATERIALCACHE_HPP
+#pragma once
 
 #include <cstdint>
 #include <unordered_map>
@@ -20,5 +19,3 @@ private:
 
 	const CMaterialLoader m_materialLoader;
 };
-
-#endif // CMATERIALCACHE_HPP

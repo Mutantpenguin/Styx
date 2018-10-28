@@ -1,5 +1,4 @@
-#ifndef CSOUNDBUFFERCACHE_HPP
-#define CSOUNDBUFFERCACHE_HPP
+#pragma once
 
 #include "src/engine/resource/CResourceCache.hpp"
 
@@ -16,5 +15,3 @@ public:
 
 	const CSoundBufferLoader m_soundBufferloader;
 };
-
-#endif // CSOUNDBUFFERCACHE_HPP

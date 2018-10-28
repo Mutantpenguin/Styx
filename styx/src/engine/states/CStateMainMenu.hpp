@@ -1,5 +1,4 @@
-#ifndef CSTATEMAINMENU_HPP
-#define CSTATEMAINMENU_HPP
+#pragma once
 
 #include "CState.hpp"
 
@@ -33,5 +32,3 @@ private:
 
 	std::shared_ptr< const CSoundSource > m_backgroundMusic;
 };
-
-#endif // CSTATEMAINMENU_HPP

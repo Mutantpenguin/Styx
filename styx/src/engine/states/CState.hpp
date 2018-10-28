@@ -1,5 +1,4 @@
-#ifndef CSTATE_HPP
-#define CSTATE_HPP
+#pragma once
 
 #include <memory>
 
@@ -64,5 +63,3 @@ private:
 
 	eStatus m_status = eStatus::RUNNING;
 };
-
-#endif // CSTATE_HPP

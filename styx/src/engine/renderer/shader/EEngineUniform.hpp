@@ -1,10 +1,7 @@
-#ifndef EENGINEUNIFORM_HPP
-#define EENGINEUNIFORM_HPP
+#pragma once
 
 enum struct EEngineUniform : GLint
 {
 	modelViewProjectionMatrix = 0,
 	modelMatrix
 };
-
-#endif

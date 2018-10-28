@@ -1,5 +1,4 @@
-#ifndef CSOUNDLOADER_HPP
-#define CSOUNDLOADER_HPP
+#pragma once
 
 #include <memory>
 
@@ -36,5 +35,3 @@ private:
 
 	void FromTSoundData( const std::shared_ptr< CSoundBuffer > &soundBuffer, const TSoundData &soundData ) const;
 };
-
-#endif // CSOUNDLOADER_HPP

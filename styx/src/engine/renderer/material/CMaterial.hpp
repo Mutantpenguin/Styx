@@ -1,5 +1,4 @@
-#ifndef CMATERIAL_HPP
-#define CMATERIAL_HPP
+#pragma once
 
 #include <memory>
 
@@ -53,5 +52,3 @@ private:
 	GLenum		m_blendSrc	{ GL_NONE };	// GL_ONE, GL_SRC_ALPHA, etc.
 	GLenum		m_blendDst	{ GL_NONE };	// GL_ONE, GL_SRC_ALPHA, etc.
 };
-
-#endif // CMATERIAL_HPP

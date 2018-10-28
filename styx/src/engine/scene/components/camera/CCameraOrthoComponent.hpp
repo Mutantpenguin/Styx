@@ -1,5 +1,4 @@
-#ifndef CCAMERAORTHOCOMPONENT_HPP
-#define CCAMERAORTHOCOMPONENT_HPP
+#pragma once
 
 #include "src/engine/helper/CSize.hpp"
 
@@ -21,5 +20,3 @@ public:
 private:
 	const CSize m_size;
 };
-
-#endif // CCAMERAORTHOCOMPONENT_HPP

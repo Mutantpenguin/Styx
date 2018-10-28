@@ -1,5 +1,4 @@
-#ifndef EUNIFORMBUFFERLOCATIONS_HPP
-#define EUNIFORMBUFFERLOCATIONS_HPP
+#pragma once
 
 enum class EUniformBufferLocation : GLuint
 {
@@ -7,5 +6,3 @@ enum class EUniformBufferLocation : GLuint
 	TIME = 1,
 	SCREEN
 };
-
-#endif // EUNIFORMBUFFERLOCATIONS_HPP

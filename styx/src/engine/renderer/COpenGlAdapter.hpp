@@ -1,5 +1,4 @@
-#ifndef COPENGLADAPTER_HPP
-#define COPENGLADAPTER_HPP
+#pragma once
 
 #include <set>
 #include <exception>
@@ -36,5 +35,3 @@ private:
 	GLint m_preferredInternalTextureFormatCube;
 	GLint m_preferredInternalTextureFormat2DArray;
 };
-
-#endif // COPENGLADAPTER_HPP

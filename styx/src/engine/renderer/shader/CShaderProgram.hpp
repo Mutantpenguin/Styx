@@ -1,5 +1,4 @@
-#ifndef CSHADERPROGRAM_HPP
-#define CSHADERPROGRAM_HPP
+#pragma once
 
 #include <vector>
 #include <unordered_map>
@@ -37,5 +36,3 @@ private:
 	std::vector< std::pair< GLint, const EEngineUniform > >		m_requiredEngineUniforms;
 	std::vector< std::pair< GLint, const SShaderInterface > >	m_requiredMaterialUniforms;
 };
-
-#endif // CSHADERPROGRAM_HPP

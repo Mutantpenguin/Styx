@@ -1,5 +1,4 @@
-#ifndef CCUBEMAPDATA_HPP
-#define CCUBEMAPDATA_HPP
+#pragma once
 
 #include <array>
 #include <memory>
@@ -22,5 +21,3 @@ public:
 private:
 	std::array< std::shared_ptr< const CImage >, countCubemapFaces > m_faces;
 };
-
-#endif // CCUBEMAPDATA_HPP

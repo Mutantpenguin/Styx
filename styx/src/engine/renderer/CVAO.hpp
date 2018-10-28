@@ -1,5 +1,4 @@
-#ifndef CVAO_HPP
-#define CVAO_HPP
+#pragma once
 
 #include <vector>
 
@@ -43,5 +42,3 @@ private:
 	static const GLuint bindingIndexTangents	{ 3 };
 	static const GLuint bindingIndexBitangents	{ 4 };
 };
-
-#endif // CVAO_HPP

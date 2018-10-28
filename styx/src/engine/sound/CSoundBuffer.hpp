@@ -1,5 +1,4 @@
-#ifndef CSOUNDBUFFER_HPP
-#define CSOUNDBUFFER_HPP
+#pragma once
 
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -36,5 +35,3 @@ private:
 	format	m_format;
 	float	m_duration;
 };
-
-#endif // CSOUNDBUFFER_HPP

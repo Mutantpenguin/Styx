@@ -1,5 +1,4 @@
-#ifndef CRENDERER_HPP
-#define CRENDERER_HPP
+#pragma once
 
 #include <vector>
 
@@ -94,5 +93,3 @@ private:
 	std::unique_ptr< CMesh >	m_meshFrameBuffer;
 	const std::string m_slotNameFrameBuffer = "screenTexture";
 };
-
-#endif // CRENDERER_HPP

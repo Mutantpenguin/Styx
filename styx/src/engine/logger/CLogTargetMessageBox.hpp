@@ -1,5 +1,4 @@
-#ifndef CLOGTARGETMESSAGEBOX_HPP
-#define CLOGTARGETMESSAGEBOX_HPP
+#pragma once
 
 #include "src/engine/logger/CLogger.hpp"
 
@@ -13,5 +12,3 @@ public:
 private:
 	virtual void Log( const std::unique_ptr< const CLogger::logEntry > &entry ) override;
 };
-
-#endif // CLOGTARGETMESSAGEBOX_HPP

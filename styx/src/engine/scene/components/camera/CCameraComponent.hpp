@@ -1,5 +1,4 @@
-#ifndef CCAMERACOMPONENT_HPP
-#define CCAMERACOMPONENT_HPP
+#pragma once
 
 #include <glm/gtc/quaternion.hpp>
 
@@ -34,5 +33,3 @@ protected:
 	float	m_zNear;
 	float	m_zFar;
 };
-
-#endif // CCAMERACOMPONENT_HPP

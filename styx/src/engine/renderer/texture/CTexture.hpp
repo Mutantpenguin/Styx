@@ -1,5 +1,4 @@
-#ifndef CTEXTURE_HPP
-#define CTEXTURE_HPP
+#pragma once
 
 #include "src/engine/helper/Types.hpp"
 
@@ -36,5 +35,3 @@ private:
 
 	GLuint m_id;
 };
-
-#endif // CTEXTURE_HPP

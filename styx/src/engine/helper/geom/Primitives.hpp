@@ -1,5 +1,4 @@
-#ifndef PRIMITIVES_HPP
-#define PRIMITIVES_HPP
+#pragma once
 
 #include <vector>
 
@@ -87,5 +86,3 @@ namespace Primitives
 										}
 									};
 }
-
-#endif // PRIMITIVES_HPP

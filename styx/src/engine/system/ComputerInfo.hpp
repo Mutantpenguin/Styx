@@ -1,5 +1,4 @@
-#ifndef COMPUTERINFO_HPP
-#define COMPUTERINFO_HPP
+#pragma once
 
 #include <string>
 
@@ -11,5 +10,3 @@ namespace ComputerInfo
 	std::string	ProcessorInfo( void );
 	std::string	CPUFeatures( void );
 }
-
-#endif // COMPUTERINFO_HPP

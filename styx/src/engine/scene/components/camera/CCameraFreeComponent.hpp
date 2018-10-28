@@ -1,5 +1,4 @@
-#ifndef CCAMERAFREECOMPONENT_HPP
-#define CCAMERAFREECOMPONENT_HPP
+#pragma once
 
 #include "src/engine/scene/components/camera/CCameraComponent.hpp"
 
@@ -32,5 +31,3 @@ private:
 
 	float	m_fov;
 };
-
-#endif // CCAMERAFREECOMPONENT_HPP

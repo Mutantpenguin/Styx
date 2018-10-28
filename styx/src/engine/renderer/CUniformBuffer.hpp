@@ -1,5 +1,4 @@
-#ifndef CUNIFORMBUFFER_HPP
-#define CUNIFORMBUFFER_HPP
+#pragma once
 
 #include "src/engine/renderer/GL.h"
 
@@ -20,5 +19,3 @@ private:
 
 	const std::string m_source;
 };
-
-#endif // CUNIFORMBUFFER_HPP

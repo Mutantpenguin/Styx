@@ -1,5 +1,4 @@
-#ifndef CRESOURCECACHEMANAGER_HPP
-#define CRESOURCECACHEMANAGER_HPP
+#pragma once
 
 #include <unordered_map>
 
@@ -63,5 +62,3 @@ public:
 private:
 	std::unordered_map< std::type_index, const std::shared_ptr< CResourceCacheBase > > m_resourceCaches;
 };
-
-#endif // CRESOURCECACHEMANAGER_HPP

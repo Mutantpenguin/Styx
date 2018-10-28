@@ -1,5 +1,4 @@
-#ifndef CMESHTEXTURESLOT_HPP
-#define CMESHTEXTURESLOT_HPP
+#pragma once
 
 #include <memory>
 
@@ -16,5 +15,3 @@ public:
 	std::shared_ptr< const CTexture >	m_texture;
 	std::shared_ptr< const CSampler >	m_sampler;
 };
-
-#endif // CMESHTEXTURESLOT_HPP

@@ -1,5 +1,4 @@
-#ifndef CIMAGE_HPP
-#define CIMAGE_HPP
+#pragma once
 
 #include <memory>
 #include <vector>
@@ -38,5 +37,3 @@ private:
 
 	const std::unique_ptr< PixelBuffer > m_imageData;
 };
-
-#endif // CIMAGE_HPP

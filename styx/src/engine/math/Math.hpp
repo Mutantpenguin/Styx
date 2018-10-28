@@ -1,5 +1,4 @@
-#ifndef MATH_HPP
-#define MATH_HPP
+#pragma once
 
 #include "src/engine/helper/Types.hpp"
 
@@ -14,5 +13,3 @@ namespace Math
 	/** Creates a random 32bit integer between min and max. */
 	i32	irand( const i32 min, const i32 max );
 }
-
-#endif // MATH_HPP

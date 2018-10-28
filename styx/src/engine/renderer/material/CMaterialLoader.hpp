@@ -1,5 +1,4 @@
-#ifndef CMATERIALLOADER_HPP
-#define CMATERIALLOADER_HPP
+#pragma once
 
 #include "src/engine/helper/Types.hpp"
 
@@ -28,5 +27,3 @@ private:
 
 	static u16 m_dummyCounter;
 };
-
-#endif // CMATERIALLOADER_HPP

@@ -1,5 +1,4 @@
-#ifndef CENGINEINTERFACE_HPP
-#define CENGINEINTERFACE_HPP
+#pragma once
 
 #include "CInput.hpp"
 
@@ -25,5 +24,3 @@ private:
 	CEngineInterface( const CEngineInterface &rhs ) = delete;
 	CEngineInterface& operator = ( const CEngineInterface &rhs ) = delete;
 };
-
-#endif // CENGINEINTERFACE_HPP

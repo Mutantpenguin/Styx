@@ -1,5 +1,4 @@
-#ifndef CFRAMEBUFFER_HPP
-#define CFRAMEBUFFER_HPP
+#pragma once
 
 #include <memory>
 
@@ -41,5 +40,3 @@ private:
 
 	static const GLenum attachmentColorTexture;
 };
-
-#endif // CFRAMEBUFFER_HPP

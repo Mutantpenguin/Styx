@@ -1,5 +1,4 @@
-#ifndef CSAMPLERMANAGER_HPP
-#define CSAMPLERMANAGER_HPP
+#pragma once
 
 #include <array>
 #include <memory>
@@ -29,5 +28,3 @@ private:
 
 	std::array< std::shared_ptr< const CSampler >, static_cast< u8 >( CSampler::SamplerType::MAX ) > m_samplers;
 };
-
-#endif // CSAMPLERMANAGER_HPP

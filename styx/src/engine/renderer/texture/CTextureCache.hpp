@@ -1,5 +1,4 @@
-#ifndef CTEXTURECACHE_HPP
-#define CTEXTURECACHE_HPP
+#pragma once
 
 #include <unordered_map>
 
@@ -20,5 +19,3 @@ private:
 
 	const CTextureLoader m_textureLoader;
 };
-
-#endif // CTEXTURECACHE_HPP

@@ -1,5 +1,4 @@
-#ifndef CMATERIALUNIFORM_HPP
-#define CMATERIALUNIFORM_HPP
+#pragma once
 
 #include <glm/glm.hpp>
 
@@ -74,5 +73,3 @@ public:
 private:
 	const glm::vec4 m_values;
 };
-
-#endif // CMATERIALUNIFORM_HPP

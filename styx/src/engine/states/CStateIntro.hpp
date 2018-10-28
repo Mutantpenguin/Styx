@@ -1,5 +1,4 @@
-#ifndef CSTATEINTRO_HPP
-#define CSTATEINTRO_HPP
+#pragma once
 
 #include "src/engine/helper/Types.hpp"
 
@@ -29,5 +28,3 @@ private:
 
 	std::shared_ptr< CEntity > m_logoEntity;
 };
-
-#endif // CSTATEINTRO_HPP

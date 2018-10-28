@@ -1,5 +1,4 @@
-#ifndef CSIZE_H
-#define CSIZE_H
+#pragma once
 
 #include <utility>
 
@@ -71,5 +70,3 @@ inline CSize operator - ( CSize lhs, const CSize &rhs )
 
 	return( lhs );
 }
-
-#endif // CSIZE_H

@@ -1,5 +1,4 @@
-#ifndef CENGINE_HPP
-#define CENGINE_HPP
+#pragma once
 
 #include "src/engine/helper/Types.hpp"
 
@@ -45,5 +44,3 @@ private:
 
 	CEngineInterface m_engineInterface;
 };
-
-#endif // CENGINE_HPP

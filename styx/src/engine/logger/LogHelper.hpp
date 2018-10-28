@@ -1,5 +1,4 @@
-#ifndef LOGHELPER_HPP
-#define LOGHELPER_HPP
+#pragma once
 
 namespace LogHelper
 {
@@ -18,5 +17,3 @@ namespace LogHelper
 		}
 	}
 }
-
-#endif // LOGHELPER_HPP

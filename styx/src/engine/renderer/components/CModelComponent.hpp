@@ -1,5 +1,4 @@
-#ifndef CMODELCOMPONENT_HPP
-#define CMODELCOMPONENT_HPP
+#pragma once
 
 #include "src/engine/scene/components/CBaseComponent.hpp"
 
@@ -24,5 +23,3 @@ public:
 private:
 	std::shared_ptr< const CMesh > m_mesh;
 };
-
-#endif // CMODELCOMPONENT_HPP

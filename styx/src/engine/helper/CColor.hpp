@@ -1,12 +1,10 @@
-#ifndef CCOLOR_HPP
-#define CCOLOR_HPP
+#pragma once
 
-class CColor
+class CColor final
 {
 public:
 	inline CColor( void )
-	{
-	}
+	{}
 
 	inline CColor& operator= ( const CColor &c )
 	{
@@ -101,5 +99,3 @@ protected:
 	float	m_b { 0.0f };
 	float	m_a { 0.0f };
 };
-
-#endif // CCOLOR_HPP

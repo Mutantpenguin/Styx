@@ -1,5 +1,4 @@
-#ifndef CSAMPLER_HPP
-#define CSAMPLER_HPP
+#pragma once
 
 #include <memory>
 
@@ -33,5 +32,3 @@ public:
 protected:
 	GLuint m_samplerID;
 };
-
-#endif // CSAMPLER_HPP

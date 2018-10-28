@@ -1,5 +1,4 @@
-#ifndef CSCENE_HPP
-#define CSCENE_HPP
+#pragma once
 
 #include <vector>
 #include <set>
@@ -85,5 +84,3 @@ private:
 
 	static u16 s_lastId;
 };
-
-#endif // CSCENE_HPP

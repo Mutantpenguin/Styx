@@ -1,5 +1,4 @@
-#ifndef CGAMEINFO_HPP
-#define CGAMEINFO_HPP
+#pragma once
 
 #include <exception>
 #include <string>
@@ -58,5 +57,3 @@ private:
 
 	std::string m_menu_background;
 };
-
-#endif // CGAMEINFO_HPP

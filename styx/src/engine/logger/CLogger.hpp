@@ -1,5 +1,4 @@
-#ifndef CLOGGER_HPP
-#define CLOGGER_HPP
+#pragma once
 
 #include <chrono>
 #include <vector>
@@ -106,5 +105,3 @@ private:
 
 	static std::list< std::unique_ptr< CLogTarget > > m_logTargets;
 };
-
-#endif // CLOGGER_HPP

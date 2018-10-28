@@ -1,5 +1,4 @@
-#ifndef CSOUNDSOURCE_HPP
-#define CSOUNDSOURCE_HPP
+#pragma once
 
 #include <memory>
 
@@ -37,5 +36,3 @@ private:
 
 	ALuint m_sourceID;
 };
-
-#endif // CSOUNDSOURCE_HPP

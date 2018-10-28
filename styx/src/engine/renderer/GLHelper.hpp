@@ -1,5 +1,4 @@
-#ifndef GLHELP_HPP
-#define GLHELP_HPP
+#pragma once
 
 #include <glm/glm.hpp>
 
@@ -54,5 +53,3 @@ namespace GLHelper
 		}
 	}
 }
-
-#endif // GLHELP_HPP

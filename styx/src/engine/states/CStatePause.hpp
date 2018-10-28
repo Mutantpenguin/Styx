@@ -1,5 +1,4 @@
-#ifndef CSTATEPAUSE_HPP
-#define CSTATEPAUSE_HPP
+#pragma once
 
 #include "CState.hpp"
 
@@ -24,5 +23,3 @@ private:
 	std::shared_ptr< CEntity > m_textEntity;
 	std::shared_ptr< CEntity > m_screenshotEntity;
 };
-
-#endif // CSTATEPAUSE_HPP

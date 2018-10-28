@@ -1,5 +1,4 @@
-#ifndef CLOGTARGETFILE_HPP
-#define CLOGTARGETFILE_HPP
+#pragma once
 
 #include <fstream>
 
@@ -18,5 +17,3 @@ private:
 
 	std::ofstream m_log_ofile;
 };
-
-#endif // CLOGTARGETFILE_HPP

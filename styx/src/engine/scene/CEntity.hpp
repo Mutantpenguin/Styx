@@ -1,5 +1,4 @@
-#ifndef CENTITY_HPP
-#define CENTITY_HPP
+#pragma once
 
 #include <string>
 #include <memory>
@@ -103,5 +102,3 @@ private:
 
 	static u32 s_lastId;
 };
-
-#endif // COBJECT_HPP

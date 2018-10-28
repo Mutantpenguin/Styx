@@ -1,5 +1,4 @@
-#ifndef CMESH_HPP
-#define CMESH_HPP
+#pragma once
 
 #include <vector>
 
@@ -47,5 +46,3 @@ private:
 
 	const glm::vec3	m_boundingSphereRadiusVector;
 };
-
-#endif // CMESH_HPP

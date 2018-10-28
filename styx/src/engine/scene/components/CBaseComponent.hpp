@@ -1,5 +1,4 @@
-#ifndef CBASECOMPONENT_HPP
-#define CBASECOMPONENT_HPP
+#pragma once
 
 #include <memory>
 
@@ -20,5 +19,3 @@ public:
 protected:
 	const std::shared_ptr< CEntity > m_parent;
 };
-
-#endif // CBASECOMPONENT_HPP

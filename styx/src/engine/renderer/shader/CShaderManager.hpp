@@ -1,5 +1,4 @@
-#ifndef CSHADERMANAGER_HPP
-#define CSHADERMANAGER_HPP
+#pragma once
 
 #include <unordered_map>
 #include <unordered_set>
@@ -73,5 +72,3 @@ private:
 
 	std::shared_ptr< CShaderProgram > m_dummyProgram;
 };
-
-#endif // CSHADERMANAGER_HPP
