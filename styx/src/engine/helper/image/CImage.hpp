@@ -16,17 +16,17 @@ public:
 public:
 	CImage( const CSize &size, const CSize &originalSize, bool alpha, u8 bpp, u32 pitch, std::unique_ptr< PixelBuffer > imageData );
 
-	const CSize &Size( void ) const;
+	const CSize &Size() const;
 
-	const CSize &OriginalSize( void ) const;
+	const CSize &OriginalSize() const;
 
-	bool HasAlpha( void ) const;
+	bool HasAlpha() const;
 
-	u8 BPP( void ) const;
+	u8 BPP() const;
 
-	u32 Pitch( void ) const;
+	u32 Pitch() const;
 
-	const u8 *RawPixelData( void ) const;
+	const u8 *RawPixelData() const;
 
 private:
 	const CSize	m_size;

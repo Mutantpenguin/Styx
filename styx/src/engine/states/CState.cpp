@@ -8,7 +8,7 @@ CState::CState( const std::string &name, const CFileSystem &filesystem, const CS
 		m_engineInterface { engineInterface }
 {}
 
-std::shared_ptr< CState > CState::Update( void )
+std::shared_ptr< CState > CState::Update()
 {
 	switch( m_status )
 	{
@@ -19,7 +19,7 @@ std::shared_ptr< CState > CState::Update( void )
 	};
 }
 
-void CState::Pause( void )
+void CState::Pause()
 {
 	if( eStatus::RUNNING == m_status )
 	{
@@ -31,7 +31,7 @@ void CState::Pause( void )
 	};
 }
 
-void CState::Resume( void )
+void CState::Resume()
 {
 	if( eStatus::PAUSED == m_status )
 	{
@@ -43,22 +43,22 @@ void CState::Resume( void )
 	};
 }
 
-const CScene &CState::Scene( void ) const
+const CScene &CState::Scene() const
 {
 	return( m_scene );
 }
 
-const std::string &CState::Name( void ) const
+const std::string &CState::Name() const
 {
 	return( m_name );
 }
 
-const CFrameBuffer &CState::FrameBuffer( void ) const
+const CFrameBuffer &CState::FrameBuffer() const
 {
 	return( m_frameBuffer );
 }
 
-const CTimer &CState::Timer( void ) const
+const CTimer &CState::Timer() const
 {
 	return( m_timer );
 }

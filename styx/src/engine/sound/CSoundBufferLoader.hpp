@@ -12,7 +12,7 @@ class CSoundBufferLoader final
 {
 public:
 	explicit CSoundBufferLoader( const CFileSystem &p_filesystem );
-	~CSoundBufferLoader( void );
+	~CSoundBufferLoader();
 
 	void FromFile( const std::shared_ptr< CSoundBuffer > &soundBuffer, const std::string &path ) const;
 

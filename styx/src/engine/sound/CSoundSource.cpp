@@ -23,7 +23,7 @@ void CSoundSource::SetSoundBuffer( const std::shared_ptr< const CSoundBuffer > &
 	alSourcei( m_sourceID, AL_BUFFER, soundBuffer->m_bufferID );
 }
 
-const std::shared_ptr< const CSoundBuffer > CSoundSource::Buffer( void ) const
+const std::shared_ptr< const CSoundBuffer > CSoundSource::Buffer() const
 {
 	return( m_soundBuffer );
 }
@@ -43,17 +43,17 @@ void CSoundSource::SetRelativePositioning( const bool value ) const
 	alSourcei( m_sourceID, AL_SOURCE_RELATIVE, value ? AL_TRUE : AL_FALSE );
 }
 
-void CSoundSource::Play( void ) const
+void CSoundSource::Play() const
 {
 	alSourcePlay( m_sourceID );
 }
 
-void CSoundSource::Pause( void ) const
+void CSoundSource::Pause() const
 {
 	alSourcePause( m_sourceID );
 }
 
-void CSoundSource::Stop( void ) const
+void CSoundSource::Stop() const
 {
 	alSourceStop( m_sourceID );
 }

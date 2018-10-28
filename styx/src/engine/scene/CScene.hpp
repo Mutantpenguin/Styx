@@ -23,10 +23,10 @@ public:
 	[[nodiscard]] std::shared_ptr< CEntity > CreateEntity( const std::string &name );
 	void DeleteEntity( const std::shared_ptr< const CEntity > &entity );
 
-	[[nodiscard]] const std::shared_ptr< const CEntity > &Camera( void ) const;
+	[[nodiscard]] const std::shared_ptr< const CEntity > &Camera() const;
 	void Camera( const std::shared_ptr< const CEntity > &cameraEntity );
 
-	[[nodiscard]] const CColor &ClearColor( void ) const;
+	[[nodiscard]] const CColor &ClearColor() const;
 	void ClearColor( const CColor &clearColor );
 
 	template<typename... T_Components>

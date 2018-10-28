@@ -12,7 +12,7 @@ class CMaterialLoader final
 {
 public:
 	CMaterialLoader( const CFileSystem &filesystem, CShaderManager &shaderManager );
-	~CMaterialLoader( void );
+	~CMaterialLoader();
 
 	void FromFile( const std::shared_ptr< CMaterial > &material, const std::string &path ) const;
 

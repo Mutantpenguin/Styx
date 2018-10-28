@@ -152,62 +152,62 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 	}
 }
 
-const std::string &CGameInfo::GetDir( void ) const
+const std::string &CGameInfo::GetDir() const
 {
 	return( m_gamedir );
 }
 
-const std::string &CGameInfo::GetName( void ) const
+const std::string &CGameInfo::GetName() const
 {
 	return( m_name );
 }
 
-const std::string &CGameInfo::GetShortName( void ) const
+const std::string &CGameInfo::GetShortName() const
 {
 	return( m_name_short );
 }
 
-const std::string &CGameInfo::GetInfo( void ) const
+const std::string &CGameInfo::GetInfo() const
 {
 	return( m_info );
 }
 
-const std::string &CGameInfo::GetVersion( void ) const
+const std::string &CGameInfo::GetVersion() const
 {
 	return( m_version );
 }
 
-const std::string &CGameInfo::GetOrganisation( void ) const
+const std::string &CGameInfo::GetOrganisation() const
 {
 	return( m_organisation );
 }
 
-const std::string &CGameInfo::GetAuthor( void ) const
+const std::string &CGameInfo::GetAuthor() const
 {
 	return( m_author );
 }
 
-const std::string &CGameInfo::GetAuthorEmail( void ) const
+const std::string &CGameInfo::GetAuthorEmail() const
 {
 	return( m_author_email );
 }
 
-const std::string &CGameInfo::GetWebsite( void ) const
+const std::string &CGameInfo::GetWebsite() const
 {
 	return( m_website );
 }
 
-const std::string &CGameInfo::GetIconPath( void ) const
+const std::string &CGameInfo::GetIconPath() const
 {
 	return( m_icon );
 }
 
-const std::vector< std::string > &CGameInfo::GetAssets( void ) const
+const std::vector< std::string > &CGameInfo::GetAssets() const
 {
 	return( m_assets );
 }
 
-const std::vector< std::string > &CGameInfo::GetTemplates( void ) const
+const std::vector< std::string > &CGameInfo::GetTemplates() const
 {
 	return( m_templates );
 }

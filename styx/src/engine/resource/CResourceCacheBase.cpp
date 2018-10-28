@@ -8,12 +8,12 @@ CResourceCacheBase::CResourceCacheBase( const std::string &name ) :
 	logINFO( "cache for '{0}' was initialized", m_name );
 }
 
-CResourceCacheBase::~CResourceCacheBase( void )
+CResourceCacheBase::~CResourceCacheBase()
 {
 	logINFO( "cache for '{0}' is shutting down", m_name );
 }
 
-const std::string & CResourceCacheBase::Name( void )
+const std::string & CResourceCacheBase::Name()
 {
 	return( m_name );
 }

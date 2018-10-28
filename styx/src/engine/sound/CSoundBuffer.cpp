@@ -9,17 +9,17 @@ CSoundBuffer::~CSoundBuffer()
 	alDeleteBuffers( 1, &m_bufferID );
 }
 
-CSoundBuffer::format CSoundBuffer::Format( void ) const
+CSoundBuffer::format CSoundBuffer::Format() const
 {
 	return( m_format );
 }
 
-float CSoundBuffer::Duration( void ) const
+float CSoundBuffer::Duration() const
 {
 	return( m_duration );
 }
 
-void CSoundBuffer::Reset( void )
+void CSoundBuffer::Reset()
 {
 	alDeleteBuffers( 1, &m_bufferID );
 

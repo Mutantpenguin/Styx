@@ -32,7 +32,7 @@ CTextureLoader::CTextureLoader( const CSettings &p_settings, const CFileSystem &
 	logINFO( "texture loader was initialized" );
 }
 
-CTextureLoader::~CTextureLoader( void )
+CTextureLoader::~CTextureLoader()
 {
 	logINFO( "texture loader is shutting down" );
 }

@@ -19,7 +19,7 @@ namespace GLHelper
 	std::string GLSLTypeToString( const GLenum type );
 
 	template<typename T>
-	GLenum glmTypeToGLSLType( void )
+	GLenum glmTypeToGLSLType()
 	{
 		const std::type_info &type = typeid( T );
 

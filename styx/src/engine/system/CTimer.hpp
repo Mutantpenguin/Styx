@@ -8,12 +8,12 @@
 class CTimer final
 {
 public:
-	CTimer( void );
+	CTimer();
 
-	[[nodiscard]] u64 Time( void ) const;
+	[[nodiscard]] u64 Time() const;
 
-	void Pause( void );
-	void Resume( void );
+	void Pause();
+	void Resume();
 
 private:
 	CTimer( const CTimer &rhs ) = delete;

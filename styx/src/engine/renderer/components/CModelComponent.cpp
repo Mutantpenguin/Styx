@@ -11,7 +11,7 @@ void CModelComponent::Mesh( const std::shared_ptr< const CMesh > &mesh )
 	m_mesh = mesh;
 }
 
-const std::shared_ptr< const CMesh > CModelComponent::Mesh( void ) const
+const std::shared_ptr< const CMesh > CModelComponent::Mesh() const
 {
 	return( m_mesh );
 }

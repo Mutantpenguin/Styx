@@ -50,7 +50,7 @@ CSoundManager::CSoundManager( const CSettings &settings, const CFileSystem &p_fi
 	logINFO( "sound manager was initialized" );
 }
 
-CSoundManager::~CSoundManager( void )
+CSoundManager::~CSoundManager()
 {
 	logINFO( "sound manager is shutting down" );
 

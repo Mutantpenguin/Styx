@@ -150,27 +150,27 @@ COpenGlAdapter::COpenGlAdapter()
 	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_CUBE_MAP_TEXTURE_SIZE ), m_maxCubeMapTextureSize );
 }
 
-GLint COpenGlAdapter::MaxTextureSize( void ) const
+GLint COpenGlAdapter::MaxTextureSize() const
 {
 	return( m_maxTextureSize );
 }
 
-GLint COpenGlAdapter::MaxCubeMapTextureSize( void ) const
+GLint COpenGlAdapter::MaxCubeMapTextureSize() const
 {
 	return( m_maxCubeMapTextureSize );
 }
 
-GLint COpenGlAdapter::PreferredInternalTextureFormat2D( void ) const
+GLint COpenGlAdapter::PreferredInternalTextureFormat2D() const
 {
 	return( m_preferredInternalTextureFormat2D );
 }
 
-GLint COpenGlAdapter::PreferredInternalTextureFormatCube( void ) const
+GLint COpenGlAdapter::PreferredInternalTextureFormatCube() const
 {
 	return( m_preferredInternalTextureFormatCube );
 }
 
-GLint COpenGlAdapter::PreferredInternalTextureFormat2DArray( void ) const
+GLint COpenGlAdapter::PreferredInternalTextureFormat2DArray() const
 {
 	return( m_preferredInternalTextureFormat2DArray );
 }

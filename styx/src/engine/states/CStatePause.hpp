@@ -12,7 +12,7 @@ public:
 	CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface, std::shared_ptr< CState > pausedState );
 	~CStatePause();
 
-	virtual std::shared_ptr< CState > OnUpdate( void ) override;
+	virtual std::shared_ptr< CState > OnUpdate() override;
 
 private:
 	// TODO is this needed anymore?

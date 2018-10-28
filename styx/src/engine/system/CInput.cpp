@@ -98,7 +98,7 @@ CInput::CInput( const CSettings &settings, const CFileSystem &filesystem ) :
 	logINFO( "input was initialized" );
 }
 
-CInput::~CInput( void )
+CInput::~CInput()
 {
 	logINFO( "input is shutting down" );
 
@@ -114,7 +114,7 @@ CInput::~CInput( void )
 	}
 }
 
-void CInput::Update( void )
+void CInput::Update()
 {
 	m_oldButtons = m_buttons;
 	m_buttons = SDL_GetRelativeMouseState( &m_dX, &m_dY );

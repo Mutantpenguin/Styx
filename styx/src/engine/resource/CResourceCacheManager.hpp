@@ -15,8 +15,8 @@ private:
 	CResourceCacheManager& operator = ( const CResourceCacheManager& rhs );
 
 public:
-	CResourceCacheManager( void );
-	~CResourceCacheManager( void );
+	CResourceCacheManager();
+	~CResourceCacheManager();
 
 	template < typename T >
 	void Register( const std::shared_ptr< CResourceCache< T > > &resourceCache )
@@ -37,8 +37,8 @@ public:
 
 	void DeRegister( const std::shared_ptr< CResourceCacheBase > &resourceCache );
 
-	void CollectGarbage( void );
-	void Reload( void );
+	void CollectGarbage();
+	void Reload();
 
 	template < typename T >
 	const std::shared_ptr< const T > GetResource( const std::string &path )

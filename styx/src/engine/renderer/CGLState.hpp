@@ -25,7 +25,7 @@ public:
 	static void BindVertexArray( const GLuint vao );
 
 private:
-	CGLState( void ) {};
+	CGLState() {};
 
 	static bool		cullFaceEnabed;
 	static GLenum	cullFaceMode;

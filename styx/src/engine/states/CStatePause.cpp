@@ -108,7 +108,7 @@ CStatePause::~CStatePause()
 {
 }
 
-std::shared_ptr< CState > CStatePause::OnUpdate( void )
+std::shared_ptr< CState > CStatePause::OnUpdate()
 {
 	const auto yOffset = ( sin( m_timer.Time() / 2000000.0 ) * 0.5f );
 

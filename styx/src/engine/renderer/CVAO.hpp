@@ -14,9 +14,9 @@ public:
 	CVAO( GLenum Mode, const Primitives::SPrimitive &primitive );
 	~CVAO();
 
-	void Bind( void ) const;
+	void Bind() const;
 
-	void Draw( void ) const;
+	void Draw() const;
 
 	enum class EAttributeLocation : GLint
 	{

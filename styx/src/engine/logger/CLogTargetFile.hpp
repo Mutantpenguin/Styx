@@ -10,7 +10,7 @@ class CLogTargetFile final : public CLogger::CLogTarget
 
 public:
 	CLogTargetFile( const CLogger::TLogBuffer &logBuffer, const std::string &directory );
-	virtual ~CLogTargetFile( void );
+	virtual ~CLogTargetFile();
 
 private:
 	virtual void Log( const std::unique_ptr< const CLogger::logEntry > &entry ) override;

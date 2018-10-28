@@ -5,17 +5,17 @@
 class CPlane
 {
 public:
-	CPlane( void );
+	CPlane();
 
 	CPlane( const glm::vec3 &point, const glm::vec3 &normal );
 
 	void SetNormal( const glm::vec3 &normal );
-	const glm::vec3 &Normal( void ) const;
+	const glm::vec3 &Normal() const;
 
 	void SetDistance( float distance );
-	float Distance( void ) const;
+	float Distance() const;
 
-	void Normalize( void );
+	void Normalize();
 
 	float DistanceToPlane( const glm::vec3 &point ) const;
 

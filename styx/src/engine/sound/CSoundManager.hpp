@@ -30,14 +30,14 @@ public:
 	class Exception: public std::exception
 	{
 	public:
-		explicit Exception( void ) {}
+		explicit Exception() {}
 
 		virtual ~Exception() throw() {}
 	};
 
 private:
 	CSoundManager( const CSettings &settings, const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager );
-	~CSoundManager( void );
+	~CSoundManager();
 
 	CSoundManager( const CSoundManager &rhs ) = delete;
 	CSoundManager& operator = ( const CSoundManager &rhs ) = delete;

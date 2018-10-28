@@ -2,15 +2,15 @@
 
 #include "src/engine/renderer/CGLState.hpp"
 
-CMaterial::CMaterial( void )
+CMaterial::CMaterial()
 {
 }
 
-CMaterial::~CMaterial( void )
+CMaterial::~CMaterial()
 {
 }
 
-void CMaterial::Setup( void ) const
+void CMaterial::Setup() const
 {
 	CGLState::CullFace( m_bCullFace, m_cullfaceMode );
 	CGLState::PolygonMode( m_polygonMode );
@@ -24,7 +24,7 @@ void CMaterial::Setup( void ) const
 	}
 }
 
-bool CMaterial::Blending( void ) const
+bool CMaterial::Blending() const
 {
 	return( m_blending );
 }
@@ -36,7 +36,7 @@ void CMaterial::EnableBlending( const GLenum blendSrc, const GLenum blendDst )
 	m_blendDst = blendDst;
 }
 
-void CMaterial::DisableBlending( void )
+void CMaterial::DisableBlending()
 {
 	m_blending = false;
 	m_blendSrc = GL_NONE;
@@ -49,7 +49,7 @@ void CMaterial::EnableCulling( const GLenum mode )
 	m_cullfaceMode = mode;
 }
 
-void CMaterial::DisableCulling( void )
+void CMaterial::DisableCulling()
 {
 	m_bCullFace = false;
 	m_cullfaceMode = GL_NONE;
@@ -60,7 +60,7 @@ void CMaterial::PolygonMode( const GLenum polygonMode )
 	m_polygonMode = polygonMode;
 }
 
-const std::shared_ptr< const CShaderProgram > &CMaterial::Shader( void ) const
+const std::shared_ptr< const CShaderProgram > &CMaterial::Shader() const
 {
 	return( m_shader );
 }
@@ -70,17 +70,17 @@ void CMaterial::Shader( const std::shared_ptr< const CShaderProgram > &shader )
 	m_shader = shader;
 }
 
-const std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &CMaterial::MaterialUniforms( void ) const
+const std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &CMaterial::MaterialUniforms() const
 {
 	return( m_materialUniforms );
 }
 
-std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &CMaterial::MaterialUniforms( void )
+std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &CMaterial::MaterialUniforms()
 {
 	return( m_materialUniforms );
 }
 
-const std::string &CMaterial::Name( void ) const
+const std::string &CMaterial::Name() const
 {
 	return( m_name );
 }
@@ -90,7 +90,7 @@ void CMaterial::Name( const std::string &name )
 	m_name = name;
 }
 
-void CMaterial::Reset( void )
+void CMaterial::Reset()
 {
 	m_name = "";
 

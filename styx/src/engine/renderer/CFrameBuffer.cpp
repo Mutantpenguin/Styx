@@ -50,22 +50,22 @@ CFrameBuffer::~CFrameBuffer()
 	glDeleteFramebuffers( 1, &m_id );
 }
 
-void CFrameBuffer::Bind( void ) const
+void CFrameBuffer::Bind() const
 {
 	glBindFramebuffer( GL_FRAMEBUFFER, m_id );
 }
 
-void CFrameBuffer::Unbind( void ) const
+void CFrameBuffer::Unbind() const
 {
 	glBindFramebuffer( GL_FRAMEBUFFER, 0 );
 }
 
-const std::shared_ptr< const CTexture > CFrameBuffer::ColorTexture( void ) const
+const std::shared_ptr< const CTexture > CFrameBuffer::ColorTexture() const
 {
 	return( m_colorTexture );
 }
 
-std::shared_ptr< CImage > CFrameBuffer::ToImage( void ) const
+std::shared_ptr< CImage > CFrameBuffer::ToImage() const
 {
 	glNamedFramebufferReadBuffer( m_id, attachmentColorTexture );
 
@@ -78,7 +78,7 @@ std::shared_ptr< CImage > CFrameBuffer::ToImage( void ) const
 	return( std::make_shared< CImage >( m_size, m_size, true, 24, pitch, std::move( pixels ) ) );
 }
 
-bool CFrameBuffer::isComplete( void )
+bool CFrameBuffer::isComplete()
 {
 	const GLenum status = glCheckNamedFramebufferStatus( m_id, GL_FRAMEBUFFER );
 

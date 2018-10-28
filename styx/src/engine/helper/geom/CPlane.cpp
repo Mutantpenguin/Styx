@@ -1,6 +1,6 @@
 #include "CPlane.hpp"
 
-CPlane::CPlane( void )
+CPlane::CPlane()
 {
 }
 
@@ -16,7 +16,7 @@ void CPlane::SetNormal( const glm::vec3 &normal )
 	m_normal = normal;
 }
 
-const glm::vec3 &CPlane::Normal( void ) const
+const glm::vec3 &CPlane::Normal() const
 {
 	return( m_normal );
 }
@@ -26,12 +26,12 @@ void CPlane::SetDistance( float distance )
 	m_distance = distance;
 }
 
-float CPlane::Distance( void ) const
+float CPlane::Distance() const
 {
 	return( m_distance );
 }
 
-void CPlane::Normalize( void )
+void CPlane::Normalize()
 {
 	const float length = 1.0f / glm::length( m_normal );
 	m_normal	*= length;

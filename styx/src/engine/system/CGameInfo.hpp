@@ -9,26 +9,26 @@ class CGameInfo final
 public:
 	explicit CGameInfo( const std::string &p_gamedir  );
 
-	const std::string &GetDir( void ) const;
+	const std::string &GetDir() const;
 
-	const std::string &GetName( void ) const;
-	const std::string &GetShortName( void ) const;
-	const std::string &GetInfo( void ) const;
-	const std::string &GetVersion( void ) const;
-	const std::string &GetOrganisation( void ) const;
-	const std::string &GetAuthor( void ) const;
-	const std::string &GetAuthorEmail( void ) const;
-	const std::string &GetWebsite( void ) const;
+	const std::string &GetName() const;
+	const std::string &GetShortName() const;
+	const std::string &GetInfo() const;
+	const std::string &GetVersion() const;
+	const std::string &GetOrganisation() const;
+	const std::string &GetAuthor() const;
+	const std::string &GetAuthorEmail() const;
+	const std::string &GetWebsite() const;
 
-	const std::string &GetIconPath( void ) const;
+	const std::string &GetIconPath() const;
 
-	const std::vector< std::string > &GetAssets( void ) const;
-	const std::vector< std::string > &GetTemplates( void ) const;
+	const std::vector< std::string > &GetAssets() const;
+	const std::vector< std::string > &GetTemplates() const;
 
 	class Exception: public std::exception
 	{
 	public:
-		explicit Exception( void ) {}
+		explicit Exception() {}
 
 		virtual ~Exception() throw() {}
 	};

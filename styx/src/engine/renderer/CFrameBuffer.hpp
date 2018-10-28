@@ -20,15 +20,15 @@ public:
 	explicit CFrameBuffer( const CSize &size );
 	~CFrameBuffer();
 
-	void Bind( void ) const;
-	void Unbind( void ) const;
+	void Bind() const;
+	void Unbind() const;
 
-	const std::shared_ptr< const CTexture > ColorTexture( void ) const;
+	const std::shared_ptr< const CTexture > ColorTexture() const;
 
-	std::shared_ptr< CImage > ToImage( void ) const;
+	std::shared_ptr< CImage > ToImage() const;
 
 private:
-	bool isComplete( void );
+	bool isComplete();
 
 	const CSize	m_size;
 	

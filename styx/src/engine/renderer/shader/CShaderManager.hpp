@@ -28,20 +28,20 @@ public:
 
 	[[nodiscard]] const std::shared_ptr< const CShaderProgram > CreateProgramFromStrings( const std::string &vertexShaderString, const std::string &fragmentShaderString ) const;
 
-	[[nodiscard]] const std::shared_ptr< const CShaderProgram > GetDummyShader( void ) const;
+	[[nodiscard]] const std::shared_ptr< const CShaderProgram > GetDummyShader() const;
 
 	constexpr static const GLint requiredCombinedTextureImageUnits { 16 };
 
 	class Exception: public std::exception
 	{
 	public:
-		explicit Exception( void ) {}
+		explicit Exception() {}
 
 		virtual ~Exception() throw() {}
 	};
 
 private:
-	[[nodiscard]] bool CreateDummyProgram( void );
+	[[nodiscard]] bool CreateDummyProgram();
 
 	[[nodiscard]] GLuint CreateProgram( const GLuint vertexShader, const GLuint fragmentShader ) const;
 

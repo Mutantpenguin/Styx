@@ -28,7 +28,7 @@ void CCameraFreeComponent::FOV( float fov )
 	}
 }
 
-float CCameraFreeComponent::FOV( void ) const
+float CCameraFreeComponent::FOV() const
 {
 	return( m_fov );
 }
@@ -75,7 +75,7 @@ void CCameraFreeComponent::Rotate( const float pitchAngle, const float yawAngle 
 	transform.Orientation( glm::angleAxis( glm::radians( pitchAngle ), CWorld::X ) * transform.Orientation() * glm::angleAxis( glm::radians( yawAngle ), CWorld::Y ) );
 }
 
-const glm::mat4 CCameraFreeComponent::ProjectionMatrix( void ) const
+const glm::mat4 CCameraFreeComponent::ProjectionMatrix() const
 {
 	return( glm::perspective( glm::radians( m_fov ), m_aspectRatio, m_zNear, m_zFar ) );
 }

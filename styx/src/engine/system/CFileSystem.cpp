@@ -96,7 +96,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	logINFO( "file system was initialized" );
 }
 
-CFileSystem::~CFileSystem( void )
+CFileSystem::~CFileSystem()
 {
 	logINFO( "file system is shutting down" );
 
@@ -127,7 +127,7 @@ i64 CFileSystem::GetLastModTime( const std::string &filename ) const
 	return( stat.modtime );
 }
 
-std::string CFileSystem::GetWriteDir( void ) const
+std::string CFileSystem::GetWriteDir() const
 {
 	return( std::string( PHYSFS_getWriteDir() ) );
 }
@@ -137,7 +137,7 @@ bool CFileSystem::MakeDir( const std::string &dirname ) const
 	return( PHYSFS_mkdir( dirname.c_str() ) );
 }
 
-const char* CFileSystem::GetLastError( void ) const
+const char* CFileSystem::GetLastError() const
 {
 	return( PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
 }
@@ -198,7 +198,7 @@ std::string CFileSystem::LoadFileToString( const std::string &filename ) const
 	return( std::string( std::cbegin( buffer ), std::cend( buffer ) ) );
 }
 
-void CFileSystem::InitialiseFreeImageIO( void )
+void CFileSystem::InitialiseFreeImageIO()
 {
 	/* TODO
 	logINFO( "FreeImage has version '{0}'", FreeImage_GetVersion() );

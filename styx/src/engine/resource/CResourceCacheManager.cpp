@@ -4,12 +4,12 @@
 
 #include "src/engine/logger/CLogger.hpp"
 
-CResourceCacheManager::CResourceCacheManager( void )
+CResourceCacheManager::CResourceCacheManager()
 {
 	logINFO( "resource cache manager was initialized" );
 }
 
-CResourceCacheManager::~CResourceCacheManager( void )
+CResourceCacheManager::~CResourceCacheManager()
 {
 	logINFO( "resource cache manager is shutting down" );
 
@@ -39,7 +39,7 @@ void CResourceCacheManager::DeRegister( const std::shared_ptr< CResourceCacheBas
 	}
 }
 
-void CResourceCacheManager::CollectGarbage( void )
+void CResourceCacheManager::CollectGarbage()
 {
 	for( auto &resourceCache : m_resourceCaches )
 	{
@@ -48,7 +48,7 @@ void CResourceCacheManager::CollectGarbage( void )
 }
 
 
-void CResourceCacheManager::Reload( void )
+void CResourceCacheManager::Reload()
 {
 	for( auto &resourceCache : m_resourceCaches )
 	{

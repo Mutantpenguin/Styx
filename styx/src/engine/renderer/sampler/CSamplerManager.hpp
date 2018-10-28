@@ -15,7 +15,7 @@ class CSamplerManager final
 {
 public:
 	explicit CSamplerManager( const CSettings &p_settings );
-	~CSamplerManager( void );
+	~CSamplerManager();
 
 	[[nodiscard]] bool GetFromString( const std::string &string, std::shared_ptr< const CSampler > &sampler ) const;
 

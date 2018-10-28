@@ -270,7 +270,7 @@ CStateGame::~CStateGame()
 {
 }
 
-std::shared_ptr< CState > CStateGame::OnUpdate( void )
+std::shared_ptr< CState > CStateGame::OnUpdate()
 {
 	auto &soundManager = m_engineInterface.SoundManager;
 

@@ -17,17 +17,17 @@ public:
 	explicit CShaderProgram( const GLuint id );
 	~CShaderProgram();
 
-	void Use( void ) const;
+	void Use() const;
 
-	const GLuint &OpenGLID( void ) const;
+	const GLuint &OpenGLID() const;
 
-	const std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredSamplers( void ) const;
-	const std::vector< std::pair< GLint, const EEngineUniform > >	&RequiredEngineUniforms( void ) const;
-	const std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredMaterialUniforms( void ) const;
+	const std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredSamplers() const;
+	const std::vector< std::pair< GLint, const EEngineUniform > >	&RequiredEngineUniforms() const;
+	const std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredMaterialUniforms() const;
 
-	std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredSamplers( void );
-	std::vector< std::pair< GLint, const EEngineUniform > >	&RequiredEngineUniforms( void );
-	std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredMaterialUniforms( void );
+	std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredSamplers();
+	std::vector< std::pair< GLint, const EEngineUniform > >	&RequiredEngineUniforms();
+	std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredMaterialUniforms();
 
 private:
 	const GLuint m_id;

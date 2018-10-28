@@ -10,17 +10,17 @@ class COpenGlAdapter final
 public:
 	COpenGlAdapter();
 
-	GLint MaxTextureSize( void ) const;
-	GLint MaxCubeMapTextureSize( void ) const;
+	GLint MaxTextureSize() const;
+	GLint MaxCubeMapTextureSize() const;
 
-	GLint PreferredInternalTextureFormat2D( void ) const;
-	GLint PreferredInternalTextureFormatCube( void ) const;
-	GLint PreferredInternalTextureFormat2DArray( void ) const;
+	GLint PreferredInternalTextureFormat2D() const;
+	GLint PreferredInternalTextureFormatCube() const;
+	GLint PreferredInternalTextureFormat2DArray() const;
 
 	class Exception: public std::exception
 	{
 	public:
-		explicit Exception( void ) {}
+		explicit Exception() {}
 
 		virtual ~Exception() throw() {}
 	};

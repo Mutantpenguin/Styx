@@ -49,7 +49,7 @@ CShaderManager::~CShaderManager()
 	m_fragmentShaders.clear();
 }
 
-bool CShaderManager::CreateDummyProgram( void )
+bool CShaderManager::CreateDummyProgram()
 {
 	const auto &positionAttribute = allowedAttributes.at( CVAO::EAttributeLocation::position );
 	const auto &uniformModelViewProjectionMatrix = engineUniforms.at( EEngineUniform::modelViewProjectionMatrix );
@@ -97,7 +97,7 @@ bool CShaderManager::CreateDummyProgram( void )
 	return( true );
 }
 
-const std::shared_ptr< const CShaderProgram > CShaderManager::GetDummyShader( void ) const
+const std::shared_ptr< const CShaderProgram > CShaderManager::GetDummyShader() const
 {
 	return( m_dummyProgram );
 }

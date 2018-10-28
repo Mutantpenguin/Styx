@@ -11,7 +11,7 @@ public:
 
 	virtual void Set( const GLuint location ) const = 0;
 
-	const std::string &Name( void ) const;
+	const std::string &Name() const;
 
 protected:
 	explicit CMaterialUniform( const std::string &name );

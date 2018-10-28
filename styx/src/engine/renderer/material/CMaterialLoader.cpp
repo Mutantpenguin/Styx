@@ -22,7 +22,7 @@ CMaterialLoader::CMaterialLoader( const CFileSystem &filesystem, CShaderManager 
 	logINFO( "material loader was initialized" );
 }
 
-CMaterialLoader::~CMaterialLoader( void )
+CMaterialLoader::~CMaterialLoader()
 {
 	logINFO( "material loader is shutting down" );
 

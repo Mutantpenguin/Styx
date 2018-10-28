@@ -21,15 +21,15 @@ public:
 
 	void SetSoundBuffer( const std::shared_ptr< const CSoundBuffer > &soundBuffer );
 
-	const std::shared_ptr< const CSoundBuffer > Buffer( void ) const;
+	const std::shared_ptr< const CSoundBuffer > Buffer() const;
 
 	void SetPosition( const glm::vec3 &position ) const;
 	void SetLooping( const bool looping ) const;
 	void SetRelativePositioning( const bool value ) const;
 
-	void Play( void ) const;
-	void Pause( void ) const;
-	void Stop( void ) const;
+	void Play() const;
+	void Pause() const;
+	void Stop() const;
 
 private:
 	std::shared_ptr< const CSoundBuffer > m_soundBuffer;

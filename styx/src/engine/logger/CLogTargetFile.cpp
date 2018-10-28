@@ -18,7 +18,7 @@ CLogTargetFile::CLogTargetFile( const CLogger::TLogBuffer &logBuffer, const std:
 	}
 }
 
-CLogTargetFile::~CLogTargetFile( void )
+CLogTargetFile::~CLogTargetFile()
 {
 	m_log_ofile.flush();
 	m_log_ofile.close();

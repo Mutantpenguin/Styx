@@ -19,17 +19,17 @@ public:
 	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const TMeshTextureSlots &textureSlots = TMeshTextureSlots() );
 
 	void SetMaterial( const std::shared_ptr< const CMaterial > &mat );
-	const std::shared_ptr< const CMaterial > &Material( void ) const;
+	const std::shared_ptr< const CMaterial > &Material() const;
 
 	void ChangeTexture( const std::string &slotName, const std::shared_ptr< const CTexture > &texture );
 	void ChangeSampler( const std::string &slotName, const std::shared_ptr< const CSampler > &sampler );
 	void ChangeTextureAndSampler( const std::string &slotName, const std::shared_ptr< const CTexture > &texture, const std::shared_ptr< const CSampler > &sampler );
 
-	const glm::vec3 &BoundingSphereRadiusVector( void ) const;
+	const glm::vec3 &BoundingSphereRadiusVector() const;
 
-	const CVAO &VAO( void ) const;
+	const CVAO &VAO() const;
 
-	void BindTextures( void ) const;
+	void BindTextures() const;
 
 private:
 	const CVAO	m_vao;
@@ -40,7 +40,7 @@ private:
 
 	std::vector< std::pair< GLuint, const std::shared_ptr< const CMeshTextureSlot > > > m_materialTextureSlotMapping;
 
-	void SetupMaterialTextureSlotMapping( void );
+	void SetupMaterialTextureSlotMapping();
 
 	[[nodiscard]] static glm::vec3 CalculateBoundingSphereRadiusVector( const Primitives::SPrimitive &primitive );
 

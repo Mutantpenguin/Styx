@@ -17,11 +17,11 @@ class CEngine final
 {
 public:
 	CEngine( const char *argv0, const std::string &gameDirectory, const std::string &settingsFile );
-	~CEngine( void );
+	~CEngine();
 
-	void Run( void );
+	void Run();
 
-	static std::string GetVersionString( void );
+	static std::string GetVersionString();
 
 private:
 	CEngine( const CEngine &rhs ) = delete;

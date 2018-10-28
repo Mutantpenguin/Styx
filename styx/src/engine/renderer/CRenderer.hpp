@@ -29,15 +29,15 @@ friend class CEngineInterface;
 
 private:
 	CRenderer( const CSettings &settings, const CFileSystem &filesystem, CResourceCacheManager &resourceCacheManager );
-	~CRenderer( void );
+	~CRenderer();
 
 	CRenderer( const CRenderer &rhs ) = delete;
 	CRenderer& operator = ( const CRenderer &rhs ) = delete;
 
 public:
-	CSamplerManager		&SamplerManager( void );
+	CSamplerManager		&SamplerManager();
 
-	COpenGlAdapter	&OpenGlAdapter( void );
+	COpenGlAdapter	&OpenGlAdapter();
 
 	void	RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffer &framebuffer, const CTimer &timer ) const;
 
@@ -46,7 +46,7 @@ public:
 	class Exception: public std::exception
 	{
 	public:
-		explicit Exception( void ) {}
+		explicit Exception() {}
 
 		virtual ~Exception() throw() {}
 	};
@@ -79,7 +79,7 @@ private:
 	std::shared_ptr< CTextureCache >	m_textureCache;
 	std::shared_ptr< CMaterialCache >	m_materialCache;
 
-	void CreateUniformBuffers( void );
+	void CreateUniformBuffers();
 	void UpdateUniformBuffers( const std::shared_ptr< const CEntity > &cameraEntity, const CTimer &timer ) const;
 
 	void RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const;

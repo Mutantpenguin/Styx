@@ -61,12 +61,12 @@ CVAO::~CVAO()
 	glDeleteVertexArrays( 1, &m_id );
 }
 
-void CVAO::Bind( void ) const
+void CVAO::Bind() const
 {
 	CGLState::BindVertexArray( m_id );
 }
 
-void CVAO::Draw( void ) const
+void CVAO::Draw() const
 {
 	glDrawArrays( m_mode, 0, m_vertexCount );
 }

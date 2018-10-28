@@ -18,14 +18,14 @@ class CWindow final
 {
 public:
 	CWindow( const CSettings &settings, const CFileSystem &filesystem, const std::string &windowTitle, const std::string &iconPath );
-	~CWindow( void );
+	~CWindow();
 
-	void Update( void ) const;
+	void Update() const;
 
 	class Exception: public std::exception
 	{
 	public:
-		explicit Exception( void ) {}
+		explicit Exception() {}
 
 		virtual ~Exception() throw() {}
 	};

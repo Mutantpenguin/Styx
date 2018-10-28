@@ -19,15 +19,15 @@ public:
 	static const u16 Index = static_cast<u16>( EComponentIndex::CAMERA );
 
 	void	ZNear( float zNear );
-	[[nodiscard]] float	ZNear( void ) const;
+	[[nodiscard]] float	ZNear() const;
 
 	void	ZFar( float zFar );
-	[[nodiscard]]float	ZFar( void ) const;
+	[[nodiscard]]float	ZFar() const;
 
-	[[nodiscard]] const CFrustum Frustum( void ) const;
+	[[nodiscard]] const CFrustum Frustum() const;
 
-	[[nodiscard]] virtual const glm::mat4 ProjectionMatrix( void ) const = 0;
-	[[nodiscard]] const glm::mat4 ViewProjectionMatrix( void ) const;
+	[[nodiscard]] virtual const glm::mat4 ProjectionMatrix() const = 0;
+	[[nodiscard]] const glm::mat4 ViewProjectionMatrix() const;
 
 protected:
 	float	m_zNear;

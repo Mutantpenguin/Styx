@@ -29,7 +29,7 @@ void CScene::DeleteEntity( const std::shared_ptr< const CEntity > &entity )
 	m_entities.erase( entity );
 }
 
-const std::shared_ptr< const CEntity > &CScene::Camera( void ) const
+const std::shared_ptr< const CEntity > &CScene::Camera() const
 {
 	return( m_cameraEntity );
 }
@@ -51,7 +51,7 @@ void CScene::Camera( const std::shared_ptr< const CEntity > &cameraEntity )
 	m_cameraEntity = cameraEntity;
 }
 
-const CColor &CScene::ClearColor( void ) const
+const CColor &CScene::ClearColor() const
 {
 	return( m_clearColor );
 }

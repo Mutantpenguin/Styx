@@ -24,10 +24,10 @@ public:
 		STEREO
 	};
 
-	format Format( void ) const;
-	float Duration( void ) const;
+	format Format() const;
+	float Duration() const;
 
-	void Reset( void );
+	void Reset();
 
 private:
 	ALuint m_bufferID;

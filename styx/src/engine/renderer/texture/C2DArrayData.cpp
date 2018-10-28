@@ -31,7 +31,7 @@ bool C2DArrayData::AddLayer( const std::shared_ptr< const CImage > &image )
 	return( true );
 }
 
-const std::vector< std::shared_ptr< const CImage > > &C2DArrayData::getLayers( void ) const
+const std::vector< std::shared_ptr< const CImage > > &C2DArrayData::getLayers() const
 {
 	return( m_layers );
 }

@@ -90,7 +90,7 @@ void CMesh::ChangeTextureAndSampler( const std::string &slotName, const std::sha
 	}
 }
 
-void CMesh::SetupMaterialTextureSlotMapping( void )
+void CMesh::SetupMaterialTextureSlotMapping()
 {
 	m_materialTextureSlotMapping.clear();
 
@@ -144,17 +144,17 @@ void CMesh::SetupMaterialTextureSlotMapping( void )
 	}
 }
 
-const std::shared_ptr< const CMaterial > &CMesh::Material( void ) const
+const std::shared_ptr< const CMaterial > &CMesh::Material() const
 {
 	return( m_material );
 }
 
-const CVAO &CMesh::VAO( void ) const
+const CVAO &CMesh::VAO() const
 {
 	return( m_vao );
 }
 
-const glm::vec3 &CMesh::BoundingSphereRadiusVector( void ) const
+const glm::vec3 &CMesh::BoundingSphereRadiusVector() const
 {
 	return( m_boundingSphereRadiusVector );
 }
@@ -164,7 +164,7 @@ glm::vec3 CMesh::CalculateBoundingSphereRadiusVector( const Primitives::SPrimiti
 	return( (*std::max_element( std::cbegin( primitive.Vertices ), std::cend( primitive.Vertices ), []( const Primitives::SVertex &a, const Primitives::SVertex &b ){ return( glm::length2( a.Position ) > glm::length2( b.Position ) ); } ) ).Position );
 }
 
-void CMesh::BindTextures( void ) const
+void CMesh::BindTextures() const
 {
 	u8 textureUnit = 0;
 	for( const auto & [ location, meshTextureSlot ] : m_materialTextureSlotMapping )

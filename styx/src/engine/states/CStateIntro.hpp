@@ -17,7 +17,7 @@ public:
 	CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface );
 	~CStateIntro();
 
-	virtual std::shared_ptr< CState > OnUpdate( void ) override;
+	virtual std::shared_ptr< CState > OnUpdate() override;
 
 private:
 	const u64 m_startTime;

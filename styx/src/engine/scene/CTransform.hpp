@@ -7,22 +7,22 @@ class CTransform final
 {
 public:
 	void Position( const glm::vec3 &position );
-	[[nodiscard]] const glm::vec3 &Position( void ) const;
+	[[nodiscard]] const glm::vec3 &Position() const;
 	
 	void Orientation( const glm::quat &orientation );
-	[[nodiscard]] const glm::quat &Orientation( void ) const;
+	[[nodiscard]] const glm::quat &Orientation() const;
 
 	void Scale( const glm::vec3 &position );
-	[[nodiscard]] const glm::vec3 &Scale( void ) const;
+	[[nodiscard]] const glm::vec3 &Scale() const;
 
 	void Direction( const glm::vec3 &direction );
-	[[nodiscard]] const glm::vec3 Direction( void ) const;
+	[[nodiscard]] const glm::vec3 Direction() const;
 
-	[[nodiscard]] glm::vec3 const Up( void ) const;
+	[[nodiscard]] glm::vec3 const Up() const;
 
 	void Rotate( const float pitchAngle, const float yawAngle, const float rollAngle );
 
-	[[nodiscard]] const glm::mat4 ViewMatrix( void ) const;
+	[[nodiscard]] const glm::mat4 ViewMatrix() const;
 
 private:
 	glm::vec3	m_position		{ 0.0f, 0.0f, 0.0f };

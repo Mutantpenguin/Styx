@@ -39,12 +39,12 @@ const std::string CLogger::LogLevelToString( e_loglevel level )
 	}
 }
 
-void CLogger::Destroy( void )
+void CLogger::Destroy()
 {
 	m_logBuffer.clear();
 }
 
-const std::string CLogger::logEntry::FormattedTime( void ) const
+const std::string CLogger::logEntry::FormattedTime() const
 {
 	const std::chrono::hours		hh		= std::chrono::duration_cast< std::chrono::hours >( m_time );
 	const std::chrono::minutes		mm		= std::chrono::duration_cast< std::chrono::minutes >( m_time % std::chrono::hours( 1 ) );

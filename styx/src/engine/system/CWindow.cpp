@@ -161,7 +161,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 	#endif
 }
 
-CWindow::~CWindow( void )
+CWindow::~CWindow()
 {
 	if( nullptr != m_SDL_GL_context )
 	{
@@ -179,7 +179,7 @@ CWindow::~CWindow( void )
 	}
 }
 
-void CWindow::Update( void ) const
+void CWindow::Update() const
 {
 	SDL_GL_SwapWindow( m_SDL_window );
 }

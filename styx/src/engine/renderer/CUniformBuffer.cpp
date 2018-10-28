@@ -21,7 +21,7 @@ void CUniformBuffer::SubData( const GLintptr offset, const GLsizei size, const v
 	glNamedBufferSubData( m_id, offset, size, data );
 }
 
-const std::string &CUniformBuffer::Source( void ) const
+const std::string &CUniformBuffer::Source() const
 {
 	return( m_source );
 }

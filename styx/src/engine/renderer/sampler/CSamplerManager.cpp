@@ -82,7 +82,7 @@ CSamplerManager::CSamplerManager( const CSettings &p_settings ) :
 	logINFO( "sampler manager was initialized" );
 }
 
-CSamplerManager::~CSamplerManager( void )
+CSamplerManager::~CSamplerManager()
 {
 	logINFO( "sampler manager is shutting down" );
 }

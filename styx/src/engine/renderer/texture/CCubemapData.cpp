@@ -52,12 +52,12 @@ bool CCubemapData::AddFace( const u8 faceNum, const std::shared_ptr< const CImag
 	return( true );
 }
 
-const std::array< std::shared_ptr< const CImage >, 6 > &CCubemapData::getFaces( void ) const
+const std::array< std::shared_ptr< const CImage >, 6 > &CCubemapData::getFaces() const
 {
 	return( m_faces );
 }
 
-bool CCubemapData::isComplete( void ) const
+bool CCubemapData::isComplete() const
 {
 	for( const std::shared_ptr< const CImage > &face : m_faces )
 	{

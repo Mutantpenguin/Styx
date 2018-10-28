@@ -12,7 +12,7 @@ public:
 
 	void SubData( const GLintptr offset, const GLsizei size, const void *data );
 
-	const std::string &Source( void ) const;
+	const std::string &Source() const;
 
 private:
 	GLuint	m_id;

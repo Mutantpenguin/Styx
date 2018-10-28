@@ -14,9 +14,9 @@ public:
 
 	bool AddFace( const u8 faceNum, const std::shared_ptr< const CImage > &image );
 
-	const std::array< std::shared_ptr< const CImage >, countCubemapFaces > &getFaces( void ) const;
+	const std::array< std::shared_ptr< const CImage >, countCubemapFaces > &getFaces() const;
 
-	bool isComplete( void ) const;
+	bool isComplete() const;
 
 private:
 	std::array< std::shared_ptr< const CImage >, countCubemapFaces > m_faces;

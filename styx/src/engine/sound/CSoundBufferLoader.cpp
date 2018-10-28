@@ -18,7 +18,7 @@ CSoundBufferLoader::CSoundBufferLoader( const CFileSystem &p_filesystem ) :
 	logINFO( "sound buffer loader was initialized" );
 }
 
-CSoundBufferLoader::~CSoundBufferLoader( void )
+CSoundBufferLoader::~CSoundBufferLoader()
 {
 	logINFO( "sound buffer loader is shutting down" );
 }

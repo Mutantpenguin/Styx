@@ -20,7 +20,7 @@ void CCameraComponent::ZNear( float zNear )
 	m_zNear = zNear;
 }
 
-float CCameraComponent::ZNear( void ) const
+float CCameraComponent::ZNear() const
 {
 	return( m_zNear );
 }
@@ -30,17 +30,17 @@ void CCameraComponent::ZFar( float zFar )
 	m_zFar = zFar;
 }
 
-float CCameraComponent::ZFar( void ) const
+float CCameraComponent::ZFar() const
 {
 	return( m_zFar );
 }
 
-const CFrustum CCameraComponent::Frustum( void ) const
+const CFrustum CCameraComponent::Frustum() const
 {
 	return( CFrustum( ViewProjectionMatrix() ) );
 }
 
-const glm::mat4 CCameraComponent::ViewProjectionMatrix( void ) const
+const glm::mat4 CCameraComponent::ViewProjectionMatrix() const
 {
 	return( ProjectionMatrix() * m_parent->Transform.ViewMatrix() );
 }

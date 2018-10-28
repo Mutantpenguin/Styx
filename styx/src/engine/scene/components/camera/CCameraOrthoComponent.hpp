@@ -15,7 +15,7 @@ public:
 	~CCameraOrthoComponent() {};
 
 public:
-	[[nodiscard]] virtual const glm::mat4 ProjectionMatrix( void ) const override;
+	[[nodiscard]] virtual const glm::mat4 ProjectionMatrix() const override;
 
 private:
 	const CSize m_size;

@@ -60,13 +60,13 @@ catch( CSettings::Exception &e )
 	throw std::exception();
 }
 
-CEngine::~CEngine( void )
+CEngine::~CEngine()
 {
 	logINFO( "engine terminated - shutting down all systems" );
 }
 
 
-void CEngine::Run( void )
+void CEngine::Run()
 {
 	mtr_init( "trace.json" );
 
@@ -148,7 +148,7 @@ void CEngine::Run( void )
 	mtr_shutdown();
 }
 
-std::string CEngine::GetVersionString( void )
+std::string CEngine::GetVersionString()
 {
 	// TODO somehow get the git revision in here?
 	return( fmt::format( "'{0}' version {1:d}.{2:>02d}.{3:d} ({4})", m_name, m_version_major, m_version_minor, m_version_patch, m_status ) );

@@ -3,7 +3,7 @@
 class CColor final
 {
 public:
-	inline CColor( void )
+	inline CColor()
 	{}
 
 	inline CColor& operator= ( const CColor &c )
@@ -33,28 +33,28 @@ public:
 	{
 	}
 
-	inline float r( void ) const
+	inline float r() const
 	{
 		return( m_r );
 	}
 
-	inline float g( void ) const
+	inline float g() const
 	{
 		return( m_g );
 	}
 
-	inline float b( void ) const
+	inline float b() const
 	{
 		return( m_b );
 	}
 
-	inline float a( void ) const
+	inline float a() const
 	{
 		return( m_a );
 	}
 
 protected:
-	inline void clamp( void )
+	inline void clamp()
 	{
 		if( m_r > 1.0f )
 		{

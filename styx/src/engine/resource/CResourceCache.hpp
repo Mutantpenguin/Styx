@@ -25,7 +25,7 @@ protected:
 		m_filesystem { p_filesystem }
 	{}
 
-	virtual ~CResourceCache( void )
+	virtual ~CResourceCache()
 	{
 		#ifdef STYX_DEBUG
 		if( !m_resourceFiles.empty() )
@@ -61,7 +61,7 @@ public:
 		return( newResource );
 	}
 
-	void CollectGarbage( void ) override final
+	void CollectGarbage() override final
 	{
 		for( auto it = std::cbegin( m_resourceFiles ); it != std::cend( m_resourceFiles ); )
 		{
@@ -76,7 +76,7 @@ public:
 		}
 	}
 
-	void Reload( void ) override final
+	void Reload() override final
 	{
 		logINFO( "reloading cache: {0}", m_name );
 

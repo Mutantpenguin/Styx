@@ -4,9 +4,9 @@
 
 namespace ComputerInfo
 {
-	std::string	OsName( void );
-	int			SystemMemoryMiB( void );
-	int			ProcessorCount( void );
-	std::string	ProcessorInfo( void );
-	std::string	CPUFeatures( void );
+	std::string	OsName();
+	int			SystemMemoryMiB();
+	int			ProcessorCount();
+	std::string	ProcessorInfo();
+	std::string	CPUFeatures();
 }

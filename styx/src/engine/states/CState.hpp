@@ -23,22 +23,22 @@ protected:
 	virtual ~CState() {};
 
 public:
-	[[nodiscard]] virtual std::shared_ptr< CState > Update( void ) final;
-	[[nodiscard]] virtual std::shared_ptr< CState > OnUpdate( void ) = 0;
+	[[nodiscard]] virtual std::shared_ptr< CState > Update() final;
+	[[nodiscard]] virtual std::shared_ptr< CState > OnUpdate() = 0;
 
-	virtual void Pause( void ) final;
-	virtual void OnPause( void ) {};
+	virtual void Pause() final;
+	virtual void OnPause() {};
 
-	virtual void Resume( void ) final;
-	virtual void OnResume( void ) {};
+	virtual void Resume() final;
+	virtual void OnResume() {};
 
-	[[nodiscard]] virtual const CScene &Scene( void ) const final;
+	[[nodiscard]] virtual const CScene &Scene() const final;
 
-	[[nodiscard]] virtual const std::string &Name( void ) const final;
+	[[nodiscard]] virtual const std::string &Name() const final;
 
-	[[nodiscard]] virtual const CFrameBuffer &FrameBuffer( void ) const final;
+	[[nodiscard]] virtual const CFrameBuffer &FrameBuffer() const final;
 
-	[[nodiscard]] virtual const CTimer &Timer( void ) const final;
+	[[nodiscard]] virtual const CTimer &Timer() const final;
 
 protected:
 	const std::string	m_name;

@@ -4,5 +4,5 @@
 
 namespace Date
 {
-	std::time_t GetCurrentDateTime( void );
+	std::time_t GetCurrentDateTime();
 }

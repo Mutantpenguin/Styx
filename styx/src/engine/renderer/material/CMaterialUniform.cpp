@@ -6,7 +6,7 @@ CMaterialUniform::CMaterialUniform( const std::string &name ) :
 	m_name { name }
 {}
 
-const std::string &CMaterialUniform::Name( void ) const
+const std::string &CMaterialUniform::Name() const
 {
 	return( m_name );
 }

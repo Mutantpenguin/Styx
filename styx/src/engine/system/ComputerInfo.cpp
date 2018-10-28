@@ -29,7 +29,7 @@
 
 namespace ComputerInfo
 {
-	std::string OsName( void )
+	std::string OsName()
 	{
 		#ifdef WIN32
 			std::string osversion = std::string( "unknown Windows" );
@@ -346,17 +346,17 @@ namespace ComputerInfo
 		return( osversion );
 	}
 
-	int SystemMemoryMiB( void )
+	int SystemMemoryMiB()
 	{
 		return( SDL_GetSystemRAM() );
 	}
 
-	int ProcessorCount( void )
+	int ProcessorCount()
 	{
 		return( SDL_GetCPUCount() );
 	}
 
-	std::string ProcessorInfo( void )
+	std::string ProcessorInfo()
 	{
 		// TODO with SDL 2.x we can use the following functions to get CPU-Information
 		// SDL_GetCPUType();
@@ -480,7 +480,7 @@ namespace ComputerInfo
 		#endif
 	}
 
-	std::string CPUFeatures( void )
+	std::string CPUFeatures()
 	{
 		std::string cpuFeatures;
 

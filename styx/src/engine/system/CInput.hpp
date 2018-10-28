@@ -24,8 +24,8 @@ private:
 	CInput& operator = ( const CInput &rhs ) = delete;
 
 public:
-	i32 inline MouseDeltaX( void ) const { return( m_dX ); }
-	i32 inline MouseDeltaY( void ) const { return( m_dY ); }
+	i32 inline MouseDeltaX() const { return( m_dX ); }
+	i32 inline MouseDeltaY() const { return( m_dY ); }
 
 	bool inline KeyDown( const u32 index ) const 			{ return( CurrentKey( index ) && !OldKey( index ) ); }
 	bool inline KeyStillDown( const u32 index ) const 	{ return( CurrentKey( index ) && OldKey( index ) ); }
@@ -41,7 +41,7 @@ private:
 	CInput( const CSettings &settings, const CFileSystem &filesystem );
 	~CInput();
 
-	void Update( void );
+	void Update();
 
 private:
 	i32 m_keyCount	{ 0 };

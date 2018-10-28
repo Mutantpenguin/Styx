@@ -72,7 +72,7 @@ catch( COpenGlAdapter::Exception &e )
 	throw Exception();
 }
 
-CRenderer::~CRenderer( void )
+CRenderer::~CRenderer()
 {
 	logINFO( "renderer is shutting down" );
 
@@ -80,7 +80,7 @@ CRenderer::~CRenderer( void )
 	m_resourceCacheManager.DeRegister( m_textureCache );
 }
 
-void CRenderer::CreateUniformBuffers( void )
+void CRenderer::CreateUniformBuffers()
 {
 	{
 		const std::string cameraBody =	"vec3 position;" \
@@ -145,12 +145,12 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CEntity > &ca
 	m_uboCamera->SubData( offset,	sizeof( viewProjectionMatrix ),	glm::value_ptr( viewProjectionMatrix ) );
 }
 
-CSamplerManager &CRenderer::SamplerManager( void )
+CSamplerManager &CRenderer::SamplerManager()
 {
 	return( m_samplerManager );
 }
 
-COpenGlAdapter &CRenderer::OpenGlAdapter( void )
+COpenGlAdapter &CRenderer::OpenGlAdapter()
 {
 	return( m_OpenGlAdapter );
 }

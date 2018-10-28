@@ -13,32 +13,32 @@ CImage::CImage( const CSize &size, const CSize &originalSize, bool alpha, u8 bpp
 	assert( m_imageData );
 }
 
-const CSize &CImage::Size( void ) const
+const CSize &CImage::Size() const
 {
 	return( m_size );
 }
 
-const CSize &CImage::OriginalSize( void ) const
+const CSize &CImage::OriginalSize() const
 {
 	return( m_originalSize );
 }
 
-bool CImage::HasAlpha( void ) const
+bool CImage::HasAlpha() const
 {
 	return( m_alpha );
 }
 
-u8 CImage::BPP( void ) const
+u8 CImage::BPP() const
 {
 	return( m_bpp );
 }
 
-u32 CImage::Pitch( void ) const
+u32 CImage::Pitch() const
 {
 	return( m_pitch );
 }
 
-const u8 *CImage::RawPixelData( void ) const
+const u8 *CImage::RawPixelData() const
 {
 	return( m_imageData->data() );
 }

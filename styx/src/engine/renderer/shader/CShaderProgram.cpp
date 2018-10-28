@@ -15,42 +15,42 @@ CShaderProgram::~CShaderProgram()
 	}
 }
 
-void CShaderProgram::Use( void ) const
+void CShaderProgram::Use() const
 {
 	CGLState::UseProgram( m_id );
 }
 
-const GLuint &CShaderProgram::OpenGLID( void ) const
+const GLuint &CShaderProgram::OpenGLID() const
 {
 	return( m_id );
 }
 
-const std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredSamplers( void ) const
+const std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredSamplers() const
 {
 	return( m_requiredSamplers );
 }
 
-const std::vector< std::pair< GLint, const EEngineUniform > > &CShaderProgram::RequiredEngineUniforms( void ) const
+const std::vector< std::pair< GLint, const EEngineUniform > > &CShaderProgram::RequiredEngineUniforms() const
 {
 	return( m_requiredEngineUniforms );
 }
 
-const std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredMaterialUniforms( void ) const
+const std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredMaterialUniforms() const
 {
 	return( m_requiredMaterialUniforms );
 }
 
-std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredSamplers( void )
+std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredSamplers()
 {
 	return( m_requiredSamplers );
 }
 
-std::vector< std::pair< GLint, const EEngineUniform > > &CShaderProgram::RequiredEngineUniforms( void )
+std::vector< std::pair< GLint, const EEngineUniform > > &CShaderProgram::RequiredEngineUniforms()
 {
 	return( m_requiredEngineUniforms );
 }
 
-std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredMaterialUniforms( void )
+std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredMaterialUniforms()
 {
 	return( m_requiredMaterialUniforms );
 }

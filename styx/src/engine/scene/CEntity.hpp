@@ -20,7 +20,7 @@ public:
 	explicit CEntity( const std::string &name, const u16 sceneId );
 	~CEntity();
 
-	const std::string &Name( void ) const;
+	const std::string &Name() const;
 
 	template< typename T, typename... Args >
 	std::shared_ptr< T > Add( Args... args )

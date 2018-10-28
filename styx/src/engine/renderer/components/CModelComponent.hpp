@@ -18,7 +18,7 @@ public:
 	static const u16 Index = static_cast<u16>( EComponentIndex::MODEL );
 
 	void Mesh( const std::shared_ptr< const CMesh > &mesh );
-	const std::shared_ptr< const CMesh > Mesh( void ) const;
+	const std::shared_ptr< const CMesh > Mesh() const;
 
 private:
 	std::shared_ptr< const CMesh > m_mesh;

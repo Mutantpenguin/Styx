@@ -13,7 +13,7 @@ public:
 	~CCameraFreeComponent() {};
 
 	void FOV( float fov );
-	[[nodiscard]] float FOV( void ) const;
+	[[nodiscard]] float FOV() const;
 
 	void	MoveForward( const float distance );
 	void	MoveBackward( const float distance );
@@ -24,7 +24,7 @@ public:
 
 	void Rotate( const float pitchAngle, const float yawAngle );
 
-	[[nodiscard]] virtual const glm::mat4 ProjectionMatrix( void ) const override;
+	[[nodiscard]] virtual const glm::mat4 ProjectionMatrix() const override;
 
 private:
 	const float	m_aspectRatio;

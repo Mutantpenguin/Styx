@@ -18,17 +18,17 @@ public:
 		TEX_2D_ARRAY
 	};
 
-	CTexture( void );
-	~CTexture( void );
+	CTexture();
+	~CTexture();
 
 	void BindToUnit( const GLuint unit ) const;
 
-	TextureType Type( void ) const;
+	TextureType Type() const;
 	void Type( const TextureType type );
 
-	void Reset( void );
+	void Reset();
 
-	GLuint &OpenGLID( void );
+	GLuint &OpenGLID();
 
 private:
 	TextureType m_type;

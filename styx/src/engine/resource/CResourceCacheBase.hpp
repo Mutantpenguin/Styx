@@ -11,13 +11,13 @@ private:
 
 protected:
 	explicit CResourceCacheBase( const std::string &name );
-	virtual ~CResourceCacheBase( void );
+	virtual ~CResourceCacheBase();
 
 public:
-	virtual void CollectGarbage( void ) = 0;
-	virtual void Reload( void ) = 0;
+	virtual void CollectGarbage() = 0;
+	virtual void Reload() = 0;
 
-	const std::string &Name( void );
+	const std::string &Name();
 
 protected:
 	const std::string m_name;

@@ -13,7 +13,7 @@ CEntity::~CEntity()
 {
 }
 
-const std::string &CEntity::Name( void ) const
+const std::string &CEntity::Name() const
 {
 	return( m_name );
 }

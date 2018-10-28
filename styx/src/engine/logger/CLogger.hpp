@@ -68,7 +68,7 @@ public:
 		const e_loglevel				m_logLevel;
 		const std::string				m_message;
 
-		const std::string FormattedTime( void ) const;
+		const std::string FormattedTime() const;
 	};
 
 	using TLogBuffer = std::vector< std::unique_ptr< const logEntry > >;
@@ -78,7 +78,7 @@ public:
 		friend class CLogger;
 
 	public:
-		virtual ~CLogTarget( void ) {};
+		virtual ~CLogTarget() {};
 
 	protected:
 		virtual void Log( const std::unique_ptr< const logEntry > &entry ) = 0;
@@ -90,7 +90,7 @@ public:
 		m_logTargets.emplace_back( std::make_unique< T >( m_logBuffer, args... ) );
 	}
 
-	static void Destroy( void );
+	static void Destroy();
 
 	static const std::string LogLevelToString( e_loglevel level );
 

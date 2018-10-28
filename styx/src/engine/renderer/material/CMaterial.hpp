@@ -10,30 +10,30 @@
 class CMaterial final
 {
 public:
-	CMaterial( void );
-	~CMaterial( void );
+	CMaterial();
+	~CMaterial();
 
-	void Setup( void ) const;
+	void Setup() const;
 
-	bool Blending( void ) const;
+	bool Blending() const;
 	void EnableBlending( const GLenum blendSrc, const GLenum blendDst );
-	void DisableBlending( void );
+	void DisableBlending();
 
 	void EnableCulling( const GLenum mode );
-	void DisableCulling( void );
+	void DisableCulling();
 
 	void PolygonMode( const GLenum polygonMode );
 
-	const std::shared_ptr< const CShaderProgram > &Shader( void ) const;
+	const std::shared_ptr< const CShaderProgram > &Shader() const;
 	void Shader( const std::shared_ptr< const CShaderProgram > &shader );
 
-	const std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &MaterialUniforms( void ) const;
-	std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &MaterialUniforms( void );
+	const std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &MaterialUniforms() const;
+	std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &MaterialUniforms();
 
-	const std::string &Name( void ) const;
+	const std::string &Name() const;
 	void Name( const std::string &name );
 
-	void Reset( void );
+	void Reset();
 
 private:
 
