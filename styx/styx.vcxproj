@@ -106,9 +106,7 @@
     <ClCompile Include="src\engine\system\CWindow.cpp" />
     <ClCompile Include="src\engine\system\Main.cpp" />
     <ClCompile Include="src\ext\fmt\format.cc" />
-    <ClCompile Include="src\ext\fmt\ostream.cc" />
     <ClCompile Include="src\ext\fmt\posix.cc" />
-    <ClCompile Include="src\ext\fmt\printf.cc" />
     <ClCompile Include="src\ext\imgui\imgui.cpp" />
     <ClCompile Include="src\ext\imgui\imgui_draw.cpp" />
     <ClCompile Include="src\ext\minitrace\minitrace.c" />

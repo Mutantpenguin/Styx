@@ -89,9 +89,6 @@
     <ClCompile Include="src\engine\helper\String.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ext\fmt\printf.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ext\fmt\posix.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -99,9 +96,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ext\physfs\physfs_platform_haiku.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\fmt\ostream.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\math\Math.cpp">
