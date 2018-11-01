@@ -147,6 +147,7 @@
         <File Name="src/engine/helper/CSize.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="scene">
+        <File Name="src/engine/scene/CWorld.cpp"/>
         <VirtualDirectory Name="components">
           <File Name="src/engine/scene/components/CBaseComponent.hpp"/>
           <File Name="src/engine/scene/components/EComponentIndex.hpp"/>
