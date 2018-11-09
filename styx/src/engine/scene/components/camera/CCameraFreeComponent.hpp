@@ -1,5 +1,7 @@
 #pragma once
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/scene/components/camera/CCameraComponent.hpp"
 
 class CCameraFreeComponent final : public CCameraComponent
@@ -9,25 +11,25 @@ private:
 	CCameraFreeComponent& operator=(const CCameraFreeComponent& rhs);
 
 public:
-	CCameraFreeComponent( const std::shared_ptr< CEntity > &parent, float aspectRatio, float fov, float zNear, float zFar );
+	CCameraFreeComponent( const std::shared_ptr< CEntity > &parent, const f16 aspectRatio, const f16 fov, const f16 zNear, const f16 zFar );
 	~CCameraFreeComponent() {};
 
-	void FOV( float fov );
-	[[nodiscard]] float FOV() const;
+	void FOV( const f16 fov );
+	[[nodiscard]] f16 FOV() const;
 
-	void	MoveForward( const float distance );
-	void	MoveBackward( const float distance );
-	void	MoveUp( const float distance );
-	void	MoveDown( const float distance );
-	void	MoveLeft( const float distance );
-	void	MoveRight( const float distance );
+	void	MoveForward( const f16 distance );
+	void	MoveBackward( const f16 distance );
+	void	MoveUp( const f16 distance );
+	void	MoveDown( const f16 distance );
+	void	MoveLeft( const f16 distance );
+	void	MoveRight( const f16 distance );
 
-	void Rotate( const float pitchAngle, const float yawAngle );
+	void Rotate( const f16 pitchAngle, const f16 yawAngle );
 
 	[[nodiscard]] virtual const glm::mat4 ProjectionMatrix() const override;
 
 private:
-	const float	m_aspectRatio;
+	const f16	m_aspectRatio;
 
-	float	m_fov;
+	f16	m_fov;
 };

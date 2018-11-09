@@ -124,7 +124,7 @@ void CEngine::Run()
 		m_engineInterface.ResourceCacheManager.CollectGarbage();
 
 		#ifdef STYX_DEBUG
-			const float deltaTime = ( renderTimer.Time() - lastTime );
+			const u64 deltaTime = ( renderTimer.Time() - lastTime );
 			if( deltaTime > m_settings.engine.tick )
 			{
 				// a frame takes more time than m_settings.engine.tick, so we have fewer than 30fps

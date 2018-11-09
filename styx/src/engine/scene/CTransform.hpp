@@ -3,6 +3,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
+#include "src/engine/helper/Types.hpp"
+
 class CTransform final
 {
 public:
@@ -20,7 +22,7 @@ public:
 
 	[[nodiscard]] glm::vec3 const Up() const;
 
-	void Rotate( const float pitchAngle, const float yawAngle, const float rollAngle );
+	void Rotate( const f16 pitchAngle, const f16 yawAngle, const f16 rollAngle );
 
 	[[nodiscard]] const glm::mat4 ViewMatrix() const;
 

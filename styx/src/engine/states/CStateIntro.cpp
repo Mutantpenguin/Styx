@@ -55,8 +55,8 @@ std::shared_ptr< CState > CStateIntro::OnUpdate()
 	entityPosition.y = elapsedTime / m_introDuration;
 	m_logoEntity->Transform.Position( entityPosition );
 
-	const float fadeDuration = m_introDuration * 0.66666f ;
-	const float colorComponent = ( fadeDuration - elapsedTime ) / fadeDuration;
+	const f16 fadeDuration = m_introDuration * 0.66666f ;
+	const f16 colorComponent = ( fadeDuration - elapsedTime ) / fadeDuration;
 	m_scene.ClearColor( CColor( colorComponent, colorComponent, colorComponent, colorComponent ) );
 
 	if( ( elapsedTime > m_introDuration )

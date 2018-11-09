@@ -35,12 +35,12 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		auto bgMeshPrimitive = Primitives::quad;
 		bgMeshPrimitive.Vertices[ 0 ].Position.x = 0.0f;
 		bgMeshPrimitive.Vertices[ 0 ].Position.y = 0.0f;
-		bgMeshPrimitive.Vertices[ 1 ].Position.x = static_cast< float >( windowSize.width );
+		bgMeshPrimitive.Vertices[ 1 ].Position.x = static_cast< f16 >( windowSize.width );
 		bgMeshPrimitive.Vertices[ 1 ].Position.y = 0.0f;
 		bgMeshPrimitive.Vertices[ 2 ].Position.x = 0.0f;
-		bgMeshPrimitive.Vertices[ 2 ].Position.y = static_cast< float >( windowSize.height );
-		bgMeshPrimitive.Vertices[ 3 ].Position.x = static_cast< float >( windowSize.width );
-		bgMeshPrimitive.Vertices[ 3 ].Position.y = static_cast< float >( windowSize.height );
+		bgMeshPrimitive.Vertices[ 2 ].Position.y = static_cast< f16 >( windowSize.height );
+		bgMeshPrimitive.Vertices[ 3 ].Position.x = static_cast< f16 >( windowSize.width );
+		bgMeshPrimitive.Vertices[ 3 ].Position.y = static_cast< f16 >( windowSize.height );
 
 		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/menu/background.jpg" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
@@ -53,8 +53,8 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	{
 		const auto material = resourceCache.GetResource< CMaterial >( "materials/standard_blend.mat" );
 
-		const float halfTitleWidth = windowSize.width * 0.75f / 2;
-		const float halfTitleHeight = halfTitleWidth / 4.0f;
+		const f16 halfTitleWidth = windowSize.width * 0.75f / 2;
+		const f16 halfTitleHeight = halfTitleWidth / 4.0f;
 
 		auto titleMeshPrimitive = Primitives::quad;
 		titleMeshPrimitive.Vertices[ 0 ].Position.x = -halfTitleWidth;
@@ -75,8 +75,8 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		bgTitle->Add<CModelComponent>( bgTitleMesh );
 	}
 
-	const float halfButtonWidth = windowSize.width / 4 / 2;
-	const float halfButtonHeight = windowSize.height / 6 / 2;
+	const f16 halfButtonWidth = windowSize.width / 4 / 2;
+	const f16 halfButtonHeight = windowSize.height / 6 / 2;
 
 	auto buttonMeshPrimitive = Primitives::quad;
 	buttonMeshPrimitive.Vertices[ 0 ].Position.x = -halfButtonWidth;
@@ -154,12 +154,12 @@ std::shared_ptr<CState> CStateMainMenu::OnUpdate()
 	}
 
 	{
-		const float max = 1.05f;
-		const float min = 1.0f;
+		const f16 max = 1.05f;
+		const f16 min = 1.0f;
 
-		const float halfRange = (max - min) / 2.0f;
+		const f16 halfRange = (max - min) / 2.0f;
 
-		const float buttonPulse = min + halfRange + sin( m_timer.Time() / 100000.0f ) * halfRange;
+		const f16 buttonPulse = min + halfRange + sin( m_timer.Time() / 100000.0f ) * halfRange;
 
 		const glm::vec3 buttonPulseVec3 = { buttonPulse, buttonPulse, buttonPulse };
 

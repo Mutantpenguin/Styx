@@ -52,7 +52,7 @@ glm::vec3 const CTransform::Up() const
 	return( CWorld::Y * m_orientation );
 }
 
-void CTransform::Rotate( const float pitchAngle, const float yawAngle, const float rollAngle )
+void CTransform::Rotate( const f16 pitchAngle, const f16 yawAngle, const f16 rollAngle )
 {
 	m_orientation = glm::angleAxis( glm::radians( pitchAngle ), CWorld::X ) * m_orientation;
 	m_orientation = glm::angleAxis( glm::radians( yawAngle ), CWorld::Y ) * m_orientation;

@@ -265,7 +265,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 														&&
 														value1.is_number_float() )
 													{
-														material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOATVEC2 >( interface.name, glm::vec2( value0.get<float>(), value1.get<float>() ) ) ) );
+														material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOATVEC2 >( interface.name, glm::vec2( value0.get<f16>(), value1.get<f16>() ) ) ) );
 													}
 													else
 													{
@@ -287,7 +287,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 														&&
 														value2.is_number_float() )
 													{
-														material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOATVEC3 >( interface.name, glm::vec3( value0.get<float>(), value1.get<float>(), value2.get<float>() ) ) ) );
+														material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOATVEC3 >( interface.name, glm::vec3( value0.get<f16>(), value1.get<f16>(), value2.get<f16>() ) ) ) );
 													}
 													else
 													{
@@ -312,7 +312,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 														&&
 														value3.is_number_float() )
 													{
-														material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOATVEC4 >( interface.name, glm::vec4( value0.get<float>(), value1.get<float>(), value2.get<float>(), value3.get<float>() ) ) ) );
+														material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOATVEC4 >( interface.name, glm::vec4( value0.get<f16>(), value1.get<f16>(), value2.get<f16>(), value3.get<f16>() ) ) ) );
 													}
 													else
 													{

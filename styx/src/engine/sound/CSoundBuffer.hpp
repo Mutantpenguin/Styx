@@ -25,7 +25,7 @@ public:
 	};
 
 	format Format() const;
-	float Duration() const;
+	f16 Duration() const;
 
 	void Reset();
 
@@ -33,5 +33,5 @@ private:
 	ALuint m_bufferID;
 
 	format	m_format;
-	float	m_duration;
+	f16		m_duration;
 };

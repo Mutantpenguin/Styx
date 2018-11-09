@@ -282,7 +282,7 @@ std::shared_ptr< CState > CStateGame::OnUpdate()
 		return( std::make_shared< CStatePause >( m_filesystem, m_settings, m_engineInterface, shared_from_this() ) );
 	}
 
-	const float spp = 2.0f * m_settings.engine.tick / 1000000;
+	const f16 spp = 2.0f * m_settings.engine.tick / 1000000;
 
 	// TODO maybe create a way for systems to hook into the inputsystem, so we can provide globally active keyboard-shortcuts?
 
@@ -347,7 +347,7 @@ std::shared_ptr< CState > CStateGame::OnUpdate()
 	 * move camera
 	 */
 
-	const float ctrlPressedMult = input.KeyStillDown( SDL_SCANCODE_LCTRL ) ? 1 : 10;
+	const f16 ctrlPressedMult = input.KeyStillDown( SDL_SCANCODE_LCTRL ) ? 1 : 10;
 
 	const auto &cameraFree = m_cameraEntity->Get<CCameraFreeComponent>();
 

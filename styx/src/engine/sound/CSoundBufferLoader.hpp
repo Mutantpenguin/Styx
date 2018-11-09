@@ -22,7 +22,7 @@ private:
 		std::vector< i16 >		buffer;
 		CSoundBuffer::format	format;
 		u32						frequency;
-		float					duration;
+		f16						duration;
 	};
 
 private:

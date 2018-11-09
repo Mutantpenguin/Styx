@@ -8,29 +8,29 @@
 #include "src/engine/scene/CWorld.hpp"
 
 
-CCameraComponent::CCameraComponent( const std::shared_ptr< CEntity > &parent, float zNear, float zFar ) :
+CCameraComponent::CCameraComponent( const std::shared_ptr< CEntity > &parent, const f16 zNear, const f16 zFar ) :
 	CBaseComponent( parent ),
 	m_zNear { zNear },
 	m_zFar { zFar }
 {
 }
 
-void CCameraComponent::ZNear( float zNear )
+void CCameraComponent::ZNear( const f16 zNear )
 {
 	m_zNear = zNear;
 }
 
-float CCameraComponent::ZNear() const
+f16 CCameraComponent::ZNear() const
 {
 	return( m_zNear );
 }
 
-void CCameraComponent::ZFar( float zFar )
+void CCameraComponent::ZFar( const f16 zFar )
 {
 	m_zFar = zFar;
 }
 
-float CCameraComponent::ZFar() const
+f16 CCameraComponent::ZFar() const
 {
 	return( m_zFar );
 }

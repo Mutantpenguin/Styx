@@ -1,5 +1,7 @@
 #pragma once
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/states/CState.hpp"
 
 #include "src/engine/sound/CSoundSource.hpp"
@@ -19,8 +21,8 @@ public:
 private:
 	std::shared_ptr< CEntity > m_cameraEntity;
 
-	float	m_rotx_ps = 0.0f;
-	float	m_roty_ps = 0.0f;
+	f16	m_rotx_ps = 0.0f;
+	f16	m_roty_ps = 0.0f;
 
 	std::shared_ptr< CEntity >	m_movableEntity;
 	std::shared_ptr< CEntity >	m_skyboxEntity;

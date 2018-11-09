@@ -1,5 +1,7 @@
 #pragma once
 
+#include "src/engine/helper/Types.hpp"
+
 class CColor final
 {
 public:
@@ -16,7 +18,7 @@ public:
 		return( *this );
 	}
 
-	inline CColor( float pr, float pg, float pb, float pa ) :
+	inline CColor( f16 pr, f16 pg, f16 pb, f16 pa ) :
 		m_r( pr ),
 		m_g( pg ),
 		m_b( pb ),
@@ -33,22 +35,22 @@ public:
 	{
 	}
 
-	inline float r() const
+	inline f16 r() const
 	{
 		return( m_r );
 	}
 
-	inline float g() const
+	inline f16 g() const
 	{
 		return( m_g );
 	}
 
-	inline float b() const
+	inline f16 b() const
 	{
 		return( m_b );
 	}
 
-	inline float a() const
+	inline f16 a() const
 	{
 		return( m_a );
 	}
@@ -94,8 +96,8 @@ protected:
 	}
 
 	// range 0.0 - 1.0
-	float	m_r { 0.0f };
-	float	m_g { 0.0f };
-	float	m_b { 0.0f };
-	float	m_a { 0.0f };
+	f16	m_r { 0.0f };
+	f16	m_g { 0.0f };
+	f16	m_b { 0.0f };
+	f16	m_a { 0.0f };
 };

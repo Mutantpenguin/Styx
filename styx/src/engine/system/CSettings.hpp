@@ -23,11 +23,11 @@ public:
 		struct s_Window final
 		{
 			CSize	size			{ 640, 480 };
-			float	aspect_ratio	{ static_cast< float >( size.width ) / static_cast< float >( size.height ) };
+			f16		aspect_ratio	{ static_cast< f16 >( size.width ) / static_cast< f16 >( size.height ) };
 			u8		display			{ 0 };
 			bool	fullscreen		{ false };
 			bool	vsync			{ true };
-			float	gamma			{ 1.0f };
+			f16		gamma			{ 1.0f };
 			bool	antialiasing	{ false };
 		} window;
 
@@ -40,15 +40,15 @@ public:
 		struct s_Screenshot final
 		{
 			std::string	format			{ "png" };
-			float		scale_factor	{ 1.0f };
+			f16			scale_factor	{ 1.0f };
 		} screenshot;
 
 	} renderer;
 
 	struct s_Sound final
 	{
-		float	volume { 1.0f };
-		u16		buffer_size	{ 4096 };
+		f16	volume { 1.0f };
+		u16	buffer_size	{ 4096 };
 	} sound;
 
 	struct s_Input final
