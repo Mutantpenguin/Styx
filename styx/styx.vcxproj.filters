@@ -628,5 +628,8 @@
     <ClInclude Include="src\engine\helper\Path.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\helper\Types.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -146,6 +146,7 @@
     <ClInclude Include="src\engine\helper\image\ImageHandler.hpp" />
     <ClInclude Include="src\engine\helper\Path.hpp" />
     <ClInclude Include="src\engine\helper\String.hpp" />
+    <ClInclude Include="src\engine\helper\Types.hpp" />
     <ClInclude Include="src\engine\logger\CLogger.hpp" />
     <ClInclude Include="src\engine\logger\CLogTargetConsole.hpp" />
     <ClInclude Include="src\engine\logger\CLogTargetFile.hpp" />
