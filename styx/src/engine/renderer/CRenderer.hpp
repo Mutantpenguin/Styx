@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/system/CTimer.hpp"
 
 #include "src/engine/renderer/model/CMesh.hpp"
@@ -54,7 +56,7 @@ public:
 private:
 	struct MeshInstance
 	{
-		MeshInstance( const CMesh * p_mesh, const CTransform &p_transform, float p_viewDepth ) :
+		MeshInstance( const CMesh * p_mesh, const CTransform &p_transform, f16 p_viewDepth ) :
 			mesh { p_mesh },
 			Transform { p_transform },
 			viewDepth { p_viewDepth }
@@ -62,7 +64,7 @@ private:
 
 		const CMesh * mesh;
 		CTransform Transform;
-		float viewDepth;
+		f16 viewDepth;
 	};
 
 	using TRenderBucket	= std::vector< MeshInstance >;

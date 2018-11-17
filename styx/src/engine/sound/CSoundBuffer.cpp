@@ -14,7 +14,7 @@ CSoundBuffer::format CSoundBuffer::Format() const
 	return( m_format );
 }
 
-float CSoundBuffer::Duration() const
+f16 CSoundBuffer::Duration() const
 {
 	return( m_duration );
 }

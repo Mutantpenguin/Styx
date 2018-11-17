@@ -13,16 +13,16 @@
 class CCameraComponent : public CBaseComponent
 {
 public:
-	CCameraComponent( const std::shared_ptr< CEntity > &parent, float zNear, float zFar );
+	CCameraComponent( const std::shared_ptr< CEntity > &parent, const f16 zNear, const f16 zFar );
 	virtual ~CCameraComponent() {};
 
 	static const u16 Index = static_cast<u16>( EComponentIndex::CAMERA );
 
-	void	ZNear( float zNear );
-	[[nodiscard]] float	ZNear() const;
+	void	ZNear( const f16 zNear );
+	[[nodiscard]] f16 ZNear() const;
 
-	void	ZFar( float zFar );
-	[[nodiscard]]float	ZFar() const;
+	void	ZFar( const f16 zFar );
+	[[nodiscard]] f16 ZFar() const;
 
 	[[nodiscard]] const CFrustum Frustum() const;
 
@@ -30,6 +30,6 @@ public:
 	[[nodiscard]] const glm::mat4 ViewProjectionMatrix() const;
 
 protected:
-	float	m_zNear;
-	float	m_zFar;
+	f16	m_zNear;
+	f16	m_zFar;
 };

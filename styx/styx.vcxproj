@@ -106,9 +106,7 @@
     <ClCompile Include="src\engine\system\CWindow.cpp" />
     <ClCompile Include="src\engine\system\Main.cpp" />
     <ClCompile Include="src\ext\fmt\format.cc" />
-    <ClCompile Include="src\ext\fmt\ostream.cc" />
     <ClCompile Include="src\ext\fmt\posix.cc" />
-    <ClCompile Include="src\ext\fmt\printf.cc" />
     <ClCompile Include="src\ext\imgui\imgui.cpp" />
     <ClCompile Include="src\ext\imgui\imgui_draw.cpp" />
     <ClCompile Include="src\ext\minitrace\minitrace.c" />
@@ -148,6 +146,7 @@
     <ClInclude Include="src\engine\helper\image\ImageHandler.hpp" />
     <ClInclude Include="src\engine\helper\Path.hpp" />
     <ClInclude Include="src\engine\helper\String.hpp" />
+    <ClInclude Include="src\engine\helper\Types.hpp" />
     <ClInclude Include="src\engine\logger\CLogger.hpp" />
     <ClInclude Include="src\engine\logger\CLogTargetConsole.hpp" />
     <ClInclude Include="src\engine\logger\CLogTargetFile.hpp" />

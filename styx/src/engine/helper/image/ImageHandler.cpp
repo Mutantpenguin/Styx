@@ -130,7 +130,7 @@ namespace ImageHandler
 		}
 	}
 
-	bool Save( const CFileSystem &p_filesystem, const std::shared_ptr< const CImage > &image, const float scale_factor, const std::string &format, const std::string &path )
+	bool Save( const CFileSystem &p_filesystem, const std::shared_ptr< const CImage > &image, const f16 scale_factor, const std::string &format, const std::string &path )
 	{
 		FIBITMAP *bitmap = FreeImage_ConvertFromRawBits( const_cast< BYTE* >( image->RawPixelData() ), image->Size().width, image->Size().height, image->Size().width * 3, image->BPP(), FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK );
 		if( nullptr == bitmap )

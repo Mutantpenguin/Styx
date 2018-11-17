@@ -25,7 +25,7 @@ friend class CEngineInterface;
 
 public:
 	void	SetListener( const CTransform &transform );
-	void	SetVolume( const float volume );
+	void	SetVolume( const f16 volume );
 
 	class Exception: public std::exception
 	{

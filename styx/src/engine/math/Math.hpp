@@ -8,7 +8,7 @@ namespace Math
 	bool	IsPowerOfTwo( const i32 number );
 
 	/** Creates a random float between min and max. */
-	float	frand( const float min, const float max );
+	f16	frand( const f16 min, const f16 max );
 
 	/** Creates a random 32bit integer between min and max. */
 	i32	irand( const i32 min, const i32 max );

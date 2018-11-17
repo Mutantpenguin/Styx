@@ -59,7 +59,7 @@ public:
 	};
 
 	template<typename... T_Components>
-	void EachInRadius( const glm::vec3 &position, const float radius, std::function<void( const std::shared_ptr<const CEntity>& )> lambda2 ) const
+	void EachInRadius( const glm::vec3 &position, const f16 radius, std::function<void( const std::shared_ptr<const CEntity>& )> lambda2 ) const
 	{
 		const auto radiusSquared = std::pow( radius, 2 );
 

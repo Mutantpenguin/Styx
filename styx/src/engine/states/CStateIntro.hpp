@@ -24,7 +24,7 @@ private:
 
 	const std::shared_ptr< const CSoundSource > m_introSound;
 
-	const float m_introDuration;
+	const f16 m_introDuration;
 
 	std::shared_ptr< CEntity > m_logoEntity;
 };

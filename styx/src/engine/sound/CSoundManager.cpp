@@ -73,9 +73,9 @@ void CSoundManager::SetListener( const CTransform &transform )
 	alListenerfv( AL_ORIENTATION, orientation.data() );
 }
 
-void CSoundManager::SetVolume( const float volume )
+void CSoundManager::SetVolume( const f16 volume )
 {
-	float newVolume = volume;
+	f16 newVolume = volume;
 
 	if( volume < 0.0f )
 	{

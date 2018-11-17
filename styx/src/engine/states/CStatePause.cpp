@@ -37,12 +37,12 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		auto bgMeshPrimitive = Primitives::quad;
 		bgMeshPrimitive.Vertices[ 0 ].Position.x = 0.0f;
 		bgMeshPrimitive.Vertices[ 0 ].Position.y = 0.0f;
-		bgMeshPrimitive.Vertices[ 1 ].Position.x = static_cast< float >( windowSize.width );
+		bgMeshPrimitive.Vertices[ 1 ].Position.x = static_cast< f16 >( windowSize.width );
 		bgMeshPrimitive.Vertices[ 1 ].Position.y = 0.0f;
 		bgMeshPrimitive.Vertices[ 2 ].Position.x = 0.0f;
-		bgMeshPrimitive.Vertices[ 2 ].Position.y = static_cast< float >( windowSize.height );
-		bgMeshPrimitive.Vertices[ 3 ].Position.x = static_cast< float >( windowSize.width );
-		bgMeshPrimitive.Vertices[ 3 ].Position.y = static_cast< float >( windowSize.height );
+		bgMeshPrimitive.Vertices[ 2 ].Position.y = static_cast< f16 >( windowSize.height );
+		bgMeshPrimitive.Vertices[ 3 ].Position.x = static_cast< f16 >( windowSize.width );
+		bgMeshPrimitive.Vertices[ 3 ].Position.y = static_cast< f16 >( windowSize.height );
 
 		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/pause/bg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
@@ -53,10 +53,10 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	}
 
 	{
-		const float halfPauseElementsWidth = windowSize.width * 0.5f / 2;
+		const f16 halfPauseElementsWidth = windowSize.width * 0.5f / 2;
 
-		const float halfPauseTextHeight = halfPauseElementsWidth / 4.0f;
-		const float halfScreenshotHeight = ( halfPauseElementsWidth / windowSize.width ) * windowSize.height;
+		const f16 halfPauseTextHeight = halfPauseElementsWidth / 4.0f;
+		const f16 halfScreenshotHeight = ( halfPauseElementsWidth / windowSize.width ) * windowSize.height;
 
 		{
 			auto pauseTextMeshPrimitive = Primitives::quad;

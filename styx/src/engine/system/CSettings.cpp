@@ -66,7 +66,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 					renderer.window.size.height = height->get<u32>();
 				}
 
-				renderer.window.aspect_ratio = static_cast< float >( renderer.window.size.width ) / static_cast< float >( renderer.window.size.height );
+				renderer.window.aspect_ratio = static_cast< f16 >( renderer.window.size.width ) / static_cast< f16 >( renderer.window.size.height );
 
 				const auto display = window_root->find( "display" );
 				if( window_root->end() == display )
@@ -105,7 +105,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 				}
 				else
 				{
-					renderer.window.gamma = gamma->get<float>();
+					renderer.window.gamma = gamma->get<f16>();
 				}
 
 				const auto antialiasing = window_root->find( "antialiasing" );
@@ -171,7 +171,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 				}
 				else
 				{
-					renderer.screenshot.scale_factor = scale_factor->get<float>();
+					renderer.screenshot.scale_factor = scale_factor->get<f16>();
 				}
 			}
 		}
@@ -190,7 +190,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 			}
 			else
 			{
-				sound.volume = volume->get<float>();
+				sound.volume = volume->get<f16>();
 			}
 
 			const auto buffer_size = sound_root->find( "buffer_size" );

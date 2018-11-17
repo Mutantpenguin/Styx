@@ -9,9 +9,9 @@ namespace Math
 		return( ( number & ( number - 1 ) ) == 0 );
 	}
 
-	float frand( const float min, const float max )
+	f16 frand( const f16 min, const f16 max )
 	{
-		return( min + ( static_cast< float >( std::rand() ) / static_cast< float >( RAND_MAX ) ) * ( max - min ) );
+		return( min + ( static_cast< f16 >( std::rand() ) / static_cast< f16 >( RAND_MAX ) ) * ( max - min ) );
 	}
 
 	i32 irand( const i32 min, const i32 max )

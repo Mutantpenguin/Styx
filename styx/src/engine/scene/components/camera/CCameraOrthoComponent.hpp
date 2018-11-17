@@ -1,5 +1,7 @@
 #pragma once
 
+#include "src/engine/helper/Types.hpp"
+
 #include "src/engine/helper/CSize.hpp"
 
 #include "src/engine/scene/components/camera/CCameraComponent.hpp"
@@ -11,7 +13,7 @@ private:
 	CCameraOrthoComponent& operator=( const CCameraOrthoComponent& rhs );
 
 public:
-	CCameraOrthoComponent( const std::shared_ptr< CEntity > &parent, const CSize &size, float zNear, float zFar );
+	CCameraOrthoComponent( const std::shared_ptr< CEntity > &parent, const CSize &size, const f16 zNear, const f16 zFar );
 	~CCameraOrthoComponent() {};
 
 public:
