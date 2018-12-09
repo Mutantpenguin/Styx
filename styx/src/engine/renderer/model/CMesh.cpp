@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include <glbinding/Meta.h>
+#include <glbinding-aux/Meta.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/norm.hpp>
@@ -129,7 +129,7 @@ void CMesh::SetupMaterialTextureSlotMapping()
 							break;
 
 						default:
-							logERROR( "unhandled type '{0}' for slot '{1}'", glbinding::Meta::getString( interface.type ), interface.name );
+							logERROR( "unhandled type '{0}' for slot '{1}'", glbinding::aux::Meta::getString( interface.type ), interface.name );
 							continue;
 					}
 				}

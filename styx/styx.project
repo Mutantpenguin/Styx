@@ -344,6 +344,7 @@
         <Library Value="SDL2"/>
         <Library Value="GL"/>
         <Library Value="glbinding"/>
+        <Library Value="glbinding-aux"/>
         <Library Value="openal"/>
         <Library Value="assimp"/>
       </Linker>

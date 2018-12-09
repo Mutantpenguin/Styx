@@ -1,6 +1,6 @@
 #include "CFrameBuffer.hpp"
 
-#include <glbinding/Meta.h>
+#include <glbinding-aux/Meta.h>
 
 #include "src/engine/logger/CLogger.hpp"
 
@@ -88,7 +88,7 @@ bool CFrameBuffer::isComplete()
 	}
 	else
 	{
-		logERROR( "framebuffer is not complete: {0}", glbinding::Meta::getString( status ) );
+		logERROR( "framebuffer is not complete: {0}", glbinding::aux::Meta::getString( status ) );
 		return( false );
 	}
 }
