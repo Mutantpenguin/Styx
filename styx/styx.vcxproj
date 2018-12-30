@@ -307,7 +307,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);INQ_DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);STYX_DEBUG</PreprocessorDefinitions>
       <AdditionalOptions>/std:c++17 /permissive- /wd4251</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -334,7 +334,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);INQ_DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);STYX_DEBUG</PreprocessorDefinitions>
       <AdditionalOptions>/std:c++17 /permissive- /wd4251</AdditionalOptions>
     </ClCompile>
   </ItemDefinitionGroup>
