@@ -6,7 +6,7 @@
 using json = nlohmann::json;
 
 #include "src/engine/renderer/GL.h"
-#include <glbinding/Meta.h>
+#include <glbinding-aux/Meta.h>
 
 #include "src/engine/logger/CLogger.hpp"
 

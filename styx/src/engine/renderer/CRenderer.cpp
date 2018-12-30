@@ -5,7 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <glbinding/Meta.h>
+#include <glbinding-aux/Meta.h>
 
 #include "src/ext/minitrace/minitrace.h"
 

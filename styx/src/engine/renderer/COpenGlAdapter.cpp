@@ -1,9 +1,11 @@
 #include "COpenGlAdapter.hpp"
 
 #include <glbinding/Binding.h>
-#include <glbinding/Meta.h>
-#include <glbinding/ContextInfo.h>
+#include <glbinding-aux/Meta.h>
+#include <glbinding-aux/ContextInfo.h>
 #include <glbinding/Version.h>
+
+#include <SDL2/SDL.h>
 
 #include "src/engine/renderer/shader/CShaderManager.hpp"
 
@@ -11,16 +13,18 @@
 
 COpenGlAdapter::COpenGlAdapter()
 {
-	glbinding::Binding::initialize();
+	glbinding::Binding::initialize( []( const char *name ) {
+        return reinterpret_cast< glbinding::ProcAddress >( SDL_GL_GetProcAddress( name ) );
+    } );
 
-	const auto supportedOpenGLExtensions = glbinding::ContextInfo::extensions();
+	const auto supportedOpenGLExtensions = glbinding::aux::ContextInfo::extensions();
 
 	logINFO( "" );
 	logINFO( "OpenGL" );
-	logINFO( "\tVersion:  {0}",          glbinding::ContextInfo::version().toString() );
-	logINFO( "\tVendor:   {0}",          glbinding::ContextInfo::vendor() );
-	logINFO( "\tRenderer: {0}",          glbinding::ContextInfo::renderer() );
-	logINFO( "\tRevision: {0} (gl.xml)", glbinding::Meta::glRevision() );
+	logINFO( "\tVersion:  {0}",          glbinding::aux::ContextInfo::version().toString() );
+	logINFO( "\tVendor:   {0}",          glbinding::aux::ContextInfo::vendor() );
+	logINFO( "\tRenderer: {0}",          glbinding::aux::ContextInfo::renderer() );
+	logINFO( "\tRevision: {0} (gl.xml)", glbinding::aux::Meta::glRevision() );
 	logINFO( "GLSL" );
 	logINFO( "\tVersion:  {0}",          glGetString( GL_SHADING_LANGUAGE_VERSION ) );
 	logINFO( "" );
@@ -39,16 +43,16 @@ COpenGlAdapter::COpenGlAdapter()
 										const e_loglevel loglvl = ( GL_DEBUG_SEVERITY_HIGH == severity ) ? e_loglevel::eERROR : e_loglevel::eWARNING;
 
 										LOG( loglvl, "OpenGL ERROR" );
-										LOG( loglvl, "\tSource   : {0}", glbinding::Meta::getString( source ) );
-										LOG( loglvl, "\tType     : {0}", glbinding::Meta::getString( type ) );
+										LOG( loglvl, "\tSource   : {0}", glbinding::aux::Meta::getString( source ) );
+										LOG( loglvl, "\tType     : {0}", glbinding::aux::Meta::getString( type ) );
 										LOG( loglvl, "\tID       : {0}", id );
-										LOG( loglvl, "\tSeverity : {0}", glbinding::Meta::getString( severity ) );
+										LOG( loglvl, "\tSeverity : {0}", glbinding::aux::Meta::getString( severity ) );
 										LOG( loglvl, "\tMessage  : {0}", message );
 									}, nullptr );
 		}
 		else
 		{
-			logWARNING( "since neither {0} nor {1} are available, OpenGL debug output is disabled", glbinding::Meta::getString( GLextension::GL_KHR_debug ), glbinding::Meta::getString( GLextension::GL_ARB_debug_output ) );
+			logWARNING( "since neither {0} nor {1} are available, OpenGL debug output is disabled", glbinding::aux::Meta::getString( GLextension::GL_KHR_debug ), glbinding::aux::Meta::getString( GLextension::GL_ARB_debug_output ) );
 		}
 	#endif
 
@@ -60,7 +64,7 @@ COpenGlAdapter::COpenGlAdapter()
 		logERROR( "not enough combined texture image units: {0} found but {1} needed", maxCombinedTextureImageUnits, CShaderManager::requiredCombinedTextureImageUnits );
 		throw Exception();
 	}
-	logDEBUG( "{0} is {1}", glbinding::Meta::getString( GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS ), maxCombinedTextureImageUnits );
+	logDEBUG( "{0} is {1}", glbinding::aux::Meta::getString( GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS ), maxCombinedTextureImageUnits );
 
 
 	logINFO( "required OpenGL extensions:" );
@@ -73,12 +77,12 @@ COpenGlAdapter::COpenGlAdapter()
 	{
 		if( !isSupported( supportedOpenGLExtensions, extension ) )
 		{
-			logERROR( "\t{0} is MISSING", glbinding::Meta::getString( extension ) );
+			logERROR( "\t{0} is MISSING", glbinding::aux::Meta::getString( extension ) );
 			requiredExtensionsMissing = true;
 		}
 		else
 		{
-			logINFO( "\t{0} is available", glbinding::Meta::getString( extension ) );
+			logINFO( "\t{0} is available", glbinding::aux::Meta::getString( extension ) );
 		}
 	}
 
@@ -95,13 +99,13 @@ COpenGlAdapter::COpenGlAdapter()
 	if( !supports_GL_NVX_gpu_memory_info && !supports_GL_ATI_meminfo )
 	{
 		logINFO( "\tno information available" );
-		logDEBUG( "\tneither {0} nor {1} are supported", glbinding::Meta::getString( GLextension::GL_NVX_gpu_memory_info ), glbinding::Meta::getString( GLextension::GL_ATI_meminfo ) );
+		logDEBUG( "\tneither {0} nor {1} are supported", glbinding::aux::Meta::getString( GLextension::GL_NVX_gpu_memory_info ), glbinding::aux::Meta::getString( GLextension::GL_ATI_meminfo ) );
 	}
 	else
 	{
 		if( supports_GL_NVX_gpu_memory_info )
 		{
-			logDEBUG( "\t{0} is supported", glbinding::Meta::getString( GLextension::GL_NVX_gpu_memory_info ) );
+			logDEBUG( "\t{0} is supported", glbinding::aux::Meta::getString( GLextension::GL_NVX_gpu_memory_info ) );
 
 			GLint dedicatedMemKb = 0;
 			glGetIntegerv( GL_GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX, &dedicatedMemKb );
@@ -119,7 +123,7 @@ COpenGlAdapter::COpenGlAdapter()
 
 		if( supports_GL_ATI_meminfo )
 		{
-			logDEBUG( "\t{0} is supported", glbinding::Meta::getString( GLextension::GL_ATI_meminfo ) );
+			logDEBUG( "\t{0} is supported", glbinding::aux::Meta::getString( GLextension::GL_ATI_meminfo ) );
 
 			GLint vboFreeMemKb = 0;
 			glGetIntegerv( GL_VBO_FREE_MEMORY_ATI, &vboFreeMemKb );
@@ -143,11 +147,11 @@ COpenGlAdapter::COpenGlAdapter()
 
 	// fetch the maximal texture size
 	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &m_maxTextureSize );
-	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_TEXTURE_SIZE ), m_maxTextureSize );
+	logDEBUG( "{0} is '{1}'", glbinding::aux::Meta::getString( GL_MAX_TEXTURE_SIZE ), m_maxTextureSize );
 
 	// fetch the maximal cubemap texture size
 	glGetIntegerv( GL_MAX_CUBE_MAP_TEXTURE_SIZE, &m_maxCubeMapTextureSize );
-	logDEBUG( "{0} is '{1}'", glbinding::Meta::getString( GL_MAX_CUBE_MAP_TEXTURE_SIZE ), m_maxCubeMapTextureSize );
+	logDEBUG( "{0} is '{1}'", glbinding::aux::Meta::getString( GL_MAX_CUBE_MAP_TEXTURE_SIZE ), m_maxCubeMapTextureSize );
 }
 
 GLint COpenGlAdapter::MaxTextureSize() const

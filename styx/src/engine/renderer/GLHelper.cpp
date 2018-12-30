@@ -1,6 +1,6 @@
 #include "GLHelper.hpp"
 
-#include <glbinding/Meta.h>
+#include <glbinding-aux/Meta.h>
 
 #include "src/engine/logger/CLogger.hpp"
 
@@ -203,7 +203,7 @@ namespace GLHelper
 				return( "mat3" );
 
 			default:
-				logERROR( "unhandled type: {0}", glbinding::Meta::getString( type ) );
+				logERROR( "unhandled type: {0}", glbinding::aux::Meta::getString( type ) );
 				throw std::exception();
 		}
 	}

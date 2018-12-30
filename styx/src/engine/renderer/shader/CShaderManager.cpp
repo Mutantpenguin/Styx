@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include <glbinding/Meta.h>
+#include <glbinding-aux/Meta.h>
 
 #include "src/engine/renderer/GLHelper.hpp"
 
@@ -308,7 +308,7 @@ GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body 
 			break;
 
 		default:
-			logWARNING( "unsupported shader type '{0}'", glbinding::Meta::getString( type ) );
+			logWARNING( "unsupported shader type '{0}'", glbinding::aux::Meta::getString( type ) );
 			return( 0 );
 	}
 
@@ -401,7 +401,7 @@ bool CShaderManager::InterfaceSetup( const std::shared_ptr< CShaderProgram > &sh
 				||
 				( attributeInterface.type != attributeType ) )
 			{
-				logERROR( "attribute '{0}' with type {1} is not allowed at location '{2}'", attributeName, glbinding::Meta::getString( attributeType ), attributeLocation );
+				logERROR( "attribute '{0}' with type {1} is not allowed at location '{2}'", attributeName, glbinding::aux::Meta::getString( attributeType ), attributeLocation );
 				return( false );
 			}
 		}
@@ -468,7 +468,7 @@ bool CShaderManager::InterfaceSetup( const std::shared_ptr< CShaderProgram > &sh
 						const SShaderInterface &uniformInterface = engineUniformIt->second;
 						if( uniformInterface.type != uniformType )
 						{
-							logERROR( "uniform '{0}' needs to be of type '{1}' but was declared as '{2}'", uniformName, glbinding::Meta::getString( uniformInterface.type ), glbinding::Meta::getString( uniformType ) );
+							logERROR( "uniform '{0}' needs to be of type '{1}' but was declared as '{2}'", uniformName, glbinding::aux::Meta::getString( uniformInterface.type ), glbinding::aux::Meta::getString( uniformType ) );
 							return( false );
 						}
 						else
@@ -486,7 +486,7 @@ bool CShaderManager::InterfaceSetup( const std::shared_ptr< CShaderProgram > &sh
 				}
 
 			default:
-				logERROR( "unsupported uniform type {0} for uniform '{1}'", glbinding::Meta::getString( uniformType ), uniformName );
+				logERROR( "unsupported uniform type {0} for uniform '{1}'", glbinding::aux::Meta::getString( uniformType ), uniformName );
 				return( false );
 		}
 	}

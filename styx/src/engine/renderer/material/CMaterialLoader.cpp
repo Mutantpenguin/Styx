@@ -5,7 +5,7 @@
 #include "src/ext/json/json.hpp"
 using json = nlohmann::json;
 
-#include <glbinding/Meta.h>
+#include <glbinding-aux/Meta.h>
 
 #include "src/engine/logger/CLogger.hpp"
 
@@ -199,7 +199,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 							case GL_UNSIGNED_INT:
 								if( !mat_uniform->is_number_unsigned() )
 								{
-									logWARNING( "uniform '{0}' in '{1}' is not of type {2}", interface.name, path, glbinding::Meta::getString( interface.type ) );
+									logWARNING( "uniform '{0}' in '{1}' is not of type {2}", interface.name, path, glbinding::aux::Meta::getString( interface.type ) );
 									return( false );
 								}
 								else
@@ -211,7 +211,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 							case GL_FLOAT:
 								if( !mat_uniform->is_number_float() )
 								{
-									logWARNING( "uniform '{0}' in '{1}' is not of type {2}", interface.name, path, glbinding::Meta::getString( interface.type ) );
+									logWARNING( "uniform '{0}' in '{1}' is not of type {2}", interface.name, path, glbinding::aux::Meta::getString( interface.type ) );
 									return( false );
 								}
 								else
@@ -331,7 +331,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 								break;
 
 							default:
-								logWARNING( "uniform '{0}' in '{1}' is of unsupported type {2}", interface.name, path, glbinding::Meta::getString( interface.type ) );
+								logWARNING( "uniform '{0}' in '{1}' is of unsupported type {2}", interface.name, path, glbinding::aux::Meta::getString( interface.type ) );
 								return( false );
 								break;
 						}
