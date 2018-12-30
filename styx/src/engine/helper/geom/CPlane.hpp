@@ -7,21 +7,18 @@
 class CPlane
 {
 public:
-	CPlane();
+	CPlane( void ) = delete;
 
 	CPlane( const glm::vec3 &point, const glm::vec3 &normal );
+	CPlane( const glm::vec3 &normal, const f16 distance );
 
-	void SetNormal( const glm::vec3 &normal );
-	const glm::vec3 &Normal() const;
+	const glm::vec3 &Normal( void ) const;
 
-	void SetDistance( f16 distance );
-	f16 Distance() const;
-
-	void Normalize();
+	const f16 &Distance( void ) const;
 
 	f16 DistanceToPlane( const glm::vec3 &point ) const;
 
 private:
-	glm::vec3	m_normal	{ 0.0f, 0.0f, 0.0f };
-	f16			m_distance	{ 0.0f };
+	const glm::vec3	m_normal { 0.0f, 0.0f, 0.0f };
+	const f16		m_distance { 0.0f };
 };

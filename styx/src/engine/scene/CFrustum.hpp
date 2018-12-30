@@ -9,10 +9,12 @@
 class CFrustum
 {
 public:
+	CFrustum() = delete;
+
 	explicit CFrustum( const glm::mat4 &viewProjectionMatrix );
 
 	bool IsSphereInside( const glm::vec3 &position, const f16 sphereRadius ) const;
 
 private:
-	std::array< CPlane, 6 > m_planes;
+	const std::array< CPlane, 6 > m_planes;
 };
