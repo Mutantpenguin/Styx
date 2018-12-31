@@ -83,6 +83,7 @@
     <ClCompile Include="src\engine\scene\components\camera\CCameraOrthoComponent.cpp" />
     <ClCompile Include="src\engine\scene\CScene.cpp" />
     <ClCompile Include="src\engine\scene\CTransform.cpp" />
+    <ClCompile Include="src\engine\scene\CWorld.cpp" />
     <ClCompile Include="src\engine\sdl\CSDL.cpp" />
     <ClCompile Include="src\engine\sound\ALHelper.cpp" />
     <ClCompile Include="src\engine\sound\CSoundBuffer.cpp" />

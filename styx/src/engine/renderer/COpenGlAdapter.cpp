@@ -5,7 +5,13 @@
 #include <glbinding-aux/ContextInfo.h>
 #include <glbinding/Version.h>
 
-#include <SDL2/SDL.h>
+#ifdef __linux__
+	#include <SDL2/SDL.h>
+#elif _WIN32
+	#include <SDL.h>
+#else
+	#error "unsupported platform"
+#endif
 
 #include "src/engine/renderer/shader/CShaderManager.hpp"
 
