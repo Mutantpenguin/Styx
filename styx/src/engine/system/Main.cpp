@@ -53,7 +53,7 @@ int main( int argc, char *argv[] )
 
 	if( showVersionOption->count() > 0 )
 	{
-		std::cout << CEngine::GetVersionString() << std::endl;
+		fmt::print( CEngine::GetVersionString() );
 		return( EXIT_SUCCESS );
 	}
 
