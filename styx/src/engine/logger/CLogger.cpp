@@ -1,5 +1,7 @@
 #include "src/engine/logger/CLogger.hpp"
 
+#include "src/ext/fmt/chrono.h"
+
 CLogger::TLogBuffer CLogger::m_logBuffer;
 
 std::list< std::unique_ptr< CLogger::CLogTarget > > CLogger::m_logTargets;
@@ -46,10 +48,5 @@ void CLogger::Destroy()
 
 const std::string CLogger::logEntry::FormattedTime() const
 {
-	const std::chrono::hours		hh		= std::chrono::duration_cast< std::chrono::hours >( m_time );
-	const std::chrono::minutes		mm		= std::chrono::duration_cast< std::chrono::minutes >( m_time % std::chrono::hours( 1 ) );
-	const std::chrono::seconds		ss		= std::chrono::duration_cast< std::chrono::seconds >( m_time % std::chrono::minutes( 1 ) );
-	const std::chrono::milliseconds	msec	= std::chrono::duration_cast< std::chrono::milliseconds >( m_time % std::chrono::seconds( 1 ) );
-
-	return( fmt::format( "{:02d}:{:02d}:{:02d}.{:03d}", hh.count(), mm.count(), ss.count(), msec.count() ) );
+	return( fmt::format( "{:%H:%M:%S}", m_time ) );
 }
