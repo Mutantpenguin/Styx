@@ -23,6 +23,8 @@
 	#include <sys/sysinfo.h>
 #endif
 
+#include "src/ext/fmt/format.h"
+
 #include "src/engine/logger/CLogger.hpp"
 
 #include "src/engine/helper/String.hpp"
@@ -297,35 +299,37 @@ namespace ComputerInfo
 			std::string osversion = std::string( "unknown Linux" );
 
 			const std::string lsbReleaseFilename { "/etc/lsb-release" };
-			FILE *file_lsb_release_exists = fopen( lsbReleaseFilename.c_str(), "r" );
-			if( nullptr != file_lsb_release_exists )
+			
+			std::unique_ptr<FILE, decltype(&fclose)> file_lsb_release_exists( fopen( lsbReleaseFilename.c_str(), "r" ), fclose );
+			
+			if( file_lsb_release_exists )
 			{
-				fclose( file_lsb_release_exists );
-
 				const std::string lsbReleaseCommand { "lsb_release -drs" };
-				FILE *file_release = popen( lsbReleaseCommand.c_str(), "r" );
-				if( nullptr != file_release )
+				
+				std::unique_ptr<FILE, decltype(&pclose)> file_release( popen( lsbReleaseCommand.c_str(), "r" ), pclose );
+				
+				if( file_release )
 				{
-					char buffer_release[ 128 ];
+					std::array<char, 128>buffer_release;
 
-					fgets( buffer_release, 128, file_release );
-					pclose( file_release );
+					fgets( buffer_release.data(), buffer_release.size(), file_release.get() );
 
-					buffer_release[ strlen( buffer_release ) - 1 ] = 0;
+					buffer_release[ strlen( buffer_release.data() ) - 1 ] = 0;
 
-					osversion = std::string( buffer_release );
+					osversion = std::string( buffer_release.data() );
 
 					const std::string kernelVersionCommand { "uname -rmo" };
-					FILE *file_kernel = popen( kernelVersionCommand.c_str(), "r" );
-					if( nullptr != file_kernel )
+
+					std::unique_ptr<FILE, decltype(&pclose)> file_kernel( popen( kernelVersionCommand.c_str(), "r" ), pclose );
+
+					if( file_kernel )
 					{
-						char buffer_kernel[ 128 ];
-						fgets( buffer_kernel, 128, file_kernel );
-						pclose( file_kernel );
+						std::array<char, 128>buffer_kernel;
+						fgets( buffer_kernel.data(), buffer_kernel.size(), file_kernel.get() );
 
-						buffer_kernel[ strlen( buffer_kernel ) - 1 ] = 0;
+						buffer_kernel[ strlen( buffer_kernel.data() ) - 1 ] = 0;
 
-						osversion += std::string( " Kernel " ) + std::string( buffer_kernel );
+						osversion += std::string( " Kernel " ) + std::string( buffer_kernel.data() );
 					}
 					else
 					{
@@ -435,45 +439,44 @@ namespace ComputerInfo
 			std::string vendor_id;
 			std::string mhz;
 
-			FILE *file_cpuinfo = fopen( "/proc/cpuinfo", "r" );
-			if( nullptr != file_cpuinfo )
+			std::unique_ptr<FILE, decltype(&pclose)> lscpu( popen( "LC_ALL=en_US.utf8 lscpu", "r" ), pclose );
+			
+			if( lscpu )
 			{
-				char buffer[ 128 ];
+				std::array<char, 128> buffer;
 
-				while( fgets( buffer, 128, file_cpuinfo ) )
+				while( fgets( buffer.data(), buffer.size(), lscpu.get() ) )
 				{
-					buffer[ strlen( buffer ) - 1 ] = 0;
-					std::string std_buffer( buffer );
-					if( std_buffer.substr( 0, 10 ) == std::string( "model name" ) )
+					std::string std_buffer( buffer.data() );
+
+					if( std_buffer.substr( 0, 11 ) == std::string( "Model name:" ) )
 					{
-						model_name = String::trim( std_buffer.substr( std_buffer.find( ":" ) + 2, std_buffer.length() ) );
+						model_name = String::trim( std_buffer.substr( std_buffer.find( ":" ) + 1 ) );
 					}
-					else if( std_buffer.substr( 0, 9 ) == std::string( "vendor_id" ) )
+					else if( std_buffer.substr( 0, 10 ) == std::string( "Vendor ID:" ) )
 					{
-						vendor_id = std_buffer.substr( std_buffer.find( ":" ) + 2, std_buffer.length() );
+						vendor_id = String::trim( std_buffer.substr( std_buffer.find( ":" ) + 1 ) );
 					}
-					else if( std_buffer.substr( 0, 10 ) == std::string( "cpu family" ) )
+					else if( std_buffer.substr( 0, 11 ) == std::string( "CPU family:" ) )
 					{
-						cpufamily = std_buffer.substr( std_buffer.find( ":" ) + 2, std_buffer.length() );
+						cpufamily = String::trim( std_buffer.substr( std_buffer.find( ":" ) + 1 ) );
 					}
-					else if( std_buffer.substr( 0, 5 ) == std::string( "model" ) )
+					else if( std_buffer.substr( 0, 6 ) == std::string( "Model:" ) )
 					{
-						model = std_buffer.substr( std_buffer.find( ":" ) + 2, std_buffer.length() );
+						model = String::trim( std_buffer.substr( std_buffer.find( ":" ) + 1 ) );
 					}
-					else if( std_buffer.substr( 0, 8 ) == std::string( "stepping" ) )
+					else if( std_buffer.substr( 0, 9 ) == std::string( "Stepping:" ) )
 					{
-						stepping = std_buffer.substr( std_buffer.find( ":" ) + 2, std_buffer.length() );
+						stepping = String::trim( std_buffer.substr( std_buffer.find( ":" ) + 1 ) );
 					}
-					else if( std_buffer.substr( 0, 7 ) == std::string( "cpu MHz" ) )
+					else if( std_buffer.substr( 0, 12 ) == std::string( "CPU max MHz:" ) )
 					{
-						std::string mhz2 = std_buffer.substr( std_buffer.find( ":" ) + 2, std_buffer.length() );
-						mhz = mhz2.erase( mhz2.find_last_not_of( "0123456789" ) );
+						std::string mhz2 = std_buffer.substr( std_buffer.find( ":" ) + 1 );
+						mhz = String::trim( mhz2.substr( 0, mhz2.find( "." ) ) );
 					}
 				}
 
-				fclose( file_cpuinfo );
-
-				return( model_name + std::string( " / Family " ) + cpufamily + std::string( " Model " ) + model + std::string( " Stepping " ) + stepping + std::string( " / " ) + vendor_id + std::string( " / " ) + mhz + std::string( "MHz" ) );
+				return( fmt::format( "{0} / Family {1} Model {2} Stepping {3} / {4} / {5} MHz", model_name, cpufamily, model, stepping, vendor_id, mhz ) );
 			}
 
 			return( "unknown" );
