@@ -29,7 +29,6 @@ public :
 
 	const char*	GetLastError() const;
 
-	// TODO shouldn't this better use std::byte?
 	using FileBuffer = std::vector< std::byte >;
 
 	[[nodiscard]] FileBuffer LoadFileToBuffer( const std::string &filename ) const;
