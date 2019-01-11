@@ -63,7 +63,7 @@ bool CSoundBufferLoader::FromOggFile( const std::shared_ptr< CSoundBuffer > &sou
 	{
 		i32 errorCode;
 
-		stb_vorbis *stream = stb_vorbis_open_memory( fileBuffer.data(), fileBuffer.size(), &errorCode, nullptr );
+		stb_vorbis *stream = stb_vorbis_open_memory( reinterpret_cast<const unsigned char*>( fileBuffer.data() ), fileBuffer.size(), &errorCode, nullptr );
 
 		if( nullptr == stream )
 		{

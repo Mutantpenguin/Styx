@@ -25,7 +25,7 @@ namespace ImageHandler
 
 		if( !buffer.empty() )
 		{
-			fipMemoryIO memIO( const_cast< BYTE* >( buffer.data() ), buffer.size() );
+			fipMemoryIO memIO( reinterpret_cast<BYTE*>( const_cast< std::byte* >( buffer.data() ) ), buffer.size() );
 
 			fipImage image;
 
@@ -185,9 +185,7 @@ namespace ImageHandler
 			DWORD sizeInBytes;
 			memIO.acquire( &data, &sizeInBytes );
 
-			CFileSystem::FileBuffer buffer( sizeInBytes );
-
-			std::copy( data, data + sizeInBytes, std::begin( buffer ) );
+			CFileSystem::FileBuffer buffer( reinterpret_cast<std::byte*>( data ), reinterpret_cast<std::byte*>( data ) + sizeInBytes );
 
 			return( p_filesystem.SaveBufferToFile( buffer, path ) );
 		}
