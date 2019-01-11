@@ -120,13 +120,13 @@ bool CSoundBufferLoader::FromWavFile( const std::shared_ptr< CSoundBuffer > &sou
 		}
 
 		TSoundData bufferDecoded;
-		bufferDecoded.buffer.resize( wav.totalSampleCount * sizeof( i16 ) );
+		bufferDecoded.buffer.resize( static_cast<size_t>( wav.totalSampleCount * sizeof( i16 ) ) );
 
-		bufferDecoded.duration = wav.totalSampleCount / wav.sampleRate;
+		bufferDecoded.duration = static_cast<f16>( wav.totalSampleCount ) / static_cast<f16>( wav.sampleRate );
 		bufferDecoded.format = ( 1 == wav.channels ) ? CSoundBuffer::format::MONO : CSoundBuffer::format::STEREO;
 		bufferDecoded.frequency = wav.sampleRate;
 
-		const size_t numberOfSamplesActuallyDecoded = drwav_read_s16( &wav, wav.totalSampleCount, &bufferDecoded.buffer[ 0 ] );
+		const auto numberOfSamplesActuallyDecoded = drwav_read_s16( &wav, wav.totalSampleCount, &bufferDecoded.buffer[ 0 ] );
 
 		if( numberOfSamplesActuallyDecoded < wav.totalSampleCount )
 		{

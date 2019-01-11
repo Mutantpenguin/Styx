@@ -35,12 +35,15 @@ CSDL::CSDL()
 
 	#ifdef WIN32
 		// redirect the output to the console because SDL would redirect it to the files stdout.txt and stderr.txt
-		if( std::freopen( "CON", "w", stdout ) == nullptr )
+		FILE* fileout;
+
+		if( freopen_s( &fileout, "CON", "w", stdout ) != 0 )
 		{
 			logERROR( "couldn't redirect stdout" );
 			throw Exception();
 		}
-		if( std::freopen( "CON", "w", stderr ) == nullptr )
+
+		if( freopen_s( &fileout, "CON", "w", stderr ) != 0 )
 		{
 			logERROR( "couldn't redirect stdout" );
 			throw Exception();

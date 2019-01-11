@@ -14,7 +14,7 @@ CSamplerManager::CSamplerManager( const CSettings &p_settings ) :
 		if( m_iAnisotropicLevel > fMaxSupportedAnisotropy )
 		{
 			logWARNING( "anisotropic level of '{0}' is higher than the highest supported level of '{1}' which will now be used instead", m_iAnisotropicLevel, fMaxSupportedAnisotropy );
-			m_iAnisotropicLevel = fMaxSupportedAnisotropy;
+			m_iAnisotropicLevel = static_cast<u8>( fMaxSupportedAnisotropy );
 		}
 		else
 		{

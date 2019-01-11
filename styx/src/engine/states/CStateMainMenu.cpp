@@ -75,8 +75,8 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		bgTitle->Add<CModelComponent>( bgTitleMesh );
 	}
 
-	const f16 halfButtonWidth = windowSize.width / 4 / 2;
-	const f16 halfButtonHeight = windowSize.height / 6 / 2;
+	const f16 halfButtonWidth = windowSize.width / 4.0f / 2.0f;
+	const f16 halfButtonHeight = windowSize.height / 6.0f / 2.0f;
 
 	auto buttonMeshPrimitive = Primitives::quad;
 	buttonMeshPrimitive.Vertices[ 0 ].Position.x = -halfButtonWidth;

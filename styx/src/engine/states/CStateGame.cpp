@@ -188,7 +188,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 						const auto cubeEntity = m_scene.CreateEntity( "cube" );
 						cubeEntity->Transform.Position( { -90.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
 						cubeEntity->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
-						cubeEntity->Transform.Rotate( Math::irand( 0, 90 ), Math::irand( 0, 90 ), Math::irand( 0, 90 ) );
+						cubeEntity->Transform.Rotate( Math::frand( 0, 90 ), Math::frand( 0, 90 ), Math::frand( 0, 90 ) );
 
 						if( Math::irand( 0, 1 ) == 1 )
 						{
@@ -347,13 +347,13 @@ std::shared_ptr< CState > CStateGame::OnUpdate()
 	 * move camera
 	 */
 
-	const f16 ctrlPressedMult = input.KeyStillDown( SDL_SCANCODE_LCTRL ) ? 1 : 10;
+	const f16 ctrlPressedMult = input.KeyStillDown( SDL_SCANCODE_LCTRL ) ? 1.0f : 10.0f;
 
 	const auto &cameraFree = m_cameraEntity->Get<CCameraFreeComponent>();
 
 	if( input.MouseStillDown( SDL_BUTTON_LEFT) )
 	{
-		cameraFree->Rotate( input.MouseDeltaY(), input.MouseDeltaX() );
+		cameraFree->Rotate( static_cast<f16>( input.MouseDeltaY() ), static_cast<f16>( input.MouseDeltaX() ) );
 	}
 
 	if( input.KeyDown( SDL_SCANCODE_A )
@@ -463,8 +463,8 @@ std::shared_ptr< CState > CStateGame::OnUpdate()
 		m_movableEntity->Transform.Rotate( m_roty_ps, m_rotx_ps, 0.0f );
 	}
 
-	m_rotx_ps = input.MouseDeltaX();
-	m_roty_ps = input.MouseDeltaY();
+	m_rotx_ps = static_cast<f16>( input.MouseDeltaX() );
+	m_roty_ps = static_cast<f16>( input.MouseDeltaY() );
 
 	// TODO cameraFree->Direction( m_movableEntity->Transform.Position() - m_cameraFree->Transform.Position() );
 

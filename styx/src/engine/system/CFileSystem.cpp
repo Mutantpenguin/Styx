@@ -155,7 +155,7 @@ CFileSystem::FileBuffer CFileSystem::LoadFileToBuffer( const std::string &filena
 
 	const auto length = PHYSFS_fileLength( f );
 
-	FileBuffer buffer( length );
+	FileBuffer buffer( static_cast<size_t>( length ) );
 
 	const auto lengthRead = PHYSFS_readBytes( f, &buffer[ 0 ], length );
 
