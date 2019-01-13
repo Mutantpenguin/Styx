@@ -2,11 +2,13 @@
 
 #include <string>
 
+#include "src/engine/helper/Types.hpp"
+
 namespace ComputerInfo
 {
 	std::string	OsName();
-	int			SystemMemoryMiB();
-	int			ProcessorCount();
+	i32			SystemMemoryMiB();
+	i32			ProcessorCount();
 	std::string	ProcessorInfo();
 	std::string	CPUFeatures();
 }

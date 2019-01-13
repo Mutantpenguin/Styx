@@ -37,7 +37,7 @@ namespace ComputerInfo
 	std::string OsName()
 	{
 		#ifdef WIN32
-			std::string osversion = std::string( "unknown Windows" );
+			std::string osversion = "unknown Windows";
 
 			OSVERSIONINFOEX	osinfo;
 			ZeroMemory( &osinfo, sizeof( OSVERSIONINFOEX ) );
@@ -57,71 +57,71 @@ namespace ComputerInfo
 						{
 							if( VER_NT_WORKSTATION == osinfo.wProductType )
 							{
-								osversion = std::string( "Windows Vista " );
+								osversion = "Windows Vista";
 							}
 							else
 							{
-								osversion = std::string( "Windows Server \"Longhorn\" " );
+								osversion = "Windows Server \"Longhorn\"";
 							}
 						}
 						else if( 1 == osinfo.dwMinorVersion )
 						{
-							osversion = std::string( "Windows 7 " );
+							osversion = "Windows 7";
 						}
 						else if( 2 == osinfo.dwMinorVersion )
 						{
-							osversion = std::string( "Windows 8 " );
+							osversion = "Windows 8";
 						}
 					}
 					else if( 5 == osinfo.dwMajorVersion )
 					{
 						if( 0 == osinfo.dwMinorVersion )
 						{
-							osversion = std::string( "Microsoft Windows 2000 " );
+							osversion = "Microsoft Windows 2000";
 						}
 						else if( 1 == osinfo.dwMinorVersion )
 						{
-							osversion = std::string( "Microsoft Windows XP " );
+							osversion = "Microsoft Windows XP";
 						}
 						else if( 2 == osinfo.dwMinorVersion )
 						{
 							if( GetSystemMetrics( 89 ) ) // stands for "SM_SERVERR2"
 							{
-								osversion = std::string( "Microsoft Windows Server 2003 \"R2\" ");
+								osversion = "Microsoft Windows Server 2003 \"R2\"";
 							}
 							else if( ( VER_NT_WORKSTATION == osinfo.wProductType ) && ( PROCESSOR_ARCHITECTURE_AMD64 == sysinfo.wProcessorArchitecture ) )
 							{
-								osversion = std::string( "Microsoft Windows XP Professional x64 Edition ");
+								osversion = "Microsoft Windows XP Professional x64 Edition";
 							}
 							else
 							{
-								osversion = std::string( "Microsoft Windows Server 2003, " );
+								osversion = "Microsoft Windows Server 2003,";
 							}
 						}
 					}
 					else if( osinfo.dwMajorVersion <= 4 )
 					{
-						osversion = std::string( "Microsoft Windows NT " );
+						osversion = "Microsoft Windows NT";
 					}
 
 					if( ( VER_NT_WORKSTATION == osinfo.wProductType ) && ( PROCESSOR_ARCHITECTURE_AMD64 != sysinfo.wProcessorArchitecture ) )
 					{
 						if( 4 == osinfo.dwMajorVersion )
 						{
-							osversion += std::string( "Workstation 4.0 " );
+							osversion += " Workstation 4.0";
 						}
 						else if( osinfo.wSuiteMask & VER_SUITE_PERSONAL )
 						{
-							osversion += std::string( "Home Edition " );
+							osversion += " Home Edition";
 						}
 						else
 						{
-							osversion += std::string( "Professional " );
+							osversion += " Professional";
 						}
 					}
-					else if( ( VER_NT_SERVER == osinfo.wProductType )
-							  ||
-							  ( VER_NT_DOMAIN_CONTROLLER == osinfo.wProductType ) )
+					else if(	( VER_NT_SERVER == osinfo.wProductType )
+								||
+								( VER_NT_DOMAIN_CONTROLLER == osinfo.wProductType ) )
 					{
 						if( ( 5 == osinfo.dwMajorVersion ) && ( 2 == osinfo.dwMinorVersion ) )
 						{
@@ -129,45 +129,45 @@ namespace ComputerInfo
 							{
 								if( osinfo.wSuiteMask & VER_SUITE_DATACENTER )
 								{
-									osversion += std::string( "Datacenter Edition for Itanium-based Systems" );
+									osversion += " Datacenter Edition for Itanium-based Systems";
 								}
 								else if( osinfo.wSuiteMask & VER_SUITE_ENTERPRISE )
 								{
-									osversion += std::string( "Enterprise Edition for Itanium-based Systems" );
+									osversion += " Enterprise Edition for Itanium-based Systems";
 								}
 							}
 							else if( PROCESSOR_ARCHITECTURE_AMD64 == sysinfo.wProcessorArchitecture )
 							{
 								if( osinfo.wSuiteMask & VER_SUITE_DATACENTER )
 								{
-									osversion += std::string( "Datacenter x64 Edition " );
+									osversion += " Datacenter x64 Edition";
 								}
 								else if( osinfo.wSuiteMask & VER_SUITE_ENTERPRISE )
 								{
-									osversion += std::string( "Enterprise x64 Edition " );
+									osversion += " Enterprise x64 Edition";
 								}
 								else
 								{
-									osversion += std::string( "Standard x64 Edition " );
+									osversion += " Standard x64 Edition";
 								}
 							}
 							else
 							{
 								if( osinfo.wSuiteMask & VER_SUITE_DATACENTER )
 								{
-									osversion += std::string( "Datacenter Edition " );
+									osversion += " Datacenter Edition";
 								}
 								else if( osinfo.wSuiteMask & VER_SUITE_ENTERPRISE )
 								{
-									osversion += std::string( "Enterprise Edition " );
+									osversion += " Enterprise Edition";
 								}
 								else if( VER_SUITE_BLADE == osinfo.wSuiteMask )
 								{
-									osversion += std::string( "Web Edition " );
+									osversion += " Web Edition";
 								}
 								else
 								{
-									osversion += std::string( "Standard Edition " );
+									osversion += " Standard Edition";
 								}
 							}
 						}
@@ -175,64 +175,62 @@ namespace ComputerInfo
 						{
 							if( osinfo.wSuiteMask & VER_SUITE_DATACENTER )
 							{
-								osversion += std::string( "Datacenter Server " );
+								osversion += " Datacenter Server";
 							}
 							else if( osinfo.wSuiteMask & VER_SUITE_ENTERPRISE )
 							{
-								osversion += std::string( "Advanced Server " );
+								osversion += " Advanced Server";
 							}
 							else
 							{
-								osversion += std::string( "Server " );
+								osversion += " Server";
 							}
 						}
 						else
 						{
 							if( osinfo.wSuiteMask & VER_SUITE_ENTERPRISE )
 							{
-								osversion += std::string("Server 4.0, Enterprise Edition " );
+								osversion += " Server 4.0, Enterprise Edition";
 							}
 							else
 							{
-								osversion += std::string( "Server 4.0 " );
+								osversion += " Server 4.0";
 							}
 						}
 					}
 					else
 					{
-						HKEY hKey;
-						TCHAR szProductType[ 80 ];
-						DWORD dwBufLen = 80 * sizeof( TCHAR );
-						LONG lRet;
+						HKEY hKey;						
 
-						lRet = RegOpenKeyEx( HKEY_LOCAL_MACHINE, TEXT( "SYSTEM\\CurrentControlSet\\Control\\ProductOptions" ), 0, KEY_QUERY_VALUE, &hKey );
-						if( lRet != ERROR_SUCCESS )
+						if( ERROR_SUCCESS == RegOpenKeyEx( HKEY_LOCAL_MACHINE, TEXT( "SYSTEM\\CurrentControlSet\\Control\\ProductOptions" ), 0, KEY_QUERY_VALUE, &hKey ) )
 						{
-							return FALSE;
-						}
-						lRet = RegQueryValueEx( hKey, TEXT( "ProductType" ), nullptr, nullptr, reinterpret_cast< LPBYTE >( szProductType ), &dwBufLen);
-						RegCloseKey( hKey );
+							TCHAR szProductType[ 80 ];
+							DWORD dwBufLen = 80 * sizeof( TCHAR );
+							LONG lRet = RegQueryValueEx( hKey, TEXT( "ProductType" ), nullptr, nullptr, reinterpret_cast<LPBYTE>( szProductType ), &dwBufLen );
+							RegCloseKey( hKey );
 
-						if( ( lRet != ERROR_SUCCESS )
-							||
-							( dwBufLen > 80 * sizeof( TCHAR ) ) )
-						{
-							return FALSE;
-						}
+							if( ( ERROR_SUCCESS == lRet )
+								||
+								( dwBufLen <= ( 80 * sizeof( TCHAR ) ) ) )
+							{
+								if( 0 == lstrcmpi( TEXT( "WINNT" ), szProductType ) )
+								{
+									osversion += " Workstation";
+								}
 
-						if( 0 == lstrcmpi( TEXT( "WINNT" ), szProductType ) )
-						{
-							osversion += std::string(  "Workstation " );
+								if( 0 == lstrcmpi( TEXT( "LANMANNT" ), szProductType ) )
+								{
+									osversion += " Server";
+								}
+
+								if( 0 == lstrcmpi( TEXT( "SERVERNT" ), szProductType ) )
+								{
+									osversion += " Advanced Server";
+								}
+
+								osversion += fmt::format( " {0:d}.{1:d} ", osinfo.dwMajorVersion, osinfo.dwMinorVersion );
+							}
 						}
-						if( 0 == lstrcmpi( TEXT( "LANMANNT" ), szProductType ) )
-						{
-							osversion += std::string(  "Server " );
-						}
-						if( 0 == lstrcmpi( TEXT( "SERVERNT" ), szProductType ) )
-						{
-							osversion += std::string(  "Advanced Server " );
-						}
-						osversion += std::string(  "%d.%d ", osinfo.dwMajorVersion, osinfo.dwMinorVersion );
 					}
 
 					// Display service pack (if any) and build number.
@@ -243,22 +241,22 @@ namespace ComputerInfo
 						// Test for SP6 versus SP6a.
 						if( ERROR_SUCCESS == RegOpenKeyEx( HKEY_LOCAL_MACHINE, TEXT( "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Hotfix\\Q246009" ), 0, KEY_QUERY_VALUE, &hKey ) )
 						{
-							osversion += std::string(  "Service Pack 6a (Build %d)\n", osinfo.dwBuildNumber & 0xFFFF );
+							RegCloseKey( hKey );
+
+							osversion += fmt::format( " Service Pack 6a (Build {0:d})", ( osinfo.dwBuildNumber & 0xFFFF ) );
 						}
 						else // Windows NT 4.0 prior to SP6a
 						{
 							std::stringstream strm;
 							strm << ( osinfo.dwBuildNumber & 0xFFFF );
-							osversion += std::string( osinfo.szCSDVersion ) + std::string( " (Build " ) + strm.str() + std::string( ")\n"  );
+							osversion += fmt::format( " {0} (Build {1})", osinfo.szCSDVersion, strm.str() );
 						}
-
-						RegCloseKey( hKey );
 					}
 					else // not Windows NT 4.0
 					{
 						std::stringstream strm;
-						strm << (osinfo.dwBuildNumber & 0xFFFF);
-						osversion += std::string( osinfo.szCSDVersion ) + std::string( " (Build " ) + strm.str() + std::string( ")"  );
+						strm << ( osinfo.dwBuildNumber & 0xFFFF );
+						osversion += fmt::format( " {0} (Build {1})", osinfo.szCSDVersion, strm.str() );
 					}
 
 					break;
@@ -268,27 +266,27 @@ namespace ComputerInfo
 					{
 						if( 0 == osinfo.dwMinorVersion )
 						{
-							osversion = "Microsoft Windows 95 ";
+							osversion = "Microsoft Windows 95";
 							if( ( 'B' == osinfo.szCSDVersion[ 1 ] )
 								||
 								( 'C' == osinfo.szCSDVersion[ 1 ] ) )
 							{
-								osversion += std::string( "OSR2 " );
+								osversion += " OSR2";
 							}
 						}
 						else if( 10 == osinfo.dwMinorVersion )
 						{
-							osversion = "Microsoft Windows 98 ";
+							osversion = "Microsoft Windows 98";
 							if( ( 'A' == osinfo.szCSDVersion[ 1 ] )
 								||
 								( 'B' == osinfo.szCSDVersion[ 1 ] ) )
 							{
-								osversion += std::string( "SE " );
+								osversion += " SE";
 							}
 						}
 						else if( 90 == osinfo.dwMinorVersion )
 						{
-							osversion = "Microsoft Windows Millenium Edition ";
+							osversion = "Microsoft Windows Millenium Edition";
 						}
 					}
 					break;
@@ -353,12 +351,12 @@ namespace ComputerInfo
 		return( osversion );
 	}
 
-	int SystemMemoryMiB()
+	i32 SystemMemoryMiB()
 	{
 		return( SDL_GetSystemRAM() );
 	}
 
-	int ProcessorCount()
+	i32 ProcessorCount()
 	{
 		return( SDL_GetCPUCount() );
 	}
@@ -374,7 +372,7 @@ namespace ComputerInfo
 			DWORD	valueSize;
 			HKEY	hKey;
 
-			std::string processor{ "unknown" };
+			std::string processor { "unknown" };
 
 			if( ERROR_SUCCESS == RegOpenKeyEx( HKEY_LOCAL_MACHINE, "Hardware\\Description\\System\\CentralProcessor\\0", 0, KEY_QUERY_VALUE, &hKey ) )
 			{
@@ -537,9 +535,14 @@ namespace ComputerInfo
 
 		if( SDL_HasAVX() )
 		{
-			cpuFeatures += "AVX";
+			cpuFeatures += "AVX ";
 		}
 
-		return( cpuFeatures );
+		if( SDL_HasAVX2() )
+		{
+			cpuFeatures += "AVX2 ";
+		}
+
+		return( String::trim( cpuFeatures ) );
 	}
 }
