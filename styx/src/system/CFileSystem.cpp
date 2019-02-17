@@ -197,7 +197,7 @@ std::string CFileSystem::LoadFileToString( const std::string &filename ) const
 {
 	auto const buffer = LoadFileToBuffer( filename );
 
-	return( std::string( std::cbegin( buffer ), std::cend( buffer ) ) );
+	return( std::string( reinterpret_cast<const char*>( buffer.data() ), buffer.size() ) );
 }
 
 void CFileSystem::InitialiseFreeImageIO()
