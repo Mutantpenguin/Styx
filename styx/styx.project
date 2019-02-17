@@ -277,6 +277,7 @@
       <File Name="external/json/json.hpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="imgui">
+      <File Name="external/imgui/imgui_widgets.cpp"/>
       <File Name="external/imgui/imgui_internal.h"/>
       <File Name="external/imgui/imgui_draw.cpp"/>
       <File Name="external/imgui/imgui.h"/>
