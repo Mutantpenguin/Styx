@@ -40,8 +40,7 @@ CTextureLoader::~CTextureLoader()
 
 void CTextureLoader::FromFile( const std::shared_ptr< CTexture > &texture, const std::string &path ) const
 {
-	// TODO implement loading of compressed images in our own format
-	// TODO or just use libktx?
+	// TODO use libktx too?
 
 	if( !m_filesystem.Exists( path ) )
 	{
