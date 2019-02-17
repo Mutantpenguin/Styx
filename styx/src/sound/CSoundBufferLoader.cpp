@@ -120,17 +120,17 @@ bool CSoundBufferLoader::FromWavFile( const std::shared_ptr< CSoundBuffer > &sou
 		}
 
 		TSoundData bufferDecoded;
-		bufferDecoded.buffer.resize( static_cast<size_t>( wav.totalSampleCount * sizeof( i16 ) ) );
+		bufferDecoded.buffer.resize( static_cast<size_t>( wav.totalPCMFrameCount * sizeof( i16 ) ) );
 
-		bufferDecoded.duration = static_cast<f16>( wav.totalSampleCount ) / static_cast<f16>( wav.sampleRate );
+		bufferDecoded.duration = static_cast<f16>( wav.totalPCMFrameCount ) / static_cast<f16>( wav.sampleRate );
 		bufferDecoded.format = ( 1 == wav.channels ) ? CSoundBuffer::format::MONO : CSoundBuffer::format::STEREO;
 		bufferDecoded.frequency = wav.sampleRate;
 
-		const auto numberOfSamplesActuallyDecoded = drwav_read_s16( &wav, wav.totalSampleCount, &bufferDecoded.buffer[ 0 ] );
+		const auto numberOfPCMFramesActuallyDecoded = drwav_read_pcm_frames_s16( &wav, wav.totalPCMFrameCount, &bufferDecoded.buffer[ 0 ] );
 
-		if( numberOfSamplesActuallyDecoded < wav.totalSampleCount )
+		if( numberOfPCMFramesActuallyDecoded < wav.totalPCMFrameCount )
 		{
-			logWARNING( "expected {0} samples but got {1} for wav file '{2}'", wav.totalSampleCount, numberOfSamplesActuallyDecoded, path );
+			logWARNING( "expected {0} PCM frames but got {1} for wav file '{2}'", wav.totalPCMFrameCount, numberOfPCMFramesActuallyDecoded, path );
 		}
 
 		drwav_uninit( &wav );
