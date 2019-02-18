@@ -2,19 +2,20 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <None Include="README" />
-    <None Include="asan_symbolize.py" />
     <None Include="AUTHORS" />
     <None Include="BUILD" />
     <None Include="COMPILERS" />
     <None Include="COPYING" />
     <None Include="doxyfile" />
     <None Include="DoxySfile" />
-    <None Include="inquisitor.cbp" />
     <None Include="inquisitor.project" />
     <None Include="packages.config" />
     <None Include="TODO" />
     <None Include="external\physfs\physfs_platform_apple.m">
       <Filter>external\physfs</Filter>
+    </None>
+    <None Include="tools\asan_symbolize.py">
+      <Filter>tools</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +111,9 @@
     </Filter>
     <Filter Include="src\system">
       <UniqueIdentifier>{ee798aec-d692-4471-afcf-23eacef3d7db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{b440f45a-76ca-4993-bd4d-f0ff51fb365d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

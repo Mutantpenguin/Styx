@@ -20,7 +20,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <None Include="asan_symbolize.py" />
     <None Include="AUTHORS" />
     <None Include="BUILD" />
     <None Include="COMPILERS" />
@@ -28,11 +27,11 @@
     <None Include="doxyfile" />
     <None Include="DoxySfile" />
     <None Include="external\physfs\physfs_platform_apple.m" />
-    <None Include="inquisitor.cbp" />
     <None Include="inquisitor.project" />
     <None Include="packages.config" />
     <None Include="README" />
     <None Include="TODO" />
+    <None Include="tools\asan_symbolize.py" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="design_document.txt" />
