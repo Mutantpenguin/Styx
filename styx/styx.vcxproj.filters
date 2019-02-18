@@ -1,20 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="README" />
     <None Include="asan_symbolize.py" />
     <None Include="AUTHORS" />
@@ -26,619 +12,723 @@
     <None Include="inquisitor.cbp" />
     <None Include="inquisitor.project" />
     <None Include="packages.config" />
-    <None Include="src\ext\stb\stb_vorbis.c">
-      <Filter>Source Files</Filter>
-    </None>
     <None Include="TODO" />
+    <None Include="external\physfs\physfs_platform_apple.m">
+      <Filter>external\physfs</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="design_document.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ext\physfs\physfs_platform_posix.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_platform_os2.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_byteorder.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_archiver_zip.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_archiver_wad.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_archiver_vdf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_archiver_unpacked.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_archiver_slb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_archiver_qpak.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_archiver_mvl.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_archiver_iso9660.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_archiver_hog.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_archiver_grp.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_archiver_dir.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_archiver_7z.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\minitrace\minitrace.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\helper\String.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\fmt\posix.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_platform_winrt.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_platform_haiku.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\math\Math.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\system\Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\imgui\imgui_draw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\imgui\imgui.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\helper\image\ImageHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\GLHelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\fmt\format.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\helper\Date.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\system\CWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\CVAO.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\CUniformBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\scene\CTransform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\system\CTimer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\texture\CTextureLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\texture\CTextureCache.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\texture\CTexture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\states\CStatePause.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\states\CStateMainMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\states\CStateIntro.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\states\CStateGame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\states\CState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\sound\CSoundSource.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\sound\CSoundManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\sound\CSoundBufferLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\sound\CSoundBufferCache.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\sound\CSoundBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\shader\CShaderProgram.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\shader\CShaderManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\system\CSettings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\sdl\CSDL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\scene\CScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\sampler\CSamplerManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\sampler\CSampler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\resource\CResourceCacheManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\resource\CResourceCacheBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\CRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\helper\geom\CPlane.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\COpenGlAdapter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\system\ComputerInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\model\CModelManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\model\CModelLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\components\CModelComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\model\CModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\model\CMeshTextureSlot.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\model\CMesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\material\CMaterialUniform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\material\CMaterialLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\material\CMaterialCache.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\material\CMaterial.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\logger\CLogTargetMessageBox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\logger\CLogTargetFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\logger\CLogTargetConsole.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\logger\CLogger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\system\CInput.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\helper\image\CImage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\CGLState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\system\CGameInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\scene\CFrustum.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\CFrameBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\system\CFileSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\scene\CEntity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\system\CEngineInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\system\CEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\texture\CCubemapData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\scene\components\camera\CCameraOrthoComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\scene\components\camera\CCameraFreeComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\scene\components\camera\CCameraComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\renderer\texture\C2DArrayData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\sound\ALHelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_unicode.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_platform_windows.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_platform_unix.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ext\physfs\physfs_platform_qnx.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\helper\Path.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\scene\CWorld.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <Filter Include="src">
+      <UniqueIdentifier>{e7eccf4d-94d6-46d3-b7f0-960110b64338}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external">
+      <UniqueIdentifier>{0cbfebd5-716a-47d1-bfc7-6c4e3e80c903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\CLI11">
+      <UniqueIdentifier>{c9527597-e7cd-4809-8e6f-62636a9e6a89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\dr_libs">
+      <UniqueIdentifier>{28d92f08-8045-4dc8-b61e-ff5b31243806}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\fmt">
+      <UniqueIdentifier>{7019e80b-849e-4e70-bced-c282630df1e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\imgui">
+      <UniqueIdentifier>{9e961fa2-17f2-49fd-9cb1-075e886fb5bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\json">
+      <UniqueIdentifier>{6fb6392c-bbcd-4232-9044-3c07fe690521}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\minitrace">
+      <UniqueIdentifier>{8f8db975-3544-4117-9146-a09aa8dc5f52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\physfs">
+      <UniqueIdentifier>{76d69cd3-45ab-4d82-9ea6-a0724926decf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\stb">
+      <UniqueIdentifier>{18796016-cd53-49a6-a243-072f32272cb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\helper">
+      <UniqueIdentifier>{a2c721d8-41f7-4abb-ab4b-61e7e86f7e54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\helper\geom">
+      <UniqueIdentifier>{4938d004-67d9-4d0f-a6dd-dd6f341c11df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\helper\image">
+      <UniqueIdentifier>{79f4697d-351a-4b8a-965c-60019cdac8cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\logger">
+      <UniqueIdentifier>{1eca55e3-a1c2-47b1-b381-d2b220b98b51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\math">
+      <UniqueIdentifier>{5df5cdaa-13d8-4d15-9f35-3668cd7000b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\renderer">
+      <UniqueIdentifier>{8bd0abea-5da7-4efe-af3a-7d4476c8cf25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\renderer\components">
+      <UniqueIdentifier>{319bab29-500c-4569-816f-e1595e21e7dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\renderer\material">
+      <UniqueIdentifier>{a55cd095-06e3-4c54-bd0c-42c2b968738a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\renderer\model">
+      <UniqueIdentifier>{a3751e1e-7cfb-4dfd-8a26-3bbed0022e43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\renderer\sampler">
+      <UniqueIdentifier>{25da4fd4-9abd-4a7e-b32b-13cdeeba3440}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\renderer\shader">
+      <UniqueIdentifier>{d2991100-f222-442e-9d14-165d37362e83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\renderer\texture">
+      <UniqueIdentifier>{0077711e-be87-44d3-9a5e-d42c3a34fa38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\resource">
+      <UniqueIdentifier>{7e8b3d1f-f321-41af-a242-bd05113ce1cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene">
+      <UniqueIdentifier>{ea98b299-b6b7-4f83-87b7-62be369b5336}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene\components">
+      <UniqueIdentifier>{3e197ea1-243e-4ee4-a1cd-db06e494ad96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene\components\camera">
+      <UniqueIdentifier>{f5ebff8c-650d-46fd-bec5-c40d984616cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\sdl">
+      <UniqueIdentifier>{4378aaf7-dc4b-4ef7-b3e9-843b9df79541}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\sound">
+      <UniqueIdentifier>{d662d250-06c1-4305-9c71-e91ae92495ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\states">
+      <UniqueIdentifier>{2fc008c6-d1b4-4ec1-9a50-20764883e755}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\system">
+      <UniqueIdentifier>{ee798aec-d692-4471-afcf-23eacef3d7db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ext\fmt\time.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\CLI11\CLI11.hpp">
+      <Filter>external\CLI11</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\helper\String.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\dr_libs\dr_wav.h">
+      <Filter>external\dr_libs</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\fmt\string.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\fmt\chrono.h">
+      <Filter>external\fmt</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\stb\stb_truetype.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\fmt\color.h">
+      <Filter>external\fmt</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\stb\stb_textedit.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\fmt\core.h">
+      <Filter>external\fmt</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\stb\stb_rect_pack.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\fmt\format.h">
+      <Filter>external\fmt</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\shader\SShaderInterface.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\fmt\format-inl.h">
+      <Filter>external\fmt</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\fmt\printf.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\fmt\locale.h">
+      <Filter>external\fmt</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\helper\geom\Primitives.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\fmt\ostream.h">
+      <Filter>external\fmt</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\fmt\posix.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\fmt\posix.h">
+      <Filter>external\fmt</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\physfs\physfs_platforms.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\fmt\printf.h">
+      <Filter>external\fmt</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\physfs\physfs_miniz.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\fmt\ranges.h">
+      <Filter>external\fmt</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\physfs\physfs_lzmasdk.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\fmt\time.h">
+      <Filter>external\fmt</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\physfs\physfs_internal.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\imgui\imconfig.h">
+      <Filter>external\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\physfs\physfs_casefolding.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\imgui\imgui.h">
+      <Filter>external\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\physfs\physfs.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\imgui\imgui_internal.h">
+      <Filter>external\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\fmt\ostream.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\json\json.hpp">
+      <Filter>external\json</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\minitrace\minitrace.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\minitrace\minitrace.h">
+      <Filter>external\minitrace</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\math\Math.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\physfs\physfs.h">
+      <Filter>external\physfs</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\logger\LogHelper.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\physfs\physfs_casefolding.h">
+      <Filter>external\physfs</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\json\json.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\physfs\physfs_internal.h">
+      <Filter>external\physfs</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\imgui\imgui_internal.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\physfs\physfs_lzmasdk.h">
+      <Filter>external\physfs</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\imgui\imgui.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\physfs\physfs_miniz.h">
+      <Filter>external\physfs</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\imgui\imconfig.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\physfs\physfs_platforms.h">
+      <Filter>external\physfs</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\helper\image\ImageHandler.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\stb\stb_rect_pack.h">
+      <Filter>external\stb</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\GLHelper.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\stb\stb_textedit.h">
+      <Filter>external\stb</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\GL.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="external\stb\stb_truetype.h">
+      <Filter>external\stb</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\fmt\format.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\helper\CColor.hpp">
+      <Filter>src\helper</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\EUniformBufferLocations.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\helper\CSize.hpp">
+      <Filter>src\helper</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\shader\EEngineUniform.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\helper\Date.hpp">
+      <Filter>src\helper</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\scene\components\EComponentIndex.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\helper\Path.hpp">
+      <Filter>src\helper</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\dr_libs\dr_wav.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\helper\String.hpp">
+      <Filter>src\helper</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\helper\Date.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\helper\Types.hpp">
+      <Filter>src\helper</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\scene\CWorld.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\helper\geom\CPlane.hpp">
+      <Filter>src\helper\geom</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\system\CWindow.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\helper\geom\Primitives.hpp">
+      <Filter>src\helper\geom</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\CVAO.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\helper\image\CImage.hpp">
+      <Filter>src\helper\image</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\CUniformBuffer.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\helper\image\ImageHandler.hpp">
+      <Filter>src\helper\image</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\scene\CTransform.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\logger\CLogger.hpp">
+      <Filter>src\logger</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\system\CTimer.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\logger\CLogTargetConsole.hpp">
+      <Filter>src\logger</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\texture\CTextureLoader.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\logger\CLogTargetFile.hpp">
+      <Filter>src\logger</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\texture\CTextureCache.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\logger\CLogTargetMessageBox.hpp">
+      <Filter>src\logger</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\texture\CTexture.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\logger\LogHelper.hpp">
+      <Filter>src\logger</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\states\CStatePause.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\math\Math.hpp">
+      <Filter>src\math</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\states\CStateMainMenu.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\CFrameBuffer.hpp">
+      <Filter>src\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\states\CStateIntro.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\CGLState.hpp">
+      <Filter>src\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\states\CStateGame.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\COpenGlAdapter.hpp">
+      <Filter>src\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\states\CState.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\CRenderer.hpp">
+      <Filter>src\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\sound\CSoundSource.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\CUniformBuffer.hpp">
+      <Filter>src\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\sound\CSoundManager.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\CVAO.hpp">
+      <Filter>src\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\sound\CSoundBufferLoader.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\EUniformBufferLocations.hpp">
+      <Filter>src\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\sound\CSoundBufferCache.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\GL.h">
+      <Filter>src\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\sound\CSoundBuffer.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\GLHelper.hpp">
+      <Filter>src\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\helper\CSize.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\components\CModelComponent.hpp">
+      <Filter>src\renderer\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\shader\CShaderProgram.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\material\CMaterial.hpp">
+      <Filter>src\renderer\material</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\shader\CShaderManager.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\material\CMaterialCache.hpp">
+      <Filter>src\renderer\material</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\system\CSettings.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\material\CMaterialLoader.hpp">
+      <Filter>src\renderer\material</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\sdl\CSDL.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\material\CMaterialUniform.hpp">
+      <Filter>src\renderer\material</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\scene\CScene.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\model\CMesh.hpp">
+      <Filter>src\renderer\model</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\sampler\CSamplerManager.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\model\CMeshTextureSlot.hpp">
+      <Filter>src\renderer\model</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\sampler\CSampler.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\model\CModel.hpp">
+      <Filter>src\renderer\model</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\resource\CResourceCacheManager.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\model\CModelLoader.hpp">
+      <Filter>src\renderer\model</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\resource\CResourceCacheBase.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\model\CModelManager.hpp">
+      <Filter>src\renderer\model</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\resource\CResourceCache.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\sampler\CSampler.hpp">
+      <Filter>src\renderer\sampler</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\CRenderer.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\sampler\CSamplerManager.hpp">
+      <Filter>src\renderer\sampler</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\helper\geom\CPlane.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\shader\CShaderManager.hpp">
+      <Filter>src\renderer\shader</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\COpenGlAdapter.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\shader\CShaderProgram.hpp">
+      <Filter>src\renderer\shader</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\fmt\container.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\shader\EEngineUniform.hpp">
+      <Filter>src\renderer\shader</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\system\ComputerInfo.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\shader\SShaderInterface.hpp">
+      <Filter>src\renderer\shader</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\model\CModelManager.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\texture\C2DArrayData.hpp">
+      <Filter>src\renderer\texture</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\model\CModelLoader.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\texture\CCubemapData.hpp">
+      <Filter>src\renderer\texture</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\components\CModelComponent.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\texture\CTexture.hpp">
+      <Filter>src\renderer\texture</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\model\CModel.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\texture\CTextureCache.hpp">
+      <Filter>src\renderer\texture</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\model\CMeshTextureSlot.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\renderer\texture\CTextureLoader.hpp">
+      <Filter>src\renderer\texture</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\model\CMesh.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\resource\CResourceCache.hpp">
+      <Filter>src\resource</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\material\CMaterialUniform.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\resource\CResourceCacheBase.hpp">
+      <Filter>src\resource</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\material\CMaterialLoader.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\resource\CResourceCacheManager.hpp">
+      <Filter>src\resource</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\material\CMaterialCache.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\scene\CEntity.hpp">
+      <Filter>src\scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\material\CMaterial.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\scene\CFrustum.hpp">
+      <Filter>src\scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\logger\CLogTargetMessageBox.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\scene\CScene.hpp">
+      <Filter>src\scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\logger\CLogTargetFile.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\scene\CTransform.hpp">
+      <Filter>src\scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\logger\CLogTargetConsole.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\scene\CWorld.hpp">
+      <Filter>src\scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\logger\CLogger.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\scene\components\CBaseComponent.hpp">
+      <Filter>src\scene\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\ext\CLI11\CLI11.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\scene\components\EComponentIndex.hpp">
+      <Filter>src\scene\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\system\CInput.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\scene\components\camera\CCameraComponent.hpp">
+      <Filter>src\scene\components\camera</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\helper\image\CImage.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\scene\components\camera\CCameraFreeComponent.hpp">
+      <Filter>src\scene\components\camera</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\CGLState.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\scene\components\camera\CCameraOrthoComponent.hpp">
+      <Filter>src\scene\components\camera</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\system\CGameInfo.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\sdl\CSDL.hpp">
+      <Filter>src\sdl</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\scene\CFrustum.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\sound\ALHelper.hpp">
+      <Filter>src\sound</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\CFrameBuffer.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\sound\CSoundBuffer.hpp">
+      <Filter>src\sound</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\system\CFileSystem.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\sound\CSoundBufferCache.hpp">
+      <Filter>src\sound</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\scene\CEntity.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\sound\CSoundBufferLoader.hpp">
+      <Filter>src\sound</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\system\CEngineInterface.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\sound\CSoundManager.hpp">
+      <Filter>src\sound</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\system\CEngine.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\sound\CSoundSource.hpp">
+      <Filter>src\sound</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\texture\CCubemapData.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\states\CState.hpp">
+      <Filter>src\states</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\helper\CColor.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\states\CStateGame.hpp">
+      <Filter>src\states</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\scene\components\camera\CCameraOrthoComponent.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\states\CStateIntro.hpp">
+      <Filter>src\states</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\scene\components\camera\CCameraFreeComponent.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\states\CStateMainMenu.hpp">
+      <Filter>src\states</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\scene\components\camera\CCameraComponent.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\states\CStatePause.hpp">
+      <Filter>src\states</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\scene\components\CBaseComponent.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\system\CEngine.hpp">
+      <Filter>src\system</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\texture\C2DArrayData.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\sound\ALHelper.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\helper\Path.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\helper\Types.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ext\fmt\chrono.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ext\fmt\locale.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="src\system\CEngineInterface.hpp">
+      <Filter>src\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\system\CFileSystem.hpp">
+      <Filter>src\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\system\CGameInfo.hpp">
+      <Filter>src\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\system\CInput.hpp">
+      <Filter>src\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\system\ComputerInfo.hpp">
+      <Filter>src\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\system\CSettings.hpp">
+      <Filter>src\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\system\CTimer.hpp">
+      <Filter>src\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\system\CWindow.hpp">
+      <Filter>src\system</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="external\fmt\format.cc">
+      <Filter>external\fmt</Filter>
+    </ClCompile>
+    <ClCompile Include="external\fmt\posix.cc">
+      <Filter>external\fmt</Filter>
+    </ClCompile>
+    <ClCompile Include="external\imgui\imgui.cpp">
+      <Filter>external\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="external\imgui\imgui_draw.cpp">
+      <Filter>external\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="external\minitrace\minitrace.c">
+      <Filter>external\minitrace</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_archiver_7z.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_archiver_dir.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_archiver_grp.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_archiver_hog.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_archiver_iso9660.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_archiver_mvl.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_archiver_qpak.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_archiver_slb.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_archiver_unpacked.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_archiver_vdf.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_archiver_wad.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_archiver_zip.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_byteorder.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_platform_haiku.cpp">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_platform_os2.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_platform_posix.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_platform_qnx.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_platform_unix.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_platform_windows.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_platform_winrt.cpp">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="external\physfs\physfs_unicode.c">
+      <Filter>external\physfs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helper\Date.cpp">
+      <Filter>src\helper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helper\Path.cpp">
+      <Filter>src\helper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helper\String.cpp">
+      <Filter>src\helper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helper\geom\CPlane.cpp">
+      <Filter>src\helper\geom</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helper\image\CImage.cpp">
+      <Filter>src\helper\image</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helper\image\ImageHandler.cpp">
+      <Filter>src\helper\image</Filter>
+    </ClCompile>
+    <ClCompile Include="src\logger\CLogger.cpp">
+      <Filter>src\logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\logger\CLogTargetConsole.cpp">
+      <Filter>src\logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\logger\CLogTargetFile.cpp">
+      <Filter>src\logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\logger\CLogTargetMessageBox.cpp">
+      <Filter>src\logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math\Math.cpp">
+      <Filter>src\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\CFrameBuffer.cpp">
+      <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\CGLState.cpp">
+      <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\COpenGlAdapter.cpp">
+      <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\CRenderer.cpp">
+      <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\CUniformBuffer.cpp">
+      <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\CVAO.cpp">
+      <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\GLHelper.cpp">
+      <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\components\CModelComponent.cpp">
+      <Filter>src\renderer\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\material\CMaterial.cpp">
+      <Filter>src\renderer\material</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\material\CMaterialCache.cpp">
+      <Filter>src\renderer\material</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\material\CMaterialLoader.cpp">
+      <Filter>src\renderer\material</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\material\CMaterialUniform.cpp">
+      <Filter>src\renderer\material</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\model\CMesh.cpp">
+      <Filter>src\renderer\model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\model\CMeshTextureSlot.cpp">
+      <Filter>src\renderer\model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\model\CModel.cpp">
+      <Filter>src\renderer\model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\model\CModelLoader.cpp">
+      <Filter>src\renderer\model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\model\CModelManager.cpp">
+      <Filter>src\renderer\model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\sampler\CSamplerManager.cpp">
+      <Filter>src\renderer\sampler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\sampler\CSampler.cpp">
+      <Filter>src\renderer\sampler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\shader\CShaderManager.cpp">
+      <Filter>src\renderer\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\shader\CShaderProgram.cpp">
+      <Filter>src\renderer\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\texture\C2DArrayData.cpp">
+      <Filter>src\renderer\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\texture\CCubemapData.cpp">
+      <Filter>src\renderer\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\texture\CTexture.cpp">
+      <Filter>src\renderer\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\texture\CTextureCache.cpp">
+      <Filter>src\renderer\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\texture\CTextureLoader.cpp">
+      <Filter>src\renderer\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resource\CResourceCacheBase.cpp">
+      <Filter>src\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resource\CResourceCacheManager.cpp">
+      <Filter>src\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\CEntity.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\CFrustum.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\CScene.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\CTransform.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\CWorld.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\components\camera\CCameraComponent.cpp">
+      <Filter>src\scene\components\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\components\camera\CCameraFreeComponent.cpp">
+      <Filter>src\scene\components\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\components\camera\CCameraOrthoComponent.cpp">
+      <Filter>src\scene\components\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sdl\CSDL.cpp">
+      <Filter>src\sdl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sound\ALHelper.cpp">
+      <Filter>src\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sound\CSoundBuffer.cpp">
+      <Filter>src\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sound\CSoundBufferCache.cpp">
+      <Filter>src\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sound\CSoundBufferLoader.cpp">
+      <Filter>src\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sound\CSoundManager.cpp">
+      <Filter>src\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sound\CSoundSource.cpp">
+      <Filter>src\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\states\CState.cpp">
+      <Filter>src\states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\states\CStateGame.cpp">
+      <Filter>src\states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\states\CStateIntro.cpp">
+      <Filter>src\states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\states\CStateMainMenu.cpp">
+      <Filter>src\states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\states\CStatePause.cpp">
+      <Filter>src\states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\system\CEngine.cpp">
+      <Filter>src\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\system\CEngineInterface.cpp">
+      <Filter>src\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\system\CFileSystem.cpp">
+      <Filter>src\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\system\CGameInfo.cpp">
+      <Filter>src\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\system\CInput.cpp">
+      <Filter>src\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\system\ComputerInfo.cpp">
+      <Filter>src\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\system\CSettings.cpp">
+      <Filter>src\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\system\CTimer.cpp">
+      <Filter>src\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\system\CWindow.cpp">
+      <Filter>src\system</Filter>
+    </ClCompile>
+    <ClCompile Include="external\stb\stb_vorbis.c">
+      <Filter>external\stb</Filter>
+    </ClCompile>
+    <ClCompile Include="external\imgui\imgui_widgets.cpp">
+      <Filter>external\imgui</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
