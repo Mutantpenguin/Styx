@@ -13,7 +13,7 @@ public:
 	CMaterial();
 	~CMaterial();
 
-	void Setup() const;
+	void Activate() const;
 
 	bool Blending() const;
 	void EnableBlending( const GLenum blendSrc, const GLenum blendDst );

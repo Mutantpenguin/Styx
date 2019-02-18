@@ -250,7 +250,7 @@ void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
 
 	m_meshFrameBuffer->ChangeTexture( m_slotNameFrameBuffer, framebuffer.ColorTexture() );
 
-	m_meshFrameBuffer->Material()->Setup();
+	m_meshFrameBuffer->Material()->Activate();
 
 	m_meshFrameBuffer->BindTextures();
 
@@ -281,7 +281,7 @@ void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::m
 			if( currentMaterial != material.get() )
 			{
 				currentMaterial = material.get();
-				material->Setup();
+				material->Activate();
 
 				currentShader = material->Shader().get();
 			}

@@ -10,7 +10,7 @@ CMaterial::~CMaterial()
 {
 }
 
-void CMaterial::Setup() const
+void CMaterial::Activate() const
 {
 	CGLState::CullFace( m_bCullFace, m_cullfaceMode );
 	CGLState::PolygonMode( m_polygonMode );
