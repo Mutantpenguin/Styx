@@ -40,8 +40,8 @@ public:
 	void CollectGarbage();
 	void Reload();
 
-	template < typename T >
-	const std::shared_ptr< const T > GetResource( const std::string &path )
+	template < typename T, typename... Args >
+	const std::shared_ptr< const T > GetResource( Args... args )
 	{
 		#ifdef STYX_DEBUG
 			auto it = m_resourceCaches.find( std::type_index( typeid( T ) ) );
@@ -56,7 +56,7 @@ public:
 
 		auto resourceCache = std::static_pointer_cast< CResourceCache< T > >( m_resourceCaches[ std::type_index( typeid( T ) ) ] );
 
-		return( resourceCache->GetResource( path ) );
+		return( resourceCache->GetResource( args... ) );
 	}
 
 private:
