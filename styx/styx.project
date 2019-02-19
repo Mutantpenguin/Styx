@@ -41,6 +41,9 @@
  }]]]>
     </Plugin>
   </Plugins>
+  <VirtualDirectory Name="tools">
+    <File Name="tools/asan_symbolize.py"/>
+  </VirtualDirectory>
   <VirtualDirectory Name="src">
     <VirtualDirectory Name="system">
       <File Name="src/system/ComputerInfo.hpp"/>
@@ -311,7 +314,7 @@
     <Excludepaths/>
     <Ignorefiles/>
     <Extensions>
-      <![CDATA[*.cpp;*.c;*.h;*.hpp;*.xrc;*.wxcp;*.fbp;*.cc]]>
+      <![CDATA[*.cpp;*.c;*.h;*.hpp;*.xrc;*.wxcp;*.fbp;*.cc;*.py]]>
     </Extensions>
     <Topleveldir>/home/charon/Projekte/styx/styx</Topleveldir>
   </Reconciliation>
@@ -325,7 +328,6 @@
     <File Name="DoxySfile"/>
     <File Name="README"/>
     <File Name="doxyfile"/>
-    <File Name="asan_symbolize.py"/>
     <File Name="TODO"/>
   </VirtualDirectory>
   <Dependencies Name="Debug"/>
