@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "src/engine/helper/Types.hpp"
+#include "src/helper/Types.hpp"
 
 namespace ComputerInfo
 {
