@@ -6,7 +6,10 @@ CSoundBuffer::CSoundBuffer()
 
 CSoundBuffer::~CSoundBuffer()
 {
-	alDeleteBuffers( 1, &m_bufferID );
+	if( alIsBuffer( m_bufferID ) )
+	{
+		alDeleteBuffers( 1, &m_bufferID );
+	}
 }
 
 CSoundBuffer::format CSoundBuffer::Format() const
@@ -21,7 +24,10 @@ f16 CSoundBuffer::Duration() const
 
 void CSoundBuffer::Reset()
 {
-	alDeleteBuffers( 1, &m_bufferID );
+	if( alIsBuffer( m_bufferID ) )
+	{
+		alDeleteBuffers( 1, &m_bufferID );
+	}
 
 	m_bufferID = 0;
 }
