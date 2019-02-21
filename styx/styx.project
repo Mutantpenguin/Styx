@@ -41,281 +41,285 @@
  }]]]>
     </Plugin>
   </Plugins>
+  <VirtualDirectory Name="tools">
+    <File Name="tools/asan_symbolize.py"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="src">
+    <VirtualDirectory Name="system">
+      <File Name="src/system/ComputerInfo.hpp"/>
+      <File Name="src/system/ComputerInfo.cpp"/>
+      <File Name="src/system/CWindow.hpp"/>
+      <File Name="src/system/CWindow.cpp"/>
+      <File Name="src/system/CTimer.hpp"/>
+      <File Name="src/system/CTimer.cpp"/>
+      <File Name="src/system/CSettings.hpp"/>
+      <File Name="src/system/CSettings.cpp"/>
+      <File Name="src/system/CInput.hpp"/>
+      <File Name="src/system/CInput.cpp"/>
+      <File Name="src/system/CGameInfo.hpp"/>
+      <File Name="src/system/CGameInfo.cpp"/>
+      <File Name="src/system/CFileSystem.hpp"/>
+      <File Name="src/system/CFileSystem.cpp"/>
+      <File Name="src/system/CEngineInterface.hpp"/>
+      <File Name="src/system/CEngineInterface.cpp"/>
+      <File Name="src/system/CEngine.hpp"/>
+      <File Name="src/system/CEngine.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="states">
+      <File Name="src/states/CStatePause.hpp"/>
+      <File Name="src/states/CStatePause.cpp"/>
+      <File Name="src/states/CStateMainMenu.hpp"/>
+      <File Name="src/states/CStateMainMenu.cpp"/>
+      <File Name="src/states/CStateIntro.hpp"/>
+      <File Name="src/states/CStateIntro.cpp"/>
+      <File Name="src/states/CStateGame.hpp"/>
+      <File Name="src/states/CStateGame.cpp"/>
+      <File Name="src/states/CState.hpp"/>
+      <File Name="src/states/CState.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="sound">
+      <File Name="src/sound/CSoundSource.hpp"/>
+      <File Name="src/sound/CSoundSource.cpp"/>
+      <File Name="src/sound/CSoundManager.hpp"/>
+      <File Name="src/sound/CSoundManager.cpp"/>
+      <File Name="src/sound/CSoundBufferLoader.hpp"/>
+      <File Name="src/sound/CSoundBufferLoader.cpp"/>
+      <File Name="src/sound/CSoundBufferCache.hpp"/>
+      <File Name="src/sound/CSoundBufferCache.cpp"/>
+      <File Name="src/sound/CSoundBuffer.hpp"/>
+      <File Name="src/sound/CSoundBuffer.cpp"/>
+      <File Name="src/sound/ALHelper.hpp"/>
+      <File Name="src/sound/ALHelper.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="sdl">
+      <File Name="src/sdl/CSDL.hpp"/>
+      <File Name="src/sdl/CSDL.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="scene">
+      <VirtualDirectory Name="components">
+        <File Name="src/scene/components/EComponentIndex.hpp"/>
+        <File Name="src/scene/components/CBaseComponent.hpp"/>
+        <VirtualDirectory Name="camera">
+          <File Name="src/scene/components/camera/CCameraOrthoComponent.hpp"/>
+          <File Name="src/scene/components/camera/CCameraOrthoComponent.cpp"/>
+          <File Name="src/scene/components/camera/CCameraFreeComponent.hpp"/>
+          <File Name="src/scene/components/camera/CCameraFreeComponent.cpp"/>
+          <File Name="src/scene/components/camera/CCameraComponent.hpp"/>
+          <File Name="src/scene/components/camera/CCameraComponent.cpp"/>
+        </VirtualDirectory>
+      </VirtualDirectory>
+      <File Name="src/scene/CWorld.hpp"/>
+      <File Name="src/scene/CWorld.cpp"/>
+      <File Name="src/scene/CTransform.hpp"/>
+      <File Name="src/scene/CTransform.cpp"/>
+      <File Name="src/scene/CScene.hpp"/>
+      <File Name="src/scene/CScene.cpp"/>
+      <File Name="src/scene/CFrustum.hpp"/>
+      <File Name="src/scene/CFrustum.cpp"/>
+      <File Name="src/scene/CEntity.hpp"/>
+      <File Name="src/scene/CEntity.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="resource">
+      <File Name="src/resource/CResourceCacheManager.hpp"/>
+      <File Name="src/resource/CResourceCacheManager.cpp"/>
+      <File Name="src/resource/CResourceCacheBase.hpp"/>
+      <File Name="src/resource/CResourceCacheBase.cpp"/>
+      <File Name="src/resource/CResourceCache.hpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="renderer">
+      <VirtualDirectory Name="texture">
+        <File Name="src/renderer/texture/CTextureLoader.hpp"/>
+        <File Name="src/renderer/texture/CTextureLoader.cpp"/>
+        <File Name="src/renderer/texture/CTextureCache.hpp"/>
+        <File Name="src/renderer/texture/CTextureCache.cpp"/>
+        <File Name="src/renderer/texture/CTexture.hpp"/>
+        <File Name="src/renderer/texture/CTexture.cpp"/>
+        <File Name="src/renderer/texture/CCubemapData.hpp"/>
+        <File Name="src/renderer/texture/CCubemapData.cpp"/>
+        <File Name="src/renderer/texture/C2DArrayData.hpp"/>
+        <File Name="src/renderer/texture/C2DArrayData.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="shader">
+        <File Name="src/renderer/shader/SShaderInterface.hpp"/>
+        <File Name="src/renderer/shader/EEngineUniform.hpp"/>
+        <File Name="src/renderer/shader/CShaderProgram.hpp"/>
+        <File Name="src/renderer/shader/CShaderProgram.cpp"/>
+        <File Name="src/renderer/shader/CShaderManager.hpp"/>
+        <File Name="src/renderer/shader/CShaderManager.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="sampler">
+        <File Name="src/renderer/sampler/CSamplerManager.hpp"/>
+        <File Name="src/renderer/sampler/CSamplerManager.cpp"/>
+        <File Name="src/renderer/sampler/CSampler.hpp"/>
+        <File Name="src/renderer/sampler/CSampler.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="model">
+        <File Name="src/renderer/model/CModelManager.hpp"/>
+        <File Name="src/renderer/model/CModelManager.cpp"/>
+        <File Name="src/renderer/model/CModelLoader.hpp"/>
+        <File Name="src/renderer/model/CModelLoader.cpp"/>
+        <File Name="src/renderer/model/CModel.hpp"/>
+        <File Name="src/renderer/model/CModel.cpp"/>
+        <File Name="src/renderer/model/CMeshTextureSlot.hpp"/>
+        <File Name="src/renderer/model/CMeshTextureSlot.cpp"/>
+        <File Name="src/renderer/model/CMesh.hpp"/>
+        <File Name="src/renderer/model/CMesh.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="material">
+        <File Name="src/renderer/material/CMaterialUniform.hpp"/>
+        <File Name="src/renderer/material/CMaterialUniform.cpp"/>
+        <File Name="src/renderer/material/CMaterialLoader.hpp"/>
+        <File Name="src/renderer/material/CMaterialLoader.cpp"/>
+        <File Name="src/renderer/material/CMaterialCache.hpp"/>
+        <File Name="src/renderer/material/CMaterialCache.cpp"/>
+        <File Name="src/renderer/material/CMaterial.hpp"/>
+        <File Name="src/renderer/material/CMaterial.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="components">
+        <File Name="src/renderer/components/CModelComponent.hpp"/>
+        <File Name="src/renderer/components/CModelComponent.cpp"/>
+      </VirtualDirectory>
+      <File Name="src/renderer/GLHelper.hpp"/>
+      <File Name="src/renderer/GLHelper.cpp"/>
+      <File Name="src/renderer/GL.h"/>
+      <File Name="src/renderer/EUniformBufferLocations.hpp"/>
+      <File Name="src/renderer/CVAO.hpp"/>
+      <File Name="src/renderer/CVAO.cpp"/>
+      <File Name="src/renderer/CUniformBuffer.hpp"/>
+      <File Name="src/renderer/CUniformBuffer.cpp"/>
+      <File Name="src/renderer/CRenderer.hpp"/>
+      <File Name="src/renderer/CRenderer.cpp"/>
+      <File Name="src/renderer/COpenGlAdapter.hpp"/>
+      <File Name="src/renderer/COpenGlAdapter.cpp"/>
+      <File Name="src/renderer/CGLState.hpp"/>
+      <File Name="src/renderer/CGLState.cpp"/>
+      <File Name="src/renderer/CFrameBuffer.hpp"/>
+      <File Name="src/renderer/CFrameBuffer.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="math">
+      <File Name="src/math/Math.hpp"/>
+      <File Name="src/math/Math.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="logger">
+      <File Name="src/logger/LogHelper.hpp"/>
+      <File Name="src/logger/CLogger.hpp"/>
+      <File Name="src/logger/CLogger.cpp"/>
+      <File Name="src/logger/CLogTargetMessageBox.hpp"/>
+      <File Name="src/logger/CLogTargetMessageBox.cpp"/>
+      <File Name="src/logger/CLogTargetFile.hpp"/>
+      <File Name="src/logger/CLogTargetFile.cpp"/>
+      <File Name="src/logger/CLogTargetConsole.hpp"/>
+      <File Name="src/logger/CLogTargetConsole.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="helper">
+      <VirtualDirectory Name="image">
+        <File Name="src/helper/image/ImageHandler.hpp"/>
+        <File Name="src/helper/image/ImageHandler.cpp"/>
+        <File Name="src/helper/image/CImage.hpp"/>
+        <File Name="src/helper/image/CImage.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="geom">
+        <File Name="src/helper/geom/Primitives.hpp"/>
+        <File Name="src/helper/geom/CPlane.hpp"/>
+        <File Name="src/helper/geom/CPlane.cpp"/>
+      </VirtualDirectory>
+      <File Name="src/helper/Types.hpp"/>
+      <File Name="src/helper/String.hpp"/>
+      <File Name="src/helper/String.cpp"/>
+      <File Name="src/helper/Path.hpp"/>
+      <File Name="src/helper/Path.cpp"/>
+      <File Name="src/helper/Date.hpp"/>
+      <File Name="src/helper/Date.cpp"/>
+      <File Name="src/helper/CSize.hpp"/>
+      <File Name="src/helper/CColor.hpp"/>
+    </VirtualDirectory>
+    <File Name="src/Main.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="external">
+    <VirtualDirectory Name="stb">
+      <File Name="external/stb/stb_vorbis.c" ExcludeProjConfig="Debug;"/>
+      <File Name="external/stb/stb_truetype.h"/>
+      <File Name="external/stb/stb_textedit.h"/>
+      <File Name="external/stb/stb_rect_pack.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="physfs">
+      <File Name="external/physfs/physfs_unicode.c"/>
+      <File Name="external/physfs/physfs_platforms.h"/>
+      <File Name="external/physfs/physfs_platform_winrt.cpp"/>
+      <File Name="external/physfs/physfs_platform_windows.c"/>
+      <File Name="external/physfs/physfs_platform_unix.c"/>
+      <File Name="external/physfs/physfs_platform_qnx.c"/>
+      <File Name="external/physfs/physfs_platform_posix.c"/>
+      <File Name="external/physfs/physfs_platform_os2.c"/>
+      <File Name="external/physfs/physfs_platform_haiku.cpp"/>
+      <File Name="external/physfs/physfs_miniz.h"/>
+      <File Name="external/physfs/physfs_lzmasdk.h"/>
+      <File Name="external/physfs/physfs_internal.h"/>
+      <File Name="external/physfs/physfs_casefolding.h"/>
+      <File Name="external/physfs/physfs_byteorder.c"/>
+      <File Name="external/physfs/physfs_archiver_zip.c"/>
+      <File Name="external/physfs/physfs_archiver_wad.c"/>
+      <File Name="external/physfs/physfs_archiver_vdf.c"/>
+      <File Name="external/physfs/physfs_archiver_unpacked.c"/>
+      <File Name="external/physfs/physfs_archiver_slb.c"/>
+      <File Name="external/physfs/physfs_archiver_qpak.c"/>
+      <File Name="external/physfs/physfs_archiver_mvl.c"/>
+      <File Name="external/physfs/physfs_archiver_iso9660.c"/>
+      <File Name="external/physfs/physfs_archiver_hog.c"/>
+      <File Name="external/physfs/physfs_archiver_grp.c"/>
+      <File Name="external/physfs/physfs_archiver_dir.c"/>
+      <File Name="external/physfs/physfs_archiver_7z.c"/>
+      <File Name="external/physfs/physfs.h"/>
+      <File Name="external/physfs/physfs.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="minitrace">
+      <File Name="external/minitrace/minitrace.h"/>
+      <File Name="external/minitrace/minitrace.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="json">
+      <File Name="external/json/json.hpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="imgui">
+      <File Name="external/imgui/imgui_widgets.cpp"/>
+      <File Name="external/imgui/imgui_internal.h"/>
+      <File Name="external/imgui/imgui_draw.cpp"/>
+      <File Name="external/imgui/imgui.h"/>
+      <File Name="external/imgui/imgui.cpp"/>
+      <File Name="external/imgui/imconfig.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="fmt">
+      <File Name="external/fmt/time.h"/>
+      <File Name="external/fmt/ranges.h"/>
+      <File Name="external/fmt/printf.h"/>
+      <File Name="external/fmt/posix.h"/>
+      <File Name="external/fmt/posix.cc"/>
+      <File Name="external/fmt/ostream.h"/>
+      <File Name="external/fmt/locale.h"/>
+      <File Name="external/fmt/format.h"/>
+      <File Name="external/fmt/format.cc"/>
+      <File Name="external/fmt/format-inl.h"/>
+      <File Name="external/fmt/core.h"/>
+      <File Name="external/fmt/color.h"/>
+      <File Name="external/fmt/chrono.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="dr_libs">
+      <File Name="external/dr_libs/dr_wav.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="CLI11">
+      <File Name="external/CLI11/CLI11.hpp"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
   <Reconciliation>
     <Regexes/>
     <Excludepaths/>
     <Ignorefiles/>
     <Extensions>
-      <![CDATA[*.cpp;*.c;*.h;*.hpp;*.xrc;*.wxcp;*.fbp;*.cc]]>
+      <![CDATA[*.cpp;*.c;*.h;*.hpp;*.xrc;*.wxcp;*.fbp;*.cc;*.py]]>
     </Extensions>
     <Topleveldir>/home/charon/Projekte/styx/styx</Topleveldir>
   </Reconciliation>
   <Description/>
   <Dependencies/>
-  <VirtualDirectory Name="src">
-    <VirtualDirectory Name="engine">
-      <VirtualDirectory Name="renderer">
-        <VirtualDirectory Name="material">
-          <File Name="src/engine/renderer/material/CMaterial.hpp"/>
-          <File Name="src/engine/renderer/material/CMaterial.cpp"/>
-          <File Name="src/engine/renderer/material/CMaterialLoader.cpp"/>
-          <File Name="src/engine/renderer/material/CMaterialLoader.hpp"/>
-          <File Name="src/engine/renderer/material/CMaterialUniform.hpp"/>
-          <File Name="src/engine/renderer/material/CMaterialUniform.cpp"/>
-          <File Name="src/engine/renderer/material/CMaterialCache.cpp"/>
-          <File Name="src/engine/renderer/material/CMaterialCache.hpp"/>
-        </VirtualDirectory>
-        <VirtualDirectory Name="texture">
-          <File Name="src/engine/renderer/texture/CTexture.cpp"/>
-          <File Name="src/engine/renderer/texture/CCubemapData.cpp"/>
-          <File Name="src/engine/renderer/texture/CCubemapData.hpp"/>
-          <File Name="src/engine/renderer/texture/CTexture.hpp"/>
-          <File Name="src/engine/renderer/texture/C2DArrayData.hpp"/>
-          <File Name="src/engine/renderer/texture/C2DArrayData.cpp"/>
-          <File Name="src/engine/renderer/texture/CTextureLoader.hpp"/>
-          <File Name="src/engine/renderer/texture/CTextureLoader.cpp"/>
-          <File Name="src/engine/renderer/texture/CTextureCache.hpp"/>
-          <File Name="src/engine/renderer/texture/CTextureCache.cpp"/>
-        </VirtualDirectory>
-        <VirtualDirectory Name="shader">
-          <File Name="src/engine/renderer/shader/SShaderInterface.hpp"/>
-          <File Name="src/engine/renderer/shader/CShaderManager.hpp"/>
-          <File Name="src/engine/renderer/shader/CShaderProgram.hpp"/>
-          <File Name="src/engine/renderer/shader/CShaderManager.cpp"/>
-          <File Name="src/engine/renderer/shader/CShaderProgram.cpp"/>
-          <File Name="src/engine/renderer/shader/EEngineUniform.hpp"/>
-        </VirtualDirectory>
-        <File Name="src/engine/renderer/CGLState.cpp"/>
-        <File Name="src/engine/renderer/GLHelper.hpp"/>
-        <File Name="src/engine/renderer/CVAO.hpp"/>
-        <File Name="src/engine/renderer/CGLState.hpp"/>
-        <File Name="src/engine/renderer/CVAO.cpp"/>
-        <File Name="src/engine/renderer/GLHelper.cpp"/>
-        <File Name="src/engine/renderer/GL.h"/>
-        <File Name="src/engine/renderer/CRenderer.hpp"/>
-        <File Name="src/engine/renderer/CRenderer.cpp"/>
-        <File Name="src/engine/renderer/CUniformBuffer.hpp"/>
-        <File Name="src/engine/renderer/CUniformBuffer.cpp"/>
-        <File Name="src/engine/renderer/EUniformBufferLocations.hpp"/>
-        <VirtualDirectory Name="sampler">
-          <File Name="src/engine/renderer/sampler/CSamplerManager.hpp"/>
-          <File Name="src/engine/renderer/sampler/CSamplerManager.cpp"/>
-          <File Name="src/engine/renderer/sampler/CSampler.hpp"/>
-          <File Name="src/engine/renderer/sampler/CSampler.cpp"/>
-        </VirtualDirectory>
-        <File Name="src/engine/renderer/COpenGlAdapter.cpp"/>
-        <File Name="src/engine/renderer/COpenGlAdapter.hpp"/>
-        <VirtualDirectory Name="model">
-          <File Name="src/engine/renderer/model/CMesh.cpp"/>
-          <File Name="src/engine/renderer/model/CMesh.hpp"/>
-          <File Name="src/engine/renderer/model/CModel.hpp"/>
-          <File Name="src/engine/renderer/model/CModel.cpp"/>
-          <File Name="src/engine/renderer/model/CModelManager.hpp"/>
-          <File Name="src/engine/renderer/model/CModelManager.cpp"/>
-          <File Name="src/engine/renderer/model/CModelLoader.hpp"/>
-          <File Name="src/engine/renderer/model/CModelLoader.cpp"/>
-          <File Name="src/engine/renderer/model/CMeshTextureSlot.cpp"/>
-          <File Name="src/engine/renderer/model/CMeshTextureSlot.hpp"/>
-        </VirtualDirectory>
-        <File Name="src/engine/renderer/CFrameBuffer.hpp"/>
-        <File Name="src/engine/renderer/CFrameBuffer.cpp"/>
-        <VirtualDirectory Name="components">
-          <File Name="src/engine/renderer/components/CModelComponent.hpp"/>
-          <File Name="src/engine/renderer/components/CModelComponent.cpp"/>
-        </VirtualDirectory>
-      </VirtualDirectory>
-      <VirtualDirectory Name="helper">
-        <File Name="src/engine/helper/Types.hpp"/>
-        <File Name="src/engine/helper/Path.hpp"/>
-        <File Name="src/engine/helper/Path.cpp"/>
-        <VirtualDirectory Name="image">
-          <File Name="src/engine/helper/image/CImage.cpp"/>
-          <File Name="src/engine/helper/image/CImage.hpp"/>
-          <File Name="src/engine/helper/image/ImageHandler.cpp"/>
-          <File Name="src/engine/helper/image/ImageHandler.hpp"/>
-        </VirtualDirectory>
-        <VirtualDirectory Name="geom">
-          <File Name="src/engine/helper/geom/CPlane.cpp"/>
-          <File Name="src/engine/helper/geom/CPlane.hpp"/>
-          <File Name="src/engine/helper/geom/Primitives.hpp"/>
-        </VirtualDirectory>
-        <File Name="src/engine/helper/Date.hpp"/>
-        <File Name="src/engine/helper/String.cpp"/>
-        <File Name="src/engine/helper/CColor.hpp"/>
-        <File Name="src/engine/helper/String.hpp"/>
-        <File Name="src/engine/helper/Date.cpp"/>
-        <File Name="src/engine/helper/CSize.hpp"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="scene">
-        <File Name="src/engine/scene/CWorld.cpp"/>
-        <VirtualDirectory Name="components">
-          <File Name="src/engine/scene/components/CBaseComponent.hpp"/>
-          <File Name="src/engine/scene/components/EComponentIndex.hpp"/>
-          <VirtualDirectory Name="camera">
-            <File Name="src/engine/scene/components/camera/CCameraComponent.cpp"/>
-            <File Name="src/engine/scene/components/camera/CCameraComponent.hpp"/>
-            <File Name="src/engine/scene/components/camera/CCameraFreeComponent.cpp"/>
-            <File Name="src/engine/scene/components/camera/CCameraFreeComponent.hpp"/>
-            <File Name="src/engine/scene/components/camera/CCameraOrthoComponent.cpp"/>
-            <File Name="src/engine/scene/components/camera/CCameraOrthoComponent.hpp"/>
-          </VirtualDirectory>
-        </VirtualDirectory>
-        <File Name="src/engine/scene/CScene.hpp" ExcludeProjConfig=""/>
-        <File Name="src/engine/scene/CScene.cpp" ExcludeProjConfig=""/>
-        <File Name="src/engine/scene/CEntity.hpp"/>
-        <File Name="src/engine/scene/CEntity.cpp"/>
-        <File Name="src/engine/scene/CWorld.hpp"/>
-        <File Name="src/engine/scene/CFrustum.cpp"/>
-        <File Name="src/engine/scene/CFrustum.hpp"/>
-        <File Name="src/engine/scene/CTransform.cpp"/>
-        <File Name="src/engine/scene/CTransform.hpp"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="system">
-        <File Name="src/engine/system/CFileSystem.cpp"/>
-        <File Name="src/engine/system/CFileSystem.hpp"/>
-        <File Name="src/engine/system/CEngine.hpp"/>
-        <File Name="src/engine/system/CEngine.cpp"/>
-        <File Name="src/engine/system/CGameInfo.cpp"/>
-        <File Name="src/engine/system/CGameInfo.hpp"/>
-        <File Name="src/engine/system/CSettings.cpp"/>
-        <File Name="src/engine/system/CSettings.hpp"/>
-        <File Name="src/engine/system/Main.cpp"/>
-        <File Name="src/engine/system/CTimer.hpp"/>
-        <File Name="src/engine/system/CTimer.cpp"/>
-        <File Name="src/engine/system/CInput.cpp"/>
-        <File Name="src/engine/system/CInput.hpp"/>
-        <File Name="src/engine/system/CWindow.cpp"/>
-        <File Name="src/engine/system/CWindow.hpp"/>
-        <File Name="src/engine/system/ComputerInfo.hpp"/>
-        <File Name="src/engine/system/ComputerInfo.cpp"/>
-        <File Name="src/engine/system/CEngineInterface.hpp"/>
-        <File Name="src/engine/system/CEngineInterface.cpp"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="logger">
-        <File Name="src/engine/logger/CLogTargetMessageBox.hpp"/>
-        <File Name="src/engine/logger/CLogger.hpp"/>
-        <File Name="src/engine/logger/CLogTargetMessageBox.cpp"/>
-        <File Name="src/engine/logger/CLogTargetConsole.hpp"/>
-        <File Name="src/engine/logger/CLogTargetFile.cpp"/>
-        <File Name="src/engine/logger/CLogger.cpp"/>
-        <File Name="src/engine/logger/CLogTargetConsole.cpp"/>
-        <File Name="src/engine/logger/CLogTargetFile.hpp"/>
-        <File Name="src/engine/logger/LogHelper.hpp"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="math">
-        <File Name="src/engine/math/Math.cpp"/>
-        <File Name="src/engine/math/Math.hpp"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="sound">
-        <File Name="src/engine/sound/CSoundManager.hpp"/>
-        <File Name="src/engine/sound/CSoundManager.cpp"/>
-        <File Name="src/engine/sound/ALHelper.hpp"/>
-        <File Name="src/engine/sound/ALHelper.cpp"/>
-        <File Name="src/engine/sound/CSoundBuffer.hpp"/>
-        <File Name="src/engine/sound/CSoundBuffer.cpp"/>
-        <File Name="src/engine/sound/CSoundBufferLoader.cpp"/>
-        <File Name="src/engine/sound/CSoundBufferLoader.hpp"/>
-        <File Name="src/engine/sound/CSoundSource.hpp"/>
-        <File Name="src/engine/sound/CSoundSource.cpp"/>
-        <File Name="src/engine/sound/CSoundBufferCache.cpp"/>
-        <File Name="src/engine/sound/CSoundBufferCache.hpp"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="states">
-        <File Name="src/engine/states/CState.hpp"/>
-        <File Name="src/engine/states/CStateGame.hpp"/>
-        <File Name="src/engine/states/CStateGame.cpp"/>
-        <File Name="src/engine/states/CStateIntro.hpp"/>
-        <File Name="src/engine/states/CStateIntro.cpp"/>
-        <File Name="src/engine/states/CState.cpp"/>
-        <File Name="src/engine/states/CStatePause.hpp"/>
-        <File Name="src/engine/states/CStatePause.cpp"/>
-        <File Name="src/engine/states/CStateMainMenu.hpp"/>
-        <File Name="src/engine/states/CStateMainMenu.cpp"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="sdl">
-        <File Name="src/engine/sdl/CSDL.hpp"/>
-        <File Name="src/engine/sdl/CSDL.cpp"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="resource">
-        <File Name="src/engine/resource/CResourceCacheManager.cpp"/>
-        <File Name="src/engine/resource/CResourceCacheManager.hpp"/>
-        <File Name="src/engine/resource/CResourceCacheBase.hpp"/>
-        <File Name="src/engine/resource/CResourceCacheBase.cpp"/>
-        <File Name="src/engine/resource/CResourceCache.hpp"/>
-      </VirtualDirectory>
-    </VirtualDirectory>
-    <VirtualDirectory Name="ext">
-      <VirtualDirectory Name="fmt">
-        <File Name="src/ext/fmt/posix.cc"/>
-        <File Name="src/ext/fmt/format.cc"/>
-        <File Name="src/ext/fmt/time.h"/>
-        <File Name="src/ext/fmt/ranges.h"/>
-        <File Name="src/ext/fmt/printf.h"/>
-        <File Name="src/ext/fmt/posix.h"/>
-        <File Name="src/ext/fmt/ostream.h"/>
-        <File Name="src/ext/fmt/format.h"/>
-        <File Name="src/ext/fmt/format-inl.h"/>
-        <File Name="src/ext/fmt/core.h"/>
-        <File Name="src/ext/fmt/color.h"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="imgui">
-        <File Name="src/ext/imgui/imconfig.h"/>
-        <File Name="src/ext/imgui/imgui.cpp"/>
-        <File Name="src/ext/imgui/imgui.h"/>
-        <File Name="src/ext/imgui/imgui_draw.cpp"/>
-        <File Name="src/ext/imgui/imgui_internal.h"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="stb">
-        <File Name="src/ext/stb/stb_rect_pack.h"/>
-        <File Name="src/ext/stb/stb_textedit.h"/>
-        <File Name="src/ext/stb/stb_truetype.h"/>
-        <File Name="src/ext/stb/stb_vorbis.c" ExcludeProjConfig="Debug;Debug + Sanitizer;Profile;Release"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="json">
-        <File Name="src/ext/json/json.hpp"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="dr_libs">
-        <File Name="src/ext/dr_libs/dr_wav.h"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="CLI11">
-        <File Name="src/ext/CLI11/CLI11.hpp"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="physfs">
-        <File Name="src/ext/physfs/physfs.c"/>
-        <File Name="src/ext/physfs/physfs.h"/>
-        <File Name="src/ext/physfs/physfs_archiver_7z.c"/>
-        <File Name="src/ext/physfs/physfs_archiver_dir.c"/>
-        <File Name="src/ext/physfs/physfs_archiver_grp.c"/>
-        <File Name="src/ext/physfs/physfs_archiver_hog.c"/>
-        <File Name="src/ext/physfs/physfs_archiver_iso9660.c"/>
-        <File Name="src/ext/physfs/physfs_archiver_mvl.c"/>
-        <File Name="src/ext/physfs/physfs_archiver_qpak.c"/>
-        <File Name="src/ext/physfs/physfs_archiver_slb.c"/>
-        <File Name="src/ext/physfs/physfs_archiver_unpacked.c"/>
-        <File Name="src/ext/physfs/physfs_archiver_vdf.c"/>
-        <File Name="src/ext/physfs/physfs_archiver_wad.c"/>
-        <File Name="src/ext/physfs/physfs_archiver_zip.c"/>
-        <File Name="src/ext/physfs/physfs_byteorder.c"/>
-        <File Name="src/ext/physfs/physfs_casefolding.h"/>
-        <File Name="src/ext/physfs/physfs_internal.h"/>
-        <File Name="src/ext/physfs/physfs_lzmasdk.h"/>
-        <File Name="src/ext/physfs/physfs_miniz.h"/>
-        <File Name="src/ext/physfs/physfs_platform_haiku.cpp"/>
-        <File Name="src/ext/physfs/physfs_platform_os2.c"/>
-        <File Name="src/ext/physfs/physfs_platform_posix.c"/>
-        <File Name="src/ext/physfs/physfs_platform_qnx.c"/>
-        <File Name="src/ext/physfs/physfs_platform_unix.c"/>
-        <File Name="src/ext/physfs/physfs_platform_windows.c"/>
-        <File Name="src/ext/physfs/physfs_platform_winrt.cpp"/>
-        <File Name="src/ext/physfs/physfs_platforms.h"/>
-        <File Name="src/ext/physfs/physfs_unicode.c"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="minitrace">
-        <File Name="src/ext/minitrace/minitrace.c"/>
-        <File Name="src/ext/minitrace/minitrace.h"/>
-      </VirtualDirectory>
-    </VirtualDirectory>
-  </VirtualDirectory>
   <VirtualDirectory Name="styx">
     <File Name="COPYING"/>
     <File Name="COMPILERS"/>
@@ -324,7 +328,6 @@
     <File Name="DoxySfile"/>
     <File Name="README"/>
     <File Name="doxyfile"/>
-    <File Name="asan_symbolize.py"/>
     <File Name="TODO"/>
   </VirtualDirectory>
   <Dependencies Name="Debug"/>
@@ -332,7 +335,7 @@
   <Dependencies Name="Release"/>
   <Settings Type="Executable">
     <GlobalSettings>
-      <Compiler Options="-Wmain;-pedantic-errors;-Wfatal-errors;-ansi;-pedantic;-Wall;-Wextra;-Wmissing-include-dirs;-Wmissing-declarations;-Wunreachable-code;-Winline;-Wfloat-equal;-Wundef;-Wcast-align;-Wredundant-decls;-Winit-self;-Wshadow;-Wint-to-void-pointer-cast;-Wcast-qual;-Wunused-lambda-capture;-std=c++17;--system-header-prefix=src/ext/" C_Options="-Wall" Assembler="">
+      <Compiler Options="-Wmain;-pedantic-errors;-Wfatal-errors;-ansi;-pedantic;-std=c++17;-Wall;-Wextra;-Wmissing-include-dirs;-Wmissing-declarations;-Wunreachable-code;-Winline;-Wfloat-equal;-Wundef;-Wcast-align;-Wredundant-decls;-Winit-self;-Wshadow;-Wint-to-void-pointer-cast;-Wcast-qual;-Wunused-lambda-capture;--system-header-prefix=external/" C_Options="-Wall" Assembler="">
         <IncludePath Value="."/>
         <Preprocessor Value="GLM_ENABLE_EXPERIMENTAL"/>
         <Preprocessor Value="MTR_ENABLED"/>
