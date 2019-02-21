@@ -28,11 +28,11 @@ protected:
 	virtual ~CResourceCache()
 	{
 		#ifdef STYX_DEBUG
-		if( !m_resourceFiles.empty() )
+		if( !m_resources.empty() )
 		{
-			logWARNING( "there are still '{0}' resources in '{1}' cache", m_resourceFiles.size(), m_name );
+			logWARNING( "there are still '{0}' resources in '{1}' cache", m_resources.size(), m_name );
 
-			for( const auto & [ filename, resourceFile ] : m_resourceFiles )
+			for( const auto & [ filename, resourceFile ] : m_resources )
 			{
 				logDEBUG( "\t{0}: {1}", filename, resourceFile.resource.use_count() );
 			}
@@ -43,17 +43,17 @@ protected:
 public:
 	[[nodiscard]] const std::shared_ptr< const T > GetResource( const std::string &path )
 	{
-		const auto it = m_resourceFiles.find( path );
-		if( std::end( m_resourceFiles ) != it )
+		const auto it = m_resources.find( path );
+		if( std::end( m_resources ) != it )
 		{
 			return( it->second.resource );
 		}
 
 		auto newResource = std::make_shared< T >();
 
-		LoadFromFile( newResource, path );
+		Load( newResource, path );
 
-		auto &resourceFile = m_resourceFiles[ path ];
+		auto &resourceFile = m_resources[ path ];
 
 		resourceFile.resource = newResource;
 		resourceFile.mtime    = m_filesystem.GetLastModTime( path );
@@ -63,11 +63,11 @@ public:
 
 	void CollectGarbage() override final
 	{
-		for( auto it = std::cbegin( m_resourceFiles ); it != std::cend( m_resourceFiles ); )
+		for( auto it = std::cbegin( m_resources ); it != std::cend( m_resources ); )
 		{
 			if( it->second.resource.unique() )
 			{
-				m_resourceFiles.erase( it++ );
+				m_resources.erase( it++ );
 			}
 			else
 			{
@@ -80,7 +80,7 @@ public:
 	{
 		logINFO( "reloading cache: {0}", m_name );
 
-		for( auto & [ filename, resourceFile ] : m_resourceFiles )
+		for( auto & [ filename, resourceFile ] : m_resources )
 		{
 			const auto currentMtime = m_filesystem.GetLastModTime( filename );
 			if( currentMtime > resourceFile.mtime )
@@ -89,7 +89,7 @@ public:
 
 				resourceFile.resource->Reset();
 
-				LoadFromFile( resourceFile.resource, filename );
+				Load( resourceFile.resource, filename );
 
 				resourceFile.mtime = currentMtime;
 			}
@@ -97,9 +97,9 @@ public:
 	}
 
 private:
-	virtual void LoadFromFile( const std::shared_ptr< T > &resource, const std::string &path ) = 0;
+	virtual void Load( const std::shared_ptr< T > &resource, const std::string &path ) = 0;
 
-	struct sResourceFile
+	struct sResource
 	{
 		std::shared_ptr< T >	resource;
 		i64						mtime;
@@ -107,5 +107,5 @@ private:
 
 	const CFileSystem &m_filesystem;
 
-	std::unordered_map< std::string, sResourceFile > m_resourceFiles;
+	std::unordered_map< std::string, sResource > m_resources;
 };

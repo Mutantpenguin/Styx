@@ -15,7 +15,7 @@ public:
 	CMaterialCache( const CFileSystem &filesystem, CShaderManager	&shaderManager );
 
 private:
-	void LoadFromFile( const std::shared_ptr< CMaterial > &resource, const std::string &path ) override;
+	void Load( const std::shared_ptr< CMaterial > &resource, const std::string &path ) override;
 
 	const CMaterialLoader m_materialLoader;
 };

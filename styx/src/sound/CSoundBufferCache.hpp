@@ -11,7 +11,7 @@ public:
 	explicit CSoundBufferCache( const CFileSystem &filesystem );
 
 public:
-	virtual void LoadFromFile( const std::shared_ptr< CSoundBuffer > &resource, const std::string &path );
+	virtual void Load( const std::shared_ptr< CSoundBuffer > &resource, const std::string &path );
 
 	const CSoundBufferLoader m_soundBufferloader;
 };

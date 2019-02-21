@@ -6,7 +6,7 @@ CSoundBufferCache::CSoundBufferCache( const CFileSystem &filesystem ) :
 {
 }
 
-void CSoundBufferCache::LoadFromFile( const std::shared_ptr< CSoundBuffer > &resource, const std::string &path )
+void CSoundBufferCache::Load( const std::shared_ptr< CSoundBuffer > &resource, const std::string &path )
 {
 	m_soundBufferloader.FromFile( resource, path );
 }
