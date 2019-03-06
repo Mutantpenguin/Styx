@@ -8,7 +8,3 @@ CMaterialCache::CMaterialCache( const CFileSystem &filesystem, CShaderManager &s
 {
 }
 
-void CMaterialCache::Load( const std::shared_ptr< CMaterial > &resource, const std::string &path )
-{
-	m_materialLoader.FromFile( resource, path );
-}

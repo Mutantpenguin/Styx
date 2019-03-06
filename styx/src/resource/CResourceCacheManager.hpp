@@ -19,7 +19,7 @@ public:
 	~CResourceCacheManager();
 
 	template < typename T >
-	void Register( const std::shared_ptr< CResourceCache< T > > &resourceCache )
+	void Register( const std::shared_ptr< CResourceCacheBase > &resourceCache )
 	{
 		auto type_index = std::type_index( typeid( T ) );
 
@@ -40,8 +40,8 @@ public:
 	void CollectGarbage();
 	void Reload();
 
-	template < typename T, typename... Args >
-	const std::shared_ptr< const T > GetResource( Args... args )
+	template < typename T, typename I >
+	const std::shared_ptr< const T > GetResource( I id )
 	{
 		#ifdef STYX_DEBUG
 			auto it = m_resourceCaches.find( std::type_index( typeid( T ) ) );
@@ -54,9 +54,9 @@ public:
 			}
 		#endif
 
-		auto resourceCache = std::static_pointer_cast< CResourceCache< T > >( m_resourceCaches[ std::type_index( typeid( T ) ) ] );
+		auto resourceCache = std::static_pointer_cast< CResourceCache< T, I > >( m_resourceCaches[ std::type_index( typeid( T ) ) ] );
 
-		return( resourceCache->GetResource( args... ) );
+		return( resourceCache->GetResource( id ) );
 	}
 
 private:

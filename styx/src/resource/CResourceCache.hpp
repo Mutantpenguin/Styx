@@ -12,7 +12,7 @@
 #include "src/system/CFileSystem.hpp"
 
 
-template < typename T >
+template < typename T, typename I >
 class CResourceCache : public CResourceCacheBase
 {
 private:
@@ -32,18 +32,18 @@ protected:
 		{
 			logWARNING( "there are still '{0}' resources in '{1}' cache", m_resources.size(), m_name );
 
-			for( const auto & [ filename, resourceFile ] : m_resources )
+			for( const auto & [ filename, resourceInfo ] : m_resources )
 			{
-				logDEBUG( "\t{0}: {1}", filename, resourceFile.resource.use_count() );
+				logDEBUG( "\t{0}: {1}", filename, resourceInfo.resource.use_count() );
 			}
 		}
 		#endif
 	}
 
 public:
-	[[nodiscard]] const std::shared_ptr< const T > GetResource( const std::string &path )
+	[[nodiscard]] const std::shared_ptr< const T > GetResource( const I &id )
 	{
-		const auto it = m_resources.find( path );
+		const auto it = m_resources.find( id );
 		if( std::end( m_resources ) != it )
 		{
 			return( it->second.resource );
@@ -51,12 +51,12 @@ public:
 
 		auto newResource = std::make_shared< T >();
 
-		Load( newResource, path );
+		Load( newResource, id );
 
-		auto &resourceFile = m_resources[ path ];
+		auto &resourceInfo = m_resources[ id ];
 
-		resourceFile.resource = newResource;
-		resourceFile.mtime    = m_filesystem.GetLastModTime( path );
+		resourceInfo.resource = newResource;
+		resourceInfo.mtime    = m_filesystem.GetLastModTime( id );
 
 		return( newResource );
 	}
@@ -80,26 +80,26 @@ public:
 	{
 		logINFO( "reloading cache: {0}", m_name );
 
-		for( auto & [ filename, resourceFile ] : m_resources )
+		for( auto & [ filename, resourceInfo ] : m_resources )
 		{
 			const auto currentMtime = m_filesystem.GetLastModTime( filename );
-			if( currentMtime > resourceFile.mtime )
+			if( currentMtime > resourceInfo.mtime )
 			{
 				logINFO( "\t{0}", filename );
 
-				resourceFile.resource->Reset();
+				resourceInfo.resource->Reset();
 
-				Load( resourceFile.resource, filename );
+				Load( resourceInfo.resource, filename );
 
-				resourceFile.mtime = currentMtime;
+				resourceInfo.mtime = currentMtime;
 			}
 		}
 	}
 
 private:
-	virtual void Load( const std::shared_ptr< T > &resource, const std::string &path ) = 0;
+	virtual void Load( const std::shared_ptr< T > &resource, const I &id ) = 0;
 
-	struct sResource
+	struct sResourceInfo
 	{
 		std::shared_ptr< T >	resource;
 		i64						mtime;
@@ -107,5 +107,5 @@ private:
 
 	const CFileSystem &m_filesystem;
 
-	std::unordered_map< std::string, sResource > m_resources;
+	std::unordered_map< I, sResourceInfo > m_resources;
 };
