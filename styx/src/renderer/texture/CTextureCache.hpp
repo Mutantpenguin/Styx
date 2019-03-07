@@ -1,7 +1,5 @@
 #pragma once
 
-#include <unordered_map>
-
 #include "src/resource/CResourceCache.hpp"
 
 #include "src/system/CSettings.hpp"

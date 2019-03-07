@@ -1,8 +1,5 @@
 #pragma once
 
-#include <cstdint>
-#include <unordered_map>
-
 #include "src/resource/CResourceCache.hpp"
 
 #include "src/renderer/material/CMaterial.hpp"
