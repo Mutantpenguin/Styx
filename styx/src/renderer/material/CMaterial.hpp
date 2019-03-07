@@ -10,6 +10,9 @@
 class CMaterial final
 {
 public:
+	using ResourceIdType = std::string;
+
+public:
 	CMaterial();
 	~CMaterial();
 

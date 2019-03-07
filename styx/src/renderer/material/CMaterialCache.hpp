@@ -9,15 +9,20 @@
 
 #include "src/renderer/material/CMaterialLoader.hpp"
 
-class CMaterialCache final  : public CResourceCache< CMaterial, std::string >
+class CMaterialCache final : public CResourceCache< CMaterial >
 {
 public:
 	CMaterialCache( const CFileSystem &filesystem, CShaderManager &shaderManager );
 
 private:
-	void Load( const std::shared_ptr< CMaterial > &resource, const std::string &id ) override
+	void Load( const std::shared_ptr< CMaterial > &resource, const CMaterial::ResourceIdType &id ) override
 	{
 		m_materialLoader.FromFile( resource, id );
+	}
+
+	i64 GetMtime( const CMaterial::ResourceIdType &id )
+	{
+		return( m_filesystem.GetLastModTime( id ) );
 	}
 
 	const CMaterialLoader m_materialLoader;

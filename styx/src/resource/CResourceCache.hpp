@@ -12,7 +12,7 @@
 #include "src/system/CFileSystem.hpp"
 
 
-template < typename T, typename I >
+template < typename T >
 class CResourceCache : public CResourceCacheBase
 {
 private:
@@ -41,7 +41,7 @@ protected:
 	}
 
 public:
-	[[nodiscard]] const std::shared_ptr< const T > GetResource( const I &id )
+	[[nodiscard]] const std::shared_ptr< const T > GetResource( const typename T::ResourceIdType &id )
 	{
 		const auto it = m_resources.find( id );
 		if( std::end( m_resources ) != it )
@@ -56,7 +56,7 @@ public:
 		auto &resourceInfo = m_resources[ id ];
 
 		resourceInfo.resource = newResource;
-		resourceInfo.mtime    = m_filesystem.GetLastModTime( id );
+		resourceInfo.mtime    = GetMtime( id );
 
 		return( newResource );
 	}
@@ -80,24 +80,30 @@ public:
 	{
 		logINFO( "reloading cache: {0}", m_name );
 
-		for( auto & [ filename, resourceInfo ] : m_resources )
+		for( auto & [ id, resourceInfo ] : m_resources )
 		{
-			const auto currentMtime = m_filesystem.GetLastModTime( filename );
+			const auto currentMtime = GetMtime( id );
 			if( currentMtime > resourceInfo.mtime )
 			{
-				logINFO( "\t{0}", filename );
+				logINFO( "\t{0}", id );
 
 				resourceInfo.resource->Reset();
 
-				Load( resourceInfo.resource, filename );
+				Load( resourceInfo.resource, id );
 
 				resourceInfo.mtime = currentMtime;
 			}
 		}
 	}
 
+
+protected:
+	const CFileSystem &m_filesystem;
+
 private:
-	virtual void Load( const std::shared_ptr< T > &resource, const I &id ) = 0;
+	virtual void Load( const std::shared_ptr< T > &resource, const typename T::ResourceIdType &id ) = 0;
+
+	virtual i64 GetMtime( const typename T::ResourceIdType &id ) = 0;
 
 	struct sResourceInfo
 	{
@@ -105,7 +111,5 @@ private:
 		i64						mtime;
 	};
 
-	const CFileSystem &m_filesystem;
-
-	std::unordered_map< I, sResourceInfo > m_resources;
+	std::unordered_map< typename T::ResourceIdType, sResourceInfo > m_resources;
 };

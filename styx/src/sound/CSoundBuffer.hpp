@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include <AL/al.h>
 #include <AL/alc.h>
 
@@ -9,6 +11,9 @@ class CSoundBuffer final
 {
 	friend class CSoundBufferLoader;
 	friend class CSoundSource;
+
+public:
+	using ResourceIdType = std::string;
 
 private:
 	CSoundBuffer( const CSoundBuffer& rhs );

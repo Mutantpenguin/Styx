@@ -13,7 +13,7 @@ CResourceCacheBase::~CResourceCacheBase()
 	logINFO( "cache for '{0}' is shutting down", m_name );
 }
 
-const std::string & CResourceCacheBase::Name()
+const std::string & CResourceCacheBase::Name() const
 {
 	return( m_name );
 }

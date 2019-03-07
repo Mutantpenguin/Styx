@@ -17,7 +17,7 @@ public:
 	virtual void CollectGarbage() = 0;
 	virtual void Reload() = 0;
 
-	const std::string &Name();
+	const std::string &Name() const;
 
 protected:
 	const std::string m_name;

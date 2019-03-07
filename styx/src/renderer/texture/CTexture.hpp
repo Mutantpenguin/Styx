@@ -1,11 +1,16 @@
 #pragma once
 
+#include <string>
+
 #include "src/helper/Types.hpp"
 
 #include "src/renderer/GL.h"
 
 class CTexture final
 {
+public:
+	using ResourceIdType = std::string;
+
 private:
 	CTexture( const CTexture& rhs );
 	CTexture & operator = ( const CTexture& rhs );
