@@ -22,6 +22,8 @@
 #include "src/renderer/sampler/CSamplerManager.hpp"
 #include "src/renderer/material/CMaterialCache.hpp"
 
+#include "src/renderer/shader/CShaderCompiler.hpp"
+
 #include "src/helper/CColor.hpp"
 
 class CRenderer final
@@ -74,6 +76,8 @@ private:
 	CResourceCacheManager &m_resourceCacheManager;
 
 	COpenGlAdapter m_OpenGlAdapter;
+
+	CShaderCompiler m_shaderCompiler;
 
 	CSamplerManager		m_samplerManager;
 	CShaderManager		m_shaderManager;

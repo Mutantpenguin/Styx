@@ -19,7 +19,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 		m_settings { settings },
 		m_resourceCacheManager { resourceCacheManager },
 		m_samplerManager( settings ),
-		m_shaderManager( filesystem ),
+		m_shaderManager( filesystem, m_shaderCompiler ),
 		m_textureCache { std::make_shared< CTextureCache >( settings, filesystem, m_OpenGlAdapter ) },
 		m_materialCache { std::make_shared< CMaterialCache >( filesystem, m_shaderManager ) }
 {
@@ -90,14 +90,14 @@ void CRenderer::CreateUniformBuffers()
 										"mat4 viewProjectionMatrix;";
 
 		m_uboCamera = std::make_shared< CUniformBuffer >( ( 2 * sizeof( glm::vec4 ) ) + ( 3 * sizeof( glm::mat4 ) ), GL_DYNAMIC_DRAW, EUniformBufferLocation::CAMERA, "Camera", cameraBody );
-		m_shaderManager.RegisterUniformBuffer( m_uboCamera );
+		m_shaderCompiler.RegisterUniformBuffer( m_uboCamera );
 	}
 
 	{
 		const std::string timerBody = "uint time;";
 
 		m_uboTimer = std::make_shared< CUniformBuffer >( sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::TIME, "Timer", timerBody );
-		m_shaderManager.RegisterUniformBuffer( m_uboTimer );
+		m_shaderCompiler.RegisterUniformBuffer( m_uboTimer );
 	}
 
 	{
@@ -105,7 +105,7 @@ void CRenderer::CreateUniformBuffers()
 										"uint height;";
 
 		m_uboScreen = std::make_shared< CUniformBuffer >( 2 * sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::SCREEN, "Screen", screenBody );
-		m_shaderManager.RegisterUniformBuffer( m_uboScreen );
+		m_shaderCompiler.RegisterUniformBuffer( m_uboScreen );
 
 		m_uboScreen->SubData( 0,					sizeof( glm::uint ), &m_settings.renderer.window.size.width );
 		m_uboScreen->SubData( sizeof( glm::uint ),	sizeof( glm::uint ), &m_settings.renderer.window.size.height );

@@ -1,27 +1,21 @@
 #pragma once
 
 #include <unordered_map>
-#include <unordered_set>
 #include <map>
 
 #include "src/renderer/GL.h"
 
 #include "src/system/CFileSystem.hpp"
 
-#include "src/renderer/CUniformBuffer.hpp"
-
-#include "src/renderer/shader/EEngineUniform.hpp"
-
+#include "src/renderer/shader/CShaderCompiler.hpp"
 #include "src/renderer/shader/CShaderProgram.hpp"
-
-#include "src/renderer/CVAO.hpp"
 
 class CShaderManager
 {
 	friend class CRenderer;
 
 public:
-	explicit CShaderManager( const CFileSystem &p_filesystem );
+	explicit CShaderManager( const CFileSystem &p_filesystem, const CShaderCompiler &shaderCompiler );
 	~CShaderManager();
 
 	[[nodiscard]] const std::shared_ptr< const CShaderProgram > LoadProgram( const std::string &pathVertexShader, const std::string &pathFragmentShader );
@@ -47,25 +41,14 @@ private:
 
 	[[nodiscard]] GLuint LoadShader( const GLenum type, const std::string &path );
 
-	[[nodiscard]] GLuint CreateShader( const GLenum type, const std::string &body ) const;
-
 	[[nodiscard]] bool InterfaceSetup( const std::shared_ptr< CShaderProgram > &shaderProgram ) const;
 
-	void RegisterUniformBuffer( const std::shared_ptr< const CUniformBuffer > &ubo );
-
-	const CFileSystem &m_filesystem;
+	const CFileSystem		&m_filesystem;
+	const CShaderCompiler	&m_shaderCompiler;
 
 	std::unordered_map< std::string, std::shared_ptr< CShaderProgram > > m_programs;
 
 	std::unordered_map< std::string, GLuint > m_shaders;
-
-	std::unordered_set< std::shared_ptr< const CUniformBuffer > > m_registeredUniformBuffers;
-
-	static const std::string srcAdditionShaderVersion;
-
-	static const std::map< const CVAO::EAttributeLocation, const SShaderInterface > allowedAttributes;
-
-	static const std::unordered_map< EEngineUniform, const SShaderInterface > engineUniforms;
 
 	std::shared_ptr< CShaderProgram > m_dummyProgram;
 };

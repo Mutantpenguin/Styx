@@ -4,25 +4,13 @@
 
 #include <glbinding-aux/Meta.h>
 
-#include "src/renderer/GLHelper.hpp"
-
 #include "src/logger/CLogger.hpp"
 
 constexpr const GLint CShaderManager::requiredCombinedTextureImageUnits;
 
-const std::string CShaderManager::srcAdditionShaderVersion = "#version 430\n";
-
-const std::map< const CVAO::EAttributeLocation, const SShaderInterface > CShaderManager::allowedAttributes = {	{ CVAO::EAttributeLocation::position,	{ "position",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
-																												{ CVAO::EAttributeLocation::normal,		{ "normal",		GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
-																												{ CVAO::EAttributeLocation::texcoord,	{ "texcoord",	GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
-																												{ CVAO::EAttributeLocation::tangent,	{ "tangent",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
-																												{ CVAO::EAttributeLocation::bitangent,	{ "bitangent",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } } };
-
-const std::unordered_map< EEngineUniform, const SShaderInterface > CShaderManager::engineUniforms = {	{ EEngineUniform::modelViewProjectionMatrix,	{ "modelViewProjectionMatrix",	GLHelper::glmTypeToGLSLType< glm::mat4 >() } },
-																										{ EEngineUniform::modelMatrix,					{ "modelMatrix",				GLHelper::glmTypeToGLSLType< glm::mat4 >() } } };
-
-CShaderManager::CShaderManager( const CFileSystem &p_filesystem ) :
-	m_filesystem { p_filesystem }
+CShaderManager::CShaderManager( const CFileSystem &p_filesystem, const CShaderCompiler &shaderCompiler ) :
+	m_filesystem { p_filesystem },
+	m_shaderCompiler { shaderCompiler }
 {
 	if( !CreateDummyProgram() )
 	{
@@ -45,15 +33,15 @@ CShaderManager::~CShaderManager()
 
 bool CShaderManager::CreateDummyProgram()
 {
-	const auto &positionAttribute = allowedAttributes.at( CVAO::EAttributeLocation::position );
-	const auto &uniformModelViewProjectionMatrix = engineUniforms.at( EEngineUniform::modelViewProjectionMatrix );
+	const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( CVAO::EAttributeLocation::position );
+	const auto &uniformModelViewProjectionMatrix = CShaderCompiler::EngineUniforms.at( EEngineUniform::modelViewProjectionMatrix );
 
 	const std::string vertexShaderString =	"void main()" \
 											"{" \
 											"	gl_Position = " + uniformModelViewProjectionMatrix.name + " * vec4( " + positionAttribute.name + ", 1 );" \
 											"}";
 
-	const GLuint vertexShader = CreateShader( GL_VERTEX_SHADER, vertexShaderString );
+	const GLuint vertexShader = m_shaderCompiler.Compile( GL_VERTEX_SHADER, vertexShaderString );
 	if( 0 == vertexShader )
 	{
 		logERROR( "couldn't create dummy vertex shader" );
@@ -66,7 +54,7 @@ bool CShaderManager::CreateDummyProgram()
 												"	color = vec4( 1, 0, 1, 1 ).rgba;" \
 												"}";
 
-	const GLuint fragmentShader = CreateShader( GL_FRAGMENT_SHADER, fragmentShaderString );
+	const GLuint fragmentShader = m_shaderCompiler.Compile( GL_FRAGMENT_SHADER, fragmentShaderString );
 	if( 0 == fragmentShader )
 	{
 		logERROR( "couldn't create dummy fragment shader" );
@@ -150,14 +138,14 @@ const std::shared_ptr< const CShaderProgram > CShaderManager::LoadProgram( const
 
 const std::shared_ptr< const CShaderProgram > CShaderManager::CreateProgramFromStrings( const std::string &vertexShaderString, const std::string &fragmentShaderString ) const
 {
-	const GLuint vertexShader = CreateShader( GL_VERTEX_SHADER, vertexShaderString );
+	const GLuint vertexShader = m_shaderCompiler.Compile( GL_VERTEX_SHADER, vertexShaderString );
 	if( 0 == vertexShader )
 	{
 		logWARNING( "using dummy shader instead of vertex shader '{0}' and fragment shader '{1}'", vertexShaderString, fragmentShaderString );
 		return( m_dummyProgram );
 	}
 
-	const GLuint fragmentShader = CreateShader( GL_FRAGMENT_SHADER, fragmentShaderString );
+	const GLuint fragmentShader = m_shaderCompiler.Compile( GL_FRAGMENT_SHADER, fragmentShaderString );
 	if( 0 == fragmentShader )
 	{
 		logWARNING( "using dummy shader instead of vertex shader '{0}' and fragment shader '{1}'", vertexShaderString, fragmentShaderString );
@@ -234,7 +222,7 @@ GLuint CShaderManager::LoadShader( GLenum type, const std::string &path )
 		}
 		else
 		{
-			const GLuint shader = CreateShader( type, m_filesystem.LoadFileToString( path ) );
+			const GLuint shader = m_shaderCompiler.Compile( type, m_filesystem.LoadFileToString( path ) );
 			if( 0 == shader )
 			{
 				logERROR( "couldn't create '{0}' from '{1}'", glbinding::aux::Meta::getString( type ), path );
@@ -249,86 +237,6 @@ GLuint CShaderManager::LoadShader( GLenum type, const std::string &path )
 			}
 		}
 	}
-}
-
-GLuint CShaderManager::CreateShader( const GLenum type, const std::string &body ) const
-{
-	std::string source = srcAdditionShaderVersion;
-
-	switch( type )
-	{
-		case GL_VERTEX_SHADER:
-			source += "\n";
-
-			for( const auto & [ location, interface ] : allowedAttributes )
-			{
-				source += fmt::format( "layout( location = {0} ) in {1} {2};", static_cast< GLint >( location ), GLHelper::GLSLTypeToString( interface.type ), interface.name ) + "\n";
-			}
-
-			break;
-
-		case GL_FRAGMENT_SHADER:
-			source = srcAdditionShaderVersion;
-			break;
-
-		default:
-			logWARNING( "unsupported shader type '{0}'", glbinding::aux::Meta::getString( type ) );
-			return( 0 );
-	}
-
-	if( !engineUniforms.empty() )
-	{
-		source += "\n";
-
-		for( const auto & [ _, interface ] : engineUniforms )
-		{
-			source += fmt::format( "uniform {0} {1};", GLHelper::GLSLTypeToString( interface.type ), interface.name ) + "\n";
-		}
-	}
-
-	if( !m_registeredUniformBuffers.empty() )
-	{
-		source += "\n";
-
-		for( const auto &ubo : m_registeredUniformBuffers )
-		{
-			source += ubo->Source() + "\n";
-		}
-	}
-
-	source += "\n" + body;
-
-	const GLuint shader = glCreateShader( type );
-
-	if( 0 == shader )
-	{
-		logWARNING( "Error creating shader object" );
-		return( 0 );
-	}
-
-	{
-		const char *tempConstSrc = source.c_str();
-		glShaderSource( shader, 1, &tempConstSrc, nullptr );
-	}
-
-	glCompileShader( shader );
-
-	GLint compileResult;
-	glGetShaderiv( shader, GL_COMPILE_STATUS, &compileResult );
-
-	if( compileResult != static_cast< GLint>( GL_TRUE ) )
-	{
-		int infoLogLength;
-		glGetShaderiv( shader, GL_INFO_LOG_LENGTH, &infoLogLength );
-		std::vector< char > errorMessage( infoLogLength );
-		glGetShaderInfoLog( shader, infoLogLength, nullptr, errorMessage.data() );
-
-		logWARNING( "Error compiling shader: {0}", errorMessage.data() );
-
-		return( 0 );
-	}
-
-	return( shader );
 }
 
 bool CShaderManager::InterfaceSetup( const std::shared_ptr< CShaderProgram > &shaderProgram ) const
@@ -347,8 +255,8 @@ bool CShaderManager::InterfaceSetup( const std::shared_ptr< CShaderProgram > &sh
 
 		const GLint attributeLocation = values[ 2 ];
 
-		const auto attributeIt = allowedAttributes.find( static_cast< CVAO::EAttributeLocation >( attributeLocation ) );
-		if( std::end( allowedAttributes ) == attributeIt )
+		const auto attributeIt = CShaderCompiler::AllowedAttributes.find( static_cast< CVAO::EAttributeLocation >( attributeLocation ) );
+		if( std::end( CShaderCompiler::AllowedAttributes ) == attributeIt )
 		{
 			logERROR( "attribute location '{0}' is not allowed", attributeLocation );
 			return( false );
@@ -418,14 +326,14 @@ bool CShaderManager::InterfaceSetup( const std::shared_ptr< CShaderProgram > &sh
 			case GL_INT:
 			case GL_FLOAT:
 				{
-					const auto engineUniformIt = std::find_if(	std::cbegin( engineUniforms ),
-																std::cend( engineUniforms ),
+					const auto engineUniformIt = std::find_if(	std::cbegin( CShaderCompiler::EngineUniforms ),
+																std::cend( CShaderCompiler::EngineUniforms ),
 																[&]( const auto &uniform )
 																{
 																	return( uniform.second.name == uniformName );
 																} );
 
-					if( std::cend( engineUniforms ) != engineUniformIt )
+					if( std::cend( CShaderCompiler::EngineUniforms ) != engineUniformIt )
 					{
 						// uniform gets provided by the engine
 
@@ -456,9 +364,4 @@ bool CShaderManager::InterfaceSetup( const std::shared_ptr< CShaderProgram > &sh
 	}
 
 	return( true );
-}
-
-void CShaderManager::RegisterUniformBuffer( const std::shared_ptr< const CUniformBuffer > &ubo )
-{
-	m_registeredUniformBuffers.insert( ubo );
 }
