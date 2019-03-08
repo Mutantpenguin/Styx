@@ -87,6 +87,8 @@ public:
 	template< typename T, typename... Args >
 	static void CreateTarget( Args... args )
 	{
+		static_assert( std::is_base_of< CLogTarget, T >::value, "must derive from CLogTarget" );
+
 		m_logTargets.emplace_back( std::make_unique< T >( m_logBuffer, args... ) );
 	}
 
