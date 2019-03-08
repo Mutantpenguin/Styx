@@ -104,6 +104,7 @@
     <ClInclude Include="src\renderer\shader\CShaderManager.hpp" />
     <ClInclude Include="src\renderer\shader\CShaderProgram.hpp" />
     <ClInclude Include="src\renderer\shader\CShaderProgramCache.hpp" />
+    <ClInclude Include="src\renderer\shader\CShaderProgramLoader.hpp" />
     <ClInclude Include="src\renderer\shader\EEngineUniform.hpp" />
     <ClInclude Include="src\renderer\shader\SShaderInterface.hpp" />
     <ClInclude Include="src\renderer\texture\C2DArrayData.hpp" />
@@ -215,6 +216,7 @@
     <ClCompile Include="src\renderer\shader\CShaderManager.cpp" />
     <ClCompile Include="src\renderer\shader\CShaderProgram.cpp" />
     <ClCompile Include="src\renderer\shader\CShaderProgramCache.cpp" />
+    <ClCompile Include="src\renderer\shader\CShaderProgramLoader.cpp" />
     <ClCompile Include="src\renderer\texture\C2DArrayData.cpp" />
     <ClCompile Include="src\renderer\texture\CCubemapData.cpp" />
     <ClCompile Include="src\renderer\texture\CTexture.cpp" />

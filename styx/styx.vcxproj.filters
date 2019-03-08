@@ -441,6 +441,9 @@
     <ClInclude Include="src\renderer\shader\CShaderProgramCache.hpp">
       <Filter>src\renderer\shader</Filter>
     </ClInclude>
+    <ClInclude Include="src\renderer\shader\CShaderProgramLoader.hpp">
+      <Filter>src\renderer\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\fmt\format.cc">
@@ -738,6 +741,9 @@
       <Filter>external\imgui</Filter>
     </ClCompile>
     <ClCompile Include="src\renderer\shader\CShaderProgramCache.cpp">
+      <Filter>src\renderer\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\shader\CShaderProgramLoader.cpp">
       <Filter>src\renderer\shader</Filter>
     </ClCompile>
   </ItemGroup>
