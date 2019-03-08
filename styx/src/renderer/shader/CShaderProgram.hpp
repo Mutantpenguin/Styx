@@ -23,6 +23,8 @@ public:
 		
 	};
 
+	static std::string IdToString( const ResourceIdType &id );
+
 public:
 	explicit CShaderProgram( const GLuint id );
 	CShaderProgram() {};

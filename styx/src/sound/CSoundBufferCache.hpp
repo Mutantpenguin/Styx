@@ -21,10 +21,5 @@ public:
 		return( m_filesystem.GetLastModTime( id ) );
 	}
 
-	std::string GetIdAsString( const typename CSoundBuffer::ResourceIdType &id ) override
-	{
-		return( id );
-	}
-
 	const CSoundBufferLoader m_soundBufferloader;
 };

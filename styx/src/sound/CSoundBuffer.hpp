@@ -15,6 +15,11 @@ class CSoundBuffer final
 public:
 	using ResourceIdType = std::string;
 
+	static std::string IdToString( const ResourceIdType &id )
+	{
+		return( id );
+	}
+
 private:
 	CSoundBuffer( const CSoundBuffer& rhs );
 	CSoundBuffer & operator = ( const CSoundBuffer& rhs );

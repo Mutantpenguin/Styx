@@ -22,10 +22,5 @@ private:
 		return( m_filesystem.GetLastModTime( id ) );
 	}
 
-	std::string GetIdAsString( const typename CMaterial::ResourceIdType &id ) override
-	{
-		return( id );
-	}
-
 	const CMaterialLoader m_materialLoader;
 };

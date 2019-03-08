@@ -12,6 +12,11 @@ class CMaterial final
 public:
 	using ResourceIdType = std::string;
 
+	static std::string IdToString( const ResourceIdType &id )
+	{
+		return( id );
+	}
+
 public:
 	CMaterial() {};
 

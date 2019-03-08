@@ -11,6 +11,11 @@ class CTexture final
 public:
 	using ResourceIdType = std::string;
 
+	static std::string IdToString( const ResourceIdType &id )
+	{
+		return( id );
+	}
+
 private:
 	CTexture( const CTexture& rhs );
 	CTexture & operator = ( const CTexture& rhs );

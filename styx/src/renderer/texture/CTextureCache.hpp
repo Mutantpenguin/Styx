@@ -23,10 +23,5 @@ private:
 		return( m_filesystem.GetLastModTime( id ) );
 	}
 
-	std::string GetIdAsString( const typename CTexture::ResourceIdType &id ) override
-	{
-		return( id );
-	}
-
 	const CTextureLoader m_textureLoader;
 };

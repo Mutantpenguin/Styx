@@ -18,7 +18,7 @@ class CResourceCache : public CResourceCacheBase
 {
 	// TODO static_assert T::Reset
 	// TODO static_assert T::ResourceIdType
-	// TODO static_assert T::ToString
+	// TODO static_assert T::IdToString
 
 private:
 	CResourceCache( const CResourceCache& rhs );
@@ -39,8 +39,7 @@ protected:
 
 			for( const auto & [ id, resourceInfo ] : m_resources )
 			{
-				// BUG list every resource / doesn't work right now because we can't call virtual methods of derived classes
-				//logDEBUG( "\t{0}: {1}", GetIdAsString( id ), resourceInfo.resource.use_count() );
+				logDEBUG( "\t{0}: {1}", T::IdToString( id ), resourceInfo.resource.use_count() );
 			}
 		}
 		#endif
@@ -91,7 +90,7 @@ public:
 			const auto currentMtime = GetMtime( id );
 			if( currentMtime > resourceInfo.mtime )
 			{
-				logINFO( "\t{0}", GetIdAsString( id ) );
+				logINFO( "\t{0}", T::IdToString( id ) );
 
 				resourceInfo.resource->Reset();
 
@@ -110,8 +109,6 @@ private:
 	virtual void Load( const std::shared_ptr< T > &resource, const typename T::ResourceIdType &id ) const = 0;
 
 	virtual i64 GetMtime( const typename T::ResourceIdType &id ) const = 0;
-
-	virtual std::string GetIdAsString( const typename T::ResourceIdType &id ) = 0;
 
 	struct sResourceInfo
 	{

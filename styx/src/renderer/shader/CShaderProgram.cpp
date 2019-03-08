@@ -1,6 +1,13 @@
 #include "CShaderProgram.hpp"
 
+#include "external/fmt/format.h"
+
 #include "src/renderer/CGLState.hpp"
+
+std::string CShaderProgram::IdToString( const ResourceIdType &id )
+{
+	return( fmt::format( "{0} / {1}", id.vertexShader, id.fragmentShader ) );
+}
 
 CShaderProgram::CShaderProgram( const GLuint id ) :
 	m_id { id }

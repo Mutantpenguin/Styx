@@ -20,10 +20,5 @@ private:
 		return( std::max( m_filesystem.GetLastModTime( id.vertexShader ), m_filesystem.GetLastModTime( id.fragmentShader ) ) );
 	}
 
-	std::string GetIdAsString( const typename CShaderProgram::ResourceIdType &id ) override
-	{
-		return( fmt::format( "{0} / {1}", id.vertexShader, id.fragmentShader ) );
-	}
-
 	// TODO const CShaderProgramLoader m_shaderProgramLoader;
 };
