@@ -36,17 +36,11 @@ CShaderManager::~CShaderManager()
 {
 	logINFO( "shader manager is shutting down" );
 
-	for( const auto &vertexShader : m_vertexShaders )
+	for( const auto &shader : m_shaders )
 	{
-		glDeleteShader( vertexShader.second );
+		glDeleteShader( shader.second );
 	}
-	m_vertexShaders.clear();
-
-	for( const auto &fragmentShader : m_fragmentShaders )
-	{
-		glDeleteShader( fragmentShader.second );
-	}
-	m_fragmentShaders.clear();
+	m_shaders.clear();
 }
 
 bool CShaderManager::CreateDummyProgram()
@@ -113,7 +107,7 @@ const std::shared_ptr< const CShaderProgram > CShaderManager::LoadProgram( const
 	}
 	else
 	{
-		const GLuint vertexShader = LoadVertexShader( pathVertexShader );
+		const GLuint vertexShader = LoadShader( GL_VERTEX_SHADER, pathVertexShader );
 		if( 0 == vertexShader )
 		{
 			logWARNING( "using dummy shader instead of vertex shader '{0}' and fragment shader '{1}'", pathVertexShader, pathFragmentShader );
@@ -121,7 +115,7 @@ const std::shared_ptr< const CShaderProgram > CShaderManager::LoadProgram( const
 			return( m_dummyProgram );
 		}
 
-		const GLuint fragmentShader = LoadFragmentShader( pathFragmentShader );
+		const GLuint fragmentShader = LoadShader( GL_FRAGMENT_SHADER, pathFragmentShader );
 		if( 0 == fragmentShader )
 		{
 			logWARNING( "using dummy shader instead of vertex shader '{0}' and fragment shader '{1}'", pathVertexShader, pathFragmentShader );
@@ -224,66 +218,36 @@ GLuint CShaderManager::CreateProgram( const GLuint vertexShader, const GLuint fr
 	return( program );
 }
 
-GLuint CShaderManager::LoadVertexShader( const std::string &path )
+GLuint CShaderManager::LoadShader( GLenum type, const std::string &path )
 {
-	const auto it = m_vertexShaders.find( path );
-	if( std::end( m_vertexShaders ) != it )
+	const auto it = m_shaders.find( path );
+	if( std::end( m_shaders ) != it )
 	{
 		return( it->second );
 	}
 	else
 	{
-		const GLuint vertexShader = LoadShader( GL_VERTEX_SHADER, path );
-		if( 0 == vertexShader )
+		if( !m_filesystem.Exists( path ) )
 		{
-			logERROR( "couldn't create vertex shader from '{0}'", path );
-
-			// TODO do the same as with the program object? -> store and use the dummy shader from here on, so future compiles don't need to be made if we know it will fail
+			logWARNING( "shader file '{0}' does not exist", path );
 			return( 0 );
 		}
 		else
 		{
-			m_vertexShaders[ path ] = vertexShader;
-			return( vertexShader );
-		}
-	}
-}
+			const GLuint shader = CreateShader( type, m_filesystem.LoadFileToString( path ) );
+			if( 0 == shader )
+			{
+				logERROR( "couldn't create '{0}' from '{1}'", glbinding::aux::Meta::getString( type ), path );
 
-GLuint CShaderManager::LoadFragmentShader( const std::string &path )
-{
-	const auto it = m_fragmentShaders.find( path );
-	if( std::end( m_fragmentShaders ) != it )
-	{
-		return( it->second );
-	}
-	else
-	{
-		const GLuint fragmentShader = LoadShader( GL_FRAGMENT_SHADER, path );
-		if( 0 == fragmentShader )
-		{
-			logERROR( "couldn't create fragment shader from '{0}'", path );
-
-			// TODO do the same as with the program object? -> store and use the dummy shader from here on, so future compiles don't need to be made if we know it will fail
-			return( 0 );
+				// TODO do the same as with the program object? -> store and use the dummy shader from here on, so future compiles don't need to be made if we know it will fail
+				return( 0 );
+			}
+			else
+			{
+				m_shaders[ path ] = shader;
+				return( shader );
+			}
 		}
-		else
-		{
-			m_fragmentShaders[ path ] = fragmentShader;
-			return( fragmentShader );
-		}
-	}
-}
-
-GLuint CShaderManager::LoadShader( const GLenum type, const std::string &path ) const
-{
-	if( !m_filesystem.Exists( path ) )
-	{
-		logWARNING( "shader file '{0}' does not exist", path );
-		return( 0 );
-	}
-	else
-	{
-		return( CreateShader( type, m_filesystem.LoadFileToString( path ) ) );
 	}
 }
 

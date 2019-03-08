@@ -45,9 +45,7 @@ private:
 
 	[[nodiscard]] GLuint CreateProgram( const GLuint vertexShader, const GLuint fragmentShader ) const;
 
-	[[nodiscard]] GLuint LoadVertexShader( const std::string &path );
-	[[nodiscard]] GLuint LoadFragmentShader( const std::string &path );
-	[[nodiscard]] GLuint LoadShader( const GLenum type, const std::string &path ) const;
+	[[nodiscard]] GLuint LoadShader( const GLenum type, const std::string &path );
 
 	[[nodiscard]] GLuint CreateShader( const GLenum type, const std::string &body ) const;
 
@@ -59,8 +57,7 @@ private:
 
 	std::unordered_map< std::string, std::shared_ptr< CShaderProgram > > m_programs;
 
-	std::unordered_map< std::string, GLuint > m_vertexShaders;
-	std::unordered_map< std::string, GLuint > m_fragmentShaders;
+	std::unordered_map< std::string, GLuint > m_shaders;
 
 	std::unordered_set< std::shared_ptr< const CUniformBuffer > > m_registeredUniformBuffers;
 
