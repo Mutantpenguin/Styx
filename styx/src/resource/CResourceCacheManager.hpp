@@ -41,7 +41,7 @@ public:
 	void Reload();
 
 	template < typename T >
-	const std::shared_ptr< const T > GetResource( const typename T::ResourceIdType &id )
+	const std::shared_ptr< const T > Get( const typename T::ResourceIdType &id )
 	{
 		#ifdef STYX_DEBUG
 			const auto it = m_resourceCaches.find( std::type_index( typeid( T ) ) );
@@ -56,7 +56,7 @@ public:
 
 		auto resourceCache = std::static_pointer_cast< CResourceCache< T > >( m_resourceCaches[ std::type_index( typeid( T ) ) ] );
 
-		return( resourceCache->GetResource( id ) );
+		return( resourceCache->Get( id ) );
 	}
 
 private:

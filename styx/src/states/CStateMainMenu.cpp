@@ -9,7 +9,7 @@
 
 CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "main menu", filesystem, settings, engineInterface ),
-	m_buttonChangeSound { std::make_shared< CSoundSource>( engineInterface.ResourceCacheManager.GetResource< CSoundBuffer >( "sounds/Pickup_Coin17.wav" ) ) }
+	m_buttonChangeSound { std::make_shared< CSoundSource>( engineInterface.ResourceCacheManager.Get< CSoundBuffer >( "sounds/Pickup_Coin17.wav" ) ) }
 {
 	m_buttonChangeSound->SetLooping( false );
 	m_buttonChangeSound->SetRelativePositioning( true );
@@ -30,7 +30,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	const CSize &windowSize = settings.renderer.window.size;
 
 	{
-		const auto material = resourceCache.GetResource< CMaterial >( "materials/standard.mat" );
+		const auto material = resourceCache.Get< CMaterial >( "materials/standard.mat" );
 
 		auto bgMeshPrimitive = Primitives::quad;
 		bgMeshPrimitive.Vertices[ 0 ].Position.x = 0.0f;
@@ -42,7 +42,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		bgMeshPrimitive.Vertices[ 3 ].Position.x = static_cast< f16 >( windowSize.width );
 		bgMeshPrimitive.Vertices[ 3 ].Position.y = static_cast< f16 >( windowSize.height );
 
-		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/menu/background.jpg" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/menu/background.jpg" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, material, bgMeshTextureSlots );
 
@@ -51,7 +51,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	}
 
 	{
-		const auto material = resourceCache.GetResource< CMaterial >( "materials/standard_blend.mat" );
+		const auto material = resourceCache.Get< CMaterial >( "materials/standard_blend.mat" );
 
 		const f16 halfTitleWidth = windowSize.width * 0.75f / 2;
 		const f16 halfTitleHeight = halfTitleWidth / 4.0f;
@@ -66,7 +66,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		titleMeshPrimitive.Vertices[ 3 ].Position.x = halfTitleWidth;
 		titleMeshPrimitive.Vertices[ 3 ].Position.y = halfTitleHeight;
 
-		const CMesh::TMeshTextureSlots titleMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/menu/title.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TMeshTextureSlots titleMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/menu/title.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 		const auto bgTitleMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, titleMeshPrimitive, material, titleMeshTextureSlots );
 
@@ -89,7 +89,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	buttonMeshPrimitive.Vertices[ 3 ].Position.y = halfButtonHeight;
 
 	{
-		const auto greenMaterial = resourceCache.GetResource< CMaterial >( "materials/green.mat" );
+		const auto greenMaterial = resourceCache.Get< CMaterial >( "materials/green.mat" );
 
 		const auto startMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonMeshPrimitive, greenMaterial );
 
@@ -99,7 +99,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	}
 
 	{
-		const auto redMaterial = resourceCache.GetResource< CMaterial >( "materials/red.mat" );
+		const auto redMaterial = resourceCache.Get< CMaterial >( "materials/red.mat" );
 
 		const auto exitMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonMeshPrimitive, redMaterial );
 
@@ -108,7 +108,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		m_exitEntity->Add<CModelComponent>( exitMesh );
 	}
 
-	m_backgroundMusic = std::make_shared< CSoundSource >( resourceCache.GetResource< CSoundBuffer >( "music/Sad Robot.ogg" ) );
+	m_backgroundMusic = std::make_shared< CSoundSource >( resourceCache.Get< CSoundBuffer >( "music/Sad Robot.ogg" ) );
 	m_backgroundMusic->Play();
 	m_backgroundMusic->SetLooping( true );
 }

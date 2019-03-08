@@ -1,6 +1,6 @@
 On Windows:
 - glTextureSubImage3D throws (GL_INVALID_VALUE) 
-  On AMD and Intel? Check on Intel whats happening there
+  Only on AMD
 
 Create different dummy textures
 - 2D
@@ -9,7 +9,6 @@ Create different dummy textures
 
 Resources
 - rename the CResourceCacheManager to something better
-- Shorten "GetResource"?
 
 Main.cpp
 - strange things happen when no command line arguments are given?

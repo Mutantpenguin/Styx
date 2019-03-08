@@ -10,7 +10,7 @@
 CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "intro", filesystem, settings, engineInterface ),
 	m_startTime { m_timer.Time() },
-	m_introSound { std::make_shared< CSoundSource>( engineInterface.ResourceCacheManager.GetResource< CSoundBuffer >( "sounds/startup_sound.ogg" ) ) },
+	m_introSound { std::make_shared< CSoundSource>( engineInterface.ResourceCacheManager.Get< CSoundBuffer >( "sounds/startup_sound.ogg" ) ) },
 	m_introDuration { m_introSound->Buffer()->Duration() * 1000000 }
 {
 	m_scene.ClearColor( CColor( 1.0f, 1.0f, 1.0f, 1.0f ) );
@@ -28,9 +28,9 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 		m_scene.Camera( cameraEntity );
 	}
 
-	const auto material = resourceCache.GetResource< CMaterial >( "materials/intro_icon.mat" );
+	const auto material = resourceCache.Get< CMaterial >( "materials/intro_icon.mat" );
 
-	const CMesh::TMeshTextureSlots logoMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.GetResource< CTexture >( "textures/styx/logo.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+	const CMesh::TMeshTextureSlots logoMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/styx/logo.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
 	const auto logoMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material, logoMeshTextureSlots );
 

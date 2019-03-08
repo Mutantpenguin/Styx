@@ -46,7 +46,7 @@ protected:
 	}
 
 public:
-	[[nodiscard]] const std::shared_ptr< const T > GetResource( const typename T::ResourceIdType &id )
+	[[nodiscard]] const std::shared_ptr< const T > Get( const typename T::ResourceIdType &id )
 	{
 		const auto it = m_resources.find( id );
 		if( std::end( m_resources ) != it )
