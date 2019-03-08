@@ -1,10 +1,7 @@
 #pragma once
 
+#include <tuple>
 #include <vector>
-#include <unordered_map>
-#include <memory>
-
-#include <glm/glm.hpp>
 
 #include "src/renderer/GL.h"
 
@@ -14,10 +11,26 @@
 class CShaderProgram final
 {
 public:
+	struct ResourceIdType
+	{
+		std::string vertexShader;
+		std::string fragmentShader;
+
+		bool operator<( const ResourceIdType &other) const
+		{
+			return( std::tie( vertexShader, fragmentShader ) < std::tie( other.vertexShader, other.fragmentShader ) );
+		}
+		
+	};
+
+public:
 	explicit CShaderProgram( const GLuint id );
+	CShaderProgram() {};
 	~CShaderProgram();
 
 	void Use() const;
+
+	void Reset();
 
 	const GLuint &OpenGLID() const;
 
@@ -26,11 +39,11 @@ public:
 	const std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredMaterialUniforms() const;
 
 	std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredSamplers();
-	std::vector< std::pair< GLint, const EEngineUniform > >	&RequiredEngineUniforms();
+	std::vector< std::pair< GLint, const EEngineUniform > >		&RequiredEngineUniforms();
 	std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredMaterialUniforms();
 
 private:
-	const GLuint m_id;
+	GLuint m_id;
 
 	std::vector< std::pair< GLint, const SShaderInterface > >	m_requiredSamplers;
 	std::vector< std::pair< GLint, const EEngineUniform > >		m_requiredEngineUniforms;

@@ -20,7 +20,7 @@ private:
 	CSoundBuffer & operator = ( const CSoundBuffer& rhs );
 
 public:
-	CSoundBuffer();
+	CSoundBuffer() {};
 	~CSoundBuffer();
 
 	enum struct format : u8

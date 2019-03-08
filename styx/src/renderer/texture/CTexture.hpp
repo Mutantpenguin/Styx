@@ -23,7 +23,7 @@ public:
 		TEX_2D_ARRAY
 	};
 
-	CTexture();
+	CTexture() {};
 	~CTexture();
 
 	void BindToUnit( const GLuint unit ) const;

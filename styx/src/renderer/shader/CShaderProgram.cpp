@@ -20,6 +20,14 @@ void CShaderProgram::Use() const
 	CGLState::UseProgram( m_id );
 }
 
+void CShaderProgram::Reset()
+{
+	if( glIsProgram( m_id ) == GL_TRUE )
+	{
+		glDeleteProgram( m_id );
+	}
+}
+
 const GLuint &CShaderProgram::OpenGLID() const
 {
 	return( m_id );

@@ -11,14 +11,19 @@ public:
 	explicit CSoundBufferCache( const CFileSystem &filesystem );
 
 public:
-	virtual void Load( const std::shared_ptr< CSoundBuffer > &resource, const CSoundBuffer::ResourceIdType &id )
+	virtual void Load( const std::shared_ptr< CSoundBuffer > &resource, const CSoundBuffer::ResourceIdType &id ) const override
 	{
 		m_soundBufferloader.FromFile( resource, id );
 	};
 
-	i64 GetMtime( const CSoundBuffer::ResourceIdType &id )
+	i64 GetMtime( const CSoundBuffer::ResourceIdType &id ) const override
 	{
 		return( m_filesystem.GetLastModTime( id ) );
+	}
+
+	std::string GetIdAsString( const typename CSoundBuffer::ResourceIdType &id ) override
+	{
+		return( id );
 	}
 
 	const CSoundBufferLoader m_soundBufferloader;

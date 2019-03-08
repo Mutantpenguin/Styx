@@ -13,14 +13,19 @@ public:
 	CTextureCache( const CSettings &psettings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter );
 
 private:
-	void Load( const std::shared_ptr< CTexture > &resource, const CTexture::ResourceIdType &id ) override
+	void Load( const std::shared_ptr< CTexture > &resource, const CTexture::ResourceIdType &id ) const override
 	{
 		m_textureLoader.FromFile( resource, id );
 	}
 
-	i64 GetMtime( const CTexture::ResourceIdType &id )
+	i64 GetMtime( const CTexture::ResourceIdType &id ) const override
 	{
 		return( m_filesystem.GetLastModTime( id ) );
+	}
+
+	std::string GetIdAsString( const typename CTexture::ResourceIdType &id ) override
+	{
+		return( id );
 	}
 
 	const CTextureLoader m_textureLoader;

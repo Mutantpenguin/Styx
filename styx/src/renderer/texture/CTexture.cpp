@@ -2,10 +2,6 @@
 
 #include "src/renderer/CGLState.hpp"
 
-CTexture::CTexture()
-{
-}
-
 CTexture::~CTexture()
 {
 	glDeleteTextures( 1, &m_id );

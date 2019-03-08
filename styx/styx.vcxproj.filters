@@ -438,6 +438,9 @@
     <ClInclude Include="src\system\CWindow.hpp">
       <Filter>src\system</Filter>
     </ClInclude>
+    <ClInclude Include="src\renderer\shader\CShaderProgramCache.hpp">
+      <Filter>src\renderer\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\fmt\format.cc">
@@ -733,6 +736,9 @@
     </ClCompile>
     <ClCompile Include="external\imgui\imgui_widgets.cpp">
       <Filter>external\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\shader\CShaderProgramCache.cpp">
+      <Filter>src\renderer\shader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

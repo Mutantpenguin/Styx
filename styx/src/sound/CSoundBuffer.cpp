@@ -1,9 +1,5 @@
 #include "CSoundBuffer.hpp"
 
-CSoundBuffer::CSoundBuffer()
-{
-}
-
 CSoundBuffer::~CSoundBuffer()
 {
 	if( alIsBuffer( m_bufferID ) )

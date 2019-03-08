@@ -13,8 +13,7 @@ public:
 	using ResourceIdType = std::string;
 
 public:
-	CMaterial();
-	~CMaterial();
+	CMaterial() {};
 
 	void Activate() const;
 
@@ -39,7 +38,6 @@ public:
 	void Reset();
 
 private:
-
 	std::string m_name;
 
 	std::shared_ptr< const CShaderProgram >	m_shader;

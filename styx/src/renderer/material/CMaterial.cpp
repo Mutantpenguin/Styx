@@ -2,14 +2,6 @@
 
 #include "src/renderer/CGLState.hpp"
 
-CMaterial::CMaterial()
-{
-}
-
-CMaterial::~CMaterial()
-{
-}
-
 void CMaterial::Activate() const
 {
 	CGLState::CullFace( m_bCullFace, m_cullfaceMode );

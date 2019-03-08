@@ -1,7 +1,8 @@
 #pragma once
 
 #include <memory>
-#include <unordered_map>
+#include <map>
+#include <string>
 
 #include "src/helper/Types.hpp"
 
@@ -15,6 +16,10 @@
 template < typename T >
 class CResourceCache : public CResourceCacheBase
 {
+	// TODO static_assert T::Reset
+	// TODO static_assert T::ResourceIdType
+	// TODO static_assert T::ToString
+
 private:
 	CResourceCache( const CResourceCache& rhs );
 	CResourceCache& operator = ( const CResourceCache& rhs );
@@ -32,9 +37,10 @@ protected:
 		{
 			logWARNING( "there are still '{0}' resources in '{1}' cache", m_resources.size(), m_name );
 
-			for( const auto & [ filename, resourceInfo ] : m_resources )
+			for( const auto & [ id, resourceInfo ] : m_resources )
 			{
-				logDEBUG( "\t{0}: {1}", filename, resourceInfo.resource.use_count() );
+				// BUG list every resource / doesn't work right now because we can't call virtual methods of derived classes
+				//logDEBUG( "\t{0}: {1}", GetIdAsString( id ), resourceInfo.resource.use_count() );
 			}
 		}
 		#endif
@@ -85,7 +91,7 @@ public:
 			const auto currentMtime = GetMtime( id );
 			if( currentMtime > resourceInfo.mtime )
 			{
-				logINFO( "\t{0}", id );
+				logINFO( "\t{0}", GetIdAsString( id ) );
 
 				resourceInfo.resource->Reset();
 
@@ -101,9 +107,11 @@ protected:
 	const CFileSystem &m_filesystem;
 
 private:
-	virtual void Load( const std::shared_ptr< T > &resource, const typename T::ResourceIdType &id ) = 0;
+	virtual void Load( const std::shared_ptr< T > &resource, const typename T::ResourceIdType &id ) const = 0;
 
-	virtual i64 GetMtime( const typename T::ResourceIdType &id ) = 0;
+	virtual i64 GetMtime( const typename T::ResourceIdType &id ) const = 0;
+
+	virtual std::string GetIdAsString( const typename T::ResourceIdType &id ) = 0;
 
 	struct sResourceInfo
 	{
@@ -111,5 +119,5 @@ private:
 		i64						mtime;
 	};
 
-	std::unordered_map< typename T::ResourceIdType, sResourceInfo > m_resources;
+	std::map< typename T::ResourceIdType, sResourceInfo > m_resources;
 };
