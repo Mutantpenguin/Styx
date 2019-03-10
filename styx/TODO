@@ -12,3 +12,6 @@ Resources
 
 Main.cpp
 - strange things happen when no command line arguments are given?
+
+Loaders:
+in Destructor: warn when dummy is still in use somewhere?
