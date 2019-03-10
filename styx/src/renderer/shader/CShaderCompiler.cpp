@@ -40,7 +40,6 @@ GLuint CShaderCompiler::Compile( const GLenum type, const std::string &body ) co
 		break;
 
 	case GL_FRAGMENT_SHADER:
-		source = srcAdditionShaderVersion;
 		break;
 
 	default:
