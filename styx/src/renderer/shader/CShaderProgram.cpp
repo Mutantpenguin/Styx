@@ -9,35 +9,25 @@ std::string CShaderProgram::IdToString( const ResourceIdType &id )
 	return( fmt::format( "{0} / {1}", id.vertexShader, id.fragmentShader ) );
 }
 
-CShaderProgram::CShaderProgram( const GLuint id ) :
-	m_id { id }
-{
-}
-
 CShaderProgram::~CShaderProgram()
 {
-	if( glIsProgram( m_id ) == GL_TRUE )
+	if( glIsProgram( GLID ) == GL_TRUE )
 	{
-		glDeleteProgram( m_id );
+		glDeleteProgram( GLID );
 	}
 }
 
 void CShaderProgram::Use() const
 {
-	CGLState::UseProgram( m_id );
+	CGLState::UseProgram( GLID );
 }
 
 void CShaderProgram::Reset()
 {
-	if( glIsProgram( m_id ) == GL_TRUE )
+	if( glIsProgram( GLID ) == GL_TRUE )
 	{
-		glDeleteProgram( m_id );
+		glDeleteProgram( GLID );
 	}
-}
-
-const GLuint &CShaderProgram::OpenGLID() const
-{
-	return( m_id );
 }
 
 const std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredSamplers() const

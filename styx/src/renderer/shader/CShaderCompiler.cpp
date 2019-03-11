@@ -110,6 +110,8 @@ bool CShaderCompiler::Compile( const std::shared_ptr<CShader> &shader, const GLe
 
 		logWARNING( "Error compiling shader: {0}", errorMessage.data() );
 
+		shader->Reset();
+
 		return( false );
 	}
 

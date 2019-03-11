@@ -26,7 +26,6 @@ public:
 	static std::string IdToString( const ResourceIdType &id );
 
 public:
-	explicit CShaderProgram( const GLuint id );
 	CShaderProgram() {};
 	~CShaderProgram();
 
@@ -34,7 +33,9 @@ public:
 
 	void Reset();
 
-	const GLuint &OpenGLID() const;
+	// TODO create members for the vertex and fragment shader?
+
+	GLuint GLID;
 
 	const std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredSamplers() const;
 	const std::vector< std::pair< GLint, const EEngineUniform > >	&RequiredEngineUniforms() const;
@@ -45,8 +46,6 @@ public:
 	std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredMaterialUniforms();
 
 private:
-	GLuint m_id;
-
 	std::vector< std::pair< GLint, const SShaderInterface > >	m_requiredSamplers;
 	std::vector< std::pair< GLint, const EEngineUniform > >		m_requiredEngineUniforms;
 	std::vector< std::pair< GLint, const SShaderInterface > >	m_requiredMaterialUniforms;

@@ -49,7 +49,8 @@ bool CShaderManager::CreateDummyProgram()
 		return( false );
 	}
 
-	m_dummyProgram = std::make_shared<CShaderProgram>( program );
+	m_dummyProgram = std::make_shared<CShaderProgram>();
+	m_dummyProgram->GLID = program;
 
 	if( !InterfaceSetup( m_dummyProgram ) )
 	{
@@ -101,7 +102,8 @@ const std::shared_ptr<const CShaderProgram> CShaderManager::LoadProgram( const C
 			return( m_dummyProgram );
 		}
 
-		auto shaderProgram = std::make_shared<CShaderProgram>( program );
+		auto shaderProgram = std::make_shared<CShaderProgram>();
+		shaderProgram->GLID = program;
 
 		if( !InterfaceSetup( shaderProgram ) )
 		{
@@ -127,7 +129,8 @@ const std::shared_ptr<const CShaderProgram> CShaderManager::CreateProgramFromSha
 		return( m_dummyProgram );
 	}
 
-	auto shaderProgram = std::make_shared<CShaderProgram>( program );
+	auto shaderProgram = std::make_shared<CShaderProgram>();
+	shaderProgram->GLID = program;
 
 	if( !InterfaceSetup( shaderProgram ) )
 	{
@@ -179,13 +182,13 @@ bool CShaderManager::InterfaceSetup( const std::shared_ptr<CShaderProgram> &shad
 	 * active attributes
 	 */
 	GLint numActiveAttributes = 0;
-	glGetProgramInterfaceiv( shaderProgram->OpenGLID(), GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &numActiveAttributes );
+	glGetProgramInterfaceiv( shaderProgram->GLID, GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &numActiveAttributes );
 	const std::array<GLenum, 3> attributeProperties { { GL_TYPE, GL_NAME_LENGTH, GL_LOCATION } };
 
 	for( GLint attribIndex = 0; attribIndex < numActiveAttributes; ++attribIndex )
 	{
 		GLint values[ attributeProperties.size() ];
-		glGetProgramResourceiv( shaderProgram->OpenGLID(), GL_PROGRAM_INPUT, attribIndex, attributeProperties.size(), attributeProperties.data(), attributeProperties.size(), NULL, values );
+		glGetProgramResourceiv( shaderProgram->GLID, GL_PROGRAM_INPUT, attribIndex, attributeProperties.size(), attributeProperties.data(), attributeProperties.size(), NULL, values );
 
 		const GLint attributeLocation = values[ 2 ];
 
@@ -198,7 +201,7 @@ bool CShaderManager::InterfaceSetup( const std::shared_ptr<CShaderProgram> &shad
 		else
 		{
 			std::vector<char> nameData( values[ 1 ] );
-			glGetProgramResourceName( shaderProgram->OpenGLID(), GL_PROGRAM_INPUT, attribIndex, nameData.size(), nullptr, &nameData[ 0 ] );
+			glGetProgramResourceName( shaderProgram->GLID, GL_PROGRAM_INPUT, attribIndex, nameData.size(), nullptr, &nameData[ 0 ] );
 			const std::string attributeName( nameData.data() );
 
 			const GLenum attributeType = static_cast<GLenum>( values[ 0 ] );
@@ -217,13 +220,13 @@ bool CShaderManager::InterfaceSetup( const std::shared_ptr<CShaderProgram> &shad
 	 * active non-block uniforms
 	 */
 	GLint numActiveUniforms = 0;
-	glGetProgramInterfaceiv( shaderProgram->OpenGLID(), GL_UNIFORM, GL_ACTIVE_RESOURCES, &numActiveUniforms );
+	glGetProgramInterfaceiv( shaderProgram->GLID, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numActiveUniforms );
 	static const std::array<GLenum, 4> uniformProperties { { GL_BLOCK_INDEX, GL_TYPE, GL_NAME_LENGTH, GL_LOCATION } };
 
 	for( GLint uniformIndex = 0; uniformIndex < numActiveUniforms; ++uniformIndex )
 	{
 		GLint values[ uniformProperties.size() ];
-		glGetProgramResourceiv( shaderProgram->OpenGLID(), GL_UNIFORM, uniformIndex, uniformProperties.size(), uniformProperties.data(), uniformProperties.size(), nullptr, &values[ 0 ] );
+		glGetProgramResourceiv( shaderProgram->GLID, GL_UNIFORM, uniformIndex, uniformProperties.size(), uniformProperties.data(), uniformProperties.size(), nullptr, &values[ 0 ] );
 
 		// skip any uniforms that are in a block.
 		if( values[ 0 ] != -1 )
@@ -232,7 +235,7 @@ bool CShaderManager::InterfaceSetup( const std::shared_ptr<CShaderProgram> &shad
 		}
 
 		std::vector<char> nameData( values[ 2 ] );
-		glGetProgramResourceName( shaderProgram->OpenGLID(), GL_UNIFORM, uniformIndex, nameData.size(), NULL, &nameData[ 0 ] );
+		glGetProgramResourceName( shaderProgram->GLID, GL_UNIFORM, uniformIndex, nameData.size(), NULL, &nameData[ 0 ] );
 		const std::string uniformName( nameData.data() );
 
 		const GLint  uniformLocation = values[ 3 ];
