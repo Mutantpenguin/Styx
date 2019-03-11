@@ -6,12 +6,12 @@
 
 #include "src/renderer/shader/CShaderCompiler.hpp"
 
-constexpr const GLint CShaderProgramCompiler::requiredCombinedTextureImageUnits;
+constexpr const GLint CShaderProgramCompiler::RequiredCombinedTextureImageUnits;
 
 bool CShaderProgramCompiler::Compile( const std::shared_ptr<CShaderProgram> &shaderProgram, const std::shared_ptr<const CShader> &vertexShader, const std::shared_ptr<const CShader> &fragmentShader ) const
 {
 	shaderProgram->GLID = glCreateProgram();
-	if( shaderProgram->GLID )
+	if( 0 == shaderProgram->GLID )
 	{
 		logWARNING( "Error creating program object" );
 		return( false );
@@ -122,9 +122,9 @@ bool CShaderProgramCompiler::SetupInterface( const std::shared_ptr<CShaderProgra
 		case GL_SAMPLER_CUBE:
 		case GL_SAMPLER_2D_ARRAY:
 			shaderProgram->RequiredSamplers().emplace_back( std::make_pair( uniformLocation, SShaderInterface{ uniformName, uniformType } ) );
-			if( shaderProgram->RequiredSamplers().size() > CShaderProgramCompiler::requiredCombinedTextureImageUnits )
+			if( shaderProgram->RequiredSamplers().size() > CShaderProgramCompiler::RequiredCombinedTextureImageUnits )
 			{
-				logERROR( "uses {0} samplers but max {1} are allowed", shaderProgram->RequiredSamplers().size(), CShaderProgramCompiler::requiredCombinedTextureImageUnits );
+				logERROR( "uses {0} samplers but max {1} are allowed", shaderProgram->RequiredSamplers().size(), CShaderProgramCompiler::RequiredCombinedTextureImageUnits );
 				return( false );
 			}
 			break;

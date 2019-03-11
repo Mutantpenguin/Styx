@@ -15,9 +15,9 @@ using json = nlohmann::json;
 
 u16 CMaterialLoader::m_dummyCounter { 0 };
 
-CMaterialLoader::CMaterialLoader( const CFileSystem &filesystem, CShaderManager &shaderManager ) :
+CMaterialLoader::CMaterialLoader( const CFileSystem &filesystem, CResourceCacheManager &resourceCacheManager ) :
 	m_filesystem { filesystem },
-	m_shaderManager { shaderManager }
+	m_resourceCacheManager{ resourceCacheManager }
 {
 	logINFO( "material loader was initialized" );
 }
@@ -170,11 +170,11 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 			fragmentShaderPath = mat_shader_fs->get<std::string>();
 		}
 
-		const auto shader = m_shaderManager.LoadProgram( { vertexShaderPath, fragmentShaderPath } );
+		const auto shaderProgram = m_resourceCacheManager.Get<CShaderProgram>( { vertexShaderPath, fragmentShaderPath } );
 
-		material->ShaderProgram( shader );
+		material->ShaderProgram( shaderProgram );
 
-		if( !shader->RequiredMaterialUniforms().empty() )
+		if( !shaderProgram->RequiredMaterialUniforms().empty() )
 		{
 			const auto mat_uniforms = mat_root.find( "uniforms" );
 			if( mat_uniforms == mat_root.end() )
@@ -184,7 +184,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 			}
 			else
 			{
-				for( const auto & [ location, interface ] : shader->RequiredMaterialUniforms() )
+				for( const auto & [ location, interface ] : shaderProgram->RequiredMaterialUniforms() )
 				{
 					const auto mat_uniform = mat_uniforms->find( interface.name );
 					if( mat_uniform == mat_uniforms->end() )
@@ -350,5 +350,5 @@ void CMaterialLoader::FromMatDummy( const std::shared_ptr< CMaterial > &material
 
 	material->Name( "dummy " + std::to_string( ++m_dummyCounter ) );
 
-	material->ShaderProgram( m_shaderManager.GetDummyShader() );
+	// TODO material->ShaderProgram( m_shaderManager.GetDummyShader() );
 }

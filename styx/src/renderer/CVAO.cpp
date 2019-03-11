@@ -4,8 +4,6 @@
 
 #include "src/renderer/CGLState.hpp"
 
-#include "src/renderer/shader/CShaderManager.hpp"
-
 CVAO::CVAO( GLenum Mode, const Primitives::SPrimitive &primitive ) :
 	m_mode( Mode ),
 	m_vertexCount( primitive.Vertices.size() )

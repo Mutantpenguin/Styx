@@ -85,7 +85,6 @@ private:
 	CShaderProgramCompiler	m_shaderProgramCompiler;
 
 	CSamplerManager		m_samplerManager;
-	CShaderManager		m_shaderManager;
 
 	std::shared_ptr< CTextureCache >		m_textureCache;
 	std::shared_ptr< CMaterialCache >		m_materialCache;

@@ -9,7 +9,7 @@ class CShaderCache final : public CResourceCache< CShader >
 {
 public:
 	CShaderCache( const CFileSystem &p_filesystem, const CShaderCompiler &shaderCompiler ) :
-		CResourceCache( "texture", p_filesystem ),
+		CResourceCache( "shader", p_filesystem ),
 		m_shaderLoader( p_filesystem, shaderCompiler )
 	{}
 

@@ -4,7 +4,7 @@
 
 #include "src/renderer/GL.h"
 
-#include "src/renderer/shader/CShaderManager.hpp"
+#include "src/renderer/shader/CShaderProgramCompiler.hpp"
 
 class CGLState final
 {
@@ -38,8 +38,8 @@ private:
 
 	static GLenum	blendEquation;
 
-	static std::array< GLuint, CShaderManager::requiredCombinedTextureImageUnits > textureUnits;
-	static std::array< GLuint, CShaderManager::requiredCombinedTextureImageUnits > samplerUnits;
+	static std::array< GLuint, CShaderProgramCompiler::RequiredCombinedTextureImageUnits > textureUnits;
+	static std::array< GLuint, CShaderProgramCompiler::RequiredCombinedTextureImageUnits > samplerUnits;
 
 	static GLuint usedProgram;
 

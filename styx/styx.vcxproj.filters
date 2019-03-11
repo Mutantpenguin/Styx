@@ -309,9 +309,6 @@
     <ClInclude Include="src\renderer\sampler\CSamplerManager.hpp">
       <Filter>src\renderer\sampler</Filter>
     </ClInclude>
-    <ClInclude Include="src\renderer\shader\CShaderManager.hpp">
-      <Filter>src\renderer\shader</Filter>
-    </ClInclude>
     <ClInclude Include="src\renderer\shader\CShaderProgram.hpp">
       <Filter>src\renderer\shader</Filter>
     </ClInclude>
@@ -628,9 +625,6 @@
     </ClCompile>
     <ClCompile Include="src\renderer\sampler\CSampler.cpp">
       <Filter>src\renderer\sampler</Filter>
-    </ClCompile>
-    <ClCompile Include="src\renderer\shader\CShaderManager.cpp">
-      <Filter>src\renderer\shader</Filter>
     </ClCompile>
     <ClCompile Include="src\renderer\shader\CShaderProgram.cpp">
       <Filter>src\renderer\shader</Filter>

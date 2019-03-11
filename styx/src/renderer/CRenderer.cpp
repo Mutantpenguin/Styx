@@ -21,9 +21,8 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 		m_samplerManager( settings ),
 		m_shaderCache { std::make_shared< CShaderCache >( filesystem, m_shaderCompiler ) },
 		m_shaderProgramCache { std::make_shared< CShaderProgramCache >( filesystem, resourceCacheManager, m_shaderCompiler, m_shaderProgramCompiler ) },
-		m_shaderManager( filesystem, m_shaderCompiler, m_resourceCacheManager ),
 		m_textureCache { std::make_shared< CTextureCache >( settings, filesystem, m_OpenGlAdapter ) },
-		m_materialCache { std::make_shared< CMaterialCache >( filesystem, m_shaderManager ) }
+		m_materialCache { std::make_shared< CMaterialCache >( filesystem, resourceCacheManager ) }
 {
 	glDepthFunc( GL_LEQUAL );
 	glEnable( GL_DEPTH_TEST );
@@ -63,7 +62,12 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 		}
 
 		const std::shared_ptr< CMaterial > materialFrameBuffer = std::make_shared< CMaterial >();
-		materialFrameBuffer->ShaderProgram( m_shaderManager.CreateProgramFromShaders( vertexShader, fragmentShader ) );
+		const auto shaderProgram = std::make_shared<CShaderProgram>();
+		if( !m_shaderProgramCompiler.Compile( shaderProgram, vertexShader, fragmentShader ) )
+		{
+			throw std::exception( "couldn't create shader program for the framebuffer" );
+		}
+		materialFrameBuffer->ShaderProgram( shaderProgram );
 
 		const CMesh::TMeshTextureSlots frameBufferMeshTextureSlots = { { m_slotNameFrameBuffer, std::make_shared< CMeshTextureSlot >( nullptr, m_samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
@@ -76,11 +80,6 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 	m_resourceCacheManager.Register<CShaderProgram>( m_shaderProgramCache );
 
 	logINFO( "renderer was initialized" );
-}
-catch( CShaderManager::Exception &e )
-{
-	logERROR( "unable to initialize ShaderManager" );
-	throw Exception();
 }
 catch( COpenGlAdapter::Exception &e )
 {

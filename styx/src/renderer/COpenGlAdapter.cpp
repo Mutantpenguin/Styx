@@ -5,6 +5,8 @@
 #include <glbinding-aux/ContextInfo.h>
 #include <glbinding/Version.h>
 
+#include "src/renderer/shader/CShaderProgramCompiler.hpp"
+
 #ifdef __linux__
 	#include <SDL2/SDL.h>
 #elif _WIN32
@@ -12,8 +14,6 @@
 #else
 	#error "unsupported platform"
 #endif
-
-#include "src/renderer/shader/CShaderManager.hpp"
 
 #include "src/logger/CLogger.hpp"
 
@@ -65,9 +65,9 @@ COpenGlAdapter::COpenGlAdapter()
 
 	GLint maxCombinedTextureImageUnits { 0 };
 	glGetIntegerv( GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &maxCombinedTextureImageUnits );
-	if( maxCombinedTextureImageUnits < CShaderManager::requiredCombinedTextureImageUnits )
+	if( maxCombinedTextureImageUnits < CShaderProgramCompiler::RequiredCombinedTextureImageUnits )
 	{
-		logERROR( "not enough combined texture image units: {0} found but {1} needed", maxCombinedTextureImageUnits, CShaderManager::requiredCombinedTextureImageUnits );
+		logERROR( "not enough combined texture image units: {0} found but {1} needed", maxCombinedTextureImageUnits, CShaderProgramCompiler::RequiredCombinedTextureImageUnits );
 		throw Exception();
 	}
 	logDEBUG( "{0} is {1}", glbinding::aux::Meta::getString( GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS ), maxCombinedTextureImageUnits );

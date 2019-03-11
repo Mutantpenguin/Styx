@@ -4,14 +4,14 @@
 
 #include "CMaterial.hpp"
 
-#include "src/renderer/shader/CShaderManager.hpp"
-#include "src/renderer/texture/CTextureCache.hpp"
-#include "src/renderer/sampler/CSamplerManager.hpp"
+#include "src/system/CFileSystem.hpp"
+#include "src/resource/CResourceCacheManager.hpp"
+
 
 class CMaterialLoader final
 {
 public:
-	CMaterialLoader( const CFileSystem &filesystem, CShaderManager &shaderManager );
+	CMaterialLoader( const CFileSystem &filesystem, CResourceCacheManager &resourceCacheManager );
 	~CMaterialLoader();
 
 	void FromFile( const std::shared_ptr< CMaterial > &material, const std::string &path ) const;
@@ -23,7 +23,7 @@ private:
 
 	const CFileSystem &m_filesystem;
 
-	CShaderManager &m_shaderManager;
+	CResourceCacheManager &m_resourceCacheManager;
 
 	static u16 m_dummyCounter;
 };

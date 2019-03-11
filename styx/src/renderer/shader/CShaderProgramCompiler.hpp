@@ -10,8 +10,8 @@ class CShaderProgramCompiler final
 public:
 	bool Compile( const std::shared_ptr<CShaderProgram> &shaderProgram, const std::shared_ptr<const CShader> &vertexShader, const std::shared_ptr<const CShader> &fragmentShader ) const;
 
+	constexpr static const GLint RequiredCombinedTextureImageUnits { 16 };
+
 private:
 	[[ nodiscard ]] bool SetupInterface( const std::shared_ptr<CShaderProgram> &shaderProgram ) const;
-
-	constexpr static const GLint requiredCombinedTextureImageUnits{ 16 };
 };
