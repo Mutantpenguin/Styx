@@ -21,7 +21,7 @@ private:
 	CTexture & operator = ( const CTexture& rhs );
 
 public:
-	enum struct TextureType : u8
+	enum struct EType : u8
 	{
 		TEX_2D = 0,
 		TEX_CUBE_MAP,
@@ -33,15 +33,15 @@ public:
 
 	void BindToUnit( const GLuint unit ) const;
 
-	TextureType Type() const;
-	void Type( const TextureType type );
+	EType Type() const;
+	void Type( const EType type );
 
 	void Reset();
 
 	GLuint &OpenGLID();
 
 private:
-	TextureType m_type;
+	EType m_type;
 
 	GLuint m_id;
 };

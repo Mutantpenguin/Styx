@@ -12,12 +12,12 @@ void CTexture::BindToUnit( const GLuint unit ) const
 	CGLState::BindTextureToUnit( m_id, unit );
 }
 
-CTexture::TextureType CTexture::Type() const
+CTexture::EType CTexture::Type() const
 {
 	return( m_type );
 }
 
-void CTexture::Type( const TextureType type )
+void CTexture::Type( const EType type )
 {
 	m_type = type;
 }

@@ -18,7 +18,7 @@ CFrameBuffer::CFrameBuffer( const CSize &size ) :
 	{
 		auto &colorTextureID = m_colorTexture->OpenGLID();
 
-		m_colorTexture->Type( CTexture::TextureType::TEX_2D );
+		m_colorTexture->Type( CTexture::EType::TEX_2D );
 		glCreateTextures( GL_TEXTURE_2D, 1, &colorTextureID );
 
 		glTextureParameteri( colorTextureID, GL_TEXTURE_BASE_LEVEL, 0 );

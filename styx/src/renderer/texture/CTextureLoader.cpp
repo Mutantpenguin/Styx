@@ -221,7 +221,7 @@ bool CTextureLoader::From2DArrayFile( const std::shared_ptr< CTexture > &texture
 
 void CTextureLoader::FromImage( const std::shared_ptr< CTexture > &texture, const std::shared_ptr< const CImage > &image ) const
 {
-	texture->Type( CTexture::TextureType::TEX_2D );
+	texture->Type( CTexture::EType::TEX_2D );
 
 	auto &id = texture->OpenGLID();
 
@@ -256,7 +256,7 @@ bool CTextureLoader::FromCubemapData( const std::shared_ptr< CTexture > &texture
 {
 	if( cubemapData.isComplete() )
 	{
-		texture->Type( CTexture::TextureType::TEX_CUBE_MAP );
+		texture->Type( CTexture::EType::TEX_CUBE_MAP );
 
 		auto &id = texture->OpenGLID();
 
@@ -306,7 +306,7 @@ bool CTextureLoader::From2DArrayData( const std::shared_ptr< CTexture > &texture
 
 	if( layers.size() > 0 )
 	{
-		texture->Type( CTexture::TextureType::TEX_2D_ARRAY );
+		texture->Type( CTexture::EType::TEX_2D_ARRAY );
 
 		auto &id = texture->OpenGLID();
 
