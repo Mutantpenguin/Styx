@@ -31,8 +31,8 @@ public:
 
 	void PolygonMode( const GLenum polygonMode );
 
-	const std::shared_ptr< const CShaderProgram > &Shader() const;
-	void Shader( const std::shared_ptr< const CShaderProgram > &shader );
+	const std::shared_ptr< const CShaderProgram > &ShaderProgram() const;
+	void ShaderProgram( const std::shared_ptr< const CShaderProgram > &shaderProgram );
 
 	const std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &MaterialUniforms() const;
 	std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &MaterialUniforms();
@@ -45,7 +45,7 @@ public:
 private:
 	std::string m_name;
 
-	std::shared_ptr< const CShaderProgram >	m_shader;
+	std::shared_ptr< const CShaderProgram >	m_shaderProgram;
 
 	std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > m_materialUniforms;
 

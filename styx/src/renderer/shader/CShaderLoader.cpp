@@ -16,7 +16,7 @@ CShaderLoader::~CShaderLoader()
 	logINFO( "shader loader is shutting down" );
 }
 
-void CShaderLoader::FromFile( const std::shared_ptr< CShader > &shader, const std::string &path ) const
+void CShaderLoader::FromFile( const std::shared_ptr<CShader> &shader, const std::string &path ) const
 {
 	const std::string fileExtension = Path::Extension( path );
 	
@@ -72,7 +72,7 @@ void CShaderLoader::FromFile( const std::shared_ptr< CShader > &shader, const st
 	}
 }
 
-void CShaderLoader::FromVertexDummy( const std::shared_ptr< CShader > &shader ) const
+void CShaderLoader::FromVertexDummy( const std::shared_ptr<CShader> &shader ) const
 {
 	shader->Reset();
 
@@ -80,10 +80,10 @@ void CShaderLoader::FromVertexDummy( const std::shared_ptr< CShader > &shader ) 
 	const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( CVAO::EAttributeLocation::position );
 	const auto &uniformModelViewProjectionMatrix = CShaderCompiler::EngineUniforms.at( EEngineUniform::modelViewProjectionMatrix );
 
-	const std::string vertexShaderString =	"void main()" \
-											"{" \
-											"	gl_Position = " + uniformModelViewProjectionMatrix.name + " * vec4( " + positionAttribute.name + ", 1 );" \
-											"}";
+	static const std::string vertexShaderString =	"void main()" \
+													"{" \
+													"	gl_Position = " + uniformModelViewProjectionMatrix.name + " * vec4( " + positionAttribute.name + ", 1 );" \
+													"}";
 
 	if( !m_shaderCompiler.Compile( shader, GL_VERTEX_SHADER, vertexShaderString ) )
 	{
@@ -91,16 +91,16 @@ void CShaderLoader::FromVertexDummy( const std::shared_ptr< CShader > &shader ) 
 	}
 }
 
-void CShaderLoader::FromFragmentDummy( const std::shared_ptr< CShader > &shader ) const
+void CShaderLoader::FromFragmentDummy( const std::shared_ptr<CShader> &shader ) const
 {
 	shader->Reset();
 
 	// TODO
-	const std::string fragmentShaderString =	"out vec4 color;" \
-												"void main()" \
-												"{" \
-												"	color = vec4( 1, 0, 1, 1 ).rgba;" \
-												"}";
+	static const std::string fragmentShaderString =	"out vec4 color;" \
+													"void main()" \
+													"{" \
+													"	color = vec4( 1, 0, 1, 1 ).rgba;" \
+													"}";
 
 	if( !m_shaderCompiler.Compile( shader, GL_FRAGMENT_SHADER, fragmentShaderString ) )
 	{

@@ -12,7 +12,7 @@ public:
 	CShaderProgramLoader( const CFileSystem &p_filesystem );
 	~CShaderProgramLoader();
 
-	void FromFile( const std::shared_ptr< CShaderProgram > &shaderProgram, const CShaderProgram::ResourceIdType &id ) const;
+	void FromFile( const std::shared_ptr<CShaderProgram> &shaderProgram, const CShaderProgram::ResourceIdType &id ) const;
 
 private:
 	const CFileSystem &m_filesystem;

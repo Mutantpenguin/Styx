@@ -49,8 +49,20 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 													"    color = texture( " + m_slotNameFrameBuffer + ", UV );" \
 													"}";
 
+		const auto vertexShader = std::make_shared<CShader>();
+		if( !m_shaderCompiler.Compile( vertexShader, GL_VERTEX_SHADER, vertexShaderString ) )
+		{
+			throw std::exception( "couldn't create vertex shader for framebuffer" );
+		}
+
+		const auto fragmentShader = std::make_shared<CShader>();
+		if( !m_shaderCompiler.Compile( fragmentShader, GL_FRAGMENT_SHADER, fragmentShaderString ) )
+		{
+			throw std::exception( "couldn't create fragment shader for framebuffer" );
+		}
+
 		const std::shared_ptr< CMaterial > materialFrameBuffer = std::make_shared< CMaterial >();
-		materialFrameBuffer->Shader( m_shaderManager.CreateProgramFromStrings( vertexShaderString, fragmentShaderString ) );
+		materialFrameBuffer->ShaderProgram( m_shaderManager.CreateProgramFromShaders( vertexShader, fragmentShader ) );
 
 		const CMesh::TMeshTextureSlots frameBufferMeshTextureSlots = { { m_slotNameFrameBuffer, std::make_shared< CMeshTextureSlot >( nullptr, m_samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
@@ -286,7 +298,7 @@ void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::m
 				currentMaterial = material.get();
 				material->Activate();
 
-				currentShader = material->Shader().get();
+				currentShader = material->ShaderProgram().get();
 			}
 
 			mesh->BindTextures();

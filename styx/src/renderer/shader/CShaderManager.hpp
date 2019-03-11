@@ -20,11 +20,11 @@ public:
 	explicit CShaderManager( const CFileSystem &p_filesystem, const CShaderCompiler &shaderCompiler, CResourceCacheManager &resourceCacheManager );
 	~CShaderManager();
 
-	[[nodiscard]] const std::shared_ptr< const CShaderProgram > LoadProgram( const CShaderProgram::ResourceIdType &paths );
+	[[nodiscard]] const std::shared_ptr<const CShaderProgram> LoadProgram( const CShaderProgram::ResourceIdType &paths );
 
-	[[nodiscard]] const std::shared_ptr< const CShaderProgram > CreateProgramFromStrings( const std::string &vertexShaderString, const std::string &fragmentShaderString ) const;
+	[[nodiscard]] const std::shared_ptr<const CShaderProgram> CreateProgramFromShaders( const std::shared_ptr<const CShader> &vertexShader, const std::shared_ptr<const CShader> &fragmentShader ) const;
 
-	[[nodiscard]] const std::shared_ptr< const CShaderProgram > GetDummyShader() const;
+	[[nodiscard]] const std::shared_ptr<const CShaderProgram> GetDummyShader() const;
 
 	constexpr static const GLint requiredCombinedTextureImageUnits { 16 };
 
@@ -39,18 +39,18 @@ public:
 private:
 	[[nodiscard]] bool CreateDummyProgram();
 
-	[[nodiscard]] GLuint CreateProgram( const GLuint vertexShader, const GLuint fragmentShader ) const;
+	[[nodiscard]] GLuint CreateProgram( const std::shared_ptr<const CShader> &vertexShader, const std::shared_ptr<const CShader> &fragmentShader ) const;
 
-	[[nodiscard]] bool InterfaceSetup( const std::shared_ptr< CShaderProgram > &shaderProgram ) const;
+	[[nodiscard]] bool InterfaceSetup( const std::shared_ptr<CShaderProgram> &shaderProgram ) const;
 
 	const CFileSystem		&m_filesystem;
 	const CShaderCompiler	&m_shaderCompiler;
 	
 	CResourceCacheManager	&m_resourceCacheManager;
 
-	std::unordered_map< std::string, std::shared_ptr< CShaderProgram > > m_programs;
+	std::unordered_map< std::string, std::shared_ptr<CShaderProgram> > m_programs;
 
-	std::shared_ptr< CShaderProgram > m_dummyProgram;
+	std::shared_ptr<CShaderProgram> m_dummyProgram;
 
 	
 };

@@ -14,13 +14,13 @@ public:
 	CShaderLoader( const CFileSystem &p_filesystem, const CShaderCompiler &shaderCompiler );
 	~CShaderLoader();
 
-	void FromFile( const std::shared_ptr< CShader > &shader, const std::string &path ) const;
+	void FromFile( const std::shared_ptr<CShader> &shader, const std::string &path ) const;
 
 private:
-	void FromVertexDummy( const std::shared_ptr< CShader > &shader ) const;
-	void FromFragmentDummy( const std::shared_ptr< CShader > &shader ) const;
+	void FromVertexDummy( const std::shared_ptr<CShader> &shader ) const;
+	void FromFragmentDummy( const std::shared_ptr<CShader> &shader ) const;
 
 	const CFileSystem &m_filesystem;
 
-	const CShaderCompiler	&m_shaderCompiler;
+	const CShaderCompiler &m_shaderCompiler;
 };

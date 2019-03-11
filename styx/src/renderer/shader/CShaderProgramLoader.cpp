@@ -14,7 +14,7 @@ CShaderProgramLoader::~CShaderProgramLoader()
 }
 
 
-void CShaderProgramLoader::FromFile( const std::shared_ptr< CShaderProgram > &shaderProgram, const CShaderProgram::ResourceIdType &id ) const
+void CShaderProgramLoader::FromFile( const std::shared_ptr<CShaderProgram> &shaderProgram, const CShaderProgram::ResourceIdType &id ) const
 {
 	// TODO
 }

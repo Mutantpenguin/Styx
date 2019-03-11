@@ -96,7 +96,7 @@ void CMesh::SetupMaterialTextureSlotMapping()
 
 	if( m_material )
 	{
-		for( const auto & [ location, interface ] : m_material->Shader()->RequiredSamplers() )
+		for( const auto & [ location, interface ] : m_material->ShaderProgram()->RequiredSamplers() )
 		{
 			if( const auto textureSlot = m_textureSlots.find( interface.name ); textureSlot != std::cend( m_textureSlots ) )
 			{

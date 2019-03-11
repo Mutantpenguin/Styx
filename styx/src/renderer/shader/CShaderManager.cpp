@@ -56,14 +56,14 @@ bool CShaderManager::CreateDummyProgram()
 		return( false );
 	}
 
-	const GLuint program = CreateProgram( vertexShader->GLID, fragmentShader->GLID );
+	const GLuint program = CreateProgram( vertexShader, fragmentShader );
 	if( 0 == program )
 	{
 		logERROR( "couldn't create dummy program" );
 		return( false );
 	}
 
-	m_dummyProgram = std::make_shared< CShaderProgram >( program );
+	m_dummyProgram = std::make_shared<CShaderProgram>( program );
 
 	if( !InterfaceSetup( m_dummyProgram ) )
 	{
@@ -74,12 +74,12 @@ bool CShaderManager::CreateDummyProgram()
 	return( true );
 }
 
-const std::shared_ptr< const CShaderProgram > CShaderManager::GetDummyShader() const
+const std::shared_ptr<const CShaderProgram> CShaderManager::GetDummyShader() const
 {
 	return( m_dummyProgram );
 }
 
-const std::shared_ptr< const CShaderProgram > CShaderManager::LoadProgram( const CShaderProgram::ResourceIdType &paths )
+const std::shared_ptr<const CShaderProgram> CShaderManager::LoadProgram( const CShaderProgram::ResourceIdType &paths )
 {
 	const std::string programIdentifier = paths.vertexShader + "|" + paths.fragmentShader;
 
@@ -106,7 +106,7 @@ const std::shared_ptr< const CShaderProgram > CShaderManager::LoadProgram( const
 			return( m_dummyProgram );
 		}
 
-		const GLuint program = CreateProgram( vertexShader->GLID, fragmentShader->GLID );
+		const GLuint program = CreateProgram( vertexShader, fragmentShader );
 		if( 0 == program )
 		{
 			logWARNING( "program object from vertex shader '{0}' and fragment shader '{1}' is not valid", paths.vertexShader, paths.fragmentShader );
@@ -115,7 +115,7 @@ const std::shared_ptr< const CShaderProgram > CShaderManager::LoadProgram( const
 			return( m_dummyProgram );
 		}
 
-		auto shaderProgram = std::make_shared< CShaderProgram >( program );
+		auto shaderProgram = std::make_shared<CShaderProgram>( program );
 
 		if( !InterfaceSetup( shaderProgram ) )
 		{
@@ -131,35 +131,21 @@ const std::shared_ptr< const CShaderProgram > CShaderManager::LoadProgram( const
 	}
 }
 
-const std::shared_ptr< const CShaderProgram > CShaderManager::CreateProgramFromStrings( const std::string &vertexShaderString, const std::string &fragmentShaderString ) const
+const std::shared_ptr<const CShaderProgram> CShaderManager::CreateProgramFromShaders( const std::shared_ptr<const CShader> &vertexShader, const std::shared_ptr<const CShader> &fragmentShader ) const
 {
-	auto vertexShader = std::make_shared<CShader>();
-	if( !m_shaderCompiler.Compile( vertexShader, GL_VERTEX_SHADER, vertexShaderString ) )
-	{
-		logWARNING( "using dummy shader instead of vertex shader '{0}' and fragment shader '{1}'", vertexShaderString, fragmentShaderString );
-		return( m_dummyProgram );
-	}
-
-	auto fragmentShader = std::make_shared<CShader>();
-	if( !m_shaderCompiler.Compile( fragmentShader, GL_FRAGMENT_SHADER, fragmentShaderString ) )
-	{
-		logWARNING( "using dummy shader instead of vertex shader '{0}' and fragment shader '{1}'", vertexShaderString, fragmentShaderString );
-		return( m_dummyProgram );
-	}
-
-	const GLuint program = CreateProgram( vertexShader->GLID, fragmentShader->GLID );
+	const GLuint program = CreateProgram( vertexShader, fragmentShader );
 	if( 0 == program )
 	{
-		logWARNING( "program object from vertex shader '{0}' and fragment shader '{1}' is not valid", vertexShaderString, fragmentShaderString );
+		logWARNING( "program object is not valid" );
 		logWARNING( "using dummy shader" );
 		return( m_dummyProgram );
 	}
 
-	auto shaderProgram = std::make_shared< CShaderProgram >( program );
+	auto shaderProgram = std::make_shared<CShaderProgram>( program );
 
 	if( !InterfaceSetup( shaderProgram ) )
 	{
-		logWARNING( "unable to setup the interface for the program object from vertex shader '{0}' and fragment shader '{1}'", vertexShaderString, fragmentShaderString );
+		logWARNING( "unable to setup the interface" );
 		logWARNING( "using dummy shader" );
 		return( m_dummyProgram );
 	}
@@ -167,7 +153,7 @@ const std::shared_ptr< const CShaderProgram > CShaderManager::CreateProgramFromS
 	return( shaderProgram );
 }
 
-GLuint CShaderManager::CreateProgram( const GLuint vertexShader, const GLuint fragmentShader ) const
+GLuint CShaderManager::CreateProgram( const std::shared_ptr<const CShader> &vertexShader, const std::shared_ptr<const CShader> &fragmentShader ) const
 {
 	const GLuint program = glCreateProgram();
 	if( 0 == program )
@@ -176,19 +162,19 @@ GLuint CShaderManager::CreateProgram( const GLuint vertexShader, const GLuint fr
 		return( 0 );
 	}
 
-	glAttachShader( program, vertexShader );
-	glAttachShader( program, fragmentShader );
+	glAttachShader( program, vertexShader->GLID );
+	glAttachShader( program, fragmentShader->GLID );
 
 	glLinkProgram( program );
 
 	GLint compileResult;
 	glGetProgramiv( program, GL_LINK_STATUS, &compileResult );
 
-	if( compileResult != static_cast< GLint>( GL_TRUE ) )
+	if( compileResult != static_cast<GLint>( GL_TRUE ) )
 	{
 		int infoLogLength;
 		glGetProgramiv( program, GL_INFO_LOG_LENGTH, &infoLogLength );
-		std::vector< char > errorMessage( infoLogLength );
+		std::vector<char> errorMessage( infoLogLength );
 		glGetProgramInfoLog( program, infoLogLength, nullptr, errorMessage.data() );
 
 		logWARNING( "Error linking program: {0}", errorMessage.data() );
@@ -201,14 +187,14 @@ GLuint CShaderManager::CreateProgram( const GLuint vertexShader, const GLuint fr
 	return( program );
 }
 
-bool CShaderManager::InterfaceSetup( const std::shared_ptr< CShaderProgram > &shaderProgram ) const
+bool CShaderManager::InterfaceSetup( const std::shared_ptr<CShaderProgram> &shaderProgram ) const
 {
 	/*
 	 * active attributes
 	 */
 	GLint numActiveAttributes = 0;
 	glGetProgramInterfaceiv( shaderProgram->OpenGLID(), GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &numActiveAttributes );
-	const std::array< GLenum, 3 > attributeProperties { { GL_TYPE, GL_NAME_LENGTH, GL_LOCATION } };
+	const std::array<GLenum, 3> attributeProperties { { GL_TYPE, GL_NAME_LENGTH, GL_LOCATION } };
 
 	for( GLint attribIndex = 0; attribIndex < numActiveAttributes; ++attribIndex )
 	{
@@ -217,7 +203,7 @@ bool CShaderManager::InterfaceSetup( const std::shared_ptr< CShaderProgram > &sh
 
 		const GLint attributeLocation = values[ 2 ];
 
-		const auto attributeIt = CShaderCompiler::AllowedAttributes.find( static_cast< CVAO::EAttributeLocation >( attributeLocation ) );
+		const auto attributeIt = CShaderCompiler::AllowedAttributes.find( static_cast<CVAO::EAttributeLocation>( attributeLocation ) );
 		if( std::end( CShaderCompiler::AllowedAttributes ) == attributeIt )
 		{
 			logERROR( "attribute location '{0}' is not allowed", attributeLocation );
@@ -225,11 +211,11 @@ bool CShaderManager::InterfaceSetup( const std::shared_ptr< CShaderProgram > &sh
 		}
 		else
 		{
-			std::vector< char > nameData( values[ 1 ] );
+			std::vector<char> nameData( values[ 1 ] );
 			glGetProgramResourceName( shaderProgram->OpenGLID(), GL_PROGRAM_INPUT, attribIndex, nameData.size(), nullptr, &nameData[ 0 ] );
 			const std::string attributeName( nameData.data() );
 
-			const GLenum attributeType = static_cast< GLenum>( values[ 0 ] );
+			const GLenum attributeType = static_cast<GLenum>( values[ 0 ] );
 			const SShaderInterface &attributeInterface = attributeIt->second;
 			if( ( attributeInterface.name != attributeName )
 				||
@@ -246,7 +232,7 @@ bool CShaderManager::InterfaceSetup( const std::shared_ptr< CShaderProgram > &sh
 	 */
 	GLint numActiveUniforms = 0;
 	glGetProgramInterfaceiv( shaderProgram->OpenGLID(), GL_UNIFORM, GL_ACTIVE_RESOURCES, &numActiveUniforms );
-	const std::array< GLenum, 4 > uniformProperties { { GL_BLOCK_INDEX, GL_TYPE, GL_NAME_LENGTH, GL_LOCATION } };
+	static const std::array<GLenum, 4> uniformProperties { { GL_BLOCK_INDEX, GL_TYPE, GL_NAME_LENGTH, GL_LOCATION } };
 
 	for( GLint uniformIndex = 0; uniformIndex < numActiveUniforms; ++uniformIndex )
 	{
@@ -259,12 +245,12 @@ bool CShaderManager::InterfaceSetup( const std::shared_ptr< CShaderProgram > &sh
 			continue;
 		}
 
-		std::vector< char > nameData( values[ 2 ] );
+		std::vector<char> nameData( values[ 2 ] );
 		glGetProgramResourceName( shaderProgram->OpenGLID(), GL_UNIFORM, uniformIndex, nameData.size(), NULL, &nameData[ 0 ] );
 		const std::string uniformName( nameData.data() );
 
 		const GLint  uniformLocation = values[ 3 ];
-		const GLenum uniformType = static_cast< GLenum>( values[ 1 ] );
+		const GLenum uniformType = static_cast<GLenum>( values[ 1 ] );
 
 		switch( uniformType )
 		{

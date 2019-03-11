@@ -172,7 +172,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 
 		const auto shader = m_shaderManager.LoadProgram( { vertexShaderPath, fragmentShaderPath } );
 
-		material->Shader( shader );
+		material->ShaderProgram( shader );
 
 		if( !shader->RequiredMaterialUniforms().empty() )
 		{
@@ -350,5 +350,5 @@ void CMaterialLoader::FromMatDummy( const std::shared_ptr< CMaterial > &material
 
 	material->Name( "dummy " + std::to_string( ++m_dummyCounter ) );
 
-	material->Shader( m_shaderManager.GetDummyShader() );
+	material->ShaderProgram( m_shaderManager.GetDummyShader() );
 }

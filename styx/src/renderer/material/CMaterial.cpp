@@ -8,7 +8,7 @@ void CMaterial::Activate() const
 	CGLState::PolygonMode( m_polygonMode );
 	CGLState::Blending( m_blending, m_blendSrc, m_blendDst );
 
-	m_shader->Use();
+	m_shaderProgram->Use();
 
 	for( const auto & [ location, uniform ] : m_materialUniforms )
 	{
@@ -52,14 +52,14 @@ void CMaterial::PolygonMode( const GLenum polygonMode )
 	m_polygonMode = polygonMode;
 }
 
-const std::shared_ptr< const CShaderProgram > &CMaterial::Shader() const
+const std::shared_ptr< const CShaderProgram > &CMaterial::ShaderProgram() const
 {
-	return( m_shader );
+	return( m_shaderProgram );
 }
 
-void CMaterial::Shader( const std::shared_ptr< const CShaderProgram > &shader )
+void CMaterial::ShaderProgram( const std::shared_ptr< const CShaderProgram > &shaderProgram )
 {
-	m_shader = shader;
+	m_shaderProgram = shaderProgram;
 }
 
 const std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &CMaterial::MaterialUniforms() const
@@ -86,7 +86,7 @@ void CMaterial::Reset()
 {
 	m_name = "";
 
-	m_shader = nullptr;
+	m_shaderProgram = nullptr;
 
 	m_materialUniforms.clear();
 
