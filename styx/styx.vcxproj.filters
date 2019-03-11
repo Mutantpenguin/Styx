@@ -761,5 +761,8 @@
     <ClCompile Include="src\renderer\shader\CShaderProgramCompiler.cpp">
       <Filter>src\renderer\shader</Filter>
     </ClCompile>
+    <ClCompile Include="src\renderer\shader\CShaderProgramCache.cpp">
+      <Filter>src\renderer\shader</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

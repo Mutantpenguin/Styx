@@ -19,7 +19,8 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 		m_settings { settings },
 		m_resourceCacheManager { resourceCacheManager },
 		m_samplerManager( settings ),
-		m_shaderCache{ std::make_shared< CShaderCache >( filesystem, m_shaderCompiler ) },
+		m_shaderCache { std::make_shared< CShaderCache >( filesystem, m_shaderCompiler ) },
+		m_shaderProgramCache { std::make_shared< CShaderProgramCache >( filesystem, resourceCacheManager, m_shaderCompiler, m_shaderProgramCompiler ) },
 		m_shaderManager( filesystem, m_shaderCompiler, m_resourceCacheManager ),
 		m_textureCache { std::make_shared< CTextureCache >( settings, filesystem, m_OpenGlAdapter ) },
 		m_materialCache { std::make_shared< CMaterialCache >( filesystem, m_shaderManager ) }
@@ -69,9 +70,10 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 		m_meshFrameBuffer = std::make_unique< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialFrameBuffer, frameBufferMeshTextureSlots );
 	}
 
-	m_resourceCacheManager.Register< CTexture >( m_textureCache );
-	m_resourceCacheManager.Register< CMaterial >( m_materialCache );
-	m_resourceCacheManager.Register< CShader >( m_shaderCache );
+	m_resourceCacheManager.Register<CTexture>( m_textureCache );
+	m_resourceCacheManager.Register<CMaterial>( m_materialCache );
+	m_resourceCacheManager.Register<CShader>( m_shaderCache );
+	m_resourceCacheManager.Register<CShaderProgram>( m_shaderProgramCache );
 
 	logINFO( "renderer was initialized" );
 }
@@ -90,6 +92,7 @@ CRenderer::~CRenderer()
 {
 	logINFO( "renderer is shutting down" );
 
+	m_resourceCacheManager.DeRegister( m_shaderProgramCache );
 	m_resourceCacheManager.DeRegister( m_shaderCache );
 	m_resourceCacheManager.DeRegister( m_materialCache );
 	m_resourceCacheManager.DeRegister( m_textureCache );

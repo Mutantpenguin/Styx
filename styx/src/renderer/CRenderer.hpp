@@ -23,7 +23,10 @@
 #include "src/renderer/material/CMaterialCache.hpp"
 
 #include "src/renderer/shader/CShaderCompiler.hpp"
+#include "src/renderer/shader/CShaderProgramCompiler.hpp"
+
 #include "src/renderer/shader/CShaderCache.hpp"
+#include "src/renderer/shader/CShaderProgramCache.hpp"
 
 #include "src/helper/CColor.hpp"
 
@@ -78,14 +81,16 @@ private:
 
 	COpenGlAdapter m_OpenGlAdapter;
 
-	CShaderCompiler m_shaderCompiler;
+	CShaderCompiler			m_shaderCompiler;
+	CShaderProgramCompiler	m_shaderProgramCompiler;
 
 	CSamplerManager		m_samplerManager;
 	CShaderManager		m_shaderManager;
 
-	std::shared_ptr< CTextureCache >	m_textureCache;
-	std::shared_ptr< CMaterialCache >	m_materialCache;
-	std::shared_ptr< CShaderCache >		m_shaderCache;
+	std::shared_ptr< CTextureCache >		m_textureCache;
+	std::shared_ptr< CMaterialCache >		m_materialCache;
+	std::shared_ptr< CShaderCache >			m_shaderCache;
+	std::shared_ptr< CShaderProgramCache >	m_shaderProgramCache;
 
 	void CreateUniformBuffers();
 	void UpdateUniformBuffers( const std::shared_ptr< const CEntity > &cameraEntity, const CTimer &timer ) const;

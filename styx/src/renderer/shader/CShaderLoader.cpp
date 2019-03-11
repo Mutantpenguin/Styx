@@ -76,18 +76,12 @@ void CShaderLoader::FromVertexDummy( const std::shared_ptr<CShader> &shader ) co
 {
 	shader->Reset();
 
-	if( !m_shaderCompiler.Compile( shader, GL_VERTEX_SHADER, CShaderCompiler::DummyVertexShaderBody ) )
-	{
-		// TODO log it
-	}
+	m_shaderCompiler.Compile( shader, GL_VERTEX_SHADER, CShaderCompiler::DummyVertexShaderBody );
 }
 
 void CShaderLoader::FromFragmentDummy( const std::shared_ptr<CShader> &shader ) const
 {
 	shader->Reset();
 
-	if( !m_shaderCompiler.Compile( shader, GL_FRAGMENT_SHADER, CShaderCompiler::DummyFragmentShaderBody ) )
-	{
-		// TODO log it
-	}
+	m_shaderCompiler.Compile( shader, GL_FRAGMENT_SHADER, CShaderCompiler::DummyFragmentShaderBody );
 }

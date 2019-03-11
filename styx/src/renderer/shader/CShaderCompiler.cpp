@@ -32,6 +32,19 @@ const std::string CShaderCompiler::DummyFragmentShaderBody =	"out vec4 color;" \
 																"	color = vec4( 1, 0, 1, 1 ).rgba;" \
 																"}";
 
+CShaderCompiler::CShaderCompiler()
+{
+	if( !Compile( m_dummyVertexShader, GL_VERTEX_SHADER, DummyVertexShaderBody ) )
+	{
+		throw std::exception( "couldn't create dummy vertex shader" );
+	}
+
+	if( !Compile( m_dummyFragmentShader, GL_FRAGMENT_SHADER, DummyFragmentShaderBody ) )
+	{
+		throw std::exception( "couldn't create dummy fragment shader" );
+	}
+}
+
 void CShaderCompiler::RegisterUniformBuffer( const std::shared_ptr< const CUniformBuffer > &ubo )
 {
 	m_registeredUniformBuffers.insert( ubo );
@@ -116,4 +129,14 @@ bool CShaderCompiler::Compile( const std::shared_ptr<CShader> &shader, const GLe
 	}
 
 	return( true );
+}
+
+const std::shared_ptr<const CShader> CShaderCompiler::DummyVertexShader() const
+{
+	return( m_dummyVertexShader );
+}
+
+const std::shared_ptr<const CShader> CShaderCompiler::DummyFragmentShader() const
+{
+	return( m_dummyFragmentShader );
 }

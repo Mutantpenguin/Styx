@@ -14,7 +14,9 @@
 class CShaderCompiler final
 {
 public:
-	[[ nodiscard ]] bool Compile( const std::shared_ptr<CShader> &shader, const GLenum type, const std::string &body ) const;
+	CShaderCompiler();
+
+	bool Compile( const std::shared_ptr<CShader> &shader, const GLenum type, const std::string &body ) const;
 
 	void RegisterUniformBuffer( const std::shared_ptr< const CUniformBuffer > &ubo );
 
@@ -25,8 +27,14 @@ public:
 	static const std::string DummyVertexShaderBody;
 	static const std::string DummyFragmentShaderBody;
 
+	const std::shared_ptr<const CShader> DummyVertexShader() const;
+	const std::shared_ptr<const CShader> DummyFragmentShader() const;
+
 private:
 	static const std::string srcAdditionShaderVersion;
 	
 	std::unordered_set< std::shared_ptr< const CUniformBuffer > > m_registeredUniformBuffers;
+
+	const std::shared_ptr<CShader> m_dummyVertexShader = std::make_shared<CShader>();
+	const std::shared_ptr<CShader> m_dummyFragmentShader = std::make_shared<CShader>();
 };

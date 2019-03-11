@@ -222,6 +222,7 @@
     <ClCompile Include="src\renderer\shader\CShaderLoader.cpp" />
     <ClCompile Include="src\renderer\shader\CShaderManager.cpp" />
     <ClCompile Include="src\renderer\shader\CShaderProgram.cpp" />
+    <ClCompile Include="src\renderer\shader\CShaderProgramCache.cpp" />
     <ClCompile Include="src\renderer\shader\CShaderProgramCompiler.cpp" />
     <ClCompile Include="src\renderer\shader\CShaderProgramLoader.cpp" />
     <ClCompile Include="src\renderer\texture\C2DArrayData.cpp" />

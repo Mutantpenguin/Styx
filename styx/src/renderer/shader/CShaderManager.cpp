@@ -28,21 +28,7 @@ CShaderManager::~CShaderManager()
 
 bool CShaderManager::CreateDummyProgram()
 {
-	const auto vertexShader = std::make_shared<CShader>();
-	if( !m_shaderCompiler.Compile( vertexShader, GL_VERTEX_SHADER, CShaderCompiler::DummyVertexShaderBody ) )
-	{
-		logERROR( "couldn't create dummy vertex shader" );
-		return( false );
-	}
-
-	const auto fragmentShader = std::make_shared<CShader>();
-	if( !m_shaderCompiler.Compile( fragmentShader, GL_FRAGMENT_SHADER, CShaderCompiler::DummyFragmentShaderBody ) )
-	{
-		logERROR( "couldn't create dummy fragment shader" );
-		return( false );
-	}
-
-	const GLuint program = CreateProgram( vertexShader, fragmentShader );
+	const GLuint program = CreateProgram( m_shaderCompiler.DummyVertexShader(), m_shaderCompiler.DummyFragmentShader() );
 	if( 0 == program )
 	{
 		logERROR( "couldn't create dummy program" );
