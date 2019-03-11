@@ -39,7 +39,7 @@ private:
 
 	[[nodiscard]] GLuint CreateProgram( const GLuint vertexShader, const GLuint fragmentShader ) const;
 
-	[[nodiscard]] GLuint LoadShader( const GLenum type, const std::string &path );
+	[[nodiscard]] const std::shared_ptr<const CShader> LoadShader( const GLenum type, const std::string &path );
 
 	[[nodiscard]] bool InterfaceSetup( const std::shared_ptr< CShaderProgram > &shaderProgram ) const;
 
@@ -48,7 +48,7 @@ private:
 
 	std::unordered_map< std::string, std::shared_ptr< CShaderProgram > > m_programs;
 
-	std::unordered_map< std::string, GLuint > m_shaders;
+	std::unordered_map< std::string, std::shared_ptr<const CShader> > m_shaders;
 
 	std::shared_ptr< CShaderProgram > m_dummyProgram;
 };

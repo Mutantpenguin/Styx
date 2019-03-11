@@ -7,13 +7,14 @@
 #include "src/renderer/CUniformBuffer.hpp"
 #include "src/renderer/CVAO.hpp"
 
+#include "src/renderer/shader/CShader.hpp"
 #include "src/renderer/shader/EEngineUniform.hpp"
 #include "src/renderer/shader/SShaderInterface.hpp"
 
 class CShaderCompiler final
 {
 public:
-	[[ nodiscard ]] GLuint Compile( const GLenum type, const std::string &body ) const;
+	[[ nodiscard ]] bool Compile( const std::shared_ptr<CShader> &shader, const GLenum type, const std::string &body ) const;
 
 	void RegisterUniformBuffer( const std::shared_ptr< const CUniformBuffer > &ubo );
 

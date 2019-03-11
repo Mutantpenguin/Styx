@@ -24,10 +24,6 @@ CShaderManager::~CShaderManager()
 {
 	logINFO( "shader manager is shutting down" );
 
-	for( const auto &shader : m_shaders )
-	{
-		glDeleteShader( shader.second );
-	}
 	m_shaders.clear();
 }
 
@@ -41,8 +37,8 @@ bool CShaderManager::CreateDummyProgram()
 											"	gl_Position = " + uniformModelViewProjectionMatrix.name + " * vec4( " + positionAttribute.name + ", 1 );" \
 											"}";
 
-	const GLuint vertexShader = m_shaderCompiler.Compile( GL_VERTEX_SHADER, vertexShaderString );
-	if( 0 == vertexShader )
+	const auto vertexShader = std::make_shared<CShader>();
+	if( !m_shaderCompiler.Compile( vertexShader, GL_VERTEX_SHADER, vertexShaderString ) )
 	{
 		logERROR( "couldn't create dummy vertex shader" );
 		return( false );
@@ -54,14 +50,14 @@ bool CShaderManager::CreateDummyProgram()
 												"	color = vec4( 1, 0, 1, 1 ).rgba;" \
 												"}";
 
-	const GLuint fragmentShader = m_shaderCompiler.Compile( GL_FRAGMENT_SHADER, fragmentShaderString );
-	if( 0 == fragmentShader )
+	const auto fragmentShader = std::make_shared<CShader>();
+	if( !m_shaderCompiler.Compile( fragmentShader, GL_FRAGMENT_SHADER, fragmentShaderString ) )
 	{
 		logERROR( "couldn't create dummy fragment shader" );
 		return( false );
 	}
 
-	const GLuint program = CreateProgram( vertexShader, fragmentShader );
+	const GLuint program = CreateProgram( vertexShader->GLID, fragmentShader->GLID );
 	if( 0 == program )
 	{
 		logERROR( "couldn't create dummy program" );
@@ -95,23 +91,23 @@ const std::shared_ptr< const CShaderProgram > CShaderManager::LoadProgram( const
 	}
 	else
 	{
-		const GLuint vertexShader = LoadShader( GL_VERTEX_SHADER, pathVertexShader );
-		if( 0 == vertexShader )
+		const auto vertexShader = LoadShader( GL_VERTEX_SHADER, pathVertexShader );
+		if( nullptr == vertexShader )
 		{
 			logWARNING( "using dummy shader instead of vertex shader '{0}' and fragment shader '{1}'", pathVertexShader, pathFragmentShader );
 			m_programs[ programIdentifier ] = m_dummyProgram;
 			return( m_dummyProgram );
 		}
 
-		const GLuint fragmentShader = LoadShader( GL_FRAGMENT_SHADER, pathFragmentShader );
-		if( 0 == fragmentShader )
+		const auto fragmentShader = LoadShader( GL_FRAGMENT_SHADER, pathFragmentShader );
+		if( nullptr == fragmentShader )
 		{
 			logWARNING( "using dummy shader instead of vertex shader '{0}' and fragment shader '{1}'", pathVertexShader, pathFragmentShader );
 			m_programs[ programIdentifier ] = m_dummyProgram;
 			return( m_dummyProgram );
 		}
 
-		const GLuint program = CreateProgram( vertexShader, fragmentShader );
+		const GLuint program = CreateProgram( vertexShader->GLID, fragmentShader->GLID );
 		if( 0 == program )
 		{
 			logWARNING( "program object from vertex shader '{0}' and fragment shader '{1}' is not valid", pathVertexShader, pathFragmentShader );
@@ -138,21 +134,21 @@ const std::shared_ptr< const CShaderProgram > CShaderManager::LoadProgram( const
 
 const std::shared_ptr< const CShaderProgram > CShaderManager::CreateProgramFromStrings( const std::string &vertexShaderString, const std::string &fragmentShaderString ) const
 {
-	const GLuint vertexShader = m_shaderCompiler.Compile( GL_VERTEX_SHADER, vertexShaderString );
-	if( 0 == vertexShader )
+	auto vertexShader = std::make_shared<CShader>();
+	if( !m_shaderCompiler.Compile( vertexShader, GL_VERTEX_SHADER, vertexShaderString ) )
 	{
 		logWARNING( "using dummy shader instead of vertex shader '{0}' and fragment shader '{1}'", vertexShaderString, fragmentShaderString );
 		return( m_dummyProgram );
 	}
 
-	const GLuint fragmentShader = m_shaderCompiler.Compile( GL_FRAGMENT_SHADER, fragmentShaderString );
-	if( 0 == fragmentShader )
+	auto fragmentShader = std::make_shared<CShader>();
+	if( !m_shaderCompiler.Compile( fragmentShader, GL_FRAGMENT_SHADER, fragmentShaderString ) )
 	{
 		logWARNING( "using dummy shader instead of vertex shader '{0}' and fragment shader '{1}'", vertexShaderString, fragmentShaderString );
 		return( m_dummyProgram );
 	}
 
-	const GLuint program = CreateProgram( vertexShader, fragmentShader );
+	const GLuint program = CreateProgram( vertexShader->GLID, fragmentShader->GLID );
 	if( 0 == program )
 	{
 		logWARNING( "program object from vertex shader '{0}' and fragment shader '{1}' is not valid", vertexShaderString, fragmentShaderString );
@@ -206,7 +202,7 @@ GLuint CShaderManager::CreateProgram( const GLuint vertexShader, const GLuint fr
 	return( program );
 }
 
-GLuint CShaderManager::LoadShader( GLenum type, const std::string &path )
+const std::shared_ptr<const CShader> CShaderManager::LoadShader( GLenum type, const std::string &path )
 {
 	const auto it = m_shaders.find( path );
 	if( std::end( m_shaders ) != it )
@@ -218,17 +214,17 @@ GLuint CShaderManager::LoadShader( GLenum type, const std::string &path )
 		if( !m_filesystem.Exists( path ) )
 		{
 			logWARNING( "shader file '{0}' does not exist", path );
-			return( 0 );
+			return( nullptr );
 		}
 		else
 		{
-			const GLuint shader = m_shaderCompiler.Compile( type, m_filesystem.LoadFileToString( path ) );
-			if( 0 == shader )
+			const auto shader = std::make_shared<CShader>();
+			if( !m_shaderCompiler.Compile( shader, type, m_filesystem.LoadFileToString( path ) ) )
 			{
 				logERROR( "couldn't create '{0}' from '{1}'", glbinding::aux::Meta::getString( type ), path );
 
 				// TODO do the same as with the program object? -> store and use the dummy shader from here on, so future compiles don't need to be made if we know it will fail
-				return( 0 );
+				return( nullptr );
 			}
 			else
 			{

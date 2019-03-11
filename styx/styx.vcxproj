@@ -103,6 +103,7 @@
     <ClInclude Include="src\renderer\sampler\CSamplerManager.hpp" />
     <ClInclude Include="src\renderer\shader\CShader.hpp" />
     <ClInclude Include="src\renderer\shader\CShaderCompiler.hpp" />
+    <ClInclude Include="src\renderer\shader\CShaderLoader.hpp" />
     <ClInclude Include="src\renderer\shader\CShaderManager.hpp" />
     <ClInclude Include="src\renderer\shader\CShaderProgram.hpp" />
     <ClInclude Include="src\renderer\shader\CShaderProgramCache.hpp" />
@@ -217,6 +218,7 @@
     <ClCompile Include="src\renderer\sampler\CSamplerManager.cpp" />
     <ClCompile Include="src\renderer\shader\CShader.cpp" />
     <ClCompile Include="src\renderer\shader\CShaderCompiler.cpp" />
+    <ClCompile Include="src\renderer\shader\CShaderLoader.cpp" />
     <ClCompile Include="src\renderer\shader\CShaderManager.cpp" />
     <ClCompile Include="src\renderer\shader\CShaderProgram.cpp" />
     <ClCompile Include="src\renderer\shader\CShaderProgramCache.cpp" />

@@ -23,7 +23,7 @@ void CShaderCompiler::RegisterUniformBuffer( const std::shared_ptr< const CUnifo
 	m_registeredUniformBuffers.insert( ubo );
 }
 
-GLuint CShaderCompiler::Compile( const GLenum type, const std::string &body ) const
+bool CShaderCompiler::Compile( const std::shared_ptr<CShader> &shader, const GLenum type, const std::string &body ) const
 {
 	std::string source = srcAdditionShaderVersion;
 
@@ -44,7 +44,7 @@ GLuint CShaderCompiler::Compile( const GLenum type, const std::string &body ) co
 
 	default:
 		logWARNING( "unsupported shader type '{0}'", glbinding::aux::Meta::getString( type ) );
-		return( 0 );
+		return( false );
 	}
 
 	if( !EngineUniforms.empty() )
@@ -69,35 +69,35 @@ GLuint CShaderCompiler::Compile( const GLenum type, const std::string &body ) co
 
 	source += "\n" + body;
 
-	const GLuint shader = glCreateShader( type );
+	shader->GLID = glCreateShader( type );
 
-	if( 0 == shader )
+	if( 0 == shader->GLID )
 	{
 		logWARNING( "Error creating shader object" );
-		return( 0 );
+		return( false );
 	}
 
 	{
 		const char *tempConstSrc = source.c_str();
-		glShaderSource( shader, 1, &tempConstSrc, nullptr );
+		glShaderSource( shader->GLID, 1, &tempConstSrc, nullptr );
 	}
 
-	glCompileShader( shader );
+	glCompileShader( shader->GLID );
 
 	GLint compileResult;
-	glGetShaderiv( shader, GL_COMPILE_STATUS, &compileResult );
+	glGetShaderiv( shader->GLID, GL_COMPILE_STATUS, &compileResult );
 
 	if( compileResult != static_cast<GLint>( GL_TRUE ) )
 	{
 		int infoLogLength;
-		glGetShaderiv( shader, GL_INFO_LOG_LENGTH, &infoLogLength );
+		glGetShaderiv( shader->GLID, GL_INFO_LOG_LENGTH, &infoLogLength );
 		std::vector< char > errorMessage( infoLogLength );
-		glGetShaderInfoLog( shader, infoLogLength, nullptr, errorMessage.data() );
+		glGetShaderInfoLog( shader->GLID, infoLogLength, nullptr, errorMessage.data() );
 
 		logWARNING( "Error compiling shader: {0}", errorMessage.data() );
 
-		return( 0 );
+		return( false );
 	}
 
-	return( shader );
+	return( true );
 }
