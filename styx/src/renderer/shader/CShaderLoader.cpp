@@ -76,16 +76,7 @@ void CShaderLoader::FromVertexDummy( const std::shared_ptr<CShader> &shader ) co
 {
 	shader->Reset();
 
-	// TODO
-	const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( CVAO::EAttributeLocation::position );
-	const auto &uniformModelViewProjectionMatrix = CShaderCompiler::EngineUniforms.at( EEngineUniform::modelViewProjectionMatrix );
-
-	static const std::string vertexShaderString =	"void main()" \
-													"{" \
-													"	gl_Position = " + uniformModelViewProjectionMatrix.name + " * vec4( " + positionAttribute.name + ", 1 );" \
-													"}";
-
-	if( !m_shaderCompiler.Compile( shader, GL_VERTEX_SHADER, vertexShaderString ) )
+	if( !m_shaderCompiler.Compile( shader, GL_VERTEX_SHADER, CShaderCompiler::DummyVertexShaderBody ) )
 	{
 		// TODO log it
 	}
@@ -95,14 +86,7 @@ void CShaderLoader::FromFragmentDummy( const std::shared_ptr<CShader> &shader ) 
 {
 	shader->Reset();
 
-	// TODO
-	static const std::string fragmentShaderString =	"out vec4 color;" \
-													"void main()" \
-													"{" \
-													"	color = vec4( 1, 0, 1, 1 ).rgba;" \
-													"}";
-
-	if( !m_shaderCompiler.Compile( shader, GL_FRAGMENT_SHADER, fragmentShaderString ) )
+	if( !m_shaderCompiler.Compile( shader, GL_FRAGMENT_SHADER, CShaderCompiler::DummyFragmentShaderBody ) )
 	{
 		// TODO log it
 	}

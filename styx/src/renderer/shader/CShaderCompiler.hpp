@@ -22,6 +22,9 @@ public:
 
 	static const std::unordered_map< EEngineUniform, const SShaderInterface > EngineUniforms;
 
+	static const std::string DummyVertexShaderBody;
+	static const std::string DummyFragmentShaderBody;
+
 private:
 	static const std::string srcAdditionShaderVersion;
 	

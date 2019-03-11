@@ -18,6 +18,20 @@ const std::unordered_map< EEngineUniform, const SShaderInterface > CShaderCompil
 																									   { EEngineUniform::modelMatrix,				{ "modelMatrix",				GLHelper::glmTypeToGLSLType< glm::mat4 >() } } };
 
 
+const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( CVAO::EAttributeLocation::position );
+const auto &uniformModelViewProjectionMatrix = CShaderCompiler::EngineUniforms.at( EEngineUniform::modelViewProjectionMatrix );
+
+const std::string CShaderCompiler::DummyVertexShaderBody =	"void main()" \
+															"{" \
+															"	gl_Position = " + uniformModelViewProjectionMatrix.name + " * vec4( " + positionAttribute.name + ", 1 );" \
+															"}";
+
+const std::string CShaderCompiler::DummyFragmentShaderBody =	"out vec4 color;" \
+																"void main()" \
+																"{" \
+																"	color = vec4( 1, 0, 1, 1 ).rgba;" \
+																"}";
+
 void CShaderCompiler::RegisterUniformBuffer( const std::shared_ptr< const CUniformBuffer > &ubo )
 {
 	m_registeredUniformBuffers.insert( ubo );

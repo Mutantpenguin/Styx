@@ -28,29 +28,15 @@ CShaderManager::~CShaderManager()
 
 bool CShaderManager::CreateDummyProgram()
 {
-	const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( CVAO::EAttributeLocation::position );
-	const auto &uniformModelViewProjectionMatrix = CShaderCompiler::EngineUniforms.at( EEngineUniform::modelViewProjectionMatrix );
-	// TODO remove
-	const std::string vertexShaderString =	"void main()" \
-											"{" \
-											"	gl_Position = " + uniformModelViewProjectionMatrix.name + " * vec4( " + positionAttribute.name + ", 1 );" \
-											"}";
-
 	const auto vertexShader = std::make_shared<CShader>();
-	if( !m_shaderCompiler.Compile( vertexShader, GL_VERTEX_SHADER, vertexShaderString ) )
+	if( !m_shaderCompiler.Compile( vertexShader, GL_VERTEX_SHADER, CShaderCompiler::DummyVertexShaderBody ) )
 	{
 		logERROR( "couldn't create dummy vertex shader" );
 		return( false );
 	}
-	// TODO remove
-	const std::string fragmentShaderString = 	"out vec4 color;" \
-												"void main()" \
-												"{" \
-												"	color = vec4( 1, 0, 1, 1 ).rgba;" \
-												"}";
 
 	const auto fragmentShader = std::make_shared<CShader>();
-	if( !m_shaderCompiler.Compile( fragmentShader, GL_FRAGMENT_SHADER, fragmentShaderString ) )
+	if( !m_shaderCompiler.Compile( fragmentShader, GL_FRAGMENT_SHADER, CShaderCompiler::DummyFragmentShaderBody ) )
 	{
 		logERROR( "couldn't create dummy fragment shader" );
 		return( false );
