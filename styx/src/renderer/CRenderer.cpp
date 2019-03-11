@@ -35,28 +35,28 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 
 	{
 		// TODO write comments
-		const std::string vertexShaderString =	"out vec2 UV;" \
+		const std::string vertexShaderBody =	"out vec2 UV;" \
 												"void main()" \
 												"{" \
 												"    gl_Position = vec4( position.x, position.y, 0.0, 1.0 );" \
 												"    UV = texcoord;" \
 												"}";
-		const std::string fragmentShaderString =	"out vec4 color;" \
-													"in vec2 UV;" \
-													"uniform sampler2D " + m_slotNameFrameBuffer + ";" \
-													"void main()" \
-													"{" \
-													"    color = texture( " + m_slotNameFrameBuffer + ", UV );" \
-													"}";
+		const std::string fragmentShaderBody =	"out vec4 color;" \
+												"in vec2 UV;" \
+												"uniform sampler2D " + m_slotNameFrameBuffer + ";" \
+												"void main()" \
+												"{" \
+												"    color = texture( " + m_slotNameFrameBuffer + ", UV );" \
+												"}";
 
 		const auto vertexShader = std::make_shared<CShader>();
-		if( !m_shaderCompiler.Compile( vertexShader, GL_VERTEX_SHADER, vertexShaderString ) )
+		if( !m_shaderCompiler.Compile( vertexShader, GL_VERTEX_SHADER, vertexShaderBody ) )
 		{
 			throw std::exception( "couldn't create vertex shader for framebuffer" );
 		}
 
 		const auto fragmentShader = std::make_shared<CShader>();
-		if( !m_shaderCompiler.Compile( fragmentShader, GL_FRAGMENT_SHADER, fragmentShaderString ) )
+		if( !m_shaderCompiler.Compile( fragmentShader, GL_FRAGMENT_SHADER, fragmentShaderBody ) )
 		{
 			throw std::exception( "couldn't create fragment shader for framebuffer" );
 		}
