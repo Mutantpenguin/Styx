@@ -41,6 +41,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 												"    gl_Position = vec4( position.x, position.y, 0.0, 1.0 );" \
 												"    UV = texcoord;" \
 												"}";
+
 		const std::string fragmentShaderBody =	"out vec4 color;" \
 												"in vec2 UV;" \
 												"uniform sampler2D " + m_slotNameFrameBuffer + ";" \
@@ -52,21 +53,23 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 		const auto vertexShader = std::make_shared<CShader>();
 		if( !m_shaderCompiler.Compile( vertexShader, GL_VERTEX_SHADER, vertexShaderBody ) )
 		{
-			throw std::exception( "couldn't create vertex shader for framebuffer" );
+			throw std::exception( "couldn't create vertex shader for the framebuffer" );
 		}
 
 		const auto fragmentShader = std::make_shared<CShader>();
 		if( !m_shaderCompiler.Compile( fragmentShader, GL_FRAGMENT_SHADER, fragmentShaderBody ) )
 		{
-			throw std::exception( "couldn't create fragment shader for framebuffer" );
+			throw std::exception( "couldn't create fragment shader for the framebuffer" );
 		}
 
 		const std::shared_ptr< CMaterial > materialFrameBuffer = std::make_shared< CMaterial >();
+
 		const auto shaderProgram = std::make_shared<CShaderProgram>();
 		if( !m_shaderProgramCompiler.Compile( shaderProgram, vertexShader, fragmentShader ) )
 		{
 			throw std::exception( "couldn't create shader program for the framebuffer" );
 		}
+
 		materialFrameBuffer->ShaderProgram( shaderProgram );
 
 		const CMesh::TMeshTextureSlots frameBufferMeshTextureSlots = { { m_slotNameFrameBuffer, std::make_shared< CMeshTextureSlot >( nullptr, m_samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
