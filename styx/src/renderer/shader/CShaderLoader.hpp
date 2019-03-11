@@ -17,7 +17,8 @@ public:
 	void FromFile( const std::shared_ptr< CShader > &shader, const std::string &path ) const;
 
 private:
-	void FromDummy( const std::shared_ptr< CShader > &shader ) const;
+	void FromVertexDummy( const std::shared_ptr< CShader > &shader ) const;
+	void FromFragmentDummy( const std::shared_ptr< CShader > &shader ) const;
 
 	const CFileSystem &m_filesystem;
 

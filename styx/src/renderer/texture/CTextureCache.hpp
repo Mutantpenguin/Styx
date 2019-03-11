@@ -10,7 +10,10 @@
 class CTextureCache final : public CResourceCache< CTexture >
 {
 public:
-	CTextureCache( const CSettings &psettings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter );
+	CTextureCache( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter ) :
+		CResourceCache( "texture", p_filesystem ),
+		m_textureLoader( p_settings, p_filesystem, openGlAdapter )
+	{}
 
 private:
 	void Load( const std::shared_ptr< CTexture > &resource, const CTexture::ResourceIdType &id ) const override

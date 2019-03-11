@@ -34,7 +34,9 @@ private:
 	bool FromCubemapData( const std::shared_ptr< CTexture > &texture, const CCubemapData &cubemapData ) const;
 	bool From2DArrayData( const std::shared_ptr< CTexture > &texture, const C2DArrayData &arrayData ) const;
 
-	void FromDummy( const std::shared_ptr< CTexture > &texture ) const;
+	void FromImageDummy( const std::shared_ptr< CTexture > &texture ) const;
+	void FromCubeDummy( const std::shared_ptr< CTexture > &texture ) const;
+	void From2DArrayDummy( const std::shared_ptr< CTexture > &texture ) const;
 
 	const CFileSystem &m_filesystem;
 

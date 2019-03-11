@@ -9,7 +9,10 @@
 class CMaterialCache final : public CResourceCache< CMaterial >
 {
 public:
-	CMaterialCache( const CFileSystem &filesystem, CShaderManager &shaderManager );
+	CMaterialCache( const CFileSystem &filesystem, CShaderManager &shaderManager ) :
+		CResourceCache( "material", filesystem ),
+		m_materialLoader( filesystem, shaderManager )
+	{}
 
 private:
 	void Load( const std::shared_ptr< CMaterial > &resource, const CMaterial::ResourceIdType &id ) const override

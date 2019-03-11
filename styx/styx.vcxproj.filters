@@ -453,6 +453,9 @@
     <ClInclude Include="src\renderer\shader\CShaderLoader.hpp">
       <Filter>src\renderer\shader</Filter>
     </ClInclude>
+    <ClInclude Include="src\renderer\shader\CShaderCache.hpp">
+      <Filter>src\renderer\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\fmt\format.cc">
@@ -599,9 +602,6 @@
     <ClCompile Include="src\renderer\material\CMaterial.cpp">
       <Filter>src\renderer\material</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\material\CMaterialCache.cpp">
-      <Filter>src\renderer\material</Filter>
-    </ClCompile>
     <ClCompile Include="src\renderer\material\CMaterialLoader.cpp">
       <Filter>src\renderer\material</Filter>
     </ClCompile>
@@ -644,9 +644,6 @@
     <ClCompile Include="src\renderer\texture\CTexture.cpp">
       <Filter>src\renderer\texture</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\texture\CTextureCache.cpp">
-      <Filter>src\renderer\texture</Filter>
-    </ClCompile>
     <ClCompile Include="src\renderer\texture\CTextureLoader.cpp">
       <Filter>src\renderer\texture</Filter>
     </ClCompile>
@@ -687,9 +684,6 @@
       <Filter>src\sound</Filter>
     </ClCompile>
     <ClCompile Include="src\sound\CSoundBuffer.cpp">
-      <Filter>src\sound</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sound\CSoundBufferCache.cpp">
       <Filter>src\sound</Filter>
     </ClCompile>
     <ClCompile Include="src\sound\CSoundBufferLoader.cpp">
@@ -748,9 +742,6 @@
     </ClCompile>
     <ClCompile Include="external\imgui\imgui_widgets.cpp">
       <Filter>external\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\renderer\shader\CShaderProgramCache.cpp">
-      <Filter>src\renderer\shader</Filter>
     </ClCompile>
     <ClCompile Include="src\renderer\shader\CShaderProgramLoader.cpp">
       <Filter>src\renderer\shader</Filter>

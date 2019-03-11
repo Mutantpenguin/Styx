@@ -9,7 +9,10 @@
 class CShaderProgramCache final : public CResourceCache< CShaderProgram >
 {
 public:
-	CShaderProgramCache( const CFileSystem &p_filesystem );
+	CShaderProgramCache( const CFileSystem &p_filesystem ) :
+		CResourceCache( "shaderprogram", p_filesystem ),
+		m_shaderProgramLoader( p_filesystem )
+	{}
 
 private:
 	void Load( const std::shared_ptr< CShaderProgram > &resource, const CShaderProgram::ResourceIdType &id )  const override

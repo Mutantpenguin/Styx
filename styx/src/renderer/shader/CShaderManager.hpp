@@ -10,15 +10,17 @@
 #include "src/renderer/shader/CShaderCompiler.hpp"
 #include "src/renderer/shader/CShaderProgram.hpp"
 
+#include "src/resource/CResourceCacheManager.hpp"
+
 class CShaderManager
 {
 	friend class CRenderer;
 
 public:
-	explicit CShaderManager( const CFileSystem &p_filesystem, const CShaderCompiler &shaderCompiler );
+	explicit CShaderManager( const CFileSystem &p_filesystem, const CShaderCompiler &shaderCompiler, CResourceCacheManager &resourceCacheManager );
 	~CShaderManager();
 
-	[[nodiscard]] const std::shared_ptr< const CShaderProgram > LoadProgram( const std::string &pathVertexShader, const std::string &pathFragmentShader );
+	[[nodiscard]] const std::shared_ptr< const CShaderProgram > LoadProgram( const CShaderProgram::ResourceIdType &paths );
 
 	[[nodiscard]] const std::shared_ptr< const CShaderProgram > CreateProgramFromStrings( const std::string &vertexShaderString, const std::string &fragmentShaderString ) const;
 
@@ -39,16 +41,16 @@ private:
 
 	[[nodiscard]] GLuint CreateProgram( const GLuint vertexShader, const GLuint fragmentShader ) const;
 
-	[[nodiscard]] const std::shared_ptr<const CShader> LoadShader( const GLenum type, const std::string &path );
-
 	[[nodiscard]] bool InterfaceSetup( const std::shared_ptr< CShaderProgram > &shaderProgram ) const;
 
 	const CFileSystem		&m_filesystem;
 	const CShaderCompiler	&m_shaderCompiler;
+	
+	CResourceCacheManager	&m_resourceCacheManager;
 
 	std::unordered_map< std::string, std::shared_ptr< CShaderProgram > > m_programs;
 
-	std::unordered_map< std::string, std::shared_ptr<const CShader> > m_shaders;
-
 	std::shared_ptr< CShaderProgram > m_dummyProgram;
+
+	
 };

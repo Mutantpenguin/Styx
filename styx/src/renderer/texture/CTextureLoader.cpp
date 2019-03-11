@@ -42,34 +42,46 @@ void CTextureLoader::FromFile( const std::shared_ptr< CTexture > &texture, const
 {
 	// TODO use libktx too?
 
+	const std::string fileExtension = Path::Extension( path );
+
 	if( !m_filesystem.Exists( path ) )
 	{
 		logWARNING( "texture file '{0}' does not exist", path );
-		FromDummy( texture );
+		
+		if( fileExtension == std::string( "cub" ) )
+		{
+			FromCubeDummy( texture );
+		}
+		else if( fileExtension == std::string( "arr" ) )
+		{
+			From2DArrayDummy( texture );
+		}
+		else
+		{
+			FromImageDummy( texture );
+		}
 	}
 	else
 	{
-		const std::string fileExtension = Path::Extension( path );
-
 		if( fileExtension == std::string( "cub" ) )
 		{
 			if( !FromCubeFile( texture, path ) )
 			{
-				FromDummy( texture );
+				FromCubeDummy( texture );
 			}
 		}
 		else if( fileExtension == std::string( "arr" ) )
 		{
 			if( !From2DArrayFile( texture, path ) )
 			{
-				FromDummy( texture );
+				From2DArrayDummy( texture );
 			}
 		}
 		else
 		{
 			if( !FromImageFile( texture, path ) )
 			{
-				FromDummy( texture );
+				FromImageDummy( texture );
 			}
 		}
 	}
@@ -352,10 +364,28 @@ bool CTextureLoader::From2DArrayData( const std::shared_ptr< CTexture > &texture
 	}
 }
 
-void CTextureLoader::FromDummy( const std::shared_ptr< CTexture > &texture ) const
+void CTextureLoader::FromImageDummy( const std::shared_ptr< CTexture > &texture ) const
 {
 	texture->Reset();
 
 	// Creates a checkerboard-like dummy-texture
+	FromImage( texture, m_dummyImage );
+}
+
+void CTextureLoader::FromCubeDummy( const std::shared_ptr< CTexture > &texture ) const
+{
+	texture->Reset();
+
+	// Creates a checkerboard-like dummy-texture
+	// TODO create dummy for cubemap
+	FromImage( texture, m_dummyImage );
+}
+
+void CTextureLoader::From2DArrayDummy( const std::shared_ptr< CTexture > &texture ) const
+{
+	texture->Reset();
+
+	// Creates a checkerboard-like dummy-texture
+	// TODO create dummy for 2DArray
 	FromImage( texture, m_dummyImage );
 }

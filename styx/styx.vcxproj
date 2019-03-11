@@ -102,6 +102,7 @@
     <ClInclude Include="src\renderer\sampler\CSampler.hpp" />
     <ClInclude Include="src\renderer\sampler\CSamplerManager.hpp" />
     <ClInclude Include="src\renderer\shader\CShader.hpp" />
+    <ClInclude Include="src\renderer\shader\CShaderCache.hpp" />
     <ClInclude Include="src\renderer\shader\CShaderCompiler.hpp" />
     <ClInclude Include="src\renderer\shader\CShaderLoader.hpp" />
     <ClInclude Include="src\renderer\shader\CShaderManager.hpp" />
@@ -206,7 +207,6 @@
     <ClCompile Include="src\renderer\CVAO.cpp" />
     <ClCompile Include="src\renderer\GLHelper.cpp" />
     <ClCompile Include="src\renderer\material\CMaterial.cpp" />
-    <ClCompile Include="src\renderer\material\CMaterialCache.cpp" />
     <ClCompile Include="src\renderer\material\CMaterialLoader.cpp" />
     <ClCompile Include="src\renderer\material\CMaterialUniform.cpp" />
     <ClCompile Include="src\renderer\model\CMesh.cpp" />
@@ -221,12 +221,10 @@
     <ClCompile Include="src\renderer\shader\CShaderLoader.cpp" />
     <ClCompile Include="src\renderer\shader\CShaderManager.cpp" />
     <ClCompile Include="src\renderer\shader\CShaderProgram.cpp" />
-    <ClCompile Include="src\renderer\shader\CShaderProgramCache.cpp" />
     <ClCompile Include="src\renderer\shader\CShaderProgramLoader.cpp" />
     <ClCompile Include="src\renderer\texture\C2DArrayData.cpp" />
     <ClCompile Include="src\renderer\texture\CCubemapData.cpp" />
     <ClCompile Include="src\renderer\texture\CTexture.cpp" />
-    <ClCompile Include="src\renderer\texture\CTextureCache.cpp" />
     <ClCompile Include="src\renderer\texture\CTextureLoader.cpp" />
     <ClCompile Include="src\resource\CResourceCacheBase.cpp" />
     <ClCompile Include="src\resource\CResourceCacheManager.cpp" />
@@ -241,7 +239,6 @@
     <ClCompile Include="src\sdl\CSDL.cpp" />
     <ClCompile Include="src\sound\ALHelper.cpp" />
     <ClCompile Include="src\sound\CSoundBuffer.cpp" />
-    <ClCompile Include="src\sound\CSoundBufferCache.cpp" />
     <ClCompile Include="src\sound\CSoundBufferLoader.cpp" />
     <ClCompile Include="src\sound\CSoundManager.cpp" />
     <ClCompile Include="src\sound\CSoundSource.cpp" />

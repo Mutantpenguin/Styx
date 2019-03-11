@@ -8,7 +8,10 @@
 class CSoundBufferCache final : public CResourceCache< CSoundBuffer >
 {
 public:
-	explicit CSoundBufferCache( const CFileSystem &filesystem );
+	CSoundBufferCache( const CFileSystem &filesystem ) :
+		CResourceCache( "sound", filesystem ),
+		m_soundBufferloader{ filesystem }
+	{}
 
 public:
 	virtual void Load( const std::shared_ptr< CSoundBuffer > &resource, const CSoundBuffer::ResourceIdType &id ) const override

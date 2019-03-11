@@ -23,6 +23,7 @@
 #include "src/renderer/material/CMaterialCache.hpp"
 
 #include "src/renderer/shader/CShaderCompiler.hpp"
+#include "src/renderer/shader/CShaderCache.hpp"
 
 #include "src/helper/CColor.hpp"
 
@@ -39,9 +40,9 @@ private:
 	CRenderer& operator = ( const CRenderer &rhs ) = delete;
 
 public:
-	CSamplerManager		&SamplerManager();
+	CSamplerManager &SamplerManager();
 
-	COpenGlAdapter	&OpenGlAdapter();
+	COpenGlAdapter &OpenGlAdapter();
 
 	void	RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffer &framebuffer, const CTimer &timer ) const;
 
@@ -71,7 +72,7 @@ private:
 
 	using TRenderBucket	= std::vector< MeshInstance >;
 
-	const	CSettings &m_settings;
+	const CSettings &m_settings;
 
 	CResourceCacheManager &m_resourceCacheManager;
 
@@ -84,6 +85,7 @@ private:
 
 	std::shared_ptr< CTextureCache >	m_textureCache;
 	std::shared_ptr< CMaterialCache >	m_materialCache;
+	std::shared_ptr< CShaderCache >		m_shaderCache;
 
 	void CreateUniformBuffers();
 	void UpdateUniformBuffers( const std::shared_ptr< const CEntity > &cameraEntity, const CTimer &timer ) const;

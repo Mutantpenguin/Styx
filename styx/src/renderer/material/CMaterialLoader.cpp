@@ -39,7 +39,7 @@ void CMaterialLoader::FromFile( const std::shared_ptr< CMaterial > &material, co
 	if( !m_filesystem.Exists( path ) )
 	{
 		logWARNING( "material file '{0}' does not exist", path );
-		FromDummy( material );
+		FromMatDummy( material );
 	}
 	else
 	{
@@ -51,19 +51,19 @@ void CMaterialLoader::FromFile( const std::shared_ptr< CMaterial > &material, co
 			{
 				if( !FromMatFile( material, path ) )
 				{
-					FromDummy( material );
+					FromMatDummy( material );
 				}
 			}
 			catch( std::exception &e )
 			{
 				logWARNING( "error loading material '{0}': {1}", path, e.what() );
-				FromDummy( material );
+				FromMatDummy( material );
 			}
 		}
 		else
 		{
 			logWARNING( "file is not a material: '{0}'", path );
-			FromDummy( material );
+			FromMatDummy( material );
 		}
 	}
 }
@@ -145,8 +145,8 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 	}
 	else
 	{
-		std::string shader_vs_path;
-		std::string shader_fs_path;
+		std::string vertexShaderPath;
+		std::string fragmentShaderPath;
 
 		const auto mat_shader_vs = mat_shaders->find( "vs" );
 		if( mat_shader_vs == mat_shaders->end() )
@@ -156,7 +156,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 		}
 		else
 		{
-			shader_vs_path = mat_shader_vs->get<std::string>();
+			vertexShaderPath = mat_shader_vs->get<std::string>();
 		}
 
 		const auto mat_shader_fs = mat_shaders->find( "fs" );
@@ -167,10 +167,10 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 		}
 		else
 		{
-			shader_fs_path = mat_shader_fs->get<std::string>();
+			fragmentShaderPath = mat_shader_fs->get<std::string>();
 		}
 
-		const auto shader = m_shaderManager.LoadProgram( shader_vs_path, shader_fs_path );
+		const auto shader = m_shaderManager.LoadProgram( { vertexShaderPath, fragmentShaderPath } );
 
 		material->Shader( shader );
 
@@ -344,7 +344,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 	return( true );
 }
 
-void CMaterialLoader::FromDummy( const std::shared_ptr< CMaterial > &material ) const
+void CMaterialLoader::FromMatDummy( const std::shared_ptr< CMaterial > &material ) const
 {
 	material->Reset();
 
