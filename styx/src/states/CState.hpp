@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#include "src/helper/Types.hpp"
+
 #include "src/system/CEngineInterface.hpp"
 #include "src/system/CTimer.hpp"
 
@@ -55,7 +57,7 @@ protected:
 	CEngineInterface &m_engineInterface;
 
 private:
-	enum class eStatus
+	enum class eStatus : u8
 	{
 		RUNNING,
 		PAUSED

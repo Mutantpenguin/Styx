@@ -14,8 +14,12 @@ std::shared_ptr< CState > CState::Update()
 	{
 		case eStatus::RUNNING:
 			return( OnUpdate() );
+
 		case eStatus::PAUSED:
 			return( shared_from_this() );
+
+		default:
+			throw std::runtime_error( fmt::format( "unknown status '{0}' for state '{1}'", static_cast<u8>( m_status ), m_name ) );
 	};
 }
 
