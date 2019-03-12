@@ -8,8 +8,20 @@
 
 constexpr const GLint CShaderProgramCompiler::RequiredCombinedTextureImageUnits;
 
-bool CShaderProgramCompiler::Compile( const std::shared_ptr<CShaderProgram> &shaderProgram, const std::shared_ptr<const CShader> &vertexShader, const std::shared_ptr<const CShader> &fragmentShader ) const
+bool CShaderProgramCompiler::Compile( const std::shared_ptr<CShaderProgram> &shaderProgram ) const
 {
+	if( nullptr == shaderProgram->VertexShader )
+	{
+		logWARNING( "vertex shader not set" );
+		return( false );
+	}
+
+	if( nullptr == shaderProgram->FragmentShader )
+	{
+		logWARNING( "fragment shader not set" );
+		return( false );
+	}
+
 	shaderProgram->GLID = glCreateProgram();
 	if( 0 == shaderProgram->GLID )
 	{
@@ -17,8 +29,8 @@ bool CShaderProgramCompiler::Compile( const std::shared_ptr<CShaderProgram> &sha
 		return( false );
 	}
 
-	glAttachShader( shaderProgram->GLID, vertexShader->GLID );
-	glAttachShader( shaderProgram->GLID, fragmentShader->GLID );
+	glAttachShader( shaderProgram->GLID, shaderProgram->VertexShader->GLID );
+	glAttachShader( shaderProgram->GLID, shaderProgram->FragmentShader->GLID );
 
 	glLinkProgram( shaderProgram->GLID );
 

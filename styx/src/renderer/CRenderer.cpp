@@ -65,7 +65,9 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 		const std::shared_ptr< CMaterial > materialFrameBuffer = std::make_shared< CMaterial >();
 
 		const auto shaderProgram = std::make_shared<CShaderProgram>();
-		if( !m_shaderProgramCompiler.Compile( shaderProgram, vertexShader, fragmentShader ) )
+		shaderProgram->VertexShader = vertexShader;
+		shaderProgram->FragmentShader = fragmentShader;
+		if( !m_shaderProgramCompiler.Compile( shaderProgram ) )
 		{
 			throw std::exception( "couldn't create shader program for the framebuffer" );
 		}

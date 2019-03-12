@@ -11,15 +11,22 @@ void CShaderProgramCache::Load( const std::shared_ptr< CShaderProgram > &resourc
 	{
 		logWARNING( "using dummy shader instead of vertex shader '{0}' and fragment shader '{1}'", id.vertexShader, id.fragmentShader );
 
-		m_shaderProgramCompiler.Compile( resource, m_shaderCompiler.DummyVertexShader(), m_shaderCompiler.DummyFragmentShader() );
+		resource->VertexShader = m_shaderCompiler.DummyVertexShader();
+		resource->FragmentShader = m_shaderCompiler.DummyFragmentShader();
+		m_shaderProgramCompiler.Compile( resource );
 	}
 	else
 	{
-		if( !m_shaderProgramCompiler.Compile( resource, vertexShader, fragmentShader ) )
+		resource->VertexShader = vertexShader;
+		resource->FragmentShader = fragmentShader;
+
+		if( !m_shaderProgramCompiler.Compile( resource ) )
 		{
 			logWARNING( "program object from vertex shader '{0}' and fragment shader '{1}' is not valid", id.vertexShader, id.fragmentShader );
 
-			m_shaderProgramCompiler.Compile( resource, m_shaderCompiler.DummyVertexShader(), m_shaderCompiler.DummyFragmentShader() );
+			resource->VertexShader = m_shaderCompiler.DummyVertexShader();
+			resource->FragmentShader = m_shaderCompiler.DummyFragmentShader();
+			m_shaderProgramCompiler.Compile( resource );
 		}
 	}
 }

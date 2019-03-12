@@ -7,6 +7,7 @@
 
 #include "src/renderer/shader/EEngineUniform.hpp"
 #include "src/renderer/shader/SShaderInterface.hpp"
+#include "src/renderer/shader/CShader.hpp"
 
 class CShaderProgram final
 {
@@ -33,9 +34,10 @@ public:
 
 	void Reset();
 
-	// TODO create members for the vertex and fragment shader?
-
 	GLuint GLID;
+
+	std::shared_ptr<const CShader>	VertexShader;
+	std::shared_ptr<const CShader>	FragmentShader;
 
 	const std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredSamplers() const;
 	const std::vector< std::pair< GLint, const EEngineUniform > >	&RequiredEngineUniforms() const;
