@@ -41,6 +41,7 @@ void CShaderLoader::FromFile( const std::shared_ptr<CShader> &shader, const std:
 		{
 			if( !m_shaderCompiler.Compile( shader, GL_VERTEX_SHADER, body ) )
 			{
+				logWARNING( "couldn't create vertex shader from '{0}'", path )
 				FromVertexDummy( shader );
 			}
 		}
@@ -48,27 +49,10 @@ void CShaderLoader::FromFile( const std::shared_ptr<CShader> &shader, const std:
 		{
 			if( !m_shaderCompiler.Compile( shader, GL_FRAGMENT_SHADER, body ) )
 			{
+				logWARNING( "couldn't create fragment shader from '{0}'", path )
 				FromFragmentDummy( shader );
 			}
 		}
-
-		// TODO logERROR( "couldn't create '{0}' from '{1}'", glbinding::aux::Meta::getString( type ), path );
-
-		/* TODO
-		const GLuint shader = m_shaderCompiler.Compile( type, m_filesystem.LoadFileToString( path ) );
-		if( 0 == shader )
-		{
-			logERROR( "couldn't create '{0}' from '{1}'", glbinding::aux::Meta::getString( type ), path );
-
-			// TODO do the same as with the program object? -> store and use the dummy shader from here on, so future compiles don't need to be made if we know it will fail
-			return( 0 );
-		}
-		else
-		{
-			m_shaders[ path ] = shader;
-			return( shader );
-		}
-		*/
 	}
 }
 
