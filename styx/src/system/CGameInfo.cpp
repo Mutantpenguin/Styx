@@ -20,7 +20,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 
 	std::ifstream fin( gamefile );
 
-	if( fin )
+	if( fin.good() )
 	{
 		const auto root = [&]() -> json {
 			try
