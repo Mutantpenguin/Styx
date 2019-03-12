@@ -394,16 +394,16 @@ void CTextureLoader::From2DArrayDummy( const std::shared_ptr< CTexture > &textur
 {
 	texture->Reset();
 
-	// Creates a checkerboard-like dummy-texture
+	// Creates a checkerboard-like dummy-texture with flashing
 
 	C2DArrayData arrayData;
 
-	if( !arrayData.AddLayer( m_dummyImage ) )
+	if( !arrayData.AddLayer( m_dummyImage )
+		||
+		!arrayData.AddLayer( ImageHandler::GenerateCheckerImage( m_dummyImage->Size(), CColor( 0.0f, 1.0f, 0.0f ), CColor( 1.0f, 1.0f, 1.0f ) ) ) )
 	{
-		throw std::exception( "failed to add layer '{0}' for dummy 2D array texture" );
+		throw std::exception( "failed to add layer for dummy 2D array texture" );
 	}
-
-	// TODO CImage asd;
 
 	From2DArrayData( texture, arrayData );
 }
