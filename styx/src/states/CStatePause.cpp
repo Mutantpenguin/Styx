@@ -9,7 +9,6 @@
 
 CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface, std::shared_ptr< CState > pausedState ) :
 	CState( "pause", filesystem, settings, engineInterface ),
-	m_startTime { m_timer.Time() },
 	m_pausedState { pausedState }
 {
 	m_pausedState->Pause();

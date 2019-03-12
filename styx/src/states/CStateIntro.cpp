@@ -9,7 +9,6 @@
 
 CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "intro", filesystem, settings, engineInterface ),
-	m_startTime { m_timer.Time() },
 	m_introSound { std::make_shared< CSoundSource>( engineInterface.ResourceCacheManager.Get< CSoundBuffer >( "sounds/startup_sound.ogg" ) ) },
 	m_introDuration { m_introSound->Buffer()->Duration() * 1000000 }
 {
@@ -48,7 +47,7 @@ CStateIntro::~CStateIntro()
 
 std::shared_ptr< CState > CStateIntro::OnUpdate()
 {
-	const u64 elapsedTime = m_timer.Time() - m_startTime;
+	const u64 elapsedTime = m_timer.Time();
 
 	glm::vec3 entityPosition = m_logoEntity->Transform.Position();
 	entityPosition.z = elapsedTime / m_introDuration;

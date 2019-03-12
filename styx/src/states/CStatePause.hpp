@@ -15,9 +15,6 @@ public:
 	virtual std::shared_ptr< CState > OnUpdate() override;
 
 private:
-	// TODO is this needed anymore?
-	const u64 m_startTime;
-
 	const std::shared_ptr< CState > m_pausedState;
 
 	std::shared_ptr< CEntity > m_textEntity;

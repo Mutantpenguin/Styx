@@ -20,8 +20,6 @@ public:
 	virtual std::shared_ptr< CState > OnUpdate() override;
 
 private:
-	const u64 m_startTime;
-
 	const std::shared_ptr< const CSoundSource > m_introSound;
 
 	const f16 m_introDuration;
