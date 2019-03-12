@@ -18,11 +18,20 @@ public:
 		return( *this );
 	}
 
-	inline CColor( f16 pr, f16 pg, f16 pb, f16 pa ) :
-		m_r( pr ),
-		m_g( pg ),
-		m_b( pb ),
-		m_a( pa )
+	inline CColor( const f16 r, const f16 g, const f16 b, const f16 a ) :
+		m_r( r ),
+		m_g( g ),
+		m_b( b ),
+		m_a( a )
+	{
+		clamp();
+	}
+
+	inline CColor( const f16 r, const f16 g, const f16 b ) :
+		m_r( r ),
+		m_g( g ),
+		m_b( b ),
+		m_a( 1.0f )
 	{
 		clamp();
 	}
