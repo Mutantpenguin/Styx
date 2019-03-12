@@ -22,7 +22,7 @@ CTextureLoader::CTextureLoader( const CSettings &p_settings, const CFileSystem &
 	// clamp the value so we don't get too bad texture-quality
 	m_iPicMip { std::min( p_settings.renderer.textures.picmip, MAX_TEXTURE_PICMIP ) },
 	m_openGlAdapter { openGlAdapter },
-	m_dummyImage { ImageHandler::GenerateCheckerImage( CSize( 64, 64 ) ) }
+	m_dummyImage { ImageHandler::GenerateCheckerImage( CSize( 64, 64 ), CColor( 1.0f, 0.0f, 1.0f, 1.0f ), CColor( 0.0f, 0.0f, 0.0f, 1.0f ) ) }
 {
 	if( !m_dummyImage )
 	{
@@ -383,7 +383,7 @@ void CTextureLoader::FromCubeDummy( const std::shared_ptr< CTexture > &texture )
 	{
 		if( !cubemapData.SetFace( faceNum, m_dummyImage ) )
 		{
-			throw std::exception( "failed to add face '{0}' for dummy cubemap" );
+			throw std::exception( "failed to add face '{0}' for dummy cubemap texture" );
 		}
 	}
 
@@ -395,6 +395,15 @@ void CTextureLoader::From2DArrayDummy( const std::shared_ptr< CTexture > &textur
 	texture->Reset();
 
 	// Creates a checkerboard-like dummy-texture
-	// TODO create dummy for 2DArray
-	FromImage( texture, m_dummyImage );
+
+	C2DArrayData arrayData;
+
+	if( !arrayData.AddLayer( m_dummyImage ) )
+	{
+		throw std::exception( "failed to add layer '{0}' for dummy 2D array texture" );
+	}
+
+	// TODO CImage asd;
+
+	From2DArrayData( texture, arrayData );
 }

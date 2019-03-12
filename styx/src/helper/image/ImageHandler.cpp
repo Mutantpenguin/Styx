@@ -1,6 +1,7 @@
 #include "ImageHandler.hpp"
 
 #include <algorithm>
+#include <array>
 
 #include <FreeImagePlus.h>
 
@@ -191,7 +192,7 @@ namespace ImageHandler
 		}
 	}
 
-	std::shared_ptr< CImage > GenerateCheckerImage( const CSize &size )
+	std::shared_ptr< CImage > GenerateCheckerImage( const CSize &size, const CColor &color1, const CColor &color2 )
 	{
 		if( !Math::IsPowerOfTwo( size.width ) )
 		{
@@ -205,19 +206,34 @@ namespace ImageHandler
 		}
 		else
 		{
+			using ColorBytes = std::array<std::byte, 4>;
+
+			auto blah = []( const CColor &color ) -> auto
+			{
+				return( ColorBytes{	static_cast<std::byte>( static_cast<u8>( std::round( color.r() * 255 ) ) ),
+									static_cast<std::byte>( static_cast<u8>( std::round( color.g() * 255 ) ) ),
+									static_cast<std::byte>( static_cast<u8>( std::round( color.b() * 255 ) ) ),
+									static_cast<std::byte>( static_cast<u8>( std::round( color.a() * 255 ) ) ) } );
+			};
+
+			const std::array<ColorBytes, 2> colors = { blah( color1 ), blah( color2 ) };
+
 			auto checkerImageData = std::make_unique< CImage::PixelBuffer >( size.width * size.height * 4 );
 
 			for( u32 i = 0; i < size.height; ++i )
 			{
 				for( u32 j = 0; j < size.width; ++j )
 				{
-					const u32 c = ( ( ( i & 0x8 ) == 0 ) ^ ( ( j & 0x8 ) == 0  ) ) * 255;
-					const u32 index = ( ( i * size.width ) * 4 ) + ( j * 4 );
+					// change color every 8 pixels
+					const auto c = ( ( i & 0x8 ) == 0 ) ^ ( ( j & 0x8 ) == 0 );
 
-					checkerImageData->at( index + 0 ) = static_cast<std::byte>( c );	// red
-					checkerImageData->at( index + 1 ) = static_cast<std::byte>( 0 );	// green
-					checkerImageData->at( index + 2 ) = static_cast<std::byte>( c );	// blue
-					checkerImageData->at( index + 3 ) = static_cast<std::byte>( 255 );	// alpha
+					const auto &color = colors[ c ];
+
+					const u32 index = ( ( i * size.width ) * 4 ) + ( j * 4 );
+					checkerImageData->at( index + 0 ) = color[ 2 ];	// blue
+					checkerImageData->at( index + 1 ) = color[ 1 ];	// green
+					checkerImageData->at( index + 2 ) = color[ 0 ];	// red
+					checkerImageData->at( index + 3 ) = color[ 3 ];	// alpha
 				}
 			}
 
