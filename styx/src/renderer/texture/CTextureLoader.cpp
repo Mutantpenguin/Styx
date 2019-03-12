@@ -124,12 +124,12 @@ bool CTextureLoader::FromCubeFile( const std::shared_ptr< CTexture > &texture, c
 		logWARNING( "no faces defined in '{0}'", path );
 		return( false );
 	}
-	else if( json_faces->size() < CCubemapData::countCubemapFaces )
+	else if( json_faces->size() < CCubemapData::cubemapFaceCount )
 	{
 		logWARNING( "there are only {0} faces defined in '{1}'", json_faces->size(), path );
 		return( false );
 	}
-	else if( json_faces->size() > CCubemapData::countCubemapFaces )
+	else if( json_faces->size() > CCubemapData::cubemapFaceCount )
 	{
 		logWARNING( "there are too many ( {0} ) faces defined in '{1}'", json_faces->size(), path );
 		return( false );
@@ -139,7 +139,7 @@ bool CTextureLoader::FromCubeFile( const std::shared_ptr< CTexture > &texture, c
 
 	CCubemapData cubemapData;
 
-	for( u8 faceNum = 0; faceNum < CCubemapData::countCubemapFaces; ++faceNum )
+	for( u8 faceNum = 0; faceNum < CCubemapData::cubemapFaceCount; ++faceNum )
 	{
 		const std::string pathOfFace = directoryOfFaces + (*json_faces)[ faceNum ].get<std::string>();
 		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, pathOfFace, m_openGlAdapter.MaxCubeMapTextureSize(), m_iPicMip, true );
@@ -150,7 +150,7 @@ bool CTextureLoader::FromCubeFile( const std::shared_ptr< CTexture > &texture, c
 		}
 		else
 		{
-			if( !cubemapData.AddFace( faceNum, image ) )
+			if( !cubemapData.SetFace( faceNum, image ) )
 			{
 				logWARNING( "failed to add face '{0}' for cubemap '{1}'", (*json_faces)[ faceNum ].get<std::string>(), path );
 				return( false );

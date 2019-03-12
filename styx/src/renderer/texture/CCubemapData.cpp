@@ -2,9 +2,9 @@
 
 #include "src/logger/CLogger.hpp"
 
-bool CCubemapData::AddFace( const u8 faceNum, const std::shared_ptr< const CImage > &image )
+bool CCubemapData::SetFace( const u8 faceNum, const std::shared_ptr< const CImage > &image )
 {
-	if( faceNum >= countCubemapFaces )
+	if( faceNum >= cubemapFaceCount )
 	{
 		logWARNING( "face '{0}' is not a valid cubemap face", faceNum );
 		return( false );
