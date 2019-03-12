@@ -1,6 +1,6 @@
 #pragma once
 
-#include <unordered_map>
+#include <map>
 
 #include <typeindex>
 
@@ -60,5 +60,5 @@ public:
 	}
 
 private:
-	std::unordered_map< std::type_index, const std::shared_ptr< CResourceCacheBase > > m_resourceCaches;
+	std::map< std::type_index, const std::shared_ptr< CResourceCacheBase > > m_resourceCaches;
 };
