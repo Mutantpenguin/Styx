@@ -377,8 +377,17 @@ void CTextureLoader::FromCubeDummy( const std::shared_ptr< CTexture > &texture )
 	texture->Reset();
 
 	// Creates a checkerboard-like dummy-texture
-	// TODO create dummy for cubemap
-	FromImage( texture, m_dummyImage );
+
+	CCubemapData cubemapData;
+	for( u8 faceNum = 0; faceNum < CCubemapData::cubemapFaceCount; ++faceNum )
+	{
+		if( !cubemapData.SetFace( faceNum, m_dummyImage ) )
+		{
+			throw std::exception( "failed to add face '{0}' for dummy cubemap" );
+		}
+	}
+
+	FromCubemapData( texture, cubemapData );
 }
 
 void CTextureLoader::From2DArrayDummy( const std::shared_ptr< CTexture > &texture ) const

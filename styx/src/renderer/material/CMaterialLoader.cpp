@@ -349,6 +349,10 @@ void CMaterialLoader::FromMatDummy( const std::shared_ptr< CMaterial > &material
 	material->Reset();
 
 	material->Name( "dummy " + std::to_string( ++m_dummyCounter ) );
+	/* TODO
+	material->ShaderProgram( m_shaderManager.GetDummyShader() );
 
-	// TODO material->ShaderProgram( m_shaderManager.GetDummyShader() );
+
+	const auto shaderProgram = m_resourceCacheManager.Get<CShaderProgram>( m_shadercom, fragmentShaderPath } );
+	*/
 }
