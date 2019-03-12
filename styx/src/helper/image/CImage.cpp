@@ -38,7 +38,7 @@ u32 CImage::Pitch() const
 	return( m_pitch );
 }
 
-const u8 *CImage::RawPixelData() const
+const std::byte *CImage::RawPixelData() const
 {
 	return( m_imageData->data() );
 }

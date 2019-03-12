@@ -113,7 +113,7 @@ namespace ImageHandler
 
 				auto imageData = std::make_unique< CImage::PixelBuffer >( pitch * resizedSize.height );
 
-				std::copy( image.accessPixels(), image.accessPixels() + ( pitch * resizedSize.height ), imageData->begin() );
+				std::copy( reinterpret_cast<std::byte*>( image.accessPixels() ), reinterpret_cast<std::byte*>( image.accessPixels() ) + ( pitch * resizedSize.height ), imageData->data() );
 
 				return( std::make_shared< CImage >( resizedSize, originalSize, alpha, bpp, pitch, std::move( imageData ) ) );
 			}
@@ -132,7 +132,7 @@ namespace ImageHandler
 
 	bool Save( const CFileSystem &p_filesystem, const std::shared_ptr< const CImage > &image, const f16 scale_factor, const std::string &format, const std::string &path )
 	{
-		FIBITMAP *bitmap = FreeImage_ConvertFromRawBits( const_cast< BYTE* >( image->RawPixelData() ), image->Size().width, image->Size().height, image->Size().width * 3, image->BPP(), FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK );
+		FIBITMAP *bitmap = FreeImage_ConvertFromRawBits( reinterpret_cast<BYTE*>( const_cast<std::byte*>( image->RawPixelData() ) ), image->Size().width, image->Size().height, image->Size().width * 3, image->BPP(), FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK );
 		if( nullptr == bitmap )
 		{
 			logWARNING( "unable to create FIBITMAP from CImage" );
@@ -214,10 +214,10 @@ namespace ImageHandler
 					const u32 c = ( ( ( i & 0x8 ) == 0 ) ^ ( ( j & 0x8 ) == 0  ) ) * 255;
 					const u32 index = ( ( i * size.width ) * 4 ) + ( j * 4 );
 
-					checkerImageData->at( index + 0 ) = static_cast< u8 >( c );	// red
-					checkerImageData->at( index + 1 ) = static_cast< u8 >( 0 );	// green
-					checkerImageData->at( index + 2 ) = static_cast< u8 >( c );	// blue
-					checkerImageData->at( index + 3 ) = static_cast< u8 >( 255 );	// alpha
+					checkerImageData->at( index + 0 ) = static_cast<std::byte>( c );	// red
+					checkerImageData->at( index + 1 ) = static_cast<std::byte>( 0 );	// green
+					checkerImageData->at( index + 2 ) = static_cast<std::byte>( c );	// blue
+					checkerImageData->at( index + 3 ) = static_cast<std::byte>( 255 );	// alpha
 				}
 			}
 

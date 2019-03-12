@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <vector>
-#include <string>
 
 #include "src/helper/Types.hpp"
 
@@ -11,7 +10,7 @@
 class CImage final
 {
 public:
-	using PixelBuffer = std::vector< u8 >;
+	using PixelBuffer = std::vector< std::byte >;
 
 public:
 	CImage( const CSize &size, const CSize &originalSize, bool alpha, u8 bpp, u32 pitch, std::unique_ptr< PixelBuffer > imageData );
@@ -26,7 +25,7 @@ public:
 
 	u32 Pitch() const;
 
-	const u8 *RawPixelData() const;
+	const std::byte *RawPixelData() const;
 
 private:
 	const CSize	m_size;
