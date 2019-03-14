@@ -15,11 +15,12 @@ public:
 	struct ResourceIdType
 	{
 		std::string vertexShader;
+		std::string geometryShader;
 		std::string fragmentShader;
 
 		bool operator<( const ResourceIdType &other) const
 		{
-			return( std::tie( vertexShader, fragmentShader ) < std::tie( other.vertexShader, other.fragmentShader ) );
+			return( std::tie( vertexShader, geometryShader, fragmentShader ) < std::tie( other.vertexShader, other.geometryShader, other.fragmentShader ) );
 		}
 		
 	};
@@ -37,6 +38,7 @@ public:
 	GLuint GLID;
 
 	std::shared_ptr<const CShader>	VertexShader;
+	std::shared_ptr<const CShader>	GeometryShader;
 	std::shared_ptr<const CShader>	FragmentShader;
 
 	const std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredSamplers() const;

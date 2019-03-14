@@ -1,0 +1,10 @@
+{
+	"name"			:	"explode",
+	"cullmode"		:	"BACK",
+	"polygonmode"	:	"FILL",
+	"shaders"	:	{
+						"vs" : "shaders/vs/explode.vs.glsl",
+						"gs" : "shaders/gs/explode.gs.glsl",
+						"fs" : "shaders/fs/standard.fs.glsl"
+					}
+}

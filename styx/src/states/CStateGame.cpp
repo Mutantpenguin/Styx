@@ -251,6 +251,19 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	}
 
 	{
+		const auto explodeMaterial = resourceCache.Get<CMaterial>( "materials/explode.mat" );
+
+		const CMesh::TMeshTextureSlots explodeMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/texpack_2/pattern_07.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+
+		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, explodeMaterial, explodeMeshTextureSlots );
+
+		const auto cubeEntity = m_scene.CreateEntity( "exploder" );
+		cubeEntity->Transform.Position( { 50.0f, 10.0f, 1.0f } );
+		cubeEntity->Transform.Scale( { 5.0f, 5.0f, 5.0f } );
+		cubeEntity->Add<CModelComponent>( cubeMesh );
+	}
+
+	{
 		const auto material3 = resourceCache.Get< CMaterial >( "materials/sky.mat" );
 
 		const CMesh::TMeshTextureSlots skyMeshTextureSlots = { { "skyboxTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/cube/sixtine/sixtine.cub" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_CUBE ) ) } };

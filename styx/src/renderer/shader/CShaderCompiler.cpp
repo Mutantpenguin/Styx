@@ -21,22 +21,41 @@ const std::unordered_map< EEngineUniform, const SShaderInterface > CShaderCompil
 const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( CVAO::EAttributeLocation::position );
 const auto &uniformModelViewProjectionMatrix = CShaderCompiler::EngineUniforms.at( EEngineUniform::modelViewProjectionMatrix );
 
-const std::string CShaderCompiler::DummyVertexShaderBody =	"void main()" \
-															"{" \
-															"	gl_Position = " + uniformModelViewProjectionMatrix.name + " * vec4( " + positionAttribute.name + ", 1 );" \
-															"}";
+const std::string CShaderCompiler::DummyVertexShaderBody = R"glsl(
+void main()
+{
+	gl_Position = )glsl" + uniformModelViewProjectionMatrix.name + R"glsl( * vec4( )glsl" + positionAttribute.name + R"glsl(, 1 );
+}
+)glsl";
 
-const std::string CShaderCompiler::DummyFragmentShaderBody =	"out vec4 color;" \
-																"void main()" \
-																"{" \
-																"	color = vec4( 1, 0, 1, 1 ).rgba;" \
-																"}";
+const std::string CShaderCompiler::DummyGeometryShaderBody = R"glsl(
+void main()
+{
+	gl_Position = gl_in[ 0 ].gl_Position;
+	EmitVertex();
+
+	EndPrimitive();
+}
+)glsl";
+
+const std::string CShaderCompiler::DummyFragmentShaderBody = R"glsl(
+out vec4 color;
+void main()
+{
+	color = vec4( 1, 0, 1, 1 ).rgba;
+}
+)glsl";
 
 CShaderCompiler::CShaderCompiler()
 {
 	if( !Compile( m_dummyVertexShader, GL_VERTEX_SHADER, DummyVertexShaderBody ) )
 	{
 		throw std::exception( "couldn't create dummy vertex shader" );
+	}
+
+	if( !Compile( m_dummyGeometryShader, GL_GEOMETRY_SHADER, DummyGeometryShaderBody ) )
+	{
+		throw std::exception( "couldn't create dummy geometry shader" );
 	}
 
 	if( !Compile( m_dummyFragmentShader, GL_FRAGMENT_SHADER, DummyFragmentShaderBody ) )
@@ -67,6 +86,9 @@ bool CShaderCompiler::Compile( const std::shared_ptr<CShader> &shader, const GLe
 		break;
 
 	case GL_FRAGMENT_SHADER:
+		break;
+
+	case GL_GEOMETRY_SHADER:
 		break;
 
 	default:
@@ -134,6 +156,11 @@ bool CShaderCompiler::Compile( const std::shared_ptr<CShader> &shader, const GLe
 const std::shared_ptr<const CShader> CShaderCompiler::DummyVertexShader() const
 {
 	return( m_dummyVertexShader );
+}
+
+const std::shared_ptr<const CShader> CShaderCompiler::DummyGeometryShader() const
+{
+	return( m_dummyGeometryShader );
 }
 
 const std::shared_ptr<const CShader> CShaderCompiler::DummyFragmentShader() const

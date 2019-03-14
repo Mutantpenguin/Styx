@@ -146,6 +146,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 	else
 	{
 		std::string vertexShaderPath;
+		std::string geometryShaderPath;
 		std::string fragmentShaderPath;
 
 		const auto mat_shader_vs = mat_shaders->find( "vs" );
@@ -159,6 +160,12 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 			vertexShaderPath = mat_shader_vs->get<std::string>();
 		}
 
+		const auto mat_shader_gs = mat_shaders->find( "gs" );
+		if( mat_shader_gs != mat_shaders->end() )
+		{
+			geometryShaderPath = mat_shader_gs->get<std::string>();
+		}
+
 		const auto mat_shader_fs = mat_shaders->find( "fs" );
 		if( mat_shader_fs == mat_shaders->end() )
 		{
@@ -170,7 +177,12 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 			fragmentShaderPath = mat_shader_fs->get<std::string>();
 		}
 
-		const auto shaderProgram = m_resourceCacheManager.Get<CShaderProgram>( { vertexShaderPath, fragmentShaderPath } );
+		CShaderProgram::ResourceIdType shaderProgramId;
+		shaderProgramId.vertexShader = vertexShaderPath;
+		shaderProgramId.geometryShader = geometryShaderPath;
+		shaderProgramId.fragmentShader = fragmentShaderPath;
+
+		const auto shaderProgram = m_resourceCacheManager.Get<CShaderProgram>( shaderProgramId );
 
 		material->ShaderProgram( shaderProgram );
 

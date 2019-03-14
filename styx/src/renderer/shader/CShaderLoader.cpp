@@ -28,6 +28,10 @@ void CShaderLoader::FromFile( const std::shared_ptr<CShader> &shader, const std:
 		{
 			FromVertexDummy( shader );
 		}
+		else if( fileExtension == std::string( "gs.glsl" ) )
+		{
+			FromGeometryDummy( shader );
+		}
 		else if( fileExtension == std::string( "fs.glsl" ) )
 		{
 			FromFragmentDummy( shader );
@@ -43,6 +47,14 @@ void CShaderLoader::FromFile( const std::shared_ptr<CShader> &shader, const std:
 			{
 				logWARNING( "couldn't create vertex shader from '{0}'", path )
 				FromVertexDummy( shader );
+			}
+		}
+		else if( fileExtension == std::string( "gs.glsl" ) )
+		{
+			if( !m_shaderCompiler.Compile( shader, GL_GEOMETRY_SHADER, body ) )
+			{
+				logWARNING( "couldn't create geometry shader from '{0}'", path )
+				FromGeometryDummy( shader );
 			}
 		}
 		else if( fileExtension == std::string( "fs.glsl" ) )
@@ -61,6 +73,13 @@ void CShaderLoader::FromVertexDummy( const std::shared_ptr<CShader> &shader ) co
 	shader->Reset();
 
 	m_shaderCompiler.Compile( shader, GL_VERTEX_SHADER, CShaderCompiler::DummyVertexShaderBody );
+}
+
+void CShaderLoader::FromGeometryDummy( const std::shared_ptr<CShader> &shader ) const
+{
+	shader->Reset();
+
+	m_shaderCompiler.Compile( shader, GL_GEOMETRY_SHADER, CShaderCompiler::DummyGeometryShaderBody );
 }
 
 void CShaderLoader::FromFragmentDummy( const std::shared_ptr<CShader> &shader ) const

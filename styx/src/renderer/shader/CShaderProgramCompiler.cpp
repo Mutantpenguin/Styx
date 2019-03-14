@@ -30,6 +30,12 @@ bool CShaderProgramCompiler::Compile( const std::shared_ptr<CShaderProgram> &sha
 	}
 
 	glAttachShader( shaderProgram->GLID, shaderProgram->VertexShader->GLID );
+
+	if( nullptr != shaderProgram->GeometryShader )
+	{
+		glAttachShader( shaderProgram->GLID, shaderProgram->GeometryShader->GLID );
+	}
+
 	glAttachShader( shaderProgram->GLID, shaderProgram->FragmentShader->GLID );
 
 	glLinkProgram( shaderProgram->GLID );
@@ -44,7 +50,14 @@ bool CShaderProgramCompiler::Compile( const std::shared_ptr<CShaderProgram> &sha
 		std::vector<char> errorMessage( infoLogLength );
 		glGetProgramInfoLog( shaderProgram->GLID, infoLogLength, nullptr, errorMessage.data() );
 
-		logWARNING( "Error linking program: {0}", errorMessage.data() );
+		if( 0 < infoLogLength )
+		{
+			logWARNING( "Error linking program: {0}", errorMessage.data() );
+		}
+		else
+		{
+			logWARNING( "Error linking program: unknown reason" );
+		}
 
 		shaderProgram->Reset();
 

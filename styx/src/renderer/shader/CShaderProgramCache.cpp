@@ -3,14 +3,24 @@
 void CShaderProgramCache::Load( const std::shared_ptr< CShaderProgram > &resource, const CShaderProgram::ResourceIdType &id ) const
 {
 	resource->VertexShader = m_resourceCacheManager.Get<CShader>( id.vertexShader );
+
+	if( !std::empty( id.geometryShader ) )
+	{
+		resource->GeometryShader = m_resourceCacheManager.Get<CShader>( id.geometryShader );
+	}
+
 	resource->FragmentShader = m_resourceCacheManager.Get<CShader>( id.fragmentShader );
 
 	if( !m_shaderProgramCompiler.Compile( resource ) )
 	{
-		logWARNING( "program object from vertex shader '{0}' and fragment shader '{1}' is not valid", id.vertexShader, id.fragmentShader );
+		logWARNING( "program object from '{0}' is not valid", CShaderProgram::IdToString( id ) );
 
 		resource->VertexShader = m_shaderCompiler.DummyVertexShader();
+		
+		resource->GeometryShader = nullptr;
+
 		resource->FragmentShader = m_shaderCompiler.DummyFragmentShader();
+		
 		m_shaderProgramCompiler.Compile( resource );
 	}
 }

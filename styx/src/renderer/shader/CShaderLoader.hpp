@@ -18,6 +18,7 @@ public:
 
 private:
 	void FromVertexDummy( const std::shared_ptr<CShader> &shader ) const;
+	void FromGeometryDummy( const std::shared_ptr<CShader> &shader ) const;
 	void FromFragmentDummy( const std::shared_ptr<CShader> &shader ) const;
 
 	const CFileSystem &m_filesystem;

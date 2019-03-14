@@ -25,9 +25,11 @@ public:
 	static const std::unordered_map< EEngineUniform, const SShaderInterface > EngineUniforms;
 
 	static const std::string DummyVertexShaderBody;
+	static const std::string DummyGeometryShaderBody;
 	static const std::string DummyFragmentShaderBody;
 
 	const std::shared_ptr<const CShader> DummyVertexShader() const;
+	const std::shared_ptr<const CShader> DummyGeometryShader() const;
 	const std::shared_ptr<const CShader> DummyFragmentShader() const;
 
 private:
@@ -36,5 +38,6 @@ private:
 	std::unordered_set< std::shared_ptr< const CUniformBuffer > > m_registeredUniformBuffers;
 
 	const std::shared_ptr<CShader> m_dummyVertexShader = std::make_shared<CShader>();
+	const std::shared_ptr<CShader> m_dummyGeometryShader = std::make_shared<CShader>();
 	const std::shared_ptr<CShader> m_dummyFragmentShader = std::make_shared<CShader>();
 };
