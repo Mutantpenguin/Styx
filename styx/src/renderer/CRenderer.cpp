@@ -111,7 +111,7 @@ void CRenderer::CreateUniformBuffers()
 										"mat4 viewMatrix;" \
 										"mat4 viewProjectionMatrix;";
 
-		m_uboCamera = std::make_shared< CUniformBuffer >( ( 2 * sizeof( glm::vec4 ) ) + ( 3 * sizeof( glm::mat4 ) ), GL_DYNAMIC_DRAW, EUniformBufferLocation::CAMERA, "Camera", cameraBody );
+		m_uboCamera = std::make_shared< CUniformBuffer >( ( 2 * sizeof( glm::vec3 ) ) + ( 3 * sizeof( glm::mat4 ) ), GL_DYNAMIC_DRAW, EUniformBufferLocation::CAMERA, "Camera", cameraBody );
 		m_shaderCompiler.RegisterUniformBuffer( m_uboCamera );
 	}
 
@@ -157,9 +157,9 @@ void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CEntity > &ca
 
 	u32 offset = 0;
 	m_uboCamera->SubData( offset,	sizeof( position ),				glm::value_ptr( position ) );
-	offset += sizeof( glm::vec4 );
+	offset += sizeof( glm::vec3 );
 	m_uboCamera->SubData( offset,	sizeof( direction ),			glm::value_ptr( direction ) );
-	offset += sizeof( glm::vec4 );
+	offset += sizeof( glm::vec3 );
 	m_uboCamera->SubData( offset,	sizeof( projectionMatrix ),		glm::value_ptr( projectionMatrix ) );
 	offset += sizeof( glm::mat4 );
 	m_uboCamera->SubData( offset,	sizeof( viewMatrix ),			glm::value_ptr( viewMatrix ) );
