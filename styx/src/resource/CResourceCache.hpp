@@ -35,11 +35,11 @@ protected:
 		#ifdef STYX_DEBUG
 		if( !m_resources.empty() )
 		{
-			logWARNING( "there are still '{0}' resources in '{1}' cache", m_resources.size(), m_name );
+			logERROR( "there are still '{0}' resources in '{1}' cache", m_resources.size(), m_name );
 
 			for( const auto & [ id, resourceInfo ] : m_resources )
 			{
-				logDEBUG( "\t{0}: {1}", T::IdToString( id ), resourceInfo.resource.use_count() );
+				logWARNING( "\t{0}: {1}", T::IdToString( id ), resourceInfo.resource.use_count() - 1 );
 			}
 		}
 		#endif
