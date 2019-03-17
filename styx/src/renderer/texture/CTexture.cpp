@@ -4,7 +4,10 @@
 
 CTexture::~CTexture()
 {
-	glDeleteTextures( 1, &GLID );
+	if( glIsTexture( GLID ) )
+	{
+		glDeleteTextures( 1, &GLID );
+	}
 }
 
 void CTexture::BindToUnit( const GLuint unit ) const
@@ -24,7 +27,10 @@ void CTexture::Type( const EType type )
 
 void CTexture::Reset()
 {
-	glDeleteTextures( 1, &GLID );
+	if( glIsTexture( GLID ) )
+	{
+		glDeleteTextures( 1, &GLID );
+	}
 
 	GLID = 0;
 }
