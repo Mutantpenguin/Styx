@@ -16,21 +16,19 @@ CFrameBuffer::CFrameBuffer( const CSize &size ) :
 	glFramebufferDrawBuffersEXT( m_id, DrawBuffers.size(), DrawBuffers.data() );
 
 	{
-		auto &colorTextureID = m_colorTexture->OpenGLID();
-
 		m_colorTexture->Type( CTexture::EType::TEX_2D );
-		glCreateTextures( GL_TEXTURE_2D, 1, &colorTextureID );
+		glCreateTextures( GL_TEXTURE_2D, 1, &m_colorTexture->GLID );
 
-		glTextureParameteri( colorTextureID, GL_TEXTURE_BASE_LEVEL, 0 );
-		glTextureParameteri( colorTextureID, GL_TEXTURE_MAX_LEVEL, 1 );
+		glTextureParameteri( m_colorTexture->GLID, GL_TEXTURE_BASE_LEVEL, 0 );
+		glTextureParameteri( m_colorTexture->GLID, GL_TEXTURE_MAX_LEVEL, 1 );
 
-		glTextureStorage2D(	colorTextureID,
+		glTextureStorage2D( m_colorTexture->GLID,
 							1,
 							GL_RGBA8,
 							size.width,
 							size.height );
 
-		glNamedFramebufferTexture( m_id, attachmentColorTexture, colorTextureID, 0 );
+		glNamedFramebufferTexture( m_id, attachmentColorTexture, m_colorTexture->GLID, 0 );
 	}
 
 	glCreateRenderbuffers( 1, &m_renderBufferId );

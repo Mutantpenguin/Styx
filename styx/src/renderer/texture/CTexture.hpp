@@ -38,10 +38,8 @@ public:
 
 	void Reset();
 
-	GLuint &OpenGLID();
+	GLuint GLID;
 
 private:
 	EType m_type;
-
-	GLuint m_id;
 };

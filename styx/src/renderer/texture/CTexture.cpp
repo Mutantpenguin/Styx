@@ -4,12 +4,12 @@
 
 CTexture::~CTexture()
 {
-	glDeleteTextures( 1, &m_id );
+	glDeleteTextures( 1, &GLID );
 }
 
 void CTexture::BindToUnit( const GLuint unit ) const
 {
-	CGLState::BindTextureToUnit( m_id, unit );
+	CGLState::BindTextureToUnit( GLID, unit );
 }
 
 CTexture::EType CTexture::Type() const
@@ -24,12 +24,7 @@ void CTexture::Type( const EType type )
 
 void CTexture::Reset()
 {
-	glDeleteTextures( 1, &m_id );
+	glDeleteTextures( 1, &GLID );
 
-	m_id = 0;
-}
-
-GLuint &CTexture::OpenGLID()
-{
-	return( m_id );
+	GLID = 0;
 }
