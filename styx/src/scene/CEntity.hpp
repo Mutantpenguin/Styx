@@ -23,20 +23,15 @@ public:
 	const std::string &Name() const;
 
 	template< typename T, typename... Args >
-	std::shared_ptr< T > Add( Args... args )
+	void Add( Args... args )
 	{
 		if( m_components[ T::Index ] != nullptr )
 		{
 			logWARNING( "entity '{0}' with id '{1}' already has a component of type '{2}'", m_name, Id, typeid( T ).name() );
-
-			return( nullptr );
 		}
 		else
 		{
-			auto component = std::make_shared< T >( shared_from_this(), args... );
-			m_components[ T::Index ] = component;
-
-			return( component );
+			m_components[ T::Index ] = std::make_shared< T >( shared_from_this(), args... );
 		}
 	};
 

@@ -113,7 +113,7 @@ private:
 	struct sResourceInfo
 	{
 		std::shared_ptr< T >	resource;
-		i64						mtime;
+		i64						mtime = 0;
 	};
 
 	std::map< typename T::ResourceIdType, sResourceInfo > m_resources;

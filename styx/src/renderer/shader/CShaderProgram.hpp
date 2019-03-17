@@ -35,7 +35,7 @@ public:
 
 	void Reset();
 
-	GLuint GLID;
+	GLuint GLID = 0;
 
 	std::shared_ptr<const CShader>	VertexShader;
 	std::shared_ptr<const CShader>	GeometryShader;

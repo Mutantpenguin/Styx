@@ -32,5 +32,5 @@ public:
 
 	void Reset();
 
-	GLuint GLID;
+	GLuint GLID = 0;
 };

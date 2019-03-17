@@ -43,5 +43,5 @@ private:
 	ALuint m_bufferID;
 
 	format	m_format;
-	f16		m_duration;
+	f16		m_duration = 0.0f;
 };
