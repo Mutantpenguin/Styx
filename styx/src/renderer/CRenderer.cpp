@@ -34,21 +34,25 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 	CreateUniformBuffers();
 
 	{
-		// TODO write comments
-		const std::string vertexShaderBody =	"out vec2 UV;" \
-												"void main()" \
-												"{" \
-												"    gl_Position = vec4( position.x, position.y, 0.0, 1.0 );" \
-												"    UV = texcoord;" \
-												"}";
+		const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( CVAO::EAttributeLocation::position );
+		const auto &texcoord0Attribute = CShaderCompiler::AllowedAttributes.at( CVAO::EAttributeLocation::texcoord0 );
 
-		const std::string fragmentShaderBody =	"out vec4 color;" \
-												"in vec2 UV;" \
-												"uniform sampler2D " + m_slotNameFrameBuffer + ";" \
-												"void main()" \
-												"{" \
-												"    color = texture( " + m_slotNameFrameBuffer + ", UV );" \
-												"}";
+
+		// TODO write comments
+		const std::string vertexShaderBody =	fmt::format(	"out vec2 UV;" \
+																"void main()" \
+																"{{" \
+																"    gl_Position = vec4( {0}.x, {0}.y, 0.0, 1.0 );" \
+																"    UV = {1};" \
+																"}}", positionAttribute.name, texcoord0Attribute.name );
+
+		const std::string fragmentShaderBody =	fmt::format(	"out vec4 color;" \
+																"in vec2 UV;" \
+																"uniform sampler2D {0};" \
+																"void main()" \
+																"{{" \
+																"    color = texture( {0}, UV );" \
+																"}}", m_slotNameFrameBuffer );
 
 		const auto vertexShader = std::make_shared<CShader>();
 		if( !m_shaderCompiler.Compile( vertexShader, GL_VERTEX_SHADER, vertexShaderBody ) )

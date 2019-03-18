@@ -10,9 +10,14 @@ const std::string CShaderCompiler::srcAdditionShaderVersion = "#version 430\n";
 
 const std::map< const CVAO::EAttributeLocation, const SShaderInterface > CShaderCompiler::AllowedAttributes = { { CVAO::EAttributeLocation::position,	{ "position",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
 																											    { CVAO::EAttributeLocation::normal,		{ "normal",		GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
-																											    { CVAO::EAttributeLocation::texcoord,	{ "texcoord",	GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
-																											    { CVAO::EAttributeLocation::tangent,	{ "tangent",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
-																											    { CVAO::EAttributeLocation::bitangent,	{ "bitangent",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } } };
+																												{ CVAO::EAttributeLocation::tangent,	{ "tangent",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
+																												{ CVAO::EAttributeLocation::bitangent,	{ "bitangent",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
+																												{ CVAO::EAttributeLocation::color,		{ "color",		GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
+																												{ CVAO::EAttributeLocation::texcoord0,	{ "texcoord0",	GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
+																												{ CVAO::EAttributeLocation::texcoord1,	{ "texcoord1",	GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
+																												{ CVAO::EAttributeLocation::texcoord2,	{ "texcoord2",	GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
+																												{ CVAO::EAttributeLocation::texcoord3,	{ "texcoord3",	GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
+																											   };
 
 const std::unordered_map< EEngineUniform, const SShaderInterface > CShaderCompiler::EngineUniforms = { { EEngineUniform::modelViewProjectionMatrix,	{ "modelViewProjectionMatrix",	GLHelper::glmTypeToGLSLType< glm::mat4 >() } },
 																									   { EEngineUniform::modelMatrix,				{ "modelMatrix",				GLHelper::glmTypeToGLSLType< glm::mat4 >() } } };
@@ -21,12 +26,12 @@ const std::unordered_map< EEngineUniform, const SShaderInterface > CShaderCompil
 const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( CVAO::EAttributeLocation::position );
 const auto &uniformModelViewProjectionMatrix = CShaderCompiler::EngineUniforms.at( EEngineUniform::modelViewProjectionMatrix );
 
-const std::string CShaderCompiler::DummyVertexShaderBody = R"glsl(
+const std::string CShaderCompiler::DummyVertexShaderBody = fmt::format( R"glsl(
 void main()
-{
-	gl_Position = )glsl" + uniformModelViewProjectionMatrix.name + R"glsl( * vec4( )glsl" + positionAttribute.name + R"glsl(, 1 );
-}
-)glsl";
+{{
+	gl_Position = {0} * vec4( {1}, 1 );
+}}
+)glsl", uniformModelViewProjectionMatrix.name, positionAttribute.name );
 
 const std::string CShaderCompiler::DummyGeometryShaderBody = R"glsl(
 void main()
