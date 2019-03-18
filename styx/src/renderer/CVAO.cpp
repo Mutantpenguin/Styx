@@ -56,7 +56,10 @@ CVAO::~CVAO()
 		logERROR( "VBO is not a buffer" );
 	}
 
-	glDeleteVertexArrays( 1, &m_id );
+	if( glIsVertexArray( m_id ) )
+	{
+		glDeleteVertexArrays( 1, &m_id );
+	}
 }
 
 void CVAO::Bind() const
