@@ -279,7 +279,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const auto particleMaterial = resourceCache.Get<CMaterial>( "materials/particle.mat" );
 
-		const CMesh::TMeshTextureSlots particleMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/texpack_2/pattern_07.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TMeshTextureSlots particleMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/array/fireball_small/fireball_small.arr" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 		const auto particleMesh = std::make_shared< CMesh >( GL_POINTS, gnah, particleMaterial, particleMeshTextureSlots );
 

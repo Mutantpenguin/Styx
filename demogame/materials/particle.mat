@@ -1,12 +1,16 @@
 {
 	"name"			:	"particle",
-	"polygonmode"	:	"FILL",
+	"blending"	:	{
+						"src"	: "SRC_ALPHA",
+						"dst"	: "ONE_MINUS_SRC_ALPHA"
+					},
 	"shaders"	:	{
 						"vs" : "shaders/vs/particle.vs.glsl",
 						"gs" : "shaders/gs/particle.gs.glsl",
-						"fs" : "shaders/fs/standard.fs.glsl"
+						"fs" : "shaders/fs/standardAnimated.fs.glsl"
 					},
 	"uniforms"	:	{
-						"scale"	: 5.0
+						"scale"	: 10.0,
+						"animDelay"	:	100
 					}
 }
