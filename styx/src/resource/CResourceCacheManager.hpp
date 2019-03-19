@@ -1,6 +1,7 @@
 #pragma once
 
-#include <map>
+#include <unordered_map>
+#include <vector>
 
 #include <typeindex>
 
@@ -23,11 +24,13 @@ public:
 	{
 		auto type_index = std::type_index( typeid( T ) );
 
-		const auto it = m_resourceCaches.find( type_index );
+		const auto it = m_resourceCacheMap.find( type_index );
 
-		if( it == std::cend( m_resourceCaches ) )
+		if( it == std::cend( m_resourceCacheMap ) )
 		{
-			m_resourceCaches.insert( std::make_pair( type_index, resourceCache ) );
+			m_resourceCacheMap.insert( std::make_pair( type_index, resourceCache ) );
+
+			m_resourceCachesOrdered.emplace_back( resourceCache );
 		}
 		else
 		{
@@ -44,9 +47,9 @@ public:
 	const std::shared_ptr< const T > Get( const typename T::ResourceIdType &id )
 	{
 		#ifdef STYX_DEBUG
-			const auto it = m_resourceCaches.find( std::type_index( typeid( T ) ) );
+			const auto it = m_resourceCacheMap.find( std::type_index( typeid( T ) ) );
 
-			if( std::cend( m_resourceCaches ) == it )
+			if( std::cend( m_resourceCacheMap ) == it )
 			{
 				const std::string msg = fmt::format( "no resource cache registered for type '{0}'", typeid( T ).name() );
 				logERROR( msg );
@@ -54,11 +57,13 @@ public:
 			}
 		#endif
 
-		auto resourceCache = std::static_pointer_cast< CResourceCache< T > >( m_resourceCaches[ std::type_index( typeid( T ) ) ] );
+		auto resourceCache = std::static_pointer_cast< CResourceCache< T > >( m_resourceCacheMap[ std::type_index( typeid( T ) ) ] );
 
 		return( resourceCache->Get( id ) );
 	}
 
 private:
-	std::map< std::type_index, const std::shared_ptr< CResourceCacheBase > > m_resourceCaches;
+	std::unordered_map< std::type_index, const std::shared_ptr< CResourceCacheBase > > m_resourceCacheMap;
+
+	std::vector< std::shared_ptr< CResourceCacheBase > > m_resourceCachesOrdered;
 };

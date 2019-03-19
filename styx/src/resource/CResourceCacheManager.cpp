@@ -14,10 +14,10 @@ CResourceCacheManager::~CResourceCacheManager()
 	logINFO( "resource cache manager is shutting down" );
 
 	#ifdef STYX_DEBUG
-	if( !m_resourceCaches.empty() )
+	if( !m_resourceCacheMap.empty() )
 	{
-		logWARNING( "there are still '{0}' registered caches", m_resourceCaches.size() );
-		for( const auto &cache : m_resourceCaches )
+		logWARNING( "there are still '{0}' registered caches", m_resourceCacheMap.size() );
+		for( const auto &cache : m_resourceCacheMap )
 		{
 			logDEBUG( "\t{0}", cache.second->Name() );
 		}
@@ -27,31 +27,35 @@ CResourceCacheManager::~CResourceCacheManager()
 
 void CResourceCacheManager::DeRegister( const std::shared_ptr< CResourceCacheBase > &resourceCache )
 {
-	const auto it = std::find_if( std::cbegin( m_resourceCaches ), std::cend( m_resourceCaches ), [&] ( auto &x ) { return( x.second == resourceCache ); } );
+	const auto itMap = std::find_if( std::cbegin( m_resourceCacheMap ), std::cend( m_resourceCacheMap ), [&] ( auto &x ) { return( x.second == resourceCache ); } );
 
-	if( it == std::cend( m_resourceCaches ) )
+	if( itMap == std::cend( m_resourceCacheMap ) )
 	{
 		logWARNING( "resource cache '{0}' not found", resourceCache->Name() )
 	}
 	else
 	{
-		m_resourceCaches.erase( it );
+		m_resourceCacheMap.erase( itMap );
+
+		const auto itVec = std::find_if( std::cbegin( m_resourceCachesOrdered ), std::cend( m_resourceCachesOrdered ), [ & ]( auto &x ) { return( x == resourceCache ); } );
+
+		m_resourceCachesOrdered.erase( itVec );
 	}
 }
 
 void CResourceCacheManager::CollectGarbage()
 {
-	for( auto &resourceCache : m_resourceCaches )
+	for( auto it = m_resourceCachesOrdered.rbegin(); it != m_resourceCachesOrdered.rend(); ++it )
 	{
-		resourceCache.second->CollectGarbage();
+		(*it)->CollectGarbage();
 	}
 }
 
 
 void CResourceCacheManager::Reload()
 {
-	for( auto &resourceCache : m_resourceCaches )
+	for( auto &resourceCache : m_resourceCachesOrdered )
 	{
-		resourceCache.second->Reload();
+		resourceCache->Reload();
 	}
 }
