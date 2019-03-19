@@ -31,6 +31,14 @@ void CShaderProgram::Reset()
 	{
 		glDeleteProgram( GLID );
 	}
+
+	VertexShader = nullptr;
+	GeometryShader = nullptr;
+	FragmentShader = nullptr;
+
+	m_requiredSamplers.clear();
+	m_requiredEngineUniforms.clear();
+	m_requiredMaterialUniforms.clear();
 }
 
 const std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredSamplers() const

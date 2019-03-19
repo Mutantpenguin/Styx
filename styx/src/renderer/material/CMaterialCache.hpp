@@ -6,12 +6,14 @@
 
 #include "src/renderer/material/CMaterialLoader.hpp"
 
+#include "src/renderer/shader/CShaderProgramCompiler.hpp"
+
 class CMaterialCache final : public CResourceCache< CMaterial >
 {
 public:
-	CMaterialCache( const CFileSystem &filesystem, CResourceCacheManager &resourceCacheManager ) :
+	CMaterialCache( const CFileSystem &filesystem, CResourceCacheManager &resourceCacheManager, const CShaderProgramCompiler &shaderProgramCompiler ) :
 		CResourceCache( "material", filesystem ),
-		m_materialLoader( filesystem, resourceCacheManager )
+		m_materialLoader( filesystem, resourceCacheManager, shaderProgramCompiler )
 	{}
 
 private:

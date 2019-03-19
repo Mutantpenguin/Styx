@@ -8,6 +8,17 @@
 
 constexpr const GLint CShaderProgramCompiler::RequiredCombinedTextureImageUnits;
 
+CShaderProgramCompiler::CShaderProgramCompiler( const CShaderCompiler &shaderCompiler )
+{
+	m_dummyShaderProgram->VertexShader = shaderCompiler.DummyVertexShader();
+	m_dummyShaderProgram->FragmentShader = shaderCompiler.DummyFragmentShader();
+	
+	if( !Compile( m_dummyShaderProgram ) )
+	{
+		throw std::exception( "couldn't create dummy shader program" );
+	}
+}
+
 bool CShaderProgramCompiler::Compile( const std::shared_ptr<CShaderProgram> &shaderProgram ) const
 {
 	if( nullptr == shaderProgram->VertexShader )
@@ -201,4 +212,9 @@ bool CShaderProgramCompiler::SetupInterface( const std::shared_ptr<CShaderProgra
 	}
 
 	return( true );
+}
+
+const std::shared_ptr<const CShaderProgram> CShaderProgramCompiler::DummyShaderProgram() const
+{
+	return( m_dummyShaderProgram );
 }

@@ -19,10 +19,12 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 		m_settings { settings },
 		m_resourceCacheManager { resourceCacheManager },
 		m_samplerManager( settings ),
+		m_shaderCompiler(),
+		m_shaderProgramCompiler( m_shaderCompiler ),
 		m_shaderCache { std::make_shared< CShaderCache >( filesystem, m_shaderCompiler ) },
 		m_shaderProgramCache { std::make_shared< CShaderProgramCache >( filesystem, resourceCacheManager, m_shaderCompiler, m_shaderProgramCompiler ) },
 		m_textureCache { std::make_shared< CTextureCache >( settings, filesystem, m_OpenGlAdapter ) },
-		m_materialCache { std::make_shared< CMaterialCache >( filesystem, resourceCacheManager ) }
+		m_materialCache { std::make_shared< CMaterialCache >( filesystem, resourceCacheManager, m_shaderProgramCompiler ) }
 {
 	glDepthFunc( GL_LEQUAL );
 	glEnable( GL_DEPTH_TEST );

@@ -19,8 +19,9 @@ const std::map< const CVAO::EAttributeLocation, const SShaderInterface > CShader
 																												{ CVAO::EAttributeLocation::texcoord3,	{ "texcoord3",	GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
 																											   };
 
-const std::unordered_map< EEngineUniform, const SShaderInterface > CShaderCompiler::EngineUniforms = { { EEngineUniform::modelViewProjectionMatrix,	{ "modelViewProjectionMatrix",	GLHelper::glmTypeToGLSLType< glm::mat4 >() } },
-																									   { EEngineUniform::modelMatrix,				{ "modelMatrix",				GLHelper::glmTypeToGLSLType< glm::mat4 >() } } };
+const std::unordered_map< EEngineUniform, const SShaderInterface > CShaderCompiler::EngineUniforms = {	{ EEngineUniform::modelViewProjectionMatrix,	{ "modelViewProjectionMatrix",	GLHelper::glmTypeToGLSLType< glm::mat4 >() } },
+																										{ EEngineUniform::modelViewMatrix,				{ "modelViewMatrix",			GLHelper::glmTypeToGLSLType< glm::mat4 >() } },
+																										{ EEngineUniform::modelMatrix,					{ "modelMatrix",				GLHelper::glmTypeToGLSLType< glm::mat4 >() } } };
 
 
 const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( CVAO::EAttributeLocation::position );
