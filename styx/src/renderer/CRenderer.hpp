@@ -94,7 +94,7 @@ private:
 	void CreateUniformBuffers();
 	void UpdateUniformBuffers( const std::shared_ptr< const CEntity > &cameraEntity, const CTimer &timer ) const;
 
-	void RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const;
+	void RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewMatrix, const glm::mat4 &viewProjectionMatrix ) const;
 
 	[[nodiscard]] glm::mat4 CalculateModelMatrix( const CTransform &transform ) const;
 

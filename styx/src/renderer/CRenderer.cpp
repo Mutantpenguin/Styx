@@ -84,9 +84,9 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 	}
 
 	m_resourceCacheManager.Register<CTexture>( m_textureCache );
-	m_resourceCacheManager.Register<CMaterial>( m_materialCache );
 	m_resourceCacheManager.Register<CShader>( m_shaderCache );
 	m_resourceCacheManager.Register<CShaderProgram>( m_shaderProgramCache );
+	m_resourceCacheManager.Register<CMaterial>( m_materialCache );
 
 	logINFO( "renderer was initialized" );
 }
@@ -100,9 +100,9 @@ CRenderer::~CRenderer()
 {
 	logINFO( "renderer is shutting down" );
 
+	m_resourceCacheManager.DeRegister( m_materialCache );
 	m_resourceCacheManager.DeRegister( m_shaderProgramCache );
 	m_resourceCacheManager.DeRegister( m_shaderCache );
-	m_resourceCacheManager.DeRegister( m_materialCache );
 	m_resourceCacheManager.DeRegister( m_textureCache );
 }
 
@@ -239,7 +239,8 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 
 		const auto &camera = cameraEntity->Get<CCameraComponent>();
 
-		const glm::mat4 viewProjectionMatrix = camera->ViewProjectionMatrix();
+		const glm::mat4 viewMatrix				= camera->ViewMatrix();
+		const glm::mat4 viewProjectionMatrix	= camera->ViewProjectionMatrix();
 
 		// TODO multithreaded?
 		// sort opaque for material, and then front to back (to reduce overdraw)
@@ -252,7 +253,7 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 																										} );
 		MTR_END( "GFX", "sort opaque" );
 
-		RenderBucket( renderBucketMaterialsOpaque, viewProjectionMatrix );
+		RenderBucket( renderBucketMaterialsOpaque, viewMatrix, viewProjectionMatrix );
 
 		// TODO multithreaded?
 		// sort translucent back to front
@@ -263,7 +264,7 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 																													} );
 		MTR_END( "GFX", "sort translucent" );
 
-		RenderBucket( renderBucketMaterialsTranslucent, viewProjectionMatrix );
+		RenderBucket( renderBucketMaterialsTranslucent, viewMatrix, viewProjectionMatrix );
 
 		framebuffer.Unbind();
 	}
@@ -288,7 +289,7 @@ void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
 	vao.Draw();
 }
 
-void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewProjectionMatrix ) const
+void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewMatrix, const glm::mat4 &viewProjectionMatrix ) const
 {
 	MTR_SCOPE( "GFX", "RenderBucket" );
 
@@ -324,6 +325,10 @@ void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::m
 			{
 				case EEngineUniform::modelViewProjectionMatrix:
 					glUniformMatrix4fv( location, 1, GL_FALSE, &( viewProjectionMatrix * CalculateModelMatrix( transform ) )[ 0 ][ 0 ] );
+					break;
+
+				case EEngineUniform::modelViewMatrix:
+					glUniformMatrix4fv( location, 1, GL_FALSE, &( viewMatrix * CalculateModelMatrix( transform ) )[ 0 ][ 0 ] );
 					break;
 
 				case EEngineUniform::modelMatrix:

@@ -27,6 +27,7 @@ public:
 	[[nodiscard]] const CFrustum Frustum() const;
 
 	[[nodiscard]] virtual const glm::mat4 ProjectionMatrix() const = 0;
+	[[nodiscard]] const glm::mat4 ViewMatrix() const;
 	[[nodiscard]] const glm::mat4 ViewProjectionMatrix() const;
 
 protected:

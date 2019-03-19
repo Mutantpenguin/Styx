@@ -40,6 +40,11 @@ const CFrustum CCameraComponent::Frustum() const
 	return( CFrustum( ViewProjectionMatrix() ) );
 }
 
+const glm::mat4 CCameraComponent::ViewMatrix() const
+{
+	return( m_parent->Transform.ViewMatrix() );
+}
+
 const glm::mat4 CCameraComponent::ViewProjectionMatrix() const
 {
 	return( ProjectionMatrix() * m_parent->Transform.ViewMatrix() );

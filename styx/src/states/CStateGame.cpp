@@ -255,12 +255,38 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const CMesh::TMeshTextureSlots explodeMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/texpack_2/pattern_07.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, explodeMaterial, explodeMeshTextureSlots );
+		const auto explodeMesh = std::make_shared< CMesh >( GL_TRIANGLES, Primitives::cube, explodeMaterial, explodeMeshTextureSlots );
 
-		const auto cubeEntity = m_scene.CreateEntity( "exploder" );
-		cubeEntity->Transform.Position( { 50.0f, 10.0f, 1.0f } );
-		cubeEntity->Transform.Scale( { 5.0f, 5.0f, 5.0f } );
-		cubeEntity->Add<CModelComponent>( cubeMesh );
+		const auto explode = m_scene.CreateEntity( "exploder" );
+		explode->Transform.Position( { 50.0f, 10.0f, 1.0f } );
+		explode->Transform.Scale( { 5.0f, 5.0f, 5.0f } );
+		explode->Add<CModelComponent>( explodeMesh );
+	}
+
+	{
+		const Primitives::SPrimitive gnah{
+			{
+				{	{ -1.0f, -1.0f, -1.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f }	},
+				{	{ -1.0f, -1.0f, +1.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f }	},
+				{	{ -1.0f, +1.0f, -1.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f }	},
+				{	{ -1.0f, +1.0f, +1.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f }	},
+				{	{ +1.0f, -1.0f, -1.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f }	},
+				{	{ +1.0f, -1.0f, +1.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f }	},
+				{	{ +1.0f, +1.0f, -1.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f }	},
+				{	{ +1.0f, +1.0f, +1.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f }	}
+			}
+		};
+
+		const auto particleMaterial = resourceCache.Get<CMaterial>( "materials/particle.mat" );
+
+		const CMesh::TMeshTextureSlots particleMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/texpack_2/pattern_07.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+
+		const auto particleMesh = std::make_shared< CMesh >( GL_POINTS, gnah, particleMaterial, particleMeshTextureSlots );
+
+		const auto particleEntity = m_scene.CreateEntity( "particles" );
+		particleEntity->Transform.Position( { 80.0f, 10.0f, 1.0f } );
+		particleEntity->Transform.Scale( { 5.0f, 5.0f, 5.0f } );
+		particleEntity->Add<CModelComponent>( particleMesh );
 	}
 
 	{
