@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="demogame" InternalType="" Version="10.0.0">
+  <File Name="demogame.project"/>
   <Reconciliation>
     <Regexes/>
     <Excludepaths/>
@@ -7,11 +8,13 @@
     <Extensions>
       <![CDATA[*.*]]>
     </Extensions>
-    <Topleveldir>../demogame</Topleveldir>
+    <Topleveldir>/home/charon/Projekte/styx/demogame</Topleveldir>
   </Reconciliation>
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="materials">
+    <File Name="materials/particle.mat"/>
+    <File Name="materials/explode.mat"/>
     <File Name="materials/flames.mat"/>
     <File Name="materials/newscast.mat"/>
     <File Name="materials/schnarf.mat"/>
@@ -52,6 +55,10 @@
     <File Name="sounds/Pickup_Coin17.wav"/>
   </VirtualDirectory>
   <VirtualDirectory Name="shaders">
+    <VirtualDirectory Name="gs">
+      <File Name="shaders/gs/particle.gs.glsl"/>
+      <File Name="shaders/gs/explode.gs.glsl"/>
+    </VirtualDirectory>
     <VirtualDirectory Name="fs">
       <File Name="shaders/fs/reflection.fs.glsl"/>
       <File Name="shaders/fs/sky.fs.glsl"/>
@@ -66,6 +73,8 @@
       <File Name="shaders/fs/radial_blur.fs.glsl"/>
     </VirtualDirectory>
     <VirtualDirectory Name="vs">
+      <File Name="shaders/vs/particle.vs.glsl"/>
+      <File Name="shaders/vs/explode.vs.glsl"/>
       <File Name="shaders/vs/reflection.vs.glsl"/>
       <File Name="shaders/vs/sky.vs.glsl"/>
       <File Name="shaders/vs/standard.vs.glsl"/>
@@ -130,6 +139,59 @@
       <File Name="textures/texpack_1/senn_icyfangrate.tga"/>
     </VirtualDirectory>
     <VirtualDirectory Name="array">
+      <VirtualDirectory Name="fireball_small">
+        <File Name="textures/array/fireball_small/fireball_small.arr"/>
+        <File Name="textures/array/fireball_small/50.png"/>
+        <File Name="textures/array/fireball_small/49.png"/>
+        <File Name="textures/array/fireball_small/48.png"/>
+        <File Name="textures/array/fireball_small/47.png"/>
+        <File Name="textures/array/fireball_small/46.png"/>
+        <File Name="textures/array/fireball_small/45.png"/>
+        <File Name="textures/array/fireball_small/44.png"/>
+        <File Name="textures/array/fireball_small/43.png"/>
+        <File Name="textures/array/fireball_small/42.png"/>
+        <File Name="textures/array/fireball_small/41.png"/>
+        <File Name="textures/array/fireball_small/40.png"/>
+        <File Name="textures/array/fireball_small/39.png"/>
+        <File Name="textures/array/fireball_small/38.png"/>
+        <File Name="textures/array/fireball_small/37.png"/>
+        <File Name="textures/array/fireball_small/36.png"/>
+        <File Name="textures/array/fireball_small/35.png"/>
+        <File Name="textures/array/fireball_small/34.png"/>
+        <File Name="textures/array/fireball_small/33.png"/>
+        <File Name="textures/array/fireball_small/32.png"/>
+        <File Name="textures/array/fireball_small/31.png"/>
+        <File Name="textures/array/fireball_small/30.png"/>
+        <File Name="textures/array/fireball_small/29.png"/>
+        <File Name="textures/array/fireball_small/28.png"/>
+        <File Name="textures/array/fireball_small/27.png"/>
+        <File Name="textures/array/fireball_small/26.png"/>
+        <File Name="textures/array/fireball_small/25.png"/>
+        <File Name="textures/array/fireball_small/24.png"/>
+        <File Name="textures/array/fireball_small/23.png"/>
+        <File Name="textures/array/fireball_small/22.png"/>
+        <File Name="textures/array/fireball_small/21.png"/>
+        <File Name="textures/array/fireball_small/20.png"/>
+        <File Name="textures/array/fireball_small/19.png"/>
+        <File Name="textures/array/fireball_small/18.png"/>
+        <File Name="textures/array/fireball_small/17.png"/>
+        <File Name="textures/array/fireball_small/16.png"/>
+        <File Name="textures/array/fireball_small/15.png"/>
+        <File Name="textures/array/fireball_small/14.png"/>
+        <File Name="textures/array/fireball_small/13.png"/>
+        <File Name="textures/array/fireball_small/12.png"/>
+        <File Name="textures/array/fireball_small/11.png"/>
+        <File Name="textures/array/fireball_small/10.png"/>
+        <File Name="textures/array/fireball_small/09.png"/>
+        <File Name="textures/array/fireball_small/08.png"/>
+        <File Name="textures/array/fireball_small/07.png"/>
+        <File Name="textures/array/fireball_small/06.png"/>
+        <File Name="textures/array/fireball_small/05.png"/>
+        <File Name="textures/array/fireball_small/04.png"/>
+        <File Name="textures/array/fireball_small/03.png"/>
+        <File Name="textures/array/fireball_small/02.png"/>
+        <File Name="textures/array/fireball_small/01.png"/>
+      </VirtualDirectory>
       <VirtualDirectory Name="fire">
         <File Name="textures/array/fire/sfx_fire01.jpg"/>
         <File Name="textures/array/fire/sfx_fire02.jpg"/>
@@ -166,6 +228,7 @@
     <File Name="textures_zip.zip"/>
   </VirtualDirectory>
   <VirtualDirectory Name="icons">
+    <File Name="icons/styx_demo_icon_big.png"/>
     <File Name="icons/inq_demo_icon_big.png"/>
   </VirtualDirectory>
   <VirtualDirectory Name="misc">

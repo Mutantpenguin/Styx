@@ -85,7 +85,6 @@
       <File Name="src/sound/CSoundBufferLoader.hpp"/>
       <File Name="src/sound/CSoundBufferLoader.cpp"/>
       <File Name="src/sound/CSoundBufferCache.hpp"/>
-      <File Name="src/sound/CSoundBufferCache.cpp"/>
       <File Name="src/sound/CSoundBuffer.hpp"/>
       <File Name="src/sound/CSoundBuffer.cpp"/>
       <File Name="src/sound/ALHelper.hpp"/>
@@ -131,7 +130,6 @@
         <File Name="src/renderer/texture/CTextureLoader.hpp"/>
         <File Name="src/renderer/texture/CTextureLoader.cpp"/>
         <File Name="src/renderer/texture/CTextureCache.hpp"/>
-        <File Name="src/renderer/texture/CTextureCache.cpp"/>
         <File Name="src/renderer/texture/CTexture.hpp"/>
         <File Name="src/renderer/texture/CTexture.cpp"/>
         <File Name="src/renderer/texture/CCubemapData.hpp"/>
@@ -140,12 +138,21 @@
         <File Name="src/renderer/texture/C2DArrayData.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="shader">
+        <File Name="src/renderer/shader/CShaderProgramCompiler.hpp"/>
+        <File Name="src/renderer/shader/CShaderProgramCompiler.cpp"/>
+        <File Name="src/renderer/shader/CShaderProgramCache.hpp"/>
+        <File Name="src/renderer/shader/CShaderProgramCache.cpp"/>
+        <File Name="src/renderer/shader/CShaderLoader.hpp"/>
+        <File Name="src/renderer/shader/CShaderLoader.cpp"/>
+        <File Name="src/renderer/shader/CShaderCompiler.hpp"/>
+        <File Name="src/renderer/shader/CShaderCompiler.cpp"/>
+        <File Name="src/renderer/shader/CShaderCache.hpp"/>
+        <File Name="src/renderer/shader/CShader.hpp"/>
+        <File Name="src/renderer/shader/CShader.cpp"/>
         <File Name="src/renderer/shader/SShaderInterface.hpp"/>
         <File Name="src/renderer/shader/EEngineUniform.hpp"/>
         <File Name="src/renderer/shader/CShaderProgram.hpp"/>
         <File Name="src/renderer/shader/CShaderProgram.cpp"/>
-        <File Name="src/renderer/shader/CShaderManager.hpp"/>
-        <File Name="src/renderer/shader/CShaderManager.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="sampler">
         <File Name="src/renderer/sampler/CSamplerManager.hpp"/>
@@ -171,7 +178,6 @@
         <File Name="src/renderer/material/CMaterialLoader.hpp"/>
         <File Name="src/renderer/material/CMaterialLoader.cpp"/>
         <File Name="src/renderer/material/CMaterialCache.hpp"/>
-        <File Name="src/renderer/material/CMaterialCache.cpp"/>
         <File Name="src/renderer/material/CMaterial.hpp"/>
         <File Name="src/renderer/material/CMaterial.cpp"/>
       </VirtualDirectory>
