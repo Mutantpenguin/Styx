@@ -32,7 +32,13 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	auto &soundManager = m_engineInterface.SoundManager;
 
-	soundManager.SetListener( m_cameraEntity->Transform );
+	{
+		const glm::vec3 &position = m_cameraEntity->Transform.Position();
+		const glm::vec3 &direction = m_cameraEntity->Transform.Direction();
+		const glm::vec3 &up = m_cameraEntity->Transform.Up();
+
+		soundManager.SetListener( position, direction, up );
+	}
 
 	auto &resourceCache = m_engineInterface.ResourceCacheManager;
 	auto &samplerManager = renderer.SamplerManager();
@@ -437,7 +443,13 @@ std::shared_ptr< CState > CStateGame::OnUpdate()
 		cameraFree->MoveDown( spp * ctrlPressedMult );
 	}
 
-	soundManager.SetListener( m_cameraEntity->Transform );
+	{
+		const glm::vec3 &position = m_cameraEntity->Transform.Position();
+		const glm::vec3 &direction = m_cameraEntity->Transform.Direction();
+		const glm::vec3 &up = m_cameraEntity->Transform.Up();
+
+		soundManager.SetListener( position, direction, up );
+	}
 
 	/*
 	 * change FOV
