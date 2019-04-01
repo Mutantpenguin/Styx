@@ -2,6 +2,7 @@
 
 #include <tuple>
 #include <vector>
+#include <memory>
 
 #include "src/renderer/GL.h"
 

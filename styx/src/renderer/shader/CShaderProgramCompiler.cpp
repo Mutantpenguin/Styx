@@ -1,5 +1,7 @@
 #include "CShaderProgramCompiler.hpp"
 
+#include <exception>
+
 #include <glbinding-aux/Meta.h>
 
 #include "src/logger/CLogger.hpp"
@@ -15,7 +17,7 @@ CShaderProgramCompiler::CShaderProgramCompiler( const CShaderCompiler &shaderCom
 	
 	if( !Compile( m_dummyShaderProgram ) )
 	{
-		throw std::exception( "couldn't create dummy shader program" );
+		throw std::runtime_error( "couldn't create dummy shader program" );
 	}
 }
 

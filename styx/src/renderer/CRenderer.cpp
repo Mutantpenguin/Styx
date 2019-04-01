@@ -21,10 +21,10 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 		m_samplerManager( settings ),
 		m_shaderCompiler(),
 		m_shaderProgramCompiler( m_shaderCompiler ),
-		m_shaderCache { std::make_shared< CShaderCache >( filesystem, m_shaderCompiler ) },
-		m_shaderProgramCache { std::make_shared< CShaderProgramCache >( filesystem, resourceCacheManager, m_shaderCompiler, m_shaderProgramCompiler ) },
 		m_textureCache { std::make_shared< CTextureCache >( settings, filesystem, m_OpenGlAdapter ) },
-		m_materialCache { std::make_shared< CMaterialCache >( filesystem, resourceCacheManager, m_shaderProgramCompiler ) }
+		m_materialCache { std::make_shared< CMaterialCache >( filesystem, resourceCacheManager, m_shaderProgramCompiler ) },
+		m_shaderCache { std::make_shared< CShaderCache >( filesystem, m_shaderCompiler ) },
+		m_shaderProgramCache { std::make_shared< CShaderProgramCache >( filesystem, resourceCacheManager, m_shaderCompiler, m_shaderProgramCompiler ) }
 {
 	glDepthFunc( GL_LEQUAL );
 	glEnable( GL_DEPTH_TEST );
@@ -59,13 +59,13 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 		const auto vertexShader = std::make_shared<CShader>();
 		if( !m_shaderCompiler.Compile( vertexShader, GL_VERTEX_SHADER, vertexShaderBody ) )
 		{
-			throw std::exception( "couldn't create vertex shader for the framebuffer" );
+			throw std::runtime_error( "couldn't create vertex shader for the framebuffer" );
 		}
 
 		const auto fragmentShader = std::make_shared<CShader>();
 		if( !m_shaderCompiler.Compile( fragmentShader, GL_FRAGMENT_SHADER, fragmentShaderBody ) )
 		{
-			throw std::exception( "couldn't create fragment shader for the framebuffer" );
+			throw std::runtime_error( "couldn't create fragment shader for the framebuffer" );
 		}
 
 		const std::shared_ptr< CMaterial > materialFrameBuffer = std::make_shared< CMaterial >();
@@ -75,7 +75,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 		shaderProgram->FragmentShader = fragmentShader;
 		if( !m_shaderProgramCompiler.Compile( shaderProgram ) )
 		{
-			throw std::exception( "couldn't create shader program for the framebuffer" );
+			throw std::runtime_error( "couldn't create shader program for the framebuffer" );
 		}
 
 		materialFrameBuffer->ShaderProgram( shaderProgram );

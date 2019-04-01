@@ -56,17 +56,17 @@ CShaderCompiler::CShaderCompiler()
 {
 	if( !Compile( m_dummyVertexShader, GL_VERTEX_SHADER, DummyVertexShaderBody ) )
 	{
-		throw std::exception( "couldn't create dummy vertex shader" );
+		throw std::runtime_error( "couldn't create dummy vertex shader" );
 	}
 
 	if( !Compile( m_dummyGeometryShader, GL_GEOMETRY_SHADER, DummyGeometryShaderBody ) )
 	{
-		throw std::exception( "couldn't create dummy geometry shader" );
+		throw std::runtime_error( "couldn't create dummy geometry shader" );
 	}
 
 	if( !Compile( m_dummyFragmentShader, GL_FRAGMENT_SHADER, DummyFragmentShaderBody ) )
 	{
-		throw std::exception( "couldn't create dummy fragment shader" );
+		throw std::runtime_error( "couldn't create dummy fragment shader" );
 	}
 }
 

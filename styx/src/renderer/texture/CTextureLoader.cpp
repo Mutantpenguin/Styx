@@ -377,7 +377,7 @@ void CTextureLoader::FromCubeDummy( const std::shared_ptr< CTexture > &texture )
 	{
 		if( !cubemapData.SetFace( faceNum, m_dummyImage ) )
 		{
-			throw std::exception( "failed to add face '{0}' for dummy cubemap texture" );
+			throw std::runtime_error( fmt::format( "failed to add face '{0}' for dummy cubemap texture", faceNum ) );
 		}
 	}
 
@@ -396,7 +396,7 @@ void CTextureLoader::From2DArrayDummy( const std::shared_ptr< CTexture > &textur
 		||
 		!arrayData.AddLayer( ImageHandler::GenerateCheckerImage( m_dummyImage->Size(), CColor( 0.0f, 1.0f, 0.0f ), CColor( 1.0f, 1.0f, 1.0f ) ) ) )
 	{
-		throw std::exception( "failed to add layer for dummy 2D array texture" );
+		throw std::runtime_error( "failed to add layer for dummy 2D array texture" );
 	}
 
 	From2DArrayData( texture, arrayData );

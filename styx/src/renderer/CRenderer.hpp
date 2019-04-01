@@ -81,10 +81,10 @@ private:
 
 	COpenGlAdapter m_OpenGlAdapter;
 
+	CSamplerManager		m_samplerManager;
+	
 	CShaderCompiler			m_shaderCompiler;
 	CShaderProgramCompiler	m_shaderProgramCompiler;
-
-	CSamplerManager		m_samplerManager;
 
 	std::shared_ptr< CTextureCache >		m_textureCache;
 	std::shared_ptr< CMaterialCache >		m_materialCache;
