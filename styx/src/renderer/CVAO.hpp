@@ -22,9 +22,13 @@ public:
 	{
 		position = 0,
 		normal,
-		texcoord,
 		tangent,
-		bitangent
+		bitangent,
+		color,
+		texcoord0,
+		texcoord1,
+		texcoord2,
+		texcoord3
 	};
 
 private:
@@ -38,7 +42,11 @@ private:
 
 	static const GLuint bindingIndexPositions	{ 0 };
 	static const GLuint bindingIndexNormals		{ 1 };
-	static const GLuint bindingIndexTexcoords	{ 2 };
-	static const GLuint bindingIndexTangents	{ 3 };
-	static const GLuint bindingIndexBitangents	{ 4 };
+	static const GLuint bindingIndexTangents	{ 2 };
+	static const GLuint bindingIndexBitangents	{ 3 };
+	static const GLuint bindingIndexColor		{ 4 };
+	static const GLuint bindingIndexTexcoords0	{ 5 };
+	static const GLuint bindingIndexTexcoords1	{ 6 };
+	static const GLuint bindingIndexTexcoords2	{ 7 };
+	static const GLuint bindingIndexTexcoords3	{ 8 };
 };

@@ -27,22 +27,19 @@ void CMesh::SetMaterial( const std::shared_ptr< const CMaterial > &mat )
 
 	/* TODO setup the necessary things for the material
 
-		if( !shader->RequiredSamplers().empty() )
+		for( const auto & [ location, interface ] : shader->RequiredSamplers() )
 		{
-			for( const auto & [ location, interface ] : shader->RequiredSamplers() )
-			{
-				std::shared_ptr< const CSampler > sampler;
+			std::shared_ptr< const CSampler > sampler;
 
-				if( mat_samplers != mat_root.cend() )
+			if( mat_samplers != mat_root.cend() )
+			{
+				const auto mat_sampler = mat_samplers->find( interface.name );
+				if( ( mat_sampler != mat_samplers->cend() ) && ( !mat_sampler->empty() ) )
 				{
-					const auto mat_sampler = mat_samplers->find( interface.name );
-					if( ( mat_sampler != mat_samplers->cend() ) && ( !mat_sampler->empty() ) )
+					// TODO check here, if specified sampler fits to the sampelr in the shader
+					if( !m_samplerManager.SamplerFromString( mat_sampler->get<std::string>(), sampler ) )
 					{
-						// TODO check here, if specified sampler fits to the sampelr in the shader
-						if( !m_samplerManager.SamplerFromString( mat_sampler->get<std::string>(), sampler ) )
-						{
-							logDEBUG( "invalid sampler specified for sampler '{0}' in '{1}'", interface.name, path );
-						}
+						logDEBUG( "invalid sampler specified for sampler '{0}' in '{1}'", interface.name, path );
 					}
 				}
 			}
