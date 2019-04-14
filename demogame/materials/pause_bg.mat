@@ -7,8 +7,8 @@
 							"dst"	: "ONE_MINUS_SRC_ALPHA"
 						},
 	"shaders"		:	{
-							"vs" : "shaders/vs/pause_bg.vs.glsl",
-							"fs" : "shaders/fs/standard.fs.glsl"
+							"vert" : "shaders/vs/pause_bg.vert",
+							"frag" : "shaders/fs/standard.frag"
 						},
 	"uniforms"		:	{
 							"bgRadsPerSecond" : 0.174533,

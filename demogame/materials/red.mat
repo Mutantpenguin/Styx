@@ -2,8 +2,8 @@
 	"name"			:	"red",
 	"polygonmode"	:	"FILL",
 	"shaders"	:	{
-						"vs" : "shaders/vs/standard.vs.glsl",
-						"fs" : "shaders/fs/color.fs.glsl"
+						"vert" : "shaders/vs/standard.vert",
+						"frag" : "shaders/fs/color.frag"
 					},
 	"uniforms"	:	{
 						"mainColor" : [ 1.0, 0.0, 0.0, 1.0 ]

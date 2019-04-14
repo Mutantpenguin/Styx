@@ -3,8 +3,8 @@
 	"cullmode"		:	"BACK",
 	"polygonmode"	:	"FILL",
 	"shaders"	:	{
-						"vs" : "shaders/vs/superBox.vs.glsl",
-						"fs" : "shaders/fs/superBox.fs.glsl"
+						"vert" : "shaders/vs/superBox.vert",
+						"frag" : "shaders/fs/superBox.frag"
 					},
 	"uniforms"	:	{
 						"bgRadsPerSecond"	: 0.349066,

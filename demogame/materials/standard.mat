@@ -3,7 +3,7 @@
 	"cullmode"		:	"BACK",
 	"polygonmode"	:	"FILL",
 	"shaders"	:	{
-						"vs" : "shaders/vs/standard.vs.glsl",
-						"fs" : "shaders/fs/standard.fs.glsl"
+						"vert" : "shaders/vs/standard.vert",
+						"frag" : "shaders/fs/standard.frag"
 					}
 }

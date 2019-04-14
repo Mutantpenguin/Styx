@@ -56,31 +56,31 @@
   </VirtualDirectory>
   <VirtualDirectory Name="shaders">
     <VirtualDirectory Name="gs">
-      <File Name="shaders/gs/particle.gs.glsl"/>
-      <File Name="shaders/gs/explode.gs.glsl"/>
+      <File Name="shaders/gs/particle.geom"/>
+      <File Name="shaders/gs/explode.geom"/>
     </VirtualDirectory>
     <VirtualDirectory Name="fs">
-      <File Name="shaders/fs/reflection.fs.glsl"/>
-      <File Name="shaders/fs/sky.fs.glsl"/>
-      <File Name="shaders/fs/standard.fs.glsl"/>
-      <File Name="shaders/fs/color.fs.glsl"/>
-      <File Name="shaders/fs/timeTest.fs.glsl"/>
-      <File Name="shaders/fs/standardAnimated.fs.glsl"/>
-      <File Name="shaders/fs/pulse_green_red.fs.glsl"/>
-      <File Name="shaders/fs/superBox.fs.glsl"/>
-      <File Name="shaders/fs/schnarf.fs.glsl"/>
-      <File Name="shaders/fs/wait_cursor.fs.glsl"/>
-      <File Name="shaders/fs/radial_blur.fs.glsl"/>
+      <File Name="shaders/fs/reflection.frag"/>
+      <File Name="shaders/fs/sky.frag"/>
+      <File Name="shaders/fs/standard.frag"/>
+      <File Name="shaders/fs/color.frag"/>
+      <File Name="shaders/fs/timeTest.frag"/>
+      <File Name="shaders/fs/standardAnimated.frag"/>
+      <File Name="shaders/fs/pulse_green_red.frag"/>
+      <File Name="shaders/fs/superBox.frag"/>
+      <File Name="shaders/fs/schnarf.frag"/>
+      <File Name="shaders/fs/wait_cursor.frag"/>
+      <File Name="shaders/fs/radial_blur.frag"/>
     </VirtualDirectory>
     <VirtualDirectory Name="vs">
-      <File Name="shaders/vs/particle.vs.glsl"/>
-      <File Name="shaders/vs/explode.vs.glsl"/>
-      <File Name="shaders/vs/reflection.vs.glsl"/>
-      <File Name="shaders/vs/sky.vs.glsl"/>
-      <File Name="shaders/vs/standard.vs.glsl"/>
-      <File Name="shaders/vs/superBox.vs.glsl"/>
-      <File Name="shaders/vs/wait_cursor.vs.glsl"/>
-      <File Name="shaders/vs/pause_bg.vs.glsl"/>
+      <File Name="shaders/vs/particle.vert"/>
+      <File Name="shaders/vs/explode.vert"/>
+      <File Name="shaders/vs/reflection.vert"/>
+      <File Name="shaders/vs/sky.vert"/>
+      <File Name="shaders/vs/standard.vert"/>
+      <File Name="shaders/vs/superBox.vert"/>
+      <File Name="shaders/vs/wait_cursor.vert"/>
+      <File Name="shaders/vs/pause_bg.vert"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="textures">

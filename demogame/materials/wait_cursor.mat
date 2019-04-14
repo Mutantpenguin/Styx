@@ -6,8 +6,8 @@
 							"dst"	: "ONE_MINUS_SRC_ALPHA"
 						},
 	"shaders"		:	{
-							"vs" : "shaders/vs/wait_cursor.vs.glsl",
-							"fs" : "shaders/fs/wait_cursor.fs.glsl"
+							"vert" : "shaders/vs/wait_cursor.vert",
+							"frag" : "shaders/fs/wait_cursor.frag"
 						},
 	"uniforms"		:	{
 							"waitRadsPerSecond" : 6.28319

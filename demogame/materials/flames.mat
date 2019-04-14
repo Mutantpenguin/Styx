@@ -6,8 +6,8 @@
 						"dst"	: "ONE"
 					},
 	"shaders"	:	{
-						"vs" : "shaders/vs/standard.vs.glsl",
-						"fs" : "shaders/fs/standardAnimated.fs.glsl"
+						"vert" : "shaders/vs/standard.vert",
+						"frag" : "shaders/fs/standardAnimated.frag"
 					},
 	"uniforms"	:	{
 						"animDelay"	:	100

@@ -2,7 +2,7 @@
 	"name"			:	"pulse green red",
 	"polygonmode"	:	"FILL",
 	"shaders"	:	{
-						"vs" : "shaders/vs/standard.vs.glsl",
-						"fs" : "shaders/fs/pulse_green_red.fs.glsl"
+						"vert" : "shaders/vs/standard.vert",
+						"frag" : "shaders/fs/pulse_green_red.frag"
 					}
 }

@@ -24,15 +24,15 @@ void CShaderLoader::FromFile( const std::shared_ptr<CShader> &shader, const std:
 	{
 		logWARNING( "shader file '{0}' does not exist", path );
 		
-		if( fileExtension == std::string( "vs.glsl" ) )
+		if( fileExtension == std::string( "vert" ) )
 		{
 			FromVertexDummy( shader );
 		}
-		else if( fileExtension == std::string( "gs.glsl" ) )
+		else if( fileExtension == std::string( "geom" ) )
 		{
 			FromGeometryDummy( shader );
 		}
-		else if( fileExtension == std::string( "fs.glsl" ) )
+		else if( fileExtension == std::string( "frag" ) )
 		{
 			FromFragmentDummy( shader );
 		}
@@ -41,7 +41,7 @@ void CShaderLoader::FromFile( const std::shared_ptr<CShader> &shader, const std:
 	{
 		const std::string body = m_filesystem.LoadFileToString( path );
 
-		if( fileExtension == std::string( "vs.glsl" ) )
+		if( fileExtension == std::string( "vert" ) )
 		{
 			if( !m_shaderCompiler.Compile( shader, GL_VERTEX_SHADER, body ) )
 			{
@@ -49,7 +49,7 @@ void CShaderLoader::FromFile( const std::shared_ptr<CShader> &shader, const std:
 				FromVertexDummy( shader );
 			}
 		}
-		else if( fileExtension == std::string( "gs.glsl" ) )
+		else if( fileExtension == std::string( "geom" ) )
 		{
 			if( !m_shaderCompiler.Compile( shader, GL_GEOMETRY_SHADER, body ) )
 			{
@@ -57,7 +57,7 @@ void CShaderLoader::FromFile( const std::shared_ptr<CShader> &shader, const std:
 				FromGeometryDummy( shader );
 			}
 		}
-		else if( fileExtension == std::string( "fs.glsl" ) )
+		else if( fileExtension == std::string( "frag" ) )
 		{
 			if( !m_shaderCompiler.Compile( shader, GL_FRAGMENT_SHADER, body ) )
 			{

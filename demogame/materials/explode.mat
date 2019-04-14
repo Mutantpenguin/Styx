@@ -3,8 +3,8 @@
 	"cullmode"		:	"BACK",
 	"polygonmode"	:	"FILL",
 	"shaders"	:	{
-						"vs" : "shaders/vs/explode.vs.glsl",
-						"gs" : "shaders/gs/explode.gs.glsl",
-						"fs" : "shaders/fs/standard.fs.glsl"
+						"vert" : "shaders/vs/explode.vert",
+						"geom" : "shaders/gs/explode.geom",
+						"frag" : "shaders/fs/standard.frag"
 					}
 }

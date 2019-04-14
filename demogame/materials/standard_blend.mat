@@ -7,7 +7,7 @@
 							"dst"	: "ONE_MINUS_SRC_ALPHA"
 						},
 	"shaders"	:	{
-						"vs" : "shaders/vs/standard.vs.glsl",
-						"fs" : "shaders/fs/standard.fs.glsl"
+						"vert" : "shaders/vs/standard.vert",
+						"frag" : "shaders/fs/standard.frag"
 					}
 }

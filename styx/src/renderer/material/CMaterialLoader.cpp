@@ -148,7 +148,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 	{
 		CShaderProgram::ResourceIdType shaderProgramId;
 
-		const auto mat_shader_vs = mat_shaders->find( "vs" );
+		const auto mat_shader_vs = mat_shaders->find( "vert" );
 		if( mat_shader_vs == mat_shaders->end() )
 		{
 			logWARNING( "no vertex shader specified in '{0}'", path );
@@ -159,13 +159,13 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 			shaderProgramId.vertexShader = mat_shader_vs->get<std::string>();
 		}
 
-		const auto mat_shader_gs = mat_shaders->find( "gs" );
+		const auto mat_shader_gs = mat_shaders->find( "geom" );
 		if( mat_shader_gs != mat_shaders->end() )
 		{
 			shaderProgramId.geometryShader = mat_shader_gs->get<std::string>();
 		}
 
-		const auto mat_shader_fs = mat_shaders->find( "fs" );
+		const auto mat_shader_fs = mat_shaders->find( "frag" );
 		if( mat_shader_fs == mat_shaders->end() )
 		{
 			logWARNING( "no fragment shader specified in '{0}'", path );
