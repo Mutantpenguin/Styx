@@ -1,4 +1,4 @@
-#include "CSoundBufferLoader.hpp"
+#include "CAudioBufferLoader.hpp"
 
 #include <exception>
 
@@ -12,23 +12,23 @@
 #define DR_WAV_NO_STDIO
 #include "external/dr_libs/dr_wav.h"
 
-CSoundBufferLoader::CSoundBufferLoader( const CFileSystem &p_filesystem ) :
+CAudioBufferLoader::CAudioBufferLoader( const CFileSystem &p_filesystem ) :
 	m_filesystem { p_filesystem }
 {
-	logINFO( "sound buffer loader was initialized" );
+	logINFO( "audio buffer loader was initialized" );
 }
 
-CSoundBufferLoader::~CSoundBufferLoader()
+CAudioBufferLoader::~CAudioBufferLoader()
 {
-	logINFO( "sound buffer loader is shutting down" );
+	logINFO( "audio buffer loader is shutting down" );
 }
 
-void CSoundBufferLoader::FromFile( const std::shared_ptr< CSoundBuffer > &soundBuffer, const std::string &path ) const
+void CAudioBufferLoader::FromFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const std::string &path ) const
 {
 	if( !m_filesystem.Exists( path ) )
 	{
-		logWARNING( "sound file '{0}' does not exist", path );
-		FromDummy( soundBuffer );
+		logWARNING( "audio file '{0}' does not exist", path );
+		FromDummy( audioBuffer );
 	}
 	else
 	{
@@ -36,26 +36,26 @@ void CSoundBufferLoader::FromFile( const std::shared_ptr< CSoundBuffer > &soundB
 
 		if( fileExtension == std::string( "ogg" ) )
 		{
-			if( !FromOggFile( soundBuffer, path ) )
+			if( !FromOggFile( audioBuffer, path ) )
 			{
-				FromDummy( soundBuffer );
+				FromDummy( audioBuffer );
 			}
 		}
 		else if( fileExtension == std::string( "wav" ) )
 		{
-			if( !FromWavFile( soundBuffer, path ) )
+			if( !FromWavFile( audioBuffer, path ) )
 			{
-				FromDummy( soundBuffer );
+				FromDummy( audioBuffer );
 			}
 		}
 		else
 		{
-			logWARNING( "file type '{0}' of sound file '{1}' is not supported", fileExtension, path );
+			logWARNING( "file type '{0}' of audio file '{1}' is not supported", fileExtension, path );
 		}
 	}
 }
 
-bool CSoundBufferLoader::FromOggFile( const std::shared_ptr< CSoundBuffer > &soundBuffer, const std::string &path ) const
+bool CAudioBufferLoader::FromOggFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const std::string &path ) const
 {
 	auto const fileBuffer = m_filesystem.LoadFileToBuffer( path );
 
@@ -76,7 +76,7 @@ bool CSoundBufferLoader::FromOggFile( const std::shared_ptr< CSoundBuffer > &sou
 
 			const u32 lengthSamples = stb_vorbis_stream_length_in_samples( stream ) * info.channels * sizeof( i16 );
 
-			TSoundData bufferDecoded;
+			TAudioData bufferDecoded;
 			bufferDecoded.buffer.resize( lengthSamples );
 
 			if( 0 == stb_vorbis_get_samples_short_interleaved( stream, info.channels, &bufferDecoded.buffer[ 0 ], lengthSamples ) )
@@ -89,12 +89,12 @@ bool CSoundBufferLoader::FromOggFile( const std::shared_ptr< CSoundBuffer > &sou
 
 			stb_vorbis_close( stream );
 
-			bufferDecoded.format = ( 1 == info.channels ) ? CSoundBuffer::format::MONO : CSoundBuffer::format::STEREO;
+			bufferDecoded.format = ( 1 == info.channels ) ? CAudioBuffer::format::MONO : CAudioBuffer::format::STEREO;
 			bufferDecoded.frequency = info.sample_rate;
 
 			logDEBUG( "{0} / duration: {1:.0f}s / channels: {2} / sample rate: {3}", path, bufferDecoded.duration, info.channels, bufferDecoded.frequency );
 
-			FromTSoundData( soundBuffer, bufferDecoded );
+			FromTAudioData( audioBuffer, bufferDecoded );
 
 			return( true );
 		}
@@ -106,7 +106,7 @@ bool CSoundBufferLoader::FromOggFile( const std::shared_ptr< CSoundBuffer > &sou
 	}
 }
 
-bool CSoundBufferLoader::FromWavFile( const std::shared_ptr< CSoundBuffer > &soundBuffer, const std::string &path ) const
+bool CAudioBufferLoader::FromWavFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const std::string &path ) const
 {
 	auto const fileBuffer = m_filesystem.LoadFileToBuffer( path );
 
@@ -119,11 +119,11 @@ bool CSoundBufferLoader::FromWavFile( const std::shared_ptr< CSoundBuffer > &sou
 			return( false );
 		}
 
-		TSoundData bufferDecoded;
+		TAudioData bufferDecoded;
 		bufferDecoded.buffer.resize( static_cast<size_t>( wav.totalPCMFrameCount * sizeof( i16 ) ) );
 
 		bufferDecoded.duration = static_cast<f16>( wav.totalPCMFrameCount ) / static_cast<f16>( wav.sampleRate );
-		bufferDecoded.format = ( 1 == wav.channels ) ? CSoundBuffer::format::MONO : CSoundBuffer::format::STEREO;
+		bufferDecoded.format = ( 1 == wav.channels ) ? CAudioBuffer::format::MONO : CAudioBuffer::format::STEREO;
 		bufferDecoded.frequency = wav.sampleRate;
 
 		const auto numberOfPCMFramesActuallyDecoded = drwav_read_pcm_frames_s16( &wav, wav.totalPCMFrameCount, &bufferDecoded.buffer[ 0 ] );
@@ -137,7 +137,7 @@ bool CSoundBufferLoader::FromWavFile( const std::shared_ptr< CSoundBuffer > &sou
 
 		logDEBUG( "{0} / duration: {1:.0f}s / channels: {2} / sample rate: {3}", path, bufferDecoded.duration, wav.channels, bufferDecoded.frequency );
 
-		FromTSoundData( soundBuffer, bufferDecoded );
+		FromTAudioData( audioBuffer, bufferDecoded );
 
 		return( true );
 	}
@@ -148,17 +148,17 @@ bool CSoundBufferLoader::FromWavFile( const std::shared_ptr< CSoundBuffer > &sou
 	}
 }
 
-void CSoundBufferLoader::FromTSoundData( const std::shared_ptr< CSoundBuffer > &soundBuffer, const TSoundData &soundData ) const
+void CAudioBufferLoader::FromTAudioData( const std::shared_ptr< CAudioBuffer > &audioBuffer, const TAudioData &audioData ) const
 {
-	soundBuffer->m_duration = soundData.duration;
-	soundBuffer->m_format = soundData.format;
+	audioBuffer->m_duration = audioData.duration;
+	audioBuffer->m_format = audioData.format;
 
-	alGenBuffers( 1, &soundBuffer->m_bufferID );
+	alGenBuffers( 1, &audioBuffer->m_bufferID );
 
-	alBufferData( soundBuffer->m_bufferID, ( soundData.format == CSoundBuffer::format::MONO ) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, soundData.buffer.data(), static_cast< ALsizei >( soundData.buffer.size() ), soundData.frequency );
+	alBufferData( audioBuffer->m_bufferID, ( audioData.format == CAudioBuffer::format::MONO ) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, audioData.buffer.data(), static_cast< ALsizei >( audioData.buffer.size() ), audioData.frequency );
 }
 
-void CSoundBufferLoader::FromDummy( const std::shared_ptr< CSoundBuffer > &soundBuffer ) const
+void CAudioBufferLoader::FromDummy( const std::shared_ptr< CAudioBuffer > &audioBuffer ) const
 {
-	soundBuffer->Reset();
+	audioBuffer->Reset();
 }

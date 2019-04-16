@@ -2,7 +2,7 @@
 
 #include "CInput.hpp"
 
-#include "src/sound/CSoundManager.hpp"
+#include "src/audio/CAudio.hpp"
 
 #include "src/renderer/CRenderer.hpp"
 
@@ -12,13 +12,13 @@ class CEngineInterface final
 {
 public:
 	CEngineInterface( const CSettings &settings, const CFileSystem &filesystem );
-	~CEngineInterface();
+	~CEngineInterface() {};
 
 	CResourceCacheManager ResourceCacheManager;
 
-	CInput			Input;
-	CRenderer		Renderer;
-	CSoundManager	SoundManager;
+	CInput		Input;
+	CRenderer	Renderer;
+	CAudio		Audio;
 
 private:
 	CEngineInterface( const CEngineInterface &rhs ) = delete;

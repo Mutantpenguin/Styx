@@ -45,11 +45,11 @@ public:
 
 	} renderer;
 
-	struct s_Sound final
+	struct s_Audio final
 	{
 		f16	volume { 1.0f };
 		u16	buffer_size	{ 4096 };
-	} sound;
+	} audio;
 
 	struct s_Input final
 	{

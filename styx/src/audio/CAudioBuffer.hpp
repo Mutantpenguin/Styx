@@ -7,10 +7,10 @@
 
 #include "src/helper/Types.hpp"
 
-class CSoundBuffer final
+class CAudioBuffer final
 {
-	friend class CSoundBufferLoader;
-	friend class CSoundSource;
+	friend class CAudioBufferLoader;
+	friend class CAudioSource;
 
 public:
 	using ResourceIdType = std::string;
@@ -21,12 +21,12 @@ public:
 	}
 
 private:
-	CSoundBuffer( const CSoundBuffer& rhs );
-	CSoundBuffer & operator = ( const CSoundBuffer& rhs );
+	CAudioBuffer( const CAudioBuffer& rhs );
+	CAudioBuffer & operator = ( const CAudioBuffer& rhs );
 
 public:
-	CSoundBuffer() {};
-	~CSoundBuffer();
+	CAudioBuffer() {};
+	~CAudioBuffer();
 
 	enum struct format : u8
 	{

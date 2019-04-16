@@ -30,14 +30,14 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	m_scene.Camera( m_cameraEntity );
 
-	auto &soundManager = m_engineInterface.SoundManager;
+	auto &audio = m_engineInterface.Audio;
 
 	{
 		const glm::vec3 &position = m_cameraEntity->Transform.Position();
 		const glm::vec3 &direction = m_cameraEntity->Transform.Direction();
 		const glm::vec3 &up = m_cameraEntity->Transform.Up();
 
-		soundManager.SetListener( position, direction, up );
+		audio.SetListener( position, direction, up );
 	}
 
 	auto &resourceCache = m_engineInterface.ResourceCacheManager;
@@ -306,7 +306,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		m_skyboxEntity->Add<CModelComponent>( skyboxMesh );
 	}
 
-	m_backgroundMusic = std::make_shared< CSoundSource >( resourceCache.Get< CSoundBuffer >( "music/rise_of_spirit.ogg" ) );
+	m_backgroundMusic = std::make_shared< CAudioSource >( resourceCache.Get< CAudioBuffer >( "music/rise_of_spirit.ogg" ) );
 	m_backgroundMusic->Play();
 	m_backgroundMusic->SetLooping( true );
 }
@@ -317,7 +317,7 @@ CStateGame::~CStateGame()
 
 std::shared_ptr< CState > CStateGame::OnUpdate()
 {
-	auto &soundManager = m_engineInterface.SoundManager;
+	auto &audio = m_engineInterface.Audio;
 
 	const auto &input = m_engineInterface.Input;
 
@@ -448,7 +448,7 @@ std::shared_ptr< CState > CStateGame::OnUpdate()
 		const glm::vec3 &direction = m_cameraEntity->Transform.Direction();
 		const glm::vec3 &up = m_cameraEntity->Transform.Up();
 
-		soundManager.SetListener( position, direction, up );
+		audio.SetListener( position, direction, up );
 	}
 
 	/*

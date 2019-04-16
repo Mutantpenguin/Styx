@@ -2,7 +2,7 @@
 
 #include "CState.hpp"
 
-#include "src/sound/CSoundSource.hpp"
+#include "src/audio/CAudioSource.hpp"
 
 class CStateMainMenu final : public CState
 {
@@ -28,7 +28,7 @@ private:
 	std::shared_ptr< CEntity > m_startEntity;
 	std::shared_ptr< CEntity > m_exitEntity;
 
-	const std::shared_ptr< const CSoundSource > m_buttonChangeSound;
+	const std::shared_ptr< const CAudioSource > m_buttonChangeSound;
 
-	std::shared_ptr< const CSoundSource > m_backgroundMusic;
+	std::shared_ptr< const CAudioSource > m_backgroundMusic;
 };

@@ -64,6 +64,12 @@
     <ClInclude Include="external\stb\stb_rect_pack.h" />
     <ClInclude Include="external\stb\stb_textedit.h" />
     <ClInclude Include="external\stb\stb_truetype.h" />
+    <ClInclude Include="src\audio\ALHelper.hpp" />
+    <ClInclude Include="src\audio\CAudio.hpp" />
+    <ClInclude Include="src\audio\CAudioBuffer.hpp" />
+    <ClInclude Include="src\audio\CAudioBufferCache.hpp" />
+    <ClInclude Include="src\audio\CAudioBufferLoader.hpp" />
+    <ClInclude Include="src\audio\CAudioSource.hpp" />
     <ClInclude Include="src\helper\CColor.hpp" />
     <ClInclude Include="src\helper\CSize.hpp" />
     <ClInclude Include="src\helper\Date.hpp" />
@@ -129,12 +135,6 @@
     <ClInclude Include="src\scene\CTransform.hpp" />
     <ClInclude Include="src\scene\CWorld.hpp" />
     <ClInclude Include="src\sdl\CSDL.hpp" />
-    <ClInclude Include="src\sound\ALHelper.hpp" />
-    <ClInclude Include="src\sound\CSoundBuffer.hpp" />
-    <ClInclude Include="src\sound\CSoundBufferCache.hpp" />
-    <ClInclude Include="src\sound\CSoundBufferLoader.hpp" />
-    <ClInclude Include="src\sound\CSoundManager.hpp" />
-    <ClInclude Include="src\sound\CSoundSource.hpp" />
     <ClInclude Include="src\states\CState.hpp" />
     <ClInclude Include="src\states\CStateGame.hpp" />
     <ClInclude Include="src\states\CStateIntro.hpp" />
@@ -185,6 +185,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="src\audio\ALHelper.cpp" />
+    <ClCompile Include="src\audio\CAudio.cpp" />
+    <ClCompile Include="src\audio\CAudioBuffer.cpp" />
+    <ClCompile Include="src\audio\CAudioBufferLoader.cpp" />
+    <ClCompile Include="src\audio\CAudioSource.cpp" />
     <ClCompile Include="src\helper\Date.cpp" />
     <ClCompile Include="src\helper\geom\CPlane.cpp" />
     <ClCompile Include="src\helper\image\CImage.cpp" />
@@ -236,11 +241,6 @@
     <ClCompile Include="src\scene\CTransform.cpp" />
     <ClCompile Include="src\scene\CWorld.cpp" />
     <ClCompile Include="src\sdl\CSDL.cpp" />
-    <ClCompile Include="src\sound\ALHelper.cpp" />
-    <ClCompile Include="src\sound\CSoundBuffer.cpp" />
-    <ClCompile Include="src\sound\CSoundBufferLoader.cpp" />
-    <ClCompile Include="src\sound\CSoundManager.cpp" />
-    <ClCompile Include="src\sound\CSoundSource.cpp" />
     <ClCompile Include="src\states\CState.cpp" />
     <ClCompile Include="src\states\CStateGame.cpp" />
     <ClCompile Include="src\states\CStateIntro.cpp" />

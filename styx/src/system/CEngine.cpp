@@ -49,9 +49,9 @@ catch( CFileSystem::Exception &e )
 	logERROR( "unable to initialize Filesystem" );
 	throw std::exception();
 }
-catch( CSoundManager::Exception &e )
+catch( CAudio::Exception &e )
 {
-	logERROR( "unable to initialize SoundManager" );
+	logERROR( "unable to initialize Audio" );
 	throw std::exception();
 }
 catch( CSettings::Exception &e )

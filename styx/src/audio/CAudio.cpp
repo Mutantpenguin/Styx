@@ -1,4 +1,4 @@
-#include "CSoundManager.hpp"
+#include "CAudio.hpp"
 
 #include <array>
 
@@ -6,10 +6,10 @@
 
 #include "src/logger/CLogger.hpp"
 
-CSoundManager::CSoundManager( const CSettings &settings, const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager ) :
-	m_buffer_size { settings.sound.buffer_size },
+CAudio::CAudio( const CSettings &settings, const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager ) :
+	m_buffer_size { settings.audio.buffer_size },
 	m_resourceCacheManager { resourceCacheManager },
-	m_soundBufferCache { std::make_shared< CSoundBufferCache >( p_filesystem ) }
+	m_audioBufferCache { std::make_shared< CAudioBufferCache >( p_filesystem ) }
 {
 	m_AL_device = alcOpenDevice( nullptr );
 	if( nullptr == m_AL_device )
@@ -43,25 +43,25 @@ CSoundManager::CSoundManager( const CSettings &settings, const CFileSystem &p_fi
 
 	logINFO( "\tVendor:  {0}", alGetString( AL_VENDOR ) );
 
-	m_resourceCacheManager.Register< CSoundBuffer >( m_soundBufferCache );
+	m_resourceCacheManager.Register< CAudioBuffer >( m_audioBufferCache );
 
-	SetVolume( settings.sound.volume );
+	SetVolume( settings.audio.volume );
 
-	logINFO( "sound manager was initialized" );
+	logINFO( "audio manager was initialized" );
 }
 
-CSoundManager::~CSoundManager()
+CAudio::~CAudio()
 {
-	logINFO( "sound manager is shutting down" );
+	logINFO( "audio manager is shutting down" );
 
-	m_resourceCacheManager.DeRegister( m_soundBufferCache );
+	m_resourceCacheManager.DeRegister( m_audioBufferCache );
 
 	alcDestroyContext( m_AL_context );
 
 	alcCloseDevice( m_AL_device );
 }
 
-void CSoundManager::SetListener( const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up )
+void CAudio::SetListener( const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up )
 {
 	alListener3f( AL_POSITION, position.x, position.y, position.z );
 
@@ -69,7 +69,7 @@ void CSoundManager::SetListener( const glm::vec3 &position, const glm::vec3 &dir
 	alListenerfv( AL_ORIENTATION, orientation.data() );
 }
 
-void CSoundManager::SetVolume( const f16 volume )
+void CAudio::SetVolume( const f16 volume )
 {
 	f16 newVolume = volume;
 

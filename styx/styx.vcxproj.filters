@@ -103,9 +103,6 @@
     <Filter Include="src\sdl">
       <UniqueIdentifier>{4378aaf7-dc4b-4ef7-b3e9-843b9df79541}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\sound">
-      <UniqueIdentifier>{d662d250-06c1-4305-9c71-e91ae92495ee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\states">
       <UniqueIdentifier>{2fc008c6-d1b4-4ec1-9a50-20764883e755}</UniqueIdentifier>
     </Filter>
@@ -114,6 +111,9 @@
     </Filter>
     <Filter Include="tools">
       <UniqueIdentifier>{b440f45a-76ca-4993-bd4d-f0ff51fb365d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\audio">
+      <UniqueIdentifier>{d662d250-06c1-4305-9c71-e91ae92495ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -375,24 +375,6 @@
     <ClInclude Include="src\sdl\CSDL.hpp">
       <Filter>src\sdl</Filter>
     </ClInclude>
-    <ClInclude Include="src\sound\ALHelper.hpp">
-      <Filter>src\sound</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sound\CSoundBuffer.hpp">
-      <Filter>src\sound</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sound\CSoundBufferCache.hpp">
-      <Filter>src\sound</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sound\CSoundBufferLoader.hpp">
-      <Filter>src\sound</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sound\CSoundManager.hpp">
-      <Filter>src\sound</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sound\CSoundSource.hpp">
-      <Filter>src\sound</Filter>
-    </ClInclude>
     <ClInclude Include="src\states\CState.hpp">
       <Filter>src\states</Filter>
     </ClInclude>
@@ -452,6 +434,24 @@
     </ClInclude>
     <ClInclude Include="src\renderer\shader\CShaderProgramCompiler.hpp">
       <Filter>src\renderer\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\audio\CAudioBuffer.hpp">
+      <Filter>src\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\audio\CAudioBufferCache.hpp">
+      <Filter>src\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\audio\CAudioBufferLoader.hpp">
+      <Filter>src\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\audio\CAudioSource.hpp">
+      <Filter>src\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\audio\ALHelper.hpp">
+      <Filter>src\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\audio\CAudio.hpp">
+      <Filter>src\audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -674,21 +674,6 @@
     <ClCompile Include="src\sdl\CSDL.cpp">
       <Filter>src\sdl</Filter>
     </ClCompile>
-    <ClCompile Include="src\sound\ALHelper.cpp">
-      <Filter>src\sound</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sound\CSoundBuffer.cpp">
-      <Filter>src\sound</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sound\CSoundBufferLoader.cpp">
-      <Filter>src\sound</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sound\CSoundManager.cpp">
-      <Filter>src\sound</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sound\CSoundSource.cpp">
-      <Filter>src\sound</Filter>
-    </ClCompile>
     <ClCompile Include="src\states\CState.cpp">
       <Filter>src\states</Filter>
     </ClCompile>
@@ -751,6 +736,21 @@
     </ClCompile>
     <ClCompile Include="src\renderer\shader\CShaderProgramCache.cpp">
       <Filter>src\renderer\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\audio\CAudioBuffer.cpp">
+      <Filter>src\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\audio\CAudioBufferLoader.cpp">
+      <Filter>src\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\audio\CAudioSource.cpp">
+      <Filter>src\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\audio\ALHelper.cpp">
+      <Filter>src\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\audio\CAudio.cpp">
+      <Filter>src\audio</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

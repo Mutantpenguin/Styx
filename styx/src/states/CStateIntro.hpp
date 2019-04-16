@@ -5,7 +5,7 @@
 #include "CState.hpp"
 #include "src/system/CTimer.hpp"
 
-#include "src/sound/CSoundSource.hpp"
+#include "src/audio/CAudioSource.hpp"
 
 class CStateIntro final : public CState
 {
@@ -20,7 +20,7 @@ public:
 	virtual std::shared_ptr< CState > OnUpdate() override;
 
 private:
-	const std::shared_ptr< const CSoundSource > m_introSound;
+	const std::shared_ptr< const CAudioSource > m_introSound;
 
 	const f16 m_introDuration;
 

@@ -1,6 +1,6 @@
-#include "CSoundBuffer.hpp"
+#include "CAudioBuffer.hpp"
 
-CSoundBuffer::~CSoundBuffer()
+CAudioBuffer::~CAudioBuffer()
 {
 	if( alIsBuffer( m_bufferID ) )
 	{
@@ -8,17 +8,17 @@ CSoundBuffer::~CSoundBuffer()
 	}
 }
 
-CSoundBuffer::format CSoundBuffer::Format() const
+CAudioBuffer::format CAudioBuffer::Format() const
 {
 	return( m_format );
 }
 
-f16 CSoundBuffer::Duration() const
+f16 CAudioBuffer::Duration() const
 {
 	return( m_duration );
 }
 
-void CSoundBuffer::Reset()
+void CAudioBuffer::Reset()
 {
 	if( alIsBuffer( m_bufferID ) )
 	{

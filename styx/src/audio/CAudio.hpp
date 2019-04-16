@@ -13,10 +13,10 @@
 
 #include "src/resource/CResourceCacheManager.hpp"
 
-#include "src/sound/CSoundBuffer.hpp"
-#include "src/sound/CSoundBufferCache.hpp"
+#include "src/audio/CAudioBuffer.hpp"
+#include "src/audio/CAudioBufferCache.hpp"
 
-class CSoundManager final
+class CAudio final
 {
 friend class CEngine;
 friend class CEngineInterface;
@@ -34,11 +34,11 @@ public:
 	};
 
 private:
-	CSoundManager( const CSettings &settings, const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager );
-	~CSoundManager();
+	CAudio( const CSettings &settings, const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager );
+	~CAudio();
 
-	CSoundManager( const CSoundManager &rhs ) = delete;
-	CSoundManager& operator = ( const CSoundManager &rhs ) = delete;
+	CAudio( const CAudio &rhs ) = delete;
+	CAudio& operator = ( const CAudio &rhs ) = delete;
 
 private:
 	ALCdevice	*m_AL_device { nullptr };
@@ -49,5 +49,5 @@ private:
 
 	CResourceCacheManager &m_resourceCacheManager;
 
-	std::shared_ptr< CSoundBufferCache > m_soundBufferCache;
+	std::shared_ptr< CAudioBufferCache > m_audioBufferCache;
 };

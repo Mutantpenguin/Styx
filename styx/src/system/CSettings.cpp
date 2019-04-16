@@ -176,31 +176,31 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 			}
 		}
 
-		const auto sound_root = settings_root.find( "sound" );
-		if( std::end( settings_root ) == sound_root )
+		const auto audio_root = settings_root.find( "audio" );
+		if( std::end( settings_root ) == audio_root )
 		{
-			logWARNING( "'settings.sound' not found" );
+			logWARNING( "'settings.audio' not found" );
 		}
 		else
 		{
-			const auto volume = sound_root->find( "volume" );
-			if( sound_root->end() == volume )
+			const auto volume = audio_root->find( "volume" );
+			if( audio_root->end() == volume )
 			{
-				logWARNING( "'settings.sound.volume' not found" );
+				logWARNING( "'settings.audio.volume' not found" );
 			}
 			else
 			{
-				sound.volume = volume->get<f16>();
+				audio.volume = volume->get<f16>();
 			}
 
-			const auto buffer_size = sound_root->find( "buffer_size" );
-			if( sound_root->end() == buffer_size )
+			const auto buffer_size = audio_root->find( "buffer_size" );
+			if( audio_root->end() == buffer_size )
 			{
-				logWARNING( "'settings.sound.buffer_size' not found" );
+				logWARNING( "'settings.audio.buffer_size' not found" );
 			}
 			else
 			{
-				sound.buffer_size = buffer_size->get<u16>();
+				audio.buffer_size = buffer_size->get<u16>();
 			}
 		}
 

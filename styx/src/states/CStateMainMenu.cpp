@@ -9,7 +9,7 @@
 
 CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "main menu", filesystem, settings, engineInterface ),
-	m_buttonChangeSound { std::make_shared< CSoundSource>( engineInterface.ResourceCacheManager.Get< CSoundBuffer >( "sounds/Pickup_Coin17.wav" ) ) }
+	m_buttonChangeSound { std::make_shared< CAudioSource>( engineInterface.ResourceCacheManager.Get< CAudioBuffer >( "sounds/Pickup_Coin17.wav" ) ) }
 {
 	m_buttonChangeSound->SetLooping( false );
 	m_buttonChangeSound->SetRelativePositioning( true );
@@ -108,7 +108,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		m_exitEntity->Add<CModelComponent>( exitMesh );
 	}
 
-	m_backgroundMusic = std::make_shared< CSoundSource >( resourceCache.Get< CSoundBuffer >( "music/Sad Robot.ogg" ) );
+	m_backgroundMusic = std::make_shared< CAudioSource >( resourceCache.Get< CAudioBuffer >( "music/Sad Robot.ogg" ) );
 	m_backgroundMusic->Play();
 	m_backgroundMusic->SetLooping( true );
 }

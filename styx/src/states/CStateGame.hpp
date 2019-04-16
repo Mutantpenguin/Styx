@@ -4,7 +4,7 @@
 
 #include "src/states/CState.hpp"
 
-#include "src/sound/CSoundSource.hpp"
+#include "src/audio/CAudioSource.hpp"
 
 class CStateGame final : public CState
 {
@@ -28,5 +28,5 @@ private:
 	std::shared_ptr< CEntity >	m_skyboxEntity;
 	std::shared_ptr< CEntity >	m_pulseEntity;
 
-	std::shared_ptr< const CSoundSource > m_backgroundMusic;
+	std::shared_ptr< const CAudioSource > m_backgroundMusic;
 };
