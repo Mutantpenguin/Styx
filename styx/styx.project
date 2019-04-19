@@ -45,6 +45,19 @@
     <File Name="tools/asan_symbolize.py"/>
   </VirtualDirectory>
   <VirtualDirectory Name="src">
+    <VirtualDirectory Name="audio">
+      <File Name="src/audio/ALHelper.cpp"/>
+      <File Name="src/audio/CAudioSource.hpp"/>
+      <File Name="src/audio/CAudioSource.cpp"/>
+      <File Name="src/audio/CAudioBufferLoader.hpp"/>
+      <File Name="src/audio/CAudioBufferLoader.cpp"/>
+      <File Name="src/audio/CAudioBufferCache.hpp"/>
+      <File Name="src/audio/CAudioBuffer.hpp"/>
+      <File Name="src/audio/CAudioBuffer.cpp"/>
+      <File Name="src/audio/CAudio.hpp"/>
+      <File Name="src/audio/CAudio.cpp"/>
+      <File Name="src/audio/ALHelper.hpp"/>
+    </VirtualDirectory>
     <VirtualDirectory Name="system">
       <File Name="src/system/ComputerInfo.hpp"/>
       <File Name="src/system/ComputerInfo.cpp"/>
@@ -76,19 +89,6 @@
       <File Name="src/states/CStateGame.cpp"/>
       <File Name="src/states/CState.hpp"/>
       <File Name="src/states/CState.cpp"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="sound">
-      <File Name="src/sound/CSoundSource.hpp"/>
-      <File Name="src/sound/CSoundSource.cpp"/>
-      <File Name="src/sound/CSoundManager.hpp"/>
-      <File Name="src/sound/CSoundManager.cpp"/>
-      <File Name="src/sound/CSoundBufferLoader.hpp"/>
-      <File Name="src/sound/CSoundBufferLoader.cpp"/>
-      <File Name="src/sound/CSoundBufferCache.hpp"/>
-      <File Name="src/sound/CSoundBuffer.hpp"/>
-      <File Name="src/sound/CSoundBuffer.cpp"/>
-      <File Name="src/sound/ALHelper.hpp"/>
-      <File Name="src/sound/ALHelper.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="sdl">
       <File Name="src/sdl/CSDL.hpp"/>
