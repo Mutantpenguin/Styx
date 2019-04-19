@@ -7,6 +7,7 @@
 #include "src/logger/CLogger.hpp"
 #include "src/logger/CLogTargetFile.hpp"
 
+#include "src/core/StyxException.hpp"
 
 CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, const std::string &gamename, const std::string &gamedir, const std::vector< std::string > &assets )
 {
@@ -24,14 +25,12 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 		||
 		( version_compiled.patch != version_linked.patch ) )
 	{
-		logERROR( "\tbut version '{0}.{1}.{2}' was expected", PHYSFS_VER_MAJOR, PHYSFS_VER_MINOR, PHYSFS_VER_PATCH );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "PhysicsFS version '{0}.{1}.{2}' was expected", PHYSFS_VER_MAJOR, PHYSFS_VER_MINOR, PHYSFS_VER_PATCH )
 	}
 
 	if( !PHYSFS_init( argv0 ) )
 	{
-		logERROR( "initializing PhysicsFS failed because of: {0}", PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "initializing PhysicsFS failed because of: {0}", PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) )
 	}
 
 	// forbid symbolic links
@@ -40,16 +39,14 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	std::string prefsDir = PHYSFS_getPrefDir( organisation.c_str(), gamename.c_str() );
 	if( prefsDir.empty() )
 	{
-		logERROR( "not possible to get prefs-directory because of: {0}", PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "not possible to get prefs-directory because of: {0}", PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) )
 	}
 
-	logDEBUG ( "prefs-directory is: {0}", prefsDir );
+	logDEBUG( "prefs-directory is: {0}", prefsDir );
 
 	if( !PHYSFS_setWriteDir( prefsDir.c_str() ) )
 	{
-		logERROR( "couldn't set write-dir to '{0}' because of: {1}", prefsDir, PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "couldn't set write-dir to '{0}' because of: {1}", prefsDir, PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) )
 	}
 
 	const std::string logDir( "log" );
@@ -57,8 +54,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	{
 		if( !PHYSFS_mkdir( logDir.c_str() ) )
 		{
-			logERROR( "couldn't create log-directory '{0}' because of: {1}", logDir, PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
-			throw Exception();
+			THROW_STYX_EXCEPTION( "couldn't create log-directory '{0}' because of: {1}", logDir, PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) )
 		}
 	}
 
@@ -68,8 +64,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	// put write-dir first in search path
 	if( !PHYSFS_mount( PHYSFS_getWriteDir(), nullptr, 0 ) )
 	{
-		logERROR( "adding '{0}' to search path failed because of: {1}", PHYSFS_getWriteDir(), PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "adding '{0}' to search path failed because of: {1}", PHYSFS_getWriteDir(), PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) )
 	}
 
 	// put asset-paths next in search path
@@ -81,16 +76,14 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 
 		if( !PHYSFS_mount( asset_path.c_str(), nullptr, 1 ) )
 		{
-			logERROR( "adding asset-path '{0}' to search path failed because of: {1}", asset_path, PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
-			throw Exception();
+			THROW_STYX_EXCEPTION( "adding asset-path '{0}' to search path failed because of: {1}", asset_path, PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) )
 		}
 	}
 
 	// put base dir last in search path
 	if( !PHYSFS_mount( PHYSFS_getBaseDir(), nullptr, 1 ) )
 	{
-		logERROR( "adding '{0}' to search path failed because of: {1}", PHYSFS_getBaseDir(), PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "adding '{0}' to search path failed because of: {1}", PHYSFS_getBaseDir(), PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) )
 	}
 
 	InitialiseFreeImageIO();

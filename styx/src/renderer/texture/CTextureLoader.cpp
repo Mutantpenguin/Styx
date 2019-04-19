@@ -17,6 +17,8 @@ using json = nlohmann::json;
 
 #include "src/renderer/GLHelper.hpp"
 
+#include "src/core/StyxException.hpp"
+
 CTextureLoader::CTextureLoader( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter ) :
 	m_filesystem { p_filesystem },
 	// clamp the value so we don't get too bad texture-quality
@@ -26,8 +28,7 @@ CTextureLoader::CTextureLoader( const CSettings &p_settings, const CFileSystem &
 {
 	if( !m_dummyImage )
 	{
-		logERROR( "checker-image for the dummy-texture couldn't be generated" );
-		throw std::exception();
+		THROW_STYX_EXCEPTION( "checker-image for the dummy-texture couldn't be generated" )
 	}
 
 	logINFO( "texture loader was initialized" );

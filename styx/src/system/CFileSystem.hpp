@@ -1,6 +1,5 @@
 #pragma once
 
-#include <exception>
 #include <string>
 #include <vector>
 
@@ -35,14 +34,6 @@ public :
 	bool SaveBufferToFile( const FileBuffer &buffer, const std::string &filename ) const;
 
 	[[nodiscard]] std::string	LoadFileToString( const std::string &filename ) const;
-
-	class Exception: public std::exception
-	{
-	public:
-		explicit Exception() {}
-
-		virtual ~Exception() throw() {}
-	};
 
 
 // TODO what to do with this?

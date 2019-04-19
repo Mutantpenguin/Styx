@@ -6,20 +6,20 @@
 
 #include "src/helper/image/ImageHandler.hpp"
 
+#include "src/core/StyxException.hpp"
+
 CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, const std::string &windowTitle, const std::string &iconPath )
 {
 	if( SDL_InitSubSystem( SDL_INIT_VIDEO ) )
 	{
-		logERROR( "initializing SDL video subsystem failed: {0}", SDL_GetError() );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "initializing SDL video subsystem failed: {0}", SDL_GetError() )
 	}
 
 	u8 showWindowOnDisplay = settings.renderer.window.display;
 	const i16 numberOfDisplays = SDL_GetNumVideoDisplays();
 	if( numberOfDisplays < 0 )
 	{
-		logERROR( "couldn't get number of displays: {0}", SDL_GetError() );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "couldn't get number of displays: {0}", SDL_GetError() )
 	}
 	else
 	{
@@ -74,8 +74,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 
 	if( nullptr == m_SDL_window )
 	{
-		logERROR( "creating SDL window failed: {0}", SDL_GetError() );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "creating SDL window failed: {0}", SDL_GetError() )
 	}
 
 	if( !iconPath.empty() )
@@ -108,14 +107,12 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 	m_SDL_GL_context = SDL_GL_CreateContext( m_SDL_window );
 	if( nullptr == m_SDL_GL_context )
 	{
-		logERROR( "creating a GL context failed: {0}", SDL_GetError() );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "creating a GL context failed: {0}", SDL_GetError() )
 	}
 
 	if( SDL_GL_MakeCurrent( m_SDL_window, m_SDL_GL_context ) )
 	{
-		logERROR( "making the GL context current failed: {0}", SDL_GetError() );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "making the GL context current failed: {0}", SDL_GetError() )
 	}
 
 	int doubleBuffered = 0;
@@ -123,8 +120,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 		||
 		( 0 == doubleBuffered ) )
 	{
-		logERROR( "couldn't get a double-buffered GL context: {0}", SDL_GetError() );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "couldn't get a double-buffered GL context: {0}", SDL_GetError() )
 	}
 
 	if( settings.renderer.window.vsync )

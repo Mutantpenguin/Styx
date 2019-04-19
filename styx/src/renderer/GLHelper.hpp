@@ -6,6 +6,8 @@
 
 #include "src/helper/image/CImage.hpp"
 
+#include "src/core/StyxException.hpp"
+
 namespace GLHelper
 {
 	bool DstBlendFuncFromString( const std::string &string, GLenum &dstblend );
@@ -49,7 +51,7 @@ namespace GLHelper
 		}
 		else
 		{
-			throw std::exception();
+			THROW_STYX_EXCEPTION( "unhandled type: {0}", type.name() )
 		}
 	}
 }

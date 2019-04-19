@@ -1,7 +1,5 @@
 #pragma once
 
-#include <exception>
-
 #ifdef __linux__
 	#include <SDL2/SDL.h>
 #elif _WIN32
@@ -21,14 +19,6 @@ public:
 	~CWindow();
 
 	void Update() const;
-
-	class Exception: public std::exception
-	{
-	public:
-		explicit Exception() {}
-
-		virtual ~Exception() throw() {}
-	};
 
 private:
 	CWindow( const CWindow &rhs ) = delete;

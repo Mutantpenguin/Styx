@@ -4,6 +4,8 @@
 
 #include "src/logger/CLogger.hpp"
 
+#include "src/core/StyxException.hpp"
+
 const GLenum CFrameBuffer::attachmentColorTexture = GL_COLOR_ATTACHMENT0;
 
 CFrameBuffer::CFrameBuffer( const CSize &size ) :
@@ -35,9 +37,11 @@ CFrameBuffer::CFrameBuffer( const CSize &size ) :
 	glNamedRenderbufferStorage( m_renderBufferId, GL_DEPTH24_STENCIL8, size.width, size.height );
 	glNamedFramebufferRenderbuffer( m_id, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_renderBufferId );
 
-	if( !isComplete() )
+	const GLenum status = glCheckNamedFramebufferStatus( m_id, GL_FRAMEBUFFER );
+
+	if( GL_FRAMEBUFFER_COMPLETE != status )
 	{
-		throw std::exception();
+		THROW_STYX_EXCEPTION( "framebuffer is not complete: {0}", glbinding::aux::Meta::getString( status ) )
 	}
 }
 
@@ -74,19 +78,4 @@ std::shared_ptr< CImage > CFrameBuffer::ToImage() const
 	glReadPixels( 0, 0, m_size.width, m_size.height, GL_BGR, GL_UNSIGNED_BYTE, static_cast< void* >( pixels->data() ) );
 
 	return( std::make_shared< CImage >( m_size, m_size, true, 24, pitch, std::move( pixels ) ) );
-}
-
-bool CFrameBuffer::isComplete()
-{
-	const GLenum status = glCheckNamedFramebufferStatus( m_id, GL_FRAMEBUFFER );
-
-	if( GL_FRAMEBUFFER_COMPLETE == status )
-	{
-		return( true );
-	}
-	else
-	{
-		logERROR( "framebuffer is not complete: {0}", glbinding::aux::Meta::getString( status ) );
-		return( false );
-	}
 }

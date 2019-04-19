@@ -1,12 +1,12 @@
 #include "CShaderProgramCompiler.hpp"
 
-#include <exception>
-
 #include <glbinding-aux/Meta.h>
 
 #include "src/logger/CLogger.hpp"
 
 #include "src/renderer/shader/CShaderCompiler.hpp"
+
+#include "src/core/StyxException.hpp"
 
 constexpr const GLint CShaderProgramCompiler::RequiredCombinedTextureImageUnits;
 
@@ -17,7 +17,7 @@ CShaderProgramCompiler::CShaderProgramCompiler( const CShaderCompiler &shaderCom
 	
 	if( !Compile( m_dummyShaderProgram ) )
 	{
-		throw std::runtime_error( "couldn't create dummy shader program" );
+		THROW_STYX_EXCEPTION( "couldn't create dummy shader program" );
 	}
 }
 

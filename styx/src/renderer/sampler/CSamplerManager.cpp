@@ -2,6 +2,8 @@
 
 #include "src/logger/CLogger.hpp"
 
+#include "src/core/StyxException.hpp"
+
 CSamplerManager::CSamplerManager( const CSettings &p_settings ) :
 	m_iAnisotropicLevel { p_settings.renderer.textures.anisotropic },
 	m_samplers()
@@ -138,8 +140,7 @@ const std::shared_ptr< const CSampler > CSamplerManager::Generate( CSampler::Sam
 
 	if( 0 != m_samplers[ index ] )
 	{
-		logERROR( "sampler with index {0} already set", index );
-		throw std::exception();
+		THROW_STYX_EXCEPTION( "sampler with index {0} already set", index )
 	}
 
 	auto sampler = std::make_shared< CSampler >();

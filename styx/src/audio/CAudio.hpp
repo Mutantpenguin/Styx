@@ -25,14 +25,6 @@ public:
 	void	SetListener( const glm::vec3 &position, const glm::vec3 &direction, const glm::vec3 &up );
 	void	SetVolume( const f16 volume );
 
-	class Exception: public std::exception
-	{
-	public:
-		explicit Exception() {}
-
-		virtual ~Exception() throw() {}
-	};
-
 private:
 	CAudio( const CSettings &settings, const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager );
 	~CAudio();

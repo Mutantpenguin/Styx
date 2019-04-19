@@ -10,6 +10,8 @@
 
 #include "src/logger/CLogger.hpp"
 
+#include "src/core/StyxException.hpp"
+
 CSDL::CSDL()
 {
 	// get some version-infos so we can check if the right version of SDL is beeing used
@@ -23,14 +25,12 @@ CSDL::CSDL()
 
 	if( SDL_COMPILEDVERSION != SDL_VERSIONNUM( version_linked.major, version_linked.minor, version_linked.patch ) )
 	{
-		logERROR( "\tbut version '{0}.{1}.{2}' was expected", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "SDL version '{0}.{1}.{2}' was expected", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL )
 	}
 
 	if( SDL_Init( 0 ) )
 	{
-		logERROR( "initialising SDL failed: {0}", SDL_GetError() );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "initialising SDL failed: {0}", SDL_GetError() )
 	}
 
 	#ifdef WIN32
@@ -39,14 +39,12 @@ CSDL::CSDL()
 
 		if( freopen_s( &fileout, "CON", "w", stdout ) != 0 )
 		{
-			logERROR( "couldn't redirect stdout" );
-			throw Exception();
+			THROW_STYX_EXCEPTION( "couldn't redirect stdout" );
 		}
 
 		if( freopen_s( &fileout, "CON", "w", stderr ) != 0 )
 		{
-			logERROR( "couldn't redirect stdout" );
-			throw Exception();
+			THROW_STYX_EXCEPTION( "couldn't redirect stdout" );
 		}
 	#endif
 }

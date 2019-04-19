@@ -9,6 +9,8 @@ using json = nlohmann::json;
 
 #include "CFileSystem.hpp"
 
+#include "src/core/StyxException.hpp"
+
 const std::string CGameInfo::gameinfoFilename { "gameinfo.json" };
 
 CGameInfo::CGameInfo( const std::string &p_gamedir ) :
@@ -29,16 +31,14 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 			}
 			catch( json::parse_error &e )
 			{
-				logERROR( "failed to parse '{0}' because of {1}", gamefile, e.what() );
-				throw Exception();
+				THROW_STYX_EXCEPTION( "failed to parse '{0}' because of {1}", gamefile, e.what() )
 			}
 		} ();
 
 		const auto name_short = root.find( "name_short" );
 		if( ( std::end( root ) == name_short ) || name_short->empty() )
 		{
-			logERROR( "there is no definition of 'name_short' in the file '{0}'", gamefile );
-			throw Exception();
+			THROW_STYX_EXCEPTION( "there is no definition of 'name_short' in the file '{0}'", gamefile )
 		}
 		else
 		{
@@ -50,8 +50,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 		const auto name = root.find( "name" );
 		if( ( std::end( root ) == name ) || name->empty() )
 		{
-			logERROR( "there is no definition of 'name' in the file '{0}'", gamefile );
-			throw Exception();
+			THROW_STYX_EXCEPTION( "there is no definition of 'name' in the file '{0}'", gamefile )
 		}
 		else
 		{
@@ -61,8 +60,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 		const auto version = root.find( "version" );
 		if( ( std::end( root ) == version ) || version->empty() )
 		{
-			logERROR( "there is no definition of 'version' in the file '{0}'", gamefile );
-			throw Exception();
+			THROW_STYX_EXCEPTION( "there is no definition of 'version' in the file '{0}'", gamefile )
 		}
 		else
 		{
@@ -80,8 +78,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 		const auto icon = root.find( "icon" );
 		if( ( std::end( root ) == icon ) || icon->empty() )
 		{
-			logERROR( "there is no definition of 'icon' in the file '{0}'", gamefile );
-			throw Exception();
+			THROW_STYX_EXCEPTION( "there is no definition of 'icon' in the file '{0}'", gamefile )
 		}
 		else
 		{
@@ -91,8 +88,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 		const auto assets = root.find( "assets" );
 		if(	( std::end( root ) == assets ) || ( assets->empty() ) )
 		{
-			logERROR( "no 'assets' specified in the file '{0}'", gamefile );
-			throw Exception();
+			THROW_STYX_EXCEPTION( "no 'assets' specified in the file '{0}'", gamefile )
 		}
 		else
 		{
@@ -104,8 +100,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 
 				if( assetString.empty() )
 				{
-					logERROR( "empty 'asset' specified in the file '{0}'", gamefile );
-					throw Exception();
+					THROW_STYX_EXCEPTION( "empty 'asset' specified in the file '{0}'", gamefile )
 				}
 
 				m_assets.push_back( assetString );
@@ -115,8 +110,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 		const auto templates = root.find( "templates" );
 		if( ( std::end( root ) == templates ) || ( templates->empty() ) )
 		{
-			logERROR( "no 'templates' specified in the file '{0}'", gamefile );
-			throw Exception();
+			THROW_STYX_EXCEPTION( "no 'templates' specified in the file '{0}'", gamefile )
 		}
 		else
 		{
@@ -128,8 +122,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 
 				if( templateString.empty() )
 				{
-					logERROR( "empty 'template' specified in the file '{0}'", gamefile );
-					throw Exception();
+					THROW_STYX_EXCEPTION( "empty 'template' specified in the file '{0}'", gamefile )
 				}
 
 				m_templates.push_back( templateString );
@@ -140,8 +133,7 @@ CGameInfo::CGameInfo( const std::string &p_gamedir ) :
 	}
 	else
 	{
-		logERROR( "couldn't load '{0}'", gamefile );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "couldn't load '{0}'", gamefile )
 	}
 
 	logINFO( "game is: '{0} {1}'", m_name, m_version );

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <set>
-#include <exception>
+#include <string>
 
 #include "src/renderer/GL.h"
 
@@ -16,15 +16,7 @@ public:
 	GLint PreferredInternalTextureFormat2D() const;
 	GLint PreferredInternalTextureFormatCube() const;
 	GLint PreferredInternalTextureFormat2DArray() const;
-
-	class Exception: public std::exception
-	{
-	public:
-		explicit Exception() {}
-
-		virtual ~Exception() throw() {}
-	};
-
+	
 private:
 	bool isSupported( const std::set< GLextension > &extensions, const GLextension extension ) const;
 

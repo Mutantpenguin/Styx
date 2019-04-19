@@ -18,6 +18,8 @@
 #include "src/system/ComputerInfo.hpp"
 #include "src/system/CEngine.hpp"
 
+#include "src/core/StyxException.hpp"
+
 int main( int argc, char *argv[] )
 {
 	std::atexit( CLogger::Destroy );
@@ -81,9 +83,23 @@ int main( int argc, char *argv[] )
 
 		engine.Run();
 	}
-	catch( std::exception &e )
+	catch( const styx_internal::StyxException &e )
 	{
-		logERROR( "unable to run the game: {0}", e.what() );
+		//logERROR( "unable to run the game:\n{0}\n{1}", e.Thrower() ,e.what() );
+		
+		logERROR( "unable to run the game:\nfile '{0}' on line {1}\nfunction '{2}'\n{3}", e.File(), e.Line(), e.Func() ,e.what() );
+
+		return( EXIT_FAILURE );
+	}
+	catch( const std::exception &e )
+	{
+		logERROR( "unable to run the game:\n{0}", e.what() );
+
+		return( EXIT_FAILURE );
+	}
+	catch( ... )
+	{
+		logERROR( "unable to run the game because of unknown reason" );
 
 		return( EXIT_FAILURE );
 	}

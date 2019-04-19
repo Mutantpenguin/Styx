@@ -56,14 +56,6 @@ public:
 		std::string controller_file;
 	} input;
 
-	class Exception: public std::exception
-	{
-	public:
-		explicit Exception() {}
-
-		virtual ~Exception() throw() {}
-	};
-
 private:
 	CSettings( const CSettings &rhs ) = delete;
 	CSettings& operator = ( const CSettings &rhs ) = delete;

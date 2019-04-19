@@ -1,6 +1,5 @@
 #pragma once
 
-#include <exception>
 #include <string>
 #include <vector>
 
@@ -24,14 +23,6 @@ public:
 
 	const std::vector< std::string > &GetAssets() const;
 	const std::vector< std::string > &GetTemplates() const;
-
-	class Exception: public std::exception
-	{
-	public:
-		explicit Exception() {}
-
-		virtual ~Exception() throw() {}
-	};
 
 private:
 	CGameInfo( const CGameInfo &rhs ) = delete;

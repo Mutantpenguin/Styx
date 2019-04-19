@@ -7,6 +7,8 @@
 
 #include "src/renderer/shader/CShaderProgramCompiler.hpp"
 
+#include "src/core/StyxException.hpp"
+
 #ifdef __linux__
 	#include <SDL2/SDL.h>
 #elif _WIN32
@@ -67,8 +69,7 @@ COpenGlAdapter::COpenGlAdapter()
 	glGetIntegerv( GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &maxCombinedTextureImageUnits );
 	if( maxCombinedTextureImageUnits < CShaderProgramCompiler::RequiredCombinedTextureImageUnits )
 	{
-		logERROR( "not enough combined texture image units: {0} found but {1} needed", maxCombinedTextureImageUnits, CShaderProgramCompiler::RequiredCombinedTextureImageUnits );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "not enough combined texture image units: {0} found but {1} needed", maxCombinedTextureImageUnits, CShaderProgramCompiler::RequiredCombinedTextureImageUnits )
 	}
 	logDEBUG( "{0} is {1}", glbinding::aux::Meta::getString( GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS ), maxCombinedTextureImageUnits );
 
@@ -94,9 +95,8 @@ COpenGlAdapter::COpenGlAdapter()
 
 	if( requiredExtensionsMissing )
 	{
-		throw Exception();
+		THROW_STYX_EXCEPTION( "at least one required extension is missing" );
 	}
-
 
 	const bool supports_GL_NVX_gpu_memory_info = isSupported( supportedOpenGLExtensions, GLextension::GL_NVX_gpu_memory_info );
 	const bool supports_GL_ATI_meminfo         = isSupported( supportedOpenGLExtensions, GLextension::GL_ATI_meminfo );

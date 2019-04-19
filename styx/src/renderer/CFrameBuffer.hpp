@@ -28,8 +28,6 @@ public:
 	std::shared_ptr< CImage > ToImage() const;
 
 private:
-	bool isComplete();
-
 	const CSize	m_size;
 	
 	GLuint	m_id;

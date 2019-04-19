@@ -6,6 +6,8 @@
 
 #include "src/logger/CLogger.hpp"
 
+#include "src/core/StyxException.hpp"
+
 CAudio::CAudio( const CSettings &settings, const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager ) :
 	m_buffer_size { settings.audio.buffer_size },
 	m_resourceCacheManager { resourceCacheManager },
@@ -14,8 +16,7 @@ CAudio::CAudio( const CSettings &settings, const CFileSystem &p_filesystem, CRes
 	m_AL_device = alcOpenDevice( nullptr );
 	if( nullptr == m_AL_device )
 	{
-		logERROR( "opening OpenAL device failed: {0}", ALHelper::GetOpenALErrorString( alGetError() ) );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "opening OpenAL device failed: {0}", ALHelper::GetOpenALErrorString( alGetError() ) )
 	}
 
 	ALint versionMajor;
@@ -31,14 +32,12 @@ CAudio::CAudio( const CSettings &settings, const CFileSystem &p_filesystem, CRes
 	m_AL_context = alcCreateContext( m_AL_device, nullptr );
 	if( nullptr == m_AL_context )
 	{
-		logERROR( "creating OpenAL context failed: {0}", ALHelper::GetOpenALErrorString( alGetError() ) );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "creating OpenAL context failed: {0}", ALHelper::GetOpenALErrorString( alGetError() ) )
 	}
 
 	if( !alcMakeContextCurrent( m_AL_context ) )
 	{
-		logERROR( "making OpenAL context current failed: {0}", ALHelper::GetOpenALErrorString( alGetError() ) );
-		throw Exception();
+		THROW_STYX_EXCEPTION( "making OpenAL context current failed: {0}", ALHelper::GetOpenALErrorString( alGetError() ) )
 	}
 
 	logINFO( "\tVendor:  {0}", alGetString( AL_VENDOR ) );

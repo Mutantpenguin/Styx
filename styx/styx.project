@@ -45,6 +45,9 @@
     <File Name="tools/asan_symbolize.py"/>
   </VirtualDirectory>
   <VirtualDirectory Name="src">
+    <VirtualDirectory Name="core">
+      <File Name="src/core/StyxException.hpp"/>
+    </VirtualDirectory>
     <VirtualDirectory Name="audio">
       <File Name="src/audio/ALHelper.cpp"/>
       <File Name="src/audio/CAudioSource.hpp"/>

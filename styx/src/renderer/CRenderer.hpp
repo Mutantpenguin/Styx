@@ -51,14 +51,6 @@ public:
 
 	void	DisplayFramebuffer( const CFrameBuffer &framebuffer );
 
-	class Exception: public std::exception
-	{
-	public:
-		explicit Exception() {}
-
-		virtual ~Exception() throw() {}
-	};
-
 private:
 	struct MeshInstance
 	{

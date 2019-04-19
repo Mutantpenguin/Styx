@@ -1,7 +1,5 @@
 #include "CAudioBufferLoader.hpp"
 
-#include <exception>
-
 #include "src/logger/CLogger.hpp"
 
 #include "src/helper/Path.hpp"

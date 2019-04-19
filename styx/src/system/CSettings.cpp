@@ -7,6 +7,8 @@ using json = nlohmann::json;
 
 #include "src/logger/CLogger.hpp"
 
+#include "src/core/StyxException.hpp"
+
 
 CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settingsfile )
 {
@@ -27,8 +29,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 			}
 			catch( json::parse_error &e )
 			{
-				logWARNING( "failed to parse settings-file '{0}' because of: {1}", filename, e.what() );
-				throw Exception();
+				THROW_STYX_EXCEPTION( "failed to parse settings-file '{0}' because of: {1}", filename, e.what() )
 			}
 		} ();
 
