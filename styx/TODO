@@ -12,3 +12,10 @@ Main.cpp
 
 Loaders:
 in Destructor: warn when dummy is still in use somewhere?
+
+Check if still valid:
+	Compile flags, when clang gets fixed in Arch:
+	-g;-O0;-fno-omit-frame-pointer;-fsanitize=address;-fsanitize=undefined;-fsanitize=integer
+
+	Link flags, when clang gets fixed in Arch:
+	-fsanitize=address;-fsanitize=undefined;-fsanitize=integer
