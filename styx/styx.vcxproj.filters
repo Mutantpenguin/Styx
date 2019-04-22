@@ -3,7 +3,6 @@
   <ItemGroup>
     <None Include="README" />
     <None Include="AUTHORS" />
-    <None Include="BUILD" />
     <None Include="COMPILERS" />
     <None Include="COPYING" />
     <None Include="doxyfile" />
