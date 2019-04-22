@@ -21,7 +21,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AUTHORS" />
-    <None Include="BUILD" />
     <None Include="COMPILERS" />
     <None Include="COPYING" />
     <None Include="doxyfile" />
@@ -305,6 +304,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
+    <OutDir>$(ProjectDir)build\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)build\obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
