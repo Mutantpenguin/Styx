@@ -9,6 +9,21 @@
 
 #include "src/math/Math.hpp"
 
+void SetOutputMessageFreeImage()
+{
+	FreeImage_SetOutputMessage(	[]( FREE_IMAGE_FORMAT fif, const char *msg )
+								{
+									if( fif != FIF_UNKNOWN )
+									{
+										logWARNING( "{0}: {1}", FreeImage_GetFormatFromFIF( fif ), msg );
+									}
+									else
+									{
+										logWARNING( msg );
+									}
+								} );
+}
+
 namespace ImageHandler
 {
 	/**	Loads an bitmap using FreeImage into a CImage.
@@ -32,6 +47,8 @@ namespace ImageHandler
 
 		if( !buffer.empty() )
 		{
+			SetOutputMessageFreeImage();
+
 			fipMemoryIO memIO( reinterpret_cast<BYTE*>( const_cast< std::byte* >( buffer.data() ) ), buffer.size() );
 
 			fipImage image;
@@ -144,6 +161,8 @@ namespace ImageHandler
 			logWARNING( "path '{0}' does not contain a filename", path.generic_string() );
 			return( false );
 		}
+
+		SetOutputMessageFreeImage();
 
 		FIBITMAP *bitmap = FreeImage_ConvertFromRawBits( reinterpret_cast<BYTE*>( const_cast<std::byte*>( image->RawPixelData() ) ), image->Size().width, image->Size().height, image->Size().width * 3, image->BPP(), FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK );
 		if( nullptr == bitmap )

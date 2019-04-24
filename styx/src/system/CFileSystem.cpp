@@ -86,8 +86,6 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 		THROW_STYX_EXCEPTION( "adding '{0}' to search path failed because of: {1}", PHYSFS_getBaseDir(), PHYSFS_getErrorByCode( PHYSFS_getLastErrorCode() ) )
 	}
 
-	InitialiseFreeImageIO();
-
 	logINFO( "file system was initialized" );
 }
 
@@ -216,23 +214,4 @@ std::string CFileSystem::LoadFileToString( const fs::path &path ) const
 	auto const buffer = LoadFileToBuffer( path );
 
 	return( std::string( reinterpret_cast<const char*>( buffer.data() ), buffer.size() ) );
-}
-
-void CFileSystem::InitialiseFreeImageIO()
-{
-	/* TODO
-	logINFO( "FreeImage has version '{0}'", FreeImage_GetVersion() );
-
-	FreeImage_SetOutputMessage(	[]( FREE_IMAGE_FORMAT fif, const char *msg )
-								{
-									if( fif != FIF_UNKNOWN )
-									{
-										logWARNING( "{0}: {1}", FreeImage_GetFormatFromFIF( fif ), msg );
-									}
-									else
-									{
-										logWARNING( msg );
-									}
-								} );
-								*/
 }

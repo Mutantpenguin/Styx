@@ -37,10 +37,6 @@ public :
 
 	[[nodiscard]] std::string	LoadFileToString( const fs::path &path ) const;
 
-
-// TODO what to do with this?
-	void InitialiseFreeImageIO();
-
 private:
 	CFileSystem( const CFileSystem &rhs ) = delete;
 	CFileSystem& operator = ( const CFileSystem &rhs ) = delete;
