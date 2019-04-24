@@ -2,6 +2,9 @@
 
 #include <string>
 #include <vector>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 #include "src/helper/Types.hpp"
 
@@ -16,24 +19,23 @@ public :
 		APPEND
 	};
 
-	CFileSystem( const char *argv0, const std::string &organisation, const std::string &gamename, const std::string &gamedir, const std::vector< std::string > &assets );
+	CFileSystem( const char *argv0, const std::string &organisation, const std::string &gamename, const fs::path &gameDirectory, const std::vector< std::string > &assets );
 	~CFileSystem();
 
-	bool	Exists( const std::string &filename ) const;
-	bool	IsDirectory( const std::string &name ) const;
-	i64		GetLastModTime( const std::string &filename ) const;
+	bool	Exists( const fs::path &path ) const;
+	bool	IsDirectory( const fs::path &path ) const;
+	i64		GetLastModTime( const fs::path &path ) const;
 
-	std::string	GetWriteDir() const;
-	bool			MakeDir( const std::string &dirname ) const;
+	bool	MakeDir( const fs::path &path ) const;
 
 	const char*	GetLastError() const;
 
 	using FileBuffer = std::vector< std::byte >;
 
-	[[nodiscard]] FileBuffer LoadFileToBuffer( const std::string &filename ) const;
-	bool SaveBufferToFile( const FileBuffer &buffer, const std::string &filename ) const;
+	[[nodiscard]] FileBuffer	LoadFileToBuffer( const fs::path &path ) const;
+	[[nodiscard]] bool			SaveBufferToFile( const FileBuffer &buffer, const fs::path &path ) const;
 
-	[[nodiscard]] std::string	LoadFileToString( const std::string &filename ) const;
+	[[nodiscard]] std::string	LoadFileToString( const fs::path &path ) const;
 
 
 // TODO what to do with this?

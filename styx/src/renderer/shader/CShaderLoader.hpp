@@ -14,7 +14,7 @@ public:
 	CShaderLoader( const CFileSystem &p_filesystem, const CShaderCompiler &shaderCompiler );
 	~CShaderLoader();
 
-	void FromFile( const std::shared_ptr<CShader> &shader, const std::string &path ) const;
+	void FromFile( const std::shared_ptr<CShader> &shader, const fs::path &path ) const;
 
 private:
 	void FromVertexDummy( const std::shared_ptr<CShader> &shader ) const;

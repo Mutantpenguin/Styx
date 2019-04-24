@@ -206,9 +206,6 @@
     <ClInclude Include="src\helper\Date.hpp">
       <Filter>src\helper</Filter>
     </ClInclude>
-    <ClInclude Include="src\helper\Path.hpp">
-      <Filter>src\helper</Filter>
-    </ClInclude>
     <ClInclude Include="src\helper\String.hpp">
       <Filter>src\helper</Filter>
     </ClInclude>
@@ -539,9 +536,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\helper\Date.cpp">
-      <Filter>src\helper</Filter>
-    </ClCompile>
-    <ClCompile Include="src\helper\Path.cpp">
       <Filter>src\helper</Filter>
     </ClCompile>
     <ClCompile Include="src\helper\String.cpp">

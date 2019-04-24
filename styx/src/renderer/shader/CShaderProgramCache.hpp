@@ -22,7 +22,14 @@ private:
 
 	i64 GetMtime( const CShaderProgram::ResourceIdType &id ) const override
 	{
-		return( std::max( { m_filesystem.GetLastModTime( id.vertexShader ), m_filesystem.GetLastModTime( id.geometryShader ), m_filesystem.GetLastModTime( id.fragmentShader ) } ) );
+		if( id.geometryShader.empty() )
+		{
+			return( std::max( { m_filesystem.GetLastModTime( id.vertexShader ), m_filesystem.GetLastModTime( id.fragmentShader ) } ) );
+		}
+		else
+		{
+			return( std::max( { m_filesystem.GetLastModTime( id.vertexShader ), m_filesystem.GetLastModTime( id.geometryShader ), m_filesystem.GetLastModTime( id.fragmentShader ) } ) );
+		}
 	}
 
 private:

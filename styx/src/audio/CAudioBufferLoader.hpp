@@ -14,7 +14,7 @@ public:
 	explicit CAudioBufferLoader( const CFileSystem &p_filesystem );
 	~CAudioBufferLoader();
 
-	void FromFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const std::string &path ) const;
+	void FromFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const fs::path &path ) const;
 
 private:
 	using TAudioData = struct
@@ -28,8 +28,8 @@ private:
 private:
 	const CFileSystem &m_filesystem;
 
-	bool FromOggFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const std::string &path ) const;
-	bool FromWavFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const std::string &path ) const;
+	bool FromOggFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const fs::path &path ) const;
+	bool FromWavFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const fs::path &path ) const;
 
 	void FromDummy( const std::shared_ptr< CAudioBuffer > &audioBuffer ) const;
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fstream>
+#include <filesystem>
 
 #include "src/logger/CLogger.hpp"
 
@@ -9,7 +10,7 @@ class CLogTargetFile final : public CLogger::CLogTarget
 	friend class CLogger;
 
 public:
-	CLogTargetFile( const CLogger::TLogBuffer &logBuffer, const std::string &directory );
+	CLogTargetFile( const CLogger::TLogBuffer &logBuffer, const std::filesystem::path &path );
 	virtual ~CLogTargetFile();
 
 private:

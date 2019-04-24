@@ -9,8 +9,6 @@ using json = nlohmann::json;
 
 #include "src/logger/CLogger.hpp"
 
-#include "src/helper/Path.hpp"
-
 #include "src/renderer/GLHelper.hpp"
 
 u16 CMaterialLoader::m_dummyCounter { 0 };
@@ -35,18 +33,24 @@ CMaterialLoader::~CMaterialLoader()
 	#endif
 }
 
-void CMaterialLoader::FromFile( const std::shared_ptr< CMaterial > &material, const std::string &path ) const
+void CMaterialLoader::FromFile( const std::shared_ptr< CMaterial > &material, const fs::path &path ) const
 {
+	if( !path.has_filename() )
+	{
+		logWARNING( "path '{0}' does not containt a filename", path.generic_string() );
+		FromMatDummy( material );
+	}
+
 	if( !m_filesystem.Exists( path ) )
 	{
-		logWARNING( "material file '{0}' does not exist", path );
+		logWARNING( "material file '{0}' does not exist", path.generic_string() );
 		FromMatDummy( material );
 	}
 	else
 	{
-		const std::string fileExtension = Path::Extension( path );
+		const std::string fileExtensionString = path.extension().generic_string();
 
-		if( std::string( "mat" ) == fileExtension )
+		if( std::string( ".mat" ) == fileExtensionString )
 		{
 			try
 			{
@@ -57,31 +61,29 @@ void CMaterialLoader::FromFile( const std::shared_ptr< CMaterial > &material, co
 			}
 			catch( std::exception &e )
 			{
-				logWARNING( "error loading material '{0}': {1}", path, e.what() );
+				logWARNING( "error loading material '{0}': {1}", path.generic_string(), e.what() );
 				FromMatDummy( material );
 			}
 		}
 		else
 		{
-			logWARNING( "file is not a material: '{0}'", path );
+			logWARNING( "file is not a material: '{0}'", path.generic_string() );
 			FromMatDummy( material );
 		}
 	}
 }
 
-bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material, const std::string &path ) const
+bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material, const fs::path &path ) const
 {
-	const std::string definition = m_filesystem.LoadFileToString( path );
-
 	json mat_root;
 
 	try
 	{
-		mat_root = json::parse( definition );
+		mat_root = json::parse( m_filesystem.LoadFileToString( path ) );
 	}
 	catch( json::parse_error &e )
 	{
-		logWARNING( "failed to parse '{0}' because of {1}", path, e.what() );
+		logWARNING( "failed to parse '{0}' because of {1}", path.generic_string(), e.what() );
 		return( false );
 	}
 
@@ -141,7 +143,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 	const auto mat_shaders = mat_root.find( "shaders" );
 	if( mat_shaders == mat_root.end() )
 	{
-		logWARNING( "no shaders specified in '{0}'", path );
+		logWARNING( "no shaders specified in '{0}'", path.generic_string() );
 		return( false );
 	}
 	else
@@ -151,7 +153,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 		const auto mat_shader_vs = mat_shaders->find( "vert" );
 		if( mat_shader_vs == mat_shaders->end() )
 		{
-			logWARNING( "no vertex shader specified in '{0}'", path );
+			logWARNING( "no vertex shader specified in '{0}'", path.generic_string() );
 			return( false );
 		}
 		else
@@ -168,7 +170,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 		const auto mat_shader_fs = mat_shaders->find( "frag" );
 		if( mat_shader_fs == mat_shaders->end() )
 		{
-			logWARNING( "no fragment shader specified in '{0}'", path );
+			logWARNING( "no fragment shader specified in '{0}'", path.generic_string() );
 			return( false );
 		}
 		else
@@ -185,7 +187,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 			const auto mat_uniforms = mat_root.find( "uniforms" );
 			if( mat_uniforms == mat_root.end() )
 			{
-				logWARNING( "no required uniforms specified in '{0}'", path );
+				logWARNING( "no required uniforms specified in '{0}'", path.generic_string() );
 				return( false );
 			}
 			else
@@ -195,7 +197,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 					const auto mat_uniform = mat_uniforms->find( interface.name );
 					if( mat_uniform == mat_uniforms->end() )
 					{
-						logWARNING( "required uniform '{0}' not specified in '{1}'", interface.name, path );
+						logWARNING( "required uniform '{0}' not specified in '{1}'", interface.name, path.generic_string() );
 						return( false );
 					}
 					else
@@ -205,7 +207,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 							case GL_UNSIGNED_INT:
 								if( !mat_uniform->is_number_unsigned() )
 								{
-									logWARNING( "uniform '{0}' in '{1}' is not of type {2}", interface.name, path, glbinding::aux::Meta::getString( interface.type ) );
+									logWARNING( "uniform '{0}' in '{1}' is not of type {2}", interface.name, path.generic_string(), glbinding::aux::Meta::getString( interface.type ) );
 									return( false );
 								}
 								else
@@ -217,7 +219,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 							case GL_FLOAT:
 								if( !mat_uniform->is_number_float() )
 								{
-									logWARNING( "uniform '{0}' in '{1}' is not of type {2}", interface.name, path, glbinding::aux::Meta::getString( interface.type ) );
+									logWARNING( "uniform '{0}' in '{1}' is not of type {2}", interface.name, path.generic_string(), glbinding::aux::Meta::getString( interface.type ) );
 									return( false );
 								}
 								else
@@ -231,7 +233,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 							case GL_FLOAT_VEC4:
 								if( !mat_uniform->is_array() )
 								{
-									logWARNING( "uniform '{0}' in '{1}' is not an array", interface.name, path );
+									logWARNING( "uniform '{0}' in '{1}' is not an array", interface.name, path.generic_string() );
 									return( false );
 								}
 								else
@@ -255,7 +257,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 
 									if( mat_uniform->size() != requiredAmountOfValues )
 									{
-										logWARNING( "uniform '{0}' in '{1}' requires {2} values but got {3}", interface.name, path, requiredAmountOfValues, mat_uniform->size() );
+										logWARNING( "uniform '{0}' in '{1}' requires {2} values but got {3}", interface.name, path.generic_string(), requiredAmountOfValues, mat_uniform->size() );
 										return( false );
 									}
 									else
@@ -275,7 +277,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 													}
 													else
 													{
-														logWARNING( "not all values of uniform '{0}' in '{1}' are floats", interface.name, path );
+														logWARNING( "not all values of uniform '{0}' in '{1}' are floats", interface.name, path.generic_string() );
 														return( false );
 													}
 												}
@@ -297,7 +299,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 													}
 													else
 													{
-														logWARNING( "not all values of uniform '{0}' in '{1}' are floats", interface.name, path );
+														logWARNING( "not all values of uniform '{0}' in '{1}' are floats", interface.name, path.generic_string() );
 														return( false );
 													}
 												}
@@ -322,14 +324,14 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 													}
 													else
 													{
-														logWARNING( "not all values of uniform '{0}' in '{1}' are floats", interface.name, path );
+														logWARNING( "not all values of uniform '{0}' in '{1}' are floats", interface.name, path.generic_string() );
 														return( false );
 													}
 												}
 												break;
 
 											default:
-												logWARNING( "unhandled amount of values ('{0}') for uniform {1} in {2}", requiredAmountOfValues, interface.name, path );
+												logWARNING( "unhandled amount of values ('{0}') for uniform {1} in {2}", requiredAmountOfValues, interface.name, path.generic_string() );
 												return( false );
 										}
 									}
@@ -337,7 +339,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 								break;
 
 							default:
-								logWARNING( "uniform '{0}' in '{1}' is of unsupported type {2}", interface.name, path, glbinding::aux::Meta::getString( interface.type ) );
+								logWARNING( "uniform '{0}' in '{1}' is of unsupported type {2}", interface.name, path.generic_string(), glbinding::aux::Meta::getString( interface.type ) );
 								return( false );
 								break;
 						}

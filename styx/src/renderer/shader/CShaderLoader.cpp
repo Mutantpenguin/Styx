@@ -2,8 +2,6 @@
 
 #include "src/logger/CLogger.hpp"
 
-#include "src/helper/Path.hpp"
-
 CShaderLoader::CShaderLoader( const CFileSystem &p_filesystem, const CShaderCompiler &shaderCompiler ) :
 		m_filesystem { p_filesystem },
 		m_shaderCompiler { shaderCompiler }
@@ -16,23 +14,30 @@ CShaderLoader::~CShaderLoader()
 	logINFO( "shader loader is shutting down" );
 }
 
-void CShaderLoader::FromFile( const std::shared_ptr<CShader> &shader, const std::string &path ) const
+void CShaderLoader::FromFile( const std::shared_ptr<CShader> &shader, const fs::path &path ) const
 {
-	const std::string fileExtension = Path::Extension( path );
+	if( !path.has_filename() )
+	{
+		logWARNING( "path '{0}' does not containt a filename", path.generic_string() );
+		// TODO what to do here? since we don't have a filename, we don't know what kind of shader was wanted
+		return;
+	}
+
+	const std::string fileExtensionString = path.extension().generic_string();
 	
 	if( !m_filesystem.Exists( path ) )
 	{
-		logWARNING( "shader file '{0}' does not exist", path );
+		logWARNING( "shader file '{0}' does not exist", path.generic_string() );
 		
-		if( fileExtension == std::string( "vert" ) )
+		if( fileExtensionString == std::string( ".vert" ) )
 		{
 			FromVertexDummy( shader );
 		}
-		else if( fileExtension == std::string( "geom" ) )
+		else if( fileExtensionString == std::string( ".geom" ) )
 		{
 			FromGeometryDummy( shader );
 		}
-		else if( fileExtension == std::string( "frag" ) )
+		else if( fileExtensionString == std::string( ".frag" ) )
 		{
 			FromFragmentDummy( shader );
 		}
@@ -41,27 +46,27 @@ void CShaderLoader::FromFile( const std::shared_ptr<CShader> &shader, const std:
 	{
 		const std::string body = m_filesystem.LoadFileToString( path );
 
-		if( fileExtension == std::string( "vert" ) )
+		if( fileExtensionString == std::string( ".vert" ) )
 		{
 			if( !m_shaderCompiler.Compile( shader, GL_VERTEX_SHADER, body ) )
 			{
-				logWARNING( "couldn't create vertex shader from '{0}'", path )
+				logWARNING( "couldn't create vertex shader from '{0}'", path.generic_string() )
 				FromVertexDummy( shader );
 			}
 		}
-		else if( fileExtension == std::string( "geom" ) )
+		else if( fileExtensionString == std::string( ".geom" ) )
 		{
 			if( !m_shaderCompiler.Compile( shader, GL_GEOMETRY_SHADER, body ) )
 			{
-				logWARNING( "couldn't create geometry shader from '{0}'", path )
+				logWARNING( "couldn't create geometry shader from '{0}'", path.generic_string() )
 				FromGeometryDummy( shader );
 			}
 		}
-		else if( fileExtension == std::string( "frag" ) )
+		else if( fileExtensionString == std::string( ".frag" ) )
 		{
 			if( !m_shaderCompiler.Compile( shader, GL_FRAGMENT_SHADER, body ) )
 			{
-				logWARNING( "couldn't create fragment shader from '{0}'", path )
+				logWARNING( "couldn't create fragment shader from '{0}'", path.generic_string() )
 				FromFragmentDummy( shader );
 			}
 		}

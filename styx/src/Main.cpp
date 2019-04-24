@@ -31,15 +31,15 @@ int main( int argc, char *argv[] )
 
 	CLI::App app { CEngine::GetVersionString() };
 
-	app.add_option( "--gameDirectory,-g", gameDirectoryString, "directory of the game" )
+	app.add_option( "-g", gameDirectoryString, "path to the directory of the game" )
 		->check( CLI::ExistingDirectory );
 
-	app.add_option( "--settingsFile,-s", settingsFile, "path to a settings-file" )
+	app.add_option( "-s", settingsFile, "path to a settings-file" )
 		->check( CLI::ExistingFile );
 
-	const auto logErrorsToMsgBoxOption = app.add_flag( "-l,--logErrorsToMsgBox", "show a message-box for errors" );
+	const auto logErrorsToMsgBoxOption = app.add_flag( "-l", "show a message-box for errors" );
 
-	const auto showVersionOption = app.add_flag( "-v,--version", "produce version string" );
+	const auto showVersionOption = app.add_flag( "-v", "produce version string" );
 
 	try
 	{

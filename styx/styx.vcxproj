@@ -76,7 +76,6 @@
     <ClInclude Include="src\helper\geom\Primitives.hpp" />
     <ClInclude Include="src\helper\image\CImage.hpp" />
     <ClInclude Include="src\helper\image\ImageHandler.hpp" />
-    <ClInclude Include="src\helper\Path.hpp" />
     <ClInclude Include="src\helper\String.hpp" />
     <ClInclude Include="src\helper\Types.hpp" />
     <ClInclude Include="src\logger\CLogger.hpp" />
@@ -193,7 +192,6 @@
     <ClCompile Include="src\helper\geom\CPlane.cpp" />
     <ClCompile Include="src\helper\image\CImage.cpp" />
     <ClCompile Include="src\helper\image\ImageHandler.cpp" />
-    <ClCompile Include="src\helper\Path.cpp" />
     <ClCompile Include="src\helper\String.cpp" />
     <ClCompile Include="src\logger\CLogger.cpp" />
     <ClCompile Include="src\logger\CLogTargetConsole.cpp" />

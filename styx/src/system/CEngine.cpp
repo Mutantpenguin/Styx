@@ -15,7 +15,7 @@ const std::string	CEngine::m_status			{ "pre-alpha" };
 
 CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std::string &settingsFile ) :
 	m_gameInfo( gameDirectory ),
-	m_filesystem( argv0, m_gameInfo.GetOrganisation(), m_gameInfo.GetShortName(), m_gameInfo.GetDir(), m_gameInfo.GetAssets() ),
+	m_filesystem( argv0, m_gameInfo.GetOrganisation(), m_gameInfo.GetShortName(), m_gameInfo.GetPath(), m_gameInfo.GetAssets() ),
 	m_settings( m_filesystem, settingsFile ),
 	m_sdl(),
 	m_window( m_settings, m_filesystem, m_gameInfo.GetName(), m_gameInfo.GetIconPath() ),

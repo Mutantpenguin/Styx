@@ -2,8 +2,6 @@
 
 #include "src/logger/CLogger.hpp"
 
-#include "src/helper/Path.hpp"
-
 #include "external/stb/stb_vorbis.c"
 
 #define DR_WAV_IMPLEMENTATION
@@ -21,25 +19,31 @@ CAudioBufferLoader::~CAudioBufferLoader()
 	logINFO( "audio buffer loader is shutting down" );
 }
 
-void CAudioBufferLoader::FromFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const std::string &path ) const
+void CAudioBufferLoader::FromFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const fs::path &path ) const
 {
+	if( !path.has_filename() )
+	{
+		logWARNING( "path '{0}' does not containt a filename", path.generic_string() );
+		FromDummy( audioBuffer );
+	}
+
 	if( !m_filesystem.Exists( path ) )
 	{
-		logWARNING( "audio file '{0}' does not exist", path );
+		logWARNING( "audio file '{0}' does not exist", path.generic_string() );
 		FromDummy( audioBuffer );
 	}
 	else
 	{
-		const std::string fileExtension = Path::Extension( path );
+		const std::string fileExtensionString = path.extension().generic_string();
 
-		if( fileExtension == std::string( "ogg" ) )
+		if( fileExtensionString == std::string( ".ogg" ) )
 		{
 			if( !FromOggFile( audioBuffer, path ) )
 			{
 				FromDummy( audioBuffer );
 			}
 		}
-		else if( fileExtension == std::string( "wav" ) )
+		else if( fileExtensionString == std::string( ".wav" ) )
 		{
 			if( !FromWavFile( audioBuffer, path ) )
 			{
@@ -48,12 +52,12 @@ void CAudioBufferLoader::FromFile( const std::shared_ptr< CAudioBuffer > &audioB
 		}
 		else
 		{
-			logWARNING( "file type '{0}' of audio file '{1}' is not supported", fileExtension, path );
+			logWARNING( "file type '{0}' of audio file '{1}' is not supported", fileExtensionString, path.generic_string() );
 		}
 	}
 }
 
-bool CAudioBufferLoader::FromOggFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const std::string &path ) const
+bool CAudioBufferLoader::FromOggFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const fs::path &path ) const
 {
 	auto const fileBuffer = m_filesystem.LoadFileToBuffer( path );
 
@@ -65,7 +69,7 @@ bool CAudioBufferLoader::FromOggFile( const std::shared_ptr< CAudioBuffer > &aud
 
 		if( nullptr == stream )
 		{
-			logWARNING( "not possible to open stream for ogg file '{0}': error code {1}", path, errorCode );
+			logWARNING( "not possible to open stream for ogg file '{0}': error code {1}", path.generic_string(), errorCode );
 			return( false );
 		}
 		else
@@ -79,7 +83,7 @@ bool CAudioBufferLoader::FromOggFile( const std::shared_ptr< CAudioBuffer > &aud
 
 			if( 0 == stb_vorbis_get_samples_short_interleaved( stream, info.channels, &bufferDecoded.buffer[ 0 ], lengthSamples ) )
 			{
-				logWARNING( "not possible to read samples from ogg file '{0}'", path );
+				logWARNING( "not possible to read samples from ogg file '{0}'", path.generic_string() );
 				return( false );
 			}
 
@@ -90,7 +94,7 @@ bool CAudioBufferLoader::FromOggFile( const std::shared_ptr< CAudioBuffer > &aud
 			bufferDecoded.format = ( 1 == info.channels ) ? CAudioBuffer::format::MONO : CAudioBuffer::format::STEREO;
 			bufferDecoded.frequency = info.sample_rate;
 
-			logDEBUG( "{0} / duration: {1:.0f}s / channels: {2} / sample rate: {3}", path, bufferDecoded.duration, info.channels, bufferDecoded.frequency );
+			logDEBUG( "{0} / duration: {1:.0f}s / channels: {2} / sample rate: {3}", path.generic_string(), bufferDecoded.duration, info.channels, bufferDecoded.frequency );
 
 			FromTAudioData( audioBuffer, bufferDecoded );
 
@@ -99,12 +103,12 @@ bool CAudioBufferLoader::FromOggFile( const std::shared_ptr< CAudioBuffer > &aud
 	}
 	else
 	{
-		logWARNING( "failed to load ogg file '{0}'", path );
+		logWARNING( "failed to load ogg file '{0}'", path.generic_string() );
 		return( false );
 	}
 }
 
-bool CAudioBufferLoader::FromWavFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const std::string &path ) const
+bool CAudioBufferLoader::FromWavFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const fs::path &path ) const
 {
 	auto const fileBuffer = m_filesystem.LoadFileToBuffer( path );
 
@@ -113,7 +117,7 @@ bool CAudioBufferLoader::FromWavFile( const std::shared_ptr< CAudioBuffer > &aud
 		drwav wav;
 		if( !drwav_init_memory( &wav, fileBuffer.data(), fileBuffer.size() ) )
 		{
-			logWARNING( "error opening wav file: {0}", path );
+			logWARNING( "error opening wav file: {0}", path.generic_string() );
 			return( false );
 		}
 
@@ -128,12 +132,12 @@ bool CAudioBufferLoader::FromWavFile( const std::shared_ptr< CAudioBuffer > &aud
 
 		if( numberOfPCMFramesActuallyDecoded < wav.totalPCMFrameCount )
 		{
-			logWARNING( "expected {0} PCM frames but got {1} for wav file '{2}'", wav.totalPCMFrameCount, numberOfPCMFramesActuallyDecoded, path );
+			logWARNING( "expected {0} PCM frames but got {1} for wav file '{2}'", wav.totalPCMFrameCount, numberOfPCMFramesActuallyDecoded, path.generic_string() );
 		}
 
 		drwav_uninit( &wav );
 
-		logDEBUG( "{0} / duration: {1:.0f}s / channels: {2} / sample rate: {3}", path, bufferDecoded.duration, wav.channels, bufferDecoded.frequency );
+		logDEBUG( "{0} / duration: {1:.0f}s / channels: {2} / sample rate: {3}", path.generic_string(), bufferDecoded.duration, wav.channels, bufferDecoded.frequency );
 
 		FromTAudioData( audioBuffer, bufferDecoded );
 
@@ -141,7 +145,7 @@ bool CAudioBufferLoader::FromWavFile( const std::shared_ptr< CAudioBuffer > &aud
 	}
 	else
 	{
-		logWARNING( "failed to load wav file '{0}'", path );
+		logWARNING( "failed to load wav file '{0}'", path.generic_string() );
 		return( false );
 	}
 }

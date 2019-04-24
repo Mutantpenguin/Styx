@@ -8,8 +8,8 @@
 
 #include "external/fmt/format.h"
 
-CLogTargetFile::CLogTargetFile( const CLogger::TLogBuffer &logBuffer, const std::string &directory ) :
-	m_log_ofile( ( fmt::format("{0}{1:%Y-%m-%d_%H-%M-%S}.log", directory, fmt::localtime( Date::GetCurrentDateTime() ) ) ).c_str(), std::ios::out | std::ios::app )
+CLogTargetFile::CLogTargetFile( const CLogger::TLogBuffer &logBuffer, const std::filesystem::path &path ) :
+	m_log_ofile( path / fmt::format("{0:%Y-%m-%d_%H-%M-%S}.log", fmt::localtime( Date::GetCurrentDateTime() ) ), std::ios::out | std::ios::app )
 {
 	// write the whole buffer to disk
 	for( const std::unique_ptr< const CLogger::logEntry > &entry : logBuffer )

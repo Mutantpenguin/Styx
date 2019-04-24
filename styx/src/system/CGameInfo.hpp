@@ -2,13 +2,14 @@
 
 #include <string>
 #include <vector>
+#include <filesystem>
 
 class CGameInfo final
 {
 public:
-	explicit CGameInfo( const std::string &p_gamedir  );
+	explicit CGameInfo( const std::filesystem::path &gamePath );
 
-	const std::string &GetDir() const;
+	const std::filesystem::path &GetPath() const;
 
 	const std::string &GetName() const;
 	const std::string &GetShortName() const;
@@ -30,7 +31,7 @@ private:
 
 	static const std::string gameinfoFilename;
 
-	const std::string m_gamedir;
+	const std::filesystem::path m_gamePath;
 
 	std::string m_name;
 	std::string m_name_short;

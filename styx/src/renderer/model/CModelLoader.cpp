@@ -2,8 +2,6 @@
 
 #include "src/logger/CLogger.hpp"
 
-#include "src/helper/Path.hpp"
-
 #include "src/helper/geom/Primitives.hpp"
 
 CModelLoader::CModelLoader( const CFileSystem &p_filesystem ) :
@@ -36,8 +34,6 @@ void CModelLoader::FromFile( const std::shared_ptr< CModel > &model, const std::
         logWARNING( "failed to load '{0}' because of: {1}", path, importer.GetErrorString() );
         FromDummy( model );
     }
-
-	const std::string directory = Path::Directory( path );
 
 	ProcessNode( model, scene->mRootNode, scene );
 }
