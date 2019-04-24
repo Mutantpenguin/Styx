@@ -114,6 +114,9 @@
     <Filter Include="src\audio">
       <UniqueIdentifier>{d662d250-06c1-4305-9c71-e91ae92495ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{2481490b-e789-4c7b-a228-14f7c5d42a18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\CLI11\CLI11.hpp">
@@ -448,6 +451,9 @@
     </ClInclude>
     <ClInclude Include="src\audio\CAudio.hpp">
       <Filter>src\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\StyxException.hpp">
+      <Filter>src\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

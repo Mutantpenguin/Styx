@@ -69,6 +69,7 @@
     <ClInclude Include="src\audio\CAudioBufferCache.hpp" />
     <ClInclude Include="src\audio\CAudioBufferLoader.hpp" />
     <ClInclude Include="src\audio\CAudioSource.hpp" />
+    <ClInclude Include="src\core\StyxException.hpp" />
     <ClInclude Include="src\helper\CColor.hpp" />
     <ClInclude Include="src\helper\CSize.hpp" />
     <ClInclude Include="src\helper\Date.hpp" />
