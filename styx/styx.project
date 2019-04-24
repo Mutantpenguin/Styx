@@ -46,6 +46,7 @@
   </VirtualDirectory>
   <VirtualDirectory Name="src">
     <VirtualDirectory Name="core">
+      <File Name="src/core/Types.hpp"/>
       <File Name="src/core/StyxException.hpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="audio">
@@ -232,11 +233,8 @@
         <File Name="src/helper/geom/CPlane.hpp"/>
         <File Name="src/helper/geom/CPlane.cpp"/>
       </VirtualDirectory>
-      <File Name="src/helper/Types.hpp"/>
       <File Name="src/helper/String.hpp"/>
       <File Name="src/helper/String.cpp"/>
-      <File Name="src/helper/Path.hpp"/>
-      <File Name="src/helper/Path.cpp"/>
       <File Name="src/helper/Date.hpp"/>
       <File Name="src/helper/Date.cpp"/>
       <File Name="src/helper/CSize.hpp"/>
@@ -359,6 +357,7 @@
         <Library Value="glbinding-aux"/>
         <Library Value="openal"/>
         <Library Value="assimp"/>
+        <Library Value="stdc++fs"/>
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
@@ -369,7 +368,7 @@
       </Compiler>
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./build/Debug" Command="./$(ProjectName)" CommandArguments="--gameDirectory ../../../demogame" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./build/Debug" Command="./$(ProjectName)" CommandArguments="-g ../../../demogame" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
