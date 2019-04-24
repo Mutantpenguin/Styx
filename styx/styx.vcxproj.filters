@@ -212,9 +212,6 @@
     <ClInclude Include="src\helper\String.hpp">
       <Filter>src\helper</Filter>
     </ClInclude>
-    <ClInclude Include="src\helper\Types.hpp">
-      <Filter>src\helper</Filter>
-    </ClInclude>
     <ClInclude Include="src\helper\geom\CPlane.hpp">
       <Filter>src\helper\geom</Filter>
     </ClInclude>
@@ -453,6 +450,9 @@
       <Filter>src\audio</Filter>
     </ClInclude>
     <ClInclude Include="src\core\StyxException.hpp">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helper\Types.hpp">
       <Filter>src\core</Filter>
     </ClInclude>
   </ItemGroup>
