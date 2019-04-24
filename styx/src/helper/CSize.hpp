@@ -19,12 +19,12 @@ public:
 		height { size.height }
 	{};
 
-	CSize& operator = ( CSize size )
+	CSize& operator = ( const CSize &size )
 	{
-	  std::swap( width, size.width );
-	  std::swap( height, size.height );
+		width  = size.width;
+		height = size.height;
 
-	  return( *this );
+		return( *this );
 	};
 
 	inline bool operator == ( const CSize &size ) const
@@ -53,7 +53,7 @@ public:
 		return( *this );
 	}
 
-	u32 width		{ 0 };
+	u32 width	{ 0 };
 	u32 height	{ 0 };
 };
 
