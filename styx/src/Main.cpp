@@ -26,12 +26,12 @@ int main( int argc, char *argv[] )
 
 	CLogger::CreateTarget< CLogTargetConsole >();
 
-	std::string gameDirectory;
+	std::string gameDirectoryString;
 	std::string settingsFile;
 
 	CLI::App app { CEngine::GetVersionString() };
 
-	app.add_option( "--gameDirectory,-g", gameDirectory, "directory of the game" )
+	app.add_option( "--gameDirectory,-g", gameDirectoryString, "directory of the game" )
 		->check( CLI::ExistingDirectory );
 
 	app.add_option( "--settingsFile,-s", settingsFile, "path to a settings-file" )
@@ -47,6 +47,7 @@ int main( int argc, char *argv[] )
 	}
 	catch( const CLI::ParseError &e )
 	{
+		logERROR( "unable to parse command line options: {0}", e.what() );
 		return( app.exit( e ) );
 	}
 
@@ -79,14 +80,12 @@ int main( int argc, char *argv[] )
 
 	try
 	{
-		CEngine engine( argv[ 0 ], gameDirectory, settingsFile );
+		CEngine engine( argv[ 0 ], gameDirectoryString, settingsFile );
 
 		engine.Run();
 	}
 	catch( const styx_internal::StyxException &e )
 	{
-		//logERROR( "unable to run the game:\n{0}\n{1}", e.Thrower() ,e.what() );
-		
 		logERROR( "unable to run the game:\nfile '{0}' on line {1}\nfunction '{2}'\n{3}", e.File(), e.Line(), e.Func() ,e.what() );
 
 		return( EXIT_FAILURE );
