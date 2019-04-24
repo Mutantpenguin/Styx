@@ -2,7 +2,7 @@
 
 #include <array>
 
-#include "src/helper/Types.hpp"
+#include "src/core/Types.hpp"
 
 #include "src/helper/geom/CPlane.hpp"
 

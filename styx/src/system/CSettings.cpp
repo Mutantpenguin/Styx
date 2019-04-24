@@ -3,7 +3,7 @@
 #include "external/json/json.hpp"
 using json = nlohmann::json;
 
-#include "src/helper/Types.hpp"
+#include "src/core/Types.hpp"
 
 #include "src/logger/CLogger.hpp"
 

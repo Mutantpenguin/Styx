@@ -2,7 +2,7 @@
 
 #include "external/physfs/physfs.h"
 
-#include "src/helper/Types.hpp"
+#include "src/core/Types.hpp"
 
 #include "src/logger/CLogger.hpp"
 #include "src/logger/CLogTargetFile.hpp"

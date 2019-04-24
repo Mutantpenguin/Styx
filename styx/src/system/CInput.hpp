@@ -8,7 +8,7 @@
 	#error "unsupported platform"
 #endif
 
-#include "src/helper/Types.hpp"
+#include "src/core/Types.hpp"
 
 #include "CFileSystem.hpp"
 #include "CSettings.hpp"

@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 
-#include "src/helper/Types.hpp"
+#include "src/core/Types.hpp"
 
 class CPlane
 {

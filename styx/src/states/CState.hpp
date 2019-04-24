@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "src/helper/Types.hpp"
+#include "src/core/Types.hpp"
 
 #include "src/system/CEngineInterface.hpp"
 #include "src/system/CTimer.hpp"

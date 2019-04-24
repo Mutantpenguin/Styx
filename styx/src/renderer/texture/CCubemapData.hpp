@@ -3,7 +3,7 @@
 #include <array>
 #include <memory>
 
-#include "src/helper/Types.hpp"
+#include "src/core/Types.hpp"
 
 #include "src/helper/image/CImage.hpp"
 

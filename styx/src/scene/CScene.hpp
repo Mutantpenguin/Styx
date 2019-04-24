@@ -6,7 +6,7 @@
 
 #include <glm/gtx/norm.hpp>
 
-#include "src/helper/Types.hpp"
+#include "src/core/Types.hpp"
 
 #include "src/helper/CColor.hpp"
 

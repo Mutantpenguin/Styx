@@ -1,6 +1,6 @@
 #pragma once
 
-#include "src/helper/Types.hpp"
+#include "src/core/Types.hpp"
 
 enum class EComponentIndex : u16
 {

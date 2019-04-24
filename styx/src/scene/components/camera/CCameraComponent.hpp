@@ -2,7 +2,7 @@
 
 #include <glm/gtc/quaternion.hpp>
 
-#include "src/helper/Types.hpp"
+#include "src/core/Types.hpp"
 
 #include "src/scene/components/CBaseComponent.hpp"
 

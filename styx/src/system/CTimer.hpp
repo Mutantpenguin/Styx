@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <chrono>
 
-#include "src/helper/Types.hpp"
+#include "src/core/Types.hpp"
 
 class CTimer final
 {

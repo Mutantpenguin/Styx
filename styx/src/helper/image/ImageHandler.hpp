@@ -1,6 +1,6 @@
 #include "CImage.hpp"
 
-#include "src/helper/Types.hpp"
+#include "src/core/Types.hpp"
 
 #include "src/system/CFileSystem.hpp"
 

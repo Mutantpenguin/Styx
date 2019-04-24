@@ -5,7 +5,7 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
-#include "src/helper/Types.hpp"
+#include "src/core/Types.hpp"
 
 class CAudioBuffer final
 {

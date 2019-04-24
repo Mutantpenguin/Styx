@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include "src/helper/Types.hpp"
+#include "src/core/Types.hpp"
 
 #include "src/helper/CSize.hpp"
 
