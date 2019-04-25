@@ -92,6 +92,7 @@
     <ClInclude Include="src\renderer\CRenderer.hpp" />
     <ClInclude Include="src\renderer\CUniformBuffer.hpp" />
     <ClInclude Include="src\renderer\CVAO.hpp" />
+    <ClInclude Include="src\renderer\CVBO.hpp" />
     <ClInclude Include="src\renderer\EUniformBufferLocations.hpp" />
     <ClInclude Include="src\renderer\GL.h" />
     <ClInclude Include="src\renderer\GLHelper.hpp" />
@@ -207,6 +208,7 @@
     <ClCompile Include="src\renderer\CRenderer.cpp" />
     <ClCompile Include="src\renderer\CUniformBuffer.cpp" />
     <ClCompile Include="src\renderer\CVAO.cpp" />
+    <ClCompile Include="src\renderer\CVBO.cpp" />
     <ClCompile Include="src\renderer\GLHelper.cpp" />
     <ClCompile Include="src\renderer\material\CMaterial.cpp" />
     <ClCompile Include="src\renderer\material\CMaterialLoader.cpp" />

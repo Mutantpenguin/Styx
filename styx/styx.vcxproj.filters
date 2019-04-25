@@ -455,6 +455,9 @@
     <ClInclude Include="src\helper\Types.hpp">
       <Filter>src\core</Filter>
     </ClInclude>
+    <ClInclude Include="src\renderer\CVBO.hpp">
+      <Filter>src\renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\fmt\format.cc">
@@ -750,6 +753,9 @@
     </ClCompile>
     <ClCompile Include="src\audio\CAudio.cpp">
       <Filter>src\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\CVBO.cpp">
+      <Filter>src\renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

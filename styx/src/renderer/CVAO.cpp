@@ -6,91 +6,82 @@
 
 CVAO::CVAO( GLenum Mode, const Primitives::SPrimitive &primitive ) :
 	m_mode( Mode ),
-	m_vertexCount( primitive.Vertices.size() )
+	m_vbo( primitive )
 {
-	const auto attributeLocationPosition	= static_cast<GLint>( EAttributeLocation::position );
-	const auto attributeLocationNormal		= static_cast<GLint>( EAttributeLocation::normal );
-	const auto attributeLocationTangent		= static_cast<GLint>( EAttributeLocation::tangent );
-	const auto attributeLocationBitangent	= static_cast<GLint>( EAttributeLocation::bitangent );
-	const auto attributeLocationColor		= static_cast<GLint>( EAttributeLocation::color );
-	const auto attributeLocationTexcoord0	= static_cast<GLint>( EAttributeLocation::texcoord0 );
-	const auto attributeLocationTexcoord1	= static_cast<GLint>( EAttributeLocation::texcoord1 );
-	const auto attributeLocationTexcoord2	= static_cast<GLint>( EAttributeLocation::texcoord2 );
-	const auto attributeLocationTexcoord3	= static_cast<GLint>( EAttributeLocation::texcoord3 );
+	static const auto attributeLocationPosition		= static_cast<GLint>( EAttributeLocation::position );
+	static const auto attributeLocationNormal		= static_cast<GLint>( EAttributeLocation::normal );
+	static const auto attributeLocationTangent		= static_cast<GLint>( EAttributeLocation::tangent );
+	static const auto attributeLocationBitangent	= static_cast<GLint>( EAttributeLocation::bitangent );
+	static const auto attributeLocationColor		= static_cast<GLint>( EAttributeLocation::color );
+	static const auto attributeLocationTexcoord0	= static_cast<GLint>( EAttributeLocation::texcoord0 );
+	static const auto attributeLocationTexcoord1	= static_cast<GLint>( EAttributeLocation::texcoord1 );
+	static const auto attributeLocationTexcoord2	= static_cast<GLint>( EAttributeLocation::texcoord2 );
+	static const auto attributeLocationTexcoord3	= static_cast<GLint>( EAttributeLocation::texcoord3 );
 
-	glCreateVertexArrays( 1, &m_id );
+	glCreateVertexArrays( 1, &GLID );
 
-	glEnableVertexArrayAttrib( m_id, attributeLocationPosition );
-	glEnableVertexArrayAttrib( m_id, attributeLocationNormal );
-	glEnableVertexArrayAttrib( m_id, attributeLocationTangent );
-	glEnableVertexArrayAttrib( m_id, attributeLocationBitangent );
-	glEnableVertexArrayAttrib( m_id, attributeLocationColor );
-	glEnableVertexArrayAttrib( m_id, attributeLocationTexcoord0 );
-	glEnableVertexArrayAttrib( m_id, attributeLocationTexcoord1 );
-	glEnableVertexArrayAttrib( m_id, attributeLocationTexcoord2);
-	glEnableVertexArrayAttrib( m_id, attributeLocationTexcoord3 );
+	glEnableVertexArrayAttrib( GLID, attributeLocationPosition );
+	glEnableVertexArrayAttrib( GLID, attributeLocationNormal );
+	glEnableVertexArrayAttrib( GLID, attributeLocationTangent );
+	glEnableVertexArrayAttrib( GLID, attributeLocationBitangent );
+	glEnableVertexArrayAttrib( GLID, attributeLocationColor );
+	glEnableVertexArrayAttrib( GLID, attributeLocationTexcoord0 );
+	glEnableVertexArrayAttrib( GLID, attributeLocationTexcoord1 );
+	glEnableVertexArrayAttrib( GLID, attributeLocationTexcoord2);
+	glEnableVertexArrayAttrib( GLID, attributeLocationTexcoord3 );
 	
 
-	glVertexArrayAttribFormat( m_id, attributeLocationPosition,		3, GL_FLOAT, GL_FALSE, 0 );
-	glVertexArrayAttribFormat( m_id, attributeLocationNormal,		3, GL_FLOAT, GL_FALSE, 0 );
-	glVertexArrayAttribFormat( m_id, attributeLocationTangent,		3, GL_FLOAT, GL_FALSE, 0 );
-	glVertexArrayAttribFormat( m_id, attributeLocationBitangent,	3, GL_FLOAT, GL_FALSE, 0 );
-	glVertexArrayAttribFormat( m_id, attributeLocationColor,		3, GL_FLOAT, GL_FALSE, 0 );
-	glVertexArrayAttribFormat( m_id, attributeLocationTexcoord0,	2, GL_FLOAT, GL_FALSE, 0 );
-	glVertexArrayAttribFormat( m_id, attributeLocationTexcoord1,	2, GL_FLOAT, GL_FALSE, 0 );
-	glVertexArrayAttribFormat( m_id, attributeLocationTexcoord2,	2, GL_FLOAT, GL_FALSE, 0 );
-	glVertexArrayAttribFormat( m_id, attributeLocationTexcoord3,	2, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationPosition,		3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationNormal,		3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationTangent,		3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationBitangent,	3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationColor,		3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationTexcoord0,	2, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationTexcoord1,	2, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationTexcoord2,	2, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationTexcoord3,	2, GL_FLOAT, GL_FALSE, 0 );
 	
 
-	glCreateBuffers( 1, &m_vboId );
-
-	glNamedBufferData( m_vboId, primitive.Vertices.size() * sizeof( Primitives::SVertex ), primitive.Vertices.data(), GL_STATIC_DRAW );
-
-	glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexPositions,	m_vboId,	offsetof( Primitives::SVertex, Position ),	sizeof( Primitives::SVertex ) );
-	glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexNormals,		m_vboId,	offsetof( Primitives::SVertex, Normal ),	sizeof( Primitives::SVertex ) );
-	// TODO Tangents glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexTangents,	m_vboId,	offsetof( Primitives::SVertex, Tangent ),	sizeof( Primitives::SVertex ) );
-	// TODO Tangents glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexBitangents,	m_vboId,	offsetof( Primitives::SVertex, Bitangent ), sizeof( Primitives::SVertex ) );
-	// TODO Tangents glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexColor,		m_vboId,	offsetof( Primitives::SVertex, Color ),		sizeof( Primitives::SVertex ) );
-	glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexTexcoords0,	m_vboId,	offsetof( Primitives::SVertex, TexCoord ),	sizeof( Primitives::SVertex ) );
-	// TODO glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexTexcoords1,	m_vboId, offsetof( Primitives::SVertex, TexCoord ), sizeof( Primitives::SVertex ) );
-	// TODO glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexTexcoords2,	m_vboId, offsetof( Primitives::SVertex, TexCoord ), sizeof( Primitives::SVertex ) );
-	// TODO glVertexArrayVertexBuffer( m_id, CVAO::bindingIndexTexcoords3,	m_vboId, offsetof( Primitives::SVertex, TexCoord ), sizeof( Primitives::SVertex ) );
 	
 
-	glVertexArrayAttribBinding( m_id, attributeLocationPosition,	CVAO::bindingIndexPositions );
-	glVertexArrayAttribBinding( m_id, attributeLocationNormal,		CVAO::bindingIndexNormals );
-	// TODO Tangents glVertexArrayAttribBinding( m_id, attributeLocationTangent,		CVAO::bindingIndexTangents );
-	// TODO Tangents glVertexArrayAttribBinding( m_id, attributeLocationBitangent,	CVAO::bindingIndexBitangents );
-	// TODO Tangents glVertexArrayAttribBinding( m_id, attributeLocationColor,	CVAO::bindingIndexColor );
-	glVertexArrayAttribBinding( m_id, attributeLocationTexcoord0, CVAO::bindingIndexTexcoords0 );
-	// TODO glVertexArrayAttribBinding( m_id, attributeLocationTexcoord1, CVAO::bindingIndexTexcoords1 );
-	// TODO glVertexArrayAttribBinding( m_id, attributeLocationTexcoord2, CVAO::bindingIndexTexcoords2 );
-	// TODO glVertexArrayAttribBinding( m_id, attributeLocationTexcoord3, CVAO::bindingIndexTexcoords3 );
+	
+
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexPositions,	m_vbo.GLID,	offsetof( Primitives::SVertex, Position ),	sizeof( Primitives::SVertex ) );
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexNormals,		m_vbo.GLID,	offsetof( Primitives::SVertex, Normal ),	sizeof( Primitives::SVertex ) );
+	// TODO Tangents glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexTangents,	m_vbo.GLID,	offsetof( Primitives::SVertex, Tangent ),	sizeof( Primitives::SVertex ) );
+	// TODO Tangents glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexBitangents,	m_vbo.GLID,	offsetof( Primitives::SVertex, Bitangent ), sizeof( Primitives::SVertex ) );
+	// TODO Tangents glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexColor,		m_vbo.GLID,	offsetof( Primitives::SVertex, Color ),		sizeof( Primitives::SVertex ) );
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexTexcoords0, m_vbo.GLID,	offsetof( Primitives::SVertex, TexCoord ),	sizeof( Primitives::SVertex ) );
+	// TODO glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexTexcoords1,	m_vbo.GLID, offsetof( Primitives::SVertex, TexCoord ), sizeof( Primitives::SVertex ) );
+	// TODO glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexTexcoords2,	m_vbo.GLID, offsetof( Primitives::SVertex, TexCoord ), sizeof( Primitives::SVertex ) );
+	// TODO glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexTexcoords3,	m_vbo.GLID, offsetof( Primitives::SVertex, TexCoord ), sizeof( Primitives::SVertex ) );
+	
+
+	glVertexArrayAttribBinding( GLID, attributeLocationPosition,	CVAO::bindingIndexPositions );
+	glVertexArrayAttribBinding( GLID, attributeLocationNormal,		CVAO::bindingIndexNormals );
+	// TODO Tangents glVertexArrayAttribBinding( GLID, attributeLocationTangent,		CVAO::bindingIndexTangents );
+	// TODO Tangents glVertexArrayAttribBinding( GLID, attributeLocationBitangent,	CVAO::bindingIndexBitangents );
+	// TODO Tangents glVertexArrayAttribBinding( GLID, attributeLocationColor,	CVAO::bindingIndexColor );
+	glVertexArrayAttribBinding( GLID, attributeLocationTexcoord0, CVAO::bindingIndexTexcoords0 );
+	// TODO glVertexArrayAttribBinding( GLID, attributeLocationTexcoord1, CVAO::bindingIndexTexcoords1 );
+	// TODO glVertexArrayAttribBinding( GLID, attributeLocationTexcoord2, CVAO::bindingIndexTexcoords2 );
+	// TODO glVertexArrayAttribBinding( GLID, attributeLocationTexcoord3, CVAO::bindingIndexTexcoords3 );
 }
 
 CVAO::~CVAO()
 {
-	if( glIsBuffer( m_vboId ) == GL_TRUE )
+	if( glIsVertexArray( GLID ) )
 	{
-		glDeleteBuffers( 1, &m_vboId );
-	}
-	else
-	{
-		logERROR( "VBO is not a buffer" );
-	}
-
-	if( glIsVertexArray( m_id ) )
-	{
-		glDeleteVertexArrays( 1, &m_id );
+		glDeleteVertexArrays( 1, &GLID );
 	}
 }
 
 void CVAO::Bind() const
 {
-	CGLState::BindVertexArray( m_id );
+	CGLState::BindVertexArray( GLID );
 }
 
 void CVAO::Draw() const
 {
-	glDrawArrays( m_mode, 0, m_vertexCount );
+	glDrawArrays( m_mode, 0, m_vbo.VertexCount() );
 }

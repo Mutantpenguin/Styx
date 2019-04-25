@@ -1,12 +1,10 @@
 #pragma once
 
-#include <vector>
-
-#include <glm/glm.hpp>
-
 #include "src/renderer/GL.h"
 
 #include "src/helper/geom/Primitives.hpp"
+
+#include "src/renderer/CVBO.hpp"
 
 class CVAO final
 {
@@ -34,11 +32,9 @@ public:
 private:
 	const GLenum m_mode; // GL_QUADS, GL_TRIS, ...
 
-	GLuint	m_id;
+	GLuint	GLID;
 
-	GLuint	m_vboId;
-
-	const size_t m_vertexCount;
+	CVBO	m_vbo;
 
 	static const GLuint bindingIndexPositions	{ 0 };
 	static const GLuint bindingIndexNormals		{ 1 };
