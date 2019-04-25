@@ -18,6 +18,9 @@
 // More:
 // http://www.altdevblogaday.com/2012/08/21/using-chrometracing-to-view-your-inline-profiling-data/
 
+#ifndef MINITRACE_H
+#define MINITRACE_H
+
 #include <inttypes.h>
 
 // If MTR_ENABLED is not defined, Minitrace does nothing and has near zero overhead.
@@ -33,61 +36,65 @@
 extern "C" {
 #endif
 
-// Initializes Minitrace. Must be called very early during startup of your executable,
-// before any MTR_ statements..
-void mtr_init(const char *json_file);
+	// Initializes Minitrace. Must be called very early during startup of your executable,
+	// before any MTR_ statements.
+	void mtr_init( const char *json_file );
+	// Same as above, but allows passing in a custom stream (FILE *), as returned by
+	// fopen(). It should be opened for writing, preferably in binary mode to avoid
+	// processing of line endings (i.e. the "wb" mode).
+	void mtr_init_from_stream( void *stream );
 
-// Shuts down minitrace cleanly, flushing the trace buffer.
-void mtr_shutdown();
+	// Shuts down minitrace cleanly, flushing the trace buffer.
+	void mtr_shutdown( void );
 
-// Lets you enable and disable Minitrace at runtime.
-// May cause strange discontinuities in the output.
-// Minitrace is enabled on startup by default.
-void mtr_start();
-void mtr_stop();
+	// Lets you enable and disable Minitrace at runtime.
+	// May cause strange discontinuities in the output.
+	// Minitrace is enabled on startup by default.
+	void mtr_start( void );
+	void mtr_stop( void );
 
-// Flushes the collected data to disk, clearing the buffer for new data.
-void mtr_flush();
+	// Flushes the collected data to disk, clearing the buffer for new data.
+	void mtr_flush( void );
 
-// Returns the current time in seconds. Used internally by Minitrace. No caching.
-double mtr_time_s();
+	// Returns the current time in seconds. Used internally by Minitrace. No caching.
+	double mtr_time_s( void );
 
-// Registers a handler that will flush the trace on Ctrl+C.
-// Works on Linux and MacOSX, and in Win32 console applications.
-void mtr_register_sigint_handler();
+	// Registers a handler that will flush the trace on Ctrl+C.
+	// Works on Linux and MacOSX, and in Win32 console applications.
+	void mtr_register_sigint_handler( void );
 
-// Utility function that should rarely be used.
-// If str is semi dynamic, store it permanently in a small pool so we don't need to malloc it.
-// The pool fills up fast though and performance isn't great.
-// Returns a fixed string if the pool is full.
-const char *mtr_pool_string(const char *str);
+	// Utility function that should rarely be used.
+	// If str is semi dynamic, store it permanently in a small pool so we don't need to malloc it.
+	// The pool fills up fast though and performance isn't great.
+	// Returns a fixed string if the pool is full.
+	const char *mtr_pool_string( const char *str );
 
-// Commented-out types will be supported in the future.
-typedef enum {
-	MTR_ARG_TYPE_NONE = 0,
-	MTR_ARG_TYPE_INT = 1,	// I
-	// MTR_ARG_TYPE_FLOAT = 2,  // TODO
-	// MTR_ARG_TYPE_DOUBLE = 3,  // TODO
-	MTR_ARG_TYPE_STRING_CONST = 8,	// C
-	MTR_ARG_TYPE_STRING_COPY = 9,
-	// MTR_ARG_TYPE_JSON_COPY = 10,
-} mtr_arg_type;
+	// Commented-out types will be supported in the future.
+	typedef enum {
+		MTR_ARG_TYPE_NONE = 0,
+		MTR_ARG_TYPE_INT = 1,	// I
+		// MTR_ARG_TYPE_FLOAT = 2,  // TODO
+		// MTR_ARG_TYPE_DOUBLE = 3,  // TODO
+		MTR_ARG_TYPE_STRING_CONST = 8,	// C
+		MTR_ARG_TYPE_STRING_COPY = 9,
+		// MTR_ARG_TYPE_JSON_COPY = 10,
+	} mtr_arg_type;
 
-// TODO: Add support for more than one argument (metadata) per event
-// Having more costs speed and memory.
+	// TODO: Add support for more than one argument (metadata) per event
+	// Having more costs speed and memory.
 #define MTR_MAX_ARGS 1
 
 // Only use the macros to call these.
-void internal_mtr_raw_event(const char *category, const char *name, char ph, void *id);
-void internal_mtr_raw_event_arg(const char *category, const char *name, char ph, void *id, mtr_arg_type arg_type, const char *arg_name, void *arg_value);
+	void internal_mtr_raw_event( const char *category, const char *name, char ph, void *id );
+	void internal_mtr_raw_event_arg( const char *category, const char *name, char ph, void *id, mtr_arg_type arg_type, const char *arg_name, void *arg_value );
 
 #ifdef MTR_ENABLED
 
-// c - category. Can be filtered by in trace viewer (or at least that's the intention).
-//     A good use is to pass __FILE__, there are macros further below that will do it for you.
-// n - name. Pass __FUNCTION__ in most cases, unless you are marking up parts of one.
+	// c - category. Can be filtered by in trace viewer (or at least that's the intention).
+	//     A good use is to pass __FILE__, there are macros further below that will do it for you.
+	// n - name. Pass __FUNCTION__ in most cases, unless you are marking up parts of one.
 
-// Scopes. In C++, use MTR_SCOPE. In C, always match them within the same scope.
+	// Scopes. In C++, use MTR_SCOPE. In C, always match them within the same scope.
 #define MTR_BEGIN(c, n) internal_mtr_raw_event(c, n, 'B', 0)
 #define MTR_END(c, n) internal_mtr_raw_event(c, n, 'E', 0)
 #define MTR_SCOPE(c, n) MTRScopedTrace ____mtr_scope(c, n)
@@ -165,7 +172,7 @@ void internal_mtr_raw_event_arg(const char *category, const char *name, char ph,
 #define MTR_INSTANT_C(c, n, aname, astrval)
 #define MTR_INSTANT_I(c, n, aname, aintval)
 
-// Counters (can't do multi-value counters yet)
+	// Counters (can't do multi-value counters yet)
 #define MTR_COUNTER(c, n, val)
 
 // Metadata. Call at the start preferably. Must be const strings.
@@ -206,12 +213,12 @@ void internal_mtr_raw_event_arg(const char *category, const char *name, char ph,
 // These are optimized to use X events (combined B and E). Much easier to do in C++ than in C.
 class MTRScopedTrace {
 public:
-	MTRScopedTrace(const char *category, const char *name)
-		: category_(category), name_(name) {
+	MTRScopedTrace( const char *category, const char *name )
+		: category_( category ), name_( name ) {
 		start_time_ = mtr_time_s();
 	}
 	~MTRScopedTrace() {
-		internal_mtr_raw_event(category_, name_, 'X', &start_time_);
+		internal_mtr_raw_event( category_, name_, 'X', &start_time_ );
 	}
 
 private:
@@ -224,14 +231,14 @@ private:
 // TODO: This will effectively call mtr_time_s twice at the end, which is bad.
 class MTRScopedTraceLimit {
 public:
-	MTRScopedTraceLimit(const char *category, const char *name, double limit_s)
-		: category_(category), name_(name), limit_(limit_s) {
+	MTRScopedTraceLimit( const char *category, const char *name, double limit_s )
+		: category_( category ), name_( name ), limit_( limit_s ) {
 		start_time_ = mtr_time_s();
 	}
 	~MTRScopedTraceLimit() {
 		double end_time = mtr_time_s();
-		if (end_time - start_time_ >= limit_) {
-			internal_mtr_raw_event(category_, name_, 'X', &start_time_);
+		if( end_time - start_time_ >= limit_ ) {
+			internal_mtr_raw_event( category_, name_, 'X', &start_time_ );
 		}
 	}
 
@@ -244,18 +251,20 @@ private:
 
 class MTRScopedTraceArg {
 public:
-	MTRScopedTraceArg(const char *category, const char *name, mtr_arg_type arg_type, const char *arg_name, void *arg_value)
-		: category_(category), name_(name) {
-		internal_mtr_raw_event_arg(category, name, 'B', 0, arg_type, arg_name, arg_value);
+	MTRScopedTraceArg( const char *category, const char *name, mtr_arg_type arg_type, const char *arg_name, void *arg_value )
+		: category_( category ), name_( name ) {
+		internal_mtr_raw_event_arg( category, name, 'B', 0, arg_type, arg_name, arg_value );
 	}
 	~MTRScopedTraceArg() {
-		internal_mtr_raw_event(category_, name_, 'E', 0);
+		internal_mtr_raw_event( category_, name_, 'E', 0 );
 	}
 
 private:
 	const char *category_;
 	const char *name_;
 };
+#endif
+
 #endif
 
 #endif
