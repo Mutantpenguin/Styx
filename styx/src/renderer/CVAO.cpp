@@ -4,20 +4,21 @@
 
 #include "src/renderer/CGLState.hpp"
 
+// we need the values of those enums further down quite a few times
+static const auto attributeLocationPosition		= static_cast<GLint>( CVAO::EAttributeLocation::position );
+static const auto attributeLocationNormal		= static_cast<GLint>( CVAO::EAttributeLocation::normal );
+static const auto attributeLocationTangent		= static_cast<GLint>( CVAO::EAttributeLocation::tangent );
+static const auto attributeLocationBitangent	= static_cast<GLint>( CVAO::EAttributeLocation::bitangent );
+static const auto attributeLocationColor		= static_cast<GLint>( CVAO::EAttributeLocation::color );
+static const auto attributeLocationTexcoord0	= static_cast<GLint>( CVAO::EAttributeLocation::texcoord0 );
+static const auto attributeLocationTexcoord1	= static_cast<GLint>( CVAO::EAttributeLocation::texcoord1 );
+static const auto attributeLocationTexcoord2	= static_cast<GLint>( CVAO::EAttributeLocation::texcoord2 );
+static const auto attributeLocationTexcoord3	= static_cast<GLint>( CVAO::EAttributeLocation::texcoord3 );
+
 CVAO::CVAO( GLenum Mode, const Primitives::SPrimitive &primitive ) :
 	m_mode( Mode ),
 	m_vbo( primitive )
 {
-	static const auto attributeLocationPosition		= static_cast<GLint>( EAttributeLocation::position );
-	static const auto attributeLocationNormal		= static_cast<GLint>( EAttributeLocation::normal );
-	static const auto attributeLocationTangent		= static_cast<GLint>( EAttributeLocation::tangent );
-	static const auto attributeLocationBitangent	= static_cast<GLint>( EAttributeLocation::bitangent );
-	static const auto attributeLocationColor		= static_cast<GLint>( EAttributeLocation::color );
-	static const auto attributeLocationTexcoord0	= static_cast<GLint>( EAttributeLocation::texcoord0 );
-	static const auto attributeLocationTexcoord1	= static_cast<GLint>( EAttributeLocation::texcoord1 );
-	static const auto attributeLocationTexcoord2	= static_cast<GLint>( EAttributeLocation::texcoord2 );
-	static const auto attributeLocationTexcoord3	= static_cast<GLint>( EAttributeLocation::texcoord3 );
-
 	glCreateVertexArrays( 1, &GLID );
 
 	glEnableVertexArrayAttrib( GLID, attributeLocationPosition );
