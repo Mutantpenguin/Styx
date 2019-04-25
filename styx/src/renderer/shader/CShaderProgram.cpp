@@ -16,6 +16,15 @@ CShaderProgram::~CShaderProgram()
 {
 	if( glIsProgram( GLID ) == GL_TRUE )
 	{
+		glDetachShader( GLID, VertexShader->GLID );
+
+		if( nullptr != GeometryShader )
+		{
+			glDetachShader( GLID, GeometryShader->GLID );
+		}
+
+		glDetachShader( GLID, FragmentShader->GLID );
+
 		glDeleteProgram( GLID );
 	}
 }
