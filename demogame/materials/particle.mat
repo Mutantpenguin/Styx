@@ -4,10 +4,11 @@
 						"src"	: "SRC_ALPHA",
 						"dst"	: "ONE_MINUS_SRC_ALPHA"
 					},
+	"depthMask"	:	false,
 	"shaders"	:	{
 						"vert" : "shaders/vs/particle.vert",
 						"geom" : "shaders/gs/particle.geom",
-						"frag" : "shaders/fs/standardAnimated.frag"
+						"frag" : "shaders/fs/particle.frag"
 					},
 	"uniforms"	:	{
 						"scale"	: 10.0,
