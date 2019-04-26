@@ -140,6 +140,23 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 		material->DisableBlending();
 	}
 
+	const auto mat_depthmask = mat_root.find( "depthmask" );
+	if( mat_depthmask != mat_root.end() )
+	{
+		if( mat_depthmask->get<bool>() )
+		{
+			material->EnableDepthMask();
+		}
+		else
+		{
+			material->DisableDepthMask();
+		}
+	}
+	else
+	{
+		material->EnableDepthMask();
+	}
+
 	const auto mat_shaders = mat_root.find( "shaders" );
 	if( mat_shaders == mat_root.end() )
 	{

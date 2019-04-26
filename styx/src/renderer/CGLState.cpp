@@ -14,9 +14,11 @@ GLenum	CGLState::blendEquation		{ GL_NONE };
 std::array< GLuint, CShaderProgramCompiler::RequiredCombinedTextureImageUnits > CGLState::textureUnits;
 std::array< GLuint, CShaderProgramCompiler::RequiredCombinedTextureImageUnits > CGLState::samplerUnits;
 
-GLuint CGLState::usedProgram;
+GLuint CGLState::usedProgram	{ 0 };
 
-GLuint CGLState::boundVertexArray;
+GLuint CGLState::boundVertexArray	{ 0 };
+
+GLboolean CGLState::depthMaskFlag	{ GL_TRUE };
 
 void CGLState::CullFace( const bool culling, const GLenum mode )
 {
@@ -118,5 +120,14 @@ void CGLState::BindVertexArray( const GLuint vao )
 	{
 		boundVertexArray = vao;
 		glBindVertexArray( vao );
+	}
+}
+
+void CGLState::DepthMask( const GLboolean flag )
+{
+	if( flag != depthMaskFlag )
+	{
+		depthMaskFlag = flag;
+		glDepthMask( flag );
 	}
 }

@@ -7,6 +7,7 @@ void CMaterial::Activate() const
 	CGLState::CullFace( m_bCullFace, m_cullfaceMode );
 	CGLState::PolygonMode( m_polygonMode );
 	CGLState::Blending( m_blending, m_blendSrc, m_blendDst );
+	CGLState::DepthMask( m_depthMask );
 
 	m_shaderProgram->Use();
 
@@ -33,6 +34,16 @@ void CMaterial::DisableBlending()
 	m_blending = false;
 	m_blendSrc = GL_NONE;
 	m_blendDst = GL_NONE;
+}
+
+void CMaterial::EnableDepthMask()
+{
+	m_depthMask = GL_TRUE;
+}
+
+void CMaterial::DisableDepthMask()
+{
+	m_depthMask = GL_FALSE;
 }
 
 void CMaterial::EnableCulling( const GLenum mode )
@@ -98,4 +109,6 @@ void CMaterial::Reset()
 	m_blending	= false;
 	m_blendSrc	= GL_NONE;
 	m_blendDst	= GL_NONE;
+
+	m_depthMask = GL_TRUE;
 }

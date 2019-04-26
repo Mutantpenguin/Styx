@@ -24,6 +24,8 @@ public:
 
 	static void BindVertexArray( const GLuint vao );
 
+	static void DepthMask( const GLboolean flag );
+
 private:
 	CGLState() {};
 
@@ -44,4 +46,6 @@ private:
 	static GLuint usedProgram;
 
 	static GLuint boundVertexArray;
+
+	static GLboolean depthMaskFlag;
 };

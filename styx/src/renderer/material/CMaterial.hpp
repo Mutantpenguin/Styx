@@ -26,6 +26,9 @@ public:
 	void EnableBlending( const GLenum blendSrc, const GLenum blendDst );
 	void DisableBlending();
 
+	void EnableDepthMask();
+	void DisableDepthMask();
+
 	void EnableCulling( const GLenum mode );
 	void DisableCulling();
 
@@ -57,4 +60,6 @@ private:
 	bool		m_blending	{ false };		// shall this stage be blended?
 	GLenum		m_blendSrc	{ GL_NONE };	// GL_ONE, GL_SRC_ALPHA, etc.
 	GLenum		m_blendDst	{ GL_NONE };	// GL_ONE, GL_SRC_ALPHA, etc.
+
+	GLboolean	m_depthMask	{ GL_TRUE };
 };
