@@ -45,6 +45,16 @@
     <File Name="tools/asan_symbolize.py"/>
   </VirtualDirectory>
   <VirtualDirectory Name="src">
+    <VirtualDirectory Name="geometry">
+      <File Name="src/geometry/Vertex.hpp"/>
+      <File Name="src/geometry/Geometry.hpp"/>
+      <VirtualDirectory Name="prefabs">
+        <File Name="src/geometry/prefabs/Quad.hpp"/>
+        <File Name="src/geometry/prefabs/Quad.cpp"/>
+        <File Name="src/geometry/prefabs/Cube.hpp"/>
+        <File Name="src/geometry/prefabs/Cube.cpp"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
     <VirtualDirectory Name="core">
       <File Name="src/core/Types.hpp"/>
       <File Name="src/core/StyxException.hpp"/>
@@ -130,6 +140,8 @@
       <File Name="src/resource/CResourceCache.hpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="renderer">
+      <File Name="src/renderer/CVBO.hpp"/>
+      <File Name="src/renderer/CVBO.cpp"/>
       <VirtualDirectory Name="texture">
         <File Name="src/renderer/texture/CTextureLoader.hpp"/>
         <File Name="src/renderer/texture/CTextureLoader.cpp"/>
@@ -165,8 +177,7 @@
         <File Name="src/renderer/sampler/CSampler.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="model">
-        <File Name="src/renderer/model/CModelManager.hpp"/>
-        <File Name="src/renderer/model/CModelManager.cpp"/>
+        <File Name="src/renderer/model/CModelCache.hpp"/>
         <File Name="src/renderer/model/CModelLoader.hpp"/>
         <File Name="src/renderer/model/CModelLoader.cpp"/>
         <File Name="src/renderer/model/CModel.hpp"/>
@@ -229,7 +240,6 @@
         <File Name="src/helper/image/CImage.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="geom">
-        <File Name="src/helper/geom/Primitives.hpp"/>
         <File Name="src/helper/geom/CPlane.hpp"/>
         <File Name="src/helper/geom/CPlane.cpp"/>
       </VirtualDirectory>
