@@ -8,7 +8,7 @@
 class CShaderProgramCompiler final
 {
 public:
-	CShaderProgramCompiler( const CShaderCompiler &shaderCompiler );
+	explicit CShaderProgramCompiler( const CShaderCompiler &shaderCompiler );
 
 	bool Compile( const std::shared_ptr<CShaderProgram> &shaderProgram ) const;
 
