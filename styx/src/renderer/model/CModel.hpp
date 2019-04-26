@@ -26,6 +26,5 @@ public:
 
 	void Reset();
 
-private:
-	std::vector< CMesh > m_meshes;
+	std::vector< CMesh > Meshes;
 };

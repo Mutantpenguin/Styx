@@ -47,8 +47,8 @@ CVAO::CVAO( GLenum Mode, const Geometry<VertexPN> &geometry ) :
 	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexPositions,	m_vbo.GLID, offsetof( VertexPN, Position ), geometry.Stride );
 	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexNormals,		m_vbo.GLID, offsetof( VertexPN, Normal ),	geometry.Stride );
 
-	glVertexArrayAttribBinding( GLID, attributeLocationPosition, CVAO::bindingIndexPositions );
-	glVertexArrayAttribBinding( GLID, attributeLocationNormal,	CVAO::bindingIndexNormals );
+	glVertexArrayAttribBinding( GLID, attributeLocationPosition,	CVAO::bindingIndexPositions );
+	glVertexArrayAttribBinding( GLID, attributeLocationNormal,		CVAO::bindingIndexNormals );
 }
 
 CVAO::CVAO( GLenum Mode, const Geometry<VertexPNU0> &geometry ) :

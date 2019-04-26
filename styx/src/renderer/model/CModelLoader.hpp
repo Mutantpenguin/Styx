@@ -24,12 +24,14 @@ public:
 	explicit CModelLoader( const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager );
 	~CModelLoader();
 
-	void FromFile( const std::shared_ptr< CModel > &model, const std::string &path ) const;
+	void FromFile( const std::shared_ptr< CModel > &model, const fs::path &path ) const;
 
 private:
 	const CFileSystem &m_filesystem;
 
 	CResourceCacheManager &m_resourceCacheManager;
+
+	bool FromDaeFile( const std::shared_ptr< CModel > &model, const fs::path &path ) const;
 
 	void ProcessNode( const std::shared_ptr< CModel > &model, const aiNode *node, const aiScene *scene ) const;
 

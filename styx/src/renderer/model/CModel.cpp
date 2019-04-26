@@ -10,5 +10,5 @@ CModel::~CModel()
 
 void CModel::Reset()
 {
-	m_meshes.clear();
+	Meshes.clear();
 }
