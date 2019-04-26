@@ -7,6 +7,8 @@
 #include "src/scene/components/camera/CCameraFreeComponent.hpp"
 #include "src/renderer/components/CModelComponent.hpp"
 
+#include "src/geometry/prefabs/Quad.hpp"
+
 CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "intro", filesystem, settings, engineInterface ),
 	m_introSound { std::make_shared< CAudioSource>( engineInterface.ResourceCacheManager.Get< CAudioBuffer >( "sounds/startup_sound.ogg" ) ) },
@@ -31,7 +33,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	const CMesh::TMeshTextureSlots logoMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/styx/logo.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-	const auto logoMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, material, logoMeshTextureSlots );
+	const auto logoMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::QuadPNU0( 1.0f ), material, logoMeshTextureSlots );
 
 	m_logoEntity = m_scene.CreateEntity( "logo" );
 	m_logoEntity->Transform.Scale( { 3.0f, 3.0f, 1.0f } );

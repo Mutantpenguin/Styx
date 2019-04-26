@@ -16,6 +16,8 @@
 
 #include "src/core/StyxException.hpp"
 
+#include "src/geometry/prefabs/Quad.hpp"
+
 CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, CResourceCacheManager &resourceCacheManager ) :
 	m_settings { settings },
 	m_resourceCacheManager { resourceCacheManager },
@@ -38,7 +40,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 
 	{
 		const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( CVAO::EAttributeLocation::position );
-		const auto &texcoord0Attribute = CShaderCompiler::AllowedAttributes.at( CVAO::EAttributeLocation::texcoord0 );
+		const auto &uv0Attribute = CShaderCompiler::AllowedAttributes.at( CVAO::EAttributeLocation::uv0 );
 
 
 		// TODO write comments
@@ -47,7 +49,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 																"{{" \
 																"    gl_Position = vec4( {0}.x, {0}.y, 0.0, 1.0 );" \
 																"    UV = {1};" \
-																"}}", positionAttribute.name, texcoord0Attribute.name );
+																"}}", positionAttribute.name, uv0Attribute.name );
 
 		const std::string fragmentShaderBody =	fmt::format(	"out vec4 color;" \
 																"in vec2 UV;" \
@@ -83,7 +85,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 
 		const CMesh::TMeshTextureSlots frameBufferMeshTextureSlots = { { m_slotNameFrameBuffer, std::make_shared< CMeshTextureSlot >( nullptr, m_samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		m_meshFrameBuffer = std::make_unique< CMesh >( GL_TRIANGLE_STRIP, Primitives::quad, materialFrameBuffer, frameBufferMeshTextureSlots );
+		m_meshFrameBuffer = std::make_unique< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::QuadPNU0( 1.0f ), materialFrameBuffer, frameBufferMeshTextureSlots );
 	}
 
 	m_resourceCacheManager.Register<CTexture>( m_textureCache );

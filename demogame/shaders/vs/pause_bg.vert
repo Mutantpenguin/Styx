@@ -16,7 +16,7 @@ void main()
 	const float bgAngleCos = cos( bgAngle );
 	const float bgAngleSin = sin( bgAngle );
 
-	UV = ( ( mat2( bgAngleCos, bgAngleSin, -bgAngleSin, bgAngleCos  ) * ( texcoord0 - translation ) ) * bgScaleMat ) + translation;
+	UV = ( ( mat2( bgAngleCos, bgAngleSin, -bgAngleSin, bgAngleCos  ) * ( uv0 - translation ) ) * bgScaleMat ) + translation;
 
 	gl_Position = modelViewProjectionMatrix * vec4( position, 1 );
 }

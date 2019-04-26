@@ -14,7 +14,7 @@ void main()
 	const float waitAngleCos = cos( waitAngle );
 	const float waitAngleSin = sin( waitAngle );
 
-	UVskull = texcoord0;
+	UVskull = uv0;
 
-	UVwait = ( mat2( waitAngleCos, waitAngleSin, -waitAngleSin, waitAngleCos  ) * ( texcoord0 - translation ) ) + translation;
+	UVwait = ( mat2( waitAngleCos, waitAngleSin, -waitAngleSin, waitAngleCos  ) * ( uv0 - translation ) ) + translation;
 }

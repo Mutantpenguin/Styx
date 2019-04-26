@@ -7,6 +7,8 @@
 
 #include "src/states/CStateMainMenu.hpp"
 
+#include "src/geometry/prefabs/Quad.hpp"
+
 CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface, std::shared_ptr< CState > pausedState ) :
 	CState( "pause", filesystem, settings, engineInterface ),
 	m_pausedState { pausedState }
@@ -33,7 +35,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	{
 		const auto materialPause = resourceCache.Get< CMaterial >( "materials/pause_bg.mat" );
 
-		auto bgMeshPrimitive = Primitives::quad;
+		auto bgMeshPrimitive = GeometryPrefabs::QuadPNU0( 1.0f );
 		bgMeshPrimitive.Vertices[ 0 ].Position.x = 0.0f;
 		bgMeshPrimitive.Vertices[ 0 ].Position.y = 0.0f;
 		bgMeshPrimitive.Vertices[ 1 ].Position.x = static_cast< f16 >( windowSize.width );
@@ -58,7 +60,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		const f16 halfScreenshotHeight = ( halfPauseElementsWidth / windowSize.width ) * windowSize.height;
 
 		{
-			auto pauseTextMeshPrimitive = Primitives::quad;
+			auto pauseTextMeshPrimitive = GeometryPrefabs::QuadPNU0( 1.0f );
 			pauseTextMeshPrimitive.Vertices[ 0 ].Position.x = -halfPauseElementsWidth;
 			pauseTextMeshPrimitive.Vertices[ 0 ].Position.y = -halfPauseTextHeight;
 			pauseTextMeshPrimitive.Vertices[ 1 ].Position.x = halfPauseElementsWidth;
@@ -80,7 +82,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		}
 
 		{
-			auto screenshotMeshPrimitive = Primitives::quad;
+			auto screenshotMeshPrimitive = GeometryPrefabs::QuadPNU0( 1.0f );
 			screenshotMeshPrimitive.Vertices[ 0 ].Position.x = -halfPauseElementsWidth;
 			screenshotMeshPrimitive.Vertices[ 0 ].Position.y = -halfScreenshotHeight;
 			screenshotMeshPrimitive.Vertices[ 1 ].Position.x = halfPauseElementsWidth;

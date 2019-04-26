@@ -27,9 +27,9 @@ void main()
 	const mat2 bgScaleMat = mat2(	1.0f / bgScale.s,	0.0f,
 									0.0f,				1.0f / bgScale.t );
 
-	UVbg = ( ( mat2( bgAngleCos, bgAngleSin, -bgAngleSin, bgAngleCos  ) * ( texcoord0 - translation ) ) * bgScaleMat ) + translation;
+	UVbg = ( ( mat2( bgAngleCos, bgAngleSin, -bgAngleSin, bgAngleCos  ) * ( uv0 - translation ) ) * bgScaleMat ) + translation;
 
-	UVfg = ( mat2( fgAngleCos, fgAngleSin, -fgAngleSin, fgAngleCos  ) * ( texcoord0 - translation ) ) + translation;
+	UVfg = ( mat2( fgAngleCos, fgAngleSin, -fgAngleSin, fgAngleCos  ) * ( uv0 - translation ) ) + translation;
 
 	Normal = mat3( transpose( inverse( modelMatrix ) ) ) * normal;
     Position = vec3( modelMatrix * vec4( position, 1.0f ) );

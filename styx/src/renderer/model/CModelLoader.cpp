@@ -2,8 +2,6 @@
 
 #include "src/logger/CLogger.hpp"
 
-#include "src/helper/geom/Primitives.hpp"
-
 CModelLoader::CModelLoader( const CFileSystem &p_filesystem ) :
 	m_filesystem { p_filesystem }
 {
@@ -60,6 +58,7 @@ void CModelLoader::ProcessMesh( const std::shared_ptr< CModel > &model, const ai
 
 	for( unsigned int i = 0; i < mesh->mNumVertices; i++ )
 	{
+		/* TODO change to new Geometry structs
 		Primitives::SVertex vertex;
 
 		vertex.Position = { mesh->mVertices[ i ].x, mesh->mVertices[ i ].y, mesh->mVertices[ i ].z };
@@ -70,6 +69,7 @@ void CModelLoader::ProcessMesh( const std::shared_ptr< CModel > &model, const ai
 		{
 			vertex.TexCoord = { mesh->mTextureCoords[ 0 ][ i ].x, mesh->mTextureCoords[ 0 ][ i ].y };
 		}
+		*/
 
 		/* TODO Tangents
 		vertex.Tangent = { mesh->mTangents[ i ].x, mesh->mTangents[ i ].y, mesh->mTangents[ i ].z };

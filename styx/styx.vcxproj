@@ -70,11 +70,14 @@
     <ClInclude Include="src\audio\CAudioBufferLoader.hpp" />
     <ClInclude Include="src\audio\CAudioSource.hpp" />
     <ClInclude Include="src\core\StyxException.hpp" />
+    <ClInclude Include="src\geometry\Geometry.hpp" />
+    <ClInclude Include="src\geometry\prefabs\Cube.hpp" />
+    <ClInclude Include="src\geometry\prefabs\Quad.hpp" />
+    <ClInclude Include="src\geometry\Vertex.hpp" />
     <ClInclude Include="src\helper\CColor.hpp" />
     <ClInclude Include="src\helper\CSize.hpp" />
     <ClInclude Include="src\helper\Date.hpp" />
     <ClInclude Include="src\helper\geom\CPlane.hpp" />
-    <ClInclude Include="src\helper\geom\Primitives.hpp" />
     <ClInclude Include="src\helper\image\CImage.hpp" />
     <ClInclude Include="src\helper\image\ImageHandler.hpp" />
     <ClInclude Include="src\helper\String.hpp" />
@@ -190,6 +193,8 @@
     <ClCompile Include="src\audio\CAudioBuffer.cpp" />
     <ClCompile Include="src\audio\CAudioBufferLoader.cpp" />
     <ClCompile Include="src\audio\CAudioSource.cpp" />
+    <ClCompile Include="src\geometry\prefabs\Cube.cpp" />
+    <ClCompile Include="src\geometry\prefabs\Quad.cpp" />
     <ClCompile Include="src\helper\Date.cpp" />
     <ClCompile Include="src\helper\geom\CPlane.cpp" />
     <ClCompile Include="src\helper\image\CImage.cpp" />

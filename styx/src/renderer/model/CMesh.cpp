@@ -1,7 +1,5 @@
 #include "CMesh.hpp"
 
-#include <algorithm>
-
 #include <glbinding-aux/Meta.h>
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -9,15 +7,6 @@
 #include <glm/gtc/quaternion.hpp>
 
 #include "src/logger/CLogger.hpp"
-
-CMesh::CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const TMeshTextureSlots &textureSlots ) :
-	m_vao( Mode, primitive ),
-	m_material { mat },
-	m_textureSlots { textureSlots },
-	m_boundingSphereRadiusVector { CalculateBoundingSphereRadiusVector( primitive ) }
-{
-	SetupMaterialTextureSlotMapping();
-}
 
 void CMesh::SetMaterial( const std::shared_ptr< const CMaterial > &mat )
 {
@@ -154,11 +143,6 @@ const CVAO &CMesh::VAO() const
 const glm::vec3 &CMesh::BoundingSphereRadiusVector() const
 {
 	return( m_boundingSphereRadiusVector );
-}
-
-glm::vec3 CMesh::CalculateBoundingSphereRadiusVector( const Primitives::SPrimitive &primitive )
-{
-	return( (*std::max_element( std::cbegin( primitive.Vertices ), std::cend( primitive.Vertices ), []( const Primitives::SVertex &a, const Primitives::SVertex &b ){ return( glm::length2( a.Position ) > glm::length2( b.Position ) ); } ) ).Position );
 }
 
 void CMesh::BindTextures() const

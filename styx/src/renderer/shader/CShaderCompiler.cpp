@@ -13,11 +13,10 @@ const std::map< const CVAO::EAttributeLocation, const SShaderInterface > CShader
 																												{ CVAO::EAttributeLocation::tangent,	{ "tangent",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
 																												{ CVAO::EAttributeLocation::bitangent,	{ "bitangent",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
 																												{ CVAO::EAttributeLocation::color,		{ "color",		GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
-																												{ CVAO::EAttributeLocation::texcoord0,	{ "texcoord0",	GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
-																												{ CVAO::EAttributeLocation::texcoord1,	{ "texcoord1",	GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
-																												{ CVAO::EAttributeLocation::texcoord2,	{ "texcoord2",	GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
-																												{ CVAO::EAttributeLocation::texcoord3,	{ "texcoord3",	GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
-																											   };
+																												{ CVAO::EAttributeLocation::uv0,		{ "uv0",		GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
+																												{ CVAO::EAttributeLocation::uv1,		{ "uv1",		GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
+																												{ CVAO::EAttributeLocation::uv2,		{ "uv2",		GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
+																												{ CVAO::EAttributeLocation::uv3,		{ "uv3",		GLHelper::glmTypeToGLSLType< glm::vec2 >() } } };
 
 const std::unordered_map< EEngineUniform, const SShaderInterface > CShaderCompiler::EngineUniforms = {	{ EEngineUniform::modelViewProjectionMatrix,	{ "modelViewProjectionMatrix",	GLHelper::glmTypeToGLSLType< glm::mat4 >() } },
 																										{ EEngineUniform::modelViewMatrix,				{ "modelViewMatrix",			GLHelper::glmTypeToGLSLType< glm::mat4 >() } },

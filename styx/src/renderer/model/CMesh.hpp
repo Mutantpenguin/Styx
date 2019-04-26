@@ -16,7 +16,15 @@ friend class CModelLoader;
 public:
 	using TMeshTextureSlots = std::unordered_map< std::string, const std::shared_ptr< CMeshTextureSlot > >;
 
-	CMesh( GLenum Mode, const Primitives::SPrimitive &primitive, const std::shared_ptr< const CMaterial > &mat, const TMeshTextureSlots &textureSlots = TMeshTextureSlots() );
+	template<typename T>
+	CMesh( GLenum mode, const Geometry<T> &geometry, const std::shared_ptr< const CMaterial > &mat, const TMeshTextureSlots &textureSlots = TMeshTextureSlots() ) :
+		m_vao( mode, geometry ),
+		m_material { mat },
+		m_textureSlots { textureSlots },
+		m_boundingSphereRadiusVector { geometry.BoundingSphereRadiusVector() }
+	{
+		SetupMaterialTextureSlotMapping();
+	}
 
 	void SetMaterial( const std::shared_ptr< const CMaterial > &mat );
 	const std::shared_ptr< const CMaterial > &Material() const;
@@ -41,8 +49,6 @@ private:
 	std::vector< std::pair< GLuint, const std::shared_ptr< const CMeshTextureSlot > > > m_materialTextureSlotMapping;
 
 	void SetupMaterialTextureSlotMapping();
-
-	[[nodiscard]] static glm::vec3 CalculateBoundingSphereRadiusVector( const Primitives::SPrimitive &primitive );
 
 	const glm::vec3	m_boundingSphereRadiusVector;
 };

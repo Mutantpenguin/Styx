@@ -117,6 +117,12 @@
     <Filter Include="src\core">
       <UniqueIdentifier>{2481490b-e789-4c7b-a228-14f7c5d42a18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\geometry">
+      <UniqueIdentifier>{18aff8b4-bb33-4e7a-91d1-26bc630e1bbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\geometry\prefabs">
+      <UniqueIdentifier>{feb6f50a-fcf9-4847-a15b-acf6877eef3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\CLI11\CLI11.hpp">
@@ -213,9 +219,6 @@
       <Filter>src\helper</Filter>
     </ClInclude>
     <ClInclude Include="src\helper\geom\CPlane.hpp">
-      <Filter>src\helper\geom</Filter>
-    </ClInclude>
-    <ClInclude Include="src\helper\geom\Primitives.hpp">
       <Filter>src\helper\geom</Filter>
     </ClInclude>
     <ClInclude Include="src\helper\image\CImage.hpp">
@@ -457,6 +460,18 @@
     </ClInclude>
     <ClInclude Include="src\renderer\CVBO.hpp">
       <Filter>src\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\geometry\Vertex.hpp">
+      <Filter>src\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\geometry\Geometry.hpp">
+      <Filter>src\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\geometry\prefabs\Cube.hpp">
+      <Filter>src\geometry\prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\geometry\prefabs\Quad.hpp">
+      <Filter>src\geometry\prefabs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -756,6 +771,12 @@
     </ClCompile>
     <ClCompile Include="src\renderer\CVBO.cpp">
       <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry\prefabs\Quad.cpp">
+      <Filter>src\geometry\prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry\prefabs\Cube.cpp">
+      <Filter>src\geometry\prefabs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

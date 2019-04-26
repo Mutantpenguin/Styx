@@ -1,11 +1,10 @@
 #include "CVBO.hpp"
 
-CVBO::CVBO( const Primitives::SPrimitive &primitive ) :
-	m_vertexCount( primitive.Vertices.size() )
+CVBO::CVBO( const size_t size, const void * data )
 {
 	glCreateBuffers( 1, &GLID );
 
-	glNamedBufferData( GLID, primitive.Vertices.size() * sizeof( Primitives::SVertex ), primitive.Vertices.data(), GL_STATIC_DRAW );
+	glNamedBufferData( GLID, size, data, GL_STATIC_DRAW );
 }
 
 CVBO::~CVBO()

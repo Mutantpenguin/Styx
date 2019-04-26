@@ -2,14 +2,17 @@
 
 #include "src/renderer/GL.h"
 
-#include "src/helper/geom/Primitives.hpp"
-
 #include "src/renderer/CVBO.hpp"
+
+#include "src/geometry/Geometry.hpp"
+#include "src/geometry/Vertex.hpp"
 
 class CVAO final
 {
 public:
-	CVAO( GLenum Mode, const Primitives::SPrimitive &primitive );
+	CVAO( GLenum Mode, const Geometry<VertexPNU0> &geometry );
+	CVAO( GLenum Mode, const Geometry<VertexPNTBCU0U1U2U3> &geometry );
+
 	~CVAO();
 
 	void Bind() const;
@@ -23,14 +26,16 @@ public:
 		tangent,
 		bitangent,
 		color,
-		texcoord0,
-		texcoord1,
-		texcoord2,
-		texcoord3
+		uv0,
+		uv1,
+		uv2,
+		uv3
 	};
 
 private:
 	const GLenum m_mode; // GL_QUADS, GL_TRIS, ...
+
+	const size_t m_vertexCount;
 
 	GLuint	GLID;
 
@@ -40,9 +45,9 @@ private:
 	static const GLuint bindingIndexNormals		{ 1 };
 	static const GLuint bindingIndexTangents	{ 2 };
 	static const GLuint bindingIndexBitangents	{ 3 };
-	static const GLuint bindingIndexColor		{ 4 };
-	static const GLuint bindingIndexTexcoords0	{ 5 };
-	static const GLuint bindingIndexTexcoords1	{ 6 };
-	static const GLuint bindingIndexTexcoords2	{ 7 };
-	static const GLuint bindingIndexTexcoords3	{ 8 };
+	static const GLuint bindingIndexColors		{ 4 };
+	static const GLuint bindingIndexUV0			{ 5 };
+	static const GLuint bindingIndexUV1			{ 6 };
+	static const GLuint bindingIndexUV2			{ 7 };
+	static const GLuint bindingIndexUV3			{ 8 };
 };
