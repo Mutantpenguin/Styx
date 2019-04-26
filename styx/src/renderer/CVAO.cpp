@@ -31,6 +31,26 @@ CVAO::CVAO( GLenum Mode, const Geometry<VertexP> &geometry ) :
 	glVertexArrayAttribBinding( GLID, attributeLocationPosition, CVAO::bindingIndexPositions );
 }
 
+CVAO::CVAO( GLenum Mode, const Geometry<VertexPN> &geometry ) :
+	m_mode( Mode ),
+	m_vertexCount( geometry.Vertices.size() ),
+	m_vbo( geometry.Vertices.size() * geometry.Stride, geometry.Vertices.data() )
+{
+	glCreateVertexArrays( 1, &GLID );
+
+	glEnableVertexArrayAttrib( GLID, attributeLocationPosition );
+	glEnableVertexArrayAttrib( GLID, attributeLocationNormal );
+
+	glVertexArrayAttribFormat( GLID, attributeLocationPosition,	3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationNormal,	3, GL_FLOAT, GL_FALSE, 0 );
+
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexPositions,	m_vbo.GLID, offsetof( VertexPN, Position ), geometry.Stride );
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexNormals,		m_vbo.GLID, offsetof( VertexPN, Normal ),	geometry.Stride );
+
+	glVertexArrayAttribBinding( GLID, attributeLocationPosition, CVAO::bindingIndexPositions );
+	glVertexArrayAttribBinding( GLID, attributeLocationNormal,	CVAO::bindingIndexNormals );
+}
+
 CVAO::CVAO( GLenum Mode, const Geometry<VertexPNU0> &geometry ) :
 	m_mode( Mode ),
 	m_vertexCount( geometry.Vertices.size() ),

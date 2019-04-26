@@ -7,6 +7,12 @@ struct VertexP final
 	glm::vec3 Position;
 };
 
+struct VertexPN final
+{
+	glm::vec3 Position;
+	glm::vec3 Normal;
+};
+
 struct VertexPNU0 final
 {
 	glm::vec3 Position;

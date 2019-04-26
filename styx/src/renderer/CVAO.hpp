@@ -11,6 +11,7 @@ class CVAO final
 {
 public:
 	CVAO( GLenum Mode, const Geometry<VertexP> &geometry );
+	CVAO( GLenum Mode, const Geometry<VertexPN> &geometry );
 	CVAO( GLenum Mode, const Geometry<VertexPNU0> &geometry );
 	CVAO( GLenum Mode, const Geometry<VertexPNTBCU0U1U2U3> &geometry );
 
