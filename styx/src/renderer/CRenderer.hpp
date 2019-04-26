@@ -19,6 +19,7 @@
 #include "src/renderer/CFrameBuffer.hpp"
 
 #include "src/renderer/texture/CTextureCache.hpp"
+#include "src/renderer/model/CModelCache.hpp"
 #include "src/renderer/sampler/CSamplerManager.hpp"
 #include "src/renderer/material/CMaterialCache.hpp"
 
@@ -79,6 +80,7 @@ private:
 	CShaderProgramCompiler	m_shaderProgramCompiler;
 
 	std::shared_ptr< CTextureCache >		m_textureCache;
+	std::shared_ptr< CModelCache >			m_modelCache;
 	std::shared_ptr< CMaterialCache >		m_materialCache;
 	std::shared_ptr< CShaderCache >			m_shaderCache;
 	std::shared_ptr< CShaderProgramCache >	m_shaderProgramCache;

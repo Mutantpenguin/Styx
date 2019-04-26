@@ -2,8 +2,9 @@
 
 #include "src/logger/CLogger.hpp"
 
-CModelLoader::CModelLoader( const CFileSystem &p_filesystem ) :
-	m_filesystem { p_filesystem }
+CModelLoader::CModelLoader( const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager ) :
+	m_filesystem { p_filesystem },
+	m_resourceCacheManager { resourceCacheManager }
 {
 	logINFO( "model loader was initialized" );
 }

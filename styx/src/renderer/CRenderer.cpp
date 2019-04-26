@@ -25,6 +25,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 	m_shaderCompiler(),
 	m_shaderProgramCompiler( m_shaderCompiler ),
 	m_textureCache { std::make_shared< CTextureCache >( settings, filesystem, m_OpenGlAdapter ) },
+	m_modelCache { std::make_shared< CModelCache >( filesystem, resourceCacheManager ) },
 	m_materialCache { std::make_shared< CMaterialCache >( filesystem, resourceCacheManager, m_shaderProgramCompiler ) },
 	m_shaderCache { std::make_shared< CShaderCache >( filesystem, m_shaderCompiler ) },
 	m_shaderProgramCache { std::make_shared< CShaderProgramCache >( filesystem, resourceCacheManager, m_shaderCompiler, m_shaderProgramCompiler ) }
@@ -89,6 +90,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 	}
 
 	m_resourceCacheManager.Register<CTexture>( m_textureCache );
+	m_resourceCacheManager.Register<CModel>( m_modelCache );
 	m_resourceCacheManager.Register<CShader>( m_shaderCache );
 	m_resourceCacheManager.Register<CShaderProgram>( m_shaderProgramCache );
 	m_resourceCacheManager.Register<CMaterial>( m_materialCache );
@@ -103,6 +105,7 @@ CRenderer::~CRenderer()
 	m_resourceCacheManager.DeRegister( m_materialCache );
 	m_resourceCacheManager.DeRegister( m_shaderProgramCache );
 	m_resourceCacheManager.DeRegister( m_shaderCache );
+	m_resourceCacheManager.DeRegister( m_modelCache );
 	m_resourceCacheManager.DeRegister( m_textureCache );
 }
 

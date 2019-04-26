@@ -8,3 +8,7 @@ CModel::~CModel()
 {
 }
 
+void CModel::Reset()
+{
+	m_meshes.clear();
+}

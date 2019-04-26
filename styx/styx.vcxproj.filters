@@ -299,9 +299,6 @@
     <ClInclude Include="src\renderer\model\CModelLoader.hpp">
       <Filter>src\renderer\model</Filter>
     </ClInclude>
-    <ClInclude Include="src\renderer\model\CModelManager.hpp">
-      <Filter>src\renderer\model</Filter>
-    </ClInclude>
     <ClInclude Include="src\renderer\sampler\CSampler.hpp">
       <Filter>src\renderer\sampler</Filter>
     </ClInclude>
@@ -473,6 +470,9 @@
     <ClInclude Include="src\geometry\prefabs\Quad.hpp">
       <Filter>src\geometry\prefabs</Filter>
     </ClInclude>
+    <ClInclude Include="src\renderer\model\CModelCache.hpp">
+      <Filter>src\renderer\model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\fmt\format.cc">
@@ -632,9 +632,6 @@
       <Filter>src\renderer\model</Filter>
     </ClCompile>
     <ClCompile Include="src\renderer\model\CModelLoader.cpp">
-      <Filter>src\renderer\model</Filter>
-    </ClCompile>
-    <ClCompile Include="src\renderer\model\CModelManager.cpp">
       <Filter>src\renderer\model</Filter>
     </ClCompile>
     <ClCompile Include="src\renderer\sampler\CSamplerManager.cpp">

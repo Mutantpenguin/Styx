@@ -106,8 +106,8 @@
     <ClInclude Include="src\renderer\model\CMesh.hpp" />
     <ClInclude Include="src\renderer\model\CMeshTextureSlot.hpp" />
     <ClInclude Include="src\renderer\model\CModel.hpp" />
+    <ClInclude Include="src\renderer\model\CModelCache.hpp" />
     <ClInclude Include="src\renderer\model\CModelLoader.hpp" />
-    <ClInclude Include="src\renderer\model\CModelManager.hpp" />
     <ClInclude Include="src\renderer\sampler\CSampler.hpp" />
     <ClInclude Include="src\renderer\sampler\CSamplerManager.hpp" />
     <ClInclude Include="src\renderer\shader\CShader.hpp" />
@@ -222,7 +222,6 @@
     <ClCompile Include="src\renderer\model\CMeshTextureSlot.cpp" />
     <ClCompile Include="src\renderer\model\CModel.cpp" />
     <ClCompile Include="src\renderer\model\CModelLoader.cpp" />
-    <ClCompile Include="src\renderer\model\CModelManager.cpp" />
     <ClCompile Include="src\renderer\sampler\CSampler.cpp" />
     <ClCompile Include="src\renderer\sampler\CSamplerManager.cpp" />
     <ClCompile Include="src\renderer\shader\CShader.cpp" />
