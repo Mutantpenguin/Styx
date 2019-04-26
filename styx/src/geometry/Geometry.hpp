@@ -1,8 +1,10 @@
 #pragma once
 
 #include <vector>
+#include <algorithm>
 
 #include <glm/glm.hpp>
+#include <glm/gtx/norm.hpp>
 
 template<typename T>
 struct Geometry final

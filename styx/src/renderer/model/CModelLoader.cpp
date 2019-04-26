@@ -88,9 +88,10 @@ void CModelLoader::ProcessMesh( const std::shared_ptr< CModel > &model, const ai
 {
 	if( mesh->mMaterialIndex >= 0 )
 	{
-		aiTextureType_DIFFUSE
+		/* TODO aiTextureType_DIFFUSE
 		for( unsigned int i = 0; i < mat->GetTextureCount( type ); i++ )
 		{
+		 * */
 	}
 
 
@@ -119,7 +120,7 @@ void CModelLoader::ProcessMesh( const std::shared_ptr< CModel > &model, const ai
 				geometry.Vertices.emplace_back( vertex );
 			}
 
-			model->m_meshes.emplace_back( CMesh( GL_TRIANGLES, geometry,  );
+			// TODO model->Meshes.emplace_back( CMesh( GL_TRIANGLES, geometry,  );
 			throw new std::logic_error( "not yet implemented" );
 		}
 	}
