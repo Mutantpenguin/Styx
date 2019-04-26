@@ -80,7 +80,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	const f16 halfButtonWidth = windowSize.width / 4.0f / 2.0f;
 	const f16 halfButtonHeight = windowSize.height / 6.0f / 2.0f;
 
-	auto buttonMeshPrimitive = GeometryPrefabs::QuadPNU0( 1.0f );
+	auto buttonMeshPrimitive = GeometryPrefabs::QuadP( 1.0f );
 	buttonMeshPrimitive.Vertices[ 0 ].Position.x = -halfButtonWidth;
 	buttonMeshPrimitive.Vertices[ 0 ].Position.y = -halfButtonHeight;
 	buttonMeshPrimitive.Vertices[ 1 ].Position.x = halfButtonWidth;

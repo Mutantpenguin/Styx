@@ -15,6 +15,22 @@ static const auto attributeLocationUV1			= static_cast<GLint>( CVAO::EAttributeL
 static const auto attributeLocationUV2			= static_cast<GLint>( CVAO::EAttributeLocation::uv2 );
 static const auto attributeLocationUV3			= static_cast<GLint>( CVAO::EAttributeLocation::uv3 );
 
+CVAO::CVAO( GLenum Mode, const Geometry<VertexP> &geometry ) :
+	m_mode( Mode ),
+	m_vertexCount( geometry.Vertices.size() ),
+	m_vbo( geometry.Vertices.size() * geometry.Stride, geometry.Vertices.data() )
+{
+	glCreateVertexArrays( 1, &GLID );
+
+	glEnableVertexArrayAttrib( GLID, attributeLocationPosition );
+
+	glVertexArrayAttribFormat( GLID, attributeLocationPosition, 3, GL_FLOAT, GL_FALSE, 0 );
+
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexPositions, m_vbo.GLID, offsetof( VertexPNU0, Position ), geometry.Stride );
+
+	glVertexArrayAttribBinding( GLID, attributeLocationPosition, CVAO::bindingIndexPositions );
+}
+
 CVAO::CVAO( GLenum Mode, const Geometry<VertexPNU0> &geometry ) :
 	m_mode( Mode ),
 	m_vertexCount( geometry.Vertices.size() ),

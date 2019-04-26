@@ -2,6 +2,11 @@
 
 #include <glm/glm.hpp>
 
+struct VertexP final
+{
+	glm::vec3 Position;
+};
+
 struct VertexPNU0 final
 {
 	glm::vec3 Position;

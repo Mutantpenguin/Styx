@@ -10,6 +10,7 @@
 class CVAO final
 {
 public:
+	CVAO( GLenum Mode, const Geometry<VertexP> &geometry );
 	CVAO( GLenum Mode, const Geometry<VertexPNU0> &geometry );
 	CVAO( GLenum Mode, const Geometry<VertexPNTBCU0U1U2U3> &geometry );
 
@@ -39,7 +40,7 @@ private:
 
 	GLuint	GLID;
 
-	CVBO	m_vbo;
+	const CVBO	m_vbo;
 
 	static const GLuint bindingIndexPositions	{ 0 };
 	static const GLuint bindingIndexNormals		{ 1 };
