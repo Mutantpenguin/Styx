@@ -33,10 +33,9 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	const CMesh::TMeshTextureSlots logoMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/styx/logo.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-	const auto logoMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::QuadPNU0( 1.0f ), material, logoMeshTextureSlots );
+	const auto logoMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::QuadPNU0( 6.0f ), material, logoMeshTextureSlots );
 
 	m_logoEntity = m_scene.CreateEntity( "logo" );
-	m_logoEntity->Transform.Scale( { 3.0f, 3.0f, 1.0f } );
 	m_logoEntity->Add<CModelComponent>( logoMesh );
 
 	m_introSound->Play();

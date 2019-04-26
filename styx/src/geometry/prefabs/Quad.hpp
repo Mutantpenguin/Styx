@@ -5,6 +5,6 @@
 
 namespace GeometryPrefabs
 {
-	Geometry<VertexP> QuadP( const float size );
-	Geometry<VertexPNU0> QuadPNU0( const float size );
+	Geometry<VertexP> QuadP( const float size = 1.0f );
+	Geometry<VertexPNU0> QuadPNU0( const float size = 1.0f );
 }

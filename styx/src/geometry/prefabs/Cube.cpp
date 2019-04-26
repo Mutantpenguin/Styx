@@ -3,58 +3,59 @@
 
 namespace GeometryPrefabs
 {
-	// TODO use the size
 	Geometry<VertexPNU0> CubePNU0( const float size )
 	{
+		const auto halfsize = size / 2.0f;
+
 		Geometry<VertexPNU0> geometry = {
 											{
 												// back
-												{	{ +1.0f, -1.0f, -1.0f }, {  0.0f,  0.0f, -1.0f }, {  0.0f, +1.0f }	},
-												{	{ -1.0f, -1.0f, -1.0f }, {  0.0f,  0.0f, -1.0f }, {  0.0f,  0.0f }	},
-												{	{ -1.0f, +1.0f, -1.0f }, {  0.0f,  0.0f, -1.0f }, { +1.0f,  0.0f }	},
-												{	{ -1.0f, +1.0f, -1.0f }, {  0.0f,  0.0f, -1.0f }, { +1.0f,  0.0f }	},
-												{	{ +1.0f, +1.0f, -1.0f }, {  0.0f,  0.0f, -1.0f }, { +1.0f, +1.0f }	},
-												{	{ +1.0f, -1.0f, -1.0f }, {  0.0f,  0.0f, -1.0f }, {  0.0f, +1.0f }	},
+												{	{ +halfsize, -halfsize, -halfsize }, {  0.0f,  0.0f, -halfsize }, {  0.0f, +1.0f }	},
+												{	{ -halfsize, -halfsize, -halfsize }, {  0.0f,  0.0f, -halfsize }, {  0.0f,  0.0f }	},
+												{	{ -halfsize, +halfsize, -halfsize }, {  0.0f,  0.0f, -halfsize }, { +1.0f,  0.0f }	},
+												{	{ -halfsize, +halfsize, -halfsize }, {  0.0f,  0.0f, -halfsize }, { +1.0f,  0.0f }	},
+												{	{ +halfsize, +halfsize, -halfsize }, {  0.0f,  0.0f, -halfsize }, { +1.0f, +1.0f }	},
+												{	{ +halfsize, -halfsize, -halfsize }, {  0.0f,  0.0f, -halfsize }, {  0.0f, +1.0f }	},
 
 												// left
-												{	{ -1.0f, +1.0f, -1.0f }, { -1.0f,  0.0f,  0.0f }, {  0.0f, +1.0f }	},
-												{	{ -1.0f, -1.0f, -1.0f }, { -1.0f,  0.0f,  0.0f }, {  0.0f,  0.0f }	},
-												{	{ -1.0f, -1.0f, +1.0f }, { -1.0f,  0.0f,  0.0f }, { +1.0f,  0.0f }	},
-												{	{ -1.0f, -1.0f, +1.0f }, { -1.0f,  0.0f,  0.0f }, { +1.0f,  0.0f }	},
-												{	{ -1.0f, +1.0f, +1.0f }, { -1.0f,  0.0f,  0.0f }, { +1.0f,  1.0f }	},
-												{	{ -1.0f, +1.0f, -1.0f }, { -1.0f,  0.0f,  0.0f }, {  0.0f,  1.0f }	},
+												{	{ -halfsize, +halfsize, -halfsize }, { -halfsize,  0.0f,  0.0f }, {  0.0f, +1.0f }	},
+												{	{ -halfsize, -halfsize, -halfsize }, { -halfsize,  0.0f,  0.0f }, {  0.0f,  0.0f }	},
+												{	{ -halfsize, -halfsize, +halfsize }, { -halfsize,  0.0f,  0.0f }, { +1.0f,  0.0f }	},
+												{	{ -halfsize, -halfsize, +halfsize }, { -halfsize,  0.0f,  0.0f }, { +1.0f,  0.0f }	},
+												{	{ -halfsize, +halfsize, +halfsize }, { -halfsize,  0.0f,  0.0f }, { +1.0f,  1.0f }	},
+												{	{ -halfsize, +halfsize, -halfsize }, { -halfsize,  0.0f,  0.0f }, {  0.0f,  1.0f }	},
 
 												// right
-												{	{ +1.0f, +1.0f, +1.0f }, { +1.0f,  0.0f,  0.0f }, {  0.0f, +1.0f }	},
-												{	{ +1.0f, -1.0f, +1.0f }, { +1.0f,  0.0f,  0.0f }, {  0.0f,  0.0f }	},
-												{	{ +1.0f, -1.0f, -1.0f }, { +1.0f,  0.0f,  0.0f }, { +1.0f,  0.0f }	},
-												{	{ +1.0f, -1.0f, -1.0f }, { +1.0f,  0.0f,  0.0f }, { +1.0f,  0.0f }	},
-												{	{ +1.0f, +1.0f, -1.0f }, { +1.0f,  0.0f,  0.0f }, { +1.0f, +1.0f }	},
-												{	{ +1.0f, +1.0f, +1.0f }, { +1.0f,  0.0f,  0.0f }, {  0.0f, +1.0f }	},
+												{	{ +halfsize, +halfsize, +halfsize }, { +halfsize,  0.0f,  0.0f }, {  0.0f, +1.0f }	},
+												{	{ +halfsize, -halfsize, +halfsize }, { +halfsize,  0.0f,  0.0f }, {  0.0f,  0.0f }	},
+												{	{ +halfsize, -halfsize, -halfsize }, { +halfsize,  0.0f,  0.0f }, { +1.0f,  0.0f }	},
+												{	{ +halfsize, -halfsize, -halfsize }, { +halfsize,  0.0f,  0.0f }, { +1.0f,  0.0f }	},
+												{	{ +halfsize, +halfsize, -halfsize }, { +halfsize,  0.0f,  0.0f }, { +1.0f, +1.0f }	},
+												{	{ +halfsize, +halfsize, +halfsize }, { +halfsize,  0.0f,  0.0f }, {  0.0f, +1.0f }	},
 
 												// front
-												{	{ +1.0f, +1.0f, +1.0f }, {  0.0f,  0.0f, +1.0f }, {  0.0f, +1.0f }	},
-												{	{ -1.0f, +1.0f, +1.0f }, {  0.0f,  0.0f, +1.0f }, {  0.0f,  0.0f }	},
-												{	{ -1.0f, -1.0f, +1.0f }, {  0.0f,  0.0f, +1.0f }, { +1.0f,  0.0f }	},
-												{	{ -1.0f, -1.0f, +1.0f }, {  0.0f,  0.0f, +1.0f }, { +1.0f,  0.0f }	},
-												{	{ +1.0f, -1.0f, +1.0f }, {  0.0f,  0.0f, +1.0f }, { +1.0f, +1.0f }	},
-												{	{ +1.0f, +1.0f, +1.0f }, {  0.0f,  0.0f, +1.0f }, {  0.0f, +1.0f }	},
+												{	{ +halfsize, +halfsize, +halfsize }, {  0.0f,  0.0f, +halfsize }, {  0.0f, +1.0f }	},
+												{	{ -halfsize, +halfsize, +halfsize }, {  0.0f,  0.0f, +halfsize }, {  0.0f,  0.0f }	},
+												{	{ -halfsize, -halfsize, +halfsize }, {  0.0f,  0.0f, +halfsize }, { +1.0f,  0.0f }	},
+												{	{ -halfsize, -halfsize, +halfsize }, {  0.0f,  0.0f, +halfsize }, { +1.0f,  0.0f }	},
+												{	{ +halfsize, -halfsize, +halfsize }, {  0.0f,  0.0f, +halfsize }, { +1.0f, +1.0f }	},
+												{	{ +halfsize, +halfsize, +halfsize }, {  0.0f,  0.0f, +halfsize }, {  0.0f, +1.0f }	},
 
 												// top
-												{	{ +1.0f, +1.0f, +1.0f }, {  0.0f, +1.0f,  0.0f }, {  0.0f, +1.0f }	},
-												{	{ +1.0f, +1.0f, -1.0f }, {  0.0f, +1.0f,  0.0f }, {  0.0f,  0.0f }	},
-												{	{ -1.0f, +1.0f, -1.0f }, {  0.0f, +1.0f,  0.0f }, { +1.0f,  0.0f }	},
-												{	{ -1.0f, +1.0f, -1.0f }, {  0.0f, +1.0f,  0.0f }, { +1.0f,  0.0f }	},
-												{	{ -1.0f, +1.0f, +1.0f }, {  0.0f, +1.0f,  0.0f }, { +1.0f, +1.0f }	},
-												{	{ +1.0f, +1.0f, +1.0f }, {  0.0f, +1.0f,  0.0f }, {  0.0f, +1.0f }	},
+												{	{ +halfsize, +halfsize, +halfsize }, {  0.0f, +halfsize,  0.0f }, {  0.0f, +1.0f }	},
+												{	{ +halfsize, +halfsize, -halfsize }, {  0.0f, +halfsize,  0.0f }, {  0.0f,  0.0f }	},
+												{	{ -halfsize, +halfsize, -halfsize }, {  0.0f, +halfsize,  0.0f }, { +1.0f,  0.0f }	},
+												{	{ -halfsize, +halfsize, -halfsize }, {  0.0f, +halfsize,  0.0f }, { +1.0f,  0.0f }	},
+												{	{ -halfsize, +halfsize, +halfsize }, {  0.0f, +halfsize,  0.0f }, { +1.0f, +1.0f }	},
+												{	{ +halfsize, +halfsize, +halfsize }, {  0.0f, +halfsize,  0.0f }, {  0.0f, +1.0f }	},
 
 												// bottom
-												{	{ -1.0f, -1.0f, -1.0f }, {  0.0f, -1.0f,  0.0f }, {  0.0f, +1.0f }	},
-												{	{ +1.0f, -1.0f, -1.0f }, {  0.0f, -1.0f,  0.0f }, {  0.0f,  0.0f }	},
-												{	{ +1.0f, -1.0f, +1.0f }, {  0.0f, -1.0f,  0.0f }, { +1.0f,  0.0f }	},
-												{	{ +1.0f, -1.0f, +1.0f }, {  0.0f, -1.0f,  0.0f }, { +1.0f,  0.0f }	},
-												{	{ -1.0f, -1.0f, +1.0f }, {  0.0f, -1.0f,  0.0f }, { +1.0f, +1.0f }	},
-												{	{ -1.0f, -1.0f, -1.0f }, {  0.0f, -1.0f,  0.0f }, {  0.0f, +1.0f }	}
+												{	{ -halfsize, -halfsize, -halfsize }, {  0.0f, -halfsize,  0.0f }, {  0.0f, +1.0f }	},
+												{	{ +halfsize, -halfsize, -halfsize }, {  0.0f, -halfsize,  0.0f }, {  0.0f,  0.0f }	},
+												{	{ +halfsize, -halfsize, +halfsize }, {  0.0f, -halfsize,  0.0f }, { +1.0f,  0.0f }	},
+												{	{ +halfsize, -halfsize, +halfsize }, {  0.0f, -halfsize,  0.0f }, { +1.0f,  0.0f }	},
+												{	{ -halfsize, -halfsize, +halfsize }, {  0.0f, -halfsize,  0.0f }, { +1.0f, +1.0f }	},
+												{	{ -halfsize, -halfsize, -halfsize }, {  0.0f, -halfsize,  0.0f }, {  0.0f, +1.0f }	}
 											}
 										};
 

@@ -85,7 +85,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 
 		const CMesh::TMeshTextureSlots frameBufferMeshTextureSlots = { { m_slotNameFrameBuffer, std::make_shared< CMeshTextureSlot >( nullptr, m_samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		m_meshFrameBuffer = std::make_unique< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::QuadPNU0( 1.0f ), materialFrameBuffer, frameBufferMeshTextureSlots );
+		m_meshFrameBuffer = std::make_unique< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::QuadPNU0( 2.0f ), materialFrameBuffer, frameBufferMeshTextureSlots );
 	}
 
 	m_resourceCacheManager.Register<CTexture>( m_textureCache );

@@ -34,7 +34,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	{
 		const auto material = resourceCache.Get< CMaterial >( "materials/standard.mat" );
 
-		auto bgMeshPrimitive = GeometryPrefabs::QuadPNU0( 1.0f );
+		auto bgMeshPrimitive = GeometryPrefabs::QuadPNU0();
 		bgMeshPrimitive.Vertices[ 0 ].Position.x = 0.0f;
 		bgMeshPrimitive.Vertices[ 0 ].Position.y = 0.0f;
 		bgMeshPrimitive.Vertices[ 1 ].Position.x = static_cast< f16 >( windowSize.width );
@@ -58,7 +58,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		const f16 halfTitleWidth = windowSize.width * 0.75f / 2;
 		const f16 halfTitleHeight = halfTitleWidth / 4.0f;
 
-		auto titleMeshPrimitive = GeometryPrefabs::QuadPNU0( 1.0f );
+		auto titleMeshPrimitive = GeometryPrefabs::QuadPNU0();
 		titleMeshPrimitive.Vertices[ 0 ].Position.x = -halfTitleWidth;
 		titleMeshPrimitive.Vertices[ 0 ].Position.y = -halfTitleHeight;
 		titleMeshPrimitive.Vertices[ 1 ].Position.x = halfTitleWidth;
@@ -80,7 +80,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	const f16 halfButtonWidth = windowSize.width / 4.0f / 2.0f;
 	const f16 halfButtonHeight = windowSize.height / 6.0f / 2.0f;
 
-	auto buttonMeshPrimitive = GeometryPrefabs::QuadP( 1.0f );
+	auto buttonMeshPrimitive = GeometryPrefabs::QuadP( 2.0f );
 	buttonMeshPrimitive.Vertices[ 0 ].Position.x = -halfButtonWidth;
 	buttonMeshPrimitive.Vertices[ 0 ].Position.y = -halfButtonHeight;
 	buttonMeshPrimitive.Vertices[ 1 ].Position.x = halfButtonWidth;
