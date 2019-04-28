@@ -48,14 +48,17 @@ COpenGlAdapter::COpenGlAdapter()
 
 			glDebugMessageCallback(	[]( GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei, const GLchar* message, const void* )
 									{
-										const e_loglevel loglvl = ( GL_DEBUG_SEVERITY_HIGH == severity ) ? e_loglevel::eERROR : e_loglevel::eWARNING;
-
-										LOG( loglvl, "OpenGL ERROR" );
-										LOG( loglvl, "\tSource   : {0}", glbinding::aux::Meta::getString( source ) );
-										LOG( loglvl, "\tType     : {0}", glbinding::aux::Meta::getString( type ) );
-										LOG( loglvl, "\tID       : {0}", id );
-										LOG( loglvl, "\tSeverity : {0}", glbinding::aux::Meta::getString( severity ) );
-										LOG( loglvl, "\tMessage  : {0}", message );
+										if( GL_DEBUG_SEVERITY_NOTIFICATION != severity )
+										{
+											const e_loglevel loglvl = ( GL_DEBUG_SEVERITY_HIGH == severity ) ? e_loglevel::eERROR : e_loglevel::eWARNING;
+											
+											LOG( loglvl, "OpenGL ERROR" );
+											LOG( loglvl, "\tSource   : {0}", glbinding::aux::Meta::getString( source ) );
+											LOG( loglvl, "\tType     : {0}", glbinding::aux::Meta::getString( type ) );
+											LOG( loglvl, "\tID       : {0}", id );
+											LOG( loglvl, "\tSeverity : {0}", glbinding::aux::Meta::getString( severity ) );
+											LOG( loglvl, "\tMessage  : {0}", message );
+										}
 									}, nullptr );
 		}
 		else
