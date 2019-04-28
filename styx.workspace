@@ -14,21 +14,21 @@
       <Project Name="styx" ConfigName="Debug"/>
       <Project Name="styx" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="yes">
+    <WorkspaceConfiguration Name="Release" Selected="no">
       <Environment/>
       <Project Name="setup" ConfigName="Release"/>
       <Project Name="styx" ConfigName="Release"/>
       <Project Name="resources" ConfigName="Debug"/>
       <Project Name="styx" ConfigName="Release"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Profile" Selected="yes">
+    <WorkspaceConfiguration Name="Profile" Selected="no">
       <Environment/>
       <Project Name="setup" ConfigName="Debug"/>
       <Project Name="styx" ConfigName="Profile"/>
       <Project Name="resources" ConfigName="Debug"/>
       <Project Name="styx" ConfigName="Profile"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Debug + Sanitizer" Selected="yes">
+    <WorkspaceConfiguration Name="Debug + Sanitizer" Selected="no">
       <Environment/>
       <Project Name="setup" ConfigName="Debug"/>
       <Project Name="styx" ConfigName="Debug + Sanitizer"/>

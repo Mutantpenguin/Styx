@@ -254,7 +254,7 @@
   </VirtualDirectory>
   <VirtualDirectory Name="external">
     <VirtualDirectory Name="stb">
-      <File Name="external/stb/stb_vorbis.c" ExcludeProjConfig="Debug;"/>
+      <File Name="external/stb/stb_vorbis.c" ExcludeProjConfig="Debug + Sanitizer;Debug;"/>
       <File Name="external/stb/stb_truetype.h"/>
       <File Name="external/stb/stb_textedit.h"/>
       <File Name="external/stb/stb_rect_pack.h"/>
