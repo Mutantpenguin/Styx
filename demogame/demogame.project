@@ -60,6 +60,7 @@
       <File Name="shaders/gs/explode.geom"/>
     </VirtualDirectory>
     <VirtualDirectory Name="fs">
+      <File Name="shaders/fs/particle.frag"/>
       <File Name="shaders/fs/reflection.frag"/>
       <File Name="shaders/fs/sky.frag"/>
       <File Name="shaders/fs/standard.frag"/>
