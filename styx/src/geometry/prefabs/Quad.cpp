@@ -24,10 +24,10 @@ namespace GeometryPrefabs
 
 		Geometry<VertexPNU0> geometry = {
 											{
-												{	{ -halfsize, -halfsize, 0.0f }, { 0.0f, 0.0f, +halfsize }, {  0.0f,  0.0f }	},
-												{	{ +halfsize, -halfsize, 0.0f }, { 0.0f, 0.0f, +halfsize }, { +1.0f,  0.0f }	},
-												{	{ -halfsize, +halfsize, 0.0f }, { 0.0f, 0.0f, +halfsize }, {  0.0f, +1.0f }	},
-												{	{ +halfsize, +halfsize, 0.0f }, { 0.0f, 0.0f, +halfsize }, { +1.0f, +1.0f }	}
+												{	{ -halfsize, -halfsize, 0.0f }, { 0.0f, 0.0f, +1.0f }, {  0.0f,  0.0f }	},
+												{	{ +halfsize, -halfsize, 0.0f }, { 0.0f, 0.0f, +1.0f }, { +1.0f,  0.0f }	},
+												{	{ -halfsize, +halfsize, 0.0f }, { 0.0f, 0.0f, +1.0f }, {  0.0f, +1.0f }	},
+												{	{ +halfsize, +halfsize, 0.0f }, { 0.0f, 0.0f, +1.0f }, { +1.0f, +1.0f }	}
 											}
 										};
 
