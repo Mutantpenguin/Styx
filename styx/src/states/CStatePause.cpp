@@ -35,19 +35,19 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	{
 		const auto materialPause = resourceCache.Get< CMaterial >( "materials/pause_bg.mat" );
 
-		auto bgMeshPrimitive = GeometryPrefabs::QuadPNU0();
-		bgMeshPrimitive.Vertices[ 0 ].Position.x = 0.0f;
-		bgMeshPrimitive.Vertices[ 0 ].Position.y = 0.0f;
-		bgMeshPrimitive.Vertices[ 1 ].Position.x = static_cast< f16 >( windowSize.width );
-		bgMeshPrimitive.Vertices[ 1 ].Position.y = 0.0f;
-		bgMeshPrimitive.Vertices[ 2 ].Position.x = 0.0f;
-		bgMeshPrimitive.Vertices[ 2 ].Position.y = static_cast< f16 >( windowSize.height );
-		bgMeshPrimitive.Vertices[ 3 ].Position.x = static_cast< f16 >( windowSize.width );
-		bgMeshPrimitive.Vertices[ 3 ].Position.y = static_cast< f16 >( windowSize.height );
+		auto bgGeometry = GeometryPrefabs::QuadPNU0();
+		bgGeometry.Vertices[ 0 ].Position.x = 0.0f;
+		bgGeometry.Vertices[ 0 ].Position.y = 0.0f;
+		bgGeometry.Vertices[ 1 ].Position.x = static_cast< f16 >( windowSize.width );
+		bgGeometry.Vertices[ 1 ].Position.y = 0.0f;
+		bgGeometry.Vertices[ 2 ].Position.x = 0.0f;
+		bgGeometry.Vertices[ 2 ].Position.y = static_cast< f16 >( windowSize.height );
+		bgGeometry.Vertices[ 3 ].Position.x = static_cast< f16 >( windowSize.width );
+		bgGeometry.Vertices[ 3 ].Position.y = static_cast< f16 >( windowSize.height );
 
 		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/pause/bg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, materialPause, bgMeshTextureSlots );
+		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgGeometry, materialPause, bgMeshTextureSlots );
 
 		auto bg = m_scene.CreateEntity( "background" );
 		bg->Add<CModelComponent>( bgMesh );
@@ -60,21 +60,21 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		const f16 halfScreenshotHeight = ( halfPauseElementsWidth / windowSize.width ) * windowSize.height;
 
 		{
-			auto pauseTextMeshPrimitive = GeometryPrefabs::QuadPNU0();
-			pauseTextMeshPrimitive.Vertices[ 0 ].Position.x = -halfPauseElementsWidth;
-			pauseTextMeshPrimitive.Vertices[ 0 ].Position.y = -halfPauseTextHeight;
-			pauseTextMeshPrimitive.Vertices[ 1 ].Position.x = halfPauseElementsWidth;
-			pauseTextMeshPrimitive.Vertices[ 1 ].Position.y = -halfPauseTextHeight;
-			pauseTextMeshPrimitive.Vertices[ 2 ].Position.x = -halfPauseElementsWidth;
-			pauseTextMeshPrimitive.Vertices[ 2 ].Position.y = halfPauseTextHeight;
-			pauseTextMeshPrimitive.Vertices[ 3 ].Position.x = halfPauseElementsWidth;
-			pauseTextMeshPrimitive.Vertices[ 3 ].Position.y = halfPauseTextHeight;
+			auto pauseTextGeometry = GeometryPrefabs::QuadPNU0();
+			pauseTextGeometry.Vertices[ 0 ].Position.x = -halfPauseElementsWidth;
+			pauseTextGeometry.Vertices[ 0 ].Position.y = -halfPauseTextHeight;
+			pauseTextGeometry.Vertices[ 1 ].Position.x = halfPauseElementsWidth;
+			pauseTextGeometry.Vertices[ 1 ].Position.y = -halfPauseTextHeight;
+			pauseTextGeometry.Vertices[ 2 ].Position.x = -halfPauseElementsWidth;
+			pauseTextGeometry.Vertices[ 2 ].Position.y = halfPauseTextHeight;
+			pauseTextGeometry.Vertices[ 3 ].Position.x = halfPauseElementsWidth;
+			pauseTextGeometry.Vertices[ 3 ].Position.y = halfPauseTextHeight;
 
 			const auto materialPauseText = resourceCache.Get< CMaterial >( "materials/standard_blend.mat" );
 
 			const CMesh::TMeshTextureSlots textMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/pause/fg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-			const auto meshText = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, pauseTextMeshPrimitive, materialPauseText, textMeshTextureSlots );
+			const auto meshText = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, pauseTextGeometry, materialPauseText, textMeshTextureSlots );
 
 			m_textEntity = m_scene.CreateEntity( "text" );
 			m_textEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height - ( 2 * halfPauseTextHeight ) - ( 2 * halfScreenshotHeight ), 5.0f } );
@@ -82,21 +82,21 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		}
 
 		{
-			auto screenshotMeshPrimitive = GeometryPrefabs::QuadPNU0();
-			screenshotMeshPrimitive.Vertices[ 0 ].Position.x = -halfPauseElementsWidth;
-			screenshotMeshPrimitive.Vertices[ 0 ].Position.y = -halfScreenshotHeight;
-			screenshotMeshPrimitive.Vertices[ 1 ].Position.x = halfPauseElementsWidth;
-			screenshotMeshPrimitive.Vertices[ 1 ].Position.y = -halfScreenshotHeight;
-			screenshotMeshPrimitive.Vertices[ 2 ].Position.x = -halfPauseElementsWidth;
-			screenshotMeshPrimitive.Vertices[ 2 ].Position.y = halfScreenshotHeight;
-			screenshotMeshPrimitive.Vertices[ 3 ].Position.x = halfPauseElementsWidth;
-			screenshotMeshPrimitive.Vertices[ 3 ].Position.y = halfScreenshotHeight;
+			auto screenshotGeometry = GeometryPrefabs::QuadPNU0();
+			screenshotGeometry.Vertices[ 0 ].Position.x = -halfPauseElementsWidth;
+			screenshotGeometry.Vertices[ 0 ].Position.y = -halfScreenshotHeight;
+			screenshotGeometry.Vertices[ 1 ].Position.x = halfPauseElementsWidth;
+			screenshotGeometry.Vertices[ 1 ].Position.y = -halfScreenshotHeight;
+			screenshotGeometry.Vertices[ 2 ].Position.x = -halfPauseElementsWidth;
+			screenshotGeometry.Vertices[ 2 ].Position.y = halfScreenshotHeight;
+			screenshotGeometry.Vertices[ 3 ].Position.x = halfPauseElementsWidth;
+			screenshotGeometry.Vertices[ 3 ].Position.y = halfScreenshotHeight;
 
 			const auto materialPauseText = resourceCache.Get< CMaterial >( "materials/pause_screenshot.mat" );
 
 			const CMesh::TMeshTextureSlots screenshotMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( m_pausedState->FrameBuffer().ColorTexture(), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-			const auto screenshotMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, screenshotMeshPrimitive, materialPauseText, screenshotMeshTextureSlots );
+			const auto screenshotMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, screenshotGeometry, materialPauseText, screenshotMeshTextureSlots );
 
 			m_screenshotEntity = m_scene.CreateEntity( "screenshot" );
 			m_screenshotEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height - halfPauseTextHeight - halfScreenshotHeight, 5.0f } );

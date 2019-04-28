@@ -49,16 +49,16 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{
 		const auto material = resourceCache.Get< CMaterial >( "materials/standard.mat" );
 
-		auto floorMeshPrimitive = GeometryPrefabs::QuadPNU0( 200.0f );
+		auto floorGeometry = GeometryPrefabs::QuadPNU0( 200.0f );
 
-		for( auto &vertex : floorMeshPrimitive.Vertices )
+		for( auto &vertex : floorGeometry.Vertices )
 		{
 			vertex.UV0 *= 10;
 		}
 
 		const CMesh::TMeshTextureSlots floorMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/texpack_2/stone_floor.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto floorMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, floorMeshPrimitive, material, floorMeshTextureSlots );
+		const auto floorMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, floorGeometry, material, floorMeshTextureSlots );
 
 		const auto floorEntity = m_scene.CreateEntity( "floor" );
 		floorEntity->Transform.Rotate( -90.0f, 0.0f, 0.0f );
@@ -310,7 +310,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	// TEST LOADING MODELS
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	const auto model = resourceCache.Get<CModel>( "models/stuff/torus.dae" );
+	//TODO const auto model = resourceCache.Get<CModel>( "models/stuff/torus.dae" );
 }
 
 CStateGame::~CStateGame()

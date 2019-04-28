@@ -153,8 +153,6 @@ void CModelLoader::ProcessMesh( const std::shared_ptr< CModel > &model, const ai
 	for( unsigned int i = 0; i < mesh->mNumVertices; i++ )
 	{
 		/* TODO change to new Geometry structs
-		Primitives::SVertex vertex;
-
 		vertex.Position = { mesh->mVertices[ i ].x, mesh->mVertices[ i ].y, mesh->mVertices[ i ].z };
 
 		vertex.Normal = { mesh->mNormals[ i ].x, mesh->mNormals[ i ].y, mesh->mNormals[ i ].z };

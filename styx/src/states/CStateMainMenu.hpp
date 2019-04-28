@@ -19,6 +19,7 @@ public:
 private:
 	enum class eMenuState
 	{
+		NONE,
 		START,
 		EXIT
 	};

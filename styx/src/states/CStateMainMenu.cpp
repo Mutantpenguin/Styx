@@ -34,19 +34,19 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	{
 		const auto material = resourceCache.Get< CMaterial >( "materials/standard.mat" );
 
-		auto bgMeshPrimitive = GeometryPrefabs::QuadPNU0();
-		bgMeshPrimitive.Vertices[ 0 ].Position.x = 0.0f;
-		bgMeshPrimitive.Vertices[ 0 ].Position.y = 0.0f;
-		bgMeshPrimitive.Vertices[ 1 ].Position.x = static_cast< f16 >( windowSize.width );
-		bgMeshPrimitive.Vertices[ 1 ].Position.y = 0.0f;
-		bgMeshPrimitive.Vertices[ 2 ].Position.x = 0.0f;
-		bgMeshPrimitive.Vertices[ 2 ].Position.y = static_cast< f16 >( windowSize.height );
-		bgMeshPrimitive.Vertices[ 3 ].Position.x = static_cast< f16 >( windowSize.width );
-		bgMeshPrimitive.Vertices[ 3 ].Position.y = static_cast< f16 >( windowSize.height );
+		auto bgGeometry = GeometryPrefabs::QuadPNU0();
+		bgGeometry.Vertices[ 0 ].Position.x = 0.0f;
+		bgGeometry.Vertices[ 0 ].Position.y = 0.0f;
+		bgGeometry.Vertices[ 1 ].Position.x = static_cast< f16 >( windowSize.width );
+		bgGeometry.Vertices[ 1 ].Position.y = 0.0f;
+		bgGeometry.Vertices[ 2 ].Position.x = 0.0f;
+		bgGeometry.Vertices[ 2 ].Position.y = static_cast< f16 >( windowSize.height );
+		bgGeometry.Vertices[ 3 ].Position.x = static_cast< f16 >( windowSize.width );
+		bgGeometry.Vertices[ 3 ].Position.y = static_cast< f16 >( windowSize.height );
 
 		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/menu/background.jpg" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgMeshPrimitive, material, bgMeshTextureSlots );
+		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgGeometry, material, bgMeshTextureSlots );
 
 		auto bg = m_scene.CreateEntity( "background" );
 		bg->Add<CModelComponent>( bgMesh );
@@ -58,19 +58,19 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		const f16 halfTitleWidth = windowSize.width * 0.75f / 2;
 		const f16 halfTitleHeight = halfTitleWidth / 4.0f;
 
-		auto titleMeshPrimitive = GeometryPrefabs::QuadPNU0();
-		titleMeshPrimitive.Vertices[ 0 ].Position.x = -halfTitleWidth;
-		titleMeshPrimitive.Vertices[ 0 ].Position.y = -halfTitleHeight;
-		titleMeshPrimitive.Vertices[ 1 ].Position.x = halfTitleWidth;
-		titleMeshPrimitive.Vertices[ 1 ].Position.y = -halfTitleHeight;
-		titleMeshPrimitive.Vertices[ 2 ].Position.x = -halfTitleWidth;
-		titleMeshPrimitive.Vertices[ 2 ].Position.y = halfTitleHeight;
-		titleMeshPrimitive.Vertices[ 3 ].Position.x = halfTitleWidth;
-		titleMeshPrimitive.Vertices[ 3 ].Position.y = halfTitleHeight;
+		auto titleGeometry = GeometryPrefabs::QuadPNU0();
+		titleGeometry.Vertices[ 0 ].Position.x = -halfTitleWidth;
+		titleGeometry.Vertices[ 0 ].Position.y = -halfTitleHeight;
+		titleGeometry.Vertices[ 1 ].Position.x = halfTitleWidth;
+		titleGeometry.Vertices[ 1 ].Position.y = -halfTitleHeight;
+		titleGeometry.Vertices[ 2 ].Position.x = -halfTitleWidth;
+		titleGeometry.Vertices[ 2 ].Position.y = halfTitleHeight;
+		titleGeometry.Vertices[ 3 ].Position.x = halfTitleWidth;
+		titleGeometry.Vertices[ 3 ].Position.y = halfTitleHeight;
 
 		const CMesh::TMeshTextureSlots titleMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/menu/title.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto bgTitleMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, titleMeshPrimitive, material, titleMeshTextureSlots );
+		const auto bgTitleMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, titleGeometry, material, titleMeshTextureSlots );
 
 		auto bgTitle = m_scene.CreateEntity( "title" );
 		bgTitle->Transform.Position( { windowSize.width / 2.0f, windowSize.height - halfTitleHeight, 5.0f } );
@@ -80,20 +80,20 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	const f16 halfButtonWidth = windowSize.width / 4.0f / 2.0f;
 	const f16 halfButtonHeight = windowSize.height / 6.0f / 2.0f;
 
-	auto buttonMeshPrimitive = GeometryPrefabs::QuadP( 2.0f );
-	buttonMeshPrimitive.Vertices[ 0 ].Position.x = -halfButtonWidth;
-	buttonMeshPrimitive.Vertices[ 0 ].Position.y = -halfButtonHeight;
-	buttonMeshPrimitive.Vertices[ 1 ].Position.x = halfButtonWidth;
-	buttonMeshPrimitive.Vertices[ 1 ].Position.y = -halfButtonHeight;
-	buttonMeshPrimitive.Vertices[ 2 ].Position.x = -halfButtonWidth;
-	buttonMeshPrimitive.Vertices[ 2 ].Position.y = halfButtonHeight;
-	buttonMeshPrimitive.Vertices[ 3 ].Position.x = halfButtonWidth;
-	buttonMeshPrimitive.Vertices[ 3 ].Position.y = halfButtonHeight;
+	auto buttonGeometry = GeometryPrefabs::QuadP( 2.0f );
+	buttonGeometry.Vertices[ 0 ].Position.x = -halfButtonWidth;
+	buttonGeometry.Vertices[ 0 ].Position.y = -halfButtonHeight;
+	buttonGeometry.Vertices[ 1 ].Position.x = halfButtonWidth;
+	buttonGeometry.Vertices[ 1 ].Position.y = -halfButtonHeight;
+	buttonGeometry.Vertices[ 2 ].Position.x = -halfButtonWidth;
+	buttonGeometry.Vertices[ 2 ].Position.y = halfButtonHeight;
+	buttonGeometry.Vertices[ 3 ].Position.x = halfButtonWidth;
+	buttonGeometry.Vertices[ 3 ].Position.y = halfButtonHeight;
 
 	{
 		const auto greenMaterial = resourceCache.Get< CMaterial >( "materials/green.mat" );
 
-		const auto startMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonMeshPrimitive, greenMaterial );
+		const auto startMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonGeometry, greenMaterial );
 
 		m_startEntity = m_scene.CreateEntity( "start_button" );
 		m_startEntity->Transform.Position( { windowSize.width / 2.0f, 2 * windowSize.height / 4.0f, 10.0f } );
@@ -103,7 +103,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	{
 		const auto redMaterial = resourceCache.Get< CMaterial >( "materials/red.mat" );
 
-		const auto exitMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonMeshPrimitive, redMaterial );
+		const auto exitMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonGeometry, redMaterial );
 
 		m_exitEntity = m_scene.CreateEntity( "exit_button" );
 		m_exitEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height / 4.0f, 10.0f } );
@@ -127,6 +127,8 @@ std::shared_ptr<CState> CStateMainMenu::OnUpdate()
 	{
 		switch( m_currentState )
 		{
+			case eMenuState::NONE:
+				break;
 			case eMenuState::START:
 				return( std::make_shared< CStateGame >( m_filesystem, m_settings, m_engineInterface ) );
 				break;
@@ -135,6 +137,8 @@ std::shared_ptr<CState> CStateMainMenu::OnUpdate()
 				break;
 		}
 	}
+	
+	// TODO if( input.MouseDeltaX() )
 
 	if( input.KeyDown( SDL_SCANCODE_UP )
 		||
@@ -144,6 +148,10 @@ std::shared_ptr<CState> CStateMainMenu::OnUpdate()
 
 		switch( m_currentState )
 		{
+			case eMenuState::NONE:
+				m_startEntity->Transform.Scale( { 1.0f, 1.0f, 1.0f } );
+				m_exitEntity->Transform.Scale( { 1.0f, 1.0f, 1.0f } );
+				break;
 			case eMenuState::START:
 				m_startEntity->Transform.Scale( { 1.0f, 1.0f, 1.0f } );
 				m_currentState = eMenuState::EXIT;
@@ -167,6 +175,8 @@ std::shared_ptr<CState> CStateMainMenu::OnUpdate()
 
 		switch( m_currentState )
 		{
+			case eMenuState::NONE:
+				break;
 			case eMenuState::START:
 				m_startEntity->Transform.Scale( buttonPulseVec3 );
 				break;
