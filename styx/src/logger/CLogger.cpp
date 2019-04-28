@@ -12,11 +12,11 @@ void CLogger::Log( e_loglevel logLevel, const std::string &message )
 
 	const std::chrono::milliseconds	diff = std::chrono::duration_cast< std::chrono::milliseconds >( std::chrono::high_resolution_clock::now() - first );
 
-	m_logBuffer.emplace_back( std::make_unique< logEntry >( diff, logLevel, message ) );
-
-	for( const std::unique_ptr< CLogTarget > &target : m_logTargets )
+	const auto &logEntry = m_logBuffer.emplace_back( std::make_unique< CLogEntry >( diff, logLevel, message ) );
+	
+	for( const auto &target : m_logTargets )
 	{
-		target->Log( m_logBuffer.back() );
+		target->Log( logEntry );
 	}
 }
 
@@ -46,7 +46,7 @@ void CLogger::Destroy()
 	m_logBuffer.clear();
 }
 
-const std::string CLogger::logEntry::FormattedTime() const
+const std::string CLogger::CLogEntry::FormattedTime() const
 {
 	return( fmt::format( "{:%H:%M:%S}", m_time ) );
 }

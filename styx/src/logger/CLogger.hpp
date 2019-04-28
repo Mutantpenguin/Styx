@@ -55,10 +55,10 @@ class CLogger final
 public:
 	static void Log( e_loglevel logLevel, const std::string &message );
 
-	class logEntry final
+	class CLogEntry final
 	{
 	public:
-		logEntry( const std::chrono::milliseconds &time, e_loglevel loglevel, const std::string &message ) :
+		CLogEntry( const std::chrono::milliseconds &time, e_loglevel loglevel, const std::string &message ) :
 			m_time { time },
 			m_logLevel { loglevel },
 			m_message { message }
@@ -71,7 +71,7 @@ public:
 		const std::string FormattedTime() const;
 	};
 
-	using TLogBuffer = std::vector< std::unique_ptr< const logEntry > >;
+	using TLogBuffer = std::vector< std::unique_ptr< const CLogEntry > >;
 
 	class CLogTarget
 	{
@@ -81,7 +81,7 @@ public:
 		virtual ~CLogTarget() {};
 
 	protected:
-		virtual void Log( const std::unique_ptr< const logEntry > &entry ) = 0;
+		virtual void Log( const std::unique_ptr< const CLogEntry > &entry ) = 0;
 	};
 
 	template< typename T, typename... Args >

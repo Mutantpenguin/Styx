@@ -10,5 +10,5 @@ public:
 	explicit CLogTargetConsole( const CLogger::TLogBuffer & );
 
 private:
-	virtual void Log( const std::unique_ptr< const CLogger::logEntry > &entry ) override;
+	virtual void Log( const std::unique_ptr< const CLogger::CLogEntry > &entry ) override;
 };
