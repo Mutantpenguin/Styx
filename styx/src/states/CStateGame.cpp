@@ -16,7 +16,9 @@
 #include "src/logger/CLogger.hpp"
 
 #include "src/geometry/prefabs/Cube.hpp"
+#include "src/geometry/prefabs/Cuboid.hpp"
 #include "src/geometry/prefabs/Quad.hpp"
+#include "src/geometry/prefabs/Rectangle.hpp"
 
 CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "game", filesystem, settings, engineInterface )
@@ -145,13 +147,15 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	// create big cube of cubes
 	{
+		const auto cubeGeometry = GeometryPrefabs::CubePNU0( 4.0f );
+
 		const auto materialSimple = resourceCache.Get< CMaterial >( "materials/standard.mat" );
 		const CMesh::TMeshTextureSlots simpleMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/texpack_1/black_border.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
-		const auto cubeMeshSimple = std::make_shared< CMesh >( GL_TRIANGLES, GeometryPrefabs::CubePNU0( 4.0f ), materialSimple, simpleMeshTextureSlots );
+		const auto cubeMeshSimple = std::make_shared< CMesh >( GL_TRIANGLES, cubeGeometry, materialSimple, simpleMeshTextureSlots );
 
 		const auto materialTransparent = resourceCache.Get< CMaterial >( "materials/standard_blend.mat" );
 		const CMesh::TMeshTextureSlots transparentMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/texpack_2/stained_glass.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
-		const auto cubeMeshTransparent = std::make_shared< CMesh >( GL_TRIANGLES, GeometryPrefabs::CubePNU0( 4.0f ), materialTransparent, transparentMeshTextureSlots );
+		const auto cubeMeshTransparent = std::make_shared< CMesh >( GL_TRIANGLES, cubeGeometry, materialTransparent, transparentMeshTextureSlots );
 
 		{
 			const u16 cubeSize { 10 };
@@ -211,45 +215,41 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const CMesh::TMeshTextureSlots flamesMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/array/fire/fire.arr" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-		const auto flamesMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::QuadPNU0( 2.0f ), fireMaterial, flamesMeshTextureSlots );
+		const auto flamesMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::RectanglePNU0( 8.0f, 16.0f ), fireMaterial, flamesMeshTextureSlots );
 
 		const auto flamesEntity = m_scene.CreateEntity( "flames" );
 		flamesEntity->Transform.Position( { -5.0f, 10.0f, 1.0f } );
-		flamesEntity->Transform.Scale( { 4.0f, 8.0f, 1.0f } );
 		flamesEntity->Add<CModelComponent>( flamesMesh );
 	}
 
 	{
 		const auto greenMaterial = resourceCache.Get< CMaterial >( "materials/green.mat" );
 
-		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::CubePNU0( 2.0f ), greenMaterial );
+		const auto blockMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::CuboidPNU0( 4.0f, 4.0f, 2.0f ), greenMaterial );
 
-		const auto cubeEntity = m_scene.CreateEntity( "green_cube" );
-		cubeEntity->Transform.Position( { -4.0f, 10.0f, 1.0f } );
-		cubeEntity->Transform.Scale( { 2.0f, 2.0f, 1.0f } );
-		cubeEntity->Add<CModelComponent>( cubeMesh );
+		const auto blockEntity = m_scene.CreateEntity( "green_block" );
+		blockEntity->Transform.Position( { -4.0f, 10.0f, 1.0f } );
+		blockEntity->Add<CModelComponent>( blockMesh );
 	}
 
 	{
 		const auto pulseMaterial = resourceCache.Get< CMaterial >( "materials/pulse_green_red.mat" );
 
-		const auto pulseMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::CubePNU0( 2.0f ), pulseMaterial );
+		const auto pulseMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::CuboidPNU0( 4.0f, 4.0f, 2.0f ), pulseMaterial );
 
-		m_pulseEntity = m_scene.CreateEntity( "pulse_cube" );
+		m_pulseEntity = m_scene.CreateEntity( "pulse_block" );
 		m_pulseEntity->Transform.Position( { 0.0f, 10.0f, 1.0f } );
-		m_pulseEntity->Transform.Scale( { 2.0f, 2.0f, 1.0f } );
 		m_pulseEntity->Add<CModelComponent>( pulseMesh );
 	}
 
 	{
 		const auto redMaterial = resourceCache.Get< CMaterial >( "materials/red.mat" );
 
-		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::CubePNU0( 2.0f ), redMaterial );
+		const auto blockMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::CuboidPNU0( 4.0f, 4.0f, 2.0f ), redMaterial );
 
-		const auto cubeEntity = m_scene.CreateEntity( "red_cube" );
-		cubeEntity->Transform.Position( { 4.0f, 10.0f, 1.0f } );
-		cubeEntity->Transform.Scale( { 2.0f, 2.0f, 1.0f } );
-		cubeEntity->Add<CModelComponent>( cubeMesh );
+		const auto blockEntity = m_scene.CreateEntity( "red_block" );
+		blockEntity->Transform.Position( { 4.0f, 10.0f, 1.0f } );
+		blockEntity->Add<CModelComponent>( blockMesh );
 	}
 
 	{
@@ -296,7 +296,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const CMesh::TMeshTextureSlots skyMeshTextureSlots = { { "skyboxTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/cube/sixtine/sixtine.cub" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_CUBE ) ) } };
 
-		const auto skyboxMesh = std::make_shared< CMesh >( GL_TRIANGLES, GeometryPrefabs::CubePNU0( 2.0f ), material3, skyMeshTextureSlots );
+		const auto skyboxMesh = std::make_shared< CMesh >( GL_TRIANGLES, GeometryPrefabs::CubePNU0(), material3, skyMeshTextureSlots );
 
 		m_skyboxEntity = m_scene.CreateEntity( "skybox" );
 		m_skyboxEntity->Add<CModelComponent>( skyboxMesh );

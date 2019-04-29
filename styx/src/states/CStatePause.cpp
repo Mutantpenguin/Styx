@@ -8,6 +8,7 @@
 #include "src/states/CStateMainMenu.hpp"
 
 #include "src/geometry/prefabs/Quad.hpp"
+#include "src/geometry/prefabs/Rectangle.hpp"
 
 CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface, std::shared_ptr< CState > pausedState ) :
 	CState( "pause", filesystem, settings, engineInterface ),
@@ -54,52 +55,34 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	}
 
 	{
-		const f16 halfPauseElementsWidth = windowSize.width * 0.5f / 2;
+		const f16 pauseElementsWidth = windowSize.width * 0.5f;
 
-		const f16 halfPauseTextHeight = halfPauseElementsWidth / 4.0f;
-		const f16 halfScreenshotHeight = ( halfPauseElementsWidth / windowSize.width ) * windowSize.height;
+		const f16 pauseTextHeight = pauseElementsWidth / 4.0f;
+		const f16 screenshotHeight = pauseElementsWidth * ( static_cast<f16>( windowSize.height ) / static_cast<f16>( windowSize.width ) );
+
+		const f16 pauseElementsTotalHeight = pauseTextHeight + screenshotHeight;
 
 		{
-			auto pauseTextGeometry = GeometryPrefabs::QuadPNU0();
-			pauseTextGeometry.Vertices[ 0 ].Position.x = -halfPauseElementsWidth;
-			pauseTextGeometry.Vertices[ 0 ].Position.y = -halfPauseTextHeight;
-			pauseTextGeometry.Vertices[ 1 ].Position.x = halfPauseElementsWidth;
-			pauseTextGeometry.Vertices[ 1 ].Position.y = -halfPauseTextHeight;
-			pauseTextGeometry.Vertices[ 2 ].Position.x = -halfPauseElementsWidth;
-			pauseTextGeometry.Vertices[ 2 ].Position.y = halfPauseTextHeight;
-			pauseTextGeometry.Vertices[ 3 ].Position.x = halfPauseElementsWidth;
-			pauseTextGeometry.Vertices[ 3 ].Position.y = halfPauseTextHeight;
-
 			const auto materialPauseText = resourceCache.Get< CMaterial >( "materials/standard_blend.mat" );
 
 			const CMesh::TMeshTextureSlots textMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/pause/fg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-			const auto meshText = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, pauseTextGeometry, materialPauseText, textMeshTextureSlots );
+			const auto meshText = std::make_shared<CMesh>( GL_TRIANGLE_STRIP, GeometryPrefabs::RectanglePNU0( pauseElementsWidth, pauseTextHeight ), materialPauseText, textMeshTextureSlots );
 
 			m_textEntity = m_scene.CreateEntity( "text" );
-			m_textEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height - ( 2 * halfPauseTextHeight ) - ( 2 * halfScreenshotHeight ), 5.0f } );
+			m_textEntity->Transform.Position( { static_cast<f16>( windowSize.width ) / 2.0f, ( static_cast<f16>( windowSize.height ) / 2.0f ) - ( pauseElementsTotalHeight / 2.0f ) + ( pauseTextHeight / 2.0f ), 5.0f } );
 			m_textEntity->Add<CModelComponent>( meshText );
 		}
 
 		{
-			auto screenshotGeometry = GeometryPrefabs::QuadPNU0();
-			screenshotGeometry.Vertices[ 0 ].Position.x = -halfPauseElementsWidth;
-			screenshotGeometry.Vertices[ 0 ].Position.y = -halfScreenshotHeight;
-			screenshotGeometry.Vertices[ 1 ].Position.x = halfPauseElementsWidth;
-			screenshotGeometry.Vertices[ 1 ].Position.y = -halfScreenshotHeight;
-			screenshotGeometry.Vertices[ 2 ].Position.x = -halfPauseElementsWidth;
-			screenshotGeometry.Vertices[ 2 ].Position.y = halfScreenshotHeight;
-			screenshotGeometry.Vertices[ 3 ].Position.x = halfPauseElementsWidth;
-			screenshotGeometry.Vertices[ 3 ].Position.y = halfScreenshotHeight;
-
 			const auto materialPauseText = resourceCache.Get< CMaterial >( "materials/pause_screenshot.mat" );
 
 			const CMesh::TMeshTextureSlots screenshotMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( m_pausedState->FrameBuffer().ColorTexture(), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-			const auto screenshotMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, screenshotGeometry, materialPauseText, screenshotMeshTextureSlots );
+			const auto screenshotMesh = std::make_shared<CMesh>( GL_TRIANGLE_STRIP, GeometryPrefabs::RectanglePNU0( pauseElementsWidth, screenshotHeight ), materialPauseText, screenshotMeshTextureSlots );
 
 			m_screenshotEntity = m_scene.CreateEntity( "screenshot" );
-			m_screenshotEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height - halfPauseTextHeight - halfScreenshotHeight, 5.0f } );
+			m_screenshotEntity->Transform.Position( { static_cast<f16>( windowSize.width ) / 2.0f, ( static_cast<f16>( windowSize.height ) / 2.0f ) - ( pauseElementsTotalHeight / 2.0f ) + pauseTextHeight + ( screenshotHeight / 2.0f ), 5.0f } );
 			m_screenshotEntity->Add<CModelComponent>( screenshotMesh );
 		}
 	}

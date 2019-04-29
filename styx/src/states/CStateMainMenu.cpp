@@ -8,6 +8,7 @@
 #include "src/states/CStateGame.hpp"
 
 #include "src/geometry/prefabs/Quad.hpp"
+#include "src/geometry/prefabs/Rectangle.hpp"
 
 CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "main menu", filesystem, settings, engineInterface ),
@@ -55,40 +56,24 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	{
 		const auto material = resourceCache.Get< CMaterial >( "materials/standard_blend.mat" );
 
-		const f16 halfTitleWidth = windowSize.width * 0.75f / 2;
-		const f16 halfTitleHeight = halfTitleWidth / 4.0f;
+		const f16 titleWidth = windowSize.width * 0.75f;
+		const f16 titleHeight = titleWidth / 4.0f;
 
-		auto titleGeometry = GeometryPrefabs::QuadPNU0();
-		titleGeometry.Vertices[ 0 ].Position.x = -halfTitleWidth;
-		titleGeometry.Vertices[ 0 ].Position.y = -halfTitleHeight;
-		titleGeometry.Vertices[ 1 ].Position.x = halfTitleWidth;
-		titleGeometry.Vertices[ 1 ].Position.y = -halfTitleHeight;
-		titleGeometry.Vertices[ 2 ].Position.x = -halfTitleWidth;
-		titleGeometry.Vertices[ 2 ].Position.y = halfTitleHeight;
-		titleGeometry.Vertices[ 3 ].Position.x = halfTitleWidth;
-		titleGeometry.Vertices[ 3 ].Position.y = halfTitleHeight;
+		auto titleGeometry = GeometryPrefabs::RectanglePNU0( titleWidth, titleHeight );
 
 		const CMesh::TMeshTextureSlots titleMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/menu/title.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 		const auto bgTitleMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, titleGeometry, material, titleMeshTextureSlots );
 
 		auto bgTitle = m_scene.CreateEntity( "title" );
-		bgTitle->Transform.Position( { windowSize.width / 2.0f, windowSize.height - halfTitleHeight, 5.0f } );
+		bgTitle->Transform.Position( { windowSize.width / 2.0f, windowSize.height - ( titleHeight / 2.0f ), 5.0f } );
 		bgTitle->Add<CModelComponent>( bgTitleMesh );
 	}
 
-	const f16 halfButtonWidth = windowSize.width / 4.0f / 2.0f;
-	const f16 halfButtonHeight = windowSize.height / 6.0f / 2.0f;
+	const f16 buttonWidth = windowSize.width / 4.0f;
+	const f16 buttonHeight = windowSize.height / 6.0f;
 
-	auto buttonGeometry = GeometryPrefabs::QuadP( 2.0f );
-	buttonGeometry.Vertices[ 0 ].Position.x = -halfButtonWidth;
-	buttonGeometry.Vertices[ 0 ].Position.y = -halfButtonHeight;
-	buttonGeometry.Vertices[ 1 ].Position.x = halfButtonWidth;
-	buttonGeometry.Vertices[ 1 ].Position.y = -halfButtonHeight;
-	buttonGeometry.Vertices[ 2 ].Position.x = -halfButtonWidth;
-	buttonGeometry.Vertices[ 2 ].Position.y = halfButtonHeight;
-	buttonGeometry.Vertices[ 3 ].Position.x = halfButtonWidth;
-	buttonGeometry.Vertices[ 3 ].Position.y = halfButtonHeight;
+	auto buttonGeometry = GeometryPrefabs::RectangleP( buttonWidth, buttonHeight );
 
 	{
 		const auto greenMaterial = resourceCache.Get< CMaterial >( "materials/green.mat" );
