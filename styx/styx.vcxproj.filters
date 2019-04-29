@@ -476,6 +476,9 @@
     <ClInclude Include="src\geometry\prefabs\Rectangle.hpp">
       <Filter>src\geometry\prefabs</Filter>
     </ClInclude>
+    <ClInclude Include="src\geometry\prefabs\Cuboid.hpp">
+      <Filter>src\geometry\prefabs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\fmt\format.cc">
@@ -779,6 +782,9 @@
       <Filter>src\geometry\prefabs</Filter>
     </ClCompile>
     <ClCompile Include="src\geometry\prefabs\Rectangle.cpp">
+      <Filter>src\geometry\prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry\prefabs\Cuboid.cpp">
       <Filter>src\geometry\prefabs</Filter>
     </ClCompile>
   </ItemGroup>
