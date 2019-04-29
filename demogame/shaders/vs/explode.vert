@@ -5,7 +5,7 @@ out VS_OUT
 
 void main()
 {
-	gl_Position = modelViewProjectionMatrix * vec4( position, 1 );
+	gl_Position = vec4( position, 1 );
 
 	UV = uv0;
 }

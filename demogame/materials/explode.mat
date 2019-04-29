@@ -1,6 +1,5 @@
 {
 	"name"			:	"explode",
-	"cullmode"		:	"BACK",
 	"polygonmode"	:	"FILL",
 	"shaders"	:	{
 						"vert" : "shaders/vs/explode.vert",
