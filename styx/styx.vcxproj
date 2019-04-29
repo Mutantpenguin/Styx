@@ -73,6 +73,7 @@
     <ClInclude Include="src\geometry\Geometry.hpp" />
     <ClInclude Include="src\geometry\prefabs\Cube.hpp" />
     <ClInclude Include="src\geometry\prefabs\Quad.hpp" />
+    <ClInclude Include="src\geometry\prefabs\Rectangle.hpp" />
     <ClInclude Include="src\geometry\Vertex.hpp" />
     <ClInclude Include="src\helper\CColor.hpp" />
     <ClInclude Include="src\helper\CSize.hpp" />
@@ -195,6 +196,7 @@
     <ClCompile Include="src\audio\CAudioSource.cpp" />
     <ClCompile Include="src\geometry\prefabs\Cube.cpp" />
     <ClCompile Include="src\geometry\prefabs\Quad.cpp" />
+    <ClCompile Include="src\geometry\prefabs\Rectangle.cpp" />
     <ClCompile Include="src\helper\Date.cpp" />
     <ClCompile Include="src\helper\geom\CPlane.cpp" />
     <ClCompile Include="src\helper\image\CImage.cpp" />
