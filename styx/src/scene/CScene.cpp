@@ -8,6 +8,7 @@ u16 CScene::s_lastId = 0;
 
 CScene::CScene()
 {
+	m_entities.reserve( 10000 );
 }
 
 CScene::~CScene()

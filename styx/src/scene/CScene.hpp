@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <set>
+#include <unordered_set>
 #include <functional>
 
 #include <glm/gtx/norm.hpp>
@@ -74,7 +74,7 @@ public:
 	};
 
 private:
-	std::set< std::shared_ptr< const CEntity > > m_entities;
+	std::unordered_set< std::shared_ptr< const CEntity > > m_entities;
 
 	std::shared_ptr< const CEntity > m_cameraEntity;
 
