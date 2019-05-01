@@ -9,13 +9,13 @@
 const GLenum CFrameBuffer::attachmentColorTexture = GL_COLOR_ATTACHMENT0;
 
 CFrameBuffer::CFrameBuffer( const CSize &size ) :
-	m_size { size },
+	Size { size },
 	m_colorTexture { std::make_shared< CTexture >() }
 {
-	glCreateFramebuffers( 1, &m_id );
+	glCreateFramebuffers( 1, &GLID );
 
 	std::array< GLenum, 1 > DrawBuffers { { attachmentColorTexture } };
-	glFramebufferDrawBuffersEXT( m_id, DrawBuffers.size(), DrawBuffers.data() );
+	glNamedFramebufferDrawBuffers( GLID, DrawBuffers.size(), DrawBuffers.data() );
 
 	{
 		m_colorTexture->Type( CTexture::EType::TEX_2D );
@@ -30,14 +30,14 @@ CFrameBuffer::CFrameBuffer( const CSize &size ) :
 							size.width,
 							size.height );
 
-		glNamedFramebufferTexture( m_id, attachmentColorTexture, m_colorTexture->GLID, 0 );
+		glNamedFramebufferTexture( GLID, attachmentColorTexture, m_colorTexture->GLID, 0 );
 	}
 
 	glCreateRenderbuffers( 1, &m_renderBufferId );
 	glNamedRenderbufferStorage( m_renderBufferId, GL_DEPTH24_STENCIL8, size.width, size.height );
-	glNamedFramebufferRenderbuffer( m_id, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_renderBufferId );
+	glNamedFramebufferRenderbuffer( GLID, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_renderBufferId );
 
-	const GLenum status = glCheckNamedFramebufferStatus( m_id, GL_FRAMEBUFFER );
+	const GLenum status = glCheckNamedFramebufferStatus( GLID, GL_FRAMEBUFFER );
 
 	if( GL_FRAMEBUFFER_COMPLETE != status )
 	{
@@ -49,12 +49,12 @@ CFrameBuffer::~CFrameBuffer()
 {
 	glDeleteRenderbuffers( 1, &m_renderBufferId );
 
-	glDeleteFramebuffers( 1, &m_id );
+	glDeleteFramebuffers( 1, &GLID );
 }
 
 void CFrameBuffer::Bind() const
 {
-	glBindFramebuffer( GL_FRAMEBUFFER, m_id );
+	glBindFramebuffer( GL_FRAMEBUFFER, GLID );
 }
 
 void CFrameBuffer::Unbind() const
@@ -69,13 +69,13 @@ const std::shared_ptr< const CTexture > CFrameBuffer::ColorTexture() const
 
 std::shared_ptr< CImage > CFrameBuffer::ToImage() const
 {
-	glNamedFramebufferReadBuffer( m_id, attachmentColorTexture );
+	glNamedFramebufferReadBuffer( GLID, attachmentColorTexture );
 
-	const u32 pitch = m_size.width * 3;
+	const u32 pitch = Size.width * 3;
 
-	auto pixels = std::make_unique< CImage::PixelBuffer >( pitch * m_size.height );
+	auto pixels = std::make_unique< CImage::PixelBuffer >( pitch * Size.height );
 
-	glReadPixels( 0, 0, m_size.width, m_size.height, GL_BGR, GL_UNSIGNED_BYTE, static_cast< void* >( pixels->data() ) );
+	glReadPixels( 0, 0, Size.width, Size.height, GL_BGR, GL_UNSIGNED_BYTE, static_cast< void* >( pixels->data() ) );
 
-	return( std::make_shared< CImage >( m_size, m_size, true, 24, pitch, std::move( pixels ) ) );
+	return( std::make_shared< CImage >( Size, Size, true, 24, pitch, std::move( pixels ) ) );
 }

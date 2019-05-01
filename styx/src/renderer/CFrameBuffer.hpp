@@ -26,12 +26,12 @@ public:
 	const std::shared_ptr< const CTexture > ColorTexture() const;
 
 	std::shared_ptr< CImage > ToImage() const;
+	
+	const CSize	Size;	
+	
+	GLuint	GLID;
 
 private:
-	const CSize	m_size;
-	
-	GLuint	m_id;
-
 	std::shared_ptr< CTexture > m_colorTexture;
 
 	GLuint m_renderBufferId;
