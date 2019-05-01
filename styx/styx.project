@@ -343,9 +343,6 @@
   <Dependencies/>
   <VirtualDirectory Name="styx">
     <File Name="COPYING"/>
-    <File Name="COMPILERS"/>
-    <File Name="BUILD"/>
-    <File Name="AUTHORS"/>
     <File Name="DoxySfile"/>
     <File Name="README"/>
     <File Name="doxyfile"/>

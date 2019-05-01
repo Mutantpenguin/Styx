@@ -1,4 +1,4 @@
-This is the Inquisitor-Engine
+This is the Styx-Engine
 For license info, see the file "COPYING"
 For compilers info, see the file "COMPILERS"
 
@@ -6,7 +6,7 @@ HOW TO START:
 
 ./inquisitor -g ../../../demogame/ 2>&1 | ../../asan_symbolize.py --demangle | c++filt
 
-GALLIUM_HUD=fps,cpu+GPU-load,VRAM-usage+GTT-usage,draw-calls ./inquisitor -g ../../../demogame/
+GALLIUM_HUD=fps,cpu+GPU-load,VRAM-usage+GTT-usage,draw-calls ./styx -g ../../../demogame/
 
 
 
