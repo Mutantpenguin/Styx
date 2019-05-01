@@ -91,7 +91,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const CMesh::TMeshTextureSlots schnarfMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/texpack_2/pattern_07.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto cubeMesh = std::make_shared< CMesh >( GeometryPrefabs::CubePNU0( 4.0f ), material1, schnarfMeshTextureSlots );
+		const auto cubeMesh = std::make_shared< CMesh >( GeometryPrefabs::CubePU0( 4.0f ), material1, schnarfMeshTextureSlots );
 
 		const u16 cubeSize { 4 };
 
@@ -147,7 +147,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	// create big cube of cubes
 	{
-		const auto cubeGeometry = GeometryPrefabs::CubePNU0( 4.0f );
+		const auto cubeGeometry = GeometryPrefabs::CubePU0( 4.0f );
 
 		const auto materialSimple = resourceCache.Get< CMaterial >( "materials/standard.mat" );
 		const CMesh::TMeshTextureSlots simpleMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/texpack_1/black_border.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
@@ -257,7 +257,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const CMesh::TMeshTextureSlots explodeMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/texpack_2/pattern_07.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto explodeMesh = std::make_shared< CMesh >( GeometryPrefabs::CubePNU0( 10.0f ), explodeMaterial, explodeMeshTextureSlots );
+		const auto explodeMesh = std::make_shared< CMesh >( GeometryPrefabs::CubePU0( 10.0f ), explodeMaterial, explodeMeshTextureSlots );
 
 		const auto explode = m_scene.CreateEntity( "exploder" );
 		explode->Transform.Position( { 50.0f, 10.0f, 1.0f } );
@@ -300,7 +300,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const CMesh::TMeshTextureSlots skyMeshTextureSlots = { { "skyboxTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/cube/sixtine/sixtine.cub" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_CUBE ) ) } };
 
-		const auto skyboxMesh = std::make_shared< CMesh >( GeometryPrefabs::CubePNU0(), material3, skyMeshTextureSlots );
+		const auto skyboxMesh = std::make_shared< CMesh >( GeometryPrefabs::CubePU0(), material3, skyMeshTextureSlots );
 
 		m_skyboxEntity = m_scene.CreateEntity( "skybox" );
 		m_skyboxEntity->Add<CModelComponent>( skyboxMesh );
