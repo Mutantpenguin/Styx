@@ -45,20 +45,6 @@
     <File Name="tools/asan_symbolize.py"/>
   </VirtualDirectory>
   <VirtualDirectory Name="src">
-    <VirtualDirectory Name="geometry">
-      <File Name="src/geometry/Vertex.hpp"/>
-      <File Name="src/geometry/Geometry.hpp"/>
-      <VirtualDirectory Name="prefabs">
-        <File Name="src/geometry/prefabs/Rectangle.hpp"/>
-        <File Name="src/geometry/prefabs/Rectangle.cpp"/>
-        <File Name="src/geometry/prefabs/Cuboid.hpp"/>
-        <File Name="src/geometry/prefabs/Cuboid.cpp"/>
-        <File Name="src/geometry/prefabs/Quad.hpp"/>
-        <File Name="src/geometry/prefabs/Quad.cpp"/>
-        <File Name="src/geometry/prefabs/Cube.hpp"/>
-        <File Name="src/geometry/prefabs/Cube.cpp"/>
-      </VirtualDirectory>
-    </VirtualDirectory>
     <VirtualDirectory Name="core">
       <File Name="src/core/Types.hpp"/>
       <File Name="src/core/StyxException.hpp"/>
@@ -144,8 +130,22 @@
       <File Name="src/resource/CResourceCache.hpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="renderer">
-      <File Name="src/renderer/CVBO.hpp"/>
-      <File Name="src/renderer/CVBO.cpp"/>
+      <VirtualDirectory Name="geometry">
+        <File Name="src/renderer/geometry/Vertex.hpp"/>
+        <File Name="src/renderer/geometry/Geometry.hpp"/>
+        <VirtualDirectory Name="prefabs">
+          <File Name="src/renderer/geometry/prefabs/Rectangle.hpp"/>
+          <File Name="src/renderer/geometry/prefabs/Rectangle.cpp"/>
+          <File Name="src/renderer/geometry/prefabs/Quad.hpp"/>
+          <File Name="src/renderer/geometry/prefabs/Quad.cpp"/>
+          <File Name="src/renderer/geometry/prefabs/Cuboid.hpp"/>
+          <File Name="src/renderer/geometry/prefabs/Cuboid.cpp"/>
+          <File Name="src/renderer/geometry/prefabs/Cube.hpp"/>
+          <File Name="src/renderer/geometry/prefabs/Cube.cpp"/>
+        </VirtualDirectory>
+      </VirtualDirectory>
+      <File Name="src/renderer/CBO.hpp"/>
+      <File Name="src/renderer/CBO.cpp"/>
       <VirtualDirectory Name="texture">
         <File Name="src/renderer/texture/CTextureLoader.hpp"/>
         <File Name="src/renderer/texture/CTextureLoader.cpp"/>

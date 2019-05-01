@@ -17,8 +17,8 @@ public:
 	using TMeshTextureSlots = std::unordered_map< std::string, const std::shared_ptr< CMeshTextureSlot > >;
 
 	template<typename T>
-	CMesh( GLenum mode, const Geometry<T> &geometry, const std::shared_ptr< const CMaterial > &mat, const TMeshTextureSlots &textureSlots = TMeshTextureSlots() ) :
-		m_vao( mode, geometry ),
+	CMesh( const Geometry<T> &geometry, const std::shared_ptr< const CMaterial > &mat, const TMeshTextureSlots &textureSlots = TMeshTextureSlots() ) :
+		m_vao( geometry ),
 		m_material { mat },
 		m_textureSlots { textureSlots },
 		m_boundingSphereRadiusVector { geometry.BoundingSphereRadiusVector() }

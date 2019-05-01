@@ -13,6 +13,12 @@ struct VertexPN final
 	glm::vec3 Normal;
 };
 
+struct VertexPU0 final
+{
+	glm::vec3 Position;
+	glm::vec2 UV0;
+};
+
 struct VertexPNU0 final
 {
 	glm::vec3 Position;

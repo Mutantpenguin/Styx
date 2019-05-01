@@ -2,8 +2,8 @@
 
 #include "src/logger/CLogger.hpp"
 
-#include "src/geometry/Geometry.hpp"
-#include "src/geometry/Vertex.hpp"
+#include "src/renderer/geometry/Geometry.hpp"
+#include "src/renderer/geometry/Vertex.hpp"
 
 CModelLoader::CModelLoader( const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager ) :
 	m_filesystem { p_filesystem },
@@ -120,7 +120,7 @@ void CModelLoader::ProcessMesh( const std::shared_ptr< CModel > &model, const ai
 				geometry.Vertices.emplace_back( vertex );
 			}
 
-			// TODO model->Meshes.emplace_back( CMesh( GL_TRIANGLES, geometry,  );
+			// TODO model->Meshes.emplace_back( CMesh( geometry,  );
 			throw new std::logic_error( "not yet implemented" );
 		}
 	}

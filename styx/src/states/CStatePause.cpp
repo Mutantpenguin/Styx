@@ -7,8 +7,8 @@
 
 #include "src/states/CStateMainMenu.hpp"
 
-#include "src/geometry/prefabs/Quad.hpp"
-#include "src/geometry/prefabs/Rectangle.hpp"
+#include "src/renderer/geometry/prefabs/Quad.hpp"
+#include "src/renderer/geometry/prefabs/Rectangle.hpp"
 
 CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface, std::shared_ptr< CState > pausedState ) :
 	CState( "pause", filesystem, settings, engineInterface ),
@@ -48,7 +48,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/pause/bg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgGeometry, materialPause, bgMeshTextureSlots );
+		const auto bgMesh = std::make_shared< CMesh >( bgGeometry, materialPause, bgMeshTextureSlots );
 
 		auto bg = m_scene.CreateEntity( "background" );
 		bg->Add<CModelComponent>( bgMesh );
@@ -67,7 +67,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 			const CMesh::TMeshTextureSlots textMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/pause/fg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-			const auto meshText = std::make_shared<CMesh>( GL_TRIANGLE_STRIP, GeometryPrefabs::RectanglePNU0( pauseElementsWidth, pauseTextHeight ), materialPauseText, textMeshTextureSlots );
+			const auto meshText = std::make_shared<CMesh>( GeometryPrefabs::RectanglePNU0( pauseElementsWidth, pauseTextHeight ), materialPauseText, textMeshTextureSlots );
 
 			m_textEntity = m_scene.CreateEntity( "text" );
 			m_textEntity->Transform.Position( { static_cast<f16>( windowSize.width ) / 2.0f, ( static_cast<f16>( windowSize.height ) / 2.0f ) - ( pauseElementsTotalHeight / 2.0f ) + ( pauseTextHeight / 2.0f ), 5.0f } );
@@ -79,7 +79,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 			const CMesh::TMeshTextureSlots screenshotMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( m_pausedState->FrameBuffer().ColorTexture(), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-			const auto screenshotMesh = std::make_shared<CMesh>( GL_TRIANGLE_STRIP, GeometryPrefabs::RectanglePNU0( pauseElementsWidth, screenshotHeight ), materialPauseText, screenshotMeshTextureSlots );
+			const auto screenshotMesh = std::make_shared<CMesh>( GeometryPrefabs::RectanglePNU0( pauseElementsWidth, screenshotHeight ), materialPauseText, screenshotMeshTextureSlots );
 
 			m_screenshotEntity = m_scene.CreateEntity( "screenshot" );
 			m_screenshotEntity->Transform.Position( { static_cast<f16>( windowSize.width ) / 2.0f, ( static_cast<f16>( windowSize.height ) / 2.0f ) - ( pauseElementsTotalHeight / 2.0f ) + pauseTextHeight + ( screenshotHeight / 2.0f ), 5.0f } );

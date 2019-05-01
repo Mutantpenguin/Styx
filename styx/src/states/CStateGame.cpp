@@ -15,10 +15,10 @@
 
 #include "src/logger/CLogger.hpp"
 
-#include "src/geometry/prefabs/Cube.hpp"
-#include "src/geometry/prefabs/Cuboid.hpp"
-#include "src/geometry/prefabs/Quad.hpp"
-#include "src/geometry/prefabs/Rectangle.hpp"
+#include "src/renderer/geometry/prefabs/Cube.hpp"
+#include "src/renderer/geometry/prefabs/Cuboid.hpp"
+#include "src/renderer/geometry/prefabs/Quad.hpp"
+#include "src/renderer/geometry/prefabs/Rectangle.hpp"
 
 CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "game", filesystem, settings, engineInterface )
@@ -60,7 +60,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const CMesh::TMeshTextureSlots floorMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/texpack_2/stone_floor.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto floorMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, floorGeometry, material, floorMeshTextureSlots );
+		const auto floorMesh = std::make_shared< CMesh >( floorGeometry, material, floorMeshTextureSlots );
 
 		const auto floorEntity = m_scene.CreateEntity( "floor" );
 		floorEntity->Transform.Rotate( -90.0f, 0.0f, 0.0f );
@@ -78,7 +78,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const CMesh::TMeshTextureSlots movableMeshTextureSlots = {	{ "skullTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/cursor/skull.png" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) },
 																	{ "waitTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/cursor/wait.png" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-		const auto movableMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::QuadPNU0( 6.0f ), materialWaitCursor, movableMeshTextureSlots );
+		const auto movableMesh = std::make_shared< CMesh >( GeometryPrefabs::QuadPNU0( 6.0f ), materialWaitCursor, movableMeshTextureSlots );
 
 		m_movableEntity = m_scene.CreateEntity( "wait_cursor" );
 		m_movableEntity->Transform.Position( { 0.0f, 10.0f, 20.0f } );
@@ -91,7 +91,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const CMesh::TMeshTextureSlots schnarfMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/texpack_2/pattern_07.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto cubeMesh = std::make_shared< CMesh >( GL_TRIANGLES, GeometryPrefabs::CubePNU0( 4.0f ), material1, schnarfMeshTextureSlots );
+		const auto cubeMesh = std::make_shared< CMesh >( GeometryPrefabs::CubePNU0( 4.0f ), material1, schnarfMeshTextureSlots );
 
 		const u16 cubeSize { 4 };
 
@@ -117,7 +117,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 																	{ "skyBoxTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/cube/sixtine/sixtine.cub" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_CUBE ) ) } };
 
 		{
-			const auto superBoxMesh = std::make_shared< CMesh >( GL_TRIANGLES, GeometryPrefabs::CubePNU0( 20.0f ), materialSuperBox, superBoxMeshTextureSlots );
+			const auto superBoxMesh = std::make_shared< CMesh >( GeometryPrefabs::CubePNU0( 20.0f ), materialSuperBox, superBoxMeshTextureSlots );
 
 			const auto superBoxEntity = m_scene.CreateEntity( "superBox" );
 			superBoxEntity->Transform.Position( { 0.0f, 10.0f, -10.0f } );
@@ -126,7 +126,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		// create big cube of cubes
 		{
-			const auto superBoxMesh = std::make_shared< CMesh >( GL_TRIANGLES, GeometryPrefabs::CubePNU0( 4.0f ), materialSuperBox, superBoxMeshTextureSlots );
+			const auto superBoxMesh = std::make_shared< CMesh >( GeometryPrefabs::CubePNU0( 4.0f ), materialSuperBox, superBoxMeshTextureSlots );
 
 			const u16 cubeSize { 14 };
 
@@ -151,11 +151,11 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const auto materialSimple = resourceCache.Get< CMaterial >( "materials/standard.mat" );
 		const CMesh::TMeshTextureSlots simpleMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/texpack_1/black_border.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
-		const auto cubeMeshSimple = std::make_shared< CMesh >( GL_TRIANGLES, cubeGeometry, materialSimple, simpleMeshTextureSlots );
+		const auto cubeMeshSimple = std::make_shared< CMesh >( cubeGeometry, materialSimple, simpleMeshTextureSlots );
 
 		const auto materialTransparent = resourceCache.Get< CMaterial >( "materials/standard_blend.mat" );
 		const CMesh::TMeshTextureSlots transparentMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/texpack_2/stained_glass.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
-		const auto cubeMeshTransparent = std::make_shared< CMesh >( GL_TRIANGLES, cubeGeometry, materialTransparent, transparentMeshTextureSlots );
+		const auto cubeMeshTransparent = std::make_shared< CMesh >( cubeGeometry, materialTransparent, transparentMeshTextureSlots );
 
 		{
 			const u16 cubeSize { 10 };
@@ -215,7 +215,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const CMesh::TMeshTextureSlots flamesMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/array/fire/fire.arr" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-		const auto flamesMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::RectanglePNU0( 8.0f, 16.0f ), fireMaterial, flamesMeshTextureSlots );
+		const auto flamesMesh = std::make_shared< CMesh >( GeometryPrefabs::RectanglePNU0( 8.0f, 16.0f ), fireMaterial, flamesMeshTextureSlots );
 
 		const auto flamesEntity = m_scene.CreateEntity( "flames" );
 		flamesEntity->Transform.Position( { -5.0f, 10.0f, 1.0f } );
@@ -225,7 +225,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{
 		const auto greenMaterial = resourceCache.Get< CMaterial >( "materials/green.mat" );
 
-		const auto blockMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::CuboidPNU0( 4.0f, 4.0f, 2.0f ), greenMaterial );
+		const auto blockMesh = std::make_shared< CMesh >( GeometryPrefabs::CuboidP( 4.0f, 4.0f, 2.0f ), greenMaterial );
 
 		const auto blockEntity = m_scene.CreateEntity( "green_block" );
 		blockEntity->Transform.Position( { -4.0f, 10.0f, 1.0f } );
@@ -235,7 +235,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{
 		const auto pulseMaterial = resourceCache.Get< CMaterial >( "materials/pulse_green_red.mat" );
 
-		const auto pulseMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::CuboidPNU0( 4.0f, 4.0f, 2.0f ), pulseMaterial );
+		const auto pulseMesh = std::make_shared< CMesh >( GeometryPrefabs::CuboidP( 4.0f, 4.0f, 2.0f ), pulseMaterial );
 
 		m_pulseEntity = m_scene.CreateEntity( "pulse_block" );
 		m_pulseEntity->Transform.Position( { 0.0f, 10.0f, 1.0f } );
@@ -245,7 +245,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{
 		const auto redMaterial = resourceCache.Get< CMaterial >( "materials/red.mat" );
 
-		const auto blockMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::CuboidPNU0( 4.0f, 4.0f, 2.0f ), redMaterial );
+		const auto blockMesh = std::make_shared< CMesh >( GeometryPrefabs::CuboidP( 4.0f, 4.0f, 2.0f ), redMaterial );
 
 		const auto blockEntity = m_scene.CreateEntity( "red_block" );
 		blockEntity->Transform.Position( { 4.0f, 10.0f, 1.0f } );
@@ -257,7 +257,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const CMesh::TMeshTextureSlots explodeMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/texpack_2/pattern_07.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto explodeMesh = std::make_shared< CMesh >( GL_TRIANGLES, GeometryPrefabs::CubePNU0( 10.0f ), explodeMaterial, explodeMeshTextureSlots );
+		const auto explodeMesh = std::make_shared< CMesh >( GeometryPrefabs::CubePNU0( 10.0f ), explodeMaterial, explodeMeshTextureSlots );
 
 		const auto explode = m_scene.CreateEntity( "exploder" );
 		explode->Transform.Position( { 50.0f, 10.0f, 1.0f } );
@@ -265,25 +265,29 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	}
 
 	{
-		const Geometry<VertexPN> particlesGeometry {
-			{
-				// use normal to store an offset into the array texture
-				{	{ -1.0f, -1.0f, -1.0f }, {  0.0f, 0.0f, 0.0f }	},
-				{	{ -1.0f, -1.0f, +1.0f }, { 24.0f, 0.0f, 0.0f }	},
-				{	{ -1.0f, +1.0f, -1.0f }, {  6.0f, 0.0f, 0.0f }	},
-				{	{ -1.0f, +1.0f, +1.0f }, { 30.0f, 0.0f, 0.0f }	},
-				{	{ +1.0f, -1.0f, -1.0f }, { 12.0f, 0.0f, 0.0f }	},
-				{	{ +1.0f, -1.0f, +1.0f }, { 36.0f, 0.0f, 0.0f }	},
-				{	{ +1.0f, +1.0f, -1.0f }, { 18.0f, 0.0f, 0.0f }	},
-				{	{ +1.0f, +1.0f, +1.0f }, { 42.0f, 0.0f, 0.0f }	}
-			}
-		};
+		const Geometry<VertexPN> particlesGeometry =	{
+															GL_POINTS,
+															{
+																// use normal to store an offset into the array texture
+																{	{ -1.0f, -1.0f, -1.0f }, {  0.0f, 0.0f, 0.0f }	},
+																{	{ -1.0f, -1.0f, +1.0f }, { 24.0f, 0.0f, 0.0f }	},
+																{	{ -1.0f, +1.0f, -1.0f }, {  6.0f, 0.0f, 0.0f }	},
+																{	{ -1.0f, +1.0f, +1.0f }, { 30.0f, 0.0f, 0.0f }	},
+																{	{ +1.0f, -1.0f, -1.0f }, { 12.0f, 0.0f, 0.0f }	},
+																{	{ +1.0f, -1.0f, +1.0f }, { 36.0f, 0.0f, 0.0f }	},
+																{	{ +1.0f, +1.0f, -1.0f }, { 18.0f, 0.0f, 0.0f }	},
+																{	{ +1.0f, +1.0f, +1.0f }, { 42.0f, 0.0f, 0.0f }	}
+															},
+															{
+																{ 0, 1, 2, 3, 4, 5, 6, 7 }
+															}
+														};
 
 		const auto particleMaterial = resourceCache.Get<CMaterial>( "materials/particle.mat" );
 
 		const CMesh::TMeshTextureSlots particleMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/array/fireball_small/fireball_small.arr" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto particleMesh = std::make_shared< CMesh >( GL_POINTS, particlesGeometry, particleMaterial, particleMeshTextureSlots );
+		const auto particleMesh = std::make_shared< CMesh >( particlesGeometry, particleMaterial, particleMeshTextureSlots );
 
 		const auto particleEntity = m_scene.CreateEntity( "particles" );
 		particleEntity->Transform.Position( { 80.0f, 10.0f, 1.0f } );
@@ -296,7 +300,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 		const CMesh::TMeshTextureSlots skyMeshTextureSlots = { { "skyboxTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/cube/sixtine/sixtine.cub" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_CUBE ) ) } };
 
-		const auto skyboxMesh = std::make_shared< CMesh >( GL_TRIANGLES, GeometryPrefabs::CubePNU0(), material3, skyMeshTextureSlots );
+		const auto skyboxMesh = std::make_shared< CMesh >( GeometryPrefabs::CubePNU0(), material3, skyMeshTextureSlots );
 
 		m_skyboxEntity = m_scene.CreateEntity( "skybox" );
 		m_skyboxEntity->Add<CModelComponent>( skyboxMesh );

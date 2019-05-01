@@ -3,15 +3,21 @@
 #include <vector>
 #include <algorithm>
 
+#include "src/renderer/GL.h"
+
 #include <glm/glm.hpp>
 #include <glm/gtx/norm.hpp>
+
+#include "src/core/Types.hpp"
 
 template<typename T>
 struct Geometry final
 {
+	GLenum Mode;
+	
 	std::vector<T> Vertices;
 
-	// TODO std::vector< u32 > Indices;
+	std::vector<u32> Indices;
 
 	const size_t Stride = sizeof( T );
 

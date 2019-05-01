@@ -7,7 +7,7 @@
 #include "src/scene/components/camera/CCameraFreeComponent.hpp"
 #include "src/renderer/components/CModelComponent.hpp"
 
-#include "src/geometry/prefabs/Quad.hpp"
+#include "src/renderer/geometry/prefabs/Quad.hpp"
 
 CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "intro", filesystem, settings, engineInterface ),
@@ -33,7 +33,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	const CMesh::TMeshTextureSlots logoMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/styx/logo.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-	const auto logoMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, GeometryPrefabs::QuadPNU0( 6.0f ), material, logoMeshTextureSlots );
+	const auto logoMesh = std::make_shared< CMesh >( GeometryPrefabs::QuadPNU0( 6.0f ), material, logoMeshTextureSlots );
 
 	m_logoEntity = m_scene.CreateEntity( "logo" );
 	m_logoEntity->Add<CModelComponent>( logoMesh );

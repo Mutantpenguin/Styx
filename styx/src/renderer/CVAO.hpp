@@ -2,18 +2,19 @@
 
 #include "src/renderer/GL.h"
 
-#include "src/renderer/CVBO.hpp"
+#include "src/renderer/CBO.hpp"
 
-#include "src/geometry/Geometry.hpp"
-#include "src/geometry/Vertex.hpp"
+#include "src/renderer/geometry/Geometry.hpp"
+#include "src/renderer/geometry/Vertex.hpp"
 
 class CVAO final
 {
 public:
-	CVAO( GLenum Mode, const Geometry<VertexP> &geometry );
-	CVAO( GLenum Mode, const Geometry<VertexPN> &geometry );
-	CVAO( GLenum Mode, const Geometry<VertexPNU0> &geometry );
-	CVAO( GLenum Mode, const Geometry<VertexPNTBCU0U1U2U3> &geometry );
+	CVAO( const Geometry<VertexP> &geometry );
+	CVAO( const Geometry<VertexPN> &geometry );
+	CVAO( const Geometry<VertexPU0> &geometry );
+	CVAO( const Geometry<VertexPNU0> &geometry );
+	CVAO( const Geometry<VertexPNTBCU0U1U2U3> &geometry );
 
 	~CVAO();
 
@@ -35,13 +36,14 @@ public:
 	};
 
 private:
-	const GLenum m_mode; // GL_QUADS, GL_TRIS, ...
+	const GLenum m_mode;
 
-	const size_t m_vertexCount;
+	const size_t m_indexCount;
 
 	GLuint	GLID;
 
-	const CVBO	m_vbo;
+	const CBO	m_vbo;
+	const CBO	m_ibo;
 
 	static const GLuint bindingIndexPositions	{ 0 };
 	static const GLuint bindingIndexNormals		{ 1 };

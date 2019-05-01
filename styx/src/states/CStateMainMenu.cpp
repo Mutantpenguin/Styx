@@ -7,8 +7,8 @@
 
 #include "src/states/CStateGame.hpp"
 
-#include "src/geometry/prefabs/Quad.hpp"
-#include "src/geometry/prefabs/Rectangle.hpp"
+#include "src/renderer/geometry/prefabs/Quad.hpp"
+#include "src/renderer/geometry/prefabs/Rectangle.hpp"
 
 CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "main menu", filesystem, settings, engineInterface ),
@@ -35,7 +35,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	{
 		const auto material = resourceCache.Get< CMaterial >( "materials/standard.mat" );
 
-		auto bgGeometry = GeometryPrefabs::QuadPNU0();
+		auto bgGeometry = GeometryPrefabs::QuadPU0();
 		bgGeometry.Vertices[ 0 ].Position.x = 0.0f;
 		bgGeometry.Vertices[ 0 ].Position.y = 0.0f;
 		bgGeometry.Vertices[ 1 ].Position.x = static_cast< f16 >( windowSize.width );
@@ -47,7 +47,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 
 		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/menu/background.jpg" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto bgMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, bgGeometry, material, bgMeshTextureSlots );
+		const auto bgMesh = std::make_shared< CMesh >( bgGeometry, material, bgMeshTextureSlots );
 
 		auto bg = m_scene.CreateEntity( "background" );
 		bg->Add<CModelComponent>( bgMesh );
@@ -63,7 +63,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 
 		const CMesh::TMeshTextureSlots titleMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/menu/title.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto bgTitleMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, titleGeometry, material, titleMeshTextureSlots );
+		const auto bgTitleMesh = std::make_shared< CMesh >( titleGeometry, material, titleMeshTextureSlots );
 
 		auto bgTitle = m_scene.CreateEntity( "title" );
 		bgTitle->Transform.Position( { windowSize.width / 2.0f, windowSize.height - ( titleHeight / 2.0f ), 5.0f } );
@@ -78,7 +78,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	{
 		const auto greenMaterial = resourceCache.Get< CMaterial >( "materials/green.mat" );
 
-		const auto startMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonGeometry, greenMaterial );
+		const auto startMesh = std::make_shared< CMesh >( buttonGeometry, greenMaterial );
 
 		m_startEntity = m_scene.CreateEntity( "start_button" );
 		m_startEntity->Transform.Position( { windowSize.width / 2.0f, 2 * windowSize.height / 4.0f, 10.0f } );
@@ -88,7 +88,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	{
 		const auto redMaterial = resourceCache.Get< CMaterial >( "materials/red.mat" );
 
-		const auto exitMesh = std::make_shared< CMesh >( GL_TRIANGLE_STRIP, buttonGeometry, redMaterial );
+		const auto exitMesh = std::make_shared< CMesh >( buttonGeometry, redMaterial );
 
 		m_exitEntity = m_scene.CreateEntity( "exit_button" );
 		m_exitEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height / 4.0f, 10.0f } );
