@@ -117,10 +117,10 @@
     <Filter Include="src\core">
       <UniqueIdentifier>{2481490b-e789-4c7b-a228-14f7c5d42a18}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\geometry">
+    <Filter Include="src\renderer\geometry">
       <UniqueIdentifier>{18aff8b4-bb33-4e7a-91d1-26bc630e1bbc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\geometry\prefabs">
+    <Filter Include="src\renderer\geometry\prefabs">
       <UniqueIdentifier>{feb6f50a-fcf9-4847-a15b-acf6877eef3b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -455,29 +455,29 @@
     <ClInclude Include="src\helper\Types.hpp">
       <Filter>src\core</Filter>
     </ClInclude>
-    <ClInclude Include="src\renderer\CVBO.hpp">
-      <Filter>src\renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\geometry\Vertex.hpp">
-      <Filter>src\geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="src\geometry\Geometry.hpp">
-      <Filter>src\geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="src\geometry\prefabs\Cube.hpp">
-      <Filter>src\geometry\prefabs</Filter>
-    </ClInclude>
-    <ClInclude Include="src\geometry\prefabs\Quad.hpp">
-      <Filter>src\geometry\prefabs</Filter>
-    </ClInclude>
     <ClInclude Include="src\renderer\model\CModelCache.hpp">
       <Filter>src\renderer\model</Filter>
     </ClInclude>
-    <ClInclude Include="src\geometry\prefabs\Rectangle.hpp">
-      <Filter>src\geometry\prefabs</Filter>
+    <ClInclude Include="src\renderer\geometry\Geometry.hpp">
+      <Filter>src\renderer\geometry</Filter>
     </ClInclude>
-    <ClInclude Include="src\geometry\prefabs\Cuboid.hpp">
-      <Filter>src\geometry\prefabs</Filter>
+    <ClInclude Include="src\renderer\geometry\Vertex.hpp">
+      <Filter>src\renderer\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\geometry\prefabs\Cube.hpp">
+      <Filter>src\renderer\geometry\prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\geometry\prefabs\Cuboid.hpp">
+      <Filter>src\renderer\geometry\prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\geometry\prefabs\Quad.hpp">
+      <Filter>src\renderer\geometry\prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\geometry\prefabs\Rectangle.hpp">
+      <Filter>src\renderer\geometry\prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\CBO.hpp">
+      <Filter>src\renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -772,20 +772,20 @@
     <ClCompile Include="src\audio\CAudio.cpp">
       <Filter>src\audio</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\CVBO.cpp">
+    <ClCompile Include="src\renderer\geometry\prefabs\Cube.cpp">
+      <Filter>src\renderer\geometry\prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\geometry\prefabs\Cuboid.cpp">
+      <Filter>src\renderer\geometry\prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\geometry\prefabs\Quad.cpp">
+      <Filter>src\renderer\geometry\prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\geometry\prefabs\Rectangle.cpp">
+      <Filter>src\renderer\geometry\prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\CBO.cpp">
       <Filter>src\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\geometry\prefabs\Quad.cpp">
-      <Filter>src\geometry\prefabs</Filter>
-    </ClCompile>
-    <ClCompile Include="src\geometry\prefabs\Cube.cpp">
-      <Filter>src\geometry\prefabs</Filter>
-    </ClCompile>
-    <ClCompile Include="src\geometry\prefabs\Rectangle.cpp">
-      <Filter>src\geometry\prefabs</Filter>
-    </ClCompile>
-    <ClCompile Include="src\geometry\prefabs\Cuboid.cpp">
-      <Filter>src\geometry\prefabs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

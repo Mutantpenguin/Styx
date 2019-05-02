@@ -70,12 +70,6 @@
     <ClInclude Include="src\audio\CAudioBufferLoader.hpp" />
     <ClInclude Include="src\audio\CAudioSource.hpp" />
     <ClInclude Include="src\core\StyxException.hpp" />
-    <ClInclude Include="src\geometry\Geometry.hpp" />
-    <ClInclude Include="src\geometry\prefabs\Cube.hpp" />
-    <ClInclude Include="src\geometry\prefabs\Cuboid.hpp" />
-    <ClInclude Include="src\geometry\prefabs\Quad.hpp" />
-    <ClInclude Include="src\geometry\prefabs\Rectangle.hpp" />
-    <ClInclude Include="src\geometry\Vertex.hpp" />
     <ClInclude Include="src\helper\CColor.hpp" />
     <ClInclude Include="src\helper\CSize.hpp" />
     <ClInclude Include="src\helper\Date.hpp" />
@@ -90,6 +84,7 @@
     <ClInclude Include="src\logger\CLogTargetMessageBox.hpp" />
     <ClInclude Include="src\logger\LogHelper.hpp" />
     <ClInclude Include="src\math\Math.hpp" />
+    <ClInclude Include="src\renderer\CBO.hpp" />
     <ClInclude Include="src\renderer\CFrameBuffer.hpp" />
     <ClInclude Include="src\renderer\CGLState.hpp" />
     <ClInclude Include="src\renderer\components\CModelComponent.hpp" />
@@ -97,8 +92,13 @@
     <ClInclude Include="src\renderer\CRenderer.hpp" />
     <ClInclude Include="src\renderer\CUniformBuffer.hpp" />
     <ClInclude Include="src\renderer\CVAO.hpp" />
-    <ClInclude Include="src\renderer\CVBO.hpp" />
     <ClInclude Include="src\renderer\EUniformBufferLocations.hpp" />
+    <ClInclude Include="src\renderer\geometry\Geometry.hpp" />
+    <ClInclude Include="src\renderer\geometry\prefabs\Cube.hpp" />
+    <ClInclude Include="src\renderer\geometry\prefabs\Cuboid.hpp" />
+    <ClInclude Include="src\renderer\geometry\prefabs\Quad.hpp" />
+    <ClInclude Include="src\renderer\geometry\prefabs\Rectangle.hpp" />
+    <ClInclude Include="src\renderer\geometry\Vertex.hpp" />
     <ClInclude Include="src\renderer\GL.h" />
     <ClInclude Include="src\renderer\GLHelper.hpp" />
     <ClInclude Include="src\renderer\material\CMaterial.hpp" />
@@ -195,10 +195,6 @@
     <ClCompile Include="src\audio\CAudioBuffer.cpp" />
     <ClCompile Include="src\audio\CAudioBufferLoader.cpp" />
     <ClCompile Include="src\audio\CAudioSource.cpp" />
-    <ClCompile Include="src\geometry\prefabs\Cube.cpp" />
-    <ClCompile Include="src\geometry\prefabs\Cuboid.cpp" />
-    <ClCompile Include="src\geometry\prefabs\Quad.cpp" />
-    <ClCompile Include="src\geometry\prefabs\Rectangle.cpp" />
     <ClCompile Include="src\helper\Date.cpp" />
     <ClCompile Include="src\helper\geom\CPlane.cpp" />
     <ClCompile Include="src\helper\image\CImage.cpp" />
@@ -210,6 +206,7 @@
     <ClCompile Include="src\logger\CLogTargetMessageBox.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\math\Math.cpp" />
+    <ClCompile Include="src\renderer\CBO.cpp" />
     <ClCompile Include="src\renderer\CFrameBuffer.cpp" />
     <ClCompile Include="src\renderer\CGLState.cpp" />
     <ClCompile Include="src\renderer\components\CModelComponent.cpp" />
@@ -217,7 +214,10 @@
     <ClCompile Include="src\renderer\CRenderer.cpp" />
     <ClCompile Include="src\renderer\CUniformBuffer.cpp" />
     <ClCompile Include="src\renderer\CVAO.cpp" />
-    <ClCompile Include="src\renderer\CVBO.cpp" />
+    <ClCompile Include="src\renderer\geometry\prefabs\Cube.cpp" />
+    <ClCompile Include="src\renderer\geometry\prefabs\Cuboid.cpp" />
+    <ClCompile Include="src\renderer\geometry\prefabs\Quad.cpp" />
+    <ClCompile Include="src\renderer\geometry\prefabs\Rectangle.cpp" />
     <ClCompile Include="src\renderer\GLHelper.cpp" />
     <ClCompile Include="src\renderer\material\CMaterial.cpp" />
     <ClCompile Include="src\renderer\material\CMaterialLoader.cpp" />
