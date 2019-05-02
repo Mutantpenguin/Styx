@@ -140,11 +140,6 @@ const CVAO &CMesh::VAO() const
 	return( m_vao );
 }
 
-const glm::vec3 &CMesh::BoundingSphereRadiusVector() const
-{
-	return( m_boundingSphereRadiusVector );
-}
-
 void CMesh::BindTextures() const
 {
 	u8 textureUnit = 0;

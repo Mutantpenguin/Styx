@@ -226,7 +226,7 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 			const auto &mesh = entity->Get<CModelComponent>()->Mesh().get();
 
 			// TODO use Octree here
-			if( frustum.IsSphereInside( entity->Transform.Position(), glm::length( mesh->BoundingSphereRadiusVector() * entity->Transform.Scale() ) ) )
+			if( frustum.IsSphereInside( entity->Transform.Position(), glm::length( mesh->BoundingSphereRadiusVector * entity->Transform.Scale() ) ) )
 			{
 				if( mesh->Material()->Blending() )
 				{

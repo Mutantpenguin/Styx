@@ -21,7 +21,7 @@ struct Geometry final
 
 	const size_t Stride = sizeof( T );
 
-	[[ nodiscard ]] glm::vec3 BoundingSphereRadiusVector() const
+	[[ nodiscard ]] glm::vec3 CalculateBoundingSphereRadiusVector() const
 	{
 		return( ( *std::max_element( std::cbegin( Vertices ), std::cend( Vertices ), []( const T &a, const T &b ) { return( glm::length2( a.Position ) > glm::length2( b.Position ) ); } ) ).Position );
 	}

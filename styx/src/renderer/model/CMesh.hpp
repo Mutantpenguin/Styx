@@ -21,7 +21,7 @@ public:
 		m_vao( geometry ),
 		m_material { mat },
 		m_textureSlots { textureSlots },
-		m_boundingSphereRadiusVector { geometry.BoundingSphereRadiusVector() }
+		BoundingSphereRadiusVector { geometry.CalculateBoundingSphereRadiusVector() }
 	{
 		SetupMaterialTextureSlotMapping();
 	}
@@ -33,11 +33,11 @@ public:
 	void ChangeSampler( const std::string &slotName, const std::shared_ptr< const CSampler > &sampler );
 	void ChangeTextureAndSampler( const std::string &slotName, const std::shared_ptr< const CTexture > &texture, const std::shared_ptr< const CSampler > &sampler );
 
-	const glm::vec3 &BoundingSphereRadiusVector() const;
-
 	const CVAO &VAO() const;
 
 	void BindTextures() const;
+
+	const glm::vec3	BoundingSphereRadiusVector;
 
 private:
 	const CVAO	m_vao;
@@ -49,6 +49,4 @@ private:
 	std::vector< std::pair< GLuint, const std::shared_ptr< const CMeshTextureSlot > > > m_materialTextureSlotMapping;
 
 	void SetupMaterialTextureSlotMapping();
-
-	const glm::vec3	m_boundingSphereRadiusVector;
 };
