@@ -33,9 +33,11 @@ private:
 
 	bool FromDaeFile( const std::shared_ptr< CModel > &model, const fs::path &path ) const;
 
-	void ProcessNode( const std::shared_ptr< CModel > &model, const aiNode *node, const aiScene *scene ) const;
+	bool FromAssimpScene( const std::shared_ptr< CModel > &model, const aiScene *assimpScene ) const;
 
-	void ProcessMesh( const std::shared_ptr< CModel > &model, const aiMesh *mesh, const aiScene *scene ) const;
+	bool ProcessMesh( const std::shared_ptr< CModel > &model, const aiMesh *assimpMesh ) const;
+
+	void ProcessIndices( std::vector<u32> &indices, const aiMesh *assimpMesh ) const;
 
 	void FromDummy( const std::shared_ptr< CModel > &model ) const;
 };

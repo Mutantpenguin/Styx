@@ -55,38 +55,37 @@ bool CModelLoader::FromDaeFile( const std::shared_ptr< CModel > &model, const fs
 
 	Assimp::Importer importer;
 
-	const aiScene *scene = importer.ReadFileFromMemory( buffer.data(), buffer.size(), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace, nullptr );
+	const aiScene *assimpScene = importer.ReadFileFromMemory( buffer.data(), buffer.size(), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace, nullptr );
 
-	if( !scene || ( scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ) || !scene->mRootNode )
+	if( !assimpScene || ( assimpScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ) || !assimpScene->mRootNode )
 	{
 		logWARNING( "failed to load '{0}' because of: {1}", path.generic_string(), importer.GetErrorString() );
 		return( false );
 	}
 
-	ProcessNode( model, scene->mRootNode, scene );
+	FromAssimpScene( model, assimpScene );
 
 	return( true );
 }
 
-void CModelLoader::ProcessNode( const std::shared_ptr< CModel > &model, const aiNode *node, const aiScene *scene ) const
+bool CModelLoader::FromAssimpScene( const std::shared_ptr< CModel > &model, const aiScene *assimpScene ) const
 {
-    // Process all the node's meshes (if any)
-    for( GLuint i = 0; i < node->mNumMeshes; i++ )
+	model->Meshes.reserve( assimpScene->mNumMeshes );
+
+	for( unsigned int i = 0; i < model->Meshes.size(); i++ )
     {
-        aiMesh* mesh = scene->mMeshes[ node->mMeshes[ i ] ];
-        ProcessMesh( model, mesh, scene );
+		if( !ProcessMesh( model, assimpScene->mMeshes[ i ] ) )
+		{
+			return( false );
+		}
     }
 
-    // Then do the same for each of its children
-    for( GLuint i = 0; i < node->mNumChildren; i++ )
-    {
-        ProcessNode( model, node->mChildren[ i ], scene );
-    }
+	return( true );
 }
 
-void CModelLoader::ProcessMesh( const std::shared_ptr< CModel > &model, const aiMesh *mesh, const aiScene *scene ) const
+bool CModelLoader::ProcessMesh( const std::shared_ptr< CModel > &model, const aiMesh *assimpMesh ) const
 {
-	if( mesh->mMaterialIndex >= 0 )
+	if( assimpMesh->mMaterialIndex >= 0 )
 	{
 		/* TODO aiTextureType_DIFFUSE
 		for( unsigned int i = 0; i < mat->GetTextureCount( type ); i++ )
@@ -94,28 +93,43 @@ void CModelLoader::ProcessMesh( const std::shared_ptr< CModel > &model, const ai
 		 * */
 	}
 
+	if( !assimpMesh->HasPositions() )
+	{
+		logWARNING( "mesh has no positions" );
+		return( false );
+	}
+
+	const auto &assimpVertices = assimpMesh->mVertices;
+	const auto &assimpNormals = assimpMesh->mNormals;
+	const auto &assimpTextureCoords = assimpMesh->mTextureCoords;
+	const auto &assimpTangents = assimpMesh->mTangents;
+	const auto &assimpBitangents = assimpMesh->mBitangents;
 
 	// TODO mesh->HasNormals
-	
-	if( mesh->HasTextureCoords( 0 ) )
+
+	if( assimpMesh->HasTextureCoords( 0 ) )
 	{
-		if( mesh->HasTangentsAndBitangents() )
+		if( assimpMesh->HasTangentsAndBitangents() )
 		{
 			Geometry<VertexPNTBU0> geometry;
 			// TODO implement
+			/* TODO Tangents
+			vertex.Tangent = { assimpTangents[ i ].x, assimpTangents[ i ].y, assimpTangents[ i ].z };
+			vertex.Bitangent = { assimpBitangents[ i ].x, assimpBitangents[ i ].y, assimpBitangents[ i ].z };
+			*/
 			throw new std::logic_error( "not yet implemented" );
 		}
 		else
 		{
 			Geometry<VertexPNU0> geometry;
 
-			for( unsigned int i = 0; i < mesh->mNumVertices; i++ )
+			for( unsigned int i = 0; i < assimpMesh->mNumVertices; i++ )
 			{
 				VertexPNU0 vertex;
 
-				vertex.Position = { mesh->mVertices[ i ].x, mesh->mVertices[ i ].y, mesh->mVertices[ i ].z };
-				vertex.Normal = { mesh->mNormals[ i ].x, mesh->mNormals[ i ].y, mesh->mNormals[ i ].z };
-				vertex.UV0 = { mesh->mTextureCoords[ 0 ][ i ].x, mesh->mTextureCoords[ 0 ][ i ].y };
+				vertex.Position = { assimpVertices[ i ].x, assimpVertices[ i ].y, assimpVertices[ i ].z };
+				vertex.Normal = { assimpNormals[ i ].x, assimpNormals[ i ].y, assimpNormals[ i ].z };
+				vertex.UV0 = { assimpTextureCoords[ 0 ][ i ].x, assimpTextureCoords[ 0 ][ i ].y };
 
 				geometry.Vertices.emplace_back( vertex );
 			}
@@ -126,58 +140,52 @@ void CModelLoader::ProcessMesh( const std::shared_ptr< CModel > &model, const ai
 	}
 	else
 	{
-		if( mesh->HasTangentsAndBitangents() )
+		if( assimpMesh->HasTangentsAndBitangents() )
 		{
-			// Geometry<VertexPNTB> geometry;
+			 Geometry<VertexPNTB> geometry;
 			// TODO implement
+			/* TODO Tangents
+			vertex.Tangent = { assimpTangents[ i ].x, assimpTangents[ i ].y, assimpTangents[ i ].z };
+			vertex.Bitangent = { assimpBitangents[ i ].x, assimpBitangents[ i ].y, assimpBitangents[ i ].z };
+			*/
 			throw new std::logic_error( "not yet implemented" );
 		}
 		else
 		{
 			Geometry<VertexPN> geometry;
 
-			for( unsigned int i = 0; i < mesh->mNumVertices; i++ )
+			geometry.Mode = GL_TRIANGLES;
+
+			for( unsigned int i = 0; i < assimpMesh->mNumVertices; i++ )
 			{
 				VertexPN vertex;
 
-				vertex.Position = { mesh->mVertices[ i ].x, mesh->mVertices[ i ].y, mesh->mVertices[ i ].z };
-				vertex.Normal = { mesh->mNormals[ i ].x, mesh->mNormals[ i ].y, mesh->mNormals[ i ].z };
+				vertex.Position = { assimpVertices[ i ].x, assimpVertices[ i ].y, assimpVertices[ i ].z };
+				vertex.Normal = { assimpNormals[ i ].x, assimpNormals[ i ].y, assimpNormals[ i ].z };
 
 				geometry.Vertices.emplace_back( vertex );
 			}
 			// TODO implement
-			throw new std::logic_error( "not yet implemented" );
+
+			ProcessIndices( geometry.Indices, assimpMesh );			
+
+			// TODO model->Meshes.emplace_back( CMesh( geometry))
 		}
 	}
 
-	for( unsigned int i = 0; i < mesh->mNumVertices; i++ )
+	return( true );
+}
+
+void CModelLoader::ProcessIndices( std::vector<u32> &indices, const aiMesh *assimpMesh ) const
+{
+	for( unsigned int i = 0; i < assimpMesh->mNumFaces; i++ )
 	{
-		/* TODO change to new Geometry structs
-		vertex.Position = { mesh->mVertices[ i ].x, mesh->mVertices[ i ].y, mesh->mVertices[ i ].z };
-
-		vertex.Normal = { mesh->mNormals[ i ].x, mesh->mNormals[ i ].y, mesh->mNormals[ i ].z };
-
-		if( mesh->mTextureCoords[ 0 ] )
+		const aiFace &face = assimpMesh->mFaces[ i ];
+		for( unsigned int j = 0; j < face.mNumIndices; j++ )
 		{
-			vertex.TexCoord = { mesh->mTextureCoords[ 0 ][ i ].x, mesh->mTextureCoords[ 0 ][ i ].y };
+			indices.push_back( face.mIndices[ j ] );
 		}
-		*/
-
-		/* TODO Tangents
-		vertex.Tangent = { mesh->mTangents[ i ].x, mesh->mTangents[ i ].y, mesh->mTangents[ i ].z };
-
-		vertex.Bitangent = { mesh->mBitangents[ i ].x, mesh->mBitangents[ i ].y, mesh->mBitangents[ i ].z };
-		*/
 	}
-
-
-	/*
-
-
-	// TODO do the work
-
-	model->m_meshes.emplace_back( mesh );
-	 * */
 }
 
 void CModelLoader::FromDummy( const std::shared_ptr< CModel > &model ) const
