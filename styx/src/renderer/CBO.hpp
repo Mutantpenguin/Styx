@@ -8,7 +8,7 @@ class CBO final
 {
 public:
 	template<typename T>
-	CBO( const typename std::vector<T>& vector )
+	CBO( const typename std::vector<T> &vector )
 	{
 		glCreateBuffers( 1, &GLID );
 

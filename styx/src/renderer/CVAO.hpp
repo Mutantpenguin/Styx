@@ -14,6 +14,8 @@ public:
 	CVAO( const Geometry<VertexPN> &geometry );
 	CVAO( const Geometry<VertexPU0> &geometry );
 	CVAO( const Geometry<VertexPNU0> &geometry );
+	CVAO( const Geometry<VertexPNTB> &geometry );
+	CVAO( const Geometry<VertexPNTBU0> &geometry );
 	CVAO( const Geometry<VertexPNTBCU0U1U2U3> &geometry );
 
 	~CVAO();

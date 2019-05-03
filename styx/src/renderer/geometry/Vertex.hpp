@@ -34,6 +34,14 @@ struct VertexPNCU0 final
 	glm::vec2 UV0;
 };
 
+struct VertexPNTB final
+{
+	glm::vec3 Position;
+	glm::vec3 Normal;
+	glm::vec3 Tangent;
+	glm::vec3 Bitangent;
+};
+
 struct VertexPNTBU0 final
 {
 	glm::vec3 Position;

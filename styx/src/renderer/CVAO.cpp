@@ -50,7 +50,7 @@ CVAO::CVAO( const Geometry<VertexPN> &geometry ) :
 	glVertexArrayAttribFormat( GLID, attributeLocationPosition,	3, GL_FLOAT, GL_FALSE, 0 );
 	glVertexArrayAttribFormat( GLID, attributeLocationNormal,	3, GL_FLOAT, GL_FALSE, 0 );
 
-	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexPositions,	m_vbo.GLID, offsetof( VertexPN, Position ), geometry.Stride );
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexPositions,	m_vbo.GLID, offsetof( VertexPN, Position ),	geometry.Stride );
 	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexNormals,		m_vbo.GLID, offsetof( VertexPN, Normal ),	geometry.Stride );
 
 	glVertexArrayAttribBinding( GLID, attributeLocationPosition,	CVAO::bindingIndexPositions );
@@ -73,8 +73,8 @@ CVAO::CVAO( const Geometry<VertexPU0> &geometry ) :
 	glVertexArrayAttribFormat( GLID, attributeLocationPosition,		3, GL_FLOAT, GL_FALSE, 0 );
 	glVertexArrayAttribFormat( GLID, attributeLocationUV0,			2, GL_FLOAT, GL_FALSE, 0 );
 
-	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexPositions,	m_vbo.GLID, offsetof( VertexPU0, Position ), geometry.Stride );
-	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexUV0,			m_vbo.GLID, offsetof( VertexPU0, UV0 ),		geometry.Stride );
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexPositions,	m_vbo.GLID, offsetof( VertexPU0, Position ),	geometry.Stride );
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexUV0,			m_vbo.GLID, offsetof( VertexPU0, UV0 ),			geometry.Stride );
 
 	glVertexArrayAttribBinding( GLID, attributeLocationPosition,	CVAO::bindingIndexPositions );
 	glVertexArrayAttribBinding( GLID, attributeLocationUV0,			CVAO::bindingIndexUV0 );
@@ -98,12 +98,78 @@ CVAO::CVAO( const Geometry<VertexPNU0> &geometry ) :
 	glVertexArrayAttribFormat( GLID, attributeLocationNormal,		3, GL_FLOAT, GL_FALSE, 0 );
 	glVertexArrayAttribFormat( GLID, attributeLocationUV0,			2, GL_FLOAT, GL_FALSE, 0 );
 
-	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexPositions,	m_vbo.GLID, offsetof( VertexPNU0, Position ), geometry.Stride );
-	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexNormals,		m_vbo.GLID, offsetof( VertexPNU0, Normal ),	geometry.Stride );
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexPositions,	m_vbo.GLID, offsetof( VertexPNU0, Position ),	geometry.Stride );
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexNormals,		m_vbo.GLID, offsetof( VertexPNU0, Normal ),		geometry.Stride );
 	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexUV0,			m_vbo.GLID, offsetof( VertexPNU0, UV0 ),		geometry.Stride );
 
 	glVertexArrayAttribBinding( GLID, attributeLocationPosition,	CVAO::bindingIndexPositions );
 	glVertexArrayAttribBinding( GLID, attributeLocationNormal,		CVAO::bindingIndexNormals );
+	glVertexArrayAttribBinding( GLID, attributeLocationUV0,			CVAO::bindingIndexUV0 );
+}
+
+CVAO::CVAO( const Geometry<VertexPNTB> &geometry ) :
+	m_mode( geometry.Mode ),
+	m_indexCount( geometry.Indices.size() ),
+	m_vbo( geometry.Vertices ),
+	m_ibo( geometry.Indices )
+{
+	glCreateVertexArrays( 1, &GLID );
+
+	glVertexArrayElementBuffer( GLID, m_ibo.GLID );
+
+	glEnableVertexArrayAttrib( GLID, attributeLocationPosition );
+	glEnableVertexArrayAttrib( GLID, attributeLocationNormal );
+	glEnableVertexArrayAttrib( GLID, attributeLocationTangent );
+	glEnableVertexArrayAttrib( GLID, attributeLocationBitangent );
+
+	glVertexArrayAttribFormat( GLID, attributeLocationPosition,		3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationNormal,		3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationTangent,		3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationBitangent,	3, GL_FLOAT, GL_FALSE, 0 );
+
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexPositions,	m_vbo.GLID, offsetof( VertexPNTB, Position ),	geometry.Stride );
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexNormals,		m_vbo.GLID, offsetof( VertexPNTB, Normal ),		geometry.Stride );
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexTangents,	m_vbo.GLID, offsetof( VertexPNTB, Tangent ),	geometry.Stride );
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexBitangents,	m_vbo.GLID, offsetof( VertexPNTB, Bitangent ),	geometry.Stride );
+
+	glVertexArrayAttribBinding( GLID, attributeLocationPosition,	CVAO::bindingIndexPositions );
+	glVertexArrayAttribBinding( GLID, attributeLocationNormal,		CVAO::bindingIndexNormals );
+	glVertexArrayAttribBinding( GLID, attributeLocationTangent,		CVAO::bindingIndexTangents );
+	glVertexArrayAttribBinding( GLID, attributeLocationBitangent,	CVAO::bindingIndexBitangents );
+}
+
+CVAO::CVAO( const Geometry<VertexPNTBU0> &geometry ) :
+	m_mode( geometry.Mode ),
+	m_indexCount( geometry.Indices.size() ),
+	m_vbo( geometry.Vertices ),
+	m_ibo( geometry.Indices )
+{
+	glCreateVertexArrays( 1, &GLID );
+
+	glVertexArrayElementBuffer( GLID, m_ibo.GLID );
+
+	glEnableVertexArrayAttrib( GLID, attributeLocationPosition );
+	glEnableVertexArrayAttrib( GLID, attributeLocationNormal );
+	glEnableVertexArrayAttrib( GLID, attributeLocationTangent );
+	glEnableVertexArrayAttrib( GLID, attributeLocationBitangent );
+	glEnableVertexArrayAttrib( GLID, attributeLocationUV0 );
+
+	glVertexArrayAttribFormat( GLID, attributeLocationPosition,		3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationNormal,		3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationTangent,		3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationBitangent,	3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationUV0,			2, GL_FLOAT, GL_FALSE, 0 );
+
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexPositions,	m_vbo.GLID, offsetof( VertexPNTBU0, Position ),		geometry.Stride );
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexNormals,		m_vbo.GLID, offsetof( VertexPNTBU0, Normal ),		geometry.Stride );
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexTangents,	m_vbo.GLID, offsetof( VertexPNTBU0, Tangent ),		geometry.Stride );
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexBitangents,	m_vbo.GLID, offsetof( VertexPNTBU0, Bitangent ),	geometry.Stride );
+	glVertexArrayVertexBuffer( GLID, CVAO::bindingIndexUV0,			m_vbo.GLID, offsetof( VertexPNTBU0, UV0 ),			geometry.Stride );
+
+	glVertexArrayAttribBinding( GLID, attributeLocationPosition,	CVAO::bindingIndexPositions );
+	glVertexArrayAttribBinding( GLID, attributeLocationNormal,		CVAO::bindingIndexNormals );
+	glVertexArrayAttribBinding( GLID, attributeLocationTangent,		CVAO::bindingIndexTangents );
+	glVertexArrayAttribBinding( GLID, attributeLocationBitangent,	CVAO::bindingIndexBitangents );
 	glVertexArrayAttribBinding( GLID, attributeLocationUV0,			CVAO::bindingIndexUV0 );
 }
 
