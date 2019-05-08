@@ -8,7 +8,7 @@
 #include "src/scene/CWorld.hpp"
 
 
-CCameraComponent::CCameraComponent( const std::shared_ptr< CEntity > &parent, const f16 zNear, const f16 zFar ) :
+CCameraComponent::CCameraComponent( const std::shared_ptr<CEntity> &parent, const f16 zNear, const f16 zFar ) :
 	CBaseComponent( parent ),
 	m_zNear { zNear },
 	m_zFar { zFar }

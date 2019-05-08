@@ -1,6 +1,6 @@
 #include "CAudioSource.hpp"
 
-CAudioSource::CAudioSource( const std::shared_ptr< const CAudioBuffer > &audioBuffer )
+CAudioSource::CAudioSource( const std::shared_ptr<const CAudioBuffer> &audioBuffer )
 {
 	alGenSources( 1, &m_sourceID );
 
@@ -16,14 +16,14 @@ CAudioSource::~CAudioSource()
 	alDeleteSources( 1, &m_sourceID );
 }
 
-void CAudioSource::SetAudioBuffer( const std::shared_ptr< const CAudioBuffer > &audioBuffer )
+void CAudioSource::SetAudioBuffer( const std::shared_ptr<const CAudioBuffer> &audioBuffer )
 {
 	m_audioBuffer = audioBuffer;
 
 	alSourcei( m_sourceID, AL_BUFFER, audioBuffer->m_bufferID );
 }
 
-const std::shared_ptr< const CAudioBuffer > CAudioSource::Buffer() const
+const std::shared_ptr<const CAudioBuffer> CAudioSource::Buffer() const
 {
 	return( m_audioBuffer );
 }

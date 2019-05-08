@@ -11,8 +11,8 @@ GLenum	CGLState::blendModeDst		{ GL_NONE };
 
 GLenum	CGLState::blendEquation		{ GL_NONE };
 
-std::array< GLuint, CShaderProgramCompiler::RequiredCombinedTextureImageUnits > CGLState::textureUnits;
-std::array< GLuint, CShaderProgramCompiler::RequiredCombinedTextureImageUnits > CGLState::samplerUnits;
+std::array<GLuint, CShaderProgramCompiler::RequiredCombinedTextureImageUnits> CGLState::textureUnits;
+std::array<GLuint, CShaderProgramCompiler::RequiredCombinedTextureImageUnits> CGLState::samplerUnits;
 
 GLuint CGLState::usedProgram	{ 0 };
 

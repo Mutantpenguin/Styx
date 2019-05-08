@@ -199,12 +199,12 @@ const std::string &CGameInfo::GetIconPath() const
 	return( m_icon );
 }
 
-const std::vector< std::string > &CGameInfo::GetAssets() const
+const std::vector<std::string> &CGameInfo::GetAssets() const
 {
 	return( m_assets );
 }
 
-const std::vector< std::string > &CGameInfo::GetTemplates() const
+const std::vector<std::string> &CGameInfo::GetTemplates() const
 {
 	return( m_templates );
 }

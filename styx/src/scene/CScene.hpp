@@ -20,11 +20,11 @@ public:
 	CScene();
 	~CScene();
 
-	[[nodiscard]] std::shared_ptr< CEntity > CreateEntity( const std::string &name );
-	void DeleteEntity( const std::shared_ptr< const CEntity > &entity );
+	[[nodiscard]] std::shared_ptr<CEntity> CreateEntity( const std::string &name );
+	void DeleteEntity( const std::shared_ptr<const CEntity> &entity );
 
-	[[nodiscard]] const std::shared_ptr< const CEntity > &Camera() const;
-	void Camera( const std::shared_ptr< const CEntity > &cameraEntity );
+	[[nodiscard]] const std::shared_ptr<const CEntity> &Camera() const;
+	void Camera( const std::shared_ptr<const CEntity> &cameraEntity );
 
 	[[nodiscard]] const CColor &ClearColor() const;
 	void ClearColor( const CColor &clearColor );
@@ -74,9 +74,9 @@ public:
 	};
 
 private:
-	std::unordered_set< std::shared_ptr< const CEntity > > m_entities;
+	std::unordered_set<std::shared_ptr<const CEntity>> m_entities;
 
-	std::shared_ptr< const CEntity > m_cameraEntity;
+	std::shared_ptr<const CEntity> m_cameraEntity;
 
 	CColor m_clearColor { 0.0f, 0.0f, 0.0f, 0.0f };
 

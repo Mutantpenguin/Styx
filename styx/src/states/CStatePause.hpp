@@ -9,14 +9,14 @@ private:
 	CStatePause& operator=( const CStatePause& rhs );
 
 public:
-	CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface, std::shared_ptr< CState > pausedState );
+	CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface, std::shared_ptr<CState> pausedState );
 	~CStatePause();
 
-	virtual std::shared_ptr< CState > OnUpdate() override;
+	virtual std::shared_ptr<CState> OnUpdate() override;
 
 private:
-	const std::shared_ptr< CState > m_pausedState;
+	const std::shared_ptr<CState> m_pausedState;
 
-	std::shared_ptr< CEntity > m_textEntity;
-	std::shared_ptr< CEntity > m_screenshotEntity;
+	std::shared_ptr<CEntity> m_textEntity;
+	std::shared_ptr<CEntity> m_screenshotEntity;
 };

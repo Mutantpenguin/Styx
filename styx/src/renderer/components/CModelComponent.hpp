@@ -12,14 +12,14 @@ private:
 	CModelComponent& operator=(const CModelComponent& rhs);
 
 public:
-	CModelComponent( const std::shared_ptr< CEntity > &parent, const std::shared_ptr< const CMesh > &mesh );
+	CModelComponent( const std::shared_ptr<CEntity> &parent, const std::shared_ptr<const CMesh> &mesh );
 	~CModelComponent() {};
 
 	static const u16 Index = static_cast<u16>( EComponentIndex::MODEL );
 
-	void Mesh( const std::shared_ptr< const CMesh > &mesh );
-	const std::shared_ptr< const CMesh > Mesh() const;
+	void Mesh( const std::shared_ptr<const CMesh> &mesh );
+	const std::shared_ptr<const CMesh> Mesh() const;
 
 private:
-	std::shared_ptr< const CMesh > m_mesh;
+	std::shared_ptr<const CMesh> m_mesh;
 };

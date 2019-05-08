@@ -13,7 +13,7 @@
 #include "src/system/CFileSystem.hpp"
 
 
-template < typename T >
+template<typename T>
 class CResourceCache : public CResourceCacheBase
 {
 	// TODO static_assert T::Reset
@@ -46,7 +46,7 @@ protected:
 	}
 
 public:
-	[[nodiscard]] const std::shared_ptr< const T > Get( const typename T::ResourceIdType &id )
+	[[nodiscard]] const std::shared_ptr<const T> Get( const typename T::ResourceIdType &id )
 	{
 		const auto it = m_resources.find( id );
 		if( std::end( m_resources ) != it )
@@ -54,7 +54,7 @@ public:
 			return( it->second.resource );
 		}
 
-		auto newResource = std::make_shared< T >();
+		auto newResource = std::make_shared<T>();
 
 		Load( newResource, id );
 
@@ -106,15 +106,15 @@ protected:
 	const CFileSystem &m_filesystem;
 
 private:
-	virtual void Load( const std::shared_ptr< T > &resource, const typename T::ResourceIdType &id ) const = 0;
+	virtual void Load( const std::shared_ptr<T> &resource, const typename T::ResourceIdType &id ) const = 0;
 
 	virtual i64 GetMtime( const typename T::ResourceIdType &id ) const = 0;
 
 	struct sResourceInfo
 	{
-		std::shared_ptr< T >	resource;
-		i64						mtime = 0;
+		std::shared_ptr<T>	resource;
+		i64					mtime = 0;
 	};
 
-	std::map< typename T::ResourceIdType, sResourceInfo > m_resources;
+	std::map<typename T::ResourceIdType, sResourceInfo> m_resources;
 };

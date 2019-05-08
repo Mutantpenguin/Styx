@@ -29,7 +29,7 @@ namespace ImageHandler
 	/**	Loads an bitmap using FreeImage into a CImage.
 		If necessary it gets rescaled to maxSize
 	*/
-	std::shared_ptr< CImage > Load( const CFileSystem &p_filesystem, const fs::path &path, const u32 maxSize, const u8 picMip, const bool flipVertically )
+	std::shared_ptr<CImage> Load( const CFileSystem &p_filesystem, const fs::path &path, const u32 maxSize, const u8 picMip, const bool flipVertically )
 	{
 		if( !path.has_filename() )
 		{
@@ -49,7 +49,7 @@ namespace ImageHandler
 		{
 			SetOutputMessageFreeImage();
 
-			fipMemoryIO memIO( reinterpret_cast<BYTE*>( const_cast< std::byte* >( buffer.data() ) ), buffer.size() );
+			fipMemoryIO memIO( reinterpret_cast<BYTE*>( const_cast<std::byte*>( buffer.data() ) ), buffer.size() );
 
 			fipImage image;
 
@@ -113,8 +113,8 @@ namespace ImageHandler
 				}
 
 				// if width or height are below 1 we can't rescale
-				resizedSize.width	= (std::max)( static_cast< u32 >( 1 ), resizedSize.width );
-				resizedSize.height	= (std::max)( static_cast< u32 >( 1 ), resizedSize.height );
+				resizedSize.width	= (std::max)( static_cast<u32>( 1 ), resizedSize.width );
+				resizedSize.height	= (std::max)( static_cast<u32>( 1 ), resizedSize.height );
 
 				if( resize )
 				{
@@ -135,11 +135,11 @@ namespace ImageHandler
 
 				const u32 pitch = image.getScanWidth();
 
-				auto imageData = std::make_unique< CImage::PixelBuffer >( pitch * resizedSize.height );
+				auto imageData = std::make_unique<CImage::PixelBuffer>( pitch * resizedSize.height );
 
 				std::copy( reinterpret_cast<std::byte*>( image.accessPixels() ), reinterpret_cast<std::byte*>( image.accessPixels() ) + ( pitch * resizedSize.height ), imageData->data() );
 
-				return( std::make_shared< CImage >( resizedSize, originalSize, alpha, bpp, pitch, std::move( imageData ) ) );
+				return( std::make_shared<CImage>( resizedSize, originalSize, alpha, bpp, pitch, std::move( imageData ) ) );
 			}
 			else
 			{
@@ -154,7 +154,7 @@ namespace ImageHandler
 		}
 	}
 
-	bool Save( const CFileSystem &p_filesystem, const std::shared_ptr< const CImage > &image, const f16 scale_factor, const std::string &format, const fs::path &path )
+	bool Save( const CFileSystem &p_filesystem, const std::shared_ptr<const CImage> &image, const f16 scale_factor, const std::string &format, const fs::path &path )
 	{
 		if( !path.has_filename() )
 		{
@@ -179,7 +179,7 @@ namespace ImageHandler
 			{
 				logDEBUG( "resizing image by '{0}'", scale_factor );
 
-				if( !fiImage.rescale( static_cast< unsigned int >( image->Size().width * scale_factor ), static_cast< unsigned int >( image->Size().height * scale_factor ), FILTER_BSPLINE ) )
+				if( !fiImage.rescale( static_cast<unsigned int>( image->Size().width * scale_factor ), static_cast<unsigned int>( image->Size().height * scale_factor ), FILTER_BSPLINE ) )
 				{
 					logWARNING( "failed to rescale image" );
 					return( false );
@@ -223,7 +223,7 @@ namespace ImageHandler
 		}
 	}
 
-	std::shared_ptr< CImage > GenerateCheckerImage( const CSize &size, const CColor &color1, const CColor &color2 )
+	std::shared_ptr<CImage> GenerateCheckerImage( const CSize &size, const CColor &color1, const CColor &color2 )
 	{
 		if( !Math::IsPowerOfTwo( size.width ) )
 		{
@@ -249,7 +249,7 @@ namespace ImageHandler
 
 			const std::array<ColorBytes, 2> colors = { blah( color1 ), blah( color2 ) };
 
-			auto checkerImageData = std::make_unique< CImage::PixelBuffer >( size.width * size.height * 4 );
+			auto checkerImageData = std::make_unique<CImage::PixelBuffer>( size.width * size.height * 4 );
 
 			for( u32 i = 0; i < size.height; ++i )
 			{
@@ -268,7 +268,7 @@ namespace ImageHandler
 				}
 			}
 
-			return( std::make_shared< CImage >( size, size, true, 32, size.width * 4, std::move( checkerImageData ) ) );
+			return( std::make_shared<CImage>( size, size, true, 32, size.width * 4, std::move( checkerImageData ) ) );
 		}
 	}
 }

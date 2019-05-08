@@ -71,7 +71,7 @@ public:
 		const std::string FormattedTime() const;
 	};
 
-	using TLogBuffer = std::vector< std::unique_ptr< const CLogEntry > >;
+	using TLogBuffer = std::vector<std::unique_ptr<const CLogEntry>>;
 
 	class CLogTarget
 	{
@@ -81,15 +81,15 @@ public:
 		virtual ~CLogTarget() {};
 
 	protected:
-		virtual void Log( const std::unique_ptr< const CLogEntry > &entry ) = 0;
+		virtual void Log( const std::unique_ptr<const CLogEntry> &entry ) = 0;
 	};
 
-	template< typename T, typename... Args >
+	template<typename T, typename... Args>
 	static void CreateTarget( Args... args )
 	{
-		static_assert( std::is_base_of< CLogTarget, T >::value, "must derive from CLogTarget" );
+		static_assert( std::is_base_of<CLogTarget, T>::value, "must derive from CLogTarget" );
 
-		m_logTargets.emplace_back( std::make_unique< T >( m_logBuffer, args... ) );
+		m_logTargets.emplace_back( std::make_unique<T>( m_logBuffer, args... ) );
 	}
 
 	static void Destroy();
@@ -105,5 +105,5 @@ private:
 
 	static TLogBuffer m_logBuffer;
 
-	static std::list< std::unique_ptr< CLogTarget > > m_logTargets;
+	static std::list<std::unique_ptr<CLogTarget>> m_logTargets;
 };

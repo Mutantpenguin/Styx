@@ -50,32 +50,32 @@ void CShaderProgram::Reset()
 	m_requiredMaterialUniforms.clear();
 }
 
-const std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredSamplers() const
+const std::vector<std::pair<GLint, const SShaderInterface>> &CShaderProgram::RequiredSamplers() const
 {
 	return( m_requiredSamplers );
 }
 
-const std::vector< std::pair< GLint, const EEngineUniform > > &CShaderProgram::RequiredEngineUniforms() const
+const std::vector<std::pair<GLint, const EEngineUniform>> &CShaderProgram::RequiredEngineUniforms() const
 {
 	return( m_requiredEngineUniforms );
 }
 
-const std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredMaterialUniforms() const
+const std::vector<std::pair<GLint, const SShaderInterface>> &CShaderProgram::RequiredMaterialUniforms() const
 {
 	return( m_requiredMaterialUniforms );
 }
 
-std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredSamplers()
+std::vector<std::pair<GLint, const SShaderInterface>> &CShaderProgram::RequiredSamplers()
 {
 	return( m_requiredSamplers );
 }
 
-std::vector< std::pair< GLint, const EEngineUniform > > &CShaderProgram::RequiredEngineUniforms()
+std::vector<std::pair<GLint, const EEngineUniform>> &CShaderProgram::RequiredEngineUniforms()
 {
 	return( m_requiredEngineUniforms );
 }
 
-std::vector< std::pair< GLint, const SShaderInterface > > &CShaderProgram::RequiredMaterialUniforms()
+std::vector<std::pair<GLint, const SShaderInterface>> &CShaderProgram::RequiredMaterialUniforms()
 {
 	return( m_requiredMaterialUniforms );
 }

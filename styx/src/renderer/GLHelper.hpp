@@ -16,7 +16,7 @@ namespace GLHelper
 	bool FaceModeFromString( const std::string &string, GLenum &facemode );
 	bool PolygonModeFromString( const std::string &string, GLenum &polygonmode );
 
-	GLenum GLFormatFromImage( const std::shared_ptr< const CImage > &image );
+	GLenum GLFormatFromImage( const std::shared_ptr<const CImage> &image );
 
 	std::string GLSLTypeToString( const GLenum type );
 

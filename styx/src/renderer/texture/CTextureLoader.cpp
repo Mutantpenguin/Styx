@@ -37,7 +37,7 @@ CTextureLoader::~CTextureLoader()
 	logINFO( "texture loader is shutting down" );
 }
 
-void CTextureLoader::FromFile( const std::shared_ptr< CTexture > &texture, const fs::path &path ) const
+void CTextureLoader::FromFile( const std::shared_ptr<CTexture> &texture, const fs::path &path ) const
 {
 	if( !path.has_filename() )
 	{
@@ -91,9 +91,9 @@ void CTextureLoader::FromFile( const std::shared_ptr< CTexture > &texture, const
 	}
 }
 
-bool CTextureLoader::FromImageFile( const std::shared_ptr< CTexture > &texture, const fs::path &path ) const
+bool CTextureLoader::FromImageFile( const std::shared_ptr<CTexture> &texture, const fs::path &path ) const
 {
-	const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, path, m_openGlAdapter.MaxTextureSize(), m_iPicMip, false );
+	const std::shared_ptr<const CImage> image = ImageHandler::Load( m_filesystem, path, m_openGlAdapter.MaxTextureSize(), m_iPicMip, false );
 
 	if( !image )
 	{
@@ -107,7 +107,7 @@ bool CTextureLoader::FromImageFile( const std::shared_ptr< CTexture > &texture, 
 	}
 }
 
-bool CTextureLoader::FromCubeFile( const std::shared_ptr< CTexture > &texture, const fs::path &path ) const
+bool CTextureLoader::FromCubeFile( const std::shared_ptr<CTexture> &texture, const fs::path &path ) const
 {
 	json root;
 
@@ -146,7 +146,7 @@ bool CTextureLoader::FromCubeFile( const std::shared_ptr< CTexture > &texture, c
 	for( u8 faceNum = 0; faceNum < CCubemapData::cubemapFaceCount; ++faceNum )
 	{
 		const auto pathOfFace = directoryOfFaces / (*json_faces)[ faceNum ].get<std::string>();
-		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, pathOfFace, m_openGlAdapter.MaxCubeMapTextureSize(), m_iPicMip, true );
+		const std::shared_ptr<const CImage> image = ImageHandler::Load( m_filesystem, pathOfFace, m_openGlAdapter.MaxCubeMapTextureSize(), m_iPicMip, true );
 		if( nullptr == image )
 		{
 			logWARNING( "failed to load image '{0}' for cubemap '{1}'", pathOfFace.generic_string(), path.generic_string() );
@@ -173,7 +173,7 @@ bool CTextureLoader::FromCubeFile( const std::shared_ptr< CTexture > &texture, c
 	}
 }
 
-bool CTextureLoader::From2DArrayFile( const std::shared_ptr< CTexture > &texture, const fs::path &path ) const
+bool CTextureLoader::From2DArrayFile( const std::shared_ptr<CTexture> &texture, const fs::path &path ) const
 {
 	json root;
 
@@ -194,9 +194,9 @@ bool CTextureLoader::From2DArrayFile( const std::shared_ptr< CTexture > &texture
 		logWARNING( "no layers defined in '{0}'", path.generic_string() );
 		return( false );
 	}
-	else if( json_layers->size() > std::numeric_limits< u8 >::max() )
+	else if( json_layers->size() > std::numeric_limits<u8>::max() )
 	{
-		logWARNING( "more than the maximum of {0} layers defined in '{1}'", std::numeric_limits< u8 >::max(), path.generic_string() );
+		logWARNING( "more than the maximum of {0} layers defined in '{1}'", std::numeric_limits<u8>::max(), path.generic_string() );
 		return( false );
 	}
 
@@ -208,7 +208,7 @@ bool CTextureLoader::From2DArrayFile( const std::shared_ptr< CTexture > &texture
 	{
 		const auto pathOfLayer = directoryOfLayers / layer.get<std::string>();
 
-		const std::shared_ptr< const CImage > image = ImageHandler::Load( m_filesystem, pathOfLayer, m_openGlAdapter.MaxTextureSize(), m_iPicMip, false );
+		const std::shared_ptr<const CImage> image = ImageHandler::Load( m_filesystem, pathOfLayer, m_openGlAdapter.MaxTextureSize(), m_iPicMip, false );
 
 		if( nullptr == image )
 		{
@@ -236,7 +236,7 @@ bool CTextureLoader::From2DArrayFile( const std::shared_ptr< CTexture > &texture
 	}
 }
 
-void CTextureLoader::FromImage( const std::shared_ptr< CTexture > &texture, const std::shared_ptr< const CImage > &image ) const
+void CTextureLoader::FromImage( const std::shared_ptr<CTexture> &texture, const std::shared_ptr<const CImage> &image ) const
 {
 	texture->Type( CTexture::EType::TEX_2D );
 
@@ -250,7 +250,7 @@ void CTextureLoader::FromImage( const std::shared_ptr< CTexture > &texture, cons
 
 	glTextureStorage2D( texture->GLID,
 						maxMipLevel,
-						static_cast< GLenum >( m_openGlAdapter.PreferredInternalTextureFormat2D() ),
+						static_cast<GLenum>( m_openGlAdapter.PreferredInternalTextureFormat2D() ),
 						size.width,
 						size.height );
 
@@ -267,7 +267,7 @@ void CTextureLoader::FromImage( const std::shared_ptr< CTexture > &texture, cons
 	glGenerateTextureMipmap( texture->GLID );
 }
 
-bool CTextureLoader::FromCubemapData( const std::shared_ptr< CTexture > &texture, const CCubemapData &cubemapData ) const
+bool CTextureLoader::FromCubemapData( const std::shared_ptr<CTexture> &texture, const CCubemapData &cubemapData ) const
 {
 	if( cubemapData.isComplete() )
 	{
@@ -284,7 +284,7 @@ bool CTextureLoader::FromCubemapData( const std::shared_ptr< CTexture > &texture
 
 		glTextureStorage2D( texture->GLID,
 							1, // levels
-							static_cast< GLenum >( m_openGlAdapter.PreferredInternalTextureFormatCube() ),
+							static_cast<GLenum>( m_openGlAdapter.PreferredInternalTextureFormatCube() ),
 							size.width,
 							size.height );
 
@@ -313,7 +313,7 @@ bool CTextureLoader::FromCubemapData( const std::shared_ptr< CTexture > &texture
 	}
 }
 
-bool CTextureLoader::From2DArrayData( const std::shared_ptr< CTexture > &texture, const C2DArrayData &arrayData ) const
+bool CTextureLoader::From2DArrayData( const std::shared_ptr<CTexture> &texture, const C2DArrayData &arrayData ) const
 {
 	const auto &layers = arrayData.getLayers();
 
@@ -331,7 +331,7 @@ bool CTextureLoader::From2DArrayData( const std::shared_ptr< CTexture > &texture
 
 		glTextureStorage3D( texture->GLID,
 							maxMipLevel,
-							static_cast< GLenum >( m_openGlAdapter.PreferredInternalTextureFormat2DArray() ),
+							static_cast<GLenum>( m_openGlAdapter.PreferredInternalTextureFormat2DArray() ),
 							size.width,
 							size.height,
 							layers.size() );
@@ -363,7 +363,7 @@ bool CTextureLoader::From2DArrayData( const std::shared_ptr< CTexture > &texture
 	}
 }
 
-void CTextureLoader::FromImageDummy( const std::shared_ptr< CTexture > &texture ) const
+void CTextureLoader::FromImageDummy( const std::shared_ptr<CTexture> &texture ) const
 {
 	texture->Reset();
 
@@ -371,7 +371,7 @@ void CTextureLoader::FromImageDummy( const std::shared_ptr< CTexture > &texture 
 	FromImage( texture, m_dummyImage );
 }
 
-void CTextureLoader::FromCubeDummy( const std::shared_ptr< CTexture > &texture ) const
+void CTextureLoader::FromCubeDummy( const std::shared_ptr<CTexture> &texture ) const
 {
 	texture->Reset();
 
@@ -389,7 +389,7 @@ void CTextureLoader::FromCubeDummy( const std::shared_ptr< CTexture > &texture )
 	FromCubemapData( texture, cubemapData );
 }
 
-void CTextureLoader::From2DArrayDummy( const std::shared_ptr< CTexture > &texture ) const
+void CTextureLoader::From2DArrayDummy( const std::shared_ptr<CTexture> &texture ) const
 {
 	texture->Reset();
 

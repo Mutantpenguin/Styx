@@ -10,7 +10,7 @@
 #include "src/renderer/geometry/prefabs/Quad.hpp"
 #include "src/renderer/geometry/prefabs/Rectangle.hpp"
 
-CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface, std::shared_ptr< CState > pausedState ) :
+CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface, std::shared_ptr<CState> pausedState ) :
 	CState( "pause", filesystem, settings, engineInterface ),
 	m_pausedState { pausedState }
 {
@@ -39,16 +39,16 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		auto bgGeometry = GeometryPrefabs::QuadPNU0();
 		bgGeometry.Vertices[ 0 ].Position.x = 0.0f;
 		bgGeometry.Vertices[ 0 ].Position.y = 0.0f;
-		bgGeometry.Vertices[ 1 ].Position.x = static_cast< f16 >( windowSize.width );
+		bgGeometry.Vertices[ 1 ].Position.x = static_cast<f16>( windowSize.width );
 		bgGeometry.Vertices[ 1 ].Position.y = 0.0f;
 		bgGeometry.Vertices[ 2 ].Position.x = 0.0f;
-		bgGeometry.Vertices[ 2 ].Position.y = static_cast< f16 >( windowSize.height );
-		bgGeometry.Vertices[ 3 ].Position.x = static_cast< f16 >( windowSize.width );
-		bgGeometry.Vertices[ 3 ].Position.y = static_cast< f16 >( windowSize.height );
+		bgGeometry.Vertices[ 2 ].Position.y = static_cast<f16>( windowSize.height );
+		bgGeometry.Vertices[ 3 ].Position.x = static_cast<f16>( windowSize.width );
+		bgGeometry.Vertices[ 3 ].Position.y = static_cast<f16>( windowSize.height );
 
-		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resources.Get<CTexture>( "textures/pause/bg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/pause/bg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		const auto bgMesh = std::make_shared< CMesh >( bgGeometry, materialPause, bgMeshTextureSlots );
+		const auto bgMesh = std::make_shared<CMesh>( bgGeometry, materialPause, bgMeshTextureSlots );
 
 		auto bg = m_scene.CreateEntity( "background" );
 		bg->Add<CModelComponent>( bgMesh );
@@ -65,7 +65,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		{
 			const auto materialPauseText = resources.Get<CMaterial>( "materials/standard_blend.mat" );
 
-			const CMesh::TMeshTextureSlots textMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resources.Get<CTexture>( "textures/pause/fg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+			const CMesh::TMeshTextureSlots textMeshTextureSlots = { { "diffuseTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/pause/fg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
 			const auto meshText = std::make_shared<CMesh>( GeometryPrefabs::RectanglePNU0( pauseElementsWidth, pauseTextHeight ), materialPauseText, textMeshTextureSlots );
 
@@ -77,7 +77,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		{
 			const auto materialPauseText = resources.Get<CMaterial>( "materials/pause_screenshot.mat" );
 
-			const CMesh::TMeshTextureSlots screenshotMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( m_pausedState->FrameBuffer().ColorTexture(), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+			const CMesh::TMeshTextureSlots screenshotMeshTextureSlots = { { "diffuseTexture", std::make_shared<CMeshTextureSlot>( m_pausedState->FrameBuffer().ColorTexture(), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
 			const auto screenshotMesh = std::make_shared<CMesh>( GeometryPrefabs::RectanglePNU0( pauseElementsWidth, screenshotHeight ), materialPauseText, screenshotMeshTextureSlots );
 
@@ -92,7 +92,7 @@ CStatePause::~CStatePause()
 {
 }
 
-std::shared_ptr< CState > CStatePause::OnUpdate()
+std::shared_ptr<CState> CStatePause::OnUpdate()
 {
 	const auto yOffset = ( sin( m_timer.Time() / 2000000.0f ) * 0.5f );
 
@@ -115,7 +115,7 @@ std::shared_ptr< CState > CStatePause::OnUpdate()
 	else if( input.KeyDown( SDL_SCANCODE_Q ) )
 	{
 		logINFO( "ESC pressed, ending game..." );
-		return( std::make_shared< CStateMainMenu >( m_filesystem, m_settings, m_engineInterface ) );
+		return( std::make_shared<CStateMainMenu>( m_filesystem, m_settings, m_engineInterface ) );
 	}
 
 	return( shared_from_this() );

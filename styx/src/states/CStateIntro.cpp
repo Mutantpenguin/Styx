@@ -11,7 +11,7 @@
 
 CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "intro", filesystem, settings, engineInterface ),
-	m_introSound { std::make_shared< CAudioSource>( engineInterface.Resources.Get<CAudioBuffer>( "sounds/startup_sound.ogg" ) ) },
+	m_introSound { std::make_shared<CAudioSource>( engineInterface.Resources.Get<CAudioBuffer>( "sounds/startup_sound.ogg" ) ) },
 	m_introDuration { m_introSound->Buffer()->Duration() * 1000000 }
 {
 	m_scene.ClearColor( CColor( 1.0f, 1.0f, 1.0f, 1.0f ) );
@@ -31,9 +31,9 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	const auto material = resources.Get<CMaterial>( "materials/intro_icon.mat" );
 
-	const CMesh::TMeshTextureSlots logoMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resources.Get<CTexture>( "textures/styx/logo.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+	const CMesh::TMeshTextureSlots logoMeshTextureSlots = { { "diffuseTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/styx/logo.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-	const auto logoMesh = std::make_shared< CMesh >( GeometryPrefabs::QuadPNU0( 6.0f ), material, logoMeshTextureSlots );
+	const auto logoMesh = std::make_shared<CMesh>( GeometryPrefabs::QuadPNU0( 6.0f ), material, logoMeshTextureSlots );
 
 	m_logoEntity = m_scene.CreateEntity( "logo" );
 	m_logoEntity->Add<CModelComponent>( logoMesh );
@@ -46,7 +46,7 @@ CStateIntro::~CStateIntro()
 {
 }
 
-std::shared_ptr< CState > CStateIntro::OnUpdate()
+std::shared_ptr<CState> CStateIntro::OnUpdate()
 {
 	const u64 elapsedTime = m_timer.Time();
 
@@ -71,7 +71,7 @@ std::shared_ptr< CState > CStateIntro::OnUpdate()
 	{
 		try
 		{
-			return( std::make_shared< CStateMainMenu >( m_filesystem, m_settings, m_engineInterface ) );
+			return( std::make_shared<CStateMainMenu>( m_filesystem, m_settings, m_engineInterface ) );
 		}
 		catch( std::exception &e )
 		{

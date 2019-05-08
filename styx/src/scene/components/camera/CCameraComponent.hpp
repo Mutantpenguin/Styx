@@ -13,7 +13,7 @@
 class CCameraComponent : public CBaseComponent
 {
 public:
-	CCameraComponent( const std::shared_ptr< CEntity > &parent, const f16 zNear, const f16 zFar );
+	CCameraComponent( const std::shared_ptr<CEntity> &parent, const f16 zNear, const f16 zFar );
 	virtual ~CCameraComponent() {};
 
 	static const u16 Index = static_cast<u16>( EComponentIndex::CAMERA );

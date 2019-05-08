@@ -14,7 +14,7 @@ public:
 	CStateMainMenu( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface );
 	~CStateMainMenu();
 
-	virtual std::shared_ptr< CState > OnUpdate() override;
+	virtual std::shared_ptr<CState> OnUpdate() override;
 
 private:
 	enum class eMenuState
@@ -26,10 +26,10 @@ private:
 
 	eMenuState m_currentState { eMenuState::START };
 
-	std::shared_ptr< CEntity > m_startEntity;
-	std::shared_ptr< CEntity > m_exitEntity;
+	std::shared_ptr<CEntity> m_startEntity;
+	std::shared_ptr<CEntity> m_exitEntity;
 
-	const std::shared_ptr< const CAudioSource > m_buttonChangeSound;
+	const std::shared_ptr<const CAudioSource> m_buttonChangeSound;
 
-	std::shared_ptr< const CAudioSource > m_backgroundMusic;
+	std::shared_ptr<const CAudioSource> m_backgroundMusic;
 };

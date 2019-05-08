@@ -13,7 +13,7 @@ private:
 	CCameraOrthoComponent& operator=( const CCameraOrthoComponent& rhs );
 
 public:
-	CCameraOrthoComponent( const std::shared_ptr< CEntity > &parent, const CSize &size, const f16 zNear, const f16 zFar );
+	CCameraOrthoComponent( const std::shared_ptr<CEntity> &parent, const CSize &size, const f16 zNear, const f16 zFar );
 	~CCameraOrthoComponent() {};
 
 public:

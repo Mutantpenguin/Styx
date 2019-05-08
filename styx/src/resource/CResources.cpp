@@ -25,7 +25,7 @@ CResources::~CResources()
 	#endif
 }
 
-void CResources::DeRegister( const std::shared_ptr< CResourceCacheBase > &resourceCache )
+void CResources::DeRegister( const std::shared_ptr<CResourceCacheBase> &resourceCache )
 {
 	const auto itMap = std::find_if( std::cbegin( m_resourceCacheMap ), std::cend( m_resourceCacheMap ), [&] ( auto &x ) { return( x.second == resourceCache ); } );
 

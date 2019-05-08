@@ -43,7 +43,7 @@ namespace ComputerInfo
 			ZeroMemory( &osinfo, sizeof( OSVERSIONINFOEX ) );
 			osinfo.dwOSVersionInfoSize = sizeof( OSVERSIONINFOEX );
 
-			if( GetVersionEx( reinterpret_cast< OSVERSIONINFO* >( &osinfo ) ) )
+			if( GetVersionEx( reinterpret_cast<OSVERSIONINFO*>( &osinfo ) ) )
 			{
 				SYSTEM_INFO sysinfo;
 				GetSystemInfo( &sysinfo );
@@ -378,7 +378,7 @@ namespace ComputerInfo
 			{
 				// get processor name
 				valueSize = 1024;
-				if( ERROR_SUCCESS == RegQueryValueEx( hKey, TEXT( "ProcessorNameString" ), nullptr, nullptr, reinterpret_cast< LPBYTE >( &value ), &valueSize ) )
+				if( ERROR_SUCCESS == RegQueryValueEx( hKey, TEXT( "ProcessorNameString" ), nullptr, nullptr, reinterpret_cast<LPBYTE>( &value ), &valueSize ) )
 				{
 					processor = value;
 				}
@@ -391,7 +391,7 @@ namespace ComputerInfo
 
 				// get processor identifier
 				valueSize = 1024;
-				if( ERROR_SUCCESS == RegQueryValueEx( hKey, TEXT( "Identifier" ), nullptr, nullptr, reinterpret_cast< LPBYTE >( &value ), &valueSize ) )
+				if( ERROR_SUCCESS == RegQueryValueEx( hKey, TEXT( "Identifier" ), nullptr, nullptr, reinterpret_cast<LPBYTE>( &value ), &valueSize ) )
 				{
 					processor += value;
 				}
@@ -404,7 +404,7 @@ namespace ComputerInfo
 
 				// get processor vendor
 				valueSize = 1024;
-				if( ERROR_SUCCESS == RegQueryValueEx( hKey, TEXT( "VendorIdentifier" ), nullptr, nullptr, reinterpret_cast< LPBYTE >( &value ), &valueSize ) )
+				if( ERROR_SUCCESS == RegQueryValueEx( hKey, TEXT( "VendorIdentifier" ), nullptr, nullptr, reinterpret_cast<LPBYTE>( &value ), &valueSize ) )
 				{
 					processor += value;
 				}
@@ -417,9 +417,9 @@ namespace ComputerInfo
 
 				// get processor frequence
 				valueSize = 1024;
-				if( ERROR_SUCCESS == RegQueryValueEx( hKey, TEXT( "~MHz" ), nullptr, nullptr, reinterpret_cast< LPBYTE >( &value ), &valueSize ) )
+				if( ERROR_SUCCESS == RegQueryValueEx( hKey, TEXT( "~MHz" ), nullptr, nullptr, reinterpret_cast<LPBYTE>( &value ), &valueSize ) )
 				{
-					processor += std::to_string( reinterpret_cast< int >( value ) );
+					processor += std::to_string( reinterpret_cast<int>( value ) );
 					processor += "MHz";
 
 				}

@@ -79,10 +79,10 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 
 	if( !iconPath.empty() )
 	{
-		const std::shared_ptr< const CImage > image = ImageHandler::Load( filesystem, iconPath, 256, 0, true );
+		const std::shared_ptr<const CImage> image = ImageHandler::Load( filesystem, iconPath, 256, 0, true );
 		if( image )
 		{
-			SDL_Surface *gameIcon = SDL_CreateRGBSurfaceFrom( const_cast< void* >( static_cast< const void* >( image->RawPixelData() ) ), image->Size().width, image->Size().height, image->BPP(), image->Pitch(), 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 );
+			SDL_Surface *gameIcon = SDL_CreateRGBSurfaceFrom( const_cast<void*>( static_cast<const void*>( image->RawPixelData() ) ), image->Size().width, image->Size().height, image->BPP(), image->Pitch(), 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 );
 
 			if( nullptr != gameIcon )
 			{
@@ -143,7 +143,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 
 	if( settings.renderer.window.gamma > 0.0f )
 	{
-		std::array< Uint16, 256 > ramp;
+		std::array<Uint16, 256> ramp;
 		SDL_CalculateGammaRamp( settings.renderer.window.gamma, ramp.data() );
 		if( SDL_SetWindowGammaRamp( m_SDL_window, ramp.data(), ramp.data(), ramp.data() ) != 0 )
 		{

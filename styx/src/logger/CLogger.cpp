@@ -4,15 +4,15 @@
 
 CLogger::TLogBuffer CLogger::m_logBuffer;
 
-std::list< std::unique_ptr< CLogger::CLogTarget > > CLogger::m_logTargets;
+std::list<std::unique_ptr<CLogger::CLogTarget>> CLogger::m_logTargets;
 
 void CLogger::Log( e_loglevel logLevel, const std::string &message )
 {
 	static const std::chrono::high_resolution_clock::time_point first = std::chrono::high_resolution_clock::now();
 
-	const std::chrono::milliseconds	diff = std::chrono::duration_cast< std::chrono::milliseconds >( std::chrono::high_resolution_clock::now() - first );
+	const std::chrono::milliseconds	diff = std::chrono::duration_cast<std::chrono::milliseconds>( std::chrono::high_resolution_clock::now() - first );
 
-	const auto &logEntry = m_logBuffer.emplace_back( std::make_unique< CLogEntry >( diff, logLevel, message ) );
+	const auto &logEntry = m_logBuffer.emplace_back( std::make_unique<CLogEntry>( diff, logLevel, message ) );
 	
 	for( const auto &target : m_logTargets )
 	{

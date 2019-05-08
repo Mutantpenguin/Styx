@@ -17,12 +17,12 @@ public:
 	CStateIntro( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface );
 	~CStateIntro();
 
-	virtual std::shared_ptr< CState > OnUpdate() override;
+	virtual std::shared_ptr<CState> OnUpdate() override;
 
 private:
-	const std::shared_ptr< const CAudioSource > m_introSound;
+	const std::shared_ptr<const CAudioSource> m_introSound;
 
 	const f16 m_introDuration;
 
-	std::shared_ptr< CEntity > m_logoEntity;
+	std::shared_ptr<CEntity> m_logoEntity;
 };

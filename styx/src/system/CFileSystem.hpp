@@ -19,7 +19,7 @@ public :
 		APPEND
 	};
 
-	CFileSystem( const char *argv0, const std::string &organisation, const std::string &gamename, const fs::path &gameDirectory, const std::vector< std::string > &assets );
+	CFileSystem( const char *argv0, const std::string &organisation, const std::string &gamename, const fs::path &gameDirectory, const std::vector<std::string> &assets );
 	~CFileSystem();
 
 	bool	Exists( const fs::path &path ) const;
@@ -30,7 +30,7 @@ public :
 
 	const char*	GetLastError() const;
 
-	using FileBuffer = std::vector< std::byte >;
+	using FileBuffer = std::vector<std::byte>;
 
 	[[nodiscard]] FileBuffer	LoadFileToBuffer( const fs::path &path ) const;
 	[[nodiscard]] bool			SaveBufferToFile( const FileBuffer &buffer, const fs::path &path ) const;

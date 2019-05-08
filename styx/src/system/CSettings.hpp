@@ -23,7 +23,7 @@ public:
 		struct s_Window final
 		{
 			CSize	size			{ 640, 480 };
-			f16		aspect_ratio	{ static_cast< f16 >( size.width ) / static_cast< f16 >( size.height ) };
+			f16		aspect_ratio	{ static_cast<f16>( size.width ) / static_cast<f16>( size.height ) };
 			u8		display			{ 0 };
 			bool	fullscreen		{ false };
 			bool	vsync			{ true };

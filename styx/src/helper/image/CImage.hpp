@@ -10,10 +10,10 @@
 class CImage final
 {
 public:
-	using PixelBuffer = std::vector< std::byte >;
+	using PixelBuffer = std::vector<std::byte>;
 
 public:
-	CImage( const CSize &size, const CSize &originalSize, bool alpha, u8 bpp, u32 pitch, std::unique_ptr< PixelBuffer > imageData );
+	CImage( const CSize &size, const CSize &originalSize, bool alpha, u8 bpp, u32 pitch, std::unique_ptr<PixelBuffer> imageData );
 
 	const CSize &Size() const;
 
@@ -34,5 +34,5 @@ private:
 	const u8	m_bpp;
 	const u32	m_pitch;
 
-	const std::unique_ptr< PixelBuffer > m_imageData;
+	const std::unique_ptr<PixelBuffer> m_imageData;
 };

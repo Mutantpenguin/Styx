@@ -8,7 +8,7 @@
 
 #include "src/logger/CLogger.hpp"
 
-void CMesh::SetMaterial( const std::shared_ptr< const CMaterial > &mat )
+void CMesh::SetMaterial( const std::shared_ptr<const CMaterial> &mat )
 {
 	m_material = mat;
 
@@ -18,7 +18,7 @@ void CMesh::SetMaterial( const std::shared_ptr< const CMaterial > &mat )
 
 		for( const auto & [ location, interface ] : shader->RequiredSamplers() )
 		{
-			std::shared_ptr< const CSampler > sampler;
+			std::shared_ptr<const CSampler> sampler;
 
 			if( mat_samplers != mat_root.cend() )
 			{
@@ -36,7 +36,7 @@ void CMesh::SetMaterial( const std::shared_ptr< const CMaterial > &mat )
  * */
 }
 
-void CMesh::ChangeTexture( const std::string &slotName, const std::shared_ptr< const CTexture > &texture )
+void CMesh::ChangeTexture( const std::string &slotName, const std::shared_ptr<const CTexture> &texture )
 {
 	const auto &meshTextureSlot = m_textureSlots.find( slotName );
 	if( meshTextureSlot == std::cend( m_textureSlots ) )
@@ -49,7 +49,7 @@ void CMesh::ChangeTexture( const std::string &slotName, const std::shared_ptr< c
 	}
 }
 
-void CMesh::ChangeSampler( const std::string &slotName, const std::shared_ptr< const CSampler > &sampler )
+void CMesh::ChangeSampler( const std::string &slotName, const std::shared_ptr<const CSampler> &sampler )
 {
 	const auto &meshTextureSlot = m_textureSlots.find( slotName );
 	if( meshTextureSlot == std::cend( m_textureSlots ) )
@@ -62,7 +62,7 @@ void CMesh::ChangeSampler( const std::string &slotName, const std::shared_ptr< c
 	}
 }
 
-void CMesh::ChangeTextureAndSampler( const std::string &slotName, const std::shared_ptr< const CTexture > &texture, const std::shared_ptr< const CSampler > &sampler )
+void CMesh::ChangeTextureAndSampler( const std::string &slotName, const std::shared_ptr<const CTexture> &texture, const std::shared_ptr<const CSampler> &sampler )
 {
 	const auto &meshTextureSlot = m_textureSlots.find( slotName );
 	if( meshTextureSlot == std::cend( m_textureSlots ) )
@@ -130,7 +130,7 @@ void CMesh::SetupMaterialTextureSlotMapping()
 	}
 }
 
-const std::shared_ptr< const CMaterial > &CMesh::Material() const
+const std::shared_ptr<const CMaterial> &CMesh::Material() const
 {
 	return( m_material );
 }

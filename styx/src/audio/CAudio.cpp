@@ -11,7 +11,7 @@
 CAudio::CAudio( const CSettings &settings, const CFileSystem &p_filesystem, CResources &resources ) :
 	m_buffer_size { settings.audio.buffer_size },
 	m_resources { resources },
-	m_audioBufferCache { std::make_shared< CAudioBufferCache >( p_filesystem ) }
+	m_audioBufferCache { std::make_shared<CAudioBufferCache>( p_filesystem ) }
 {
 	m_AL_device = alcOpenDevice( nullptr );
 	if( nullptr == m_AL_device )
@@ -42,7 +42,7 @@ CAudio::CAudio( const CSettings &settings, const CFileSystem &p_filesystem, CRes
 
 	logINFO( "\tVendor:  {0}", alGetString( AL_VENDOR ) );
 
-	m_resources.Register< CAudioBuffer >( m_audioBufferCache );
+	m_resources.Register<CAudioBuffer>( m_audioBufferCache );
 
 	SetVolume( settings.audio.volume );
 
@@ -64,7 +64,7 @@ void CAudio::SetListener( const glm::vec3 &position, const glm::vec3 &direction,
 {
 	alListener3f( AL_POSITION, position.x, position.y, position.z );
 
-	const std::array< ALfloat, 6 > orientation = { { direction.x, direction.y, direction.z, up.x, up.y, up.z } };
+	const std::array<ALfloat, 6> orientation = { { direction.x, direction.y, direction.z, up.x, up.y, up.z } };
 	alListenerfv( AL_ORIENTATION, orientation.data() );
 }
 

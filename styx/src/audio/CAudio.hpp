@@ -41,5 +41,5 @@ private:
 
 	CResources &m_resources;
 
-	std::shared_ptr< CAudioBufferCache > m_audioBufferCache;
+	std::shared_ptr<CAudioBufferCache> m_audioBufferCache;
 };

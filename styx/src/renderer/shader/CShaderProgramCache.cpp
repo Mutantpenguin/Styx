@@ -1,6 +1,6 @@
 #include "CShaderProgramCache.hpp"
 
-void CShaderProgramCache::Load( const std::shared_ptr< CShaderProgram > &resource, const CShaderProgram::ResourceIdType &id ) const
+void CShaderProgramCache::Load( const std::shared_ptr<CShaderProgram> &resource, const CShaderProgram::ResourceIdType &id ) const
 {
 	resource->VertexShader = m_resources.Get<CShader>( id.vertexShader );
 

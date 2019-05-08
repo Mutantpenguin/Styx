@@ -174,7 +174,7 @@ namespace GLHelper
 		return( true );
 	}
 
-	GLenum GLFormatFromImage( const std::shared_ptr< const CImage > &image )
+	GLenum GLFormatFromImage( const std::shared_ptr<const CImage> &image )
 	{
 		if( image->HasAlpha() )
 		{

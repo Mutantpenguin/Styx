@@ -2,7 +2,7 @@
 
 #include "src/logger/CLogger.hpp"
 
-bool CCubemapData::SetFace( const u8 faceNum, const std::shared_ptr< const CImage > &image )
+bool CCubemapData::SetFace( const u8 faceNum, const std::shared_ptr<const CImage> &image )
 {
 	if( faceNum >= cubemapFaceCount )
 	{
@@ -26,7 +26,7 @@ bool CCubemapData::SetFace( const u8 faceNum, const std::shared_ptr< const CImag
 	}
 
 	// check newly added faces against the first image if already existant
-	const std::shared_ptr< const CImage > &firstImage = m_faces[ 0 ];
+	const std::shared_ptr<const CImage> &firstImage = m_faces[ 0 ];
 
 	if( firstImage )
 	{
@@ -52,14 +52,14 @@ bool CCubemapData::SetFace( const u8 faceNum, const std::shared_ptr< const CImag
 	return( true );
 }
 
-const std::array< std::shared_ptr< const CImage >, 6 > &CCubemapData::getFaces() const
+const std::array<std::shared_ptr<const CImage>, CCubemapData::cubemapFaceCount> &CCubemapData::getFaces() const
 {
 	return( m_faces );
 }
 
 bool CCubemapData::isComplete() const
 {
-	for( const std::shared_ptr< const CImage > &face : m_faces )
+	for( const std::shared_ptr<const CImage> &face : m_faces )
 	{
 		if( !face )
 		{

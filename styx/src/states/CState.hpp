@@ -14,7 +14,7 @@
 #include "src/system/CFileSystem.hpp"
 #include "src/system/CSettings.hpp"
 
-class CState : public std::enable_shared_from_this< CState >
+class CState : public std::enable_shared_from_this<CState>
 {
 private:
 	CState( const CState &rhs ) = delete;
@@ -25,8 +25,8 @@ protected:
 	virtual ~CState() {};
 
 public:
-	[[nodiscard]] virtual std::shared_ptr< CState > Update() final;
-	[[nodiscard]] virtual std::shared_ptr< CState > OnUpdate() = 0;
+	[[nodiscard]] virtual std::shared_ptr<CState> Update() final;
+	[[nodiscard]] virtual std::shared_ptr<CState> OnUpdate() = 0;
 
 	virtual void Pause() final;
 	virtual void OnPause() {};

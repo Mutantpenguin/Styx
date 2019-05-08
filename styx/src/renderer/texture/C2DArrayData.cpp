@@ -2,12 +2,12 @@
 
 #include "src/logger/CLogger.hpp"
 
-bool C2DArrayData::AddLayer( const std::shared_ptr< const CImage > &image )
+bool C2DArrayData::AddLayer( const std::shared_ptr<const CImage> &image )
 {
 	// check newly added layer against the first image if already existant
 	if( !m_layers.empty() )
 	{
-		const std::shared_ptr< const CImage > &firstImage = m_layers.front();
+		const std::shared_ptr<const CImage> &firstImage = m_layers.front();
 
 		if( firstImage->Size() != image->Size() )
 		{
@@ -31,7 +31,7 @@ bool C2DArrayData::AddLayer( const std::shared_ptr< const CImage > &image )
 	return( true );
 }
 
-const std::vector< std::shared_ptr< const CImage > > &C2DArrayData::getLayers() const
+const std::vector<std::shared_ptr<const CImage>> &C2DArrayData::getLayers() const
 {
 	return( m_layers );
 }

@@ -24,11 +24,11 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 	m_samplerManager( settings ),
 	m_shaderCompiler(),
 	m_shaderProgramCompiler( m_shaderCompiler ),
-	m_textureCache { std::make_shared< CTextureCache >( settings, filesystem, m_OpenGlAdapter ) },
-	m_modelCache { std::make_shared< CModelCache >( filesystem, resources ) },
-	m_materialCache { std::make_shared< CMaterialCache >( filesystem, resources, m_shaderProgramCompiler ) },
-	m_shaderCache { std::make_shared< CShaderCache >( filesystem, m_shaderCompiler ) },
-	m_shaderProgramCache { std::make_shared< CShaderProgramCache >( filesystem, resources, m_shaderCompiler, m_shaderProgramCompiler ) }
+	m_textureCache { std::make_shared<CTextureCache>( settings, filesystem, m_OpenGlAdapter ) },
+	m_modelCache { std::make_shared<CModelCache>( filesystem, resources ) },
+	m_materialCache { std::make_shared<CMaterialCache>( filesystem, resources, m_shaderProgramCompiler ) },
+	m_shaderCache { std::make_shared<CShaderCache>( filesystem, m_shaderCompiler ) },
+	m_shaderProgramCache { std::make_shared<CShaderProgramCache>( filesystem, resources, m_shaderCompiler, m_shaderProgramCompiler ) }
 {
 	glDepthFunc( GL_LEQUAL );
 	glEnable( GL_DEPTH_TEST );
@@ -72,7 +72,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 			THROW_STYX_EXCEPTION( "couldn't create fragment shader for the framebuffer" )
 		}
 
-		const std::shared_ptr< CMaterial > materialFrameBuffer = std::make_shared< CMaterial >();
+		const auto materialFrameBuffer = std::make_shared<CMaterial>();
 
 		const auto shaderProgram = std::make_shared<CShaderProgram>();
 		shaderProgram->VertexShader = vertexShader;
@@ -84,9 +84,9 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 
 		materialFrameBuffer->ShaderProgram( shaderProgram );
 
-		const CMesh::TMeshTextureSlots frameBufferMeshTextureSlots = { { m_slotNameFrameBuffer, std::make_shared< CMeshTextureSlot >( nullptr, m_samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TMeshTextureSlots frameBufferMeshTextureSlots = { { m_slotNameFrameBuffer, std::make_shared<CMeshTextureSlot>( nullptr, m_samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
-		m_meshFrameBuffer = std::make_unique< CMesh >( GeometryPrefabs::QuadPNU0( 2.0f ), materialFrameBuffer, frameBufferMeshTextureSlots );
+		m_meshFrameBuffer = std::make_unique<CMesh>( GeometryPrefabs::QuadPNU0( 2.0f ), materialFrameBuffer, frameBufferMeshTextureSlots );
 	}
 
 	m_resources.Register<CTexture>( m_textureCache );
@@ -119,14 +119,14 @@ void CRenderer::CreateUniformBuffers()
 										"mat4 viewProjectionMatrix;";
 
 		// use glm::vec4 for position and direction, else we get rendering errors. seems to be a problem with some OpenGL implementations
-		m_uboCamera = std::make_shared< CUniformBuffer >( ( 2 * sizeof( glm::vec4 ) ) + ( 3 * sizeof( glm::mat4 ) ), GL_DYNAMIC_DRAW, EUniformBufferLocation::CAMERA, "Camera", cameraBody );
+		m_uboCamera = std::make_shared<CUniformBuffer>( ( 2 * sizeof( glm::vec4 ) ) + ( 3 * sizeof( glm::mat4 ) ), GL_DYNAMIC_DRAW, EUniformBufferLocation::CAMERA, "Camera", cameraBody );
 		m_shaderCompiler.RegisterUniformBuffer( m_uboCamera );
 	}
 
 	{
 		const std::string timerBody = "uint time;";
 
-		m_uboTimer = std::make_shared< CUniformBuffer >( sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::TIME, "Timer", timerBody );
+		m_uboTimer = std::make_shared<CUniformBuffer>( sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::TIME, "Timer", timerBody );
 		m_shaderCompiler.RegisterUniformBuffer( m_uboTimer );
 	}
 
@@ -134,7 +134,7 @@ void CRenderer::CreateUniformBuffers()
 		const std::string screenBody = 	"uint width;" \
 										"uint height;";
 
-		m_uboScreen = std::make_shared< CUniformBuffer >( 2 * sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::SCREEN, "Screen", screenBody );
+		m_uboScreen = std::make_shared<CUniformBuffer>( 2 * sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::SCREEN, "Screen", screenBody );
 		m_shaderCompiler.RegisterUniformBuffer( m_uboScreen );
 
 		m_uboScreen->SubData( 0,					sizeof( glm::uint ), &m_settings.renderer.window.size.width );
@@ -142,13 +142,13 @@ void CRenderer::CreateUniformBuffers()
 	}
 }
 
-void CRenderer::UpdateUniformBuffers( const std::shared_ptr< const CEntity > &cameraEntity, const CTimer &timer ) const
+void CRenderer::UpdateUniformBuffers( const std::shared_ptr<const CEntity> &cameraEntity, const CTimer &timer ) const
 {
 	/*
 	 * Update time into the uniform buffer
 	 */
 
-	const glm::uint timeMilliseconds = static_cast< glm::uint >( timer.Time() / 1000 );
+	const glm::uint timeMilliseconds = static_cast<glm::uint>( timer.Time() / 1000 );
 	m_uboTimer->SubData( 0,	sizeof( glm::uint ), &timeMilliseconds );
 
 	/*

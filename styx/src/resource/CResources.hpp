@@ -19,8 +19,8 @@ public:
 	CResources();
 	~CResources();
 
-	template < typename T >
-	void Register( const std::shared_ptr< CResourceCacheBase > &resourceCache )
+	template<typename T>
+	void Register( const std::shared_ptr<CResourceCacheBase> &resourceCache )
 	{
 		auto type_index = std::type_index( typeid( T ) );
 
@@ -38,13 +38,13 @@ public:
 		}
 	}
 
-	void DeRegister( const std::shared_ptr< CResourceCacheBase > &resourceCache );
+	void DeRegister( const std::shared_ptr<CResourceCacheBase> &resourceCache );
 
 	void CollectGarbage();
 	void Reload();
 
-	template < typename T >
-	const std::shared_ptr< const T > Get( const typename T::ResourceIdType &id )
+	template<typename T>
+	const std::shared_ptr<const T> Get( const typename T::ResourceIdType &id )
 	{
 		#ifdef STYX_DEBUG
 			const auto it = m_resourceCacheMap.find( std::type_index( typeid( T ) ) );
@@ -57,13 +57,13 @@ public:
 			}
 		#endif
 
-		auto resourceCache = std::static_pointer_cast< CResourceCache< T > >( m_resourceCacheMap[ std::type_index( typeid( T ) ) ] );
+		auto resourceCache = std::static_pointer_cast<CResourceCache<T>>( m_resourceCacheMap[ std::type_index( typeid( T ) ) ] );
 
 		return( resourceCache->Get( id ) );
 	}
 
 private:
-	std::unordered_map< std::type_index, const std::shared_ptr< CResourceCacheBase > > m_resourceCacheMap;
+	std::unordered_map<std::type_index, const std::shared_ptr<CResourceCacheBase>> m_resourceCacheMap;
 
-	std::vector< std::shared_ptr< CResourceCacheBase > > m_resourceCachesOrdered;
+	std::vector<std::shared_ptr<CResourceCacheBase>> m_resourceCachesOrdered;
 };

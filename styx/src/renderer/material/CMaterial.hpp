@@ -34,11 +34,11 @@ public:
 
 	void PolygonMode( const GLenum polygonMode );
 
-	const std::shared_ptr< const CShaderProgram > &ShaderProgram() const;
-	void ShaderProgram( const std::shared_ptr< const CShaderProgram > &shaderProgram );
+	const std::shared_ptr<const CShaderProgram> &ShaderProgram() const;
+	void ShaderProgram( const std::shared_ptr<const CShaderProgram> &shaderProgram );
 
-	const std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &MaterialUniforms() const;
-	std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &MaterialUniforms();
+	const std::vector<std::pair<GLuint, std::unique_ptr<const CMaterialUniform>>> &MaterialUniforms() const;
+	std::vector<std::pair<GLuint, std::unique_ptr<const CMaterialUniform>>> &MaterialUniforms();
 
 	const std::string &Name() const;
 	void Name( const std::string &name );
@@ -48,9 +48,9 @@ public:
 private:
 	std::string m_name;
 
-	std::shared_ptr< const CShaderProgram >	m_shaderProgram;
+	std::shared_ptr<const CShaderProgram>	m_shaderProgram;
 
-	std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > m_materialUniforms;
+	std::vector<std::pair<GLuint, std::unique_ptr<const CMaterialUniform>>> m_materialUniforms;
 
 	bool	m_bCullFace		{ false };
 	GLenum	m_cullfaceMode	{ GL_NONE };	// GL_FRONT, GL_BACK or GL_FRONT_AND_BACK

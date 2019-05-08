@@ -22,7 +22,7 @@
 COpenGlAdapter::COpenGlAdapter()
 {
 	glbinding::Binding::initialize( []( const char *name ) {
-        return reinterpret_cast< glbinding::ProcAddress >( SDL_GL_GetProcAddress( name ) );
+        return reinterpret_cast<glbinding::ProcAddress>( SDL_GL_GetProcAddress( name ) );
     } );
 
 	const auto supportedOpenGLExtensions = glbinding::aux::ContextInfo::extensions();
@@ -188,7 +188,7 @@ GLint COpenGlAdapter::PreferredInternalTextureFormat2DArray() const
 	return( m_preferredInternalTextureFormat2DArray );
 }
 
-bool COpenGlAdapter::isSupported( const std::set< GLextension > &extensions, const GLextension extension ) const
+bool COpenGlAdapter::isSupported( const std::set<GLextension> &extensions, const GLextension extension ) const
 {
 	if( extensions.find( extension ) != std::end( extensions ) )
 	{

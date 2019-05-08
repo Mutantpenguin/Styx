@@ -5,7 +5,7 @@
 #include "src/audio/CAudioBuffer.hpp"
 #include "src/audio/CAudioBufferLoader.hpp"
 
-class CAudioBufferCache final : public CResourceCache< CAudioBuffer >
+class CAudioBufferCache final : public CResourceCache<CAudioBuffer>
 {
 public:
 	CAudioBufferCache( const CFileSystem &filesystem ) :
@@ -14,7 +14,7 @@ public:
 	{}
 
 public:
-	virtual void Load( const std::shared_ptr< CAudioBuffer > &resource, const CAudioBuffer::ResourceIdType &id ) const override
+	virtual void Load( const std::shared_ptr<CAudioBuffer> &resource, const CAudioBuffer::ResourceIdType &id ) const override
 	{
 		m_audioBufferLoader.FromFile( resource, id );
 	};

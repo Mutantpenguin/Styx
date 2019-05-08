@@ -40,8 +40,8 @@ private:
 
 	static GLenum	blendEquation;
 
-	static std::array< GLuint, CShaderProgramCompiler::RequiredCombinedTextureImageUnits > textureUnits;
-	static std::array< GLuint, CShaderProgramCompiler::RequiredCombinedTextureImageUnits > samplerUnits;
+	static std::array<GLuint, CShaderProgramCompiler::RequiredCombinedTextureImageUnits> textureUnits;
+	static std::array<GLuint, CShaderProgramCompiler::RequiredCombinedTextureImageUnits> samplerUnits;
 
 	static GLuint usedProgram;
 

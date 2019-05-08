@@ -7,7 +7,7 @@
 #include "src/renderer/model/CModelLoader.hpp"
 
 
-class CModelCache final : public CResourceCache< CModel >
+class CModelCache final : public CResourceCache<CModel>
 {
 public:
 	CModelCache( const CFileSystem &filesystem, CResources &resources ) :
@@ -16,7 +16,7 @@ public:
 	{}
 
 private:
-	void Load( const std::shared_ptr< CModel > &resource, const CModel::ResourceIdType &id ) const override
+	void Load( const std::shared_ptr<CModel> &resource, const CModel::ResourceIdType &id ) const override
 	{
 		m_modelLoader.FromFile( resource, id );
 	}

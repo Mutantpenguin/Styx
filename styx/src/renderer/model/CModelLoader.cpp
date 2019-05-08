@@ -17,7 +17,7 @@ CModelLoader::~CModelLoader()
 	logINFO( "model loader is shutting down" );
 }
 
-void CModelLoader::FromFile( const std::shared_ptr< CModel > &model, const fs::path &path ) const
+void CModelLoader::FromFile( const std::shared_ptr<CModel> &model, const fs::path &path ) const
 {
 	if( !path.has_filename() )
 	{
@@ -49,7 +49,7 @@ void CModelLoader::FromFile( const std::shared_ptr< CModel > &model, const fs::p
 	}
 }
 
-bool CModelLoader::FromDaeFile( const std::shared_ptr< CModel > &model, const fs::path &path ) const
+bool CModelLoader::FromDaeFile( const std::shared_ptr<CModel> &model, const fs::path &path ) const
 {
 	const auto buffer = m_filesystem.LoadFileToBuffer( path );
 
@@ -68,7 +68,7 @@ bool CModelLoader::FromDaeFile( const std::shared_ptr< CModel > &model, const fs
 	return( true );
 }
 
-bool CModelLoader::FromAssimpScene( const std::shared_ptr< CModel > &model, const aiScene *assimpScene ) const
+bool CModelLoader::FromAssimpScene( const std::shared_ptr<CModel> &model, const aiScene *assimpScene ) const
 {
 	model->Meshes.reserve( assimpScene->mNumMeshes );
 
@@ -83,7 +83,7 @@ bool CModelLoader::FromAssimpScene( const std::shared_ptr< CModel > &model, cons
 	return( true );
 }
 
-bool CModelLoader::ProcessMesh( const std::shared_ptr< CModel > &model, const aiMesh *assimpMesh ) const
+bool CModelLoader::ProcessMesh( const std::shared_ptr<CModel> &model, const aiMesh *assimpMesh ) const
 {
 	if( assimpMesh->mMaterialIndex >= 0 )
 	{
@@ -188,7 +188,7 @@ void CModelLoader::ProcessIndices( std::vector<u32> &indices, const aiMesh *assi
 	}
 }
 
-void CModelLoader::FromDummy( const std::shared_ptr< CModel > &model ) const
+void CModelLoader::FromDummy( const std::shared_ptr<CModel> &model ) const
 {
 	// TODO implement
 	logERROR( "not implemented yet" );

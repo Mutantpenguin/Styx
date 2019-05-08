@@ -9,7 +9,7 @@
 
 #include "src/core/StyxException.hpp"
 
-CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, const std::string &gamename, const fs::path &gameDirectory, const std::vector< std::string > &assets )
+CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, const std::string &gamename, const fs::path &gameDirectory, const std::vector<std::string> &assets )
 {
 	PHYSFS_Version version_linked;
 	PHYSFS_Version version_compiled;
@@ -59,7 +59,7 @@ CFileSystem::CFileSystem( const char *argv0, const std::string &organisation, co
 	}
 
 	// pass an absolut path since CLogTargetFile doesn't use Physfs to write the log
-	CLogger::CreateTarget< CLogTargetFile >( fs::path( PHYSFS_getWriteDir() ) / logDir );
+	CLogger::CreateTarget<CLogTargetFile>( fs::path( PHYSFS_getWriteDir() ) / logDir );
 
 	// put write-dir first in search path
 	if( !PHYSFS_mount( PHYSFS_getWriteDir(), nullptr, 0 ) )

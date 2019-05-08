@@ -8,19 +8,19 @@
 
 const std::string CShaderCompiler::srcAdditionShaderVersion = "#version 430\n";
 
-const std::map< const CVAO::EAttributeLocation, const SShaderInterface > CShaderCompiler::AllowedAttributes = { { CVAO::EAttributeLocation::position,	{ "position",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
-																											    { CVAO::EAttributeLocation::normal,		{ "normal",		GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
-																												{ CVAO::EAttributeLocation::tangent,	{ "tangent",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
-																												{ CVAO::EAttributeLocation::bitangent,	{ "bitangent",	GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
-																												{ CVAO::EAttributeLocation::color,		{ "color",		GLHelper::glmTypeToGLSLType< glm::vec3 >() } },
-																												{ CVAO::EAttributeLocation::uv0,		{ "uv0",		GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
-																												{ CVAO::EAttributeLocation::uv1,		{ "uv1",		GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
-																												{ CVAO::EAttributeLocation::uv2,		{ "uv2",		GLHelper::glmTypeToGLSLType< glm::vec2 >() } },
-																												{ CVAO::EAttributeLocation::uv3,		{ "uv3",		GLHelper::glmTypeToGLSLType< glm::vec2 >() } } };
+const std::map<const CVAO::EAttributeLocation, const SShaderInterface> CShaderCompiler::AllowedAttributes = {	{ CVAO::EAttributeLocation::position,	{ "position",	GLHelper::glmTypeToGLSLType<glm::vec3>() } },
+																												{ CVAO::EAttributeLocation::normal,		{ "normal",		GLHelper::glmTypeToGLSLType<glm::vec3>() } },
+																												{ CVAO::EAttributeLocation::tangent,	{ "tangent",	GLHelper::glmTypeToGLSLType<glm::vec3>() } },
+																												{ CVAO::EAttributeLocation::bitangent,	{ "bitangent",	GLHelper::glmTypeToGLSLType<glm::vec3>() } },
+																												{ CVAO::EAttributeLocation::color,		{ "color",		GLHelper::glmTypeToGLSLType<glm::vec3>() } },
+																												{ CVAO::EAttributeLocation::uv0,		{ "uv0",		GLHelper::glmTypeToGLSLType<glm::vec2>() } },
+																												{ CVAO::EAttributeLocation::uv1,		{ "uv1",		GLHelper::glmTypeToGLSLType<glm::vec2>() } },
+																												{ CVAO::EAttributeLocation::uv2,		{ "uv2",		GLHelper::glmTypeToGLSLType<glm::vec2>() } },
+																												{ CVAO::EAttributeLocation::uv3,		{ "uv3",		GLHelper::glmTypeToGLSLType<glm::vec2>() } } };
 
-const std::unordered_map< EEngineUniform, const SShaderInterface > CShaderCompiler::EngineUniforms = {	{ EEngineUniform::modelViewProjectionMatrix,	{ "modelViewProjectionMatrix",	GLHelper::glmTypeToGLSLType< glm::mat4 >() } },
-																										{ EEngineUniform::modelViewMatrix,				{ "modelViewMatrix",			GLHelper::glmTypeToGLSLType< glm::mat4 >() } },
-																										{ EEngineUniform::modelMatrix,					{ "modelMatrix",				GLHelper::glmTypeToGLSLType< glm::mat4 >() } } };
+const std::unordered_map<EEngineUniform, const SShaderInterface> CShaderCompiler::EngineUniforms = {	{ EEngineUniform::modelViewProjectionMatrix,	{ "modelViewProjectionMatrix",	GLHelper::glmTypeToGLSLType<glm::mat4>() } },
+																										{ EEngineUniform::modelViewMatrix,				{ "modelViewMatrix",			GLHelper::glmTypeToGLSLType<glm::mat4>() } },
+																										{ EEngineUniform::modelMatrix,					{ "modelMatrix",				GLHelper::glmTypeToGLSLType<glm::mat4>() } } };
 
 
 const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( CVAO::EAttributeLocation::position );
@@ -69,7 +69,7 @@ CShaderCompiler::CShaderCompiler()
 	}
 }
 
-void CShaderCompiler::RegisterUniformBuffer( const std::shared_ptr< const CUniformBuffer > &ubo )
+void CShaderCompiler::RegisterUniformBuffer( const std::shared_ptr<const CUniformBuffer> &ubo )
 {
 	m_registeredUniformBuffers.insert( ubo );
 }
@@ -145,7 +145,7 @@ bool CShaderCompiler::Compile( const std::shared_ptr<CShader> &shader, const GLe
 	{
 		int infoLogLength;
 		glGetShaderiv( shader->GLID, GL_INFO_LOG_LENGTH, &infoLogLength );
-		std::vector< char > errorMessage( infoLogLength );
+		std::vector<char> errorMessage( infoLogLength );
 		glGetShaderInfoLog( shader->GLID, infoLogLength, nullptr, errorMessage.data() );
 
 		logWARNING( "Error compiling shader: {0}", errorMessage.data() );

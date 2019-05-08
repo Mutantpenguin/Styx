@@ -67,7 +67,7 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 					renderer.window.size.height = height->get<u32>();
 				}
 
-				renderer.window.aspect_ratio = static_cast< f16 >( renderer.window.size.width ) / static_cast< f16 >( renderer.window.size.height );
+				renderer.window.aspect_ratio = static_cast<f16>( renderer.window.size.width ) / static_cast<f16>( renderer.window.size.height );
 
 				const auto display = window_root->find( "display" );
 				if( window_root->end() == display )

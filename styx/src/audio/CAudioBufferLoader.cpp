@@ -19,12 +19,13 @@ CAudioBufferLoader::~CAudioBufferLoader()
 	logINFO( "audio buffer loader is shutting down" );
 }
 
-void CAudioBufferLoader::FromFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const fs::path &path ) const
+void CAudioBufferLoader::FromFile( const std::shared_ptr<CAudioBuffer> &audioBuffer, const fs::path &path ) const
 {
 	if( !path.has_filename() )
 	{
 		logWARNING( "path '{0}' does not containt a filename", path.generic_string() );
 		FromDummy( audioBuffer );
+		// TODO what? no return here?
 	}
 
 	if( !m_filesystem.Exists( path ) )
@@ -57,7 +58,7 @@ void CAudioBufferLoader::FromFile( const std::shared_ptr< CAudioBuffer > &audioB
 	}
 }
 
-bool CAudioBufferLoader::FromOggFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const fs::path &path ) const
+bool CAudioBufferLoader::FromOggFile( const std::shared_ptr<CAudioBuffer> &audioBuffer, const fs::path &path ) const
 {
 	auto const fileBuffer = m_filesystem.LoadFileToBuffer( path );
 
@@ -108,7 +109,7 @@ bool CAudioBufferLoader::FromOggFile( const std::shared_ptr< CAudioBuffer > &aud
 	}
 }
 
-bool CAudioBufferLoader::FromWavFile( const std::shared_ptr< CAudioBuffer > &audioBuffer, const fs::path &path ) const
+bool CAudioBufferLoader::FromWavFile( const std::shared_ptr<CAudioBuffer> &audioBuffer, const fs::path &path ) const
 {
 	auto const fileBuffer = m_filesystem.LoadFileToBuffer( path );
 
@@ -150,17 +151,17 @@ bool CAudioBufferLoader::FromWavFile( const std::shared_ptr< CAudioBuffer > &aud
 	}
 }
 
-void CAudioBufferLoader::FromTAudioData( const std::shared_ptr< CAudioBuffer > &audioBuffer, const TAudioData &audioData ) const
+void CAudioBufferLoader::FromTAudioData( const std::shared_ptr<CAudioBuffer> &audioBuffer, const TAudioData &audioData ) const
 {
 	audioBuffer->m_duration = audioData.duration;
 	audioBuffer->m_format = audioData.format;
 
 	alGenBuffers( 1, &audioBuffer->m_bufferID );
 
-	alBufferData( audioBuffer->m_bufferID, ( audioData.format == CAudioBuffer::format::MONO ) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, audioData.buffer.data(), static_cast< ALsizei >( audioData.buffer.size() ), audioData.frequency );
+	alBufferData( audioBuffer->m_bufferID, ( audioData.format == CAudioBuffer::format::MONO ) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, audioData.buffer.data(), static_cast<ALsizei>( audioData.buffer.size() ), audioData.frequency );
 }
 
-void CAudioBufferLoader::FromDummy( const std::shared_ptr< CAudioBuffer > &audioBuffer ) const
+void CAudioBufferLoader::FromDummy( const std::shared_ptr<CAudioBuffer> &audioBuffer ) const
 {
 	audioBuffer->Reset();
 }

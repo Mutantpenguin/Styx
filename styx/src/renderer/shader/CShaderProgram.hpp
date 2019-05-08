@@ -42,16 +42,16 @@ public:
 	std::shared_ptr<const CShader>	GeometryShader;
 	std::shared_ptr<const CShader>	FragmentShader;
 
-	const std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredSamplers() const;
-	const std::vector< std::pair< GLint, const EEngineUniform > >	&RequiredEngineUniforms() const;
-	const std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredMaterialUniforms() const;
+	const std::vector<std::pair<GLint, const SShaderInterface>>	&RequiredSamplers() const;
+	const std::vector<std::pair<GLint, const EEngineUniform>>	&RequiredEngineUniforms() const;
+	const std::vector<std::pair<GLint, const SShaderInterface>>	&RequiredMaterialUniforms() const;
 
-	std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredSamplers();
-	std::vector< std::pair< GLint, const EEngineUniform > >		&RequiredEngineUniforms();
-	std::vector< std::pair< GLint, const SShaderInterface > >	&RequiredMaterialUniforms();
+	std::vector<std::pair<GLint, const SShaderInterface>>	&RequiredSamplers();
+	std::vector<std::pair<GLint, const EEngineUniform>>		&RequiredEngineUniforms();
+	std::vector<std::pair<GLint, const SShaderInterface>>	&RequiredMaterialUniforms();
 
 private:
-	std::vector< std::pair< GLint, const SShaderInterface > >	m_requiredSamplers;
-	std::vector< std::pair< GLint, const EEngineUniform > >		m_requiredEngineUniforms;
-	std::vector< std::pair< GLint, const SShaderInterface > >	m_requiredMaterialUniforms;
+	std::vector<std::pair<GLint, const SShaderInterface>>	m_requiredSamplers;
+	std::vector<std::pair<GLint, const EEngineUniform>>		m_requiredEngineUniforms;
+	std::vector<std::pair<GLint, const SShaderInterface>>	m_requiredMaterialUniforms;
 };

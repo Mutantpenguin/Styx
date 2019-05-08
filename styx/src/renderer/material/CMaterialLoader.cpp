@@ -33,7 +33,7 @@ CMaterialLoader::~CMaterialLoader()
 	#endif
 }
 
-void CMaterialLoader::FromFile( const std::shared_ptr< CMaterial > &material, const fs::path &path ) const
+void CMaterialLoader::FromFile( const std::shared_ptr<CMaterial> &material, const fs::path &path ) const
 {
 	if( !path.has_filename() )
 	{
@@ -73,7 +73,7 @@ void CMaterialLoader::FromFile( const std::shared_ptr< CMaterial > &material, co
 	}
 }
 
-bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material, const fs::path &path ) const
+bool CMaterialLoader::FromMatFile( const std::shared_ptr<CMaterial> &material, const fs::path &path ) const
 {
 	json mat_root;
 
@@ -229,7 +229,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 								}
 								else
 								{
-									material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformUINT >( interface.name, mat_uniform->get<glm::uint>() ) ) );
+									material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique<CMaterialUniformUINT>( interface.name, mat_uniform->get<glm::uint>() ) ) );
 								}
 								break;
 
@@ -241,7 +241,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 								}
 								else
 								{
-									material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOAT >( interface.name, mat_uniform->get<glm::float32>() ) ) );
+									material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique<CMaterialUniformFLOAT>( interface.name, mat_uniform->get<glm::float32>() ) ) );
 								}
 								break;
 
@@ -290,7 +290,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 														&&
 														value1.is_number_float() )
 													{
-														material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOATVEC2 >( interface.name, glm::vec2( value0.get<f16>(), value1.get<f16>() ) ) ) );
+														material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique<CMaterialUniformFLOATVEC2>( interface.name, glm::vec2( value0.get<f16>(), value1.get<f16>() ) ) ) );
 													}
 													else
 													{
@@ -312,7 +312,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 														&&
 														value2.is_number_float() )
 													{
-														material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOATVEC3 >( interface.name, glm::vec3( value0.get<f16>(), value1.get<f16>(), value2.get<f16>() ) ) ) );
+														material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique<CMaterialUniformFLOATVEC3>( interface.name, glm::vec3( value0.get<f16>(), value1.get<f16>(), value2.get<f16>() ) ) ) );
 													}
 													else
 													{
@@ -337,7 +337,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 														&&
 														value3.is_number_float() )
 													{
-														material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique< CMaterialUniformFLOATVEC4 >( interface.name, glm::vec4( value0.get<f16>(), value1.get<f16>(), value2.get<f16>(), value3.get<f16>() ) ) ) );
+														material->MaterialUniforms().emplace_back( std::make_pair( location, std::make_unique<CMaterialUniformFLOATVEC4>( interface.name, glm::vec4( value0.get<f16>(), value1.get<f16>(), value2.get<f16>(), value3.get<f16>() ) ) ) );
 													}
 													else
 													{
@@ -369,7 +369,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 	return( true );
 }
 
-void CMaterialLoader::FromMatDummy( const std::shared_ptr< CMaterial > &material ) const
+void CMaterialLoader::FromMatDummy( const std::shared_ptr<CMaterial> &material ) const
 {
 	material->Reset();
 

@@ -12,7 +12,7 @@
 
 class CBaseComponent;
 
-class CEntity final : public std::enable_shared_from_this< CEntity >
+class CEntity final : public std::enable_shared_from_this<CEntity>
 {
 	friend class CScene;
 
@@ -22,7 +22,7 @@ public:
 
 	const std::string &Name() const;
 
-	template< typename T, typename... Args >
+	template<typename T, typename... Args>
 	void Add( Args... args )
 	{
 		if( m_components[ T::Index ] != nullptr )
@@ -31,14 +31,14 @@ public:
 		}
 		else
 		{
-			m_components[ T::Index ] = std::make_shared< T >( shared_from_this(), args... );
+			m_components[ T::Index ] = std::make_shared<T>( shared_from_this(), args... );
 		}
 	};
 
-	template< typename T >
+	template<typename T>
 	void Remove()
 	{
-		if( !HasComponents< T >() )
+		if( !HasComponents<T>() )
 		{
 			logWARNING( "entity '{0}' with id '{1}' does not have a component of type '{2}'", m_name, Id, typeid( T ).name() );
 		}
@@ -48,8 +48,8 @@ public:
 		}
 	};
 
-	template< typename T >
-	std::shared_ptr< T > Get() const
+	template<typename T>
+	std::shared_ptr<T> Get() const
 	{
 		const auto component = m_components[ T::Index ];
 
@@ -61,11 +61,11 @@ public:
 		}
 		else
 		{
-			return( std::static_pointer_cast< T >( component ) );
+			return( std::static_pointer_cast<T>( component ) );
 		}
 	};
 
-	template < typename T >
+	template<typename T>
 	bool HasComponents() const
 	{
 		if( nullptr == m_components[ T::Index ] )
@@ -78,10 +78,10 @@ public:
 		}
 	};
 
-	template < typename First, typename Second, typename ... Rest >
+	template<typename First, typename Second, typename ... Rest>
 	bool HasComponents() const
 	{
-		return( HasComponents< First >() && HasComponents< Second, Rest... >() );
+		return( HasComponents<First>() && HasComponents<Second, Rest...>() );
 	};
 
 	const u32 Id = ++s_lastId;
@@ -89,7 +89,7 @@ public:
 	CTransform Transform;
 
 private:
-	std::array< std::shared_ptr< CBaseComponent >, static_cast< u16 >( EComponentIndex::MAX) > m_components;
+	std::array<std::shared_ptr<CBaseComponent>, static_cast<u16>( EComponentIndex::MAX)> m_components;
 
 	const std::string m_name;
 

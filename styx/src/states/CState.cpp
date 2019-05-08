@@ -8,7 +8,7 @@ CState::CState( const std::string &name, const CFileSystem &filesystem, const CS
 		m_engineInterface { engineInterface }
 {}
 
-std::shared_ptr< CState > CState::Update()
+std::shared_ptr<CState> CState::Update()
 {
 	switch( m_status )
 	{

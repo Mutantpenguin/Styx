@@ -89,35 +89,35 @@ CSamplerManager::~CSamplerManager()
 	logINFO( "sampler manager is shutting down" );
 }
 
-bool CSamplerManager::GetFromString( const std::string &string, std::shared_ptr< const CSampler > &sampler ) const
+bool CSamplerManager::GetFromString( const std::string &string, std::shared_ptr<const CSampler> &sampler ) const
 {
 	if( string == "REPEAT_2D" )
 	{
-		sampler = m_samplers[ static_cast< u8 >( CSampler::SamplerType::REPEAT_2D ) ];
+		sampler = m_samplers[ static_cast<u8>( CSampler::SamplerType::REPEAT_2D ) ];
 	}
 	else if( string == "BORDER_2D" )
 	{
-		sampler = m_samplers[ static_cast< u8 >( CSampler::SamplerType::BORDER_2D ) ];
+		sampler = m_samplers[ static_cast<u8>( CSampler::SamplerType::BORDER_2D ) ];
 	}
 	else if( string == "EDGE_2D" )
 	{
-		sampler = m_samplers[ static_cast< u8 >( CSampler::SamplerType::EDGE_2D ) ];
+		sampler = m_samplers[ static_cast<u8>( CSampler::SamplerType::EDGE_2D ) ];
 	}
 	else if( string == "REPEAT_BORDER_2D" )
 	{
-		sampler = m_samplers[ static_cast< u8 >( CSampler::SamplerType::REPEAT_BORDER_2D ) ];
+		sampler = m_samplers[ static_cast<u8>( CSampler::SamplerType::REPEAT_BORDER_2D ) ];
 	}
 	else if( string == "REPEAT_CUBE" )
 	{
-		sampler = m_samplers[ static_cast< u8 >( CSampler::SamplerType::REPEAT_CUBE ) ];
+		sampler = m_samplers[ static_cast<u8>( CSampler::SamplerType::REPEAT_CUBE ) ];
 	}
 	else if( string == "BORDER_CUBE" )
 	{
-		sampler = m_samplers[ static_cast< u8 >( CSampler::SamplerType::BORDER_CUBE ) ];
+		sampler = m_samplers[ static_cast<u8>( CSampler::SamplerType::BORDER_CUBE ) ];
 	}
 	else if( string == "EDGE_CUBE" )
 	{
-		sampler = m_samplers[ static_cast< u8 >( CSampler::SamplerType::EDGE_CUBE ) ];
+		sampler = m_samplers[ static_cast<u8>( CSampler::SamplerType::EDGE_CUBE ) ];
 	}
 	else
 	{
@@ -129,21 +129,21 @@ bool CSamplerManager::GetFromString( const std::string &string, std::shared_ptr<
 	return( true );
 }
 
-const std::shared_ptr< const CSampler > CSamplerManager::GetFromType( const CSampler::SamplerType type ) const
+const std::shared_ptr<const CSampler> CSamplerManager::GetFromType( const CSampler::SamplerType type ) const
 {
-	return( m_samplers[ static_cast< u8 >( type ) ] );
+	return( m_samplers[ static_cast<u8>( type ) ] );
 }
 
-const std::shared_ptr< const CSampler > CSamplerManager::Generate( CSampler::SamplerType type )
+const std::shared_ptr<const CSampler> CSamplerManager::Generate( CSampler::SamplerType type )
 {
-	const u8 index = static_cast< u8 >( type );
+	const u8 index = static_cast<u8>( type );
 
 	if( 0 != m_samplers[ index ] )
 	{
 		THROW_STYX_EXCEPTION( "sampler with index {0} already set", index )
 	}
 
-	auto sampler = std::make_shared< CSampler >();
+	auto sampler = std::make_shared<CSampler>();
 
 	m_samplers[ index ] = sampler;
 

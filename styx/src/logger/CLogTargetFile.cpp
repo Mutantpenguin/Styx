@@ -24,7 +24,7 @@ CLogTargetFile::~CLogTargetFile()
 	m_log_ofile.close();
 }
 
-void CLogTargetFile::Log( const std::unique_ptr< const CLogger::CLogEntry > &entry )
+void CLogTargetFile::Log( const std::unique_ptr<const CLogger::CLogEntry> &entry )
 {
 	m_log_ofile << entry->FormattedTime() << " " << fmt::format( "{0:<9} : {1}\n", "[" + CLogger::LogLevelToString( entry->m_logLevel ) + "]", entry->m_message );
 

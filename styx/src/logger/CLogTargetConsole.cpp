@@ -45,7 +45,7 @@ fmt::color GetColor( e_loglevel level )
 	}
 }
 
-void CLogTargetConsole::Log( const std::unique_ptr< const CLogger::CLogEntry > &entry )
+void CLogTargetConsole::Log( const std::unique_ptr<const CLogger::CLogEntry> &entry )
 {
 	fmt::print( fg( GetColor( entry->m_logLevel ) ), "{0} {1:<9} :  {2}\n", entry->FormattedTime(), "[" + CLogger::LogLevelToString( entry->m_logLevel ) + "]", entry->m_message );
 }

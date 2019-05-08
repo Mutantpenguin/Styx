@@ -14,7 +14,7 @@ CSampler::~CSampler()
 
 void CSampler::Parametere( const GLenum pname, const GLenum param ) const
 {
-	glSamplerParameteri( m_samplerID, pname, static_cast< GLint >( param ) );
+	glSamplerParameteri( m_samplerID, pname, static_cast<GLint>( param ) );
 }
 
 void CSampler::Parameteri( const GLenum pname, const GLint param ) const

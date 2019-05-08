@@ -5,7 +5,7 @@
 #include "src/renderer/shader/CShaderLoader.hpp"
 #include "src/renderer/shader/CShader.hpp"
 
-class CShaderCache final : public CResourceCache< CShader >
+class CShaderCache final : public CResourceCache<CShader>
 {
 public:
 	CShaderCache( const CFileSystem &p_filesystem, const CShaderCompiler &shaderCompiler ) :
@@ -14,7 +14,7 @@ public:
 	{}
 
 private:
-	void Load( const std::shared_ptr< CShader > &resource, const CShader::ResourceIdType &id ) const override
+	void Load( const std::shared_ptr<CShader> &resource, const CShader::ResourceIdType &id ) const override
 	{
 		m_shaderLoader.FromFile( resource, id );
 	}

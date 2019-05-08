@@ -66,7 +66,7 @@ private:
 		f16 viewDepth;
 	};
 
-	using TRenderBucket	= std::vector< MeshInstance >;
+	using TRenderBucket	= std::vector<MeshInstance>;
 
 	const CSettings &m_settings;
 
@@ -79,23 +79,23 @@ private:
 	CShaderCompiler			m_shaderCompiler;
 	CShaderProgramCompiler	m_shaderProgramCompiler;
 
-	std::shared_ptr< CTextureCache >		m_textureCache;
-	std::shared_ptr< CModelCache >			m_modelCache;
-	std::shared_ptr< CMaterialCache >		m_materialCache;
-	std::shared_ptr< CShaderCache >			m_shaderCache;
-	std::shared_ptr< CShaderProgramCache >	m_shaderProgramCache;
+	std::shared_ptr<CTextureCache>			m_textureCache;
+	std::shared_ptr<CModelCache>			m_modelCache;
+	std::shared_ptr<CMaterialCache>			m_materialCache;
+	std::shared_ptr<CShaderCache>			m_shaderCache;
+	std::shared_ptr<CShaderProgramCache>	m_shaderProgramCache;
 
 	void CreateUniformBuffers();
-	void UpdateUniformBuffers( const std::shared_ptr< const CEntity > &cameraEntity, const CTimer &timer ) const;
+	void UpdateUniformBuffers( const std::shared_ptr<const CEntity> &cameraEntity, const CTimer &timer ) const;
 
 	void RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewMatrix, const glm::mat4 &viewProjectionMatrix ) const;
 
 	[[nodiscard]] glm::mat4 CalculateModelMatrix( const CTransform &transform ) const;
 
-	std::shared_ptr< CUniformBuffer > m_uboCamera;
-	std::shared_ptr< CUniformBuffer > m_uboTimer;
-	std::shared_ptr< CUniformBuffer > m_uboScreen;
+	std::shared_ptr<CUniformBuffer> m_uboCamera;
+	std::shared_ptr<CUniformBuffer> m_uboTimer;
+	std::shared_ptr<CUniformBuffer> m_uboScreen;
 
-	std::unique_ptr< CMesh >	m_meshFrameBuffer;
+	std::unique_ptr<CMesh>	m_meshFrameBuffer;
 	const std::string m_slotNameFrameBuffer = "screenTexture";
 };

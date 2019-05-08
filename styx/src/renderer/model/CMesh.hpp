@@ -14,10 +14,10 @@ class CMesh final
 friend class CModelLoader;
 
 public:
-	using TMeshTextureSlots = std::unordered_map< std::string, const std::shared_ptr< CMeshTextureSlot > >;
+	using TMeshTextureSlots = std::unordered_map<std::string, const std::shared_ptr<CMeshTextureSlot>>;
 
 	template<typename T>
-	CMesh( const Geometry<T> &geometry, const std::shared_ptr< const CMaterial > &mat, const TMeshTextureSlots &textureSlots = TMeshTextureSlots() ) :
+	CMesh( const Geometry<T> &geometry, const std::shared_ptr<const CMaterial> &mat, const TMeshTextureSlots &textureSlots = TMeshTextureSlots() ) :
 		m_vao( geometry ),
 		m_material { mat },
 		m_textureSlots { textureSlots },
@@ -26,12 +26,12 @@ public:
 		SetupMaterialTextureSlotMapping();
 	}
 
-	void SetMaterial( const std::shared_ptr< const CMaterial > &mat );
-	const std::shared_ptr< const CMaterial > &Material() const;
+	void SetMaterial( const std::shared_ptr<const CMaterial> &mat );
+	const std::shared_ptr<const CMaterial> &Material() const;
 
-	void ChangeTexture( const std::string &slotName, const std::shared_ptr< const CTexture > &texture );
-	void ChangeSampler( const std::string &slotName, const std::shared_ptr< const CSampler > &sampler );
-	void ChangeTextureAndSampler( const std::string &slotName, const std::shared_ptr< const CTexture > &texture, const std::shared_ptr< const CSampler > &sampler );
+	void ChangeTexture( const std::string &slotName, const std::shared_ptr<const CTexture> &texture );
+	void ChangeSampler( const std::string &slotName, const std::shared_ptr<const CSampler> &sampler );
+	void ChangeTextureAndSampler( const std::string &slotName, const std::shared_ptr<const CTexture> &texture, const std::shared_ptr<const CSampler> &sampler );
 
 	const CVAO &VAO() const;
 
@@ -40,11 +40,11 @@ public:
 private:
 	const CVAO	m_vao;
 
-	std::shared_ptr< const CMaterial > m_material;
+	std::shared_ptr<const CMaterial> m_material;
 
 	const TMeshTextureSlots m_textureSlots;
 
-	std::vector< std::pair< GLuint, const std::shared_ptr< const CMeshTextureSlot > > > m_materialTextureSlotMapping;
+	std::vector<std::pair<GLuint, const std::shared_ptr<const CMeshTextureSlot>>> m_materialTextureSlotMapping;
 
 	void SetupMaterialTextureSlotMapping();
 

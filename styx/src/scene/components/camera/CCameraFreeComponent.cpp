@@ -5,7 +5,7 @@
 
 #include "src/scene/CWorld.hpp"
 
-CCameraFreeComponent::CCameraFreeComponent( const std::shared_ptr< CEntity > &parent, const f16 aspectRatio, const f16 fov, const f16 zNear, const f16 zFar ) :
+CCameraFreeComponent::CCameraFreeComponent( const std::shared_ptr<CEntity> &parent, const f16 aspectRatio, const f16 fov, const f16 zNear, const f16 zFar ) :
 	CCameraComponent( parent, zNear, zFar ),
 	m_aspectRatio { aspectRatio },
 	m_fov { fov }

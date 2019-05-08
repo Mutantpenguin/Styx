@@ -63,22 +63,22 @@ void CMaterial::PolygonMode( const GLenum polygonMode )
 	m_polygonMode = polygonMode;
 }
 
-const std::shared_ptr< const CShaderProgram > &CMaterial::ShaderProgram() const
+const std::shared_ptr<const CShaderProgram> &CMaterial::ShaderProgram() const
 {
 	return( m_shaderProgram );
 }
 
-void CMaterial::ShaderProgram( const std::shared_ptr< const CShaderProgram > &shaderProgram )
+void CMaterial::ShaderProgram( const std::shared_ptr<const CShaderProgram> &shaderProgram )
 {
 	m_shaderProgram = shaderProgram;
 }
 
-const std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &CMaterial::MaterialUniforms() const
+const std::vector<std::pair<GLuint, std::unique_ptr<const CMaterialUniform>>> &CMaterial::MaterialUniforms() const
 {
 	return( m_materialUniforms );
 }
 
-std::vector< std::pair< GLuint, std::unique_ptr< const CMaterialUniform > > > &CMaterial::MaterialUniforms()
+std::vector<std::pair<GLuint, std::unique_ptr<const CMaterialUniform>>> &CMaterial::MaterialUniforms()
 {
 	return( m_materialUniforms );
 }

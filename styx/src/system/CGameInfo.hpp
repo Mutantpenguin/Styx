@@ -22,8 +22,8 @@ public:
 
 	const std::string &GetIconPath() const;
 
-	const std::vector< std::string > &GetAssets() const;
-	const std::vector< std::string > &GetTemplates() const;
+	const std::vector<std::string> &GetAssets() const;
+	const std::vector<std::string> &GetTemplates() const;
 
 private:
 	CGameInfo( const CGameInfo &rhs ) = delete;
@@ -44,8 +44,8 @@ private:
 
 	std::string m_icon;
 
-	std::vector< std::string > m_assets;
-	std::vector< std::string > m_templates;
+	std::vector<std::string> m_assets;
+	std::vector<std::string> m_templates;
 
 	std::string m_menu_background;
 };

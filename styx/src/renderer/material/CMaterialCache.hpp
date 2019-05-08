@@ -8,7 +8,7 @@
 
 #include "src/renderer/shader/CShaderProgramCompiler.hpp"
 
-class CMaterialCache final : public CResourceCache< CMaterial >
+class CMaterialCache final : public CResourceCache<CMaterial>
 {
 public:
 	CMaterialCache( const CFileSystem &filesystem, CResources &resources, const CShaderProgramCompiler &shaderProgramCompiler ) :
@@ -17,7 +17,7 @@ public:
 	{}
 
 private:
-	void Load( const std::shared_ptr< CMaterial > &resource, const CMaterial::ResourceIdType &id ) const override
+	void Load( const std::shared_ptr<CMaterial> &resource, const CMaterial::ResourceIdType &id ) const override
 	{
 		m_materialLoader.FromFile( resource, id );
 	}

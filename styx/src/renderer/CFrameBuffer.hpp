@@ -23,16 +23,16 @@ public:
 	void Bind() const;
 	void Unbind() const;
 
-	const std::shared_ptr< const CTexture > ColorTexture() const;
+	const std::shared_ptr<const CTexture> ColorTexture() const;
 
-	std::shared_ptr< CImage > ToImage() const;
+	std::shared_ptr<CImage> ToImage() const;
 	
 	const CSize	Size;	
 	
 	GLuint	GLID;
 
 private:
-	std::shared_ptr< CTexture > m_colorTexture;
+	std::shared_ptr<CTexture> m_colorTexture;
 
 	GLuint m_renderBufferId;
 

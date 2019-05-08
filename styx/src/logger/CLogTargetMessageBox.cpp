@@ -8,7 +8,7 @@
 	#error "unsupported platform"
 #endif
 
-void CLogTargetMessageBox::Log( const std::unique_ptr< const CLogger::CLogEntry > &entry )
+void CLogTargetMessageBox::Log( const std::unique_ptr<const CLogger::CLogEntry> &entry )
 {
 	if( e_loglevel::eERROR == entry->m_logLevel )
 	{

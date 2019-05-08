@@ -18,7 +18,7 @@ public:
 	GLint PreferredInternalTextureFormat2DArray() const;
 	
 private:
-	bool isSupported( const std::set< GLextension > &extensions, const GLextension extension ) const;
+	bool isSupported( const std::set<GLextension> &extensions, const GLextension extension ) const;
 
 	GLint m_maxTextureSize;
 	GLint m_maxCubeMapTextureSize;

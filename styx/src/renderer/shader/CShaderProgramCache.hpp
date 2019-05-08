@@ -7,7 +7,7 @@
 #include "src/renderer/shader/CShaderProgramCompiler.hpp"
 #include "src/renderer/shader/CShaderCache.hpp"
 
-class CShaderProgramCache final : public CResourceCache< CShaderProgram >
+class CShaderProgramCache final : public CResourceCache<CShaderProgram>
 {
 public:
 	CShaderProgramCache( const CFileSystem &p_filesystem, CResources &resources, CShaderCompiler &shaderCompiler, CShaderProgramCompiler &shaderProgramCompiler ) :
@@ -18,7 +18,7 @@ public:
 	{}
 
 private:
-	void Load( const std::shared_ptr< CShaderProgram > &resource, const CShaderProgram::ResourceIdType &id ) const override;
+	void Load( const std::shared_ptr<CShaderProgram> &resource, const CShaderProgram::ResourceIdType &id ) const override;
 
 	i64 GetMtime( const CShaderProgram::ResourceIdType &id ) const override
 	{

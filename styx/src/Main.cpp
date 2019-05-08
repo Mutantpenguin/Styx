@@ -24,7 +24,7 @@ int main( int argc, char *argv[] )
 {
 	std::atexit( CLogger::Destroy );
 
-	CLogger::CreateTarget< CLogTargetConsole >();
+	CLogger::CreateTarget<CLogTargetConsole>();
 
 	std::string gameDirectoryString;
 	std::string settingsFile;
@@ -59,7 +59,7 @@ int main( int argc, char *argv[] )
 
 	if( logErrorsToMsgBoxOption->count() > 0 )
 	{
-		CLogger::CreateTarget< CLogTargetMessageBox >();
+		CLogger::CreateTarget<CLogTargetMessageBox>();
 	}
 
 

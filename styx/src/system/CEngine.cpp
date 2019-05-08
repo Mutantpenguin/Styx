@@ -51,7 +51,7 @@ void CEngine::Run()
 
 	MTR_BEGIN( "main", "outer" );
 
-	std::shared_ptr< CState > currentState = std::make_shared< CStateIntro >( m_filesystem, m_settings, m_engineInterface );
+	std::shared_ptr<CState> currentState = std::make_shared<CStateIntro>( m_filesystem, m_settings, m_engineInterface );
 
 	while( currentState )
 	{

@@ -11,7 +11,7 @@ private:
 	CCameraFreeComponent& operator=(const CCameraFreeComponent& rhs);
 
 public:
-	CCameraFreeComponent( const std::shared_ptr< CEntity > &parent, const f16 aspectRatio, const f16 fov, const f16 zNear, const f16 zFar );
+	CCameraFreeComponent( const std::shared_ptr<CEntity> &parent, const f16 aspectRatio, const f16 fov, const f16 zNear, const f16 zFar );
 	~CCameraFreeComponent() {};
 
 	void FOV( const f16 fov );
