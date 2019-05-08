@@ -76,7 +76,7 @@ void CEngine::Run()
 			#ifdef STYX_DEBUG
 				if( m_engineInterface.Input.KeyDown( SDL_SCANCODE_F12 ) )
 				{
-					m_engineInterface.ResourceCacheManager.Reload();
+					m_engineInterface.Resources.Reload();
 				}
 			#endif
 
@@ -84,7 +84,7 @@ void CEngine::Run()
 		}
 
 		// TODO maybe only collect garbage when changing states?
-		m_engineInterface.ResourceCacheManager.CollectGarbage();
+		m_engineInterface.Resources.CollectGarbage();
 
 		#ifdef STYX_DEBUG
 			const u64 deltaTime = ( renderTimer.Time() - lastTime );

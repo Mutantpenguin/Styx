@@ -2,14 +2,14 @@
 
 void CShaderProgramCache::Load( const std::shared_ptr< CShaderProgram > &resource, const CShaderProgram::ResourceIdType &id ) const
 {
-	resource->VertexShader = m_resourceCacheManager.Get<CShader>( id.vertexShader );
+	resource->VertexShader = m_resources.Get<CShader>( id.vertexShader );
 
 	if( !std::empty( id.geometryShader ) )
 	{
-		resource->GeometryShader = m_resourceCacheManager.Get<CShader>( id.geometryShader );
+		resource->GeometryShader = m_resources.Get<CShader>( id.geometryShader );
 	}
 
-	resource->FragmentShader = m_resourceCacheManager.Get<CShader>( id.fragmentShader );
+	resource->FragmentShader = m_resources.Get<CShader>( id.fragmentShader );
 
 	if( !m_shaderProgramCompiler.Compile( resource ) )
 	{

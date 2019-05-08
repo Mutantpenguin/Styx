@@ -9,7 +9,7 @@
 
 #include "src/system/CFileSystem.hpp"
 
-#include "src/resource/CResourceCacheManager.hpp"
+#include "src/resource/CResources.hpp"
 
 #include "src/renderer/model/CModel.hpp"
 
@@ -21,7 +21,7 @@ private:
 	CModelLoader& operator=(const CModelLoader& rhs);
 
 public:
-	explicit CModelLoader( const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager );
+	explicit CModelLoader( const CFileSystem &p_filesystem, CResources &resources );
 	~CModelLoader();
 
 	void FromFile( const std::shared_ptr< CModel > &model, const fs::path &path ) const;
@@ -29,7 +29,7 @@ public:
 private:
 	const CFileSystem &m_filesystem;
 
-	CResourceCacheManager &m_resourceCacheManager;
+	CResources &m_resources;
 
 	bool FromDaeFile( const std::shared_ptr< CModel > &model, const fs::path &path ) const;
 

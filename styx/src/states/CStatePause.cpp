@@ -18,7 +18,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 	m_scene.ClearColor( CColor( 0.3f, 0.3f, 0.3f, 0.0f ) );
 
-	auto &resourceCache = engineInterface.ResourceCacheManager;
+	auto &resources = engineInterface.Resources;
 
 	auto &renderer = engineInterface.Renderer;
 
@@ -34,7 +34,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 	const CSize &windowSize = settings.renderer.window.size;
 
 	{
-		const auto materialPause = resourceCache.Get< CMaterial >( "materials/pause_bg.mat" );
+		const auto materialPause = resources.Get<CMaterial>( "materials/pause_bg.mat" );
 
 		auto bgGeometry = GeometryPrefabs::QuadPNU0();
 		bgGeometry.Vertices[ 0 ].Position.x = 0.0f;
@@ -46,7 +46,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		bgGeometry.Vertices[ 3 ].Position.x = static_cast< f16 >( windowSize.width );
 		bgGeometry.Vertices[ 3 ].Position.y = static_cast< f16 >( windowSize.height );
 
-		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/pause/bg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resources.Get<CTexture>( "textures/pause/bg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 		const auto bgMesh = std::make_shared< CMesh >( bgGeometry, materialPause, bgMeshTextureSlots );
 
@@ -63,9 +63,9 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		const f16 pauseElementsTotalHeight = pauseTextHeight + screenshotHeight;
 
 		{
-			const auto materialPauseText = resourceCache.Get< CMaterial >( "materials/standard_blend.mat" );
+			const auto materialPauseText = resources.Get<CMaterial>( "materials/standard_blend.mat" );
 
-			const CMesh::TMeshTextureSlots textMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/pause/fg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+			const CMesh::TMeshTextureSlots textMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resources.Get<CTexture>( "textures/pause/fg.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
 			const auto meshText = std::make_shared<CMesh>( GeometryPrefabs::RectanglePNU0( pauseElementsWidth, pauseTextHeight ), materialPauseText, textMeshTextureSlots );
 
@@ -75,7 +75,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 		}
 
 		{
-			const auto materialPauseText = resourceCache.Get< CMaterial >( "materials/pause_screenshot.mat" );
+			const auto materialPauseText = resources.Get<CMaterial>( "materials/pause_screenshot.mat" );
 
 			const CMesh::TMeshTextureSlots screenshotMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( m_pausedState->FrameBuffer().ColorTexture(), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 

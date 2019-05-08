@@ -10,9 +10,9 @@
 class CModelCache final : public CResourceCache< CModel >
 {
 public:
-	CModelCache( const CFileSystem &filesystem, CResourceCacheManager &resourceCacheManager ) :
+	CModelCache( const CFileSystem &filesystem, CResources &resources ) :
 		CResourceCache( "model", filesystem ),
-		m_modelLoader( filesystem, resourceCacheManager )
+		m_modelLoader( filesystem, resources )
 	{}
 
 private:
@@ -26,5 +26,6 @@ private:
 		return( m_filesystem.GetLastModTime( id ) );
 	}
 
+private:
 	const CModelLoader m_modelLoader;
 };

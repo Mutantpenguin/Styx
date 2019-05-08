@@ -123,8 +123,8 @@
       <File Name="src/scene/CEntity.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="resource">
-      <File Name="src/resource/CResourceCacheManager.hpp"/>
-      <File Name="src/resource/CResourceCacheManager.cpp"/>
+      <File Name="src/resource/CResources.hpp"/>
+      <File Name="src/resource/CResources.cpp"/>
       <File Name="src/resource/CResourceCacheBase.hpp"/>
       <File Name="src/resource/CResourceCacheBase.cpp"/>
       <File Name="src/resource/CResourceCache.hpp"/>

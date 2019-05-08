@@ -1,8 +1,6 @@
 
-Move Resource-Dummies into the corresponding ResourceCaches?
-
 Resources
-- rename the CResourceCacheManager to something better
+- Move Resource-Dummies into the corresponding ResourceCaches?
 
 Main.cpp
 - strange things happen when wrong command line arguments are given

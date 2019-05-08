@@ -10,7 +10,7 @@
 
 #include "src/system/CSettings.hpp"
 
-#include "src/resource/CResourceCacheManager.hpp"
+#include "src/resource/CResources.hpp"
 
 #include "src/scene/CScene.hpp"
 
@@ -37,7 +37,7 @@ friend class CEngine;
 friend class CEngineInterface;
 
 private:
-	CRenderer( const CSettings &settings, const CFileSystem &filesystem, CResourceCacheManager &resourceCacheManager );
+	CRenderer( const CSettings &settings, const CFileSystem &filesystem, CResources &resources );
 	~CRenderer();
 
 	CRenderer( const CRenderer &rhs ) = delete;
@@ -70,7 +70,7 @@ private:
 
 	const CSettings &m_settings;
 
-	CResourceCacheManager &m_resourceCacheManager;
+	CResources &m_resources;
 
 	COpenGlAdapter m_OpenGlAdapter;
 

@@ -11,7 +11,7 @@
 
 #include "src/system/CSettings.hpp"
 
-#include "src/resource/CResourceCacheManager.hpp"
+#include "src/resource/CResources.hpp"
 
 #include "src/audio/CAudioBuffer.hpp"
 #include "src/audio/CAudioBufferCache.hpp"
@@ -26,7 +26,7 @@ public:
 	void	SetVolume( const f16 volume );
 
 private:
-	CAudio( const CSettings &settings, const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager );
+	CAudio( const CSettings &settings, const CFileSystem &p_filesystem, CResources &resources );
 	~CAudio();
 
 	CAudio( const CAudio &rhs ) = delete;
@@ -39,7 +39,7 @@ private:
 	// TODO what does this do???
 	const u32	m_buffer_size;
 
-	CResourceCacheManager &m_resourceCacheManager;
+	CResources &m_resources;
 
 	std::shared_ptr< CAudioBufferCache > m_audioBufferCache;
 };

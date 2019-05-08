@@ -1,15 +1,15 @@
-#include "CResourceCacheManager.hpp"
+#include "CResources.hpp"
 
 #include <algorithm>
 
 #include "src/logger/CLogger.hpp"
 
-CResourceCacheManager::CResourceCacheManager()
+CResources::CResources()
 {
 	logINFO( "resource cache manager was initialized" );
 }
 
-CResourceCacheManager::~CResourceCacheManager()
+CResources::~CResources()
 {
 	logINFO( "resource cache manager is shutting down" );
 
@@ -25,7 +25,7 @@ CResourceCacheManager::~CResourceCacheManager()
 	#endif
 }
 
-void CResourceCacheManager::DeRegister( const std::shared_ptr< CResourceCacheBase > &resourceCache )
+void CResources::DeRegister( const std::shared_ptr< CResourceCacheBase > &resourceCache )
 {
 	const auto itMap = std::find_if( std::cbegin( m_resourceCacheMap ), std::cend( m_resourceCacheMap ), [&] ( auto &x ) { return( x.second == resourceCache ); } );
 
@@ -43,7 +43,7 @@ void CResourceCacheManager::DeRegister( const std::shared_ptr< CResourceCacheBas
 	}
 }
 
-void CResourceCacheManager::CollectGarbage()
+void CResources::CollectGarbage()
 {
 	for( auto it = m_resourceCachesOrdered.rbegin(); it != m_resourceCachesOrdered.rend(); ++it )
 	{
@@ -52,7 +52,7 @@ void CResourceCacheManager::CollectGarbage()
 }
 
 
-void CResourceCacheManager::Reload()
+void CResources::Reload()
 {
 	for( auto &resourceCache : m_resourceCachesOrdered )
 	{

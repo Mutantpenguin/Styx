@@ -1,7 +1,7 @@
 #pragma once
 
 #include "src/resource/CResourceCache.hpp"
-#include "src/resource/CResourceCacheManager.hpp"
+#include "src/resource/CResources.hpp"
 
 #include "src/renderer/shader/CShaderProgram.hpp"
 #include "src/renderer/shader/CShaderProgramCompiler.hpp"
@@ -10,9 +10,9 @@
 class CShaderProgramCache final : public CResourceCache< CShaderProgram >
 {
 public:
-	CShaderProgramCache( const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager, CShaderCompiler &shaderCompiler, CShaderProgramCompiler &shaderProgramCompiler ) :
+	CShaderProgramCache( const CFileSystem &p_filesystem, CResources &resources, CShaderCompiler &shaderCompiler, CShaderProgramCompiler &shaderProgramCompiler ) :
 		CResourceCache( "shaderprogram", p_filesystem ),
-		m_resourceCacheManager { resourceCacheManager },
+		m_resources { resources },
 		m_shaderCompiler { shaderCompiler },
 		m_shaderProgramCompiler { shaderProgramCompiler }
 	{}
@@ -33,7 +33,7 @@ private:
 	}
 
 private:
-	CResourceCacheManager &m_resourceCacheManager;
+	CResources &m_resources;
 	
 	CShaderCompiler			&m_shaderCompiler;
 	CShaderProgramCompiler	&m_shaderProgramCompiler;

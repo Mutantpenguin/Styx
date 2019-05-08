@@ -8,9 +8,9 @@
 
 #include "src/core/StyxException.hpp"
 
-CAudio::CAudio( const CSettings &settings, const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager ) :
+CAudio::CAudio( const CSettings &settings, const CFileSystem &p_filesystem, CResources &resources ) :
 	m_buffer_size { settings.audio.buffer_size },
-	m_resourceCacheManager { resourceCacheManager },
+	m_resources { resources },
 	m_audioBufferCache { std::make_shared< CAudioBufferCache >( p_filesystem ) }
 {
 	m_AL_device = alcOpenDevice( nullptr );
@@ -42,7 +42,7 @@ CAudio::CAudio( const CSettings &settings, const CFileSystem &p_filesystem, CRes
 
 	logINFO( "\tVendor:  {0}", alGetString( AL_VENDOR ) );
 
-	m_resourceCacheManager.Register< CAudioBuffer >( m_audioBufferCache );
+	m_resources.Register< CAudioBuffer >( m_audioBufferCache );
 
 	SetVolume( settings.audio.volume );
 
@@ -53,7 +53,7 @@ CAudio::~CAudio()
 {
 	logINFO( "audio manager is shutting down" );
 
-	m_resourceCacheManager.DeRegister( m_audioBufferCache );
+	m_resources.DeRegister( m_audioBufferCache );
 
 	alcDestroyContext( m_AL_context );
 

@@ -6,7 +6,7 @@
 
 #include "src/renderer/CRenderer.hpp"
 
-#include "src/resource/CResourceCacheManager.hpp"
+#include "src/resource/CResources.hpp"
 
 class CEngineInterface final
 {
@@ -14,7 +14,7 @@ public:
 	CEngineInterface( const CSettings &settings, const CFileSystem &filesystem );
 	~CEngineInterface() {};
 
-	CResourceCacheManager ResourceCacheManager;
+	CResources Resources;
 
 	CInput		Input;
 	CRenderer	Renderer;

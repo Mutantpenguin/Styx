@@ -13,9 +13,9 @@ using json = nlohmann::json;
 
 u16 CMaterialLoader::m_dummyCounter { 0 };
 
-CMaterialLoader::CMaterialLoader( const CFileSystem &filesystem, CResourceCacheManager &resourceCacheManager, const CShaderProgramCompiler &shaderProgramCompiler ) :
+CMaterialLoader::CMaterialLoader( const CFileSystem &filesystem, CResources &resources, const CShaderProgramCompiler &shaderProgramCompiler ) :
 	m_filesystem { filesystem },
-	m_resourceCacheManager{ resourceCacheManager },
+	m_resources{ resources },
 	m_shaderProgramCompiler{ shaderProgramCompiler }
 {
 	logINFO( "material loader was initialized" );
@@ -195,7 +195,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr< CMaterial > &material,
 			shaderProgramId.fragmentShader = mat_shader_fs->get<std::string>();
 		}
 
-		const auto shaderProgram = m_resourceCacheManager.Get<CShaderProgram>( shaderProgramId );
+		const auto shaderProgram = m_resources.Get<CShaderProgram>( shaderProgramId );
 
 		material->ShaderProgram( shaderProgram );
 

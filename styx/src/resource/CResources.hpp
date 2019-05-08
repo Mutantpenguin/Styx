@@ -9,15 +9,15 @@
 
 #include "src/resource/CResourceCache.hpp"
 
-class CResourceCacheManager final
+class CResources final
 {
 private:
-	CResourceCacheManager( const CResourceCacheManager& rhs );
-	CResourceCacheManager& operator = ( const CResourceCacheManager& rhs );
+	CResources( const CResources& rhs );
+	CResources& operator = ( const CResources& rhs );
 
 public:
-	CResourceCacheManager();
-	~CResourceCacheManager();
+	CResources();
+	~CResources();
 
 	template < typename T >
 	void Register( const std::shared_ptr< CResourceCacheBase > &resourceCache )

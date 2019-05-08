@@ -5,14 +5,14 @@
 #include "CMaterial.hpp"
 
 #include "src/system/CFileSystem.hpp"
-#include "src/resource/CResourceCacheManager.hpp"
+#include "src/resource/CResources.hpp"
 
 #include "src/renderer/shader/CShaderProgramCompiler.hpp"
 
 class CMaterialLoader final
 {
 public:
-	CMaterialLoader( const CFileSystem &filesystem, CResourceCacheManager &resourceCacheManager, const CShaderProgramCompiler &shaderProgramCompiler );
+	CMaterialLoader( const CFileSystem &filesystem, CResources &resources, const CShaderProgramCompiler &shaderProgramCompiler );
 	~CMaterialLoader();
 
 	void FromFile( const std::shared_ptr< CMaterial > &material, const fs::path &path ) const;
@@ -24,7 +24,7 @@ private:
 
 	const CFileSystem &m_filesystem;
 
-	CResourceCacheManager &m_resourceCacheManager;
+	CResources &m_resources;
 
 	const CShaderProgramCompiler &m_shaderProgramCompiler;
 

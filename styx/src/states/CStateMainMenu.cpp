@@ -12,7 +12,7 @@
 
 CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "main menu", filesystem, settings, engineInterface ),
-	m_buttonChangeSound { std::make_shared< CAudioSource>( engineInterface.ResourceCacheManager.Get< CAudioBuffer >( "sounds/Pickup_Coin17.wav" ) ) }
+	m_buttonChangeSound { std::make_shared< CAudioSource>( engineInterface.Resources.Get<CAudioBuffer>( "sounds/Pickup_Coin17.wav" ) ) }
 {
 	m_buttonChangeSound->SetLooping( false );
 	m_buttonChangeSound->SetRelativePositioning( true );
@@ -27,13 +27,13 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	}
 
 	auto &renderer = m_engineInterface.Renderer;
-	auto &resourceCache = m_engineInterface.ResourceCacheManager;
+	auto &resources = m_engineInterface.Resources;
 	auto &samplerManager = renderer.SamplerManager();
 
 	const CSize &windowSize = settings.renderer.window.size;
 
 	{
-		const auto material = resourceCache.Get< CMaterial >( "materials/standard.mat" );
+		const auto material = resources.Get<CMaterial>( "materials/standard.mat" );
 
 		auto bgGeometry = GeometryPrefabs::QuadPU0();
 		bgGeometry.Vertices[ 0 ].Position.x = 0.0f;
@@ -45,7 +45,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		bgGeometry.Vertices[ 3 ].Position.x = static_cast< f16 >( windowSize.width );
 		bgGeometry.Vertices[ 3 ].Position.y = static_cast< f16 >( windowSize.height );
 
-		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/menu/background.jpg" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resources.Get<CTexture>( "textures/menu/background.jpg" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 		const auto bgMesh = std::make_shared< CMesh >( bgGeometry, material, bgMeshTextureSlots );
 
@@ -54,14 +54,14 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	}
 
 	{
-		const auto material = resourceCache.Get< CMaterial >( "materials/standard_blend.mat" );
+		const auto material = resources.Get<CMaterial>( "materials/standard_blend.mat" );
 
 		const f16 titleWidth = windowSize.width * 0.75f;
 		const f16 titleHeight = titleWidth / 4.0f;
 
 		auto titleGeometry = GeometryPrefabs::RectanglePNU0( titleWidth, titleHeight );
 
-		const CMesh::TMeshTextureSlots titleMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resourceCache.Get< CTexture >( "textures/menu/title.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+		const CMesh::TMeshTextureSlots titleMeshTextureSlots = { { "diffuseTexture", std::make_shared< CMeshTextureSlot >( resources.Get<CTexture>( "textures/menu/title.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 		const auto bgTitleMesh = std::make_shared< CMesh >( titleGeometry, material, titleMeshTextureSlots );
 
@@ -76,7 +76,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	auto buttonGeometry = GeometryPrefabs::RectangleP( buttonWidth, buttonHeight );
 
 	{
-		const auto greenMaterial = resourceCache.Get< CMaterial >( "materials/green.mat" );
+		const auto greenMaterial = resources.Get<CMaterial>( "materials/green.mat" );
 
 		const auto startMesh = std::make_shared< CMesh >( buttonGeometry, greenMaterial );
 
@@ -86,7 +86,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	}
 
 	{
-		const auto redMaterial = resourceCache.Get< CMaterial >( "materials/red.mat" );
+		const auto redMaterial = resources.Get<CMaterial>( "materials/red.mat" );
 
 		const auto exitMesh = std::make_shared< CMesh >( buttonGeometry, redMaterial );
 
@@ -95,7 +95,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		m_exitEntity->Add<CModelComponent>( exitMesh );
 	}
 
-	m_backgroundMusic = std::make_shared< CAudioSource >( resourceCache.Get< CAudioBuffer >( "music/Sad Robot.ogg" ) );
+	m_backgroundMusic = std::make_shared< CAudioSource >( resources.Get<CAudioBuffer>( "music/Sad Robot.ogg" ) );
 	m_backgroundMusic->Play();
 	m_backgroundMusic->SetLooping( true );
 }

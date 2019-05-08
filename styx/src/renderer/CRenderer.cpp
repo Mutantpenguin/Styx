@@ -18,17 +18,17 @@
 
 #include "src/renderer/geometry/prefabs/Quad.hpp"
 
-CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, CResourceCacheManager &resourceCacheManager ) :
+CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, CResources &resources ) :
 	m_settings { settings },
-	m_resourceCacheManager { resourceCacheManager },
+	m_resources { resources },
 	m_samplerManager( settings ),
 	m_shaderCompiler(),
 	m_shaderProgramCompiler( m_shaderCompiler ),
 	m_textureCache { std::make_shared< CTextureCache >( settings, filesystem, m_OpenGlAdapter ) },
-	m_modelCache { std::make_shared< CModelCache >( filesystem, resourceCacheManager ) },
-	m_materialCache { std::make_shared< CMaterialCache >( filesystem, resourceCacheManager, m_shaderProgramCompiler ) },
+	m_modelCache { std::make_shared< CModelCache >( filesystem, resources ) },
+	m_materialCache { std::make_shared< CMaterialCache >( filesystem, resources, m_shaderProgramCompiler ) },
 	m_shaderCache { std::make_shared< CShaderCache >( filesystem, m_shaderCompiler ) },
-	m_shaderProgramCache { std::make_shared< CShaderProgramCache >( filesystem, resourceCacheManager, m_shaderCompiler, m_shaderProgramCompiler ) }
+	m_shaderProgramCache { std::make_shared< CShaderProgramCache >( filesystem, resources, m_shaderCompiler, m_shaderProgramCompiler ) }
 {
 	glDepthFunc( GL_LEQUAL );
 	glEnable( GL_DEPTH_TEST );
@@ -89,11 +89,11 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 		m_meshFrameBuffer = std::make_unique< CMesh >( GeometryPrefabs::QuadPNU0( 2.0f ), materialFrameBuffer, frameBufferMeshTextureSlots );
 	}
 
-	m_resourceCacheManager.Register<CTexture>( m_textureCache );
-	m_resourceCacheManager.Register<CModel>( m_modelCache );
-	m_resourceCacheManager.Register<CShader>( m_shaderCache );
-	m_resourceCacheManager.Register<CShaderProgram>( m_shaderProgramCache );
-	m_resourceCacheManager.Register<CMaterial>( m_materialCache );
+	m_resources.Register<CTexture>( m_textureCache );
+	m_resources.Register<CModel>( m_modelCache );
+	m_resources.Register<CShader>( m_shaderCache );
+	m_resources.Register<CShaderProgram>( m_shaderProgramCache );
+	m_resources.Register<CMaterial>( m_materialCache );
 
 	logINFO( "renderer was initialized" );
 }
@@ -102,11 +102,11 @@ CRenderer::~CRenderer()
 {
 	logINFO( "renderer is shutting down" );
 
-	m_resourceCacheManager.DeRegister( m_materialCache );
-	m_resourceCacheManager.DeRegister( m_shaderProgramCache );
-	m_resourceCacheManager.DeRegister( m_shaderCache );
-	m_resourceCacheManager.DeRegister( m_modelCache );
-	m_resourceCacheManager.DeRegister( m_textureCache );
+	m_resources.DeRegister( m_materialCache );
+	m_resources.DeRegister( m_shaderProgramCache );
+	m_resources.DeRegister( m_shaderCache );
+	m_resources.DeRegister( m_modelCache );
+	m_resources.DeRegister( m_textureCache );
 }
 
 void CRenderer::CreateUniformBuffers()

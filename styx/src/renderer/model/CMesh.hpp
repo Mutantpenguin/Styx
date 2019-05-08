@@ -37,8 +37,6 @@ public:
 
 	void BindTextures() const;
 
-	const glm::vec3	BoundingSphereRadiusVector;
-
 private:
 	const CVAO	m_vao;
 
@@ -49,4 +47,7 @@ private:
 	std::vector< std::pair< GLuint, const std::shared_ptr< const CMeshTextureSlot > > > m_materialTextureSlotMapping;
 
 	void SetupMaterialTextureSlotMapping();
+
+public:
+	const glm::vec3	BoundingSphereRadiusVector;
 };

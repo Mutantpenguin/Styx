@@ -5,9 +5,9 @@
 #include "src/renderer/geometry/Geometry.hpp"
 #include "src/renderer/geometry/Vertex.hpp"
 
-CModelLoader::CModelLoader( const CFileSystem &p_filesystem, CResourceCacheManager &resourceCacheManager ) :
+CModelLoader::CModelLoader( const CFileSystem &p_filesystem, CResources &resources ) :
 	m_filesystem { p_filesystem },
-	m_resourceCacheManager { resourceCacheManager }
+	m_resources { resources }
 {
 	logINFO( "model loader was initialized" );
 }
