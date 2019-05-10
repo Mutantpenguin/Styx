@@ -128,7 +128,7 @@
     <ClInclude Include="src\renderer\texture\CTextureLoader.hpp" />
     <ClInclude Include="src\resource\CResourceCache.hpp" />
     <ClInclude Include="src\resource\CResourceCacheBase.hpp" />
-    <ClInclude Include="src\resource\CResourceCacheManager.hpp" />
+    <ClInclude Include="src\resource\CResources.hpp" />
     <ClInclude Include="src\scene\CEntity.hpp" />
     <ClInclude Include="src\scene\CFrustum.hpp" />
     <ClInclude Include="src\scene\components\camera\CCameraComponent.hpp" />
@@ -239,7 +239,7 @@
     <ClCompile Include="src\renderer\texture\CTexture.cpp" />
     <ClCompile Include="src\renderer\texture\CTextureLoader.cpp" />
     <ClCompile Include="src\resource\CResourceCacheBase.cpp" />
-    <ClCompile Include="src\resource\CResourceCacheManager.cpp" />
+    <ClCompile Include="src\resource\CResources.cpp" />
     <ClCompile Include="src\scene\CEntity.cpp" />
     <ClCompile Include="src\scene\CFrustum.cpp" />
     <ClCompile Include="src\scene\components\camera\CCameraComponent.cpp" />

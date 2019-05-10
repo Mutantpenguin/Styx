@@ -335,9 +335,6 @@
     <ClInclude Include="src\resource\CResourceCacheBase.hpp">
       <Filter>src\resource</Filter>
     </ClInclude>
-    <ClInclude Include="src\resource\CResourceCacheManager.hpp">
-      <Filter>src\resource</Filter>
-    </ClInclude>
     <ClInclude Include="src\scene\CEntity.hpp">
       <Filter>src\scene</Filter>
     </ClInclude>
@@ -478,6 +475,9 @@
     </ClInclude>
     <ClInclude Include="src\renderer\CBO.hpp">
       <Filter>src\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource\CResources.hpp">
+      <Filter>src\resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -664,9 +664,6 @@
     <ClCompile Include="src\resource\CResourceCacheBase.cpp">
       <Filter>src\resource</Filter>
     </ClCompile>
-    <ClCompile Include="src\resource\CResourceCacheManager.cpp">
-      <Filter>src\resource</Filter>
-    </ClCompile>
     <ClCompile Include="src\scene\CEntity.cpp">
       <Filter>src\scene</Filter>
     </ClCompile>
@@ -786,6 +783,9 @@
     </ClCompile>
     <ClCompile Include="src\renderer\CBO.cpp">
       <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resource\CResources.cpp">
+      <Filter>src\resource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
