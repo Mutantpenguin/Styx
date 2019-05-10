@@ -42,7 +42,7 @@ CAudio::CAudio( const CSettings &settings, const CFileSystem &p_filesystem, CRes
 
 	logINFO( "\tVendor:  {0}", alGetString( AL_VENDOR ) );
 
-	m_resources.Register<CAudioBuffer>( m_audioBufferCache );
+	m_resources.AddCache<CAudioBuffer>( m_audioBufferCache );
 
 	SetVolume( settings.audio.volume );
 
@@ -53,7 +53,7 @@ CAudio::~CAudio()
 {
 	logINFO( "audio manager is shutting down" );
 
-	m_resources.DeRegister( m_audioBufferCache );
+	m_resources.RemoveCache( m_audioBufferCache );
 
 	alcDestroyContext( m_AL_context );
 

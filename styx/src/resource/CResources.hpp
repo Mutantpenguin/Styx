@@ -20,7 +20,7 @@ public:
 	~CResources();
 
 	template<typename T>
-	void Register( const std::shared_ptr<CResourceCacheBase> &resourceCache )
+	void AddCache( const std::shared_ptr<CResourceCacheBase> &resourceCache )
 	{
 		auto type_index = std::type_index( typeid( T ) );
 
@@ -38,7 +38,7 @@ public:
 		}
 	}
 
-	void DeRegister( const std::shared_ptr<CResourceCacheBase> &resourceCache );
+	void RemoveCache( const std::shared_ptr<CResourceCacheBase> &resourceCache );
 
 	void CollectGarbage();
 	void Reload();

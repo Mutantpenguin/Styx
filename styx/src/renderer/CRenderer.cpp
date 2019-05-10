@@ -89,11 +89,11 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 		m_meshFrameBuffer = std::make_unique<CMesh>( GeometryPrefabs::QuadPNU0( 2.0f ), materialFrameBuffer, frameBufferMeshTextureSlots );
 	}
 
-	m_resources.Register<CTexture>( m_textureCache );
-	m_resources.Register<CModel>( m_modelCache );
-	m_resources.Register<CShader>( m_shaderCache );
-	m_resources.Register<CShaderProgram>( m_shaderProgramCache );
-	m_resources.Register<CMaterial>( m_materialCache );
+	m_resources.AddCache<CTexture>( m_textureCache );
+	m_resources.AddCache<CModel>( m_modelCache );
+	m_resources.AddCache<CShader>( m_shaderCache );
+	m_resources.AddCache<CShaderProgram>( m_shaderProgramCache );
+	m_resources.AddCache<CMaterial>( m_materialCache );
 
 	logINFO( "renderer was initialized" );
 }
@@ -102,11 +102,11 @@ CRenderer::~CRenderer()
 {
 	logINFO( "renderer is shutting down" );
 
-	m_resources.DeRegister( m_materialCache );
-	m_resources.DeRegister( m_shaderProgramCache );
-	m_resources.DeRegister( m_shaderCache );
-	m_resources.DeRegister( m_modelCache );
-	m_resources.DeRegister( m_textureCache );
+	m_resources.RemoveCache( m_materialCache );
+	m_resources.RemoveCache( m_shaderProgramCache );
+	m_resources.RemoveCache( m_shaderCache );
+	m_resources.RemoveCache( m_modelCache );
+	m_resources.RemoveCache( m_textureCache );
 }
 
 void CRenderer::CreateUniformBuffers()
