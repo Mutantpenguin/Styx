@@ -434,11 +434,8 @@ namespace ComputerInfo
 			RegCloseKey( hKey );
 		#else // linux
 			std::string model_name;
-			std::string cpufamily;
-			std::string model;
-			std::string stepping;
-			std::string vendor_id;
-			std::string mhz;
+			std::string cpu_count;
+			float mhz;
 
 			std::unique_ptr<FILE, decltype(&pclose)> lscpu( popen( "LC_ALL=en_US.utf8 lscpu", "r" ), pclose );
 			
@@ -454,30 +451,18 @@ namespace ComputerInfo
 					{
 						model_name = String::trim( std_buffer.substr( std_buffer.find( ":" ) + 1 ) );
 					}
-					else if( std_buffer.substr( 0, 10 ) == std::string( "Vendor ID:" ) )
+					else if( std_buffer.substr( 0, 7 ) == std::string( "CPU(s):" ) )
 					{
-						vendor_id = String::trim( std_buffer.substr( std_buffer.find( ":" ) + 1 ) );
-					}
-					else if( std_buffer.substr( 0, 11 ) == std::string( "CPU family:" ) )
-					{
-						cpufamily = String::trim( std_buffer.substr( std_buffer.find( ":" ) + 1 ) );
-					}
-					else if( std_buffer.substr( 0, 6 ) == std::string( "Model:" ) )
-					{
-						model = String::trim( std_buffer.substr( std_buffer.find( ":" ) + 1 ) );
-					}
-					else if( std_buffer.substr( 0, 9 ) == std::string( "Stepping:" ) )
-					{
-						stepping = String::trim( std_buffer.substr( std_buffer.find( ":" ) + 1 ) );
+						cpu_count = String::trim( std_buffer.substr( std_buffer.find( ":" ) + 1 ) );
 					}
 					else if( std_buffer.substr( 0, 12 ) == std::string( "CPU max MHz:" ) )
 					{
-						std::string mhz2 = std_buffer.substr( std_buffer.find( ":" ) + 1 );
-						mhz = String::trim( mhz2.substr( 0, mhz2.find( "." ) ) );
+						std::string mhzString = String::trim( std_buffer.substr( std_buffer.find( ":" ) + 1 ) );
+						mhz = std::stoi( mhzString.substr( 0, mhzString.find( "." ) ) ) / 1000.0f;
 					}
 				}
 
-				return( fmt::format( "{0} / Family {1} Model {2} Stepping {3} / {4} / {5} MHz", model_name, cpufamily, model, stepping, vendor_id, mhz ) );
+				return( fmt::format( "{0} @ {1}x {2:.1f} GHz", model_name, cpu_count, mhz ) );
 			}
 
 			return( "unknown" );
