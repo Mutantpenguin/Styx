@@ -68,7 +68,6 @@ CFrustum::CFrustum( const glm::mat4 &viewProjectionMatrix ) :
 
 bool CFrustum::IsSphereInside( const glm::vec3 &position, const f16 sphereRadius ) const
 {
-	// TODO multithreaded?
 	for( const CPlane &plane : m_planes )
 	{
 		if( plane.DistanceToPlane( position ) < -sphereRadius )
@@ -76,18 +75,6 @@ bool CFrustum::IsSphereInside( const glm::vec3 &position, const f16 sphereRadius
 			return( false );
 		}
 	}
-	
-	/* TODO use std::any_of
-	if( std::any_of( std::begin( m_planes ), std::end( m_planes ),
-	// TODO if( std::any_of( std::execution::parallel_unsequenced_policy, std::begin( m_planes ), std::end( m_planes ),
-		[&position, &sphereRadius]( const CPlane &plane )
-		{
-			return( plane.DistanceToPlane( position ) >= -sphereRadius );
-		} ) )
-	{
-		return( false );
-	}
-	*/
 
-    return( true );
+	return( true );
 }
