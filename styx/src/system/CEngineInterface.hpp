@@ -20,6 +20,11 @@ public:
 	CRenderer	Renderer;
 	CAudio		Audio;
 
+	struct
+	{
+		u64 frameTime;
+	} Stats;
+
 private:
 	CEngineInterface( const CEngineInterface &rhs ) = delete;
 	CEngineInterface& operator = ( const CEngineInterface &rhs ) = delete;

@@ -515,6 +515,11 @@ std::shared_ptr<CState> CStateGame::OnUpdate()
 	 * stuff
 	 */
 
+	if( input.KeyDown( SDL_SCANCODE_F1 ) )
+	{
+		logINFO( "frame-time is {0}ms", ( m_engineInterface.Stats.frameTime / 1000.0f ) );
+	}
+
 	if( !input.MouseStillDown( SDL_BUTTON_LEFT) )
 	{
 		m_movableEntity->Transform.Rotate( m_roty_ps, m_rotx_ps, 0.0f );

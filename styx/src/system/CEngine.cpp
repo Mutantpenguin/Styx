@@ -41,13 +41,9 @@ void CEngine::Run()
 
 	logINFO( "" );
 
-	CTimer renderTimer;
+	CTimer frameTimer;
 
-	u64 lastUpdatedTime = renderTimer.Time();
-
-	#ifdef STYX_DEBUG
-		u64 lastTime = renderTimer.Time();
-	#endif
+	u64 lastUpdatedTime = frameTimer.Time();
 
 	MTR_BEGIN( "main", "outer" );
 
@@ -55,9 +51,7 @@ void CEngine::Run()
 
 	while( currentState )
 	{
-		#ifdef STYX_DEBUG
-			lastTime = renderTimer.Time();
-		#endif
+		const u64 frameStartTime = frameTimer.Time();
 
 		m_window.Update();
 
@@ -65,7 +59,7 @@ void CEngine::Run()
 
 		m_engineInterface.Renderer.DisplayFramebuffer( currentState->FrameBuffer() );
 
-		while( currentState && ( ( renderTimer.Time() - lastUpdatedTime ) > m_settings.engine.tick ) )
+		while( currentState && ( ( frameTimer.Time() - lastUpdatedTime ) > m_settings.engine.tick ) )
 		{
 			m_engineInterface.Input.Update();
 
@@ -86,12 +80,15 @@ void CEngine::Run()
 		// TODO maybe only collect garbage when changing states?
 		m_engineInterface.Resources.CollectGarbage();
 
+		const u64 frameEndtime = frameTimer.Time();
+		
+		m_engineInterface.Stats.frameTime = ( frameEndtime - frameStartTime );
+
 		#ifdef STYX_DEBUG
-			const u64 deltaTime = ( renderTimer.Time() - lastTime );
-			if( deltaTime > m_settings.engine.tick )
+			if( m_engineInterface.Stats.frameTime > m_settings.engine.tick )
 			{
 				// a frame takes more time than m_settings.engine.tick, so we have fewer than 30fps
-				logWARNING( "ATTENTION: frame-time is {0}ms", ( deltaTime / 1000.0f ) );
+				logWARNING( "ATTENTION: frame-time is {0}ms", ( m_engineInterface.Stats.frameTime / 1000.0f ) );
 			}
 		#endif // STYX_DEBUG
 	}
