@@ -307,11 +307,11 @@ void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::m
 		{
 			currentMesh = mesh;
 
-			const auto material = mesh->Material();
+			const auto material = mesh->Material().get();
 
-			if( currentMaterial != material.get() )
+			if( currentMaterial != material )
 			{
-				currentMaterial = material.get();
+				currentMaterial = material;
 				material->Activate();
 
 				currentShader = material->ShaderProgram().get();
