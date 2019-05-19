@@ -134,6 +134,8 @@
         <File Name="src/renderer/geometry/Vertex.hpp"/>
         <File Name="src/renderer/geometry/Geometry.hpp"/>
         <VirtualDirectory Name="prefabs">
+          <File Name="src/renderer/geometry/prefabs/Sphere.cpp"/>
+          <File Name="src/renderer/geometry/prefabs/Sphere.hpp"/>
           <File Name="src/renderer/geometry/prefabs/Rectangle.hpp"/>
           <File Name="src/renderer/geometry/prefabs/Rectangle.cpp"/>
           <File Name="src/renderer/geometry/prefabs/Quad.hpp"/>
