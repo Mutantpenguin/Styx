@@ -19,6 +19,7 @@
 #include "src/renderer/geometry/prefabs/Cuboid.hpp"
 #include "src/renderer/geometry/prefabs/Quad.hpp"
 #include "src/renderer/geometry/prefabs/Rectangle.hpp"
+#include "src/renderer/geometry/prefabs/Sphere.hpp"
 
 CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 	CState( "game", filesystem, settings, engineInterface )
@@ -293,6 +294,18 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		particleEntity->Transform.Position( { 80.0f, 10.0f, 1.0f } );
 		particleEntity->Transform.Scale( { 5.0f, 5.0f, 5.0f } );
 		particleEntity->Add<CModelComponent>( particleMesh );
+	}
+	
+	{
+		const auto explodeMaterial = resources.Get<CMaterial>( "materials/explode.mat" );
+		
+		const CMesh::TMeshTextureSlots explodeMeshSphereTextureSlots = { { "diffuseTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/texpack_2/pattern_07.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
+
+		const auto sphereMesh = std::make_shared<CMesh>( GeometryPrefabs::SpherePU0( 10, 8, 10.0f ), explodeMaterial, explodeMeshSphereTextureSlots );
+
+		const auto blockEntity = m_scene.CreateEntity( "exploding sphere" );
+		blockEntity->Transform.Position( { 100.0f, 10.0f, 1.0f } );
+		blockEntity->Add<CModelComponent>( sphereMesh );
 	}
 
 	{
