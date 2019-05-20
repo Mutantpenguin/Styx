@@ -52,11 +52,11 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{
 		const auto material = resources.Get<CMaterial>( "materials/standard.mat" );
 
-		auto floorGeometry = GeometryPrefabs::QuadPNU0( 200.0f );
+		auto floorGeometry = GeometryPrefabs::QuadPNU0( 400.0f );
 
 		for( auto &vertex : floorGeometry.Vertices )
 		{
-			vertex.UV0 *= 10;
+			vertex.UV0 *= 20;
 		}
 
 		const CMesh::TMeshTextureSlots floorMeshTextureSlots = { { "diffuseTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/texpack_2/stone_floor.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
@@ -304,8 +304,18 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto sphereMesh = std::make_shared<CMesh>( GeometryPrefabs::SpherePU0( 10, 8, 10.0f ), explodeMaterial, explodeMeshSphereTextureSlots );
 
 		const auto blockEntity = m_scene.CreateEntity( "exploding sphere" );
-		blockEntity->Transform.Position( { 100.0f, 10.0f, 1.0f } );
+		blockEntity->Transform.Position( { 110.0f, 10.0f, 1.0f } );
 		blockEntity->Add<CModelComponent>( sphereMesh );
+	}
+
+	{
+		const auto fireballMaterial = resources.Get<CMaterial>( "materials/fireball.mat" );
+
+		const auto fireballMesh = std::make_shared<CMesh>( GeometryPrefabs::SpherePNU0( 200, 160, 10.0f ), fireballMaterial );
+
+		const auto firebalEntity = m_scene.CreateEntity( "fireball" );
+		firebalEntity->Transform.Position( { 140.0f, 10.0f, 1.0f } );
+		firebalEntity->Add<CModelComponent>( fireballMesh );
 	}
 
 	{
