@@ -1,6 +1,6 @@
 #include "Sphere.hpp"
 
-#include <cmath>
+#include <glm/gtc/constants.hpp>
 
 namespace GeometryPrefabs
 {
@@ -15,12 +15,12 @@ namespace GeometryPrefabs
 		
 		geometry.Mode = GL_TRIANGLES;
 
-		const f16 sectorStep = 2 * M_PI / sectorCount;
-		const f16 stackStep = M_PI / stackCount;
+		const f16 sectorStep = 2 * glm::pi<f16>() / sectorCount;
+		const f16 stackStep = glm::pi<f16>() / stackCount;
 
 		for( u16 i = 0; i <= stackCount; ++i )
 		{
-			const f16 stackAngle = M_PI / 2 - i * stackStep;        // starting from pi/2 to -pi/2
+			const f16 stackAngle = glm::pi<f16>() / 2 - i * stackStep;        // starting from pi/2 to -pi/2
 			const f16 xy = radius * cosf( stackAngle );             // r * cos(u)
 			const f16 z = radius * sinf( stackAngle );              // r * sin(u)
 
@@ -84,12 +84,12 @@ namespace GeometryPrefabs
 		
 		geometry.Mode = GL_TRIANGLES;
 
-		const f16 sectorStep = 2 * M_PI / sectorCount;
-		const f16 stackStep = M_PI / stackCount;
+		const f16 sectorStep = 2 * glm::pi<f16>() / sectorCount;
+		const f16 stackStep = glm::pi<f16>() / stackCount;
 
 		for( u16 i = 0; i <= stackCount; ++i )
 		{
-			const f16 stackAngle = M_PI / 2 - i * stackStep;        // starting from pi/2 to -pi/2
+			const f16 stackAngle = glm::pi<f16>() / 2 - i * stackStep;        // starting from pi/2 to -pi/2
 			const f16 xy = radius * cosf( stackAngle );             // r * cos(u)
 			const f16 z = radius * sinf( stackAngle );              // r * sin(u)
 
