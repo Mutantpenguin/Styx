@@ -479,6 +479,9 @@
     <ClInclude Include="src\resource\CResources.hpp">
       <Filter>src\resource</Filter>
     </ClInclude>
+    <ClInclude Include="src\renderer\geometry\prefabs\Sphere.hpp">
+      <Filter>src\renderer\geometry\prefabs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\fmt\format.cc">
@@ -786,6 +789,9 @@
     </ClCompile>
     <ClCompile Include="src\resource\CResources.cpp">
       <Filter>src\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\geometry\prefabs\Sphere.cpp">
+      <Filter>src\renderer\geometry\prefabs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

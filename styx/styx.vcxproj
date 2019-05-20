@@ -98,6 +98,7 @@
     <ClInclude Include="src\renderer\geometry\prefabs\Cuboid.hpp" />
     <ClInclude Include="src\renderer\geometry\prefabs\Quad.hpp" />
     <ClInclude Include="src\renderer\geometry\prefabs\Rectangle.hpp" />
+    <ClInclude Include="src\renderer\geometry\prefabs\Sphere.hpp" />
     <ClInclude Include="src\renderer\geometry\Vertex.hpp" />
     <ClInclude Include="src\renderer\GL.h" />
     <ClInclude Include="src\renderer\GLHelper.hpp" />
@@ -218,6 +219,7 @@
     <ClCompile Include="src\renderer\geometry\prefabs\Cuboid.cpp" />
     <ClCompile Include="src\renderer\geometry\prefabs\Quad.cpp" />
     <ClCompile Include="src\renderer\geometry\prefabs\Rectangle.cpp" />
+    <ClCompile Include="src\renderer\geometry\prefabs\Sphere.cpp" />
     <ClCompile Include="src\renderer\GLHelper.cpp" />
     <ClCompile Include="src\renderer\material\CMaterial.cpp" />
     <ClCompile Include="src\renderer\material\CMaterialLoader.cpp" />
