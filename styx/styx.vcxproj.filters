@@ -260,9 +260,6 @@
     <ClInclude Include="src\renderer\CUniformBuffer.hpp">
       <Filter>src\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\renderer\CVAO.hpp">
-      <Filter>src\renderer</Filter>
-    </ClInclude>
     <ClInclude Include="src\renderer\EUniformBufferLocations.hpp">
       <Filter>src\renderer</Filter>
     </ClInclude>
@@ -473,14 +470,17 @@
     <ClInclude Include="src\renderer\geometry\prefabs\Rectangle.hpp">
       <Filter>src\renderer\geometry\prefabs</Filter>
     </ClInclude>
-    <ClInclude Include="src\renderer\CBO.hpp">
-      <Filter>src\renderer</Filter>
-    </ClInclude>
     <ClInclude Include="src\resource\CResources.hpp">
       <Filter>src\resource</Filter>
     </ClInclude>
     <ClInclude Include="src\renderer\geometry\prefabs\Sphere.hpp">
       <Filter>src\renderer\geometry\prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\CBufferObject.hpp">
+      <Filter>src\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\CVertexArrayObject.hpp">
+      <Filter>src\renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -611,9 +611,6 @@
       <Filter>src\renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\renderer\CUniformBuffer.cpp">
-      <Filter>src\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\renderer\CVAO.cpp">
       <Filter>src\renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\renderer\GLHelper.cpp">
@@ -784,14 +781,17 @@
     <ClCompile Include="src\renderer\geometry\prefabs\Rectangle.cpp">
       <Filter>src\renderer\geometry\prefabs</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\CBO.cpp">
-      <Filter>src\renderer</Filter>
-    </ClCompile>
     <ClCompile Include="src\resource\CResources.cpp">
       <Filter>src\resource</Filter>
     </ClCompile>
     <ClCompile Include="src\renderer\geometry\prefabs\Sphere.cpp">
       <Filter>src\renderer\geometry\prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\CBufferObject.cpp">
+      <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\CVertexArrayObject.cpp">
+      <Filter>src\renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

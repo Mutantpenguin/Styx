@@ -40,8 +40,8 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 	CreateUniformBuffers();
 
 	{
-		const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( CVAO::EAttributeLocation::position );
-		const auto &uv0Attribute = CShaderCompiler::AllowedAttributes.at( CVAO::EAttributeLocation::uv0 );
+		const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( CVertexArrayObject::EAttributeLocation::position );
+		const auto &uv0Attribute = CShaderCompiler::AllowedAttributes.at( CVertexArrayObject::EAttributeLocation::uv0 );
 
 
 		// TODO write comments
@@ -285,7 +285,7 @@ void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
 
 	m_meshFrameBuffer->BindTextures();
 
-	const CVAO &vao = m_meshFrameBuffer->VAO();
+	const CVertexArrayObject &vao = m_meshFrameBuffer->VAO();
 
 	vao.Bind();
 

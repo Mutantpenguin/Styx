@@ -1,6 +1,6 @@
-#include "CBO.hpp"
+#include "CBufferObject.hpp"
 
-CBO::~CBO()
+CBufferObject::~CBufferObject()
 {
 	if( glIsBuffer( GLID ) == GL_TRUE )
 	{

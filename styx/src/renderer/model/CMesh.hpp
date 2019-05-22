@@ -8,7 +8,7 @@
 #include "src/renderer/model/CMeshTextureSlot.hpp"
 
 #include "src/renderer/material/CMaterial.hpp"
-#include "src/renderer/CVAO.hpp"
+#include "src/renderer/CVertexArrayObject.hpp"
 
 class CMesh final
 {
@@ -34,12 +34,12 @@ public:
 	void ChangeSampler( const std::string &slotName, const std::shared_ptr<const CSampler> &sampler );
 	void ChangeTextureAndSampler( const std::string &slotName, const std::shared_ptr<const CTexture> &texture, const std::shared_ptr<const CSampler> &sampler );
 
-	const CVAO &VAO() const;
+	const CVertexArrayObject &VAO() const;
 
 	void BindTextures() const;
 
 private:
-	const CVAO	m_vao;
+	const CVertexArrayObject	m_vao;
 
 	std::shared_ptr<const CMaterial> m_material;
 

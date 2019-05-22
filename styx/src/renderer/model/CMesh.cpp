@@ -135,7 +135,7 @@ const std::shared_ptr<const CMaterial> &CMesh::Material() const
 	return( m_material );
 }
 
-const CVAO &CMesh::VAO() const
+const CVertexArrayObject &CMesh::VAO() const
 {
 	return( m_vao );
 }

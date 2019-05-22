@@ -2,23 +2,23 @@
 
 #include "src/renderer/GL.h"
 
-#include "src/renderer/CBO.hpp"
+#include "src/renderer/CBufferObject.hpp"
 
 #include "src/renderer/geometry/Geometry.hpp"
 #include "src/renderer/geometry/Vertex.hpp"
 
-class CVAO final
+class CVertexArrayObject final
 {
 public:
-	CVAO( const Geometry<VertexP> &geometry );
-	CVAO( const Geometry<VertexPN> &geometry );
-	CVAO( const Geometry<VertexPU0> &geometry );
-	CVAO( const Geometry<VertexPNU0> &geometry );
-	CVAO( const Geometry<VertexPNTB> &geometry );
-	CVAO( const Geometry<VertexPNTBU0> &geometry );
-	CVAO( const Geometry<VertexPNTBCU0U1U2U3> &geometry );
+	CVertexArrayObject( const Geometry<VertexP> &geometry );
+	CVertexArrayObject( const Geometry<VertexPN> &geometry );
+	CVertexArrayObject( const Geometry<VertexPU0> &geometry );
+	CVertexArrayObject( const Geometry<VertexPNU0> &geometry );
+	CVertexArrayObject( const Geometry<VertexPNTB> &geometry );
+	CVertexArrayObject( const Geometry<VertexPNTBU0> &geometry );
+	CVertexArrayObject( const Geometry<VertexPNTBCU0U1U2U3> &geometry );
 
-	~CVAO();
+	~CVertexArrayObject();
 
 	void Bind() const;
 
@@ -44,8 +44,8 @@ private:
 
 	GLuint	GLID;
 
-	const CBO	m_vbo;
-	const CBO	m_ibo;
+	const CBufferObject	m_vbo;
+	const CBufferObject	m_ibo;
 
 	static const GLuint bindingIndexPositions	{ 0 };
 	static const GLuint bindingIndexNormals		{ 1 };
