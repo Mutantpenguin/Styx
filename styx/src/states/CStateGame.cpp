@@ -29,7 +29,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	auto &renderer = m_engineInterface.Renderer;
 
 	m_cameraEntity = m_scene.CreateEntity( "free camera" );
-	m_cameraEntity->Transform.Position( { 0.0f, 10.0f, 10.0f } );
+	m_cameraEntity->Transform.Position( { 43.0f, 76.0f, -99.0f } );
 	m_cameraEntity->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
 	m_cameraEntity->Add<CCameraFreeComponent>( m_settings.renderer.window.aspect_ratio, 72.0f, 0.1f, 1000.0f );
 
@@ -263,6 +263,8 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto explode = m_scene.CreateEntity( "exploder" );
 		explode->Transform.Position( { 50.0f, 10.0f, 1.0f } );
 		explode->Add<CModelComponent>( explodeMesh );
+
+		m_cameraEntity->Transform.Direction( explode->Transform.Position() - m_cameraEntity->Transform.Position() );
 	}
 
 	{
