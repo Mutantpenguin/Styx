@@ -130,6 +130,10 @@
       <File Name="src/resource/CResourceCache.hpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="renderer">
+      <File Name="src/renderer/CVertexArrayObject.hpp"/>
+      <File Name="src/renderer/CVertexArrayObject.cpp"/>
+      <File Name="src/renderer/CBufferObject.hpp"/>
+      <File Name="src/renderer/CBufferObject.cpp"/>
       <VirtualDirectory Name="geometry">
         <File Name="src/renderer/geometry/Vertex.hpp"/>
         <File Name="src/renderer/geometry/Geometry.hpp"/>
@@ -146,8 +150,6 @@
           <File Name="src/renderer/geometry/prefabs/Cube.cpp"/>
         </VirtualDirectory>
       </VirtualDirectory>
-      <File Name="src/renderer/CBO.hpp"/>
-      <File Name="src/renderer/CBO.cpp"/>
       <VirtualDirectory Name="texture">
         <File Name="src/renderer/texture/CTextureLoader.hpp"/>
         <File Name="src/renderer/texture/CTextureLoader.cpp"/>
@@ -210,8 +212,6 @@
       <File Name="src/renderer/GLHelper.cpp"/>
       <File Name="src/renderer/GL.h"/>
       <File Name="src/renderer/EUniformBufferLocations.hpp"/>
-      <File Name="src/renderer/CVAO.hpp"/>
-      <File Name="src/renderer/CVAO.cpp"/>
       <File Name="src/renderer/CUniformBuffer.hpp"/>
       <File Name="src/renderer/CUniformBuffer.cpp"/>
       <File Name="src/renderer/CRenderer.hpp"/>
@@ -339,7 +339,7 @@
     <Extensions>
       <![CDATA[*.cpp;*.c;*.h;*.hpp;*.xrc;*.wxcp;*.fbp;*.cc;*.py]]>
     </Extensions>
-    <Topleveldir>/home/charon/Projekte/styx/styx</Topleveldir>
+    <Topleveldir>/home/charon/Projekte/trash/styx/styx</Topleveldir>
   </Reconciliation>
   <Description/>
   <Dependencies/>

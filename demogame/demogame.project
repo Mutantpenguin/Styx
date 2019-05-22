@@ -8,11 +8,12 @@
     <Extensions>
       <![CDATA[*.*]]>
     </Extensions>
-    <Topleveldir>/home/charon/Projekte/styx/demogame</Topleveldir>
+    <Topleveldir>/home/charon/Projekte/trash/styx/demogame</Topleveldir>
   </Reconciliation>
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="materials">
+    <File Name="materials/fireball.mat"/>
     <File Name="materials/particle.mat"/>
     <File Name="materials/explode.mat"/>
     <File Name="materials/flames.mat"/>
@@ -60,6 +61,7 @@
       <File Name="shaders/gs/explode.geom"/>
     </VirtualDirectory>
     <VirtualDirectory Name="fs">
+      <File Name="shaders/fs/fireball.frag"/>
       <File Name="shaders/fs/particle.frag"/>
       <File Name="shaders/fs/reflection.frag"/>
       <File Name="shaders/fs/sky.frag"/>
@@ -74,6 +76,7 @@
       <File Name="shaders/fs/radial_blur.frag"/>
     </VirtualDirectory>
     <VirtualDirectory Name="vs">
+      <File Name="shaders/vs/fireball.vert"/>
       <File Name="shaders/vs/particle.vert"/>
       <File Name="shaders/vs/explode.vert"/>
       <File Name="shaders/vs/reflection.vert"/>
