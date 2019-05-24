@@ -26,6 +26,8 @@ public:
 
 	[[nodiscard]] const glm::mat4 ViewMatrix() const;
 
+	[[ nodiscard ]] const glm::mat4 ModelMatrix() const;
+
 private:
 	glm::vec3	m_position		{ 0.0f, 0.0f, 0.0f };
 	glm::quat	m_orientation	{ 1.0f, 0.0f, 0.0f, 0.0f };

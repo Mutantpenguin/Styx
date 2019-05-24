@@ -18,6 +18,8 @@
 
 #include "src/renderer/CFrameBuffer.hpp"
 
+#include "src/renderer/DrawCommand.hpp"
+
 #include "src/renderer/texture/CTextureCache.hpp"
 #include "src/renderer/model/CModelCache.hpp"
 #include "src/renderer/sampler/CSamplerManager.hpp"
@@ -48,33 +50,19 @@ public:
 
 	COpenGlAdapter &OpenGlAdapter();
 
-	void	RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffer &framebuffer, const CTimer &timer ) const;
+	void RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffer &framebuffer, const CTimer &timer ) const;
 
-	void	DisplayFramebuffer( const CFrameBuffer &framebuffer );
+	// presents the framebuffer on screen
+	void DisplayFramebuffer( const CFrameBuffer &framebuffer );
 
 private:
-	struct MeshInstance
-	{
-		MeshInstance( const CMesh * p_mesh, const CTransform &p_transform, f16 p_viewDepth ) :
-			mesh { p_mesh },
-			Transform { p_transform },
-			viewDepth { p_viewDepth }
-		{}
-
-		const CMesh * mesh;
-		CTransform Transform;
-		f16 viewDepth;
-	};
-
-	using TRenderBucket	= std::vector<MeshInstance>;
-
 	const CSettings &m_settings;
 
 	CResources &m_resources;
 
 	COpenGlAdapter m_OpenGlAdapter;
 
-	CSamplerManager		m_samplerManager;
+	CSamplerManager m_samplerManager;
 	
 	CShaderCompiler			m_shaderCompiler;
 	CShaderProgramCompiler	m_shaderProgramCompiler;
@@ -88,14 +76,9 @@ private:
 	void CreateUniformBuffers();
 	void UpdateUniformBuffers( const std::shared_ptr<const CEntity> &cameraEntity, const CTimer &timer ) const;
 
-	void RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewMatrix, const glm::mat4 &viewProjectionMatrix ) const;
-
-	[[nodiscard]] glm::mat4 CalculateModelMatrix( const CTransform &transform ) const;
+	void Render( const DrawCommandList &drawCommands, const glm::mat4 &viewMatrix, const glm::mat4 &viewProjectionMatrix ) const;
 
 	std::shared_ptr<CUniformBuffer> m_uboCamera;
 	std::shared_ptr<CUniformBuffer> m_uboTimer;
 	std::shared_ptr<CUniformBuffer> m_uboScreen;
-
-	std::unique_ptr<CMesh>	m_meshFrameBuffer;
-	const std::string m_slotNameFrameBuffer = "screenTexture";
 };
