@@ -18,7 +18,7 @@
 
 #include "src/renderer/CFrameBuffer.hpp"
 
-#include "src/renderer/DrawCommand.hpp"
+#include "src/renderer/RenderPackage.hpp"
 
 #include "src/renderer/texture/CTextureCache.hpp"
 #include "src/renderer/model/CModelCache.hpp"
@@ -76,7 +76,7 @@ private:
 	void CreateUniformBuffers();
 	void UpdateUniformBuffers( const std::shared_ptr<const CEntity> &cameraEntity, const CTimer &timer ) const;
 
-	void Render( const DrawCommandList &drawCommands, const glm::mat4 &viewMatrix, const glm::mat4 &viewProjectionMatrix ) const;
+	void Render( const CFrameBuffer &framebuffer, const RenderPackage &renderPackage ) const;
 
 	std::shared_ptr<CUniformBuffer> m_uboCamera;
 	std::shared_ptr<CUniformBuffer> m_uboTimer;

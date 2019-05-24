@@ -215,7 +215,7 @@
     <ClCompile Include="src\renderer\CRenderer.cpp" />
     <ClCompile Include="src\renderer\CUniformBuffer.cpp" />
     <ClCompile Include="src\renderer\CVertexArrayObject.cpp" />
-    <ClInclude Include="src\renderer\DrawCommand.hpp" />
+    <ClInclude Include="src\renderer\RenderPackage.hpp" />
     <ClCompile Include="src\renderer\geometry\prefabs\Cube.cpp" />
     <ClCompile Include="src\renderer\geometry\prefabs\Cuboid.cpp" />
     <ClCompile Include="src\renderer\geometry\prefabs\Quad.cpp" />
@@ -229,6 +229,7 @@
     <ClCompile Include="src\renderer\model\CMeshTextureSlot.cpp" />
     <ClCompile Include="src\renderer\model\CModel.cpp" />
     <ClCompile Include="src\renderer\model\CModelLoader.cpp" />
+    <ClCompile Include="src\renderer\RenderPackage.cpp" />
     <ClCompile Include="src\renderer\sampler\CSampler.cpp" />
     <ClCompile Include="src\renderer\sampler\CSamplerManager.cpp" />
     <ClCompile Include="src\renderer\shader\CShader.cpp" />
