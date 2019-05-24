@@ -482,6 +482,9 @@
     <ClInclude Include="src\renderer\CVertexArrayObject.hpp">
       <Filter>src\renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\renderer\RenderPackage.hpp">
+      <Filter>src\renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\fmt\format.cc">
@@ -793,7 +796,7 @@
     <ClCompile Include="src\renderer\CVertexArrayObject.cpp">
       <Filter>src\renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\DrawCommand.hpp">
+    <ClCompile Include="src\renderer\RenderPackage.cpp">
       <Filter>src\renderer</Filter>
     </ClCompile>
   </ItemGroup>

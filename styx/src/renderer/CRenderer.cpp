@@ -1,7 +1,5 @@
 #include "CRenderer.hpp"
 
-#include <algorithm>
-
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -149,29 +147,27 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 	}
 	else
 	{
-		framebuffer.Bind();
-
-		const auto &clearColor = scene.ClearColor();
-		glClearColor( clearColor.r(), clearColor.g(), clearColor.b(), clearColor.a() );
-
-		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
 		UpdateUniformBuffers( cameraEntity, timer );
 
 		/*
-		 * set up the draw commands
+		 * set up the render package
 		 */
 
-		// static list so whe don't need to allocate new memory on every frame
-		static DrawCommandList drawCommands;
-		drawCommands.clear();
+		const auto &camera = cameraEntity->Get<CCameraComponent>();
 
-		MTR_BEGIN( "GFX", "fill draw commands list" );
+		RenderPackage renderPackage;
+		renderPackage.ClearColor = scene.ClearColor();
+		renderPackage.ViewMatrix = camera->ViewMatrix();
+		renderPackage.ViewProjectionMatrix = camera->ViewProjectionMatrix();
+		// TODO is this the right amount?
+		renderPackage.drawCommands.reserve( 10000 );
+
+		MTR_BEGIN( "GFX", "fill draw drawCommands" );
 		const auto &cameraFrustum = cameraEntity->Get<CCameraComponent>()->Frustum();
 
 		const auto &cameraPosition = cameraEntity->Transform.Position();
 
-		scene.Each<CModelComponent>( [ &cameraFrustum, &cameraPosition ] ( const std::shared_ptr<const CEntity> &entity )
+		scene.Each<CModelComponent>( [ &cameraFrustum, &cameraPosition, &renderPackage ] ( const std::shared_ptr<const CEntity> &entity )
 		{
 			const auto &mesh = entity->Get<CModelComponent>()->Mesh().get();
 
@@ -182,82 +178,34 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 			{
 				const CMaterial * material = mesh->Material().get();
 
-				drawCommands.emplace_back( mesh, material, material->ShaderProgram().get(), transform.ModelMatrix(), glm::length2( transform.Position() - cameraPosition ) );
+				renderPackage.drawCommands.emplace_back( mesh, material, material->ShaderProgram().get(), transform.ModelMatrix(), glm::length2( transform.Position() - cameraPosition ) );
 			}
 		} );
-		MTR_END( "GFX", "fill draw commands list" );
+		MTR_END( "GFX", "fill draw drawCommands" );
 
-		const auto &camera = cameraEntity->Get<CCameraComponent>();
-
-		const glm::mat4 viewMatrix				= camera->ViewMatrix();
-		const glm::mat4 viewProjectionMatrix	= camera->ViewProjectionMatrix();
-
-		// TODO multithreaded?
-		// sort opaque for material, and then front to back (to reduce overdraw)
 		MTR_BEGIN( "GFX", "sort" );
-		std::sort( std::begin( drawCommands ), std::end( drawCommands ),	
-			[]( const DrawCommand &a, const DrawCommand &b ) -> bool
-			{
-				if( !a.material->Blending() && b.material->Blending() )
-				{
-					return( true );
-				}
-				else if( a.material->Blending() && !b.material->Blending() )
-				{
-					return( false );
-				}
-				else if( a.material->Blending() )
-				{
-					return( a.viewDepth > b.viewDepth );
-				}
-				else
-				{
-					if( a.material > b.material )
-					{
-						return( true );
-					}
-					else if( a.material < b.material )
-					{
-						return( false );
-					}
-					else
-					{
-						return( a.viewDepth < b.viewDepth );
-					}
-				}
-			} );
+		renderPackage.SortDrawCommands();
 		MTR_END( "GFX", "sort" );
 
-		Render( drawCommands, viewMatrix, viewProjectionMatrix );
-
-		framebuffer.Unbind();
+		Render( framebuffer, renderPackage );
 	}
 }
 
-void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
-{
-	// TODO if we remove this, we get problems with the depth buffer. why is that?
-	CGLState::DepthMask( GL_TRUE );
-
-	glBlitNamedFramebuffer( 
-		framebuffer.GLID, // src is framebuffer
-		0, // dest is screen
-		0, 0, framebuffer.Size.width, framebuffer.Size.height, // src bounds
-		0, 0, framebuffer.Size.width, framebuffer.Size.height, // dest bounds
-		GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT,
-		GL_NEAREST
-	);
-}
-
-void CRenderer::Render( const DrawCommandList &drawCommands, const glm::mat4 &viewMatrix, const glm::mat4 &viewProjectionMatrix ) const
+void CRenderer::Render( const CFrameBuffer &framebuffer, const RenderPackage &renderPackage ) const
 {
 	MTR_SCOPE( "GFX", "Render" );
+
+	framebuffer.Bind();
+
+	glClearColor( renderPackage.ClearColor.r(), renderPackage.ClearColor.g(), renderPackage.ClearColor.b(), renderPackage.ClearColor.a() );
+
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 	const CMesh * currentMesh = nullptr;
 	const CMaterial * currentMaterial = nullptr;
 	const CShaderProgram * currentShader = nullptr;
 
-	for( const auto & [ mesh, material, shaderProgram, modelMatrix, viewDepth ] : drawCommands )
+	for( const auto & [ mesh, material, shaderProgram, modelMatrix, viewDepth ] : renderPackage.drawCommands )
 	{
 		if( currentMesh != mesh )
 		{
@@ -279,11 +227,11 @@ void CRenderer::Render( const DrawCommandList &drawCommands, const glm::mat4 &vi
 			switch( engineUniform )
 			{
 				case EEngineUniform::modelViewProjectionMatrix:
-					glUniformMatrix4fv( location, 1, GL_FALSE, &( viewProjectionMatrix * modelMatrix )[ 0 ][ 0 ] );
+					glUniformMatrix4fv( location, 1, GL_FALSE, &( renderPackage.ViewProjectionMatrix * modelMatrix )[ 0 ][ 0 ] );
 					break;
 
 				case EEngineUniform::modelViewMatrix:
-					glUniformMatrix4fv( location, 1, GL_FALSE, &( viewMatrix * modelMatrix )[ 0 ][ 0 ] );
+					glUniformMatrix4fv( location, 1, GL_FALSE, &( renderPackage.ViewMatrix * modelMatrix )[ 0 ][ 0 ] );
 					break;
 
 				case EEngineUniform::modelMatrix:
@@ -294,4 +242,21 @@ void CRenderer::Render( const DrawCommandList &drawCommands, const glm::mat4 &vi
 
 		mesh->Draw();
 	}
+
+	framebuffer.Unbind();
+}
+
+void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
+{
+	// TODO if we remove this, we get problems with the depth buffer. why is that?
+	CGLState::DepthMask( GL_TRUE );
+
+	glBlitNamedFramebuffer(
+		framebuffer.GLID, // src is framebuffer
+		0, // dest is screen
+		0, 0, framebuffer.Size.width, framebuffer.Size.height, // src bounds
+		0, 0, framebuffer.Size.width, framebuffer.Size.height, // dest bounds
+		GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT,
+		GL_NEAREST
+	);
 }
