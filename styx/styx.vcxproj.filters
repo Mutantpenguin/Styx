@@ -793,5 +793,8 @@
     <ClCompile Include="src\renderer\CVertexArrayObject.cpp">
       <Filter>src\renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\renderer\DrawCommand.hpp">
+      <Filter>src\renderer</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

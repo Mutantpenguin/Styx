@@ -215,6 +215,7 @@
     <ClCompile Include="src\renderer\CRenderer.cpp" />
     <ClCompile Include="src\renderer\CUniformBuffer.cpp" />
     <ClCompile Include="src\renderer\CVertexArrayObject.cpp" />
+    <ClInclude Include="src\renderer\DrawCommand.hpp" />
     <ClCompile Include="src\renderer\geometry\prefabs\Cube.cpp" />
     <ClCompile Include="src\renderer\geometry\prefabs\Cuboid.cpp" />
     <ClCompile Include="src\renderer\geometry\prefabs\Quad.cpp" />
