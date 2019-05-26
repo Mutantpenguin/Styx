@@ -1,12 +1,14 @@
 #include <vector>
 
+#include <optional>
+
 #include "src/helper/CColor.hpp"
 
 #include "src/renderer/model/CMesh.hpp"
 
 struct RenderPackage
 {
-	CColor ClearColor;
+	std::optional<CColor> ClearColor;
 
 	glm::mat4 ViewMatrix;
 	glm::mat4 ViewProjectionMatrix;
