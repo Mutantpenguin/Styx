@@ -197,9 +197,14 @@ void CRenderer::Render( const CFrameBuffer &framebuffer, const RenderPackage &re
 
 	framebuffer.Bind();
 
-	glClearColor( renderPackage.ClearColor.r(), renderPackage.ClearColor.g(), renderPackage.ClearColor.b(), renderPackage.ClearColor.a() );
+	if( renderPackage.ClearColor.has_value() )
+	{
+		auto &clearColor = renderPackage.ClearColor.value();
+		
+		glClearColor( clearColor.r(), clearColor.g(), clearColor.b(), clearColor.a() );
 
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	}
 
 	const CMesh * currentMesh = nullptr;
 	const CMaterial * currentMaterial = nullptr;
