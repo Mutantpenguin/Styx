@@ -34,12 +34,12 @@ public:
 	void ChangeSampler( const std::string &slotName, const std::shared_ptr<const CSampler> &sampler );
 	void ChangeTextureAndSampler( const std::string &slotName, const std::shared_ptr<const CTexture> &texture, const std::shared_ptr<const CSampler> &sampler );
 
-	const CVertexArrayObject &VAO() const;
+	void Bind() const;
 
-	void BindTextures() const;
+	void Draw() const;
 
 private:
-	const CVertexArrayObject	m_vao;
+	const CVertexArrayObject m_vao;
 
 	std::shared_ptr<const CMaterial> m_material;
 

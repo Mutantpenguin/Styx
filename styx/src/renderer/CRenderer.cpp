@@ -1,13 +1,13 @@
 #include "CRenderer.hpp"
 
-#include <algorithm>
-
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <glbinding-aux/Meta.h>
 
 #include "external/minitrace/minitrace.h"
+
+#include "src/renderer/CGLState.hpp"
 
 #include "src/renderer/components/CModelComponent.hpp"
 #include "src/scene/components/camera/CCameraComponent.hpp"
@@ -38,56 +38,6 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 	glEnable( GL_TEXTURE_CUBE_MAP_SEAMLESS );
 
 	CreateUniformBuffers();
-
-	{
-		const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( CVertexArrayObject::EAttributeLocation::position );
-		const auto &uv0Attribute = CShaderCompiler::AllowedAttributes.at( CVertexArrayObject::EAttributeLocation::uv0 );
-
-
-		// TODO write comments
-		const std::string vertexShaderBody =	fmt::format(	"out vec2 UV;" \
-																"void main()" \
-																"{{" \
-																"    gl_Position = vec4( {0}.x, {0}.y, 0.0, 1.0 );" \
-																"    UV = {1};" \
-																"}}", positionAttribute.name, uv0Attribute.name );
-
-		const std::string fragmentShaderBody =	fmt::format(	"out vec4 color;" \
-																"in vec2 UV;" \
-																"uniform sampler2D {0};" \
-																"void main()" \
-																"{{" \
-																"    color = texture( {0}, UV );" \
-																"}}", m_slotNameFrameBuffer );
-
-		const auto vertexShader = std::make_shared<CShader>();
-		if( !m_shaderCompiler.Compile( vertexShader, GL_VERTEX_SHADER, vertexShaderBody ) )
-		{
-			THROW_STYX_EXCEPTION( "couldn't create vertex shader for the framebuffer" )
-		}
-
-		const auto fragmentShader = std::make_shared<CShader>();
-		if( !m_shaderCompiler.Compile( fragmentShader, GL_FRAGMENT_SHADER, fragmentShaderBody ) )
-		{
-			THROW_STYX_EXCEPTION( "couldn't create fragment shader for the framebuffer" )
-		}
-
-		const auto materialFrameBuffer = std::make_shared<CMaterial>();
-
-		const auto shaderProgram = std::make_shared<CShaderProgram>();
-		shaderProgram->VertexShader = vertexShader;
-		shaderProgram->FragmentShader = fragmentShader;
-		if( !m_shaderProgramCompiler.Compile( shaderProgram ) )
-		{
-			THROW_STYX_EXCEPTION( "couldn't create shader program for the framebuffer" )
-		}
-
-		materialFrameBuffer->ShaderProgram( shaderProgram );
-
-		const CMesh::TMeshTextureSlots frameBufferMeshTextureSlots = { { m_slotNameFrameBuffer, std::make_shared<CMeshTextureSlot>( nullptr, m_samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
-
-		m_meshFrameBuffer = std::make_unique<CMesh>( GeometryPrefabs::QuadPNU0( 2.0f ), materialFrameBuffer, frameBufferMeshTextureSlots );
-	}
 
 	m_resources.AddCache<CTexture>( m_textureCache );
 	m_resources.AddCache<CModel>( m_modelCache );
@@ -197,129 +147,84 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 	}
 	else
 	{
-		framebuffer.Bind();
-
-		const auto &clearColor = scene.ClearColor();
-		glClearColor( clearColor.r(), clearColor.g(), clearColor.b(), clearColor.a() );
-
-		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
 		UpdateUniformBuffers( cameraEntity, timer );
 
 		/*
-		 * set up the renderbuckets
+		 * set up the render package
 		 */
-
-		// static buckets so whe don't need to allocate new memory on every frame
-
-		static TRenderBucket renderBucketMaterialsOpaque;
-		renderBucketMaterialsOpaque.clear();
-
-		static TRenderBucket renderBucketMaterialsTranslucent;
-		renderBucketMaterialsTranslucent.clear();
-
-		MTR_BEGIN( "GFX", "fill render buckets" );
-		const auto &frustum = cameraEntity->Get<CCameraComponent>()->Frustum();
-
-		scene.Each<CModelComponent>( [&frustum,&cameraEntity] ( const std::shared_ptr<const CEntity> &entity )
-		{
-			const auto &mesh = entity->Get<CModelComponent>()->Mesh().get();
-
-			// TODO use Octree here
-			if( frustum.IsSphereInside( entity->Transform.Position(), glm::length( mesh->BoundingSphereRadiusVector * entity->Transform.Scale() ) ) )
-			{
-				if( mesh->Material()->Blending() )
-				{
-					renderBucketMaterialsTranslucent.emplace_back( mesh, entity->Transform, glm::length2( entity->Transform.Position() - cameraEntity->Transform.Position() ) );
-				}
-				else
-				{
-					renderBucketMaterialsOpaque.emplace_back( mesh, entity->Transform, glm::length2( entity->Transform.Position() - cameraEntity->Transform.Position() ) );
-				}
-			}
-		} );
-		MTR_END( "GFX", "fill render buckets" );
 
 		const auto &camera = cameraEntity->Get<CCameraComponent>();
 
-		const glm::mat4 viewMatrix				= camera->ViewMatrix();
-		const glm::mat4 viewProjectionMatrix	= camera->ViewProjectionMatrix();
+		RenderPackage renderPackage;
+		renderPackage.ClearColor = scene.ClearColor();
+		renderPackage.ViewMatrix = camera->ViewMatrix();
+		renderPackage.ViewProjectionMatrix = camera->ViewProjectionMatrix();
+		// TODO is this the right amount?
+		renderPackage.drawCommands.reserve( 10000 );
 
-		// TODO multithreaded?
-		// sort opaque for material, and then front to back (to reduce overdraw)
-		MTR_BEGIN( "GFX", "sort opaque" );
-		std::sort( std::begin( renderBucketMaterialsOpaque ), std::end( renderBucketMaterialsOpaque ),	[]( const MeshInstance &a, const MeshInstance &b ) -> bool
-																										{
-																											return( ( a.mesh->Material() > b.mesh->Material() )
-																													||
-																													( ( a.mesh->Material() == b.mesh->Material() ) && ( a.viewDepth < b.viewDepth ) ) );
-																										} );
-		MTR_END( "GFX", "sort opaque" );
+		MTR_BEGIN( "GFX", "fill draw drawCommands" );
+		const auto &cameraFrustum = cameraEntity->Get<CCameraComponent>()->Frustum();
 
-		RenderBucket( renderBucketMaterialsOpaque, viewMatrix, viewProjectionMatrix );
+		const auto &cameraPosition = cameraEntity->Transform.Position();
 
-		// TODO multithreaded?
-		// sort translucent back to front
-		MTR_BEGIN( "GFX", "sort translucent" );
-		std::sort( std::begin( renderBucketMaterialsTranslucent ), std::end( renderBucketMaterialsTranslucent ),	[]( const MeshInstance &a, const MeshInstance &b ) -> bool
-																													{
-																														return( a.viewDepth > b.viewDepth );
-																													} );
-		MTR_END( "GFX", "sort translucent" );
+		scene.Each<CModelComponent>( [ &cameraFrustum, &cameraPosition, &renderPackage ] ( const std::shared_ptr<const CEntity> &entity )
+		{
+			const auto &mesh = entity->Get<CModelComponent>()->Mesh().get();
 
-		RenderBucket( renderBucketMaterialsTranslucent, viewMatrix, viewProjectionMatrix );
+			const auto &transform = entity->Transform;
 
-		framebuffer.Unbind();
+			// TODO use Octree here
+			if( cameraFrustum.IsSphereInside( transform.Position(), glm::length( mesh->BoundingSphereRadiusVector * transform.Scale() ) ) )
+			{
+				const CMaterial * material = mesh->Material().get();
+
+				renderPackage.drawCommands.emplace_back( mesh, material, material->ShaderProgram().get(), transform.ModelMatrix(), glm::length2( transform.Position() - cameraPosition ) );
+			}
+		} );
+		MTR_END( "GFX", "fill draw drawCommands" );
+
+		MTR_BEGIN( "GFX", "sort" );
+		renderPackage.SortDrawCommands();
+		MTR_END( "GFX", "sort" );
+
+		Render( framebuffer, renderPackage );
 	}
 }
 
-void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
+void CRenderer::Render( const CFrameBuffer &framebuffer, const RenderPackage &renderPackage ) const
 {
-	glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+	MTR_SCOPE( "GFX", "Render" );
 
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	framebuffer.Bind();
 
-	m_meshFrameBuffer->ChangeTexture( m_slotNameFrameBuffer, framebuffer.ColorTexture() );
+	if( renderPackage.ClearColor.has_value() )
+	{
+		auto &clearColor = renderPackage.ClearColor.value();
+		
+		glClearColor( clearColor.r(), clearColor.g(), clearColor.b(), clearColor.a() );
 
-	m_meshFrameBuffer->Material()->Activate();
-
-	m_meshFrameBuffer->BindTextures();
-
-	const CVertexArrayObject &vao = m_meshFrameBuffer->VAO();
-
-	vao.Bind();
-
-	vao.Draw();
-}
-
-void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::mat4 &viewMatrix, const glm::mat4 &viewProjectionMatrix ) const
-{
-	MTR_SCOPE( "GFX", "RenderBucket" );
+		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	}
 
 	const CMesh * currentMesh = nullptr;
 	const CMaterial * currentMaterial = nullptr;
-
 	const CShaderProgram * currentShader = nullptr;
 
-	for( const auto & [ mesh, transform, viewDepth ] : bucketMaterials )
+	for( const auto & [ mesh, material, shaderProgram, modelMatrix, viewDepth ] : renderPackage.drawCommands )
 	{
 		if( currentMesh != mesh )
 		{
 			currentMesh = mesh;
-
-			const auto material = mesh->Material().get();
 
 			if( currentMaterial != material )
 			{
 				currentMaterial = material;
 				material->Activate();
 
-				currentShader = material->ShaderProgram().get();
+				currentShader = shaderProgram;
 			}
 
-			mesh->BindTextures();
-
-			mesh->VAO().Bind();
+			mesh->Bind();
 		}
 
 		for( const auto & [ location, engineUniform ] : currentShader->RequiredEngineUniforms() )
@@ -327,33 +232,36 @@ void CRenderer::RenderBucket( const TRenderBucket &bucketMaterials, const glm::m
 			switch( engineUniform )
 			{
 				case EEngineUniform::modelViewProjectionMatrix:
-					glUniformMatrix4fv( location, 1, GL_FALSE, &( viewProjectionMatrix * CalculateModelMatrix( transform ) )[ 0 ][ 0 ] );
+					glUniformMatrix4fv( location, 1, GL_FALSE, &( renderPackage.ViewProjectionMatrix * modelMatrix )[ 0 ][ 0 ] );
 					break;
 
 				case EEngineUniform::modelViewMatrix:
-					glUniformMatrix4fv( location, 1, GL_FALSE, &( viewMatrix * CalculateModelMatrix( transform ) )[ 0 ][ 0 ] );
+					glUniformMatrix4fv( location, 1, GL_FALSE, &( renderPackage.ViewMatrix * modelMatrix )[ 0 ][ 0 ] );
 					break;
 
 				case EEngineUniform::modelMatrix:
-					glUniformMatrix4fv( location, 1, GL_FALSE, &CalculateModelMatrix( transform )[ 0 ][ 0 ] );
+					glUniformMatrix4fv( location, 1, GL_FALSE, &modelMatrix[ 0 ][ 0 ] );
 					break;
 			}
 		}
 
-		mesh->VAO().Draw();
+		mesh->Draw();
 	}
+
+	framebuffer.Unbind();
 }
 
-[[nodiscard]] glm::mat4 CRenderer::CalculateModelMatrix( const CTransform &transform ) const
+void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
 {
-	glm::mat4 modelMatrix = glm::mat4( 1.0f );
+	// TODO if we remove this, we get problems with the depth buffer. why is that?
+	CGLState::DepthMask( GL_TRUE );
 
-	modelMatrix = glm::translate( modelMatrix, transform.Position() );
-
-	modelMatrix = modelMatrix * glm::toMat4( transform.Orientation() );
-
-	modelMatrix = glm::scale( modelMatrix, transform.Scale() );
-
-	return( modelMatrix );
+	glBlitNamedFramebuffer(
+		framebuffer.GLID, // src is framebuffer
+		0, // dest is screen
+		0, 0, framebuffer.Size.width, framebuffer.Size.height, // src bounds
+		0, 0, framebuffer.Size.width, framebuffer.Size.height, // dest bounds
+		GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT,
+		GL_NEAREST
+	);
 }
-

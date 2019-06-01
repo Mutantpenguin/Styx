@@ -124,7 +124,7 @@ void CMesh::SetupMaterialTextureSlotMapping()
 			}
 			else
 			{
-				logWARNING( "setting up texture mapping for mesh failed because a slot with the name '{0}' does not exist in the mesh", interface.name );
+				logWARNING( "setting up texture mapping for mesh failed because a texture with the name '{0}' does not exist in the mesh", interface.name );
 			}
 		}
 	}
@@ -135,12 +135,7 @@ const std::shared_ptr<const CMaterial> &CMesh::Material() const
 	return( m_material );
 }
 
-const CVertexArrayObject &CMesh::VAO() const
-{
-	return( m_vao );
-}
-
-void CMesh::BindTextures() const
+void CMesh::Bind() const
 {
 	u8 textureUnit = 0;
 	for( const auto & [ location, meshTextureSlot ] : m_materialTextureSlotMapping )
@@ -151,4 +146,11 @@ void CMesh::BindTextures() const
 
 		textureUnit++;
 	}
+
+	m_vao.Bind();
+}
+
+void CMesh::Draw() const
+{
+	m_vao.Draw();
 }
