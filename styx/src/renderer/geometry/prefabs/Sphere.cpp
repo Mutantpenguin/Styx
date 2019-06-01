@@ -21,8 +21,8 @@ namespace GeometryPrefabs
 		for( u16 i = 0; i <= stackCount; ++i )
 		{
 			const f16 stackAngle = glm::half_pi<f16>() - i * stackStep;        // starting from pi/2 to -pi/2
-			const f16 xy = radius * cosf( stackAngle );             // r * cos(u)
-			const f16 z = radius * sinf( stackAngle );              // r * sin(u)
+			const f16 xz = radius * cosf( stackAngle );             // r * cos(u)
+			const f16 y = radius * sinf( stackAngle );              // r * sin(u)
 
 			// add (sectorCount+1) vertices per stack
 			// the first and last vertices have same position and normal, but different tex coords
@@ -31,8 +31,8 @@ namespace GeometryPrefabs
 				const f16 sectorAngle = j * sectorStep;           // starting from 0 to 2pi
 
 				// vertex position
-				const f16 x = xy * cosf(sectorAngle);             // r * cos(u) * cos(v)
-				const f16 y = xy * sinf(sectorAngle);             // r * cos(u) * sin(v)
+				const f16 x = xz * cosf( sectorAngle );             // r * cos(u) * cos(v)
+				const f16 z = xz * sinf( sectorAngle );             // r * cos(u) * sin(v)
 				
 				VertexP vertex;
 				// position
@@ -52,7 +52,7 @@ namespace GeometryPrefabs
 
 		for( u16 i = 0; i < stackCount; ++i )
 		{
-			u16 k1 = i * (sectorCount + 1);     // beginning of current stack
+			u16 k1 = i * ( sectorCount + 1 );     // beginning of current stack
 			u16 k2 = k1 + sectorCount + 1;      // beginning of next stack
 
 			for( u16 j = 0; j < sectorCount; ++j, ++k1, ++k2 )
@@ -62,16 +62,16 @@ namespace GeometryPrefabs
 				{
 					// k1---k2---k1+1
 					geometry.Indices.push_back( k1 );
-					geometry.Indices.push_back( k2 );
 					geometry.Indices.push_back( k1+1 );
+					geometry.Indices.push_back( k2 );
 				}
 
 				if( i != ( stackCount - 1 ) )
 				{
 					// k1+1---k2---k2+1
 					geometry.Indices.push_back( k1+1 );
-					geometry.Indices.push_back( k2 );
 					geometry.Indices.push_back( k2+1 );
+					geometry.Indices.push_back( k2 );
 				}
 			}
 		}
@@ -91,8 +91,8 @@ namespace GeometryPrefabs
 		for( u16 i = 0; i <= stackCount; ++i )
 		{
 			const f16 stackAngle = glm::half_pi<f16>() - i * stackStep;        // starting from pi/2 to -pi/2
-			const f16 xy = radius * cosf( stackAngle );             // r * cos(u)
-			const f16 z = radius * sinf( stackAngle );              // r * sin(u)
+			const f16 xz = radius * cosf( stackAngle );             // r * cos(u)
+			const f16 y = radius * sinf( stackAngle );              // r * sin(u)
 
 			// add (sectorCount+1) vertices per stack
 			// the first and last vertices have same position and normal, but different tex coords
@@ -101,8 +101,8 @@ namespace GeometryPrefabs
 				const f16 sectorAngle = j * sectorStep;           // starting from 0 to 2pi
 
 				// vertex position
-				const f16 x = xy * cosf(sectorAngle);             // r * cos(u) * cos(v)
-				const f16 y = xy * sinf(sectorAngle);             // r * cos(u) * sin(v)
+				const f16 x = xz * cosf( sectorAngle );             // r * cos(u) * cos(v)
+				const f16 z = xz * sinf( sectorAngle );             // r * cos(u) * sin(v)
 				
 				VertexPU0 vertex;
 				// position
@@ -125,7 +125,7 @@ namespace GeometryPrefabs
 
 		for( u16 i = 0; i < stackCount; ++i )
 		{
-			u16 k1 = i * (sectorCount + 1);     // beginning of current stack
+			u16 k1 = i * ( sectorCount + 1 );     // beginning of current stack
 			u16 k2 = k1 + sectorCount + 1;      // beginning of next stack
 
 			for( u16 j = 0; j < sectorCount; ++j, ++k1, ++k2 )
@@ -135,16 +135,16 @@ namespace GeometryPrefabs
 				{
 					// k1---k2---k1+1
 					geometry.Indices.push_back( k1 );
-					geometry.Indices.push_back( k2 );
 					geometry.Indices.push_back( k1+1 );
+					geometry.Indices.push_back( k2 );
 				}
 
 				if( i != ( stackCount - 1 ) )
 				{
 					// k1+1---k2---k2+1
 					geometry.Indices.push_back( k1+1 );
-					geometry.Indices.push_back( k2 );
 					geometry.Indices.push_back( k2+1 );
+					geometry.Indices.push_back( k2 );
 				}
 			}
 		}
@@ -166,8 +166,8 @@ namespace GeometryPrefabs
 		for( u16 i = 0; i <= stackCount; ++i )
 		{
 			const f16 stackAngle = glm::half_pi<f16>() - i * stackStep;        // starting from pi/2 to -pi/2
-			const f16 xy = radius * cosf( stackAngle );             // r * cos(u)
-			const f16 z = radius * sinf( stackAngle );              // r * sin(u)
+			const f16 xz = radius * cosf( stackAngle );             // r * cos(u)
+			const f16 y = radius * sinf( stackAngle );              // r * sin(u)
 
 			// add (sectorCount+1) vertices per stack
 			// the first and last vertices have same position and normal, but different tex coords
@@ -176,8 +176,8 @@ namespace GeometryPrefabs
 				const f16 sectorAngle = j * sectorStep;           // starting from 0 to 2pi
 
 				// vertex position
-				const f16 x = xy * cosf( sectorAngle );             // r * cos(u) * cos(v)
-				const f16 y = xy * sinf( sectorAngle );             // r * cos(u) * sin(v)
+				const f16 x = xz * cosf( sectorAngle );             // r * cos(u) * cos(v)
+				const f16 z = xz * sinf( sectorAngle );             // r * cos(u) * sin(v)
 
 				VertexPNU0 vertex;
 				// position
@@ -214,16 +214,16 @@ namespace GeometryPrefabs
 				{
 					// k1---k2---k1+1
 					geometry.Indices.push_back( k1 );
-					geometry.Indices.push_back( k2 );
 					geometry.Indices.push_back( k1 + 1 );
+					geometry.Indices.push_back( k2 );
 				}
 
 				if( i != ( stackCount - 1 ) )
 				{
 					// k1+1---k2---k2+1
 					geometry.Indices.push_back( k1 + 1 );
-					geometry.Indices.push_back( k2 );
 					geometry.Indices.push_back( k2 + 1 );
+					geometry.Indices.push_back( k2 );
 				}
 			}
 		}
