@@ -130,6 +130,8 @@
       <File Name="src/resource/CResourceCache.hpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="renderer">
+      <File Name="src/renderer/RenderPackage.hpp"/>
+      <File Name="src/renderer/RenderPackage.cpp"/>
       <File Name="src/renderer/CVertexArrayObject.hpp"/>
       <File Name="src/renderer/CVertexArrayObject.cpp"/>
       <File Name="src/renderer/CBufferObject.hpp"/>
