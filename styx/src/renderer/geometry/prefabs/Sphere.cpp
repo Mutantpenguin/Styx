@@ -9,8 +9,11 @@ namespace GeometryPrefabs
 	
 	// TODO tidy up, rework comments
 	
-	Geometry<VertexP> SphereP( const u16 sectorCount, const u16 stackCount, const f16 radius )
+	Geometry<VertexP> SphereP( u16 sectorCount, u16 stackCount, const f16 radius )
 	{
+		sectorCount = std::max( sectorCount, MinSectorCount );
+		stackCount = std::max( stackCount, MinStackCount );
+		
 		Geometry<VertexP> geometry;
 		
 		geometry.Mode = GL_TRIANGLES;
@@ -79,8 +82,11 @@ namespace GeometryPrefabs
 		return( geometry );
 	}
 
-	Geometry<VertexPU0> SpherePU0( const u16 sectorCount, const u16 stackCount, const f16 radius )
+	Geometry<VertexPU0> SpherePU0( u16 sectorCount, u16 stackCount, const f16 radius )
 	{
+		sectorCount = std::max( sectorCount, MinSectorCount );
+		stackCount = std::max( stackCount, MinStackCount );
+		
 		Geometry<VertexPU0> geometry;
 		
 		geometry.Mode = GL_TRIANGLES;
@@ -152,8 +158,11 @@ namespace GeometryPrefabs
 		return( geometry );
 	}
 
-	Geometry<VertexPNU0> SpherePNU0( const u16 sectorCount, const u16 stackCount, const f16 radius )
+	Geometry<VertexPNU0> SpherePNU0( u16 sectorCount, u16 stackCount, const f16 radius )
 	{
+		sectorCount = std::max( sectorCount, MinSectorCount );
+		stackCount = std::max( stackCount, MinStackCount );
+		
 		Geometry<VertexPNU0> geometry;
 
 		geometry.Mode = GL_TRIANGLES;
