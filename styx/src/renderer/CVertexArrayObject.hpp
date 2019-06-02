@@ -24,19 +24,6 @@ public:
 
 	void Draw() const;
 
-	enum class EAttributeLocation : GLint
-	{
-		position = 0,
-		normal,
-		tangent,
-		bitangent,
-		color,
-		uv0,
-		uv1,
-		uv2,
-		uv3
-	};
-
 private:
 	const GLenum m_mode;
 

@@ -105,7 +105,7 @@ bool CShaderProgramCompiler::SetupInterface( const std::shared_ptr<CShaderProgra
 
 		const GLint attributeLocation = values[ 2 ];
 
-		const auto attributeIt = CShaderCompiler::AllowedAttributes.find( static_cast<CVertexArrayObject::EAttributeLocation>( attributeLocation ) );
+		const auto attributeIt = CShaderCompiler::AllowedAttributes.find( static_cast<AttributeLocation>( attributeLocation ) );
 		if( std::end( CShaderCompiler::AllowedAttributes ) == attributeIt )
 		{
 			logERROR( "attribute location '{0}' is not allowed", attributeLocation );

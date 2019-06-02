@@ -8,22 +8,22 @@
 
 const std::string CShaderCompiler::srcAdditionShaderVersion = "#version 430\n";
 
-const std::map<const CVertexArrayObject::EAttributeLocation, const SShaderInterface> CShaderCompiler::AllowedAttributes = {	{ CVertexArrayObject::EAttributeLocation::position,		{ "position",	GLHelper::glmTypeToGLSLType<glm::vec3>() } },
-																															{ CVertexArrayObject::EAttributeLocation::normal,		{ "normal",		GLHelper::glmTypeToGLSLType<glm::vec3>() } },
-																															{ CVertexArrayObject::EAttributeLocation::tangent,		{ "tangent",	GLHelper::glmTypeToGLSLType<glm::vec3>() } },
-																															{ CVertexArrayObject::EAttributeLocation::bitangent,	{ "bitangent",	GLHelper::glmTypeToGLSLType<glm::vec3>() } },
-																															{ CVertexArrayObject::EAttributeLocation::color,		{ "color",		GLHelper::glmTypeToGLSLType<glm::vec3>() } },
-																															{ CVertexArrayObject::EAttributeLocation::uv0,			{ "uv0",		GLHelper::glmTypeToGLSLType<glm::vec2>() } },
-																															{ CVertexArrayObject::EAttributeLocation::uv1,			{ "uv1",		GLHelper::glmTypeToGLSLType<glm::vec2>() } },
-																															{ CVertexArrayObject::EAttributeLocation::uv2,			{ "uv2",		GLHelper::glmTypeToGLSLType<glm::vec2>() } },
-																															{ CVertexArrayObject::EAttributeLocation::uv3,			{ "uv3",		GLHelper::glmTypeToGLSLType<glm::vec2>() } } };
+const std::map<const AttributeLocation, const SShaderInterface> CShaderCompiler::AllowedAttributes = {	{ AttributeLocation::position,		{ "position",	GLHelper::glmTypeToGLSLType<glm::vec3>() } },
+																										{ AttributeLocation::normal,		{ "normal",		GLHelper::glmTypeToGLSLType<glm::vec3>() } },
+																										{ AttributeLocation::tangent,		{ "tangent",	GLHelper::glmTypeToGLSLType<glm::vec3>() } },
+																										{ AttributeLocation::bitangent,	{ "bitangent",	GLHelper::glmTypeToGLSLType<glm::vec3>() } },
+																										{ AttributeLocation::color,		{ "color",		GLHelper::glmTypeToGLSLType<glm::vec3>() } },
+																										{ AttributeLocation::uv0,			{ "uv0",		GLHelper::glmTypeToGLSLType<glm::vec2>() } },
+																										{ AttributeLocation::uv1,			{ "uv1",		GLHelper::glmTypeToGLSLType<glm::vec2>() } },
+																										{ AttributeLocation::uv2,			{ "uv2",		GLHelper::glmTypeToGLSLType<glm::vec2>() } },
+																										{ AttributeLocation::uv3,			{ "uv3",		GLHelper::glmTypeToGLSLType<glm::vec2>() } } };
 
 const std::unordered_map<EEngineUniform, const SShaderInterface> CShaderCompiler::EngineUniforms = {	{ EEngineUniform::modelViewProjectionMatrix,	{ "modelViewProjectionMatrix",	GLHelper::glmTypeToGLSLType<glm::mat4>() } },
 																										{ EEngineUniform::modelViewMatrix,				{ "modelViewMatrix",			GLHelper::glmTypeToGLSLType<glm::mat4>() } },
 																										{ EEngineUniform::modelMatrix,					{ "modelMatrix",				GLHelper::glmTypeToGLSLType<glm::mat4>() } } };
 
 
-const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( CVertexArrayObject::EAttributeLocation::position );
+const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( AttributeLocation::position );
 const auto &uniformModelViewProjectionMatrix = CShaderCompiler::EngineUniforms.at( EEngineUniform::modelViewProjectionMatrix );
 
 const std::string CShaderCompiler::DummyVertexShaderBody = fmt::format( R"glsl(

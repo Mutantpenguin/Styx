@@ -4,16 +4,18 @@
 
 #include "src/renderer/CGLState.hpp"
 
+#include "src/renderer/AttributeLocation.hpp"
+
 // we need the values of those enums further down quite a few times
-static const auto attributeLocationPosition		= static_cast<GLint>( CVertexArrayObject::EAttributeLocation::position );
-static const auto attributeLocationNormal		= static_cast<GLint>( CVertexArrayObject::EAttributeLocation::normal );
-static const auto attributeLocationTangent		= static_cast<GLint>( CVertexArrayObject::EAttributeLocation::tangent );
-static const auto attributeLocationBitangent	= static_cast<GLint>( CVertexArrayObject::EAttributeLocation::bitangent );
-static const auto attributeLocationColor		= static_cast<GLint>( CVertexArrayObject::EAttributeLocation::color );
-static const auto attributeLocationUV0			= static_cast<GLint>( CVertexArrayObject::EAttributeLocation::uv0 );
-static const auto attributeLocationUV1			= static_cast<GLint>( CVertexArrayObject::EAttributeLocation::uv1 );
-static const auto attributeLocationUV2			= static_cast<GLint>( CVertexArrayObject::EAttributeLocation::uv2 );
-static const auto attributeLocationUV3			= static_cast<GLint>( CVertexArrayObject::EAttributeLocation::uv3 );
+static const auto attributeLocationPosition		= static_cast<GLint>( AttributeLocation::position );
+static const auto attributeLocationNormal		= static_cast<GLint>( AttributeLocation::normal );
+static const auto attributeLocationTangent		= static_cast<GLint>( AttributeLocation::tangent );
+static const auto attributeLocationBitangent	= static_cast<GLint>( AttributeLocation::bitangent );
+static const auto attributeLocationColor		= static_cast<GLint>( AttributeLocation::color );
+static const auto attributeLocationUV0			= static_cast<GLint>( AttributeLocation::uv0 );
+static const auto attributeLocationUV1			= static_cast<GLint>( AttributeLocation::uv1 );
+static const auto attributeLocationUV2			= static_cast<GLint>( AttributeLocation::uv2 );
+static const auto attributeLocationUV3			= static_cast<GLint>( AttributeLocation::uv3 );
 
 CVertexArrayObject::CVertexArrayObject( const Geometry<VertexP> &geometry ) :
 	m_mode( geometry.Mode ),

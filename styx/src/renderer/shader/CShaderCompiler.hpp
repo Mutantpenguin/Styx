@@ -11,6 +11,8 @@
 #include "src/renderer/shader/EEngineUniform.hpp"
 #include "src/renderer/shader/SShaderInterface.hpp"
 
+#include "src/renderer/AttributeLocation.hpp"
+
 class CShaderCompiler final
 {
 public:
@@ -20,7 +22,7 @@ public:
 
 	void RegisterUniformBuffer( const std::shared_ptr<const CUniformBuffer> &ubo );
 
-	static const std::map<const CVertexArrayObject::EAttributeLocation, const SShaderInterface> AllowedAttributes;
+	static const std::map<const AttributeLocation, const SShaderInterface> AllowedAttributes;
 
 	static const std::unordered_map<EEngineUniform, const SShaderInterface> EngineUniforms;
 
