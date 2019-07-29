@@ -446,9 +446,6 @@
     <ClInclude Include="src\core\StyxException.hpp">
       <Filter>src\core</Filter>
     </ClInclude>
-    <ClInclude Include="src\helper\Types.hpp">
-      <Filter>src\core</Filter>
-    </ClInclude>
     <ClInclude Include="src\renderer\model\CModelCache.hpp">
       <Filter>src\renderer\model</Filter>
     </ClInclude>
@@ -484,6 +481,9 @@
     </ClInclude>
     <ClInclude Include="src\renderer\RenderPackage.hpp">
       <Filter>src\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Types.hpp">
+      <Filter>src\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
