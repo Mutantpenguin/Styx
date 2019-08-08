@@ -25,7 +25,7 @@ CSDL::CSDL()
 
 	if( SDL_COMPILEDVERSION != SDL_VERSIONNUM( version_linked.major, version_linked.minor, version_linked.patch ) )
 	{
-		THROW_STYX_EXCEPTION( "SDL version '{0}.{1}.{2}' was expected", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL )
+		THROW_STYX_EXCEPTION( "SDL version '{0}.{1}.{2}' was expected but '{3}.{4}.{5}' found", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL, version_linked.major, version_linked.minor, version_linked.patch )
 	}
 
 	if( SDL_Init( 0 ) )
