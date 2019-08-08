@@ -16,14 +16,9 @@ public:
 	{}
 
 private:
-	void Load( const std::shared_ptr<CTexture> &resource, const CTexture::ResourceIdType &id ) const override
+	void Load( const std::shared_ptr<CTexture> &resource, const std::string &id ) const override
 	{
 		m_textureLoader.FromFile( resource, id );
-	}
-
-	i64 GetMtime( const CTexture::ResourceIdType &id ) const override
-	{
-		return( m_filesystem.GetLastModTime( id ) );
 	}
 
 	const CTextureLoader m_textureLoader;

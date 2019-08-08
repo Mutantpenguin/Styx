@@ -17,14 +17,9 @@ public:
 	{}
 
 private:
-	void Load( const std::shared_ptr<CMaterial> &resource, const CMaterial::ResourceIdType &id ) const override
+	void Load( const std::shared_ptr<CMaterial> &resource, const std::string &id ) const override
 	{
 		m_materialLoader.FromFile( resource, id );
-	}
-
-	i64 GetMtime( const CMaterial::ResourceIdType &id ) const override
-	{
-		return( m_filesystem.GetLastModTime( id ) );
 	}
 
 	const CMaterialLoader m_materialLoader;

@@ -17,12 +17,10 @@ template<typename T>
 class CResourceCache : public CResourceCacheBase
 {
 	// TODO static_assert T::Reset
-	// TODO static_assert T::ResourceIdType
-	// TODO static_assert T::IdToString
 
 private:
-	CResourceCache( const CResourceCache& rhs );
-	CResourceCache& operator = ( const CResourceCache& rhs );
+	CResourceCache( const CResourceCache& rhs ) = delete;
+	CResourceCache& operator = ( const CResourceCache& rhs ) = delete;
 
 protected:
 	CResourceCache( const std::string &name, const CFileSystem &p_filesystem ) :
@@ -37,18 +35,19 @@ protected:
 		{
 			logERROR( "there are still '{0}' resources in '{1}' cache", m_resources.size(), m_name );
 
-			for( const auto & [ id, resourceInfo ] : m_resources )
+			for( const auto & [ path, resourceInfo ] : m_resources )
 			{
-				logWARNING( "\t{0}: {1}", T::IdToString( id ), resourceInfo.resource.use_count() - 1 );
+				logWARNING( "\t{0}: {1}", path, resourceInfo.resource.use_count() - 1 );
 			}
 		}
 		#endif
 	}
 
 public:
-	[[nodiscard]] const std::shared_ptr<const T> Get( const typename T::ResourceIdType &id )
+	[[nodiscard]] const std::shared_ptr<const T> Get( const std::string &path )
 	{
-		const auto it = m_resources.find( id );
+		const auto it = m_resources.find( path );
+		
 		if( std::end( m_resources ) != it )
 		{
 			return( it->second.resource );
@@ -56,12 +55,12 @@ public:
 
 		auto newResource = std::make_shared<T>();
 
-		Load( newResource, id );
+		Load( newResource, path );
 
-		auto &resourceInfo = m_resources[ id ];
+		auto &resourceInfo = m_resources[ path ];
 
 		resourceInfo.resource = newResource;
-		resourceInfo.mtime    = GetMtime( id );
+		resourceInfo.mtime    = GetMtime( path );
 
 		return( newResource );
 	}
@@ -85,16 +84,16 @@ public:
 	{
 		logINFO( "reloading cache: {0}", m_name );
 
-		for( auto & [ id, resourceInfo ] : m_resources )
+		for( auto & [ path, resourceInfo ] : m_resources )
 		{
-			const auto currentMtime = GetMtime( id );
+			const auto currentMtime = GetMtime( path );
 			if( currentMtime > resourceInfo.mtime )
 			{
-				logINFO( "\t{0}", T::IdToString( id ) );
+				logINFO( "\t{0}", path );
 
 				resourceInfo.resource->Reset();
 
-				Load( resourceInfo.resource, id );
+				Load( resourceInfo.resource, path );
 
 				resourceInfo.mtime = currentMtime;
 			}
@@ -106,15 +105,18 @@ protected:
 	const CFileSystem &m_filesystem;
 
 private:
-	virtual void Load( const std::shared_ptr<T> &resource, const typename T::ResourceIdType &id ) const = 0;
-
-	virtual i64 GetMtime( const typename T::ResourceIdType &id ) const = 0;
-
+	virtual void Load( const std::shared_ptr<T> &resource, const std::string &path ) const = 0;
+	
+	virtual i64 GetMtime( const std::string &path ) final
+	{
+		return( m_filesystem.GetLastModTime( path ) );
+	}
+	
 	struct sResourceInfo
 	{
 		std::shared_ptr<T>	resource;
 		i64					mtime = 0;
 	};
 
-	std::map<typename T::ResourceIdType, sResourceInfo> m_resources;
+	std::map<std::string, sResourceInfo> m_resources;
 };

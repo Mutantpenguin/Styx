@@ -13,22 +13,6 @@
 class CShaderProgram final
 {
 public:
-	struct ResourceIdType
-	{
-		std::string vertexShader;
-		std::string geometryShader;
-		std::string fragmentShader;
-
-		bool operator<( const ResourceIdType &other) const
-		{
-			return( std::tie( vertexShader, geometryShader, fragmentShader ) < std::tie( other.vertexShader, other.geometryShader, other.fragmentShader ) );
-		}
-		
-	};
-
-	static std::string IdToString( const ResourceIdType &id );
-
-public:
 	CShaderProgram() {};
 	~CShaderProgram();
 
@@ -46,6 +30,8 @@ public:
 	const std::vector<std::pair<GLint, const EEngineUniform>>	&RequiredEngineUniforms() const;
 	const std::vector<std::pair<GLint, const SShaderInterface>>	&RequiredMaterialUniforms() const;
 
+	// TODO why are there non const versions of these methods?
+	// TODO maybe new methods in the form "AddRequiredSampler" instead?
 	std::vector<std::pair<GLint, const SShaderInterface>>	&RequiredSamplers();
 	std::vector<std::pair<GLint, const EEngineUniform>>		&RequiredEngineUniforms();
 	std::vector<std::pair<GLint, const SShaderInterface>>	&RequiredMaterialUniforms();

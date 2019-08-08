@@ -44,7 +44,7 @@ public:
 	void Reload();
 
 	template<typename T>
-	const std::shared_ptr<const T> Get( const typename T::ResourceIdType &id )
+	const std::shared_ptr<const T> Get( const std::string &id )
 	{
 		#ifdef STYX_DEBUG
 			const auto it = m_resourceCacheMap.find( std::type_index( typeid( T ) ) );

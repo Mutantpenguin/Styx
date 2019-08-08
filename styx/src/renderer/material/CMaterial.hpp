@@ -10,14 +10,6 @@
 class CMaterial final
 {
 public:
-	using ResourceIdType = std::string;
-
-	static std::string IdToString( const ResourceIdType &id )
-	{
-		return( id );
-	}
-
-public:
 	CMaterial() {};
 
 	void Activate() const;
@@ -38,6 +30,8 @@ public:
 	void ShaderProgram( const std::shared_ptr<const CShaderProgram> &shaderProgram );
 
 	const std::vector<std::pair<GLuint, std::unique_ptr<const CMaterialUniform>>> &MaterialUniforms() const;
+	// TODO why is there a non const version of this method?
+	// TODO maybe new method "AddMaterialUniform" instead?
 	std::vector<std::pair<GLuint, std::unique_ptr<const CMaterialUniform>>> &MaterialUniforms();
 
 	const std::string &Name() const;

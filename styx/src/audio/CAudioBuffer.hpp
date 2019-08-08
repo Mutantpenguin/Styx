@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include <AL/al.h>
 #include <AL/alc.h>
 
@@ -11,14 +9,6 @@ class CAudioBuffer final
 {
 	friend class CAudioBufferLoader;
 	friend class CAudioSource;
-
-public:
-	using ResourceIdType = std::string;
-
-	static std::string IdToString( const ResourceIdType &id )
-	{
-		return( id );
-	}
 
 private:
 	CAudioBuffer( const CAudioBuffer& rhs );

@@ -4,14 +4,6 @@
 
 #include "src/renderer/CGLState.hpp"
 
-std::string CShaderProgram::IdToString( const ResourceIdType &id )
-{
-	return( fmt::format( "{0} / {1} / {2}",
-			id.vertexShader,
-			id.geometryShader.empty() ? "(null)" : id.geometryShader,
-			id.fragmentShader ) );
-}
-
 CShaderProgram::~CShaderProgram()
 {
 	if( glIsProgram( GLID ) == GL_TRUE )

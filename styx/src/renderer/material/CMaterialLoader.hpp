@@ -20,7 +20,7 @@ public:
 private:
 	bool FromMatFile( const std::shared_ptr<CMaterial> &material, const fs::path &path ) const;
 
-	void FromMatDummy( const std::shared_ptr<CMaterial> &material ) const;
+	void FromDummy( const std::shared_ptr<CMaterial> &material ) const;
 
 	const CFileSystem &m_filesystem;
 

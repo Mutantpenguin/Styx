@@ -9,6 +9,8 @@ using json = nlohmann::json;
 
 #include "src/logger/CLogger.hpp"
 
+#include "src/core/FileExtension.hpp"
+
 #include "src/renderer/GLHelper.hpp"
 
 u16 CMaterialLoader::m_dummyCounter { 0 };
@@ -38,37 +40,37 @@ void CMaterialLoader::FromFile( const std::shared_ptr<CMaterial> &material, cons
 	if( !path.has_filename() )
 	{
 		logWARNING( "path '{0}' does not containt a filename", path.generic_string() );
-		FromMatDummy( material );
+		FromDummy( material );
 	}
 
-	if( !m_filesystem.Exists( path ) )
+	const std::string fileExtensionString = path.extension().generic_string();
+
+	if( fileExtensionString != FileExtension::Material::mat )
+	{
+		logWARNING( "file type '{0}' of material file '{1}' is not supported", fileExtensionString, path.generic_string() );
+		FromDummy( material );
+	}
+	else if( !m_filesystem.Exists( path ) )
 	{
 		logWARNING( "material file '{0}' does not exist", path.generic_string() );
-		FromMatDummy( material );
+		FromDummy( material );
 	}
 	else
 	{
-		const std::string fileExtensionString = path.extension().generic_string();
-
 		if( std::string( ".mat" ) == fileExtensionString )
 		{
 			try
 			{
 				if( !FromMatFile( material, path ) )
 				{
-					FromMatDummy( material );
+					FromDummy( material );
 				}
 			}
 			catch( std::exception &e )
 			{
 				logWARNING( "error loading material '{0}': {1}", path.generic_string(), e.what() );
-				FromMatDummy( material );
+				FromDummy( material );
 			}
-		}
-		else
-		{
-			logWARNING( "file is not a material: '{0}'", path.generic_string() );
-			FromMatDummy( material );
 		}
 	}
 }
@@ -157,45 +159,15 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr<CMaterial> &material, c
 		material->EnableDepthMask();
 	}
 
-	const auto mat_shaders = mat_root.find( "shaders" );
-	if( mat_shaders == mat_root.end() )
+	const auto mat_shader = mat_root.find( "shader" );
+	if( mat_shader == mat_root.end() )
 	{
-		logWARNING( "no shaders specified in '{0}'", path.generic_string() );
+		logWARNING( "no shader specified in '{0}'", path.generic_string() );
 		return( false );
 	}
 	else
 	{
-		CShaderProgram::ResourceIdType shaderProgramId;
-
-		const auto mat_shader_vs = mat_shaders->find( "vert" );
-		if( mat_shader_vs == mat_shaders->end() )
-		{
-			logWARNING( "no vertex shader specified in '{0}'", path.generic_string() );
-			return( false );
-		}
-		else
-		{
-			shaderProgramId.vertexShader = mat_shader_vs->get<std::string>();
-		}
-
-		const auto mat_shader_gs = mat_shaders->find( "geom" );
-		if( mat_shader_gs != mat_shaders->end() )
-		{
-			shaderProgramId.geometryShader = mat_shader_gs->get<std::string>();
-		}
-
-		const auto mat_shader_fs = mat_shaders->find( "frag" );
-		if( mat_shader_fs == mat_shaders->end() )
-		{
-			logWARNING( "no fragment shader specified in '{0}'", path.generic_string() );
-			return( false );
-		}
-		else
-		{
-			shaderProgramId.fragmentShader = mat_shader_fs->get<std::string>();
-		}
-
-		const auto shaderProgram = m_resources.Get<CShaderProgram>( shaderProgramId );
+		const auto shaderProgram = m_resources.Get<CShaderProgram>( mat_shader->get<std::string>() );
 
 		material->ShaderProgram( shaderProgram );
 
@@ -369,7 +341,7 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr<CMaterial> &material, c
 	return( true );
 }
 
-void CMaterialLoader::FromMatDummy( const std::shared_ptr<CMaterial> &material ) const
+void CMaterialLoader::FromDummy( const std::shared_ptr<CMaterial> &material ) const
 {
 	material->Reset();
 

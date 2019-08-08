@@ -14,15 +14,10 @@ public:
 	{}
 
 public:
-	virtual void Load( const std::shared_ptr<CAudioBuffer> &resource, const CAudioBuffer::ResourceIdType &id ) const override
+	virtual void Load( const std::shared_ptr<CAudioBuffer> &resource, const std::string &id ) const override
 	{
 		m_audioBufferLoader.FromFile( resource, id );
 	};
-
-	i64 GetMtime( const CAudioBuffer::ResourceIdType &id ) const override
-	{
-		return( m_filesystem.GetLastModTime( id ) );
-	}
 
 	const CAudioBufferLoader m_audioBufferLoader;
 };

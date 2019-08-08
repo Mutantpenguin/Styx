@@ -46,6 +46,7 @@
   </VirtualDirectory>
   <VirtualDirectory Name="src">
     <VirtualDirectory Name="core">
+      <File Name="src/core/FileExtension.hpp"/>
       <File Name="src/core/Types.hpp"/>
       <File Name="src/core/StyxException.hpp"/>
     </VirtualDirectory>
@@ -165,10 +166,11 @@
         <File Name="src/renderer/texture/C2DArrayData.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="shader">
+        <File Name="src/renderer/shader/CShaderProgramLoader.cpp"/>
+        <File Name="src/renderer/shader/CShaderProgramLoader.hpp"/>
         <File Name="src/renderer/shader/CShaderProgramCompiler.hpp"/>
         <File Name="src/renderer/shader/CShaderProgramCompiler.cpp"/>
         <File Name="src/renderer/shader/CShaderProgramCache.hpp"/>
-        <File Name="src/renderer/shader/CShaderProgramCache.cpp"/>
         <File Name="src/renderer/shader/CShaderLoader.hpp"/>
         <File Name="src/renderer/shader/CShaderLoader.cpp"/>
         <File Name="src/renderer/shader/CShaderCompiler.hpp"/>
@@ -342,7 +344,7 @@
     <Extensions>
       <![CDATA[*.cpp;*.c;*.h;*.hpp;*.xrc;*.wxcp;*.fbp;*.cc;*.py]]>
     </Extensions>
-    <Topleveldir>/home/charon/Projekte/trash/styx/styx</Topleveldir>
+    <Topleveldir>/home/charon/Projekte/styx/styx</Topleveldir>
   </Reconciliation>
   <Description/>
   <Dependencies/>

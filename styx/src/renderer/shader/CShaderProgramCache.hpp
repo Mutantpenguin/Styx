@@ -3,38 +3,22 @@
 #include "src/resource/CResourceCache.hpp"
 #include "src/resource/CResources.hpp"
 
-#include "src/renderer/shader/CShaderProgram.hpp"
-#include "src/renderer/shader/CShaderProgramCompiler.hpp"
-#include "src/renderer/shader/CShaderCache.hpp"
+#include "src/renderer/shader/CShaderProgramLoader.hpp"
 
 class CShaderProgramCache final : public CResourceCache<CShaderProgram>
 {
 public:
 	CShaderProgramCache( const CFileSystem &p_filesystem, CResources &resources, CShaderCompiler &shaderCompiler, CShaderProgramCompiler &shaderProgramCompiler ) :
 		CResourceCache( "shaderprogram", p_filesystem ),
-		m_resources { resources },
-		m_shaderCompiler { shaderCompiler },
-		m_shaderProgramCompiler { shaderProgramCompiler }
+		m_shaderProgramLoader( p_filesystem, resources, shaderCompiler, shaderProgramCompiler )
 	{}
 
 private:
-	void Load( const std::shared_ptr<CShaderProgram> &resource, const CShaderProgram::ResourceIdType &id ) const override;
-
-	i64 GetMtime( const CShaderProgram::ResourceIdType &id ) const override
+	void Load( const std::shared_ptr<CShaderProgram> &resource, const std::string &id ) const override
 	{
-		if( id.geometryShader.empty() )
-		{
-			return( std::max( { m_filesystem.GetLastModTime( id.vertexShader ), m_filesystem.GetLastModTime( id.fragmentShader ) } ) );
-		}
-		else
-		{
-			return( std::max( { m_filesystem.GetLastModTime( id.vertexShader ), m_filesystem.GetLastModTime( id.geometryShader ), m_filesystem.GetLastModTime( id.fragmentShader ) } ) );
-		}
+		m_shaderProgramLoader.FromFile( resource, id );
 	}
 
 private:
-	CResources &m_resources;
-	
-	CShaderCompiler			&m_shaderCompiler;
-	CShaderProgramCompiler	&m_shaderProgramCompiler;
+	CShaderProgramLoader	m_shaderProgramLoader;
 };

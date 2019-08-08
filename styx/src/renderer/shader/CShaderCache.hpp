@@ -14,14 +14,9 @@ public:
 	{}
 
 private:
-	void Load( const std::shared_ptr<CShader> &resource, const CShader::ResourceIdType &id ) const override
+	void Load( const std::shared_ptr<CShader> &resource, const std::string &id ) const override
 	{
 		m_shaderLoader.FromFile( resource, id );
-	}
-
-	i64 GetMtime( const CShader::ResourceIdType &id ) const override
-	{
-		return( m_filesystem.GetLastModTime( id ) );
 	}
 
 	const CShaderLoader m_shaderLoader;

@@ -2,6 +2,8 @@
 
 #include "src/logger/CLogger.hpp"
 
+#include "src/core/FileExtension.hpp"
+
 #include "external/stb/stb_vorbis.c"
 
 #define DR_WAV_IMPLEMENTATION
@@ -27,33 +29,36 @@ void CAudioBufferLoader::FromFile( const std::shared_ptr<CAudioBuffer> &audioBuf
 		FromDummy( audioBuffer );
 		// TODO what? no return here?
 	}
-
-	if( !m_filesystem.Exists( path ) )
+	
+	const std::string fileExtensionString = path.extension().generic_string();
+	
+	if( ( fileExtensionString != FileExtension::Audio::ogg )
+		&&
+		( fileExtensionString != FileExtension::Audio::wav ) )
+	{
+		logWARNING( "file type '{0}' of audio file '{1}' is not supported", fileExtensionString, path.generic_string() );
+		FromDummy( audioBuffer );
+	}
+	else if( !m_filesystem.Exists( path ) )
 	{
 		logWARNING( "audio file '{0}' does not exist", path.generic_string() );
 		FromDummy( audioBuffer );
 	}
 	else
 	{
-		const std::string fileExtensionString = path.extension().generic_string();
-
-		if( fileExtensionString == std::string( ".ogg" ) )
+		if( fileExtensionString == FileExtension::Audio::ogg )
 		{
 			if( !FromOggFile( audioBuffer, path ) )
 			{
 				FromDummy( audioBuffer );
 			}
 		}
-		else if( fileExtensionString == std::string( ".wav" ) )
+		else if( fileExtensionString == FileExtension::Audio::wav )
 		{
 			if( !FromWavFile( audioBuffer, path ) )
 			{
 				FromDummy( audioBuffer );
 			}
-		}
-		else
-		{
-			logWARNING( "file type '{0}' of audio file '{1}' is not supported", fileExtensionString, path.generic_string() );
 		}
 	}
 }
@@ -164,4 +169,6 @@ void CAudioBufferLoader::FromTAudioData( const std::shared_ptr<CAudioBuffer> &au
 void CAudioBufferLoader::FromDummy( const std::shared_ptr<CAudioBuffer> &audioBuffer ) const
 {
 	audioBuffer->Reset();
+	
+	// TODO fill with sinus?
 }
