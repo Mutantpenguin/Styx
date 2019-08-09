@@ -1,0 +1,5 @@
+{
+	"vs" : "shaders/vs/particle.vert",
+	"gs" : "shaders/gs/particle.geom",
+	"fs" : "shaders/fs/particle.frag"
+}

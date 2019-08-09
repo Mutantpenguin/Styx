@@ -5,10 +5,7 @@
 							"src"	: "ONE",
 							"dst"	: "ONE_MINUS_SRC_ALPHA"
 						},
-	"shaders"		:	{
-							"vert" : "shaders/vs/wait_cursor.vert",
-							"frag" : "shaders/fs/wait_cursor.frag"
-						},
+	"shader"		:	"shaders/progs/wait_cursor.shp",
 	"uniforms"		:	{
 							"waitRadsPerSecond" : 6.28319
 						}

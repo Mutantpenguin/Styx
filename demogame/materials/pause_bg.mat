@@ -6,10 +6,7 @@
 							"src"	: "ONE",
 							"dst"	: "ONE_MINUS_SRC_ALPHA"
 						},
-	"shaders"		:	{
-							"vert" : "shaders/vs/pause_bg.vert",
-							"frag" : "shaders/fs/standard.frag"
-						},
+	"shader"		:	"shaders/progs/pause_bg.shp",
 	"uniforms"		:	{
 							"bgRadsPerSecond" : 0.174533,
 							"bgScale" : [ 0.125, 0.125 ]

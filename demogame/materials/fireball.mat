@@ -1,8 +1,5 @@
 {
 	"name"		:	"fireball",
 	"cullmode"	:	"BACK",
-	"shaders"	:	{
-						"vert" : "shaders/vs/fireball.vert",
-						"frag" : "shaders/fs/fireball.frag"
-					}
+	"shader"	:	"shaders/progs/fireball.shp"
 }

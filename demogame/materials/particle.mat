@@ -1,15 +1,11 @@
 {
-	"name"			:	"particle",
+	"name"		:	"particle",
 	"blending"	:	{
 						"src"	: "SRC_ALPHA",
 						"dst"	: "ONE_MINUS_SRC_ALPHA"
 					},
 	"depthmask"	:	false,
-	"shaders"	:	{
-						"vert" : "shaders/vs/particle.vert",
-						"geom" : "shaders/gs/particle.geom",
-						"frag" : "shaders/fs/particle.frag"
-					},
+	"shader"	:	"shaders/progs/particle.shp",
 	"uniforms"	:	{
 						"scale"	: 10.0,
 						"animDelay"	:	100

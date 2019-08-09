@@ -1,9 +1,5 @@
 {
 	"name"			:	"explode",
 	"polygonmode"	:	"FILL",
-	"shaders"	:	{
-						"vert" : "shaders/vs/explode.vert",
-						"geom" : "shaders/gs/explode.geom",
-						"frag" : "shaders/fs/standard.frag"
-					}
+	"shader"		:	"shaders/progs/explode.shp"
 }

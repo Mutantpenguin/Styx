@@ -1,0 +1,4 @@
+{
+	"vs" : "shaders/vs/fireball.vert",
+	"fs" : "shaders/fs/fireball.frag"
+}

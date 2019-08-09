@@ -2,8 +2,5 @@
 	"name"			:	"standard",
 	"cullmode"		:	"BACK",
 	"polygonmode"	:	"FILL",
-	"shaders"	:	{
-						"vert" : "shaders/vs/standard.vert",
-						"frag" : "shaders/fs/standard.frag"
-					}
+	"shader"		:	"shaders/progs/standard.shp"
 }

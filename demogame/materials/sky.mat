@@ -1,7 +1,4 @@
 {
 	"name"		:	"sky creek",
-	"shaders"	:	{
-							"vert" : "shaders/vs/sky.vert",
-							"frag" : "shaders/fs/sky.frag"
-					}
+	"shader"	:	"shaders/progs/sky.shp"
 }

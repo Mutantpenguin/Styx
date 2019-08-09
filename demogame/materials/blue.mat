@@ -1,10 +1,7 @@
 {
 	"name"			:	"blue",
 	"polygonmode"	:	"FILL",
-	"shaders"	:	{
-						"vert" : "shaders/vs/standard.vert",
-						"frag" : "shaders/fs/color.frag"
-					},
+	"shader"		:	"shaders/progs/colored.shp",
 	"uniforms"	:	{
 						"mainColor" : [ 0.0, 0.0, 1.0, 1.0 ]
 					}

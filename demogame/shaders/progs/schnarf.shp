@@ -1,0 +1,4 @@
+{
+	"vs" : "shaders/vs/standard.vert",
+	"fs" : "shaders/fs/schnarf.frag"
+}

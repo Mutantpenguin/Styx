@@ -2,10 +2,7 @@
 	"name"			:	"schnarf",
 	"cullmode"		:	"BACK",
 	"polygonmode"	:	"FILL",
-	"shaders"	:	{
-						"vert" : "shaders/vs/superBox.vert",
-						"frag" : "shaders/fs/superBox.frag"
-					},
+	"shader"		:	"shaders/progs/superBox.shp",
 	"uniforms"	:	{
 						"bgRadsPerSecond"	: 0.349066,
 						"bgScale"			: [ 0.25 ,0.5 ],

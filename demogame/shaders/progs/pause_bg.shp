@@ -1,0 +1,4 @@
+{
+	"vs" : "shaders/vs/pause_bg.vert",
+	"fs" : "shaders/fs/standard.frag"
+}

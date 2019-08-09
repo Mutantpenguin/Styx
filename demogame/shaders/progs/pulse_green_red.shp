@@ -1,0 +1,4 @@
+{
+	"vs" : "shaders/vs/standard.vert",
+	"fs" : "shaders/fs/pulse_green_red.frag"
+}

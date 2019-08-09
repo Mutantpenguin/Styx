@@ -1,146 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="demogame" InternalType="" Version="10.0.0">
-  <File Name="demogame.project"/>
-  <Reconciliation>
-    <Regexes/>
-    <Excludepaths/>
-    <Ignorefiles/>
-    <Extensions>
-      <![CDATA[*.*]]>
-    </Extensions>
-    <Topleveldir>/home/charon/Projekte/trash/styx/demogame</Topleveldir>
-  </Reconciliation>
-  <Description/>
-  <Dependencies/>
-  <VirtualDirectory Name="materials">
-    <File Name="materials/fireball.mat"/>
-    <File Name="materials/particle.mat"/>
-    <File Name="materials/explode.mat"/>
-    <File Name="materials/flames.mat"/>
-    <File Name="materials/newscast.mat"/>
-    <File Name="materials/schnarf.mat"/>
-    <File Name="materials/sky.mat"/>
-    <File Name="materials/test.mat"/>
-    <File Name="materials/wait_cursor.mat"/>
-    <File Name="materials/intro_icon.mat"/>
-    <File Name="materials/blue.mat"/>
-    <File Name="materials/red.mat"/>
-    <File Name="materials/green.mat"/>
-    <File Name="materials/pulse_green_red.mat"/>
-    <File Name="materials/superBox.mat"/>
-    <File Name="materials/pause_bg.mat"/>
-    <File Name="materials/standard.mat"/>
-    <File Name="materials/standard_blend.mat"/>
-    <File Name="materials/pause_screenshot.mat"/>
+  <File Name="textures_zip.zip"/>
+  <File Name="settings.json"/>
+  <File Name="gameinfo.json"/>
+  <VirtualDirectory Name="icons">
+    <File Name="icons/styx_demo_icon_big.png"/>
   </VirtualDirectory>
-  <VirtualDirectory Name="models">
-    <VirtualDirectory Name="cubes">
-      <File Name="models/cubes/cube.dae"/>
-      <File Name="models/cubes/cube_textured.dae"/>
-      <File Name="models/cubes/cube_textured_clamp.dae"/>
-      <File Name="models/cubes/distorted_cube.dae"/>
-      <File Name="models/cubes/distorted_cube_highpoly.dae"/>
-      <File Name="models/cubes/killblockgeomtrn.png"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="stuff">
-      <File Name="models/stuff/monkey.dae"/>
-      <File Name="models/stuff/torus.dae"/>
-    </VirtualDirectory>
-  </VirtualDirectory>
-  <VirtualDirectory Name="music">
-    <File Name="music/rise_of_spirit.ogg"/>
-    <File Name="music/Sad Robot.ogg"/>
+  <VirtualDirectory Name="misc">
+    <File Name="misc/gamecontrollerdb.txt"/>
   </VirtualDirectory>
   <VirtualDirectory Name="sounds">
     <File Name="sounds/startup_sound.ogg"/>
     <File Name="sounds/Pickup_Coin17.wav"/>
   </VirtualDirectory>
-  <VirtualDirectory Name="shaders">
-    <VirtualDirectory Name="gs">
-      <File Name="shaders/gs/particle.geom"/>
-      <File Name="shaders/gs/explode.geom"/>
+  <VirtualDirectory Name="models">
+    <VirtualDirectory Name="stuff">
+      <File Name="models/stuff/torus.dae"/>
+      <File Name="models/stuff/monkey.dae"/>
     </VirtualDirectory>
-    <VirtualDirectory Name="fs">
-      <File Name="shaders/fs/fireball.frag"/>
-      <File Name="shaders/fs/particle.frag"/>
-      <File Name="shaders/fs/reflection.frag"/>
-      <File Name="shaders/fs/sky.frag"/>
-      <File Name="shaders/fs/standard.frag"/>
-      <File Name="shaders/fs/color.frag"/>
-      <File Name="shaders/fs/timeTest.frag"/>
-      <File Name="shaders/fs/standardAnimated.frag"/>
-      <File Name="shaders/fs/pulse_green_red.frag"/>
-      <File Name="shaders/fs/superBox.frag"/>
-      <File Name="shaders/fs/schnarf.frag"/>
-      <File Name="shaders/fs/wait_cursor.frag"/>
-      <File Name="shaders/fs/radial_blur.frag"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="vs">
-      <File Name="shaders/vs/fireball.vert"/>
-      <File Name="shaders/vs/particle.vert"/>
-      <File Name="shaders/vs/explode.vert"/>
-      <File Name="shaders/vs/reflection.vert"/>
-      <File Name="shaders/vs/sky.vert"/>
-      <File Name="shaders/vs/standard.vert"/>
-      <File Name="shaders/vs/superBox.vert"/>
-      <File Name="shaders/vs/wait_cursor.vert"/>
-      <File Name="shaders/vs/pause_bg.vert"/>
+    <VirtualDirectory Name="cubes">
+      <File Name="models/cubes/killblockgeomtrn.png"/>
+      <File Name="models/cubes/distorted_cube_highpoly.dae"/>
+      <File Name="models/cubes/distorted_cube.dae"/>
+      <File Name="models/cubes/cube_textured_clamp.dae"/>
+      <File Name="models/cubes/cube_textured.dae"/>
+      <File Name="models/cubes/cube.dae"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="textures">
-    <VirtualDirectory Name="cube">
-      <VirtualDirectory Name="creek">
-        <File Name="textures/cube/creek/negx.jpg"/>
-        <File Name="textures/cube/creek/negy.jpg"/>
-        <File Name="textures/cube/creek/negz.jpg"/>
-        <File Name="textures/cube/creek/posx.jpg"/>
-        <File Name="textures/cube/creek/posy.jpg"/>
-        <File Name="textures/cube/creek/posz.jpg"/>
-        <File Name="textures/cube/creek/creek.cub"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="sixtine">
-        <File Name="textures/cube/sixtine/b_face.jpg"/>
-        <File Name="textures/cube/sixtine/d_face.jpg"/>
-        <File Name="textures/cube/sixtine/f_face.jpg"/>
-        <File Name="textures/cube/sixtine/l_face.jpg"/>
-        <File Name="textures/cube/sixtine/r_face.jpg"/>
-        <File Name="textures/cube/sixtine/u_face.jpg"/>
-        <File Name="textures/cube/sixtine/sixtine.cub"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="vasa">
-        <File Name="textures/cube/vasa/negx.jpg"/>
-        <File Name="textures/cube/vasa/negy.jpg"/>
-        <File Name="textures/cube/vasa/negz.jpg"/>
-        <File Name="textures/cube/vasa/posx.jpg"/>
-        <File Name="textures/cube/vasa/posy.jpg"/>
-        <File Name="textures/cube/vasa/posz.jpg"/>
-        <File Name="textures/cube/vasa/vasa.cub"/>
-      </VirtualDirectory>
+    <VirtualDirectory Name="styx">
+      <File Name="textures/styx/logo.png"/>
     </VirtualDirectory>
     <VirtualDirectory Name="cursor">
-      <File Name="textures/cursor/skull.png"/>
       <File Name="textures/cursor/wait.png"/>
+      <File Name="textures/cursor/skull.png"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="texpack_2">
+      <File Name="textures/texpack_2/stone_floor.png"/>
+      <File Name="textures/texpack_2/stained_glass.png"/>
+      <File Name="textures/texpack_2/pattern_07.png"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="pause">
+      <File Name="textures/pause/fg.png"/>
+      <File Name="textures/pause/bg.png"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="menu">
+      <File Name="textures/menu/title.png"/>
+      <File Name="textures/menu/background.jpg"/>
     </VirtualDirectory>
     <VirtualDirectory Name="texpack_1">
-      <VirtualDirectory Name="newscast">
-        <File Name="textures/texpack_1/newscast/banner.png"/>
-        <File Name="textures/texpack_1/newscast/newscast_1.png"/>
-        <File Name="textures/texpack_1/newscast/newscast_2.png"/>
-        <File Name="textures/texpack_1/newscast/newscast_3.png"/>
-        <File Name="textures/texpack_1/newscast/newscast_4.png"/>
-        <File Name="textures/texpack_1/newscast/newscast_5.png"/>
-      </VirtualDirectory>
-      <File Name="textures/texpack_1/black_border.png"/>
-      <File Name="textures/texpack_1/cybergrate2.tga"/>
-      <File Name="textures/texpack_1/killblockgeomtrn.png"/>
-      <File Name="textures/texpack_1/mybitmap.bmp"/>
-      <File Name="textures/texpack_1/planet.dds"/>
-      <File Name="textures/texpack_1/planet.png"/>
-      <File Name="textures/texpack_1/reflection.jpg"/>
-      <File Name="textures/texpack_1/senn_floor1.jpg"/>
-      <File Name="textures/texpack_1/senn_icesky1.tga"/>
-      <File Name="textures/texpack_1/senn_icesky2.jpg"/>
       <File Name="textures/texpack_1/senn_icyfangrate.tga"/>
+      <File Name="textures/texpack_1/senn_icesky2.jpg"/>
+      <File Name="textures/texpack_1/senn_icesky1.tga"/>
+      <File Name="textures/texpack_1/senn_floor1.jpg"/>
+      <File Name="textures/texpack_1/reflection.jpg"/>
+      <File Name="textures/texpack_1/planet.png"/>
+      <File Name="textures/texpack_1/planet.dds"/>
+      <File Name="textures/texpack_1/mybitmap.bmp"/>
+      <File Name="textures/texpack_1/killblockgeomtrn.png"/>
+      <File Name="textures/texpack_1/cybergrate2.tga"/>
+      <File Name="textures/texpack_1/black_border.png"/>
+      <VirtualDirectory Name="newscast">
+        <File Name="textures/texpack_1/newscast/newscast_5.png"/>
+        <File Name="textures/texpack_1/newscast/newscast_4.png"/>
+        <File Name="textures/texpack_1/newscast/newscast_3.png"/>
+        <File Name="textures/texpack_1/newscast/newscast_2.png"/>
+        <File Name="textures/texpack_1/newscast/newscast_1.png"/>
+        <File Name="textures/texpack_1/newscast/banner.png"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="cube">
+      <VirtualDirectory Name="vasa">
+        <File Name="textures/cube/vasa/vasa.cub"/>
+        <File Name="textures/cube/vasa/posz.jpg"/>
+        <File Name="textures/cube/vasa/posy.jpg"/>
+        <File Name="textures/cube/vasa/posx.jpg"/>
+        <File Name="textures/cube/vasa/negz.jpg"/>
+        <File Name="textures/cube/vasa/negy.jpg"/>
+        <File Name="textures/cube/vasa/negx.jpg"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="sixtine">
+        <File Name="textures/cube/sixtine/u_face.jpg"/>
+        <File Name="textures/cube/sixtine/sixtine.cub"/>
+        <File Name="textures/cube/sixtine/r_face.jpg"/>
+        <File Name="textures/cube/sixtine/l_face.jpg"/>
+        <File Name="textures/cube/sixtine/f_face.jpg"/>
+        <File Name="textures/cube/sixtine/d_face.jpg"/>
+        <File Name="textures/cube/sixtine/b_face.jpg"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="creek">
+        <File Name="textures/cube/creek/posz.jpg"/>
+        <File Name="textures/cube/creek/posy.jpg"/>
+        <File Name="textures/cube/creek/posx.jpg"/>
+        <File Name="textures/cube/creek/negz.jpg"/>
+        <File Name="textures/cube/creek/negy.jpg"/>
+        <File Name="textures/cube/creek/negx.jpg"/>
+        <File Name="textures/cube/creek/creek.cub"/>
+      </VirtualDirectory>
     </VirtualDirectory>
     <VirtualDirectory Name="array">
       <VirtualDirectory Name="fireball_small">
@@ -197,50 +153,110 @@
         <File Name="textures/array/fireball_small/01.png"/>
       </VirtualDirectory>
       <VirtualDirectory Name="fire">
-        <File Name="textures/array/fire/sfx_fire01.jpg"/>
-        <File Name="textures/array/fire/sfx_fire02.jpg"/>
-        <File Name="textures/array/fire/sfx_fire03.jpg"/>
-        <File Name="textures/array/fire/sfx_fire04.jpg"/>
-        <File Name="textures/array/fire/sfx_fire05.jpg"/>
-        <File Name="textures/array/fire/sfx_fire06.jpg"/>
-        <File Name="textures/array/fire/sfx_fire07.jpg"/>
         <File Name="textures/array/fire/sfx_fire08.jpg"/>
+        <File Name="textures/array/fire/sfx_fire07.jpg"/>
+        <File Name="textures/array/fire/sfx_fire06.jpg"/>
+        <File Name="textures/array/fire/sfx_fire05.jpg"/>
+        <File Name="textures/array/fire/sfx_fire04.jpg"/>
+        <File Name="textures/array/fire/sfx_fire03.jpg"/>
+        <File Name="textures/array/fire/sfx_fire02.jpg"/>
+        <File Name="textures/array/fire/sfx_fire01.jpg"/>
         <File Name="textures/array/fire/fire.arr"/>
       </VirtualDirectory>
     </VirtualDirectory>
-    <VirtualDirectory Name="pause">
-      <File Name="textures/pause/bg.png"/>
-      <File Name="textures/pause/fg.png"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="shaders">
+    <VirtualDirectory Name="progs">
+      <File Name="shaders/progs/pulse_green_red.shp"/>
+      <File Name="shaders/progs/pause_screenshot.shp"/>
+      <File Name="shaders/progs/pause_bg.shp"/>
+      <File Name="shaders/progs/schnarf.shp"/>
+      <File Name="shaders/progs/flames.shp"/>
+      <File Name="shaders/progs/sky.shp"/>
+      <File Name="shaders/progs/explode.shp"/>
+      <File Name="shaders/progs/fireball.shp"/>
+      <File Name="shaders/progs/particle.shp"/>
+      <File Name="shaders/progs/wait_cursor.shp"/>
+      <File Name="shaders/progs/superBox.shp"/>
+      <File Name="shaders/progs/standard_blend.shp"/>
+      <File Name="shaders/progs/standard.shp"/>
+      <File Name="shaders/progs/colored.shp"/>
     </VirtualDirectory>
-    <VirtualDirectory Name="texpack_2">
-      <File Name="textures/texpack_2/stone_floor.png"/>
-      <File Name="textures/texpack_2/stained_glass.png"/>
-      <File Name="textures/texpack_2/pattern_07.png"/>
+    <VirtualDirectory Name="gs">
+      <File Name="shaders/gs/particle.geom"/>
+      <File Name="shaders/gs/explode.geom"/>
     </VirtualDirectory>
-    <VirtualDirectory Name="styx">
-      <File Name="textures/styx/logo.png"/>
+    <VirtualDirectory Name="vs">
+      <File Name="shaders/vs/wait_cursor.vert"/>
+      <File Name="shaders/vs/superBox.vert"/>
+      <File Name="shaders/vs/standard.vert"/>
+      <File Name="shaders/vs/sky.vert"/>
+      <File Name="shaders/vs/reflection.vert"/>
+      <File Name="shaders/vs/pause_bg.vert"/>
+      <File Name="shaders/vs/particle.vert"/>
+      <File Name="shaders/vs/fireball.vert"/>
+      <File Name="shaders/vs/explode.vert"/>
     </VirtualDirectory>
-    <VirtualDirectory Name="menu">
-      <File Name="textures/menu/background.jpg"/>
-      <File Name="textures/menu/title.png"/>
+    <VirtualDirectory Name="fs">
+      <File Name="shaders/fs/wait_cursor.frag"/>
+      <File Name="shaders/fs/timeTest.frag"/>
+      <File Name="shaders/fs/superBox.frag"/>
+      <File Name="shaders/fs/standardAnimated.frag"/>
+      <File Name="shaders/fs/standard.frag"/>
+      <File Name="shaders/fs/sky.frag"/>
+      <File Name="shaders/fs/schnarf.frag"/>
+      <File Name="shaders/fs/reflection.frag"/>
+      <File Name="shaders/fs/radial_blur.frag"/>
+      <File Name="shaders/fs/pulse_green_red.frag"/>
+      <File Name="shaders/fs/particle.frag"/>
+      <File Name="shaders/fs/fireball.frag"/>
+      <File Name="shaders/fs/color.frag"/>
     </VirtualDirectory>
   </VirtualDirectory>
-  <VirtualDirectory Name="demogame">
-    <File Name="README"/>
-    <File Name="gameinfo.json"/>
-    <File Name="settings.json"/>
-    <File Name="textures_zip.zip"/>
+  <VirtualDirectory Name="music">
+    <File Name="music/rise_of_spirit.ogg"/>
+    <File Name="music/Sad Robot.ogg"/>
   </VirtualDirectory>
-  <VirtualDirectory Name="icons">
-    <File Name="icons/styx_demo_icon_big.png"/>
-    <File Name="icons/inq_demo_icon_big.png"/>
-  </VirtualDirectory>
-  <VirtualDirectory Name="misc">
-    <File Name="misc/gamecontrollerdb.txt"/>
+  <VirtualDirectory Name="materials">
+    <File Name="materials/wait_cursor.mat"/>
+    <File Name="materials/test.mat"/>
+    <File Name="materials/superBox.mat"/>
+    <File Name="materials/standard_blend.mat"/>
+    <File Name="materials/standard.mat"/>
+    <File Name="materials/sky.mat"/>
+    <File Name="materials/schnarf.mat"/>
+    <File Name="materials/red.mat"/>
+    <File Name="materials/pulse_green_red.mat"/>
+    <File Name="materials/pause_screenshot.mat"/>
+    <File Name="materials/pause_bg.mat"/>
+    <File Name="materials/particle.mat"/>
+    <File Name="materials/newscast.mat"/>
+    <File Name="materials/intro_icon.mat"/>
+    <File Name="materials/green.mat"/>
+    <File Name="materials/flames.mat"/>
+    <File Name="materials/fireball.mat"/>
+    <File Name="materials/explode.mat"/>
+    <File Name="materials/blue.mat"/>
   </VirtualDirectory>
   <VirtualDirectory Name="fonts">
     <File Name="fonts/fontawesome-webfont.ttf"/>
   </VirtualDirectory>
+  <File Name="../../trash/styx/demogame/textures_zip.zip"/>
+  <File Name="../../trash/styx/demogame/settings.json"/>
+  <File Name="../../trash/styx/demogame/gameinfo.json"/>
+  <File Name="../../trash/styx/demogame/demogame.project"/>
+  <File Name="demogame.project"/>
+  <Reconciliation>
+    <Regexes/>
+    <Excludepaths/>
+    <Ignorefiles/>
+    <Extensions>
+      <![CDATA[*.*]]>
+    </Extensions>
+    <Topleveldir>/home/charon/Projekte/styx/demogame</Topleveldir>
+  </Reconciliation>
+  <Description/>
+  <Dependencies/>
   <Settings Type="Executable">
     <GlobalSettings>
       <Compiler Options="" C_Options="" Assembler="">

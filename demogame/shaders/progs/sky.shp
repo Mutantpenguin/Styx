@@ -1,0 +1,4 @@
+{
+		"vs" : "shaders/vs/sky.vert",
+		"fs" : "shaders/fs/sky.frag"
+}

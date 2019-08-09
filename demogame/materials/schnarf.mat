@@ -2,8 +2,5 @@
 	"name"			:	"schnarf",
 	"cullmode"		:	"BACK",
 	"polygonmode"	:	"FILL",
-	"shaders"	:	{
-						"vert" : "shaders/vs/standard.vert",
-						"frag" : "shaders/fs/schnarf.frag"
-					}
+	"shader"		:	"shaders/progs/schnarf.shp"
 }

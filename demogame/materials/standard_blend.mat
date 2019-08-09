@@ -6,8 +6,5 @@
 							"src"	: "ONE",
 							"dst"	: "ONE_MINUS_SRC_ALPHA"
 						},
-	"shaders"	:	{
-						"vert" : "shaders/vs/standard.vert",
-						"frag" : "shaders/fs/standard.frag"
-					}
+	"shader"		:	"shaders/progs/standard_blend.shp"
 }

@@ -5,10 +5,7 @@
 						"src"	: "ONE",
 						"dst"	: "ONE"
 					},
-	"shaders"	:	{
-						"vert" : "shaders/vs/standard.vert",
-						"frag" : "shaders/fs/standardAnimated.frag"
-					},
+	"shader"	:	"shaders/progs/flames.shp",
 	"uniforms"	:	{
 						"animDelay"	:	100
 					}

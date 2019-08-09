@@ -1,8 +1,5 @@
 {
 	"name"			:	"pulse green red",
 	"polygonmode"	:	"FILL",
-	"shaders"	:	{
-						"vert" : "shaders/vs/standard.vert",
-						"frag" : "shaders/fs/pulse_green_red.frag"
-					}
+	"shader"		:	"shaders/progs/pulse_green_red.shp"
 }
