@@ -78,11 +78,6 @@ const std::vector<std::pair<GLuint, std::unique_ptr<const CMaterialUniform>>> &C
 	return( m_materialUniforms );
 }
 
-std::vector<std::pair<GLuint, std::unique_ptr<const CMaterialUniform>>> &CMaterial::MaterialUniforms()
-{
-	return( m_materialUniforms );
-}
-
 const std::string &CMaterial::Name() const
 {
 	return( m_name );

@@ -30,9 +30,14 @@ public:
 	void ShaderProgram( const std::shared_ptr<const CShaderProgram> &shaderProgram );
 
 	const std::vector<std::pair<GLuint, std::unique_ptr<const CMaterialUniform>>> &MaterialUniforms() const;
-	// TODO why is there a non const version of this method?
-	// TODO maybe new method "AddMaterialUniform" instead?
-	std::vector<std::pair<GLuint, std::unique_ptr<const CMaterialUniform>>> &MaterialUniforms();
+	
+	template<typename T, typename ...Args>
+	void AddMaterialUniform( GLuint location, Args... args )
+	{
+		static_assert( std::is_base_of<CMaterialUniform, T>::value, "must derive from CMaterialUniform" );
+		
+		m_materialUniforms.emplace_back( std::make_pair( location, std::make_unique<const T>( std::forward<Args>(args)... ) ) );
+	}
 
 	const std::string &Name() const;
 	void Name( const std::string &name );
