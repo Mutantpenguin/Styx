@@ -4,7 +4,7 @@
 
 #include "src/renderer/GL.h"
 
-struct SShaderInterface
+struct SShaderInterface final
 {
 	std::string name;
 	GLenum		type;
