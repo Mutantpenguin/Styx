@@ -201,7 +201,7 @@ bool CShaderProgramCompiler::SetupInterface( const std::shared_ptr<CShaderProgra
 			else
 			{
 				// uniform gets provided by the material
-				
+
 				shaderProgram->AddRequiredMaterialUniform( uniformLocation, SShaderInterface{ uniformName, uniformType } );
 			}
 			break;
