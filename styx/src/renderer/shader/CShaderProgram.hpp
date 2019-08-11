@@ -30,11 +30,9 @@ public:
 	const std::vector<std::pair<GLint, const EEngineUniform>>	&RequiredEngineUniforms() const;
 	const std::vector<std::pair<GLint, const SShaderInterface>>	&RequiredMaterialUniforms() const;
 
-	// TODO why are there non const versions of these methods?
-	// TODO maybe new methods in the form "AddRequiredSampler" instead?
-	std::vector<std::pair<GLint, const SShaderInterface>>	&RequiredSamplers();
-	std::vector<std::pair<GLint, const EEngineUniform>>		&RequiredEngineUniforms();
-	std::vector<std::pair<GLint, const SShaderInterface>>	&RequiredMaterialUniforms();
+	void AddRequiredSampler( const GLint location, const SShaderInterface &shaderInterface );
+	void AddRequiredEngineUniform( const GLint location, const EEngineUniform engineUniform );
+	void AddRequiredMaterialUniform( const GLint location, const SShaderInterface &shaderInterface );
 
 private:
 	std::vector<std::pair<GLint, const SShaderInterface>>	m_requiredSamplers;

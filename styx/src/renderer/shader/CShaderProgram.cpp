@@ -57,17 +57,17 @@ const std::vector<std::pair<GLint, const SShaderInterface>> &CShaderProgram::Req
 	return( m_requiredMaterialUniforms );
 }
 
-std::vector<std::pair<GLint, const SShaderInterface>> &CShaderProgram::RequiredSamplers()
+void CShaderProgram::AddRequiredSampler( const GLint location, const SShaderInterface &shaderInterface )
 {
-	return( m_requiredSamplers );
+	m_requiredSamplers.emplace_back( std::make_pair( location, shaderInterface ) );
 }
 
-std::vector<std::pair<GLint, const EEngineUniform>> &CShaderProgram::RequiredEngineUniforms()
+void CShaderProgram::AddRequiredEngineUniform( const GLint location, const EEngineUniform engineUniform )
 {
-	return( m_requiredEngineUniforms );
+	m_requiredEngineUniforms.emplace_back( std::make_pair( location, engineUniform ) );
 }
 
-std::vector<std::pair<GLint, const SShaderInterface>> &CShaderProgram::RequiredMaterialUniforms()
+void CShaderProgram::AddRequiredMaterialUniform( const GLint location, const SShaderInterface &shaderInterface )
 {
-	return( m_requiredMaterialUniforms );
+	m_requiredMaterialUniforms.emplace_back( std::make_pair( location, shaderInterface ) );
 }
