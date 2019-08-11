@@ -171,9 +171,10 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr<CMaterial> &material, c
 
 		material->ShaderProgram( shaderProgram );
 
+		const auto mat_uniforms = mat_root.find( "uniforms" );
+
 		if( !shaderProgram->RequiredMaterialUniforms().empty() )
 		{
-			const auto mat_uniforms = mat_root.find( "uniforms" );
 			if( mat_uniforms == mat_root.end() )
 			{
 				logWARNING( "no required uniforms specified in '{0}'", path.generic_string() );
@@ -334,6 +335,13 @@ bool CMaterialLoader::FromMatFile( const std::shared_ptr<CMaterial> &material, c
 						}
 					}
 				}
+			}
+		}
+		else
+		{
+			if( mat_uniforms != mat_root.end() )
+			{
+				logWARNING( "shaderprogram requires no uniforms but material '{0}' has some specified", path.generic_string() );
 			}
 		}
 	}
