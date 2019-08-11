@@ -1,0 +1,4 @@
+{
+	"vs" : "shaders/vs/wait_cursor.vert",
+	"fs" : "shaders/fs/wait_cursor.frag"
+}

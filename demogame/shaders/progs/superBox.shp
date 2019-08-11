@@ -1,0 +1,4 @@
+{
+	"vs" : "shaders/vs/superBox.vert",
+	"fs" : "shaders/fs/superBox.frag"
+}
