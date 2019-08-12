@@ -30,6 +30,5 @@ private:
 	std::shared_ptr<CEntity> m_exitEntity;
 
 	const std::shared_ptr<const CAudioSource> m_buttonChangeSound;
-
-	std::shared_ptr<const CAudioSource> m_backgroundMusic;
+	const std::shared_ptr<const CAudioSource> m_backgroundMusic;
 };
