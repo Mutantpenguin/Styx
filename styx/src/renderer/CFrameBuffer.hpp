@@ -4,6 +4,8 @@
 
 #include "src/renderer/GL.h"
 
+#include "src/helper/CColor.hpp"
+
 #include "src/renderer/texture/CTexture.hpp"
 
 #include "src/helper/CSize.hpp"
@@ -22,6 +24,8 @@ public:
 
 	void Bind() const;
 	void Unbind() const;
+	
+	void Clear( const CColor &color ) const;
 
 	const std::shared_ptr<const CTexture> ColorTexture() const;
 

@@ -62,6 +62,15 @@ void CFrameBuffer::Unbind() const
 	glBindFramebuffer( GL_FRAMEBUFFER, 0 );
 }
 
+void CFrameBuffer::Clear( const CColor &color ) const
+{
+	const std::array<f16, 4> colorArray = { color.r(), color.g(), color.b(), color.a() };
+	const f16 depthValue = 1.0f;
+	
+	glClearNamedFramebufferfv( GLID, GL_COLOR, 0, colorArray.data() );
+	glClearNamedFramebufferfv( GLID, GL_DEPTH, 0, &depthValue );
+}
+
 const std::shared_ptr<const CTexture> CFrameBuffer::ColorTexture() const
 {
 	return( m_colorTexture );

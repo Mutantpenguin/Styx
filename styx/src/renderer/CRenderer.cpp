@@ -204,13 +204,7 @@ void CRenderer::Render( const CFrameBuffer &framebuffer, const RenderPackage &re
 
 	framebuffer.Bind();
 	
-	{
-		auto &clearColor = renderPackage.ClearColor;
-		
-		glClearColor( clearColor.r(), clearColor.g(), clearColor.b(), clearColor.a() );
-		
-		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-	}
+	framebuffer.Clear( renderPackage.ClearColor );
 
 	for( const auto &layer : renderPackage.m_renderLayers )
 	{
