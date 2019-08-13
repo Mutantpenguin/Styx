@@ -36,6 +36,10 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 	glEnable( GL_SAMPLE_ALPHA_TO_COVERAGE );
 
 	glEnable( GL_TEXTURE_CUBE_MAP_SEAMLESS );
+	
+	// start with a black window so it doesn't show garbage
+	glClearColor( 0, 0, 0, 0 );		
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 	CreateUniformBuffers();
 
