@@ -31,7 +31,7 @@ void CAudioBufferLoader::FromFile( const std::shared_ptr<CAudioBuffer> &audioBuf
 	{
 		logWARNING( "path '{0}' does not containt a filename", path.generic_string() );
 		FromDummy( audioBuffer );
-		// TODO what? no return here?
+		return;
 	}
 	
 	const std::string fileExtensionString = path.extension().generic_string();
