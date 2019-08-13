@@ -14,7 +14,7 @@ CFrameBuffer::CFrameBuffer( const CSize &size ) :
 {
 	glCreateFramebuffers( 1, &GLID );
 
-	std::array<GLenum, 1> DrawBuffers { { attachmentColorTexture } };
+	const std::array<GLenum, 1> DrawBuffers { { attachmentColorTexture } };
 	glNamedFramebufferDrawBuffers( GLID, DrawBuffers.size(), DrawBuffers.data() );
 
 	{
