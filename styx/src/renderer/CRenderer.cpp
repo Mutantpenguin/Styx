@@ -156,18 +156,21 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 		const auto &camera = cameraEntity->Get<CCameraComponent>();
 
 		RenderPackage renderPackage;
+
 		renderPackage.ClearColor = scene.ClearColor();
-		renderPackage.ViewMatrix = camera->ViewMatrix();
-		renderPackage.ViewProjectionMatrix = camera->ViewProjectionMatrix();
+		
+		auto &renderLayer = renderPackage.m_renderLayers.emplace_back();
+		renderLayer.ViewMatrix = camera->ViewMatrix();
+		renderLayer.ViewProjectionMatrix = camera->ViewProjectionMatrix();
 		// TODO is this the right amount?
-		renderPackage.drawCommands.reserve( 10000 );
+		renderLayer.drawCommands.reserve( 10000 );
 
 		MTR_BEGIN( "GFX", "fill draw drawCommands" );
 		const auto &cameraFrustum = cameraEntity->Get<CCameraComponent>()->Frustum();
 
 		const auto &cameraPosition = cameraEntity->Transform.Position();
 
-		scene.Each<CModelComponent>( [ &cameraFrustum, &cameraPosition, &renderPackage ] ( const std::shared_ptr<const CEntity> &entity )
+		scene.Each<CModelComponent>( [ &cameraFrustum, &cameraPosition, &renderLayer ] ( const std::shared_ptr<const CEntity> &entity )
 		{
 			const auto &mesh = entity->Get<CModelComponent>()->Mesh().get();
 
@@ -178,7 +181,7 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 			{
 				const CMaterial * material = mesh->Material().get();
 
-				renderPackage.drawCommands.emplace_back( mesh, material, material->ShaderProgram().get(), transform.ModelMatrix(), glm::length2( transform.Position() - cameraPosition ) );
+				renderLayer.drawCommands.emplace_back( mesh, material, material->ShaderProgram().get(), transform.ModelMatrix(), glm::length2( transform.Position() - cameraPosition ) );
 			}
 		} );
 		MTR_END( "GFX", "fill draw drawCommands" );
@@ -196,56 +199,58 @@ void CRenderer::Render( const CFrameBuffer &framebuffer, const RenderPackage &re
 	MTR_SCOPE( "GFX", "Render" );
 
 	framebuffer.Bind();
-
-	if( renderPackage.ClearColor.has_value() )
+	
 	{
-		auto &clearColor = renderPackage.ClearColor.value();
+		auto &clearColor = renderPackage.ClearColor;
 		
 		glClearColor( clearColor.r(), clearColor.g(), clearColor.b(), clearColor.a() );
-
+		
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	}
 
-	const CMesh * currentMesh = nullptr;
-	const CMaterial * currentMaterial = nullptr;
-	const CShaderProgram * currentShader = nullptr;
-
-	for( const auto & [ mesh, material, shaderProgram, modelMatrix, viewDepth ] : renderPackage.drawCommands )
+	for( const auto &layer : renderPackage.m_renderLayers )
 	{
-		if( currentMesh != mesh )
+		const CMesh * currentMesh = nullptr;
+		const CMaterial * currentMaterial = nullptr;
+		const CShaderProgram * currentShader = nullptr;
+
+		for( const auto & [ mesh, material, shaderProgram, modelMatrix, viewDepth ] : layer.drawCommands )
 		{
-			currentMesh = mesh;
-
-			if( currentMaterial != material )
+			if( currentMesh != mesh )
 			{
-				currentMaterial = material;
-				material->Activate();
+				currentMesh = mesh;
 
-				currentShader = shaderProgram;
+				if( currentMaterial != material )
+				{
+					currentMaterial = material;
+					material->Activate();
+
+					currentShader = shaderProgram;
+				}
+
+				mesh->Bind();
 			}
 
-			mesh->Bind();
-		}
-
-		for( const auto & [ location, engineUniform ] : currentShader->RequiredEngineUniforms() )
-		{
-			switch( engineUniform )
+			for( const auto & [ location, engineUniform ] : currentShader->RequiredEngineUniforms() )
 			{
-				case EEngineUniform::modelViewProjectionMatrix:
-					glUniformMatrix4fv( location, 1, GL_FALSE, &( renderPackage.ViewProjectionMatrix * modelMatrix )[ 0 ][ 0 ] );
-					break;
+				switch( engineUniform )
+				{
+					case EEngineUniform::modelViewProjectionMatrix:
+						glUniformMatrix4fv( location, 1, GL_FALSE, &( layer.ViewProjectionMatrix * modelMatrix )[ 0 ][ 0 ] );
+						break;
 
-				case EEngineUniform::modelViewMatrix:
-					glUniformMatrix4fv( location, 1, GL_FALSE, &( renderPackage.ViewMatrix * modelMatrix )[ 0 ][ 0 ] );
-					break;
+					case EEngineUniform::modelViewMatrix:
+						glUniformMatrix4fv( location, 1, GL_FALSE, &( layer.ViewMatrix * modelMatrix )[ 0 ][ 0 ] );
+						break;
 
-				case EEngineUniform::modelMatrix:
-					glUniformMatrix4fv( location, 1, GL_FALSE, &modelMatrix[ 0 ][ 0 ] );
-					break;
+					case EEngineUniform::modelMatrix:
+						glUniformMatrix4fv( location, 1, GL_FALSE, &modelMatrix[ 0 ][ 0 ] );
+						break;
+				}
 			}
-		}
 
-		mesh->Draw();
+			mesh->Draw();
+		}
 	}
 
 	framebuffer.Unbind();

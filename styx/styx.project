@@ -131,6 +131,8 @@
       <File Name="src/resource/CResourceCache.hpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="renderer">
+      <File Name="src/renderer/RenderLayer.hpp"/>
+      <File Name="src/renderer/RenderLayer.cpp"/>
       <File Name="src/renderer/AttributeLocation.hpp"/>
       <File Name="src/renderer/RenderPackage.hpp"/>
       <File Name="src/renderer/RenderPackage.cpp"/>
