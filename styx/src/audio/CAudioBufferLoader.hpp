@@ -21,7 +21,7 @@ private:
 	{
 		std::vector<i16>		buffer;
 		CAudioBuffer::format	format;
-		u32						frequency = 0;
+		u32						sample_rate = 0;
 		f16						duration = 0.0f;
 	};
 

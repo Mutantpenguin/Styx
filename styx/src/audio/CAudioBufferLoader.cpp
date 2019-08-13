@@ -1,5 +1,9 @@
 #include "CAudioBufferLoader.hpp"
 
+#include <glm/gtc/constants.hpp>
+
+#include "src/math/Math.hpp"
+
 #include "src/logger/CLogger.hpp"
 
 #include "src/core/FileExtension.hpp"
@@ -98,9 +102,9 @@ bool CAudioBufferLoader::FromOggFile( const std::shared_ptr<CAudioBuffer> &audio
 			stb_vorbis_close( stream );
 
 			bufferDecoded.format = ( 1 == info.channels ) ? CAudioBuffer::format::MONO : CAudioBuffer::format::STEREO;
-			bufferDecoded.frequency = info.sample_rate;
+			bufferDecoded.sample_rate = info.sample_rate;
 
-			logDEBUG( "{0} / duration: {1:.0f}s / channels: {2} / sample rate: {3}", path.generic_string(), bufferDecoded.duration, info.channels, bufferDecoded.frequency );
+			logDEBUG( "{0} / duration: {1:.0f}s / channels: {2} / sample rate: {3}", path.generic_string(), bufferDecoded.duration, info.channels, bufferDecoded.sample_rate );
 
 			FromTAudioData( audioBuffer, bufferDecoded );
 
@@ -132,7 +136,7 @@ bool CAudioBufferLoader::FromWavFile( const std::shared_ptr<CAudioBuffer> &audio
 
 		bufferDecoded.duration = static_cast<f16>( wav.totalPCMFrameCount ) / static_cast<f16>( wav.sampleRate );
 		bufferDecoded.format = ( 1 == wav.channels ) ? CAudioBuffer::format::MONO : CAudioBuffer::format::STEREO;
-		bufferDecoded.frequency = wav.sampleRate;
+		bufferDecoded.sample_rate = wav.sampleRate;
 
 		const auto numberOfPCMFramesActuallyDecoded = drwav_read_pcm_frames_s16( &wav, wav.totalPCMFrameCount, &bufferDecoded.buffer[ 0 ] );
 
@@ -143,7 +147,7 @@ bool CAudioBufferLoader::FromWavFile( const std::shared_ptr<CAudioBuffer> &audio
 
 		drwav_uninit( &wav );
 
-		logDEBUG( "{0} / duration: {1:.0f}s / channels: {2} / sample rate: {3}", path.generic_string(), bufferDecoded.duration, wav.channels, bufferDecoded.frequency );
+		logDEBUG( "{0} / duration: {1:.0f}s / channels: {2} / sample rate: {3}", path.generic_string(), bufferDecoded.duration, wav.channels, bufferDecoded.sample_rate );
 
 		FromTAudioData( audioBuffer, bufferDecoded );
 
@@ -163,12 +167,29 @@ void CAudioBufferLoader::FromTAudioData( const std::shared_ptr<CAudioBuffer> &au
 
 	alGenBuffers( 1, &audioBuffer->m_bufferID );
 
-	alBufferData( audioBuffer->m_bufferID, ( audioData.format == CAudioBuffer::format::MONO ) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, audioData.buffer.data(), static_cast<ALsizei>( audioData.buffer.size() ), audioData.frequency );
+	alBufferData( audioBuffer->m_bufferID, ( audioData.format == CAudioBuffer::format::MONO ) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, audioData.buffer.data(), static_cast<ALsizei>( audioData.buffer.size() ), audioData.sample_rate );
 }
 
 void CAudioBufferLoader::FromDummy( const std::shared_ptr<CAudioBuffer> &audioBuffer ) const
 {
 	audioBuffer->Reset();
 	
-	// TODO fill with sinus?
+	// create 10 sec sine wave of random frequency
+		
+	TAudioData data;
+	data.duration = 10.0f;
+	data.format = CAudioBuffer::format::MONO;
+	data.sample_rate = 22050;
+	
+	data.buffer.resize( data.duration * data.sample_rate * 2 );
+
+	// Fill buffer with Sine-Wave
+	const double freq = Math::frand( 300.0f, 600.0f );
+	
+    for( size_t i = 0; i < data.buffer.size(); ++i )
+	{
+		data.buffer[ i ] = 32767 * sin( ( glm::two_pi<f16>() * freq ) / data.sample_rate * i  );
+    }
+	
+	FromTAudioData( audioBuffer, data );
 }
