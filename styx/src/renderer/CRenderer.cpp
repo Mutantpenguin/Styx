@@ -88,6 +88,7 @@ void CRenderer::CreateUniformBuffers()
 		const std::string screenBody = 	"uint width;" \
 										"uint height;";
 
+		// TODO really? shouldn't we better have one with the size of the current framebuffer?
 		m_uboScreen = std::make_shared<CUniformBuffer>( 2 * sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::SCREEN, "Screen", screenBody );
 		m_shaderCompiler.RegisterUniformBuffer( m_uboScreen );
 
@@ -96,37 +97,31 @@ void CRenderer::CreateUniformBuffers()
 	}
 }
 
-void CRenderer::UpdateUniformBuffers( const std::shared_ptr<const CEntity> &cameraEntity, const CTimer &timer ) const
+void CRenderer::UpdateRenderPackageUniformBuffers( const RenderPackage &renderPackage ) const
 {
 	/*
 	 * Update time into the uniform buffer
 	 */
 
-	const glm::uint timeMilliseconds = static_cast<glm::uint>( timer.Time() / 1000 );
-	m_uboTimer->SubData( 0,	sizeof( glm::uint ), &timeMilliseconds );
+	m_uboTimer->SubData( 0,	sizeof( glm::uint ), &renderPackage.TimeMilliseconds );
+}
 
+void CRenderer::UpdateRenderLayerUniformBuffers( const RenderLayer &renderLayer ) const
+{
 	/*
 	 * Update calculated values into the uniform buffer
 	 */
 
-	const auto &camera = cameraEntity->Get<CCameraComponent>();
-
-	const glm::vec3 &position = cameraEntity->Transform.Position();
-	const glm::vec3 &direction = cameraEntity->Transform.Direction();
-	const glm::mat4 &projectionMatrix = camera->ProjectionMatrix();
-	const glm::mat4 &viewMatrix = cameraEntity->Transform.ViewMatrix();
-	const glm::mat4 &viewProjectionMatrix = camera->ViewProjectionMatrix();
-
 	u32 offset = 0;
-	m_uboCamera->SubData( offset,	sizeof( position ),				glm::value_ptr( position ) );
+	m_uboCamera->SubData( offset,	sizeof( renderLayer.Position ),				glm::value_ptr( renderLayer.Position ) );
 	offset += sizeof( glm::vec4 );
-	m_uboCamera->SubData( offset,	sizeof( direction ),			glm::value_ptr( direction ) );
+	m_uboCamera->SubData( offset,	sizeof( renderLayer.Direction ),			glm::value_ptr( renderLayer.Direction ) );
 	offset += sizeof( glm::vec4 );
-	m_uboCamera->SubData( offset,	sizeof( projectionMatrix ),		glm::value_ptr( projectionMatrix ) );
+	m_uboCamera->SubData( offset,	sizeof( renderLayer.ProjectionMatrix ),		glm::value_ptr( renderLayer.ProjectionMatrix ) );
 	offset += sizeof( glm::mat4 );
-	m_uboCamera->SubData( offset,	sizeof( viewMatrix ),			glm::value_ptr( viewMatrix ) );
+	m_uboCamera->SubData( offset,	sizeof( renderLayer.ViewMatrix ),			glm::value_ptr( renderLayer.ViewMatrix ) );
 	offset += sizeof( glm::mat4 );
-	m_uboCamera->SubData( offset,	sizeof( viewProjectionMatrix ),	glm::value_ptr( viewProjectionMatrix ) );
+	m_uboCamera->SubData( offset,	sizeof( renderLayer.ViewProjectionMatrix ),	glm::value_ptr( renderLayer.ViewProjectionMatrix ) );
 }
 
 CSamplerManager &CRenderer::SamplerManager()
@@ -151,21 +146,25 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 	}
 	else
 	{
-		UpdateUniformBuffers( cameraEntity, timer );
-
 		/*
 		 * set up the render package
 		 */
 
-		const auto &camera = cameraEntity->Get<CCameraComponent>();
-
 		RenderPackage renderPackage;
 
 		renderPackage.ClearColor = scene.ClearColor();
+		renderPackage.TimeMilliseconds = static_cast<glm::uint>( timer.Time() / 1000 );
 		
-		auto &renderLayer = renderPackage.m_renderLayers.emplace_back();
+		auto &renderLayer = renderPackage.m_renderLayers.emplace_back();	
+		
+		const auto &camera = cameraEntity->Get<CCameraComponent>();
+
+		renderLayer.Position = cameraEntity->Transform.Position();
+		renderLayer.Direction = cameraEntity->Transform.Direction();
+		renderLayer.ProjectionMatrix = camera->ProjectionMatrix();
 		renderLayer.ViewMatrix = camera->ViewMatrix();
 		renderLayer.ViewProjectionMatrix = camera->ViewProjectionMatrix();
+		
 		// TODO is this the right amount?
 		renderLayer.drawCommands.reserve( 10000 );
 
@@ -205,9 +204,13 @@ void CRenderer::Render( const CFrameBuffer &framebuffer, const RenderPackage &re
 	framebuffer.Bind();
 	
 	framebuffer.Clear( renderPackage.ClearColor );
+	
+	UpdateRenderPackageUniformBuffers( renderPackage );
 
 	for( const auto &layer : renderPackage.m_renderLayers )
 	{
+		UpdateRenderLayerUniformBuffers( layer );
+		
 		const CMesh * currentMesh = nullptr;
 		const CMaterial * currentMaterial = nullptr;
 		const CShaderProgram * currentShader = nullptr;

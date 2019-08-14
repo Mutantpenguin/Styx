@@ -6,6 +6,9 @@
 
 struct RenderLayer final
 {
+	glm::vec3 Position;
+	glm::vec3 Direction;
+	glm::mat4 ProjectionMatrix;
 	glm::mat4 ViewMatrix;
 	glm::mat4 ViewProjectionMatrix;
 

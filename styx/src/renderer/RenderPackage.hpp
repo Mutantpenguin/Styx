@@ -10,6 +10,8 @@ struct RenderPackage final
 {
 	CColor ClearColor;
 	
+	glm::uint TimeMilliseconds;
+	
 	std::vector<RenderLayer> m_renderLayers;
 
 	void SortDrawCommands();

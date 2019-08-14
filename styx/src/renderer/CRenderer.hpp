@@ -74,7 +74,8 @@ private:
 	std::shared_ptr<CShaderProgramCache>	m_shaderProgramCache;
 
 	void CreateUniformBuffers();
-	void UpdateUniformBuffers( const std::shared_ptr<const CEntity> &cameraEntity, const CTimer &timer ) const;
+	void UpdateRenderPackageUniformBuffers( const RenderPackage &renderPackage ) const;
+	void UpdateRenderLayerUniformBuffers( const RenderLayer &renderLayer ) const;
 
 	void Render( const CFrameBuffer &framebuffer, const RenderPackage &renderPackage ) const;
 
