@@ -74,6 +74,7 @@ private:
 	std::shared_ptr<CShaderProgramCache>	m_shaderProgramCache;
 
 	void CreateUniformBuffers();
+	void UpdateFramebufferUniformBuffers( const CFrameBuffer &framebuffer ) const;
 	void UpdateRenderPackageUniformBuffers( const RenderPackage &renderPackage ) const;
 	void UpdateRenderLayerUniformBuffers( const RenderLayer &renderLayer ) const;
 
@@ -81,5 +82,5 @@ private:
 
 	std::shared_ptr<CUniformBuffer> m_uboCamera;
 	std::shared_ptr<CUniformBuffer> m_uboTimer;
-	std::shared_ptr<CUniformBuffer> m_uboScreen;
+	std::shared_ptr<CUniformBuffer> m_uboFramebuffer;
 };

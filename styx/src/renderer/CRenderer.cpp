@@ -85,16 +85,18 @@ void CRenderer::CreateUniformBuffers()
 	}
 
 	{
-		const std::string screenBody = 	"uint width;" \
-										"uint height;";
+		const std::string framebufferBody = 	"uint width;" \
+												"unt height;";
 
-		// TODO really? shouldn't we better have one with the size of the current framebuffer?
-		m_uboScreen = std::make_shared<CUniformBuffer>( 2 * sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::SCREEN, "Screen", screenBody );
-		m_shaderCompiler.RegisterUniformBuffer( m_uboScreen );
-
-		m_uboScreen->SubData( 0,					sizeof( glm::uint ), &m_settings.renderer.window.size.width );
-		m_uboScreen->SubData( sizeof( glm::uint ),	sizeof( glm::uint ), &m_settings.renderer.window.size.height );
+		m_uboFramebuffer = std::make_shared<CUniformBuffer>( 2 * sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::FRAMEBUFFER, "Framebuffer", framebufferBody );
+		m_shaderCompiler.RegisterUniformBuffer( m_uboFramebuffer );
 	}
+}
+
+void CRenderer::UpdateFramebufferUniformBuffers( const CFrameBuffer &framebuffer ) const
+{
+	m_uboFramebuffer->SubData( 0,					sizeof( glm::uint ), &framebuffer.Size.width );
+	m_uboFramebuffer->SubData( sizeof( glm::uint ),	sizeof( glm::uint ), &framebuffer.Size.height );
 }
 
 void CRenderer::UpdateRenderPackageUniformBuffers( const RenderPackage &renderPackage ) const
@@ -204,6 +206,8 @@ void CRenderer::Render( const CFrameBuffer &framebuffer, const RenderPackage &re
 	framebuffer.Bind();
 	
 	framebuffer.Clear( renderPackage.ClearColor );
+	
+	UpdateFramebufferUniformBuffers( framebuffer );
 	
 	UpdateRenderPackageUniformBuffers( renderPackage );
 
