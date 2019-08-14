@@ -86,7 +86,7 @@ void CRenderer::CreateUniformBuffers()
 
 	{
 		const std::string framebufferBody = 	"uint width;" \
-												"unt height;";
+												"uint height;";
 
 		m_uboFramebuffer = std::make_shared<CUniformBuffer>( 2 * sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::FRAMEBUFFER, "Framebuffer", framebufferBody );
 		m_shaderCompiler.RegisterUniformBuffer( m_uboFramebuffer );
