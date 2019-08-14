@@ -19,6 +19,7 @@
 #include "src/renderer/geometry/prefabs/Quad.hpp"
 
 CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, CResources &resources ) :
+	m_settings { settings },
 	m_resources { resources },
 	m_samplerManager( settings ),
 	m_shaderCompiler(),
@@ -265,11 +266,14 @@ void CRenderer::DisplayFramebuffer( const CFrameBuffer &framebuffer )
 	// TODO if we remove this, we get problems with the depth buffer. why is that?
 	CGLState::DepthMask( GL_TRUE );
 
+	const auto &framebufferSize = framebuffer.Size;
+	const auto &screenSize = m_settings.renderer.window.size;
+
 	glBlitNamedFramebuffer(
 		framebuffer.GLID, // src is framebuffer
 		0, // dest is screen
-		0, 0, framebuffer.Size.width, framebuffer.Size.height, // src bounds
-		0, 0, framebuffer.Size.width, framebuffer.Size.height, // dest bounds
+		0, 0, framebufferSize.width, framebufferSize.height, // src bounds
+		0, 0, screenSize.width, screenSize.height, // dest bounds
 		GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT,
 		GL_NEAREST
 	);
