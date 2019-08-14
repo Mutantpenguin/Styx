@@ -56,8 +56,6 @@ public:
 	void DisplayFramebuffer( const CFrameBuffer &framebuffer );
 
 private:
-	const CSettings &m_settings;
-
 	CResources &m_resources;
 
 	COpenGlAdapter m_OpenGlAdapter;

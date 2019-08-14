@@ -19,7 +19,6 @@
 #include "src/renderer/geometry/prefabs/Quad.hpp"
 
 CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, CResources &resources ) :
-	m_settings { settings },
 	m_resources { resources },
 	m_samplerManager( settings ),
 	m_shaderCompiler(),
