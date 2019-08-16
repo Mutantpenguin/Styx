@@ -21,7 +21,8 @@
 CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, CResources &resources ) :
 	m_settings { settings },
 	m_resources { resources },
-	m_samplerManager( settings ),
+	m_OpenGlAdapter( settings ),
+	m_samplerManager( m_OpenGlAdapter ),
 	m_shaderCompiler(),
 	m_shaderProgramCompiler( m_shaderCompiler ),
 	m_textureCache { std::make_shared<CTextureCache>( settings, filesystem, m_OpenGlAdapter ) },

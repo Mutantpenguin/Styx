@@ -19,7 +19,7 @@
 
 #include "src/logger/CLogger.hpp"
 
-COpenGlAdapter::COpenGlAdapter()
+COpenGlAdapter::COpenGlAdapter( const CSettings &p_settings )
 {
 	glbinding::Binding::initialize( []( const char *name ) {
         return reinterpret_cast<glbinding::ProcAddress>( SDL_GL_GetProcAddress( name ) );
@@ -161,6 +161,28 @@ COpenGlAdapter::COpenGlAdapter()
 	// fetch the maximal cubemap texture size
 	glGetIntegerv( GL_MAX_CUBE_MAP_TEXTURE_SIZE, &m_maxCubeMapTextureSize );
 	logDEBUG( "{0} is '{1}'", glbinding::aux::Meta::getString( GL_MAX_CUBE_MAP_TEXTURE_SIZE ), m_maxCubeMapTextureSize );
+	
+	// set anisotropic level
+	if( p_settings.renderer.textures.anisotropic > 1 )
+	{
+		GLfloat fMaxSupportedAnisotropy;
+		glGetFloatv( GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &fMaxSupportedAnisotropy );
+
+		if( p_settings.renderer.textures.anisotropic > fMaxSupportedAnisotropy )
+		{
+			logWARNING( "anisotropic level of '{0}' is higher than the highest supported level of '{1}' which will now be used instead", m_anisotropicLevel, fMaxSupportedAnisotropy );
+			m_anisotropicLevel = static_cast<u8>( fMaxSupportedAnisotropy );
+		}
+		else
+		{
+			m_anisotropicLevel = p_settings.renderer.textures.anisotropic;
+			logINFO( "anisotropic filtering with a level of '{0}' will be used", m_anisotropicLevel );
+		}
+	}
+	else
+	{
+		logINFO( "anisotropic filtering is disbabled" );
+	}
 }
 
 GLint COpenGlAdapter::MaxTextureSize() const
@@ -186,6 +208,11 @@ GLint COpenGlAdapter::PreferredInternalTextureFormatCube() const
 GLint COpenGlAdapter::PreferredInternalTextureFormat2DArray() const
 {
 	return( m_preferredInternalTextureFormat2DArray );
+}
+
+GLint COpenGlAdapter::AnisotropicLevel() const
+{
+	return( m_anisotropicLevel );
 }
 
 bool COpenGlAdapter::isSupported( const std::set<GLextension> &extensions, const GLextension extension ) const

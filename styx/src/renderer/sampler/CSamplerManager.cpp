@@ -4,30 +4,9 @@
 
 #include "src/core/StyxException.hpp"
 
-CSamplerManager::CSamplerManager( const CSettings &p_settings ) :
-	m_iAnisotropicLevel { p_settings.renderer.textures.anisotropic },
+CSamplerManager::CSamplerManager( const COpenGlAdapter &openGlAdapter ) :
 	m_samplers()
 {
-	if( m_iAnisotropicLevel > 1 )
-	{
-		GLfloat fMaxSupportedAnisotropy;
-		glGetFloatv( GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &fMaxSupportedAnisotropy );
-
-		if( m_iAnisotropicLevel > fMaxSupportedAnisotropy )
-		{
-			logWARNING( "anisotropic level of '{0}' is higher than the highest supported level of '{1}' which will now be used instead", m_iAnisotropicLevel, fMaxSupportedAnisotropy );
-			m_iAnisotropicLevel = static_cast<u8>( fMaxSupportedAnisotropy );
-		}
-		else
-		{
-			logINFO( "anisotropic filtering with a level of '{0}' will be used", m_iAnisotropicLevel );
-		}
-	}
-	else
-	{
-		logINFO( "anisotropic filtering is disbabled" );
-	}
-
 	const auto sampler2DRepeat = Generate( CSampler::SamplerType::REPEAT_2D );
 	sampler2DRepeat->Parametere( GL_TEXTURE_WRAP_S, GL_REPEAT );
 	sampler2DRepeat->Parametere( GL_TEXTURE_WRAP_T, GL_REPEAT );
@@ -52,12 +31,13 @@ CSamplerManager::CSamplerManager( const CSettings &p_settings ) :
 	sampler2DRepeatBorder->Parametere( GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
 	sampler2DRepeatBorder->Parametere( GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
-	if( m_iAnisotropicLevel > 1 )
+	auto anisotropicLevel = openGlAdapter.AnisotropicLevel();
+	if( anisotropicLevel > 1 )
 	{
-		sampler2DRepeat->Parameteri( GL_TEXTURE_MAX_ANISOTROPY_EXT, m_iAnisotropicLevel );
-		sampler2DBorder->Parameteri( GL_TEXTURE_MAX_ANISOTROPY_EXT, m_iAnisotropicLevel );
-		sampler2DEdge->Parameteri( GL_TEXTURE_MAX_ANISOTROPY_EXT, m_iAnisotropicLevel );
-		sampler2DRepeatBorder->Parameteri( GL_TEXTURE_MAX_ANISOTROPY_EXT, m_iAnisotropicLevel );
+		sampler2DRepeat->Parameteri( GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropicLevel );
+		sampler2DBorder->Parameteri( GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropicLevel );
+		sampler2DEdge->Parameteri( GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropicLevel );
+		sampler2DRepeatBorder->Parameteri( GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropicLevel );
 	}
 
 	const auto samplerCubeRepeat = Generate( CSampler::SamplerType::REPEAT_CUBE );
