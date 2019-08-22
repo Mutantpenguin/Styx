@@ -114,17 +114,19 @@ void CRenderer::UpdateRenderLayerUniformBuffers( const RenderLayer &renderLayer 
 	/*
 	 * Update calculated values into the uniform buffer
 	 */
+	
+	auto const &view = renderLayer.View;
 
 	u32 offset = 0;
-	m_uboCamera->SubData( offset,	sizeof( renderLayer.Position ),				glm::value_ptr( renderLayer.Position ) );
+	m_uboCamera->SubData( offset,	sizeof( view.Position ),				glm::value_ptr( view.Position ) );
 	offset += sizeof( glm::vec4 );
-	m_uboCamera->SubData( offset,	sizeof( renderLayer.Direction ),			glm::value_ptr( renderLayer.Direction ) );
+	m_uboCamera->SubData( offset,	sizeof( view.Direction ),				glm::value_ptr( view.Direction ) );
 	offset += sizeof( glm::vec4 );
-	m_uboCamera->SubData( offset,	sizeof( renderLayer.ProjectionMatrix ),		glm::value_ptr( renderLayer.ProjectionMatrix ) );
+	m_uboCamera->SubData( offset,	sizeof( view.ProjectionMatrix ),		glm::value_ptr( view.ProjectionMatrix ) );
 	offset += sizeof( glm::mat4 );
-	m_uboCamera->SubData( offset,	sizeof( renderLayer.ViewMatrix ),			glm::value_ptr( renderLayer.ViewMatrix ) );
+	m_uboCamera->SubData( offset,	sizeof( view.ViewMatrix ),				glm::value_ptr( view.ViewMatrix ) );
 	offset += sizeof( glm::mat4 );
-	m_uboCamera->SubData( offset,	sizeof( renderLayer.ViewProjectionMatrix ),	glm::value_ptr( renderLayer.ViewProjectionMatrix ) );
+	m_uboCamera->SubData( offset,	sizeof( view.ViewProjectionMatrix ),	glm::value_ptr( view.ViewProjectionMatrix ) );
 }
 
 CSamplerManager &CRenderer::SamplerManager()
@@ -162,11 +164,13 @@ void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffe
 		
 		const auto &camera = cameraEntity->Get<CCameraComponent>();
 
-		renderLayer.Position = cameraEntity->Transform.Position();
-		renderLayer.Direction = cameraEntity->Transform.Direction();
-		renderLayer.ProjectionMatrix = camera->ProjectionMatrix();
-		renderLayer.ViewMatrix = camera->ViewMatrix();
-		renderLayer.ViewProjectionMatrix = camera->ViewProjectionMatrix();
+		auto &view = renderLayer.View;
+
+		view.Position = cameraEntity->Transform.Position();
+		view.Direction = cameraEntity->Transform.Direction();
+		view.ProjectionMatrix = camera->ProjectionMatrix();
+		view.ViewMatrix = camera->ViewMatrix();
+		view.ViewProjectionMatrix = camera->ViewProjectionMatrix();
 		
 		// TODO is this the right amount?
 		renderLayer.drawCommands.reserve( 10000 );
@@ -216,6 +220,8 @@ void CRenderer::Render( const CFrameBuffer &framebuffer, const RenderPackage &re
 	{
 		UpdateRenderLayerUniformBuffers( layer );
 		
+		auto &view = layer.View;
+		
 		const CMesh * currentMesh = nullptr;
 		const CMaterial * currentMaterial = nullptr;
 		const CShaderProgram * currentShader = nullptr;
@@ -242,11 +248,11 @@ void CRenderer::Render( const CFrameBuffer &framebuffer, const RenderPackage &re
 				switch( engineUniform )
 				{
 					case EEngineUniform::modelViewProjectionMatrix:
-						glUniformMatrix4fv( location, 1, GL_FALSE, &( layer.ViewProjectionMatrix * modelMatrix )[ 0 ][ 0 ] );
+						glUniformMatrix4fv( location, 1, GL_FALSE, &( view.ViewProjectionMatrix * modelMatrix )[ 0 ][ 0 ] );
 						break;
 
 					case EEngineUniform::modelViewMatrix:
-						glUniformMatrix4fv( location, 1, GL_FALSE, &( layer.ViewMatrix * modelMatrix )[ 0 ][ 0 ] );
+						glUniformMatrix4fv( location, 1, GL_FALSE, &( view.ViewMatrix * modelMatrix )[ 0 ][ 0 ] );
 						break;
 
 					case EEngineUniform::modelMatrix:

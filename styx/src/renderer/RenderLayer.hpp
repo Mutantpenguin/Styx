@@ -6,12 +6,15 @@
 
 struct RenderLayer final
 {
-	glm::vec3 Position;
-	glm::vec3 Direction;
-	glm::mat4 ProjectionMatrix;
-	glm::mat4 ViewMatrix;
-	glm::mat4 ViewProjectionMatrix;
-
+	struct
+	{
+		glm::vec3 Position;
+		glm::vec3 Direction;
+		glm::mat4 ProjectionMatrix;
+		glm::mat4 ViewMatrix;
+		glm::mat4 ViewProjectionMatrix;
+	} View;
+	
 	struct DrawCommand
 	{
 		DrawCommand( const CMesh * p_mesh, const CMaterial * p_material, const CShaderProgram * p_shaderProgram, const glm::mat4 &p_modelMatrix, f16 p_viewDepth ) :
