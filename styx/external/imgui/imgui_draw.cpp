@@ -82,10 +82,10 @@ Index of this file:
 
 // Compile time options:
 //#define IMGUI_STB_NAMESPACE           ImGuiStb
-//#define IMGUI_STB_TRUETYPE_FILENAME   "my_folder/stb_truetype.h"
-//#define IMGUI_STB_RECT_PACK_FILENAME  "my_folder/stb_rect_pack.h"
-//#define IMGUI_DISABLE_STB_TRUETYPE_IMPLEMENTATION
-//#define IMGUI_DISABLE_STB_RECT_PACK_IMPLEMENTATION
+#define IMGUI_STB_TRUETYPE_FILENAME   "external/stb/stb_truetype.h"
+#define IMGUI_STB_RECT_PACK_FILENAME  "external/stb/stb_rect_pack.h"
+#define IMGUI_DISABLE_STB_TRUETYPE_IMPLEMENTATION
+#define IMGUI_DISABLE_STB_RECT_PACK_IMPLEMENTATION
 
 #ifdef IMGUI_STB_NAMESPACE
 namespace IMGUI_STB_NAMESPACE
