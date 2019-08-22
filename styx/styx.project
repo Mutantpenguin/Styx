@@ -267,6 +267,8 @@
   </VirtualDirectory>
   <VirtualDirectory Name="external">
     <VirtualDirectory Name="stb">
+      <File Name="external/stb/stb_rect_pack_impl.cpp"/>
+      <File Name="external/stb/stb_truetype_impl.cpp"/>
       <File Name="external/stb/stb_vorbis.c" ExcludeProjConfig="Release;Debug;Debug + Sanitizer;"/>
       <File Name="external/stb/stb_truetype.h"/>
       <File Name="external/stb/stb_textedit.h"/>
