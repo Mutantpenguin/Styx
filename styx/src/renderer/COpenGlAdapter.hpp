@@ -16,10 +16,6 @@ public:
 
 	GLint MaxTextureSize() const;
 	GLint MaxCubeMapTextureSize() const;
-
-	GLint PreferredInternalTextureFormat2D() const;
-	GLint PreferredInternalTextureFormatCube() const;
-	GLint PreferredInternalTextureFormat2DArray() const;
 	
 	GLint AnisotropicLevel() const;
 	
@@ -28,10 +24,6 @@ private:
 
 	GLint m_maxTextureSize;
 	GLint m_maxCubeMapTextureSize;
-
-	GLint m_preferredInternalTextureFormat2D;
-	GLint m_preferredInternalTextureFormatCube;
-	GLint m_preferredInternalTextureFormat2DArray;
 	
 	GLint m_anisotropicLevel;
 };

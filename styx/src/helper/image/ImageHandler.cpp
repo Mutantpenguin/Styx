@@ -119,15 +119,13 @@ namespace ImageHandler
 					FreeImage_FlipVertical( image );
 				}
 
-				const bool alpha = image.isTransparent();
-
 				const u32 pitch = image.getScanWidth();
 
 				auto imageData = std::make_unique<CImage::PixelBuffer>( pitch * size.height );
 
 				std::copy( reinterpret_cast<std::byte*>( image.accessPixels() ), reinterpret_cast<std::byte*>( image.accessPixels() ) + ( pitch * size.height ), imageData->data() );
 
-				return( std::make_shared<CImage>( size, alpha, bpp, pitch, std::move( imageData ) ) );
+				return( std::make_shared<CImage>( size, bpp, pitch, std::move( imageData ) ) );
 			}
 			else
 			{
@@ -256,7 +254,7 @@ namespace ImageHandler
 				}
 			}
 
-			return( std::make_shared<CImage>( size, true, 32, size.width * 4, std::move( checkerImageData ) ) );
+			return( std::make_shared<CImage>( size, 32, size.width * 4, std::move( checkerImageData ) ) );
 		}
 	}
 }

@@ -22,10 +22,10 @@ public:
 	~CTextureLoader();
 
 	void FromFile( const std::shared_ptr<CTexture> &texture, const fs::path &path ) const;
+	
+	static void FromImage( const std::shared_ptr<CTexture> &texture, const std::shared_ptr<const CImage> &image );
 
 private:
-	void FromImage( const std::shared_ptr<CTexture> &texture, const std::shared_ptr<const CImage> &image ) const;
-
 	bool FromImageFile( const std::shared_ptr<CTexture> &texture, const fs::path &path ) const;
 	bool FromCubeFile( const std::shared_ptr<CTexture> &texture, const fs::path &path ) const;
 	bool From2DArrayFile( const std::shared_ptr<CTexture> &texture, const fs::path &path ) const;
@@ -36,6 +36,9 @@ private:
 	void FromImageDummy( const std::shared_ptr<CTexture> &texture ) const;
 	void FromCubeDummy( const std::shared_ptr<CTexture> &texture ) const;
 	void From2DArrayDummy( const std::shared_ptr<CTexture> &texture ) const;
+	
+	static GLenum PreferredInternalFormatFromImage( const GLenum target, const std::shared_ptr<const CImage> &image );
+	static GLenum FormatFromImage( const std::shared_ptr<const CImage> &image );
 
 	const CFileSystem &m_filesystem;
 

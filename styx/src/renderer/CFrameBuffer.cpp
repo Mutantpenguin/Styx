@@ -18,8 +18,8 @@ CFrameBuffer::CFrameBuffer( const CSize &size ) :
 	glNamedFramebufferDrawBuffers( GLID, DrawBuffers.size(), DrawBuffers.data() );
 
 	{
-		m_colorTexture->Type( CTexture::EType::TEX_2D );
-		glCreateTextures( GL_TEXTURE_2D, 1, &m_colorTexture->GLID );
+		m_colorTexture->Target = GL_TEXTURE_2D;
+		glCreateTextures( m_colorTexture->Target, 1, &m_colorTexture->GLID );
 
 		glTextureParameteri( m_colorTexture->GLID, GL_TEXTURE_BASE_LEVEL, 0 );
 		glTextureParameteri( m_colorTexture->GLID, GL_TEXTURE_MAX_LEVEL, 1 );
@@ -86,5 +86,5 @@ std::shared_ptr<CImage> CFrameBuffer::ToImage() const
 
 	glReadPixels( 0, 0, Size.width, Size.height, GL_BGR, GL_UNSIGNED_BYTE, static_cast<void*>( pixels->data() ) );
 
-	return( std::make_shared<CImage>( Size, true, 24, pitch, std::move( pixels ) ) );
+	return( std::make_shared<CImage>( Size, 24, pitch, std::move( pixels ) ) );
 }

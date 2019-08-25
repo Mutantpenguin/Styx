@@ -91,7 +91,7 @@ void CMesh::SetupMaterialTextureSlotMapping()
 					switch( interface.type )
 					{
 						case GL_SAMPLER_2D:
-							if( texture->Type() != CTexture::EType::TEX_2D )
+							if( texture->Target != GL_TEXTURE_2D )
 							{
 								logWARNING( "setting up texture mapping for mesh failed because the texture for slot '{0}' has to be of type 2D", interface.name );
 								continue;
@@ -99,7 +99,7 @@ void CMesh::SetupMaterialTextureSlotMapping()
 							break;
 
 						case GL_SAMPLER_CUBE:
-							if( texture->Type() != CTexture::EType::TEX_CUBE_MAP )
+							if( texture->Target != GL_TEXTURE_CUBE_MAP )
 							{
 								logWARNING( "setting up texture mapping for mesh failed because the texture for slot '{0}' has to be of type CUBEMAP", interface.name );
 								continue;
@@ -107,7 +107,7 @@ void CMesh::SetupMaterialTextureSlotMapping()
 							break;
 
 						case GL_SAMPLER_2D_ARRAY:
-							if( texture->Type() != CTexture::EType::TEX_2D_ARRAY )
+							if( texture->Target != GL_TEXTURE_2D_ARRAY )
 							{
 								logWARNING( "setting up texture mapping for mesh failed because the texture for slot '{0}' has to be of type 2D_ARRAY", interface.name );
 								continue;

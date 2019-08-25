@@ -174,18 +174,6 @@ namespace GLHelper
 		return( true );
 	}
 
-	GLenum GLFormatFromImage( const std::shared_ptr<const CImage> &image )
-	{
-		if( image->HasAlpha() )
-		{
-			return( GL_BGRA );
-		}
-		else
-		{
-			return( GL_BGR );
-		}
-	}
-
 	std::string GLSLTypeToString( const GLenum type )
 	{
 		switch( type )

@@ -39,11 +39,6 @@ bool CCubemapData::SetFace( const u8 faceNum, const std::shared_ptr<const CImage
 		{
 			logWARNING( "different faces in cubemaps must have the same bpp" );
 			return( false );
-		}
-		else if( firstImage->HasAlpha() != image->HasAlpha() )
-		{
-			logWARNING( "different faces in cubemaps must have the same alpha" );
-			return( false );
 		};
 	}
 

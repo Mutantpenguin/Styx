@@ -149,11 +149,6 @@ COpenGlAdapter::COpenGlAdapter( const CSettings &p_settings )
 		}
 	}
 
-	// fetch the preferred internal texture formats
-	glGetInternalformativ( GL_TEXTURE_2D,		GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_preferredInternalTextureFormat2D );
-	glGetInternalformativ( GL_TEXTURE_CUBE_MAP,	GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_preferredInternalTextureFormatCube );
-	glGetInternalformativ( GL_TEXTURE_2D_ARRAY,	GL_RGBA8, GL_INTERNALFORMAT_PREFERRED, 1, &m_preferredInternalTextureFormat2DArray );
-
 	// fetch the maximal texture size
 	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &m_maxTextureSize );
 	logDEBUG( "{0} is '{1}'", glbinding::aux::Meta::getString( GL_MAX_TEXTURE_SIZE ), m_maxTextureSize );
@@ -193,21 +188,6 @@ GLint COpenGlAdapter::MaxTextureSize() const
 GLint COpenGlAdapter::MaxCubeMapTextureSize() const
 {
 	return( m_maxCubeMapTextureSize );
-}
-
-GLint COpenGlAdapter::PreferredInternalTextureFormat2D() const
-{
-	return( m_preferredInternalTextureFormat2D );
-}
-
-GLint COpenGlAdapter::PreferredInternalTextureFormatCube() const
-{
-	return( m_preferredInternalTextureFormatCube );
-}
-
-GLint COpenGlAdapter::PreferredInternalTextureFormat2DArray() const
-{
-	return( m_preferredInternalTextureFormat2DArray );
 }
 
 GLint COpenGlAdapter::AnisotropicLevel() const

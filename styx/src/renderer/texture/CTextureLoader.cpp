@@ -234,11 +234,11 @@ bool CTextureLoader::From2DArrayFile( const std::shared_ptr<CTexture> &texture, 
 	}
 }
 
-void CTextureLoader::FromImage( const std::shared_ptr<CTexture> &texture, const std::shared_ptr<const CImage> &image ) const
+void CTextureLoader::FromImage( const std::shared_ptr<CTexture> &texture, const std::shared_ptr<const CImage> &image )
 {
-	texture->Type( CTexture::EType::TEX_2D );
+	texture->Target = GL_TEXTURE_2D;
 
-	glCreateTextures( GL_TEXTURE_2D, 1, &texture->GLID );
+	glCreateTextures( texture->Target, 1, &texture->GLID );
 
 	const auto &size = image->Size();
 
@@ -248,7 +248,7 @@ void CTextureLoader::FromImage( const std::shared_ptr<CTexture> &texture, const 
 
 	glTextureStorage2D( texture->GLID,
 						maxMipLevel,
-						static_cast<GLenum>( m_openGlAdapter.PreferredInternalTextureFormat2D() ),
+						PreferredInternalFormatFromImage( texture->Target, image ),
 						size.width,
 						size.height );
 
@@ -258,7 +258,7 @@ void CTextureLoader::FromImage( const std::shared_ptr<CTexture> &texture, const 
 							0, // yoffset
 							size.width,
 							size.height,
-							GLHelper::GLFormatFromImage( image ),
+							FormatFromImage( image ),
 							GL_UNSIGNED_BYTE,
 							image->RawPixelData() );
 
@@ -269,9 +269,9 @@ bool CTextureLoader::FromCubemapData( const std::shared_ptr<CTexture> &texture, 
 {
 	if( cubemapData.isComplete() )
 	{
-		texture->Type( CTexture::EType::TEX_CUBE_MAP );
+		texture->Target = GL_TEXTURE_CUBE_MAP;
 
-		glCreateTextures( GL_TEXTURE_CUBE_MAP, 1, &texture->GLID );
+		glCreateTextures( texture->Target, 1, &texture->GLID );
 
 		glTextureParameteri( texture->GLID, GL_TEXTURE_BASE_LEVEL, 0 );
 		glTextureParameteri( texture->GLID, GL_TEXTURE_MAX_LEVEL, 0 );
@@ -282,7 +282,7 @@ bool CTextureLoader::FromCubemapData( const std::shared_ptr<CTexture> &texture, 
 
 		glTextureStorage2D( texture->GLID,
 							1, // levels
-							static_cast<GLenum>( m_openGlAdapter.PreferredInternalTextureFormatCube() ),
+							PreferredInternalFormatFromImage( texture->Target, faces[ 0 ] ),
 							size.width,
 							size.height );
 
@@ -297,7 +297,7 @@ bool CTextureLoader::FromCubemapData( const std::shared_ptr<CTexture> &texture, 
 									face->Size().width,
 									face->Size().height,
 									1, // depth
-									GLHelper::GLFormatFromImage( face ),
+									FormatFromImage( face ),
 									GL_UNSIGNED_BYTE,
 									face->RawPixelData() );
 		}
@@ -317,9 +317,9 @@ bool CTextureLoader::From2DArrayData( const std::shared_ptr<CTexture> &texture, 
 
 	if( layers.size() > 0 )
 	{
-		texture->Type( CTexture::EType::TEX_2D_ARRAY );
+		texture->Target = GL_TEXTURE_2D_ARRAY;
 
-		glCreateTextures( GL_TEXTURE_2D_ARRAY, 1, &texture->GLID );
+		glCreateTextures( texture->Target, 1, &texture->GLID );
 
 		const auto &size = layers[ 0 ]->Size();
 
@@ -329,7 +329,7 @@ bool CTextureLoader::From2DArrayData( const std::shared_ptr<CTexture> &texture, 
 
 		glTextureStorage3D( texture->GLID,
 							maxMipLevel,
-							static_cast<GLenum>( m_openGlAdapter.PreferredInternalTextureFormat2DArray() ),
+							PreferredInternalFormatFromImage( texture->Target, layers[ 0 ] ),
 							size.width,
 							size.height,
 							layers.size() );
@@ -345,7 +345,7 @@ bool CTextureLoader::From2DArrayData( const std::shared_ptr<CTexture> &texture, 
 									layer->Size().width,
 									layer->Size().height,
 									1, // depth
-									GLHelper::GLFormatFromImage( layer ),
+									FormatFromImage( layer ),
 									GL_UNSIGNED_BYTE,
 									layer->RawPixelData() );
 		}
@@ -403,4 +403,62 @@ void CTextureLoader::From2DArrayDummy( const std::shared_ptr<CTexture> &texture 
 	}
 
 	From2DArrayData( texture, arrayData );
+}
+
+GLenum CTextureLoader::PreferredInternalFormatFromImage( const GLenum target, const std::shared_ptr<const CImage> &image )
+{
+	GLenum internalFormat;
+	
+	switch( image->BPP() )
+	{
+		case 8:
+			internalFormat = GL_R8;
+			break;
+		
+		case 16:
+			internalFormat = GL_RG8;
+			break;
+		
+		case 24:
+			internalFormat = GL_RGB8;
+			break;
+		
+		case 32:
+			internalFormat = GL_RGBA8;
+			break;
+		
+		default:
+			throw std::runtime_error( fmt::format( "cannot deduce GL format from image with '{0}'bpp", image->BPP() ) );
+	}
+	
+	GLint m_preferredInternalTextureFormat;
+	
+	glGetInternalformativ( target, internalFormat, GL_INTERNALFORMAT_PREFERRED, 1, &m_preferredInternalTextureFormat );
+	
+	return( static_cast<GLenum>( m_preferredInternalTextureFormat ) );
+}
+
+GLenum CTextureLoader::FormatFromImage( const std::shared_ptr<const CImage> &image )
+{
+	switch( image->BPP() )
+	{
+		case 8:
+			return( GL_RED );
+			break;
+		
+		case 16:
+			return( GL_RG );
+			break;
+		
+		case 24:
+			return( GL_BGR );
+			break;
+		
+		case 32:
+			return( GL_BGRA );
+			break;
+		
+		default:
+			throw std::runtime_error( fmt::format( "cannot deduce GL format from image with '{0}'bpp", image->BPP() ) );
+	}
 }

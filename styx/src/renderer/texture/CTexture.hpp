@@ -11,25 +11,14 @@ private:
 	CTexture & operator = ( const CTexture& rhs );
 
 public:
-	enum struct EType : u8
-	{
-		TEX_2D = 0,
-		TEX_CUBE_MAP,
-		TEX_2D_ARRAY
-	};
-
 	CTexture() {};
 	~CTexture();
 
 	void BindToUnit( const GLuint unit ) const;
 
-	EType Type() const;
-	void Type( const EType type );
+	GLenum Target;
 
 	void Reset();
 
 	GLuint GLID;
-
-private:
-	EType m_type;
 };

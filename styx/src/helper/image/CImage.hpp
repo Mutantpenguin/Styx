@@ -13,11 +13,9 @@ public:
 	using PixelBuffer = std::vector<std::byte>;
 
 public:
-	CImage( const CSize &size, bool alpha, u8 bpp, u32 pitch, std::unique_ptr<PixelBuffer> imageData );
+	CImage( const CSize &size, u8 bpp, u32 pitch, std::unique_ptr<PixelBuffer> imageData );
 
 	const CSize &Size() const;
-
-	bool HasAlpha() const;
 
 	u8 BPP() const;
 
@@ -27,7 +25,6 @@ public:
 
 private:
 	const CSize	m_size;
-	const bool	m_alpha;
 	const u8	m_bpp;
 	const u32	m_pitch;
 
