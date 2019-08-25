@@ -2,9 +2,8 @@
 
 #include <cassert>
 
-CImage::CImage( const CSize &size, const CSize &originalSize, bool alpha, u8 bpp, u32 pitch, std::unique_ptr<PixelBuffer> imageData ) :
+CImage::CImage( const CSize &size, bool alpha, u8 bpp, u32 pitch, std::unique_ptr<PixelBuffer> imageData ) :
 	m_size { size },
-	m_originalSize { originalSize },
 	m_alpha { alpha },
 	m_bpp { bpp },
 	m_pitch { pitch },
@@ -16,11 +15,6 @@ CImage::CImage( const CSize &size, const CSize &originalSize, bool alpha, u8 bpp
 const CSize &CImage::Size() const
 {
 	return( m_size );
-}
-
-const CSize &CImage::OriginalSize() const
-{
-	return( m_originalSize );
 }
 
 bool CImage::HasAlpha() const

@@ -2,17 +2,15 @@
 
 #include "src/resource/CResourceCache.hpp"
 
-#include "src/system/CSettings.hpp"
-
 #include "src/renderer/texture/CTextureLoader.hpp"
 #include "src/renderer/texture/CTexture.hpp"
 
 class CTextureCache final : public CResourceCache<CTexture>
 {
 public:
-	CTextureCache( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter ) :
+	CTextureCache( const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter ) :
 		CResourceCache( "texture", p_filesystem ),
-		m_textureLoader( p_settings, p_filesystem, openGlAdapter )
+		m_textureLoader( p_filesystem, openGlAdapter )
 	{}
 
 private:

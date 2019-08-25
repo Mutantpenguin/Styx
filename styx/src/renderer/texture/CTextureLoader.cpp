@@ -17,10 +17,8 @@ using json = nlohmann::json;
 
 #include "src/core/StyxException.hpp"
 
-CTextureLoader::CTextureLoader( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter ) :
+CTextureLoader::CTextureLoader( const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter ) :
 	m_filesystem { p_filesystem },
-	// clamp the value so we don't get too bad texture-quality
-	m_iPicMip { std::min( p_settings.renderer.textures.picmip, MAX_TEXTURE_PICMIP ) },
 	m_openGlAdapter { openGlAdapter },
 	m_dummyImage { ImageHandler::GenerateCheckerImage( CSize( 64, 64 ), CColor( 1.0f, 0.0f, 1.0f, 1.0f ), CColor( 0.0f, 0.0f, 0.0f, 1.0f ) ) }
 {
@@ -93,7 +91,7 @@ void CTextureLoader::FromFile( const std::shared_ptr<CTexture> &texture, const f
 
 bool CTextureLoader::FromImageFile( const std::shared_ptr<CTexture> &texture, const fs::path &path ) const
 {
-	const std::shared_ptr<const CImage> image = ImageHandler::Load( m_filesystem, path, m_openGlAdapter.MaxTextureSize(), m_iPicMip, false );
+	const std::shared_ptr<const CImage> image = ImageHandler::Load( m_filesystem, path, m_openGlAdapter.MaxTextureSize(), false );
 
 	if( !image )
 	{
@@ -146,7 +144,7 @@ bool CTextureLoader::FromCubeFile( const std::shared_ptr<CTexture> &texture, con
 	for( u8 faceNum = 0; faceNum < CCubemapData::cubemapFaceCount; ++faceNum )
 	{
 		const auto pathOfFace = directoryOfFaces / (*json_faces)[ faceNum ].get<std::string>();
-		const std::shared_ptr<const CImage> image = ImageHandler::Load( m_filesystem, pathOfFace, m_openGlAdapter.MaxCubeMapTextureSize(), m_iPicMip, true );
+		const std::shared_ptr<const CImage> image = ImageHandler::Load( m_filesystem, pathOfFace, m_openGlAdapter.MaxCubeMapTextureSize(), true );
 		if( nullptr == image )
 		{
 			logWARNING( "failed to load image '{0}' for cubemap '{1}'", pathOfFace.generic_string(), path.generic_string() );
@@ -208,7 +206,7 @@ bool CTextureLoader::From2DArrayFile( const std::shared_ptr<CTexture> &texture, 
 	{
 		const auto pathOfLayer = directoryOfLayers / layer.get<std::string>();
 
-		const std::shared_ptr<const CImage> image = ImageHandler::Load( m_filesystem, pathOfLayer, m_openGlAdapter.MaxTextureSize(), m_iPicMip, false );
+		const std::shared_ptr<const CImage> image = ImageHandler::Load( m_filesystem, pathOfLayer, m_openGlAdapter.MaxTextureSize(), false );
 
 		if( nullptr == image )
 		{

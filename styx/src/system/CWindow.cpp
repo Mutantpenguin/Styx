@@ -79,7 +79,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 
 	if( !iconPath.empty() )
 	{
-		const std::shared_ptr<const CImage> image = ImageHandler::Load( filesystem, iconPath, 256, 0, true );
+		const std::shared_ptr<const CImage> image = ImageHandler::Load( filesystem, iconPath, 256, true );
 		if( image )
 		{
 			SDL_Surface *gameIcon = SDL_CreateRGBSurfaceFrom( const_cast<void*>( static_cast<const void*>( image->RawPixelData() ) ), image->Size().width, image->Size().height, image->BPP(), image->Pitch(), 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 );

@@ -8,7 +8,7 @@
 
 namespace ImageHandler
 {
-	[[nodiscard]] std::shared_ptr<CImage> Load( const CFileSystem &p_filesystem, const fs::path &path, const u32 maxSize, const u8 picMip, const bool flipVertically );
+	[[nodiscard]] std::shared_ptr<CImage> Load( const CFileSystem &p_filesystem, const fs::path &path, const u32 maxSize, const bool flipVertically );
 
 	bool Save( const CFileSystem &p_filesystem, const std::shared_ptr<const CImage> &image, const f16 scale_factor, const std::string &format, const fs::path &path );
 

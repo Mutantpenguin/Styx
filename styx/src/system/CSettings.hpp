@@ -34,7 +34,6 @@ public:
 		struct s_Textures final
 		{
 			u8	anisotropic	{ 1 };
-			u8	picmip		{ 0 };
 		} textures;
 
 		struct s_Screenshot final

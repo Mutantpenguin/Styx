@@ -29,7 +29,7 @@ namespace ImageHandler
 	/**	Loads an bitmap using FreeImage into a CImage.
 		If necessary it gets rescaled to maxSize
 	*/
-	std::shared_ptr<CImage> Load( const CFileSystem &p_filesystem, const fs::path &path, const u32 maxSize, const u8 picMip, const bool flipVertically )
+	std::shared_ptr<CImage> Load( const CFileSystem &p_filesystem, const fs::path &path, const u32 maxSize, const bool flipVertically )
 	{
 		if( !path.has_filename() )
 		{
@@ -73,52 +73,40 @@ namespace ImageHandler
 					return( nullptr );
 				}
 
-				const CSize originalSize { image.getWidth(), image.getHeight() };
+				CSize size { image.getWidth(), image.getHeight() };
 				const u8 bpp	= image.getBitsPerPixel();
 
-				if(	!Math::IsPowerOfTwo( originalSize.width )
+				if(	!Math::IsPowerOfTwo( size.width )
 					||
-					!Math::IsPowerOfTwo( originalSize.height ) )
+					!Math::IsPowerOfTwo( size.height ) )
 				{
 					logWARNING( "the size of image '{0}' is not a power of two", path.generic_string() );
 
 					return( nullptr );
 				}
 
-				// rescale image if necessary
-				CSize resizedSize { originalSize };
-				bool resize = false;
-				if( 0 != picMip )
-				{
-					resizedSize.width	>>= picMip;
-					resizedSize.height	>>= picMip;
-
-					resize = true;
-				}
-
-				if(	( resizedSize.width > maxSize )
+				if(	( size.width > maxSize )
 					||
-					( resizedSize.height > maxSize ) )
+					( size.height > maxSize ) )
 				{
+					// resize the image
+					
 					logWARNING( "image '{0}' has to be scaled down because it's bigger than the allowed max size of '{1}' pixels", path.generic_string(), maxSize );
+										
 					// scale both axis down equally
-					while(	( resizedSize.width > maxSize )
+					while(	( size.width > maxSize )
 							||
-							( resizedSize.height > maxSize ) )
+							( size.height > maxSize ) )
 					{
-						resizedSize.width	>>= 1;
-						resizedSize.height	>>= 1;
+						size.width	>>= 1;
+						size.height	>>= 1;
 					}
-					resize = true;
-				}
+					
+					// if width or height are below 1 we can't rescale so clamp it to 1
+					size.width	= (std::max)( static_cast<u32>( 1 ), size.width );
+					size.height	= (std::max)( static_cast<u32>( 1 ), size.height );
 
-				// if width or height are below 1 we can't rescale
-				resizedSize.width	= (std::max)( static_cast<u32>( 1 ), resizedSize.width );
-				resizedSize.height	= (std::max)( static_cast<u32>( 1 ), resizedSize.height );
-
-				if( resize )
-				{
-					if( !image.rescale( resizedSize.width, resizedSize.height, FILTER_BSPLINE ) )
+					if( !image.rescale( size.width, size.height, FILTER_BSPLINE ) )
 					{
 						logWARNING( "failed to rescale image '{0}'", path.generic_string() );
 
@@ -135,11 +123,11 @@ namespace ImageHandler
 
 				const u32 pitch = image.getScanWidth();
 
-				auto imageData = std::make_unique<CImage::PixelBuffer>( pitch * resizedSize.height );
+				auto imageData = std::make_unique<CImage::PixelBuffer>( pitch * size.height );
 
-				std::copy( reinterpret_cast<std::byte*>( image.accessPixels() ), reinterpret_cast<std::byte*>( image.accessPixels() ) + ( pitch * resizedSize.height ), imageData->data() );
+				std::copy( reinterpret_cast<std::byte*>( image.accessPixels() ), reinterpret_cast<std::byte*>( image.accessPixels() ) + ( pitch * size.height ), imageData->data() );
 
-				return( std::make_shared<CImage>( resizedSize, originalSize, alpha, bpp, pitch, std::move( imageData ) ) );
+				return( std::make_shared<CImage>( size, alpha, bpp, pitch, std::move( imageData ) ) );
 			}
 			else
 			{
@@ -268,7 +256,7 @@ namespace ImageHandler
 				}
 			}
 
-			return( std::make_shared<CImage>( size, size, true, 32, size.width * 4, std::move( checkerImageData ) ) );
+			return( std::make_shared<CImage>( size, true, 32, size.width * 4, std::move( checkerImageData ) ) );
 		}
 	}
 }

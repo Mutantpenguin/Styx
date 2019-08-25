@@ -6,7 +6,6 @@
 
 #include "src/helper/image/CImage.hpp"
 
-#include "src/system/CSettings.hpp"
 #include "src/system/CFileSystem.hpp"
 
 #include "src/renderer/texture/CTexture.hpp"
@@ -19,7 +18,7 @@
 class CTextureLoader final
 {
 public:
-	CTextureLoader( const CSettings &p_settings, const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter );
+	CTextureLoader( const CFileSystem &p_filesystem, const COpenGlAdapter &openGlAdapter );
 	~CTextureLoader();
 
 	void FromFile( const std::shared_ptr<CTexture> &texture, const fs::path &path ) const;
@@ -40,11 +39,7 @@ private:
 
 	const CFileSystem &m_filesystem;
 
-	const u8 m_iPicMip { 0 };
-
 	const COpenGlAdapter &m_openGlAdapter;
-
-	const u8 MAX_TEXTURE_PICMIP { 4 };
 
 	const std::shared_ptr<const CImage> m_dummyImage;
 };

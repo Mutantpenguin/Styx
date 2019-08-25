@@ -10,9 +10,7 @@
 														"antialiasing"	: true
 													},
 								"textures"		:	{
-														"usecompression"	: true,
-														"anisotropic"		: 4,
-														"picmip"			: 0
+														"anisotropic"		: 4
 													},
 								"screenshot"	:	{
 														"format"		:	"png",

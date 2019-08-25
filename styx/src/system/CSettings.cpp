@@ -136,16 +136,6 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 				{
 					renderer.textures.anisotropic = anisotropic->get<u8>();
 				}
-
-				const auto picmip = textures_root->find( "picmip" );
-				if( textures_root->end() == picmip )
-				{
-					logWARNING( "'settings.renderer.textures.picmip' not found" );
-				}
-				else
-				{
-					renderer.textures.picmip = picmip->get<u8>();
-				}
 			}
 
 			const auto screenshot_root = renderer_root->find( "screenshot" );
