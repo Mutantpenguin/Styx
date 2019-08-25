@@ -57,20 +57,17 @@ void CMaterialLoader::FromFile( const std::shared_ptr<CMaterial> &material, cons
 	}
 	else
 	{
-		if( std::string( ".mat" ) == fileExtensionString )
+		try
 		{
-			try
+			if( !FromMatFile( material, path ) )
 			{
-				if( !FromMatFile( material, path ) )
-				{
-					FromDummy( material );
-				}
-			}
-			catch( std::exception &e )
-			{
-				logWARNING( "error loading material '{0}': {1}", path.generic_string(), e.what() );
 				FromDummy( material );
 			}
+		}
+		catch( std::exception &e )
+		{
+			logWARNING( "error loading material '{0}': {1}", path.generic_string(), e.what() );
+			FromDummy( material );
 		}
 	}
 }
