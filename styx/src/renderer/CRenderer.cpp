@@ -25,11 +25,12 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 	m_samplerManager( m_OpenGlAdapter ),
 	m_shaderCompiler(),
 	m_shaderProgramCompiler( m_shaderCompiler ),
-	m_textureCache { std::make_shared<CTextureCache>( settings, filesystem, m_OpenGlAdapter ) },
+	m_textureCache { std::make_shared<CTextureCache>( filesystem, m_OpenGlAdapter ) },
 	m_modelCache { std::make_shared<CModelCache>( filesystem, resources ) },
 	m_materialCache { std::make_shared<CMaterialCache>( filesystem, resources, m_shaderProgramCompiler ) },
 	m_shaderCache { std::make_shared<CShaderCache>( filesystem, m_shaderCompiler ) },
-	m_shaderProgramCache { std::make_shared<CShaderProgramCache>( filesystem, resources, m_shaderCompiler, m_shaderProgramCompiler ) }
+	m_shaderProgramCache { std::make_shared<CShaderProgramCache>( filesystem, resources, m_shaderCompiler, m_shaderProgramCompiler ) },
+	m_fontCache { std::make_shared<CFontCache>( filesystem ) }
 {
 	glDepthFunc( GL_LEQUAL );
 	glEnable( GL_DEPTH_TEST );
@@ -49,6 +50,7 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 	m_resources.AddCache<CShader>( m_shaderCache );
 	m_resources.AddCache<CShaderProgram>( m_shaderProgramCache );
 	m_resources.AddCache<CMaterial>( m_materialCache );
+	m_resources.AddCache<CFont>( m_fontCache );
 
 	logINFO( "renderer was initialized" );
 }
@@ -57,6 +59,7 @@ CRenderer::~CRenderer()
 {
 	logINFO( "renderer is shutting down" );
 
+	m_resources.RemoveCache( m_fontCache );
 	m_resources.RemoveCache( m_materialCache );
 	m_resources.RemoveCache( m_shaderProgramCache );
 	m_resources.RemoveCache( m_shaderCache );

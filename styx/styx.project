@@ -131,6 +131,13 @@
       <File Name="src/resource/CResourceCache.hpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="renderer">
+      <VirtualDirectory Name="font">
+        <File Name="src/renderer/font/CFontLoader.cpp"/>
+        <File Name="src/renderer/font/CFontLoader.hpp"/>
+        <File Name="src/renderer/font/CFontCache.hpp"/>
+        <File Name="src/renderer/font/CFont.cpp"/>
+        <File Name="src/renderer/font/CFont.hpp"/>
+      </VirtualDirectory>
       <File Name="src/renderer/RenderLayer.hpp"/>
       <File Name="src/renderer/RenderLayer.cpp"/>
       <File Name="src/renderer/AttributeLocation.hpp"/>

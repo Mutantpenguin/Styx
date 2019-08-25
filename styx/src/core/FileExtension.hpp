@@ -26,4 +26,9 @@ namespace FileExtension
 		static const std::string ogg = ".ogg";
 		static const std::string wav = ".wav";
 	}
+	
+	namespace Font
+	{
+		static const std::string ttf = ".ttf";
+	}
 }
