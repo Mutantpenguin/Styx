@@ -24,7 +24,6 @@
 #include "src/renderer/model/CModelCache.hpp"
 #include "src/renderer/sampler/CSamplerManager.hpp"
 #include "src/renderer/material/CMaterialCache.hpp"
-#include "src/renderer/font/CFontCache.hpp"
 
 #include "src/renderer/shader/CShaderCompiler.hpp"
 #include "src/renderer/shader/CShaderProgramCompiler.hpp"
@@ -73,7 +72,6 @@ private:
 	std::shared_ptr<CMaterialCache>			m_materialCache;
 	std::shared_ptr<CShaderCache>			m_shaderCache;
 	std::shared_ptr<CShaderProgramCache>	m_shaderProgramCache;
-	std::shared_ptr<CFontCache>				m_fontCache;
 
 	void CreateUniformBuffers();
 	void UpdateFramebufferUniformBuffers( const CFrameBuffer &framebuffer ) const;

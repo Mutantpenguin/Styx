@@ -8,6 +8,8 @@
 
 #include "src/resource/CResources.hpp"
 
+#include "src/renderer/font/CFontBuilder.hpp"
+
 class CEngineInterface final
 {
 public:
@@ -16,9 +18,10 @@ public:
 
 	CResources Resources;
 
-	CInput		Input;
-	CRenderer	Renderer;
-	CAudio		Audio;
+	CInput			Input;
+	CRenderer		Renderer;
+	CAudio			Audio;
+	CFontBuilder	FontBuilder;
 
 	struct
 	{

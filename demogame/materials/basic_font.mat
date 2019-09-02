@@ -1,0 +1,7 @@
+{
+	"name"			:	"basic_font",
+	
+	"polygonmode"	:	"FILL",
+	
+	"shader"		:	"shaders/progs/basic_font.shp"
+}

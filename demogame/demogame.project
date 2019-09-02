@@ -167,6 +167,7 @@
   </VirtualDirectory>
   <VirtualDirectory Name="shaders">
     <VirtualDirectory Name="progs">
+      <File Name="shaders/progs/basic_font.shp"/>
       <File Name="shaders/progs/pulse_green_red.shp"/>
       <File Name="shaders/progs/pause_screenshot.shp"/>
       <File Name="shaders/progs/pause_bg.shp"/>
@@ -198,6 +199,7 @@
       <File Name="shaders/vs/explode.vert"/>
     </VirtualDirectory>
     <VirtualDirectory Name="fs">
+      <File Name="shaders/fs/basic_font.frag"/>
       <File Name="shaders/fs/wait_cursor.frag"/>
       <File Name="shaders/fs/timeTest.frag"/>
       <File Name="shaders/fs/superBox.frag"/>
@@ -218,6 +220,7 @@
     <File Name="music/Sad Robot.ogg"/>
   </VirtualDirectory>
   <VirtualDirectory Name="materials">
+    <File Name="materials/basic_font.mat"/>
     <File Name="materials/wait_cursor.mat"/>
     <File Name="materials/test.mat"/>
     <File Name="materials/superBox.mat"/>

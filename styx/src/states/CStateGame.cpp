@@ -319,6 +319,28 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		firebalEntity->Transform.Position( { 140.0f, 10.0f, 1.0f } );
 		firebalEntity->Add<CModelComponent>( fireballMesh );
 	}
+	
+	{ // font test
+		// TODO const auto font = resources.Get<CFont>( "fonts/fontawesome-webfont.ttf|12" );
+		//const auto font = resources.Get<CFont>( "fonts/fontawesome-webfont.ttf" );
+
+		CGlyphRange glyphRange;
+		glyphRange.AddDefault();
+
+		const auto font = m_engineInterface.FontBuilder.FromFile( "fonts/arial.ttf", 64, glyphRange );
+		//const auto font = resources.Get<CFont>( "fonts/NovaCut.ttf" );
+
+		const auto material = resources.Get<CMaterial>( "materials/basic_font.mat" );
+
+		const CMesh::TMeshTextureSlots textureSlots = {	{ "fontTexture", std::make_shared<CMeshTextureSlot>( font->Texture, samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+		// TODO const CMesh::TMeshTextureSlots textureSlots = {	{ "fontTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/texpack_2/stained_glass.png" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+
+		const auto mesh = std::make_shared<CMesh>( GeometryPrefabs::QuadPNU0( 10.0f ), material, textureSlots );
+
+		const auto entity = m_scene.CreateEntity( "font_test" );
+		entity->Transform.Position( { 40.0f, 10.0f, 20.0f } );
+		entity->Add<CModelComponent>( mesh );
+	}
 
 	{
 		const auto material3 = resources.Get<CMaterial>( "materials/sky.mat" );

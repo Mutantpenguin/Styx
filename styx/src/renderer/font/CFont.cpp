@@ -1,12 +1,17 @@
 #include "CFont.hpp"
 
+#include <algorithm>
+
+CFont::CFont()
+{
+	
+}
+
 CFont::~CFont()
 {
 }
 
-void CFont::Reset()
+bool CFont::ContainsCodepoint( const u32 codepoint ) const
 {
-	// TODO
-	
-	// TODO what about rebuilding the textures?
+	return( std::find( std::begin( m_codepoints ), std::end( m_codepoints ), codepoint ) != std::end( m_codepoints ) );
 }

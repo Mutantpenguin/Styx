@@ -132,9 +132,10 @@
     </VirtualDirectory>
     <VirtualDirectory Name="renderer">
       <VirtualDirectory Name="font">
-        <File Name="src/renderer/font/CFontLoader.cpp"/>
-        <File Name="src/renderer/font/CFontLoader.hpp"/>
-        <File Name="src/renderer/font/CFontCache.hpp"/>
+        <File Name="src/renderer/font/CFontBuilder.cpp"/>
+        <File Name="src/renderer/font/CFontBuilder.hpp"/>
+        <File Name="src/renderer/font/CGlyphRanges.cpp"/>
+        <File Name="src/renderer/font/CGlyphRanges.hpp"/>
         <File Name="src/renderer/font/CFont.cpp"/>
         <File Name="src/renderer/font/CFont.hpp"/>
       </VirtualDirectory>
