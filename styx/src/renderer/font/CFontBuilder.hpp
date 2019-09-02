@@ -11,8 +11,9 @@
 class CFontBuilder final
 {
 public:
-	CFontBuilder( const CFileSystem &p_filesystem );
-	~CFontBuilder();
+	CFontBuilder( const CFileSystem &p_filesystem ) :
+		m_filesystem { p_filesystem }
+	{}
 	
 	const std::shared_ptr<CFont> FromFile( const fs::path &path, const u16 size, const CGlyphRange &glyphRange ) const;
 

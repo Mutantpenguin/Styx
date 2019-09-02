@@ -1,7 +1,9 @@
 #pragma once
 
 #include <memory>
-#include <vector>
+#include <unordered_map>
+
+#include "external/stb/stb_truetype.h"
 
 #include "src/core/Types.hpp"
 
@@ -11,6 +13,7 @@
 
 class CFont final
 {
+	friend class CFontBuilder;
 public:
 	CFont();
 	~CFont();
@@ -21,8 +24,12 @@ public:
 	
 	std::shared_ptr<CTexture> Texture;
 	
-	bool ContainsCodepoint( const u32 codepoint ) const;
+	bool HasCodepoint( const u32 codepoint ) const;
+	
+	u32 IndexFromCodepoint( const u32 codepoint ) const;
 
 private:
-	std::vector<u32> m_codepoints;
+	std::unordered_map<u32, u32> m_codepoints;
+	
+	std::unique_ptr<stbtt_packedchar[]> m_packedChars;
 };

@@ -11,7 +11,19 @@ CFont::~CFont()
 {
 }
 
-bool CFont::ContainsCodepoint( const u32 codepoint ) const
+bool CFont::HasCodepoint( const u32 codepoint ) const
 {
-	return( std::find( std::begin( m_codepoints ), std::end( m_codepoints ), codepoint ) != std::end( m_codepoints ) );
+	const auto it = m_codepoints.find( codepoint );
+		
+	if( std::end( m_codepoints ) != it )
+	{
+		return( true );
+	}
+	
+	return( false );
+}
+
+u32 CFont::IndexFromCodepoint( const u32 codepoint ) const
+{
+	return( m_codepoints.at( codepoint ) );
 }
