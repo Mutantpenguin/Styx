@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 #include <unordered_map>
 
 #include "external/stb/stb_truetype.h"
@@ -13,10 +14,11 @@
 
 class CFont final
 {
-	friend class CFontBuilder;
 public:
 	CFont();
 	~CFont();
+	
+	std::string Name;
 	
 	CSize AtlasSize;
 	
@@ -28,8 +30,7 @@ public:
 	
 	u32 IndexFromCodepoint( const u32 codepoint ) const;
 
-private:
-	std::unordered_map<u32, u32> m_codepoints;
+	std::unordered_map<u32, u32> Codepoints;
 	
-	std::unique_ptr<stbtt_packedchar[]> m_packedChars;
+	std::unique_ptr<stbtt_packedchar[]> PackedChars;
 };

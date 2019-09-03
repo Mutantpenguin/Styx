@@ -13,9 +13,9 @@ CFont::~CFont()
 
 bool CFont::HasCodepoint( const u32 codepoint ) const
 {
-	const auto it = m_codepoints.find( codepoint );
+	const auto it = Codepoints.find( codepoint );
 		
-	if( std::end( m_codepoints ) != it )
+	if( std::end( Codepoints ) != it )
 	{
 		return( true );
 	}
@@ -25,5 +25,12 @@ bool CFont::HasCodepoint( const u32 codepoint ) const
 
 u32 CFont::IndexFromCodepoint( const u32 codepoint ) const
 {
-	return( m_codepoints.at( codepoint ) );
+	const auto it = Codepoints.find( codepoint );
+		
+	if( std::end( Codepoints ) != it )
+	{
+		return( it->second );
+	}
+	
+	return( std::numeric_limits<u32>::max() );
 }

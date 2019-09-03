@@ -15,7 +15,7 @@
 #include "src/renderer/texture/CTextureLoader.hpp"
 
 
-const std::shared_ptr<CFont> CFontBuilder::FromFile( const fs::path &path, const u16 size, const CGlyphRange &glyphRange ) const
+const std::shared_ptr<const CFont> CFontBuilder::FromFile( const fs::path &path, const u16 size, const CGlyphRange &glyphRange ) const
 {
 	if( !path.has_filename() )
 	{
@@ -51,7 +51,7 @@ const std::shared_ptr<CFont> CFontBuilder::FromFile( const fs::path &path, const
 	
 }
 
-const std::shared_ptr<CFont> CFontBuilder::FromTtfFile( const fs::path &path, const u16 size, const CGlyphRange &glyphRange ) const
+const std::shared_ptr<const CFont> CFontBuilder::FromTtfFile( const fs::path &path, const u16 size, const CGlyphRange &glyphRange ) const
 {
 	auto font = std::make_shared<CFont>();
 	
@@ -73,6 +73,12 @@ const std::shared_ptr<CFont> CFontBuilder::FromTtfFile( const fs::path &path, co
 	
 	if( !fontFileBuffer.empty() )
 	{
+		stbtt_fontinfo info;
+		stbtt_InitFont( &info, reinterpret_cast<unsigned char*>( fontFileBuffer.data() ), 0 );
+		
+		int length;
+		font->Name = stbtt_GetFontNameString( &info, &length, STBTT_PLATFORM_ID_MICROSOFT, STBTT_MS_EID_UNICODE_BMP, STBTT_MS_LANG_ENGLISH, 0 );
+		
 		stbtt_PackSetOversampling( &context, 2, 2 );
 
 		auto glyphs = glyphRange.ToVector();
@@ -80,17 +86,17 @@ const std::shared_ptr<CFont> CFontBuilder::FromTtfFile( const fs::path &path, co
 		u32 i = 0;
 		for( const auto &glyph : glyphs )
 		{
-			font->m_codepoints[ glyph ] = i;
+			font->Codepoints[ glyph ] = i;
 			i++;
 		}
 		
-		font->m_packedChars = std::make_unique<stbtt_packedchar[]>( glyphs.size() );
+		font->PackedChars = std::make_unique<stbtt_packedchar[]>( glyphs.size() );
 		
 		stbtt_pack_range range;
 		range.first_unicode_codepoint_in_range = 0;
 		range.array_of_unicode_codepoints = glyphs.data();
 		range.num_chars                   = glyphs.size();
-		range.chardata_for_range          = font->m_packedChars.get();
+		range.chardata_for_range          = font->PackedChars.get();
 		range.font_size                   = size;
 		
 		if( !stbtt_PackFontRanges( &context, reinterpret_cast<unsigned char*>( fontFileBuffer.data() ), 0, &range, 1 ) )
@@ -119,7 +125,7 @@ const std::shared_ptr<CFont> CFontBuilder::FromTtfFile( const fs::path &path, co
 	}
 }
 
-const std::shared_ptr<CFont> CFontBuilder::FromDummy() const
+const std::shared_ptr<const CFont> CFontBuilder::FromDummy() const
 {
 	// TODO
 	// TODO create pink texture?

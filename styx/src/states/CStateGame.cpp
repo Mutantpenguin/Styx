@@ -321,25 +321,31 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	}
 	
 	{ // font test
-		// TODO const auto font = resources.Get<CFont>( "fonts/fontawesome-webfont.ttf|12" );
-		//const auto font = resources.Get<CFont>( "fonts/fontawesome-webfont.ttf" );
-
+		
+		const auto &fontbuilder = m_engineInterface.FontBuilder;
+		
 		CGlyphRange glyphRange;
 		glyphRange.AddDefault();
-
-		const auto font = m_engineInterface.FontBuilder.FromFile( "fonts/arial.ttf", 64, glyphRange );
-		//const auto font = resources.Get<CFont>( "fonts/NovaCut.ttf" );
+		
+		const auto font = fontbuilder.FromFile( "fonts/arial.ttf", 64, glyphRange );
+		// TODO const auto font = fontbuilder.FromFile( "fonts/fontawesome-webfont.ttf" );
+		// TODO const auto font = fontbuilder.FromFile( "fonts/NovaCut.ttf" );
 
 		const auto material = resources.Get<CMaterial>( "materials/basic_font.mat" );
-
+		
 		const CMesh::TMeshTextureSlots textureSlots = {	{ "fontTexture", std::make_shared<CMeshTextureSlot>( font->Texture, samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
-		// TODO const CMesh::TMeshTextureSlots textureSlots = {	{ "fontTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/texpack_2/stained_glass.png" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-		const auto mesh = std::make_shared<CMesh>( GeometryPrefabs::QuadPNU0( 10.0f ), material, textureSlots );
+		{ // show whole atlas
+			const auto mesh = std::make_shared<CMesh>( GeometryPrefabs::QuadPNU0( 10.0f ), material, textureSlots );
 
-		const auto entity = m_scene.CreateEntity( "font_test" );
-		entity->Transform.Position( { 40.0f, 10.0f, 20.0f } );
-		entity->Add<CModelComponent>( mesh );
+			const auto entity = m_scene.CreateEntity( "font_test" );
+			entity->Transform.Position( { 40.0f, 10.0f, 20.0f } );
+			entity->Add<CModelComponent>( mesh );
+		}
+		
+		{ // just one font object
+			
+		}
 	}
 
 	{

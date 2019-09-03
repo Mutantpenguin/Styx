@@ -15,11 +15,11 @@ public:
 		m_filesystem { p_filesystem }
 	{}
 	
-	const std::shared_ptr<CFont> FromFile( const fs::path &path, const u16 size, const CGlyphRange &glyphRange ) const;
+	const std::shared_ptr<const CFont> FromFile( const fs::path &path, const u16 size, const CGlyphRange &glyphRange ) const;
 
 private:
-	const std::shared_ptr<CFont> FromTtfFile( const fs::path &path, const u16 size, const CGlyphRange &glyphRange ) const;
-	const std::shared_ptr<CFont> FromDummy() const;
+	const std::shared_ptr<const CFont> FromTtfFile( const fs::path &path, const u16 size, const CGlyphRange &glyphRange ) const;
+	const std::shared_ptr<const CFont> FromDummy() const;
 	
 	const CFileSystem &m_filesystem;
 };

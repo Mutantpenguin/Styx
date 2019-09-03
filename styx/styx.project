@@ -131,6 +131,12 @@
       <File Name="src/resource/CResourceCache.hpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="renderer">
+      <VirtualDirectory Name="text">
+        <File Name="src/renderer/text/CTextBuilder.cpp"/>
+        <File Name="src/renderer/text/CTextBuilder.hpp"/>
+        <File Name="src/renderer/text/CText.cpp"/>
+        <File Name="src/renderer/text/CText.hpp"/>
+      </VirtualDirectory>
       <VirtualDirectory Name="font">
         <File Name="src/renderer/font/CFontBuilder.cpp"/>
         <File Name="src/renderer/font/CFontBuilder.hpp"/>
