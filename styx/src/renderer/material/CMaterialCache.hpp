@@ -11,9 +11,9 @@
 class CMaterialCache final : public CResourceCache<CMaterial>
 {
 public:
-	CMaterialCache( const CFileSystem &filesystem, CResources &resources, const CShaderProgramCompiler &shaderProgramCompiler ) :
+	CMaterialCache( const CFileSystem &filesystem, CResources &resources, const std::shared_ptr<const CShaderProgram> &dummyShaderProgram ) :
 		CResourceCache( "material", filesystem ),
-		m_materialLoader( filesystem, resources, shaderProgramCompiler )
+		m_materialLoader( filesystem, resources, dummyShaderProgram )
 	{}
 
 private:

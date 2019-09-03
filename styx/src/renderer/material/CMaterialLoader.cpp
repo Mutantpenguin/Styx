@@ -15,10 +15,10 @@ using json = nlohmann::json;
 
 u16 CMaterialLoader::m_dummyCounter { 0 };
 
-CMaterialLoader::CMaterialLoader( const CFileSystem &filesystem, CResources &resources, const CShaderProgramCompiler &shaderProgramCompiler ) :
+CMaterialLoader::CMaterialLoader( const CFileSystem &filesystem, CResources &resources, const std::shared_ptr<const CShaderProgram> &dummyShaderProgram ) :
 	m_filesystem { filesystem },
-	m_resources{ resources },
-	m_shaderProgramCompiler{ shaderProgramCompiler }
+	m_resources { resources },
+	m_dummyShaderProgram { dummyShaderProgram }
 {
 	logINFO( "material loader was initialized" );
 }
@@ -352,5 +352,5 @@ void CMaterialLoader::FromDummy( const std::shared_ptr<CMaterial> &material ) co
 
 	material->Name( "dummy " + std::to_string( ++m_dummyCounter ) );
 	
-	material->ShaderProgram( m_shaderProgramCompiler.DummyShaderProgram() );
+	material->ShaderProgram( m_dummyShaderProgram );
 }

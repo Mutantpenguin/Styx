@@ -19,14 +19,14 @@
 #include "src/renderer/geometry/prefabs/Quad.hpp"
 
 CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, CResources &resources ) :
-	m_settings { settings },
-	m_resources { resources },
 	OpenGlAdapter( settings ),
 	ShaderCompiler(),
 	ShaderProgramCompiler( ShaderCompiler ),
+	m_settings { settings },
+	m_resources { resources },
 	m_textureCache { std::make_shared<CTextureCache>( filesystem, OpenGlAdapter ) },
 	m_modelCache { std::make_shared<CModelCache>( filesystem, resources ) },
-	m_materialCache { std::make_shared<CMaterialCache>( filesystem, resources, ShaderProgramCompiler ) },
+	m_materialCache { std::make_shared<CMaterialCache>( filesystem, resources, ShaderProgramCompiler.DummyShaderProgram() ) },
 	m_shaderCache { std::make_shared<CShaderCache>( filesystem, ShaderCompiler ) },
 	m_shaderProgramCache { std::make_shared<CShaderProgramCache>( filesystem, resources, ShaderCompiler, ShaderProgramCompiler ) }
 {

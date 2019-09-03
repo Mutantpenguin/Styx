@@ -12,7 +12,7 @@
 class CMaterialLoader final
 {
 public:
-	CMaterialLoader( const CFileSystem &filesystem, CResources &resources, const CShaderProgramCompiler &shaderProgramCompiler );
+	CMaterialLoader( const CFileSystem &filesystem, CResources &resources, const std::shared_ptr<const CShaderProgram> &dummyShaderProgram );
 	~CMaterialLoader();
 
 	void FromFile( const std::shared_ptr<CMaterial> &material, const fs::path &path ) const;
@@ -26,7 +26,7 @@ private:
 
 	CResources &m_resources;
 
-	const CShaderProgramCompiler &m_shaderProgramCompiler;
+	const std::shared_ptr<const CShaderProgram> m_dummyShaderProgram;
 
 	static u16 m_dummyCounter;
 };
