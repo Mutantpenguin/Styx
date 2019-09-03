@@ -337,13 +337,18 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		{ // show whole atlas
 			const auto mesh = std::make_shared<CMesh>( GeometryPrefabs::QuadPNU0( 10.0f ), material, textureSlots );
 
-			const auto entity = m_scene.CreateEntity( "font_test" );
+			const auto entity = m_scene.CreateEntity( "font_atlas_test" );
 			entity->Transform.Position( { 40.0f, 10.0f, 20.0f } );
 			entity->Add<CModelComponent>( mesh );
 		}
 		
 		{ // just one font object
+			const auto fontMesh = engineInterface.TextMeshBuilder.Create( "Muahaha", font );
 			
+			const auto entity = m_scene.CreateEntity( "font_test" );
+			entity->Transform.Position( { 80.0f, 10.0f, 20.0f } );
+			entity->Transform.Scale( { 0.1f, 0.1f, 0.1f } );
+			entity->Add<CModelComponent>( fontMesh );
 		}
 	}
 

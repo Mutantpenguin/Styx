@@ -23,8 +23,9 @@ CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std
 	m_renderer( m_settings, m_filesystem, m_resources ),
 	m_input( m_settings, m_filesystem ),
 	m_audio( m_settings, m_filesystem, m_resources ),
-	m_samplerManager( m_renderer.OpenGlAdapter() ),
+	m_samplerManager( m_renderer.OpenGlAdapter ),
 	m_fontBuilder( m_filesystem ),
+	m_textMeshBuilder( m_samplerManager, m_renderer.ShaderCompiler, m_renderer.ShaderProgramCompiler ),
 	m_engineInterface( m_resources, m_input, m_audio, m_samplerManager, m_fontBuilder, m_textMeshBuilder, m_stats )
 {
 	logINFO( "engine was initialized" );

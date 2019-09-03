@@ -45,7 +45,10 @@ private:
 	CRenderer& operator = ( const CRenderer &rhs ) = delete;
 
 public:
-	COpenGlAdapter &OpenGlAdapter();
+	COpenGlAdapter OpenGlAdapter;
+	
+	CShaderCompiler			ShaderCompiler;
+	CShaderProgramCompiler	ShaderProgramCompiler;
 
 	void RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffer &framebuffer, const CTimer &timer ) const;
 
@@ -56,11 +59,6 @@ private:
 	const CSettings &m_settings;
 
 	CResources &m_resources;
-
-	COpenGlAdapter m_OpenGlAdapter;
-	
-	CShaderCompiler			m_shaderCompiler;
-	CShaderProgramCompiler	m_shaderProgramCompiler;
 
 	std::shared_ptr<CTextureCache>			m_textureCache;
 	std::shared_ptr<CModelCache>			m_modelCache;

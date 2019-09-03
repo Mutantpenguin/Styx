@@ -21,14 +21,14 @@
 CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, CResources &resources ) :
 	m_settings { settings },
 	m_resources { resources },
-	m_OpenGlAdapter( settings ),
-	m_shaderCompiler(),
-	m_shaderProgramCompiler( m_shaderCompiler ),
-	m_textureCache { std::make_shared<CTextureCache>( filesystem, m_OpenGlAdapter ) },
+	OpenGlAdapter( settings ),
+	ShaderCompiler(),
+	ShaderProgramCompiler( ShaderCompiler ),
+	m_textureCache { std::make_shared<CTextureCache>( filesystem, OpenGlAdapter ) },
 	m_modelCache { std::make_shared<CModelCache>( filesystem, resources ) },
-	m_materialCache { std::make_shared<CMaterialCache>( filesystem, resources, m_shaderProgramCompiler ) },
-	m_shaderCache { std::make_shared<CShaderCache>( filesystem, m_shaderCompiler ) },
-	m_shaderProgramCache { std::make_shared<CShaderProgramCache>( filesystem, resources, m_shaderCompiler, m_shaderProgramCompiler ) }
+	m_materialCache { std::make_shared<CMaterialCache>( filesystem, resources, ShaderProgramCompiler ) },
+	m_shaderCache { std::make_shared<CShaderCache>( filesystem, ShaderCompiler ) },
+	m_shaderProgramCache { std::make_shared<CShaderProgramCache>( filesystem, resources, ShaderCompiler, ShaderProgramCompiler ) }
 {
 	glDepthFunc( GL_LEQUAL );
 	glEnable( GL_DEPTH_TEST );
@@ -74,14 +74,14 @@ void CRenderer::CreateUniformBuffers()
 
 		// use glm::vec4 for position and direction, else we get rendering errors. seems to be a problem with some OpenGL implementations
 		m_uboCamera = std::make_shared<CUniformBuffer>( ( 2 * sizeof( glm::vec4 ) ) + ( 3 * sizeof( glm::mat4 ) ), GL_DYNAMIC_DRAW, EUniformBufferLocation::CAMERA, "Camera", cameraBody );
-		m_shaderCompiler.RegisterUniformBuffer( m_uboCamera );
+		ShaderCompiler.RegisterUniformBuffer( m_uboCamera );
 	}
 
 	{
 		const std::string timerBody = "uint time;";
 
 		m_uboTimer = std::make_shared<CUniformBuffer>( sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::TIME, "Timer", timerBody );
-		m_shaderCompiler.RegisterUniformBuffer( m_uboTimer );
+		ShaderCompiler.RegisterUniformBuffer( m_uboTimer );
 	}
 
 	{
@@ -89,7 +89,7 @@ void CRenderer::CreateUniformBuffers()
 												"uint height;";
 
 		m_uboFramebuffer = std::make_shared<CUniformBuffer>( 2 * sizeof( glm::uint ), GL_DYNAMIC_DRAW, EUniformBufferLocation::FRAMEBUFFER, "Framebuffer", framebufferBody );
-		m_shaderCompiler.RegisterUniformBuffer( m_uboFramebuffer );
+		ShaderCompiler.RegisterUniformBuffer( m_uboFramebuffer );
 	}
 }
 
@@ -126,11 +126,6 @@ void CRenderer::UpdateRenderLayerUniformBuffers( const RenderLayer &renderLayer 
 	m_uboCamera->SubData( offset,	sizeof( view.ViewMatrix ),				glm::value_ptr( view.ViewMatrix ) );
 	offset += sizeof( glm::mat4 );
 	m_uboCamera->SubData( offset,	sizeof( view.ViewProjectionMatrix ),	glm::value_ptr( view.ViewProjectionMatrix ) );
-}
-
-COpenGlAdapter &CRenderer::OpenGlAdapter()
-{
-	return( m_OpenGlAdapter );
 }
 
 void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffer &framebuffer, const CTimer &timer ) const

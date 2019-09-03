@@ -134,8 +134,6 @@
       <VirtualDirectory Name="text">
         <File Name="src/renderer/text/CTextMeshBuilder.hpp"/>
         <File Name="src/renderer/text/CTextMeshBuilder.cpp"/>
-        <File Name="src/renderer/text/CText.cpp"/>
-        <File Name="src/renderer/text/CText.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="font">
         <File Name="src/renderer/font/CFontBuilder.cpp"/>

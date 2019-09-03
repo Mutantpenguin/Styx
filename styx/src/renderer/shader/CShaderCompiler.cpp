@@ -23,15 +23,12 @@ const std::unordered_map<EEngineUniform, const SShaderInterface> CShaderCompiler
 																										{ EEngineUniform::modelMatrix,					{ "modelMatrix",				GLHelper::glmTypeToGLSLType<glm::mat4>() } } };
 
 
-const auto &positionAttribute = CShaderCompiler::AllowedAttributes.at( AttributeLocation::position );
-const auto &uniformModelViewProjectionMatrix = CShaderCompiler::EngineUniforms.at( EEngineUniform::modelViewProjectionMatrix );
-
 const std::string CShaderCompiler::DummyVertexShaderBody = fmt::format( R"glsl(
 void main()
 {{
 	gl_Position = {0} * vec4( {1}, 1 );
 }}
-)glsl", uniformModelViewProjectionMatrix.name, positionAttribute.name );
+)glsl", CShaderCompiler::EngineUniforms.at( EEngineUniform::modelViewProjectionMatrix ).name, CShaderCompiler::AllowedAttributes.at( AttributeLocation::position ).name );
 
 const std::string CShaderCompiler::DummyGeometryShaderBody = R"glsl(
 void main()
@@ -55,17 +52,17 @@ CShaderCompiler::CShaderCompiler()
 {
 	if( !Compile( m_dummyVertexShader, GL_VERTEX_SHADER, DummyVertexShaderBody ) )
 	{
-		throw std::runtime_error( "couldn't create dummy vertex shader" );
+		THROW_STYX_EXCEPTION( "couldn't create dummy vertex shader" );
 	}
 
 	if( !Compile( m_dummyGeometryShader, GL_GEOMETRY_SHADER, DummyGeometryShaderBody ) )
 	{
-		throw std::runtime_error( "couldn't create dummy geometry shader" );
+		THROW_STYX_EXCEPTION( "couldn't create dummy geometry shader" );
 	}
 
 	if( !Compile( m_dummyFragmentShader, GL_FRAGMENT_SHADER, DummyFragmentShaderBody ) )
 	{
-		throw std::runtime_error( "couldn't create dummy fragment shader" );
+		THROW_STYX_EXCEPTION( "couldn't create dummy fragment shader" );
 	}
 }
 
