@@ -77,7 +77,7 @@ const std::shared_ptr<const CFont> CFontBuilder::FromTtfFile( const fs::path &pa
 		stbtt_InitFont( &info, reinterpret_cast<unsigned char*>( fontFileBuffer.data() ), 0 );
 		
 		int length;
-		font->Name = stbtt_GetFontNameString( &info, &length, STBTT_PLATFORM_ID_MICROSOFT, STBTT_MS_EID_UNICODE_BMP, STBTT_MS_LANG_ENGLISH, 0 );
+		font->Name = std::string( stbtt_GetFontNameString( &info, &length, STBTT_PLATFORM_ID_MICROSOFT, STBTT_MS_EID_UNICODE_BMP, STBTT_MS_LANG_ENGLISH, 4 ), length );
 		
 		stbtt_PackSetOversampling( &context, 2, 2 );
 
