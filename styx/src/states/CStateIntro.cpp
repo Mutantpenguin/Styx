@@ -18,7 +18,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	auto &resources = m_engineInterface.Resources;
 
-	auto &renderer = m_engineInterface.Renderer;
+	auto &samplerManager = engineInterface.SamplerManager;
 
 	{
 		auto cameraEntity = m_scene.CreateEntity( "free camera" );
@@ -31,7 +31,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	const auto material = resources.Get<CMaterial>( "materials/intro_icon.mat" );
 
-	const CMesh::TMeshTextureSlots logoMeshTextureSlots = { { "diffuseTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/styx/logo.png" ), renderer.SamplerManager().GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+	const CMesh::TMeshTextureSlots logoMeshTextureSlots = { { "diffuseTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/styx/logo.png" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
 	const auto logoMesh = std::make_shared<CMesh>( GeometryPrefabs::QuadPNU0( 6.0f ), material, logoMeshTextureSlots );
 

@@ -22,7 +22,6 @@
 
 #include "src/renderer/texture/CTextureCache.hpp"
 #include "src/renderer/model/CModelCache.hpp"
-#include "src/renderer/sampler/CSamplerManager.hpp"
 #include "src/renderer/material/CMaterialCache.hpp"
 
 #include "src/renderer/shader/CShaderCompiler.hpp"
@@ -46,8 +45,6 @@ private:
 	CRenderer& operator = ( const CRenderer &rhs ) = delete;
 
 public:
-	CSamplerManager &SamplerManager();
-
 	COpenGlAdapter &OpenGlAdapter();
 
 	void RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffer &framebuffer, const CTimer &timer ) const;
@@ -61,8 +58,6 @@ private:
 	CResources &m_resources;
 
 	COpenGlAdapter m_OpenGlAdapter;
-
-	CSamplerManager m_samplerManager;
 	
 	CShaderCompiler			m_shaderCompiler;
 	CShaderProgramCompiler	m_shaderProgramCompiler;

@@ -1,9 +1,0 @@
-#include "CEngineInterface.hpp"
-
-CEngineInterface::CEngineInterface( const CSettings &settings, const CFileSystem &filesystem ) :
-	Input( settings, filesystem ),
-	Renderer( settings, filesystem, Resources ),
-	Audio( settings, filesystem, Resources ),
-	FontBuilder( filesystem )
-{
-}

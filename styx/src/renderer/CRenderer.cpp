@@ -22,7 +22,6 @@ CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, 
 	m_settings { settings },
 	m_resources { resources },
 	m_OpenGlAdapter( settings ),
-	m_samplerManager( m_OpenGlAdapter ),
 	m_shaderCompiler(),
 	m_shaderProgramCompiler( m_shaderCompiler ),
 	m_textureCache { std::make_shared<CTextureCache>( filesystem, m_OpenGlAdapter ) },
@@ -127,11 +126,6 @@ void CRenderer::UpdateRenderLayerUniformBuffers( const RenderLayer &renderLayer 
 	m_uboCamera->SubData( offset,	sizeof( view.ViewMatrix ),				glm::value_ptr( view.ViewMatrix ) );
 	offset += sizeof( glm::mat4 );
 	m_uboCamera->SubData( offset,	sizeof( view.ViewProjectionMatrix ),	glm::value_ptr( view.ViewProjectionMatrix ) );
-}
-
-CSamplerManager &CRenderer::SamplerManager()
-{
-	return( m_samplerManager );
 }
 
 COpenGlAdapter &CRenderer::OpenGlAdapter()

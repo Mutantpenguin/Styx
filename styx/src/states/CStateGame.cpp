@@ -26,8 +26,6 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 {
 	m_scene.ClearColor( CColor( 0.0f, 0.0f, 4.0f, 0.0f ) );
 
-	auto &renderer = m_engineInterface.Renderer;
-
 	m_cameraEntity = m_scene.CreateEntity( "free camera" );
 	m_cameraEntity->Transform.Position( { 43.0f, 76.0f, -99.0f } );
 	m_cameraEntity->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
@@ -46,7 +44,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	}
 
 	auto &resources = m_engineInterface.Resources;
-	auto &samplerManager = renderer.SamplerManager();
+	auto &samplerManager = m_engineInterface.SamplerManager;
 
 	// create floor
 	{
@@ -326,10 +324,11 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		
 		CGlyphRange glyphRange;
 		glyphRange.AddDefault();
+		// TODO glyphRange.Add( 0xf000, 0xf897 );
 		
 		const auto font = fontbuilder.FromFile( "fonts/arial.ttf", 64, glyphRange );
-		// TODO const auto font = fontbuilder.FromFile( "fonts/fontawesome-webfont.ttf" );
-		// TODO const auto font = fontbuilder.FromFile( "fonts/NovaCut.ttf" );
+		// TODO const auto font = fontbuilder.FromFile( "fonts/fontawesome-webfont.ttf", 64, glyphRange );
+		// TODO const auto font = fontbuilder.FromFile( "fonts/NovaCut.ttf", 64, glyphRange );
 
 		const auto material = resources.Get<CMaterial>( "materials/basic_font.mat" );
 		

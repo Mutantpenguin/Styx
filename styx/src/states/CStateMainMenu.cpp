@@ -27,9 +27,8 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		m_scene.Camera( cameraEntity );
 	}
 
-	auto &renderer = m_engineInterface.Renderer;
 	auto &resources = m_engineInterface.Resources;
-	auto &samplerManager = renderer.SamplerManager();
+	auto &samplerManager = m_engineInterface.SamplerManager;
 
 	const CSize &windowSize = settings.renderer.window.size;
 

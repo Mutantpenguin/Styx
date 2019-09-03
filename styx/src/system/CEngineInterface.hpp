@@ -1,32 +1,44 @@
 #pragma once
 
-#include "CInput.hpp"
+#include "src/resource/CResources.hpp"
+
+#include "src/system/CInput.hpp"
+#include "src/system/CEngineStats.hpp"
 
 #include "src/audio/CAudio.hpp"
 
-#include "src/renderer/CRenderer.hpp"
-
-#include "src/resource/CResources.hpp"
-
+#include "src/renderer/sampler/CSamplerManager.hpp"
 #include "src/renderer/font/CFontBuilder.hpp"
+#include "src/renderer/text/CTextMeshBuilder.hpp"
 
 class CEngineInterface final
 {
 public:
-	CEngineInterface( const CSettings &settings, const CFileSystem &filesystem );
-	~CEngineInterface() {};
+	CEngineInterface(	CResources			&resources,
+						CInput				&input,
+						CAudio				&audio,
+						CSamplerManager 	&samplerManager,
+						CFontBuilder		&fontBuilder,
+						CTextMeshBuilder	&textMeshBuilder,
+						const CEngineStats	&stats ) :
+		Resources { resources },
+		Input { input },
+		Audio { audio },
+		SamplerManager { samplerManager },
+		FontBuilder { fontBuilder },
+		TextMeshBuilder { textMeshBuilder },
+		Stats { stats }
+	{}
 
-	CResources Resources;
+	CResources &Resources;
 
-	CInput			Input;
-	CRenderer		Renderer;
-	CAudio			Audio;
-	CFontBuilder	FontBuilder;
-
-	struct
-	{
-		u64 frameTime;
-	} Stats;
+	CInput				&Input;
+	CAudio				&Audio;
+	CSamplerManager 	&SamplerManager;
+	CFontBuilder		&FontBuilder;
+	CTextMeshBuilder	&TextMeshBuilder;
+	
+	const CEngineStats	&Stats;
 
 private:
 	CEngineInterface( const CEngineInterface &rhs ) = delete;

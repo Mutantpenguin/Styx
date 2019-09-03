@@ -64,6 +64,7 @@
       <File Name="src/audio/ALHelper.hpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="system">
+      <File Name="src/system/CEngineStats.hpp"/>
       <File Name="src/system/ComputerInfo.hpp"/>
       <File Name="src/system/ComputerInfo.cpp"/>
       <File Name="src/system/CWindow.hpp"/>
@@ -79,7 +80,6 @@
       <File Name="src/system/CFileSystem.hpp"/>
       <File Name="src/system/CFileSystem.cpp"/>
       <File Name="src/system/CEngineInterface.hpp"/>
-      <File Name="src/system/CEngineInterface.cpp"/>
       <File Name="src/system/CEngine.hpp"/>
       <File Name="src/system/CEngine.cpp"/>
     </VirtualDirectory>
@@ -132,8 +132,8 @@
     </VirtualDirectory>
     <VirtualDirectory Name="renderer">
       <VirtualDirectory Name="text">
-        <File Name="src/renderer/text/CTextBuilder.cpp"/>
-        <File Name="src/renderer/text/CTextBuilder.hpp"/>
+        <File Name="src/renderer/text/CTextMeshBuilder.hpp"/>
+        <File Name="src/renderer/text/CTextMeshBuilder.cpp"/>
         <File Name="src/renderer/text/CText.cpp"/>
         <File Name="src/renderer/text/CText.hpp"/>
       </VirtualDirectory>

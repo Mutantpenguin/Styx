@@ -1,4 +1,5 @@
 #include "CEngine.hpp"
+
 #include "CTimer.hpp"
 
 #include "external/minitrace/minitrace.h"
@@ -19,7 +20,12 @@ CEngine::CEngine( const char *argv0, const std::string &gameDirectory, const std
 	m_settings( m_filesystem, settingsFile ),
 	m_sdl(),
 	m_window( m_settings, m_filesystem, m_gameInfo.GetName(), m_gameInfo.GetIconPath() ),
-	m_engineInterface( m_settings, m_filesystem )
+	m_renderer( m_settings, m_filesystem, m_resources ),
+	m_input( m_settings, m_filesystem ),
+	m_audio( m_settings, m_filesystem, m_resources ),
+	m_samplerManager( m_renderer.OpenGlAdapter() ),
+	m_fontBuilder( m_filesystem ),
+	m_engineInterface( m_resources, m_input, m_audio, m_samplerManager, m_fontBuilder, m_textMeshBuilder, m_stats )
 {
 	logINFO( "engine was initialized" );
 }
@@ -55,22 +61,22 @@ void CEngine::Run()
 
 		m_window.Update();
 
-		m_engineInterface.Renderer.RenderSceneToFramebuffer( currentState->Scene(), currentState->FrameBuffer(), currentState->Timer() );
+		m_renderer.RenderSceneToFramebuffer( currentState->Scene(), currentState->FrameBuffer(), currentState->Timer() );
 
-		m_engineInterface.Renderer.DisplayFramebuffer( currentState->FrameBuffer() );
+		m_renderer.DisplayFramebuffer( currentState->FrameBuffer() );
 
 		while( currentState && ( ( frameTimer.Time() - lastUpdatedTime ) > m_settings.engine.tick ) )
 		{
-			m_engineInterface.Input.Update();
+			m_input.Update();
 
 			MTR_BEGIN( "state", "update" );
 			currentState = currentState->Update();
 			MTR_END( "state", "update" );
 
 			#ifdef STYX_DEBUG
-				if( m_engineInterface.Input.KeyDown( SDL_SCANCODE_F12 ) )
+				if( m_input.KeyDown( SDL_SCANCODE_F12 ) )
 				{
-					m_engineInterface.Resources.Reload();
+					m_resources.Reload();
 				}
 			#endif
 
@@ -78,17 +84,17 @@ void CEngine::Run()
 		}
 
 		// TODO maybe only collect garbage when changing states?
-		m_engineInterface.Resources.CollectGarbage();
+		m_resources.CollectGarbage();
 
 		const u64 frameEndtime = frameTimer.Time();
 		
-		m_engineInterface.Stats.frameTime = ( frameEndtime - frameStartTime );
+		m_stats.frameTime = ( frameEndtime - frameStartTime );
 
 		#ifdef STYX_DEBUG
-			if( m_engineInterface.Stats.frameTime > m_settings.engine.tick )
+			if( m_stats.frameTime > m_settings.engine.tick )
 			{
 				// a frame takes more time than m_settings.engine.tick, so we have fewer than 30fps
-				logWARNING( "ATTENTION: frame-time is {0}ms", ( m_engineInterface.Stats.frameTime / 1000.0f ) );
+				logWARNING( "ATTENTION: frame-time is {0}ms", ( m_stats.frameTime / 1000.0f ) );
 			}
 		#endif // STYX_DEBUG
 	}
