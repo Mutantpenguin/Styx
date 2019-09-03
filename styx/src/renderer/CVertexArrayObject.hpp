@@ -13,6 +13,7 @@ public:
 	CVertexArrayObject( const Geometry<VertexP> &geometry );
 	CVertexArrayObject( const Geometry<VertexPN> &geometry );
 	CVertexArrayObject( const Geometry<VertexPU0> &geometry );
+	CVertexArrayObject( const Geometry<VertexPCU0> &geometry );
 	CVertexArrayObject( const Geometry<VertexPNU0> &geometry );
 	CVertexArrayObject( const Geometry<VertexPNTB> &geometry );
 	CVertexArrayObject( const Geometry<VertexPNTBU0> &geometry );

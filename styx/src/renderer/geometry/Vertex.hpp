@@ -19,6 +19,13 @@ struct VertexPU0 final
 	glm::vec2 UV0;
 };
 
+struct VertexPCU0 final
+{
+	glm::vec3 Position;
+	glm::vec3 Color;
+	glm::vec2 UV0;
+};
+
 struct VertexPNU0 final
 {
 	glm::vec3 Position;
