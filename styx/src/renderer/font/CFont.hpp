@@ -15,9 +15,6 @@
 class CFont final
 {
 public:
-	CFont();
-	~CFont();
-	
 	std::string Name;
 	
 	CSize AtlasSize;
@@ -28,9 +25,7 @@ public:
 	
 	bool HasCodepoint( const u32 codepoint ) const;
 	
-	u32 IndexFromCodepoint( const u32 codepoint ) const;
+	const stbtt_packedchar * PackedCharFromCodepoint( const u32 codepoint ) const;
 
-	std::unordered_map<u32, u32> Codepoints;
-	
-	std::unique_ptr<stbtt_packedchar[]> PackedChars;
+	std::unordered_map<u32, stbtt_packedchar> Codepoints;
 };

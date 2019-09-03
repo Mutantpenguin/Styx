@@ -4,29 +4,27 @@
 
 #include "src/renderer/geometry/Vertex.hpp"
 
-const CText CTextBuilder::Create( const std::string &str, const std::shared_ptr<CFont> &font ) const
+const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::string &str, const std::shared_ptr<CFont> &font ) const
 {
-	CText text;
+	Geometry<VertexPCU0> geometry;
 	
-	text.Value = str;
-	
-	text.Geometry.Mode = GL_TRIANGLES;
+	geometry.Mode = GL_TRIANGLES;
 	
 	u16 lastIndex = 0; // TODO rename
 	f16 offsetX = 0;
 	f16 offsetY = 0;
 	for( const auto &c : str )
 	{
-		const auto index = font->IndexFromCodepoint( c );
+		const auto packedChar = font->PackedCharFromCodepoint( c );
 		
-		if( index != std::numeric_limits<u32>::max() )
+		if( nullptr != packedChar )
 		{
 			stbtt_aligned_quad quad;
 			
-			stbtt_GetPackedQuad( font->PackedChars.get(), font->AtlasSize.width, font->AtlasSize.height, index, &offsetX, &offsetY, &quad, 1 );
+			stbtt_GetPackedQuad( packedChar, font->AtlasSize.width, font->AtlasSize.height, 0, &offsetX, &offsetY, &quad, 1 );
 			
-			auto &vertices = text.Geometry.Vertices;
-			auto &indices = text.Geometry.Indices;
+			auto &vertices = geometry.Vertices;
+			auto &indices = geometry.Indices;
 			
 			vertices.emplace_back( VertexPCU0( { { quad.x0, -quad.y1, 0 }, {}, { quad.s0, quad.t1 } } ) );
 			vertices.emplace_back( VertexPCU0( { { quad.x0, -quad.y0, 0 }, {}, { quad.s0, quad.t0 } } ) );
@@ -49,5 +47,6 @@ const CText CTextBuilder::Create( const std::string &str, const std::shared_ptr<
 		}
 	}
 	
-	return( text );
+	const CMesh::TMeshTextureSlots textureSlots = {};
+	return( std::make_shared<CMesh>( geometry, nullptr, textureSlots ) );
 }

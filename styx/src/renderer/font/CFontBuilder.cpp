@@ -57,8 +57,8 @@ const std::shared_ptr<const CFont> CFontBuilder::FromTtfFile( const fs::path &pa
 	
 	font->Size = size;
 	
+	// TODO really define a fixed size here?
 	font->AtlasSize = { 4096, 4096 };
-	// TODO font->AtlasSize = { 512, 512 };
 	
 	auto fontImageData = std::make_unique<CImage::PixelBuffer>( font->AtlasSize.width * font->AtlasSize.height );
 	
@@ -82,21 +82,14 @@ const std::shared_ptr<const CFont> CFontBuilder::FromTtfFile( const fs::path &pa
 		stbtt_PackSetOversampling( &context, 2, 2 );
 
 		auto glyphs = glyphRange.ToVector();
-		
-		u32 i = 0;
-		for( const auto &glyph : glyphs )
-		{
-			font->Codepoints[ glyph ] = i;
-			i++;
-		}
-		
-		font->PackedChars = std::make_unique<stbtt_packedchar[]>( glyphs.size() );
+			
+		auto packedChars = std::make_unique<stbtt_packedchar[]>( glyphs.size() );
 		
 		stbtt_pack_range range;
 		range.first_unicode_codepoint_in_range = 0;
 		range.array_of_unicode_codepoints = glyphs.data();
 		range.num_chars                   = glyphs.size();
-		range.chardata_for_range          = font->PackedChars.get();
+		range.chardata_for_range          = packedChars.get();
 		range.font_size                   = size;
 		
 		if( !stbtt_PackFontRanges( &context, reinterpret_cast<unsigned char*>( fontFileBuffer.data() ), 0, &range, 1 ) )
@@ -106,6 +99,14 @@ const std::shared_ptr<const CFont> CFontBuilder::FromTtfFile( const fs::path &pa
 		}
 
 		stbtt_PackEnd( &context );
+		
+		// copy over the packed chars into our own map for the codepoints
+		u32 i = 0;
+		for( const auto &glyph : glyphs )
+		{
+			font->Codepoints[ glyph ] = packedChars[ i ];
+			i++;
+		}
 		
 		const auto fontImage = std::make_shared<CImage>( font->AtlasSize, 8, font->AtlasSize.width, std::move( fontImageData ) );
 		

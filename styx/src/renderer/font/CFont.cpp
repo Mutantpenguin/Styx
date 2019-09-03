@@ -1,16 +1,5 @@
 #include "CFont.hpp"
 
-#include <algorithm>
-
-CFont::CFont()
-{
-	
-}
-
-CFont::~CFont()
-{
-}
-
 bool CFont::HasCodepoint( const u32 codepoint ) const
 {
 	const auto it = Codepoints.find( codepoint );
@@ -23,14 +12,14 @@ bool CFont::HasCodepoint( const u32 codepoint ) const
 	return( false );
 }
 
-u32 CFont::IndexFromCodepoint( const u32 codepoint ) const
+const stbtt_packedchar * CFont::PackedCharFromCodepoint( const u32 codepoint ) const
 {
 	const auto it = Codepoints.find( codepoint );
 		
 	if( std::end( Codepoints ) != it )
 	{
-		return( it->second );
+		return( &it->second );
 	}
 	
-	return( std::numeric_limits<u32>::max() );
+	return( nullptr );
 }

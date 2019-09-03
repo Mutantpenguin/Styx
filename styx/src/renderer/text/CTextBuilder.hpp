@@ -1,10 +1,12 @@
 #pragma once
 
-#include "src/renderer/text/CText.hpp"
+#include <memory>
+
+#include "src/renderer/model/CMesh.hpp"
 #include "src/renderer/font/CFont.hpp"
 
-class CTextBuilder final
+class CTextMeshBuilder final
 {
 public:
-	const CText Create( const std::string &str, const std::shared_ptr<CFont> &font ) const;
+	const std::shared_ptr<CMesh> Create( const std::string &str, const std::shared_ptr<CFont> &font ) const;
 };
