@@ -343,7 +343,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		}
 		
 		{ // just one font object
-			const auto fontMesh = engineInterface.TextMeshBuilder.Create( "Muahaha", font );
+			const auto fontMesh = engineInterface.TextMeshBuilder.Create( "Du hast \\#00FF00doofe\\## Ohren", font );
 			
 			const auto entity = m_scene.CreateEntity( "font_test" );
 			entity->Transform.Position( { 80.0f, 10.0f, 20.0f } );
