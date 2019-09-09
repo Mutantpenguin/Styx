@@ -326,7 +326,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		glyphRange.AddDefault();
 		// TODO glyphRange.Add( 0xf000, 0xf897 );
 		
-		const auto font = fontbuilder.FromFile( "fonts/arial.ttf", 64, glyphRange );
+		const auto font = fontbuilder.FromFile("fonts/Comfortaa/Medium.ttf", 64, glyphRange);
 		// TODO const auto font = fontbuilder.FromFile( "fonts/fontawesome-webfont.ttf", 64, glyphRange );
 		// TODO const auto font = fontbuilder.FromFile( "fonts/NovaCut.ttf", 64, glyphRange );
 
