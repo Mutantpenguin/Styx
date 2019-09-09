@@ -93,6 +93,9 @@
     <ClInclude Include="src\renderer\CUniformBuffer.hpp" />
     <ClInclude Include="src\renderer\CVertexArrayObject.hpp" />
     <ClInclude Include="src\renderer\EUniformBufferLocations.hpp" />
+    <ClInclude Include="src\renderer\font\CFont.hpp" />
+    <ClInclude Include="src\renderer\font\CFontBuilder.hpp" />
+    <ClInclude Include="src\renderer\font\CGlyphRanges.hpp" />
     <ClInclude Include="src\renderer\geometry\Geometry.hpp" />
     <ClInclude Include="src\renderer\geometry\prefabs\Cube.hpp" />
     <ClInclude Include="src\renderer\geometry\prefabs\Cuboid.hpp" />
@@ -111,6 +114,7 @@
     <ClInclude Include="src\renderer\model\CModel.hpp" />
     <ClInclude Include="src\renderer\model\CModelCache.hpp" />
     <ClInclude Include="src\renderer\model\CModelLoader.hpp" />
+    <ClInclude Include="src\renderer\RenderLayer.hpp" />
     <ClInclude Include="src\renderer\sampler\CSampler.hpp" />
     <ClInclude Include="src\renderer\sampler\CSamplerManager.hpp" />
     <ClInclude Include="src\renderer\shader\CShader.hpp" />
@@ -120,6 +124,7 @@
     <ClInclude Include="src\renderer\shader\CShaderProgram.hpp" />
     <ClInclude Include="src\renderer\shader\CShaderProgramCache.hpp" />
     <ClInclude Include="src\renderer\shader\CShaderProgramCompiler.hpp" />
+    <ClInclude Include="src\renderer\shader\CShaderProgramLoader.hpp" />
     <ClInclude Include="src\renderer\shader\EEngineUniform.hpp" />
     <ClInclude Include="src\renderer\shader\SShaderInterface.hpp" />
     <ClInclude Include="src\renderer\texture\C2DArrayData.hpp" />
@@ -127,6 +132,7 @@
     <ClInclude Include="src\renderer\texture\CTexture.hpp" />
     <ClInclude Include="src\renderer\texture\CTextureCache.hpp" />
     <ClInclude Include="src\renderer\texture\CTextureLoader.hpp" />
+    <ClInclude Include="src\renderer\text\CTextMeshBuilder.hpp" />
     <ClInclude Include="src\resource\CResourceCache.hpp" />
     <ClInclude Include="src\resource\CResourceCacheBase.hpp" />
     <ClInclude Include="src\resource\CResources.hpp" />
@@ -148,6 +154,7 @@
     <ClInclude Include="src\states\CStatePause.hpp" />
     <ClInclude Include="src\system\CEngine.hpp" />
     <ClInclude Include="src\system\CEngineInterface.hpp" />
+    <ClInclude Include="src\system\CEngineStats.hpp" />
     <ClInclude Include="src\system\CFileSystem.hpp" />
     <ClInclude Include="src\system\CGameInfo.hpp" />
     <ClInclude Include="src\system\CInput.hpp" />
@@ -185,6 +192,8 @@
     <ClCompile Include="external\physfs\physfs_platform_windows.c" />
     <ClCompile Include="external\physfs\physfs_platform_winrt.cpp" />
     <ClCompile Include="external\physfs\physfs_unicode.c" />
+    <ClCompile Include="external\stb\stb_rect_pack_impl.cpp" />
+    <ClCompile Include="external\stb\stb_truetype_impl.cpp" />
     <ClCompile Include="external\stb\stb_vorbis.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -216,6 +225,9 @@
     <ClCompile Include="src\renderer\CUniformBuffer.cpp" />
     <ClCompile Include="src\renderer\CVertexArrayObject.cpp" />
     <ClInclude Include="src\renderer\RenderPackage.hpp" />
+    <ClCompile Include="src\renderer\font\CFont.cpp" />
+    <ClCompile Include="src\renderer\font\CFontBuilder.cpp" />
+    <ClCompile Include="src\renderer\font\CGlyphRanges.cpp" />
     <ClCompile Include="src\renderer\geometry\prefabs\Cube.cpp" />
     <ClCompile Include="src\renderer\geometry\prefabs\Cuboid.cpp" />
     <ClCompile Include="src\renderer\geometry\prefabs\Quad.cpp" />
@@ -229,6 +241,7 @@
     <ClCompile Include="src\renderer\model\CMeshTextureSlot.cpp" />
     <ClCompile Include="src\renderer\model\CModel.cpp" />
     <ClCompile Include="src\renderer\model\CModelLoader.cpp" />
+    <ClCompile Include="src\renderer\RenderLayer.cpp" />
     <ClCompile Include="src\renderer\RenderPackage.cpp" />
     <ClCompile Include="src\renderer\sampler\CSampler.cpp" />
     <ClCompile Include="src\renderer\sampler\CSamplerManager.cpp" />
@@ -236,12 +249,13 @@
     <ClCompile Include="src\renderer\shader\CShaderCompiler.cpp" />
     <ClCompile Include="src\renderer\shader\CShaderLoader.cpp" />
     <ClCompile Include="src\renderer\shader\CShaderProgram.cpp" />
-    <ClCompile Include="src\renderer\shader\CShaderProgramCache.cpp" />
     <ClCompile Include="src\renderer\shader\CShaderProgramCompiler.cpp" />
+    <ClCompile Include="src\renderer\shader\CShaderProgramLoader.cpp" />
     <ClCompile Include="src\renderer\texture\C2DArrayData.cpp" />
     <ClCompile Include="src\renderer\texture\CCubemapData.cpp" />
     <ClCompile Include="src\renderer\texture\CTexture.cpp" />
     <ClCompile Include="src\renderer\texture\CTextureLoader.cpp" />
+    <ClCompile Include="src\renderer\text\CTextMeshBuilder.cpp" />
     <ClCompile Include="src\resource\CResourceCacheBase.cpp" />
     <ClCompile Include="src\resource\CResources.cpp" />
     <ClCompile Include="src\scene\CEntity.cpp" />
@@ -259,7 +273,6 @@
     <ClCompile Include="src\states\CStateMainMenu.cpp" />
     <ClCompile Include="src\states\CStatePause.cpp" />
     <ClCompile Include="src\system\CEngine.cpp" />
-    <ClCompile Include="src\system\CEngineInterface.cpp" />
     <ClCompile Include="src\system\CFileSystem.cpp" />
     <ClCompile Include="src\system\CGameInfo.cpp" />
     <ClCompile Include="src\system\CInput.cpp" />

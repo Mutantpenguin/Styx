@@ -123,6 +123,12 @@
     <Filter Include="src\renderer\geometry\prefabs">
       <UniqueIdentifier>{feb6f50a-fcf9-4847-a15b-acf6877eef3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\renderer\text">
+      <UniqueIdentifier>{29f32b62-7619-40d6-b72e-a70795aa417e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\renderer\font">
+      <UniqueIdentifier>{86ae58bb-fdee-42a4-b019-ae60f7c841a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\CLI11\CLI11.hpp">
@@ -485,6 +491,27 @@
     <ClInclude Include="src\core\Types.hpp">
       <Filter>src\core</Filter>
     </ClInclude>
+    <ClInclude Include="src\system\CEngineStats.hpp">
+      <Filter>src\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\font\CFont.hpp">
+      <Filter>src\renderer\font</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\font\CFontBuilder.hpp">
+      <Filter>src\renderer\font</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\font\CGlyphRanges.hpp">
+      <Filter>src\renderer\font</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\text\CTextMeshBuilder.hpp">
+      <Filter>src\renderer\text</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\RenderLayer.hpp">
+      <Filter>src\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\shader\CShaderProgramLoader.hpp">
+      <Filter>src\renderer\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\fmt\format.cc">
@@ -712,9 +739,6 @@
     <ClCompile Include="src\system\CEngine.cpp">
       <Filter>src\system</Filter>
     </ClCompile>
-    <ClCompile Include="src\system\CEngineInterface.cpp">
-      <Filter>src\system</Filter>
-    </ClCompile>
     <ClCompile Include="src\system\CFileSystem.cpp">
       <Filter>src\system</Filter>
     </ClCompile>
@@ -752,9 +776,6 @@
       <Filter>src\renderer\shader</Filter>
     </ClCompile>
     <ClCompile Include="src\renderer\shader\CShaderProgramCompiler.cpp">
-      <Filter>src\renderer\shader</Filter>
-    </ClCompile>
-    <ClCompile Include="src\renderer\shader\CShaderProgramCache.cpp">
       <Filter>src\renderer\shader</Filter>
     </ClCompile>
     <ClCompile Include="src\audio\CAudioBuffer.cpp">
@@ -798,6 +819,30 @@
     </ClCompile>
     <ClCompile Include="src\renderer\RenderPackage.cpp">
       <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\font\CFont.cpp">
+      <Filter>src\renderer\font</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\font\CFontBuilder.cpp">
+      <Filter>src\renderer\font</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\font\CGlyphRanges.cpp">
+      <Filter>src\renderer\font</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\text\CTextMeshBuilder.cpp">
+      <Filter>src\renderer\text</Filter>
+    </ClCompile>
+    <ClCompile Include="external\stb\stb_rect_pack_impl.cpp">
+      <Filter>external\stb</Filter>
+    </ClCompile>
+    <ClCompile Include="external\stb\stb_truetype_impl.cpp">
+      <Filter>external\stb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\RenderLayer.cpp">
+      <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\shader\CShaderProgramLoader.cpp">
+      <Filter>src\renderer\shader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
