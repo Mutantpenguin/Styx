@@ -17,7 +17,8 @@ class CTextMeshBuilder final
 public:
 	CTextMeshBuilder( const CSamplerManager &samplerManager, const CShaderCompiler &shaderCompiler, CShaderProgramCompiler &shaderProgramCompiler );
 	
-	const std::shared_ptr<CMesh> Create( const std::string &str, const std::shared_ptr<const CFont> &font, const CColor &color = DefaultColor ) const;
+	const std::shared_ptr<CMesh> Create( const std::shared_ptr<const CFont> &font, const std::string &str ) const;
+	const std::shared_ptr<CMesh> Create( const std::shared_ptr<const CFont> &font, const CColor &color, const std::string &str ) const;
 
 private:
 	const CSamplerManager &m_samplerManager;

@@ -343,7 +343,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		}
 		
 		{ // just one font object
-			const auto fontMesh = engineInterface.TextMeshBuilder.Create( "A<b>A</b> Du hast <#00FF00>doofe</#> <b>Ohren</b> und eine <#4444FF><b>krumme</b></#> Nase!", font );
+			const auto fontMesh = engineInterface.TextMeshBuilder.Create( font, "A<b>A</b> Du hast <#00FF00>doofe</#> <b>Ohren</b> und eine <#4444FF><b>krumme</b></#> Nase!" );
 			
 			const auto entity = m_scene.CreateEntity( "font_test" );
 			entity->Transform.Position( { 80.0f, 10.0f, 20.0f } );
