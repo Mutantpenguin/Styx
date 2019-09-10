@@ -14,6 +14,10 @@
 
 #include "src/renderer/texture/CTextureLoader.hpp"
 
+const std::shared_ptr<const CFont> CFontBuilder::FromFile( const std::string &name, const fs::path &pathRegularStyle, const u16 size, const CGlyphRange &glyphRange ) const
+{
+	return( FromFile( name, pathRegularStyle, {}, size, glyphRange ) );
+}
 
 const std::shared_ptr<const CFont> CFontBuilder::FromFile( const std::string &name, const fs::path &pathRegularStyle, const fs::path &pathBoldStyle, const u16 size, const CGlyphRange &glyphRange ) const
 {
