@@ -512,6 +512,9 @@
     <ClInclude Include="src\renderer\shader\CShaderProgramLoader.hpp">
       <Filter>src\renderer\shader</Filter>
     </ClInclude>
+    <ClInclude Include="src\renderer\font\EFontStyle.hpp">
+      <Filter>src\renderer\font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\fmt\format.cc">
@@ -843,6 +846,9 @@
     </ClCompile>
     <ClCompile Include="src\renderer\shader\CShaderProgramLoader.cpp">
       <Filter>src\renderer\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\font\EFontStyle.cpp">
+      <Filter>src\renderer\font</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

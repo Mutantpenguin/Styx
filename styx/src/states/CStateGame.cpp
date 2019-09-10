@@ -326,16 +326,16 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		glyphRange.AddDefault();
 		// TODO glyphRange.Add( 0xf000, 0xf897 );
 		
-		const auto font = fontbuilder.FromFile("fonts/Comfortaa/Medium.ttf", 64, glyphRange);
-		// TODO const auto font = fontbuilder.FromFile( "fonts/fontawesome-webfont.ttf", 64, glyphRange );
-		// TODO const auto font = fontbuilder.FromFile( "fonts/NovaCut.ttf", 64, glyphRange );
+		const auto font = fontbuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Medium.ttf", "fonts/Comfortaa/Bold.ttf", 64, glyphRange );
+		// TODO const auto font = fontbuilder.FromFile( "FontAwesome", "fonts/fontawesome-webfont.ttf", 64, glyphRange );
+		// TODO const auto font = fontbuilder.FromFile( "NovaCut", "fonts/NovaCut.ttf", 64, glyphRange );
 
 		const auto material = resources.Get<CMaterial>( "materials/basic_font.mat" );
 		
 		const CMesh::TMeshTextureSlots textureSlots = {	{ "fontTexture", std::make_shared<CMeshTextureSlot>( font->Texture, samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
 		{ // show whole atlas
-			const auto mesh = std::make_shared<CMesh>( GeometryPrefabs::QuadPNU0( 10.0f ), material, textureSlots );
+			const auto mesh = std::make_shared<CMesh>( GeometryPrefabs::QuadPU0( 10.0f ), material, textureSlots );
 
 			const auto entity = m_scene.CreateEntity( "font_atlas_test" );
 			entity->Transform.Position( { 40.0f, 10.0f, 20.0f } );
@@ -343,7 +343,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		}
 		
 		{ // just one font object
-			const auto fontMesh = engineInterface.TextMeshBuilder.Create( "Du hast \\#00FF00doofe\\## Ohren", font );
+			const auto fontMesh = engineInterface.TextMeshBuilder.Create( "Du hast <#00FF00>doofe</#> <b>Ohren</b> und eine <#4444FF><b>krumme</b></#> Nase!", font );
 			
 			const auto entity = m_scene.CreateEntity( "font_test" );
 			entity->Transform.Position( { 80.0f, 10.0f, 20.0f } );

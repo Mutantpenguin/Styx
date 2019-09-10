@@ -95,6 +95,7 @@
     <ClInclude Include="src\renderer\EUniformBufferLocations.hpp" />
     <ClInclude Include="src\renderer\font\CFont.hpp" />
     <ClInclude Include="src\renderer\font\CFontBuilder.hpp" />
+    <ClInclude Include="src\renderer\font\EFontStyle.hpp" />
     <ClInclude Include="src\renderer\font\CGlyphRanges.hpp" />
     <ClInclude Include="src\renderer\geometry\Geometry.hpp" />
     <ClInclude Include="src\renderer\geometry\prefabs\Cube.hpp" />
@@ -228,6 +229,7 @@
     <ClCompile Include="src\renderer\font\CFont.cpp" />
     <ClCompile Include="src\renderer\font\CFontBuilder.cpp" />
     <ClCompile Include="src\renderer\font\CGlyphRanges.cpp" />
+    <ClCompile Include="src\renderer\font\EFontStyle.cpp" />
     <ClCompile Include="src\renderer\geometry\prefabs\Cube.cpp" />
     <ClCompile Include="src\renderer\geometry\prefabs\Cuboid.cpp" />
     <ClCompile Include="src\renderer\geometry\prefabs\Quad.cpp" />

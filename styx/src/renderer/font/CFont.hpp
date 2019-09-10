@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <optional>
 #include <unordered_map>
 
 #include "external/stb/stb_truetype.h"
@@ -12,20 +13,27 @@
 
 #include "src/renderer/texture/CTexture.hpp"
 
+#include "EFontStyle.hpp"
+
 class CFont final
 {
-public:
-	std::string Name;
+public:	
+	CFont( const std::string &name, const u16 size, const CSize &atlasSize );
 	
-	CSize AtlasSize;
+	const std::string Name;
 	
-	u16 Size;
-	
-	std::shared_ptr<CTexture> Texture;
-	
-	bool HasCodepoint( const u32 codepoint ) const;
-	
-	const stbtt_packedchar * PackedCharFromCodepoint( const u32 codepoint ) const;
+	const u16 Size;
 
-	std::unordered_map<u32, stbtt_packedchar> Codepoints;
+	const CSize AtlasSize;
+	
+	std::shared_ptr<CTexture> Texture = std::make_shared<CTexture>();
+	
+	bool HasCodepoint( EFontStyle fontStyle, const u32 codepoint ) const;
+	
+	const stbtt_packedchar * PackedCharFromCodepoint( EFontStyle fontStyle, const u32 codepoint ) const;
+
+	using CodepointMap = std::unordered_map<u32, stbtt_packedchar>;
+
+	CodepointMap CodepointsMedium;
+	std::optional<CodepointMap> CodepointsBold;
 };

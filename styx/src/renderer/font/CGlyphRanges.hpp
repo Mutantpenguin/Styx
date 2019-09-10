@@ -16,6 +16,8 @@ public:
 	
 	std::vector<i32> ToVector() const;
 
+	u16 Count() const;
+
 private:
 	std::vector<std::tuple<i32,i32>> m_ranges;
 };

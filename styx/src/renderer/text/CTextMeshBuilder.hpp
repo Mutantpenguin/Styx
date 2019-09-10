@@ -10,12 +10,14 @@
 #include "src/renderer/shader/CShaderCompiler.hpp"
 #include "src/renderer/shader/CShaderProgramCompiler.hpp"
 
+#include "src/helper/CColor.hpp"
+
 class CTextMeshBuilder final
 {
 public:
 	CTextMeshBuilder( const CSamplerManager &samplerManager, const CShaderCompiler &shaderCompiler, CShaderProgramCompiler &shaderProgramCompiler );
 	
-	const std::shared_ptr<CMesh> Create( const std::string &str, const std::shared_ptr<const CFont> &font ) const;
+	const std::shared_ptr<CMesh> Create( const std::string &str, const std::shared_ptr<const CFont> &font, const CColor &color = DefaultColor ) const;
 
 private:
 	const CSamplerManager &m_samplerManager;
@@ -32,5 +34,5 @@ private:
 	
 	const std::shared_ptr<CShaderProgram> m_fontShaderProgram = std::make_shared<CShaderProgram>();
 	
-	const glm::vec3 m_defaultColor { 0.0f, 0.0f, 0.0f };
+	static const CColor DefaultColor;
 };
