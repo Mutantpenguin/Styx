@@ -6,7 +6,7 @@
 
 enum class EFontStyle : u8
 {
-	MEDIUM,
+	REGULAR,
 	BOLD
 };
 

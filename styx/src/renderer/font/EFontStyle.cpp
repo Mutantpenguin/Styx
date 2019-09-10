@@ -6,8 +6,8 @@ std::string EFontStyleToString( const EFontStyle fontStyle )
 {
 	switch( fontStyle )
 	{
-	case EFontStyle::MEDIUM:
-		return( "MEDIUM" );
+	case EFontStyle::REGULAR:
+		return( "REGULAR" );
 
 	case EFontStyle::BOLD:
 		return( "BOLD" );

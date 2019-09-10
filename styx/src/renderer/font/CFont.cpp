@@ -8,24 +8,24 @@ CFont::CFont( const std::string &name, const u16 size, const CSize &atlasSize ) 
 
 bool CFont::HasCodepoint( EFontStyle fontStyle, const u32 codepoint ) const
 {
-	if( fontStyle == EFontStyle::MEDIUM )
+	if( fontStyle == EFontStyle::REGULAR )
 	{
-		const auto it = CodepointsMedium.find( codepoint );
+		const auto it = CodepointsRegularStyle.find( codepoint );
 
-		if( std::end( CodepointsMedium ) != it )
+		if( std::end( CodepointsRegularStyle ) != it )
 		{
 			return( true );
 		}
 	}
 	else if( fontStyle == EFontStyle::BOLD )
 	{
-		if( CodepointsBold.has_value() )
+		if( CodepointsBoldStyle.has_value() )
 		{
-			const auto &codepointsBold = CodepointsBold.value();
+			const auto &codepointsBoldStyle = CodepointsBoldStyle.value();
 
-			const auto it = codepointsBold.find( codepoint );
+			const auto it = codepointsBoldStyle.find( codepoint );
 
-			if( std::end( codepointsBold ) != it )
+			if( std::end( codepointsBoldStyle ) != it )
 			{
 				return( true );
 			}
@@ -37,24 +37,24 @@ bool CFont::HasCodepoint( EFontStyle fontStyle, const u32 codepoint ) const
 
 const stbtt_packedchar * CFont::PackedCharFromCodepoint( EFontStyle fontStyle, const u32 codepoint ) const
 {
-	if( fontStyle == EFontStyle::MEDIUM )
+	if( fontStyle == EFontStyle::REGULAR )
 	{
-		const auto it = CodepointsMedium.find( codepoint );
+		const auto it = CodepointsRegularStyle.find( codepoint );
 
-		if( std::end( CodepointsMedium ) != it )
+		if( std::end( CodepointsRegularStyle ) != it )
 		{
 			return( &it->second );
 		}
 	}
 	else if( fontStyle == EFontStyle::BOLD )
 	{
-		if( CodepointsBold.has_value() )
+		if( CodepointsBoldStyle.has_value() )
 		{
-			const auto &codepointsBold = CodepointsBold.value();
+			const auto &codepointsBoldStyle = CodepointsBoldStyle.value();
 
-			const auto it = codepointsBold.find( codepoint );
+			const auto it = codepointsBoldStyle.find( codepoint );
 
-			if( std::end( codepointsBold ) != it )
+			if( std::end( codepointsBoldStyle ) != it )
 			{
 				return( &it->second );
 			}

@@ -15,7 +15,7 @@
 #include "src/renderer/texture/CTextureLoader.hpp"
 
 
-const std::shared_ptr<const CFont> CFontBuilder::FromFile( const std::string &name, const fs::path &pathMedium, const fs::path &pathBold, const u16 size, const CGlyphRange &glyphRange ) const
+const std::shared_ptr<const CFont> CFontBuilder::FromFile( const std::string &name, const fs::path &pathRegularStyle, const fs::path &pathBoldStyle, const u16 size, const CGlyphRange &glyphRange ) const
 {
 	if( glyphRange.Count() == 0 )
 	{
@@ -23,22 +23,22 @@ const std::shared_ptr<const CFont> CFontBuilder::FromFile( const std::string &na
 		return( FromDummy( size ) );
 	}
 
-	if( !pathMedium.has_filename() )
+	if( !pathRegularStyle.has_filename() )
 	{
-		logWARNING( "path '{0}' does not containt a filename", pathMedium.generic_string() );
+		logWARNING( "path '{0}' does not containt a filename", pathRegularStyle.generic_string() );
 		return( FromDummy( size ) );
 	}
 
-	const std::string fileExtensionString = pathMedium.extension().generic_string();
+	const std::string fileExtensionString = pathRegularStyle.extension().generic_string();
 
 	if( fileExtensionString != FileExtension::Font::ttf )
 	{
-		logWARNING( "file type '{0}' of font file '{1}' is not supported", fileExtensionString, pathMedium.generic_string() );
+		logWARNING( "file type '{0}' of font file '{1}' is not supported", fileExtensionString, pathRegularStyle.generic_string() );
 		return( FromDummy( size ) );
 	}
-	else if( !m_filesystem.Exists( pathMedium ) )
+	else if( !m_filesystem.Exists( pathRegularStyle ) )
 	{
-		logWARNING( "font file '{0}' does not exist", pathMedium.generic_string() );
+		logWARNING( "font file '{0}' does not exist", pathRegularStyle.generic_string() );
 		return( FromDummy( size ) );
 	}
 	else
@@ -57,29 +57,29 @@ const std::shared_ptr<const CFont> CFontBuilder::FromFile( const std::string &na
 
 		stbtt_PackSetOversampling( &context, 2, 2 );
 
-		auto fontFileBufferMedium = m_filesystem.LoadFileToBuffer( pathMedium );
+		auto fontFileBufferRegularStyle = m_filesystem.LoadFileToBuffer( pathRegularStyle );
 
-		if( !fontFileBufferMedium.empty() )
+		if( !fontFileBufferRegularStyle.empty() )
 		{
 			auto glyphs = glyphRange.ToVector();
 
-			if( !PackFont( context, font->Size, glyphs, fontFileBufferMedium, font->CodepointsMedium ) )
+			if( !PackFont( context, font->Size, glyphs, fontFileBufferRegularStyle, font->CodepointsRegularStyle ) )
 			{
-				logWARNING( "failed to pack medium font" );
+				logWARNING( "failed to pack regular style font" );
 				return( FromDummy( size ) );
 			}
 
-			if( !pathBold.empty() )
+			if( !pathBoldStyle.empty() )
 			{
-				auto fontFileBufferBold = m_filesystem.LoadFileToBuffer( pathBold );
+				auto fontFileBufferBoldStyle = m_filesystem.LoadFileToBuffer( pathBoldStyle );
 
-				if( !fontFileBufferBold.empty() )
+				if( !fontFileBufferBoldStyle.empty() )
 				{
-					auto &codepoints = font->CodepointsBold.emplace();
+					auto &codepoints = font->CodepointsBoldStyle.emplace();
 
-					if( !PackFont( context, font->Size, glyphs, fontFileBufferBold, codepoints ) )
+					if( !PackFont( context, font->Size, glyphs, fontFileBufferBoldStyle, codepoints ) )
 					{
-						logWARNING( "failed to pack bold font" );
+						logWARNING( "failed to pack bold style font" );
 						return( FromDummy( size ) );
 					}
 				}
@@ -95,7 +95,7 @@ const std::shared_ptr<const CFont> CFontBuilder::FromFile( const std::string &na
 		}
 		else
 		{
-			logWARNING( "failed to load font file '{0}'", pathMedium.generic_string() );
+			logWARNING( "failed to load font file '{0}'", pathRegularStyle.generic_string() );
 			return( FromDummy( size ) );
 		}
 

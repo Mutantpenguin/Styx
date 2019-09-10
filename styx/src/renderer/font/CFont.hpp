@@ -34,6 +34,6 @@ public:
 
 	using CodepointMap = std::unordered_map<u32, stbtt_packedchar>;
 
-	CodepointMap CodepointsMedium;
-	std::optional<CodepointMap> CodepointsBold;
+	CodepointMap CodepointsRegularStyle;
+	std::optional<CodepointMap> CodepointsBoldStyle;
 };

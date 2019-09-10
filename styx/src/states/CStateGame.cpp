@@ -326,7 +326,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		glyphRange.AddDefault();
 		// TODO glyphRange.Add( 0xf000, 0xf897 );
 		
-		const auto font = fontbuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Medium.ttf", "fonts/Comfortaa/Bold.ttf", 64, glyphRange );
+		const auto font = fontbuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Regular.ttf", "fonts/Comfortaa/Bold.ttf", 64, glyphRange );
 		// TODO const auto font = fontbuilder.FromFile( "FontAwesome", "fonts/fontawesome-webfont.ttf", 64, glyphRange );
 		// TODO const auto font = fontbuilder.FromFile( "NovaCut", "fonts/NovaCut.ttf", 64, glyphRange );
 
@@ -343,11 +343,11 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		}
 		
 		{ // just one font object
-			const auto fontMesh = engineInterface.TextMeshBuilder.Create( "Du hast <#00FF00>doofe</#> <b>Ohren</b> und eine <#4444FF><b>krumme</b></#> Nase!", font );
+			const auto fontMesh = engineInterface.TextMeshBuilder.Create( "A<b>A</b> Du hast <#00FF00>doofe</#> <b>Ohren</b> und eine <#4444FF><b>krumme</b></#> Nase!", font );
 			
 			const auto entity = m_scene.CreateEntity( "font_test" );
 			entity->Transform.Position( { 80.0f, 10.0f, 20.0f } );
-			entity->Transform.Scale( { 0.1f, 0.1f, 0.1f } );
+			entity->Transform.Scale( { 0.05f, 0.05f, 0.05f } );
 			entity->Add<CModelComponent>( fontMesh );
 		}
 	}

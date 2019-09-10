@@ -83,7 +83,7 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::string &str, c
 	f16 offsetY = 0;
 	
 	glm::vec3 currentVertexColor = standardColor;
-	EFontStyle currentStyle = EFontStyle::MEDIUM;
+	EFontStyle currentStyle = EFontStyle::REGULAR;
 	
 	for( u16 i = 0; i < str.length(); i++ )
 	{
@@ -120,7 +120,7 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::string &str, c
 				}
 				else if( str.substr( i, 4 ) == "</b>" ) // end of bold
 				{
-					currentStyle = EFontStyle::MEDIUM;
+					currentStyle = EFontStyle::REGULAR;
 
 					i += 3;
 					continue;
