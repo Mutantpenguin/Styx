@@ -225,7 +225,7 @@ namespace ImageHandler
 		{
 			using ColorBytes = std::array<std::byte, 4>;
 
-			auto blah = []( const CColor &color ) -> auto
+			auto ConvertColorToByteArray = []( const CColor &color ) -> auto
 			{
 				return( ColorBytes{	static_cast<std::byte>( static_cast<u8>( std::round( color.r() * 255 ) ) ),
 									static_cast<std::byte>( static_cast<u8>( std::round( color.g() * 255 ) ) ),
@@ -233,7 +233,7 @@ namespace ImageHandler
 									static_cast<std::byte>( static_cast<u8>( std::round( color.a() * 255 ) ) ) } );
 			};
 
-			const std::array<ColorBytes, 2> colors = { blah( color1 ), blah( color2 ) };
+			const std::array<ColorBytes, 2> colors = { ConvertColorToByteArray( color1 ), ConvertColorToByteArray( color2 ) };
 
 			auto checkerImageData = std::make_unique<CImage::PixelBuffer>( size.width * size.height * 4 );
 
