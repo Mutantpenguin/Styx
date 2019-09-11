@@ -93,6 +93,10 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 	glm::vec3 currentVertexColor = standardColor;
 	EFontStyle currentStyle = EFontStyle::REGULAR;
 
+	// for the anchoring
+	f16 maxX = 0.0f;
+	f16 minY = 0.0f;
+
 	f16 offsetX = 0;
 	f16 offsetY = 0;
 
@@ -172,6 +176,9 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 				indices.emplace_back( lastIndex + 3 );
 
 				lastIndex += 4;
+
+				maxX = std::max( { maxX, quad.x0, quad.x1 } );
+				minY = std::min( { minY, -quad.y0, -quad.y1 } );
 			}
 			else
 			{
@@ -179,6 +186,54 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 			}
 
 			break;
+		}
+	}
+
+	/*
+	 * Anchoring
+	 */
+
+	f16 xShift = 0.0f;
+	f16 yShift = 0.0f;
+
+	switch( textOptions.HorizontalAnchoring )
+	{
+	case EAnchoringHorizontal::LEFT:
+		// nothing to do
+		break;
+
+	case EAnchoringHorizontal::CENTER:
+		xShift = maxX / 2.0f;
+		break;
+
+	case EAnchoringHorizontal::RIGHT:
+		xShift = maxX;
+		break;
+	}
+
+	switch( textOptions.VerticalAnchoring )
+	{
+	case EAnchoringVertical::TOP:
+		// nothing to do
+		break;
+
+	case EAnchoringVertical::CENTER:
+		yShift = minY / 2.0f;
+		break;
+
+	case EAnchoringVertical::BOTTOM:
+		yShift = minY;
+		break;
+	}
+
+	if( ( xShift != 0.0f )
+		||
+		( yShift != 0.0f ) )
+	{
+		for( auto &vertex : vertices )
+		{
+			vertex.Position.x -= xShift;
+			vertex.Position.y -= yShift;
 		}
 	}
 
