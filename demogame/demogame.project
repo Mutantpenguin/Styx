@@ -242,6 +242,14 @@
     <File Name="materials/blue.mat"/>
   </VirtualDirectory>
   <VirtualDirectory Name="fonts">
+    <File Name="fonts/arial.ttf"/>
+    <File Name="fonts/NovaSquare.ttf"/>
+    <File Name="fonts/NovaCut.ttf"/>
+    <VirtualDirectory Name="Comfortaa">
+      <File Name="fonts/Comfortaa/Regular.ttf"/>
+      <File Name="fonts/Comfortaa/OFL.txt"/>
+      <File Name="fonts/Comfortaa/Bold.ttf"/>
+    </VirtualDirectory>
     <File Name="fonts/fontawesome-webfont.ttf"/>
   </VirtualDirectory>
   <File Name="../../trash/styx/demogame/textures_zip.zip"/>

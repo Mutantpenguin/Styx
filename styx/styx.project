@@ -132,10 +132,13 @@
     </VirtualDirectory>
     <VirtualDirectory Name="renderer">
       <VirtualDirectory Name="text">
+        <File Name="src/renderer/text/STextOptions.hpp"/>
         <File Name="src/renderer/text/CTextMeshBuilder.hpp"/>
         <File Name="src/renderer/text/CTextMeshBuilder.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="font">
+        <File Name="src/renderer/font/EFontStyle.hpp"/>
+        <File Name="src/renderer/font/EFontStyle.cpp"/>
         <File Name="src/renderer/font/CFontBuilder.cpp"/>
         <File Name="src/renderer/font/CFontBuilder.hpp"/>
         <File Name="src/renderer/font/CGlyphRanges.cpp"/>
@@ -258,6 +261,7 @@
       <File Name="src/logger/CLogTargetConsole.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="helper">
+      <File Name="src/helper/CColor.cpp"/>
       <VirtualDirectory Name="image">
         <File Name="src/helper/image/ImageHandler.hpp"/>
         <File Name="src/helper/image/ImageHandler.cpp"/>
@@ -278,6 +282,15 @@
     <File Name="src/Main.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="external">
+    <VirtualDirectory Name="utfcpp">
+      <File Name="external/utfcpp/utf8.h"/>
+      <VirtualDirectory Name="utf8">
+        <File Name="external/utfcpp/utf8/unchecked.h"/>
+        <File Name="external/utfcpp/utf8/cpp11.h"/>
+        <File Name="external/utfcpp/utf8/core.h"/>
+        <File Name="external/utfcpp/utf8/checked.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
     <VirtualDirectory Name="stb">
       <File Name="external/stb/stb_rect_pack_impl.cpp"/>
       <File Name="external/stb/stb_truetype_impl.cpp"/>
