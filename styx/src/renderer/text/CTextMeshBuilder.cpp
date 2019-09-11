@@ -63,11 +63,6 @@ CTextMeshBuilder::CTextMeshBuilder( const CSamplerManager &samplerManager, const
 	m_textMaterial->ShaderProgram( m_fontShaderProgram );
 }
 
-const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<const CFont> &font, const std::string &str ) const
-{
-	return( Create( font, DefaultColor, str ) );
-}
-
 const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<const CFont> &font, const CColor &color, const std::string &str ) const
 {
 	const glm::vec3 standardColor( color.r(), color.g(), color.b() );
