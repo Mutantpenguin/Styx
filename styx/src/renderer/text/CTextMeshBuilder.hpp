@@ -18,18 +18,18 @@ public:
 	CTextMeshBuilder( const CSamplerManager &samplerManager, const CShaderCompiler &shaderCompiler, CShaderProgramCompiler &shaderProgramCompiler );
 	
 	template<typename... Args>
-	const std::shared_ptr<CMesh> Create( const std::shared_ptr<const CFont> &font, const std::string &str, const Args &... args ) const
+	const std::shared_ptr<CMesh> Create( const std::shared_ptr<const CFont> &font, const u16 lineSpacing, const std::string &str, const Args &... args ) const
 	{
-		return( Create( font, DefaultColor, fmt::format( str, args... ) ) );
+		return( Create( font, lineSpacing, DefaultColor, fmt::format( str, args... ) ) );
 	}
 
 	template<typename... Args>
-	const std::shared_ptr<CMesh> Create( const std::shared_ptr<const CFont> &font, const CColor &color, const std::string &str, const Args &... args ) const
+	const std::shared_ptr<CMesh> Create( const std::shared_ptr<const CFont> &font, const u16 lineSpacing, const CColor &color, const std::string &str, const Args &... args ) const
 	{
-		return( Create( font, color, fmt::format( str, args... ) ) );
+		return( Create( font, lineSpacing, color, fmt::format( str, args... ) ) );
 	}
 
-	const std::shared_ptr<CMesh> Create( const std::shared_ptr<const CFont> &font, const CColor &color, const std::string &str ) const;
+	const std::shared_ptr<CMesh> Create( const std::shared_ptr<const CFont> &font, const u16 lineSpacing, const CColor &color, const std::string &str ) const;
 
 private:
 	const CSamplerManager &m_samplerManager;
