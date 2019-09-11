@@ -330,11 +330,11 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		// TODO const auto font = fontbuilder.FromFile( "FontAwesome", "fonts/fontawesome-webfont.ttf", 64, glyphRange );
 		// TODO const auto font = fontbuilder.FromFile( "NovaCut", "fonts/NovaCut.ttf", 64, glyphRange );
 
-		const auto material = resources.Get<CMaterial>( "materials/basic_font.mat" );
-		
-		const CMesh::TMeshTextureSlots textureSlots = {	{ "fontTexture", std::make_shared<CMeshTextureSlot>( font->Texture, samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
-
 		{ // show whole atlas
+			const auto material = resources.Get<CMaterial>( "materials/basic_font.mat" );
+		
+			const CMesh::TMeshTextureSlots textureSlots = {	{ "fontTexture", std::make_shared<CMeshTextureSlot>( font->Texture, samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+			
 			const auto mesh = std::make_shared<CMesh>( GeometryPrefabs::QuadPU0( 10.0f ), material, textureSlots );
 
 			const auto entity = m_scene.CreateEntity( "font_atlas_test" );
