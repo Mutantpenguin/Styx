@@ -206,6 +206,7 @@
     <ClCompile Include="src\audio\CAudioBuffer.cpp" />
     <ClCompile Include="src\audio\CAudioBufferLoader.cpp" />
     <ClCompile Include="src\audio\CAudioSource.cpp" />
+    <ClCompile Include="src\helper\CColor.cpp" />
     <ClCompile Include="src\helper\Date.cpp" />
     <ClCompile Include="src\helper\geom\CPlane.cpp" />
     <ClCompile Include="src\helper\image\CImage.cpp" />

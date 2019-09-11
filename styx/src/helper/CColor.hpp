@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "src/core/Types.hpp"
 
 class CColor final
@@ -63,6 +65,8 @@ public:
 	{
 		return( m_a );
 	}
+
+	std::string rgbHex() const;
 
 protected:
 	inline void clamp()

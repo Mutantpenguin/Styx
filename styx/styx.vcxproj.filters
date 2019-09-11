@@ -850,5 +850,8 @@
     <ClCompile Include="src\renderer\font\EFontStyle.cpp">
       <Filter>src\renderer\font</Filter>
     </ClCompile>
+    <ClCompile Include="src\helper\CColor.cpp">
+      <Filter>src\helper</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
