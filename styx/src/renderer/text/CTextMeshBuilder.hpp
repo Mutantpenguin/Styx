@@ -28,6 +28,8 @@ public:
 	const std::shared_ptr<CMesh> Create( const std::shared_ptr<const CFont> &font, const STextOptions &textOptions, const std::string &str ) const;
 
 private:
+	void AdjustAnchoring( const STextOptions &textOptions, const f16 maxX, const f16 minY, std::vector<VertexPCU0> &vertices ) const;
+	
 	const CSamplerManager &m_samplerManager;
 	
 	const std::shared_ptr<CMaterial> m_textMaterial;

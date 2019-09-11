@@ -116,7 +116,7 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 
 		case '<':
 		{
-			std::string remainder( it, end );
+			const std::string remainder( it, end );
 
 			if( remainder.substr( 0, 1 ) == "#" ) // start of color
 			{
@@ -189,10 +189,15 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 		}
 	}
 
-	/*
-	 * Anchoring
-	 */
+	AdjustAnchoring( textOptions, maxX, minY, vertices );
+	
+	const CMesh::TMeshTextureSlots textureSlots = {	{ m_fontTextureName, std::make_shared<CMeshTextureSlot>( font->Texture, m_samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };	
 
+	return( std::make_shared<CMesh>( geometry, m_textMaterial, textureSlots ) );
+}
+
+void CTextMeshBuilder::AdjustAnchoring( const STextOptions &textOptions, const f16 maxX, const f16 minY, std::vector<VertexPCU0> &vertices ) const
+{
 	f16 xShift = 0.0f;
 	f16 yShift = 0.0f;
 
@@ -236,8 +241,4 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 			vertex.Position.y -= yShift;
 		}
 	}
-
-	const CMesh::TMeshTextureSlots textureSlots = {	{ m_fontTextureName, std::make_shared<CMeshTextureSlot>( font->Texture, m_samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };	
-
-	return( std::make_shared<CMesh>( geometry, m_textMaterial, textureSlots ) );
 }
