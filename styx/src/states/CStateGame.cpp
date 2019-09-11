@@ -1,4 +1,4 @@
-#include "CStateGame.hpp"
+﻿#include "CStateGame.hpp"
 
 #include <algorithm>
 
@@ -346,7 +346,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			STextOptions textOptions;
 			textOptions.LineSpacing = 32;
 			
-			const auto fontMesh = engineInterface.TextMeshBuilder.Create( font, textOptions, "A<b>A</b> Du hast <#{0}>doofe</#> <b>Ohren</b> und eine <#4444FF><b>krumme</b></#> Nase!\nDies ist die zweite Zeile! <#FFBAFF>Mit zeilen�bergreifender Formatierung\nbis in die</#> dritte Zeile", CColor( 0.0, 1.0, 0.0 ).rgbHex() );
+			const auto fontMesh = engineInterface.TextMeshBuilder.Create( font, textOptions, "A<b>A</b> Du hast <#{0}>doofe</#> <b>Ohren</b> und eine <#4444FF><b>krumme</b></#> Nase!\nDies ist die zweite Zeile! <#FFBAFF>Mit zeilenübergreifender Formatierung\nbis in die</#> dritte Zeile", CColor( 0.0, 1.0, 0.0 ).rgbHex() );
 			
 			const auto entity = m_scene.CreateEntity( "font_test" );
 			entity->Transform.Position( { 80.0f, 10.0f, 20.0f } );

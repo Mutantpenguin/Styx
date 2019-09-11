@@ -1,5 +1,7 @@
 #include "CTextMeshBuilder.hpp"
 
+#include "external/utfcpp/utf8.h"
+
 #include "src/core/StyxException.hpp"
 
 #include "src/logger/CLogger.hpp"
@@ -66,6 +68,12 @@ CTextMeshBuilder::CTextMeshBuilder( const CSamplerManager &samplerManager, const
 
 const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<const CFont> &font, const STextOptions &textOptions, const std::string &str ) const
 {
+	if( !utf8::is_valid( str ) )
+	{
+		logWARNING( "string '{0}' contains invalid unicode codepoints" );
+		utf8::replace_invalid( str );
+	}
+
 	const auto color = textOptions.Color;
 	const glm::vec3 standardColor( color.r(), color.g(), color.b() );
 
@@ -88,11 +96,14 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 	f16 offsetX = 0;
 	f16 offsetY = 0;
 
-	for( u16 i = 0; i < str.length(); i++ )
+	auto it = str.begin();
+	const auto end = str.end();
+	
+	while( it != end )
 	{
-		const auto &currentChar = str.at( i );
-
-		switch( currentChar )
+		const u32 &currentCodepoint = utf8::next( it, end );
+	
+		switch( currentCodepoint )
 		{
 		case '\n':
 			offsetX = 0;
@@ -100,42 +111,46 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 			continue;
 
 		case '<':
-			if( str.substr( i, 2 ) == "<#" ) // start of color
+		{
+			std::string remainder( it, end );
+
+			if( remainder.substr( 0, 1 ) == "#" ) // start of color
 			{
-				const auto &hexColorStr = str.substr( i + 2, 6 );
+				const auto &hexColorStr = remainder.substr( 2, 6 );
 				const auto hexColorValue = std::stol( hexColorStr, nullptr, 16 );
 
 				currentVertexColor.r = ( ( hexColorValue >> 16 ) & 0xFF ) / 255.0; // Extract the RR byte
 				currentVertexColor.g = ( ( hexColorValue >> 8 ) & 0xFF ) / 255.0;  // Extract the GG byte
 				currentVertexColor.b = ( ( hexColorValue ) & 0xFF ) / 255.0;       // Extract the BB byte
 
-				i += 8;
+				utf8::advance( it, 8, end );
 				continue;
 			}
-			else if( str.substr( i, 4 ) == "</#>" ) // end of color
+			else if( remainder.substr( 0, 3 ) == "/#>" ) // end of color
 			{
 				currentVertexColor = standardColor;
 
-				i += 3;
+				utf8::advance( it, 3, end );
 				continue;
 			}
-			else if( str.substr( i, 3 ) == "<b>" ) // start of bold
+			else if( remainder.substr( 0, 2 ) == "b>" ) // start of bold
 			{
 				currentStyle = EFontStyle::BOLD;
 
-				i += 2;
+				utf8::advance( it, 2, end );
 				continue;
 			}
-			else if( str.substr( i, 4 ) == "</b>" ) // end of bold
+			else if( remainder.substr( 0, 3 ) == "/b>" ) // end of bold
 			{
 				currentStyle = EFontStyle::REGULAR;
 
-				i += 3;
+				utf8::advance( it, 3, end );
 				continue;
 			}
+		}
 
 		default:
-			const auto packedChar = font->PackedCharFromCodepoint( currentStyle, currentChar );
+			const auto packedChar = font->PackedCharFromCodepoint( currentStyle, currentCodepoint );
 
 			if( nullptr != packedChar )
 			{
@@ -160,7 +175,7 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 			}
 			else
 			{
-				logWARNING( "codepoint '{0}' wasn't found in font '{1}' for style '{2}'", currentChar, font->Name, EFontStyleToString( currentStyle ) );
+				logWARNING( "codepoint '{0}' wasn't found in font '{1}' for style '{2}'", currentCodepoint, font->Name, EFontStyleToString( currentStyle ) );
 			}
 
 			break;
