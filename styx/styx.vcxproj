@@ -63,6 +63,11 @@
     <ClInclude Include="external\stb\stb_rect_pack.h" />
     <ClInclude Include="external\stb\stb_textedit.h" />
     <ClInclude Include="external\stb\stb_truetype.h" />
+    <ClInclude Include="external\utfcpp\utf8.h" />
+    <ClInclude Include="external\utfcpp\utf8\checked.h" />
+    <ClInclude Include="external\utfcpp\utf8\core.h" />
+    <ClInclude Include="external\utfcpp\utf8\cpp11.h" />
+    <ClInclude Include="external\utfcpp\utf8\unchecked.h" />
     <ClInclude Include="src\audio\ALHelper.hpp" />
     <ClInclude Include="src\audio\CAudio.hpp" />
     <ClInclude Include="src\audio\CAudioBuffer.hpp" />
@@ -356,7 +361,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_SHARED_PTR_UNIQUE_DEPRECATION_WARNING;_CONSOLE;%(PreprocessorDefinitions);STYX_DEBUG</PreprocessorDefinitions>
-      <AdditionalOptions>/std:c++17 /permissive- /wd4251</AdditionalOptions>
+      <AdditionalOptions>/std:c++17 /permissive- /wd4251 /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>

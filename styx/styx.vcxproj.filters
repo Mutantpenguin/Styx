@@ -129,6 +129,12 @@
     <Filter Include="src\renderer\font">
       <UniqueIdentifier>{86ae58bb-fdee-42a4-b019-ae60f7c841a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="external\utfcpp">
+      <UniqueIdentifier>{c665a845-5d6b-46ff-a4f3-334a965c4b3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\utfcpp\utf8">
+      <UniqueIdentifier>{11756e60-6a3c-42b0-8fb7-62a04039267f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\CLI11\CLI11.hpp">
@@ -517,6 +523,21 @@
     </ClInclude>
     <ClInclude Include="src\renderer\text\STextOptions.hpp">
       <Filter>src\renderer\text</Filter>
+    </ClInclude>
+    <ClInclude Include="external\utfcpp\utf8.h">
+      <Filter>external\utfcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\utfcpp\utf8\checked.h">
+      <Filter>external\utfcpp\utf8</Filter>
+    </ClInclude>
+    <ClInclude Include="external\utfcpp\utf8\core.h">
+      <Filter>external\utfcpp\utf8</Filter>
+    </ClInclude>
+    <ClInclude Include="external\utfcpp\utf8\cpp11.h">
+      <Filter>external\utfcpp\utf8</Filter>
+    </ClInclude>
+    <ClInclude Include="external\utfcpp\utf8\unchecked.h">
+      <Filter>external\utfcpp\utf8</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
