@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#include "external/fmt/format.h"
+
 #include "src/renderer/sampler/CSamplerManager.hpp"
 
 #include "src/renderer/model/CMesh.hpp"
