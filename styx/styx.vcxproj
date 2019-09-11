@@ -134,6 +134,7 @@
     <ClInclude Include="src\renderer\texture\CTextureCache.hpp" />
     <ClInclude Include="src\renderer\texture\CTextureLoader.hpp" />
     <ClInclude Include="src\renderer\text\CTextMeshBuilder.hpp" />
+    <ClInclude Include="src\renderer\text\STextOptions.hpp" />
     <ClInclude Include="src\resource\CResourceCache.hpp" />
     <ClInclude Include="src\resource\CResourceCacheBase.hpp" />
     <ClInclude Include="src\resource\CResources.hpp" />

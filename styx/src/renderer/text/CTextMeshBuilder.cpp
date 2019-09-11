@@ -63,8 +63,9 @@ CTextMeshBuilder::CTextMeshBuilder( const CSamplerManager &samplerManager, const
 	m_textMaterial->ShaderProgram( m_fontShaderProgram );
 }
 
-const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<const CFont> &font, const u16 lineSpacing, const CColor &color, const std::string &str ) const
+const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<const CFont> &font, const STextOptions &textOptions, const std::string &str ) const
 {
+	const auto color = textOptions.Color;
 	const glm::vec3 standardColor( color.r(), color.g(), color.b() );
 
 	Geometry<VertexPCU0> geometry;
@@ -94,7 +95,7 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 		{
 		case '\n':
 			offsetX = 0;
-			offsetY += font->Size + lineSpacing;
+			offsetY += font->Size + textOptions.LineSpacing;
 			continue;
 
 		case '<':
