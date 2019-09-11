@@ -60,6 +60,7 @@ CTextMeshBuilder::CTextMeshBuilder( const CSamplerManager &samplerManager, const
 	
 	m_textMaterial->Name( "text render material" );
 	m_textMaterial->EnableBlending( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+	m_textMaterial->DisableDepthMask();
 	m_textMaterial->ShaderProgram( m_fontShaderProgram );
 }
 
