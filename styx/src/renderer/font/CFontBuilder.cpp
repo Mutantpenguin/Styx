@@ -137,7 +137,7 @@ const bool CFontBuilder::PackFont( stbtt_pack_context &context, const f16 size, 
 
 	if( !stbtt_PackFontRanges( &context, reinterpret_cast<unsigned char*>( fileBuffer.data() ), 0, &range, 1 ) )
 	{
-		return( true );
+		return( false );
 	}
 
 	// copy over the packed chars into our own map for the codepoints
