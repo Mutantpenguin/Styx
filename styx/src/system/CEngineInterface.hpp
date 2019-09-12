@@ -9,7 +9,7 @@
 
 #include "src/renderer/sampler/CSamplerManager.hpp"
 #include "src/renderer/font/CFontBuilder.hpp"
-#include "src/renderer/text/CTextMeshBuilder.hpp"
+#include "src/renderer/text/CTextBuilder.hpp"
 
 class CEngineInterface final
 {
@@ -18,25 +18,29 @@ public:
 						CInput				&input,
 						CAudio				&audio,
 						CSamplerManager 	&samplerManager,
-						CFontBuilder		&fontBuilder,
-						CTextMeshBuilder	&textMeshBuilder,
+						const CFontBuilder	&fontBuilder,
+						const CTextBuilder	&textBuilder,
 						const CEngineStats	&stats ) :
 		Resources { resources },
 		Input { input },
 		Audio { audio },
 		SamplerManager { samplerManager },
 		FontBuilder { fontBuilder },
-		TextMeshBuilder { textMeshBuilder },
+		TextBuilder { textBuilder },
 		Stats { stats }
 	{}
 
 	CResources &Resources;
 
 	CInput				&Input;
+
 	CAudio				&Audio;
-	CSamplerManager 	&SamplerManager;
-	CFontBuilder		&FontBuilder;
-	CTextMeshBuilder	&TextMeshBuilder;
+	
+	CSamplerManager		&SamplerManager;
+	
+	const CFontBuilder	&FontBuilder;
+	
+	const CTextBuilder	&TextBuilder;
 	
 	const CEngineStats	&Stats;
 

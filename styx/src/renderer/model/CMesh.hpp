@@ -18,13 +18,20 @@ public:
 	using TMeshTextureSlots = std::unordered_map<std::string, const std::shared_ptr<CMeshTextureSlot>>;
 
 	template<typename T>
-	CMesh( const Geometry<T> &geometry, const std::shared_ptr<const CMaterial> &mat, const TMeshTextureSlots &textureSlots = TMeshTextureSlots() ) :
-		m_vao( geometry ),
+	CMesh( const Geometry<T> &geometry, const std::shared_ptr<const CMaterial> &mat, const TMeshTextureSlots &textureSlots = TMeshTextureSlots(), const bool dynamic = false ) :
+		m_vao( geometry, dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW ),
 		m_material { mat },
 		m_textureSlots { textureSlots },
 		BoundingSphereRadiusVector { geometry.CalculateBoundingSphereRadiusVector() }
 	{
 		SetupMaterialTextureSlotMapping();
+	}
+
+	template<typename T>
+	void SetGeometry( const Geometry<T> &geometry )
+	{
+		m_vao.Rebuild( geometry );
+		BoundingSphereRadiusVector = geometry.CalculateBoundingSphereRadiusVector();
 	}
 
 	void SetMaterial( const std::shared_ptr<const CMaterial> &mat );
@@ -39,7 +46,7 @@ public:
 	void Draw() const;
 
 private:
-	const CVertexArrayObject m_vao;
+	CVertexArrayObject m_vao;
 
 	std::shared_ptr<const CMaterial> m_material;
 
@@ -50,5 +57,5 @@ private:
 	void SetupMaterialTextureSlotMapping();
 
 public:
-	const glm::vec3	BoundingSphereRadiusVector;
+	glm::vec3	BoundingSphereRadiusVector;
 };

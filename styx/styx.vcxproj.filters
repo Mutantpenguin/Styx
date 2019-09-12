@@ -509,9 +509,6 @@
     <ClInclude Include="src\renderer\font\CGlyphRanges.hpp">
       <Filter>src\renderer\font</Filter>
     </ClInclude>
-    <ClInclude Include="src\renderer\text\CTextMeshBuilder.hpp">
-      <Filter>src\renderer\text</Filter>
-    </ClInclude>
     <ClInclude Include="src\renderer\RenderLayer.hpp">
       <Filter>src\renderer</Filter>
     </ClInclude>
@@ -538,6 +535,15 @@
     </ClInclude>
     <ClInclude Include="src\renderer\font\EFontWeight.hpp">
       <Filter>src\renderer\font</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\text\CText.hpp">
+      <Filter>src\renderer\text</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\text\CTextGeometryBuilder.hpp">
+      <Filter>src\renderer\text</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\text\CTextBuilder.hpp">
+      <Filter>src\renderer\text</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -856,9 +862,6 @@
     <ClCompile Include="src\renderer\font\CGlyphRanges.cpp">
       <Filter>src\renderer\font</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\text\CTextMeshBuilder.cpp">
-      <Filter>src\renderer\text</Filter>
-    </ClCompile>
     <ClCompile Include="external\stb\stb_rect_pack_impl.cpp">
       <Filter>external\stb</Filter>
     </ClCompile>
@@ -876,6 +879,15 @@
     </ClCompile>
     <ClCompile Include="src\renderer\font\EFontWeight.cpp">
       <Filter>src\renderer\font</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\text\CText.cpp">
+      <Filter>src\renderer\text</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\text\CTextGeometryBuilder.cpp">
+      <Filter>src\renderer\text</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\text\CTextBuilder.cpp">
+      <Filter>src\renderer\text</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

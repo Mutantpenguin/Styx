@@ -20,7 +20,7 @@
 
 #include "src/renderer/sampler/CSamplerManager.hpp"
 #include "src/renderer/font/CFontBuilder.hpp"
-#include "src/renderer/text/CTextMeshBuilder.hpp"
+#include "src/renderer/text/CTextBuilder.hpp"
 
 #include "src/states/CState.hpp"
 
@@ -57,11 +57,11 @@ private:
 	
 	CRenderer m_renderer;
 
-	CInput				m_input;
-	CAudio				m_audio;
-	CSamplerManager 	m_samplerManager;
-	CFontBuilder		m_fontBuilder;
-	CTextMeshBuilder	m_textMeshBuilder;
+	CInput			m_input;
+	CAudio			m_audio;
+	CSamplerManager m_samplerManager;
+	CFontBuilder	m_fontBuilder;
+	CTextBuilder	m_textBuilder;
 
 	CEngineStats m_stats;
 

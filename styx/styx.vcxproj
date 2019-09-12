@@ -138,7 +138,9 @@
     <ClInclude Include="src\renderer\texture\CTexture.hpp" />
     <ClInclude Include="src\renderer\texture\CTextureCache.hpp" />
     <ClInclude Include="src\renderer\texture\CTextureLoader.hpp" />
-    <ClInclude Include="src\renderer\text\CTextMeshBuilder.hpp" />
+    <ClInclude Include="src\renderer\text\CText.hpp" />
+    <ClInclude Include="src\renderer\text\CTextGeometryBuilder.hpp" />
+    <ClInclude Include="src\renderer\text\CTextBuilder.hpp" />
     <ClInclude Include="src\renderer\text\STextOptions.hpp" />
     <ClInclude Include="src\resource\CResourceCache.hpp" />
     <ClInclude Include="src\resource\CResourceCacheBase.hpp" />
@@ -264,7 +266,9 @@
     <ClCompile Include="src\renderer\texture\CCubemapData.cpp" />
     <ClCompile Include="src\renderer\texture\CTexture.cpp" />
     <ClCompile Include="src\renderer\texture\CTextureLoader.cpp" />
-    <ClCompile Include="src\renderer\text\CTextMeshBuilder.cpp" />
+    <ClCompile Include="src\renderer\text\CText.cpp" />
+    <ClCompile Include="src\renderer\text\CTextGeometryBuilder.cpp" />
+    <ClCompile Include="src\renderer\text\CTextBuilder.cpp" />
     <ClCompile Include="src\resource\CResourceCacheBase.cpp" />
     <ClCompile Include="src\resource\CResources.cpp" />
     <ClCompile Include="src\scene\CEntity.cpp" />

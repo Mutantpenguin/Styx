@@ -39,4 +39,7 @@ struct STextOptions final
 
 	// TODO MaxWidth
 	u16 MaxWidth;
+
+	// TODO RichText
+	bool RichText = false;
 };

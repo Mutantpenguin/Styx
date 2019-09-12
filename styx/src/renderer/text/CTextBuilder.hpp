@@ -12,24 +12,23 @@
 #include "src/renderer/shader/CShaderCompiler.hpp"
 #include "src/renderer/shader/CShaderProgramCompiler.hpp"
 
+#include "CText.hpp"
 #include "STextOptions.hpp"
 
-class CTextMeshBuilder final
+class CTextBuilder final
 {
 public:
-	CTextMeshBuilder( const CSamplerManager &samplerManager, const CShaderCompiler &shaderCompiler, CShaderProgramCompiler &shaderProgramCompiler );
+	CTextBuilder( const CSamplerManager &samplerManager, const CShaderCompiler &shaderCompiler, CShaderProgramCompiler &shaderProgramCompiler );
 	
 	template<typename... Args>
-	const std::shared_ptr<CMesh> Create( const std::shared_ptr<const CFont> &font, const STextOptions &textOptions, const std::string &str, const Args &... args ) const
+	std::shared_ptr<CText> Create( const std::shared_ptr<const CFont> &font, const STextOptions &textOptions, const std::string &str, const Args &... args ) const
 	{
 		return( Create( font, textOptions, fmt::format( str, args... ) ) );
 	}
 
-	const std::shared_ptr<CMesh> Create( const std::shared_ptr<const CFont> &font, const STextOptions &textOptions, const std::string &str ) const;
+	std::shared_ptr<CText> Create( const std::shared_ptr<const CFont> &font, const STextOptions &textOptions, const std::string &str ) const;
 
 private:
-	void AdjustAnchoring( const STextOptions &textOptions, const glm::vec2 minBounds, const glm::vec2 maxBounds, std::vector<VertexPCU0> &vertices ) const;
-	
 	const CSamplerManager &m_samplerManager;
 	
 	const std::shared_ptr<CMaterial> m_textMaterial;

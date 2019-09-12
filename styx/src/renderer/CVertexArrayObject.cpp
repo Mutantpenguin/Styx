@@ -17,11 +17,11 @@ static const auto attributeLocationUV1			= static_cast<GLint>( AttributeLocation
 static const auto attributeLocationUV2			= static_cast<GLint>( AttributeLocation::uv2 );
 static const auto attributeLocationUV3			= static_cast<GLint>( AttributeLocation::uv3 );
 
-CVertexArrayObject::CVertexArrayObject( const Geometry<VertexP> &geometry ) :
+CVertexArrayObject::CVertexArrayObject( const Geometry<VertexP> &geometry, const GLenum usage ) :
 	m_mode( geometry.Mode ),
 	m_indexCount( geometry.Indices.size() ),
-	m_vbo( geometry.Vertices ),
-	m_ibo( geometry.Indices )
+	m_vbo( usage, geometry.Vertices ),
+	m_ibo( usage, geometry.Indices )
 {
 	glCreateVertexArrays( 1, &GLID );
 	
@@ -36,11 +36,11 @@ CVertexArrayObject::CVertexArrayObject( const Geometry<VertexP> &geometry ) :
 	glVertexArrayAttribBinding( GLID, attributeLocationPosition, CVertexArrayObject::bindingIndexPositions );
 }
 
-CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPN> &geometry ) :
+CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPN> &geometry, const GLenum usage ) :
 	m_mode( geometry.Mode ),
 	m_indexCount( geometry.Indices.size() ),
-	m_vbo( geometry.Vertices ),
-	m_ibo( geometry.Indices )
+	m_vbo( usage, geometry.Vertices ),
+	m_ibo( usage, geometry.Indices )
 {
 	glCreateVertexArrays( 1, &GLID );
 	
@@ -59,11 +59,11 @@ CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPN> &geometry ) :
 	glVertexArrayAttribBinding( GLID, attributeLocationNormal,		CVertexArrayObject::bindingIndexNormals );
 }
 
-CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPU0> &geometry ) :
+CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPU0> &geometry, const GLenum usage ) :
 	m_mode( geometry.Mode ),
 	m_indexCount( geometry.Indices.size() ),
-	m_vbo( geometry.Vertices ),
-	m_ibo( geometry.Indices )
+	m_vbo( usage, geometry.Vertices ),
+	m_ibo( usage, geometry.Indices )
 {
 	glCreateVertexArrays( 1, &GLID );
 	
@@ -82,11 +82,11 @@ CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPU0> &geometry ) :
 	glVertexArrayAttribBinding( GLID, attributeLocationUV0,			CVertexArrayObject::bindingIndexUV0 );
 }
 
-CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPCU0> &geometry ) :
+CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPCU0> &geometry, const GLenum usage ) :
 	m_mode( geometry.Mode ),
 	m_indexCount( geometry.Indices.size() ),
-	m_vbo( geometry.Vertices ),
-	m_ibo( geometry.Indices )
+	m_vbo( usage, geometry.Vertices ),
+	m_ibo( usage, geometry.Indices )
 {
 	glCreateVertexArrays( 1, &GLID );
 	
@@ -109,11 +109,11 @@ CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPCU0> &geometry ) :
 	glVertexArrayAttribBinding( GLID, attributeLocationUV0,			CVertexArrayObject::bindingIndexUV0 );
 }
 
-CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPNU0> &geometry ) :
+CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPNU0> &geometry, const GLenum usage ) :
 	m_mode( geometry.Mode ),
 	m_indexCount( geometry.Indices.size() ),
-	m_vbo( geometry.Vertices ),
-	m_ibo( geometry.Indices )
+	m_vbo( usage, geometry.Vertices ),
+	m_ibo( usage, geometry.Indices )
 {
 	glCreateVertexArrays( 1, &GLID );
 	
@@ -136,11 +136,11 @@ CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPNU0> &geometry ) :
 	glVertexArrayAttribBinding( GLID, attributeLocationUV0,			CVertexArrayObject::bindingIndexUV0 );
 }
 
-CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPNTB> &geometry ) :
+CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPNTB> &geometry, const GLenum usage ) :
 	m_mode( geometry.Mode ),
 	m_indexCount( geometry.Indices.size() ),
-	m_vbo( geometry.Vertices ),
-	m_ibo( geometry.Indices )
+	m_vbo( usage, geometry.Vertices ),
+	m_ibo( usage, geometry.Indices )
 {
 	glCreateVertexArrays( 1, &GLID );
 
@@ -167,11 +167,11 @@ CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPNTB> &geometry ) :
 	glVertexArrayAttribBinding( GLID, attributeLocationBitangent,	CVertexArrayObject::bindingIndexBitangents );
 }
 
-CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPNTBU0> &geometry ) :
+CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPNTBU0> &geometry, const GLenum usage ) :
 	m_mode( geometry.Mode ),
 	m_indexCount( geometry.Indices.size() ),
-	m_vbo( geometry.Vertices ),
-	m_ibo( geometry.Indices )
+	m_vbo( usage, geometry.Vertices ),
+	m_ibo( usage, geometry.Indices )
 {
 	glCreateVertexArrays( 1, &GLID );
 
@@ -202,11 +202,11 @@ CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPNTBU0> &geometry )
 	glVertexArrayAttribBinding( GLID, attributeLocationUV0,			CVertexArrayObject::bindingIndexUV0 );
 }
 
-CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPNTBCU0U1U2U3> &geometry ) :
+CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPNTBCU0U1U2U3> &geometry, const GLenum usage ) :
 	m_mode( geometry.Mode ),
 	m_indexCount( geometry.Indices.size() ),
-	m_vbo( geometry.Vertices ),
-	m_ibo( geometry.Indices )
+	m_vbo( usage, geometry.Vertices ),
+	m_ibo( usage, geometry.Indices )
 {
 	glCreateVertexArrays( 1, &GLID );
 	

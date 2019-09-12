@@ -349,21 +349,31 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			textOptions.VerticalAnchoring = EAnchoringVertical::CENTER;
 			textOptions.Alignment = EAlignment::CENTER;
 			
-			const auto fontMesh = engineInterface.TextMeshBuilder.Create( font, textOptions, "A<b>A</b> Du hast <#{0}>doofe</#> <b>Ohren</b> und eine <#4444FF><b>krumme</b></#> Nase!\nDies ist die zweite Zeile! <#FFBAFF>Mit zeilenübergreifender Formatierung\nbis in die</#> dritte Zeile", CColor( 0.0, 1.0, 0.0 ).rgbHex() );
+			const auto text = engineInterface.TextBuilder.Create( font, textOptions, "A<b>A</b> Du hast <#{0}>doofe</#> <b>Ohren</b> und eine <#4444FF><b>krumme</b></#> Nase!\nDies ist die zweite Zeile! <#FFBAFF>Mit zeilenübergreifender Formatierung\nbis in die</#> dritte Zeile", CColor( 0.0, 1.0, 0.0 ).rgbHex() );
 			
 			const auto entity = m_scene.CreateEntity( "font_test" );
 			entity->Transform.Position( { 80.0f, 10.0f, 20.0f } );
 			entity->Transform.Scale( { 0.05f, 0.05f, 0.05f } );
-			entity->Add<CModelComponent>( fontMesh );
+			entity->Add<CModelComponent>( text->Mesh() );
 		}
 	}
 
 	{
-		m_fpsFont = m_engineInterface.FontBuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Regular.ttf", 32, CGlyphRange::Default() );
+		const auto fpsFont = engineInterface.FontBuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Regular.ttf", 32, CGlyphRange::Default() );
 
-		m_fpsEntity = m_scene.CreateEntity( "fps" );
-		m_fpsEntity->Transform.Position( { 40.0f, 40.0f, 20.0f } );
-		m_fpsEntity->Transform.Scale( { 0.2f, 0.2f, 0.2f } );
+		STextOptions textOptions;
+		textOptions.Color = Colors::Red();
+		textOptions.LineSpacing = 32;
+		textOptions.HorizontalAnchoring = EAnchoringHorizontal::LEFT;
+		textOptions.VerticalAnchoring = EAnchoringVertical::CENTER;
+		textOptions.Alignment = EAlignment::CENTER;
+
+		m_fpsText = engineInterface.TextBuilder.Create( fpsFont, textOptions, "" );
+
+		const auto fpsEntity = m_scene.CreateEntity( "fps" );
+		fpsEntity->Transform.Position( { 40.0f, 40.0f, 20.0f } );
+		fpsEntity->Transform.Scale( { 0.2f, 0.2f, 0.2f } );
+		fpsEntity->Add<CModelComponent>( m_fpsText->Mesh() );
 	}
 
 	{
@@ -410,22 +420,9 @@ std::shared_ptr<CState> CStateGame::OnUpdate()
 	{
 		m_updateFpsTime = elapsedTime + 500000.0f;
 
-		STextOptions textOptions;
-		textOptions.Color = CColor( 1.0f, 0.0f, 0.0f );
-		textOptions.LineSpacing = 32;
-		textOptions.HorizontalAnchoring = EAnchoringHorizontal::LEFT;
-		textOptions.VerticalAnchoring = EAnchoringVertical::CENTER;
-		textOptions.Alignment = EAlignment::CENTER;
-
 		const f16 fps = ( 1000.0f / m_engineInterface.Stats.frameTime * 1000.0f );
 		
-		const auto fontMesh = m_engineInterface.TextMeshBuilder.Create( m_fpsFont, textOptions, "fps: {0:0.1f}", fps );
-		
-		if( m_fpsEntity->HasComponents<CModelComponent>() )
-		{
-			m_fpsEntity->Remove<CModelComponent>();
-		}
-		m_fpsEntity->Add<CModelComponent>( fontMesh );
+		m_fpsText->Text( "fps: {0:0.1f}", fps );
 	}
 
 

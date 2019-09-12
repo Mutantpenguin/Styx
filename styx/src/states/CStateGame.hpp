@@ -28,9 +28,8 @@ private:
 	std::shared_ptr<CEntity>	m_skyboxEntity;
 	std::shared_ptr<CEntity>	m_pulseEntity;
 
-	std::shared_ptr<CEntity>		m_fpsEntity;
-	std::shared_ptr<const CFont>	m_fpsFont;
-	f16								m_updateFpsTime;
+	std::shared_ptr<CText>	m_fpsText;
+	f16						m_updateFpsTime;
 
 	std::shared_ptr<const CAudioSource> m_backgroundMusic;
 };

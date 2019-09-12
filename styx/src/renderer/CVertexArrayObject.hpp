@@ -10,30 +10,39 @@
 class CVertexArrayObject final
 {
 public:
-	CVertexArrayObject( const Geometry<VertexP> &geometry );
-	CVertexArrayObject( const Geometry<VertexPN> &geometry );
-	CVertexArrayObject( const Geometry<VertexPU0> &geometry );
-	CVertexArrayObject( const Geometry<VertexPCU0> &geometry );
-	CVertexArrayObject( const Geometry<VertexPNU0> &geometry );
-	CVertexArrayObject( const Geometry<VertexPNTB> &geometry );
-	CVertexArrayObject( const Geometry<VertexPNTBU0> &geometry );
-	CVertexArrayObject( const Geometry<VertexPNTBCU0U1U2U3> &geometry );
+	CVertexArrayObject( const Geometry<VertexP> &geometry, const GLenum usage );
+	CVertexArrayObject( const Geometry<VertexPN> &geometry, const GLenum usage );
+	CVertexArrayObject( const Geometry<VertexPU0> &geometry, const GLenum usage );
+	CVertexArrayObject( const Geometry<VertexPCU0> &geometry, const GLenum usage );
+	CVertexArrayObject( const Geometry<VertexPNU0> &geometry, const GLenum usage );
+	CVertexArrayObject( const Geometry<VertexPNTB> &geometry, const GLenum usage );
+	CVertexArrayObject( const Geometry<VertexPNTBU0> &geometry, const GLenum usage );
+	CVertexArrayObject( const Geometry<VertexPNTBCU0U1U2U3> &geometry, const GLenum usage );
 
 	~CVertexArrayObject();
+
+	template<typename T>
+	void Rebuild( const Geometry<T> geometry )
+	{
+		m_mode = geometry.Mode;
+		m_indexCount = geometry.Indices.size();
+		m_vbo.Data( geometry.Vertices );
+		m_ibo.Data( geometry.Indices );
+	}
 
 	void Bind() const;
 
 	void Draw() const;
 
 private:
-	const GLenum m_mode;
+	GLenum m_mode;
 
-	const size_t m_indexCount;
+	size_t m_indexCount;
 
 	GLuint	GLID;
 
-	const CBufferObject	m_vbo;
-	const CBufferObject	m_ibo;
+	CBufferObject	m_vbo;
+	CBufferObject	m_ibo;
 
 	static const GLuint bindingIndexPositions	{ 0 };
 	static const GLuint bindingIndexNormals		{ 1 };
