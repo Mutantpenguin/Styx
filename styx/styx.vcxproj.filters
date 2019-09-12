@@ -518,9 +518,6 @@
     <ClInclude Include="src\renderer\shader\CShaderProgramLoader.hpp">
       <Filter>src\renderer\shader</Filter>
     </ClInclude>
-    <ClInclude Include="src\renderer\font\EFontStyle.hpp">
-      <Filter>src\renderer\font</Filter>
-    </ClInclude>
     <ClInclude Include="src\renderer\text\STextOptions.hpp">
       <Filter>src\renderer\text</Filter>
     </ClInclude>
@@ -538,6 +535,9 @@
     </ClInclude>
     <ClInclude Include="external\utfcpp\utf8\unchecked.h">
       <Filter>external\utfcpp\utf8</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\font\EFontWeight.hpp">
+      <Filter>src\renderer\font</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -871,11 +871,11 @@
     <ClCompile Include="src\renderer\shader\CShaderProgramLoader.cpp">
       <Filter>src\renderer\shader</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\font\EFontStyle.cpp">
-      <Filter>src\renderer\font</Filter>
-    </ClCompile>
     <ClCompile Include="src\helper\CColor.cpp">
       <Filter>src\helper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\font\EFontWeight.cpp">
+      <Filter>src\renderer\font</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -13,7 +13,7 @@
 
 #include "src/renderer/texture/CTexture.hpp"
 
-#include "EFontStyle.hpp"
+#include "EFontWeight.hpp"
 
 class CFont final
 {
@@ -28,12 +28,12 @@ public:
 	
 	std::shared_ptr<CTexture> Texture = std::make_shared<CTexture>();
 	
-	bool HasCodepoint( EFontStyle fontStyle, const u32 codepoint ) const;
+	bool HasCodepoint( EFontWeight fontWeight, const u32 codepoint ) const;
 	
-	const stbtt_packedchar * PackedCharFromCodepoint( EFontStyle fontStyle, const u32 codepoint ) const;
+	const stbtt_packedchar * PackedCharFromCodepoint( EFontWeight fontWeight, const u32 codepoint ) const;
 
 	using CodepointMap = std::unordered_map<u32, stbtt_packedchar>;
 
-	CodepointMap CodepointsRegularStyle;
-	std::optional<CodepointMap> CodepointsBoldStyle;
+	CodepointMap CodepointsRegular;
+	std::optional<CodepointMap> CodepointsBold;
 };

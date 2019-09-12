@@ -14,12 +14,12 @@
 
 #include "src/renderer/texture/CTextureLoader.hpp"
 
-const std::shared_ptr<const CFont> CFontBuilder::FromFile( const std::string &name, const fs::path &pathRegularStyle, const u16 size, const CGlyphRange &glyphRange ) const
+const std::shared_ptr<const CFont> CFontBuilder::FromFile( const std::string &name, const fs::path &pathRegular, const u16 size, const CGlyphRange &glyphRange ) const
 {
-	return( FromFile( name, pathRegularStyle, {}, size, glyphRange ) );
+	return( FromFile( name, pathRegular, {}, size, glyphRange ) );
 }
 
-const std::shared_ptr<const CFont> CFontBuilder::FromFile( const std::string &name, const fs::path &pathRegularStyle, const fs::path &pathBoldStyle, const u16 size, const CGlyphRange &glyphRange ) const
+const std::shared_ptr<const CFont> CFontBuilder::FromFile( const std::string &name, const fs::path &pathRegular, const fs::path &pathBold, const u16 size, const CGlyphRange &glyphRange ) const
 {
 	if( glyphRange.Count() == 0 )
 	{
@@ -27,22 +27,22 @@ const std::shared_ptr<const CFont> CFontBuilder::FromFile( const std::string &na
 		return( FromDummy( size ) );
 	}
 
-	if( !pathRegularStyle.has_filename() )
+	if( !pathRegular.has_filename() )
 	{
-		logWARNING( "path '{0}' does not containt a filename", pathRegularStyle.generic_string() );
+		logWARNING( "path '{0}' does not containt a filename", pathRegular.generic_string() );
 		return( FromDummy( size ) );
 	}
 
-	const std::string fileExtensionString = pathRegularStyle.extension().generic_string();
+	const std::string fileExtensionString = pathRegular.extension().generic_string();
 
 	if( fileExtensionString != FileExtension::Font::ttf )
 	{
-		logWARNING( "file type '{0}' of font file '{1}' is not supported", fileExtensionString, pathRegularStyle.generic_string() );
+		logWARNING( "file type '{0}' of font file '{1}' is not supported", fileExtensionString, pathRegular.generic_string() );
 		return( FromDummy( size ) );
 	}
-	else if( !m_filesystem.Exists( pathRegularStyle ) )
+	else if( !m_filesystem.Exists( pathRegular ) )
 	{
-		logWARNING( "font file '{0}' does not exist", pathRegularStyle.generic_string() );
+		logWARNING( "font file '{0}' does not exist", pathRegular.generic_string() );
 		return( FromDummy( size ) );
 	}
 	else
@@ -61,29 +61,29 @@ const std::shared_ptr<const CFont> CFontBuilder::FromFile( const std::string &na
 
 		stbtt_PackSetOversampling( &context, 2, 2 );
 
-		auto fontFileBufferRegularStyle = m_filesystem.LoadFileToBuffer( pathRegularStyle );
+		auto fontFileBufferRegular = m_filesystem.LoadFileToBuffer( pathRegular );
 
-		if( !fontFileBufferRegularStyle.empty() )
+		if( !fontFileBufferRegular.empty() )
 		{
 			auto glyphs = glyphRange.ToVector();
 
-			if( !PackFont( context, font->Size, glyphs, fontFileBufferRegularStyle, font->CodepointsRegularStyle ) )
+			if( !PackFont( context, font->Size, glyphs, fontFileBufferRegular, font->CodepointsRegular ) )
 			{
-				logWARNING( "failed to pack regular style font" );
+				logWARNING( "failed to pack regular font" );
 				return( FromDummy( size ) );
 			}
 
-			if( !pathBoldStyle.empty() )
+			if( !pathBold.empty() )
 			{
-				auto fontFileBufferBoldStyle = m_filesystem.LoadFileToBuffer( pathBoldStyle );
+				auto fontFileBufferBold = m_filesystem.LoadFileToBuffer( pathBold );
 
-				if( !fontFileBufferBoldStyle.empty() )
+				if( !fontFileBufferBold.empty() )
 				{
-					auto &codepoints = font->CodepointsBoldStyle.emplace();
+					auto &codepoints = font->CodepointsBold.emplace();
 
-					if( !PackFont( context, font->Size, glyphs, fontFileBufferBoldStyle, codepoints ) )
+					if( !PackFont( context, font->Size, glyphs, fontFileBufferBold, codepoints ) )
 					{
-						logWARNING( "failed to pack bold style font" );
+						logWARNING( "failed to pack bold font" );
 						return( FromDummy( size ) );
 					}
 				}
@@ -99,7 +99,7 @@ const std::shared_ptr<const CFont> CFontBuilder::FromFile( const std::string &na
 		}
 		else
 		{
-			logWARNING( "failed to load font file '{0}'", pathRegularStyle.generic_string() );
+			logWARNING( "failed to load font file '{0}'", pathRegular.generic_string() );
 			return( FromDummy( size ) );
 		}
 

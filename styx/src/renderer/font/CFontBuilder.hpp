@@ -15,8 +15,8 @@ public:
 		m_filesystem { p_filesystem }
 	{}
 	
-	const std::shared_ptr<const CFont> FromFile( const std::string &name, const fs::path &pathRegularStyle, const fs::path &pathBoldStyle, const u16 size, const CGlyphRange &glyphRange ) const;
-	const std::shared_ptr<const CFont> FromFile( const std::string &name, const fs::path &pathRegularStyle, const u16 size, const CGlyphRange &glyphRange ) const;
+	const std::shared_ptr<const CFont> FromFile( const std::string &name, const fs::path &pathRegular, const fs::path &pathBold, const u16 size, const CGlyphRange &glyphRange ) const;
+	const std::shared_ptr<const CFont> FromFile( const std::string &name, const fs::path &pathRegular, const u16 size, const CGlyphRange &glyphRange ) const;
 
 private:
 	const std::shared_ptr<const CFont> FromDummy( const u16 size ) const;

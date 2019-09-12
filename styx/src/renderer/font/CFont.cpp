@@ -6,26 +6,26 @@ CFont::CFont( const std::string &name, const u16 size, const CSize &atlasSize ) 
 	AtlasSize { atlasSize }
 {}
 
-bool CFont::HasCodepoint( EFontStyle fontStyle, const u32 codepoint ) const
+bool CFont::HasCodepoint( EFontWeight fontWeight, const u32 codepoint ) const
 {
-	if( fontStyle == EFontStyle::REGULAR )
+	if( fontWeight == EFontWeight::REGULAR )
 	{
-		const auto it = CodepointsRegularStyle.find( codepoint );
+		const auto it = CodepointsRegular.find( codepoint );
 
-		if( std::end( CodepointsRegularStyle ) != it )
+		if( std::end( CodepointsRegular ) != it )
 		{
 			return( true );
 		}
 	}
-	else if( fontStyle == EFontStyle::BOLD )
+	else if( fontWeight == EFontWeight::BOLD )
 	{
-		if( CodepointsBoldStyle.has_value() )
+		if( CodepointsBold.has_value() )
 		{
-			const auto &codepointsBoldStyle = CodepointsBoldStyle.value();
+			const auto &codepointsBold = CodepointsBold.value();
 
-			const auto it = codepointsBoldStyle.find( codepoint );
+			const auto it = codepointsBold.find( codepoint );
 
-			if( std::end( codepointsBoldStyle ) != it )
+			if( std::end( codepointsBold ) != it )
 			{
 				return( true );
 			}
@@ -35,26 +35,26 @@ bool CFont::HasCodepoint( EFontStyle fontStyle, const u32 codepoint ) const
 	return( false );
 }
 
-const stbtt_packedchar * CFont::PackedCharFromCodepoint( EFontStyle fontStyle, const u32 codepoint ) const
+const stbtt_packedchar * CFont::PackedCharFromCodepoint( EFontWeight fontWeight, const u32 codepoint ) const
 {
-	if( fontStyle == EFontStyle::REGULAR )
+	if( fontWeight == EFontWeight::REGULAR )
 	{
-		const auto it = CodepointsRegularStyle.find( codepoint );
+		const auto it = CodepointsRegular.find( codepoint );
 
-		if( std::end( CodepointsRegularStyle ) != it )
+		if( std::end( CodepointsRegular ) != it )
 		{
 			return( &it->second );
 		}
 	}
-	else if( fontStyle == EFontStyle::BOLD )
+	else if( fontWeight == EFontWeight::BOLD )
 	{
-		if( CodepointsBoldStyle.has_value() )
+		if( CodepointsBold.has_value() )
 		{
-			const auto &codepointsBoldStyle = CodepointsBoldStyle.value();
+			const auto &codepointsBold = CodepointsBold.value();
 
-			const auto it = codepointsBoldStyle.find( codepoint );
+			const auto it = codepointsBold.find( codepoint );
 
-			if( std::end( codepointsBoldStyle ) != it )
+			if( std::end( codepointsBold ) != it )
 			{
 				return( &it->second );
 			}

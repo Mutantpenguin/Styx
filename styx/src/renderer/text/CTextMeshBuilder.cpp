@@ -91,7 +91,7 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 	u16 lastIndex = 0; // TODO rename
 	
 	glm::vec3 currentVertexColor = standardColor;
-	EFontStyle currentStyle = EFontStyle::REGULAR;
+	EFontWeight currentWeight = EFontWeight::REGULAR;
 
 	// for the anchoring
 	glm::vec2 minBounds;
@@ -139,14 +139,14 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 			}
 			else if( remainder.substr( 0, 2 ) == "b>" ) // start of bold
 			{
-				currentStyle = EFontStyle::BOLD;
+				currentWeight = EFontWeight::BOLD;
 
 				utf8::advance( it, 2, end );
 				continue;
 			}
 			else if( remainder.substr( 0, 3 ) == "/b>" ) // end of bold
 			{
-				currentStyle = EFontStyle::REGULAR;
+				currentWeight = EFontWeight::REGULAR;
 
 				utf8::advance( it, 3, end );
 				continue;
@@ -154,7 +154,7 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 		}
 
 		default:
-			const auto packedChar = font->PackedCharFromCodepoint( currentStyle, currentCodepoint );
+			const auto packedChar = font->PackedCharFromCodepoint( currentWeight, currentCodepoint );
 
 			if( nullptr != packedChar )
 			{
@@ -184,7 +184,7 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 			}
 			else
 			{
-				logWARNING( "codepoint '{0}' wasn't found in font '{1}' for style '{2}'", currentCodepoint, font->Name, EFontStyleToString( currentStyle ) );
+				logWARNING( "codepoint '{0}' wasn't found in font '{1}' for weight '{2}'", currentCodepoint, font->Name, EFontWeightToString( currentWeight ) );
 			}
 
 			break;
