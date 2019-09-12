@@ -376,7 +376,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/std:c++17 /permissive- /wd4251</AdditionalOptions>
+      <AdditionalOptions>/std:c++17 /permissive- /wd4251 /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
