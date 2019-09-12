@@ -20,29 +20,38 @@ public:
 		return( *this );
 	}
 
+	inline CColor( const u32 hexColor ) :
+		m_r { static_cast<f16>( ( hexColor >> 16 ) & 0xFF ) / 255.0f },
+		m_g { static_cast<f16>( ( hexColor >> 8 ) & 0xFF ) / 255.0f },
+		m_b { static_cast<f16>( ( hexColor ) & 0xFF ) / 255.0f },
+		m_a { 1.0f }
+	{
+		clamp();
+	}
+
 	inline CColor( const f16 r, const f16 g, const f16 b, const f16 a ) :
-		m_r( r ),
-		m_g( g ),
-		m_b( b ),
-		m_a( a )
+		m_r { r },
+		m_g { g },
+		m_b { b },
+		m_a { a }
 	{
 		clamp();
 	}
 
 	inline CColor( const f16 r, const f16 g, const f16 b ) :
-		m_r( r ),
-		m_g( g ),
-		m_b( b ),
-		m_a( 1.0f )
+		m_r { r },
+		m_g { g },
+		m_b { b },
+		m_a { 1.0f }
 	{
 		clamp();
 	}
 
 	inline CColor( const CColor &c ) :
-		m_r( c.m_r ),
-		m_g( c.m_g ),
-		m_b( c.m_b ),
-		m_a( c.m_a )
+		m_r { c.m_r },
+		m_g { c.m_g },
+		m_b { c.m_b },
+		m_a { c.m_a }
 	{
 	}
 
@@ -114,3 +123,29 @@ protected:
 	f16	m_b { 0.0f };
 	f16	m_a { 0.0f };
 };
+
+namespace Colors
+{
+	CColor Aqua();
+	CColor Black();
+	CColor Blue();
+	CColor Brown();
+	CColor Cyan();
+	CColor Darkblue();
+	CColor Fuchsia();
+	CColor Green();
+	CColor Grey();
+	CColor Lightblue();
+	CColor Lime();
+	CColor Magenta();
+	CColor Maroon();
+	CColor Navy();
+	CColor Olive();
+	CColor Orange();
+	CColor Purple();
+	CColor Red();
+	CColor Silver();
+	CColor Teal();
+	CColor White();
+	CColor Yellow();
+}
