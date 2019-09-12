@@ -94,8 +94,8 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 	EFontStyle currentStyle = EFontStyle::REGULAR;
 
 	// for the anchoring
-	f16 maxX = 0.0f;
-	f16 minY = 0.0f;
+	glm::vec2 minBounds;
+	glm::vec2 maxBounds;
 
 	f16 offsetX = 0;
 	f16 offsetY = 0;
@@ -177,8 +177,10 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 
 				lastIndex += 4;
 
-				maxX = std::max( { maxX, quad.x0, quad.x1 } );
-				minY = std::min( { minY, -quad.y0, -quad.y1 } );
+				minBounds.x = std::min( { minBounds.x, quad.x0, quad.x1 } );
+				minBounds.y = std::min( { minBounds.y, -quad.y0, -quad.y1 } );
+				maxBounds.x = std::max( { maxBounds.x, quad.x0, quad.x1 } );
+				maxBounds.y = std::max( { maxBounds.y, -quad.y0, -quad.y1 } );
 			}
 			else
 			{
@@ -189,14 +191,14 @@ const std::shared_ptr<CMesh> CTextMeshBuilder::Create( const std::shared_ptr<con
 		}
 	}
 
-	AdjustAnchoring( textOptions, maxX, minY, vertices );
+	AdjustAnchoring( textOptions, minBounds, maxBounds, vertices );
 	
 	const CMesh::TMeshTextureSlots textureSlots = {	{ m_fontTextureName, std::make_shared<CMeshTextureSlot>( font->Texture, m_samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };	
 
 	return( std::make_shared<CMesh>( geometry, m_textMaterial, textureSlots ) );
 }
 
-void CTextMeshBuilder::AdjustAnchoring( const STextOptions &textOptions, const f16 maxX, const f16 minY, std::vector<VertexPCU0> &vertices ) const
+void CTextMeshBuilder::AdjustAnchoring( const STextOptions &textOptions, const glm::vec2 minBounds, const glm::vec2 maxBounds, std::vector<VertexPCU0> &vertices ) const
 {
 	f16 xShift = 0.0f;
 	f16 yShift = 0.0f;
@@ -204,30 +206,30 @@ void CTextMeshBuilder::AdjustAnchoring( const STextOptions &textOptions, const f
 	switch( textOptions.HorizontalAnchoring )
 	{
 	case EAnchoringHorizontal::LEFT:
-		// nothing to do
+		xShift = minBounds.x;
 		break;
 
 	case EAnchoringHorizontal::CENTER:
-		xShift = maxX / 2.0f;
+		xShift = ( minBounds.x + maxBounds.x ) / 2.0f;
 		break;
 
 	case EAnchoringHorizontal::RIGHT:
-		xShift = maxX;
+		xShift = maxBounds.x;
 		break;
 	}
 
 	switch( textOptions.VerticalAnchoring )
 	{
 	case EAnchoringVertical::TOP:
-		// nothing to do
+		yShift = minBounds.y;
 		break;
 
 	case EAnchoringVertical::CENTER:
-		yShift = minY / 2.0f;
+		yShift = ( minBounds.y + maxBounds.y ) / 2.0f;
 		break;
 
 	case EAnchoringVertical::BOTTOM:
-		yShift = minY;
+		yShift = maxBounds.y;
 		break;
 	}
 

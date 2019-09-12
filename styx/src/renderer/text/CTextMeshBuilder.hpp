@@ -28,7 +28,7 @@ public:
 	const std::shared_ptr<CMesh> Create( const std::shared_ptr<const CFont> &font, const STextOptions &textOptions, const std::string &str ) const;
 
 private:
-	void AdjustAnchoring( const STextOptions &textOptions, const f16 maxX, const f16 minY, std::vector<VertexPCU0> &vertices ) const;
+	void AdjustAnchoring( const STextOptions &textOptions, const glm::vec2 minBounds, const glm::vec2 maxBounds, std::vector<VertexPCU0> &vertices ) const;
 	
 	const CSamplerManager &m_samplerManager;
 	
