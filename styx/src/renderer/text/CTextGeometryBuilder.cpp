@@ -32,8 +32,8 @@ CTextGeometryBuilder::TextGeometry CTextGeometryBuilder::Build( const std::share
 	EFontWeight currentWeight = EFontWeight::REGULAR;
 
 	// for the anchoring
-	glm::vec2 minBounds;
-	glm::vec2 maxBounds;
+	glm::vec2 minBounds( 0.0f );
+	glm::vec2 maxBounds( 0.0f );
 
 	f16 offsetX = 0;
 	f16 offsetY = 0;
