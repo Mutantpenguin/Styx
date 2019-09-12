@@ -37,3 +37,12 @@ u16 CGlyphRange::Count() const
 
 	return( count );
 }
+
+CGlyphRange CGlyphRange::Default()
+{
+	CGlyphRange defaultGlyphrange;
+
+	defaultGlyphrange.AddDefault();
+
+	return( defaultGlyphrange );
+}

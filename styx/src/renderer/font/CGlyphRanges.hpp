@@ -18,6 +18,8 @@ public:
 
 	u16 Count() const;
 
+	static CGlyphRange Default();
+
 private:
 	std::vector<std::tuple<i32,i32>> m_ranges;
 };

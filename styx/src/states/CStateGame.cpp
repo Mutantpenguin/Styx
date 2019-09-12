@@ -359,10 +359,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	}
 
 	{
-		CGlyphRange glyphRange;
-		glyphRange.AddDefault();
-		
-		m_fpsFont = m_engineInterface.FontBuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Regular.ttf", 32, glyphRange );
+		m_fpsFont = m_engineInterface.FontBuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Regular.ttf", 32, CGlyphRange::Default() );
 
 		m_fpsEntity = m_scene.CreateEntity( "fps" );
 		m_fpsEntity->Transform.Position( { 40.0f, 40.0f, 20.0f } );
