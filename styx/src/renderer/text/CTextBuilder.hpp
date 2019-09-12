@@ -38,10 +38,5 @@ private:
 	static const std::string FontVertexShaderBody;
 	static const std::string FontFragmentShaderBody;
 	
-	const std::shared_ptr<CShader> m_fontVertexShader = std::make_shared<CShader>();
-	const std::shared_ptr<CShader> m_fontFragmentShader = std::make_shared<CShader>();
-	
-	const std::shared_ptr<CShaderProgram> m_fontShaderProgram = std::make_shared<CShaderProgram>();
-	
 	static const CColor DefaultColor;
 };

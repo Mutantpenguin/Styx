@@ -38,20 +38,25 @@ CTextBuilder::CTextBuilder( const CSamplerManager &samplerManager, const CShader
 	m_samplerManager { samplerManager },
 	m_textMaterial { std::make_shared<CMaterial>() }
 {
-	if( !shaderCompiler.Compile( m_fontVertexShader, GL_VERTEX_SHADER, fmt::format( FontVertexShaderBody, CShaderCompiler::EngineUniforms.at( EEngineUniform::modelViewProjectionMatrix ).name, CShaderCompiler::AllowedAttributes.at( AttributeLocation::position ).name, CShaderCompiler::AllowedAttributes.at( AttributeLocation::color ).name, CShaderCompiler::AllowedAttributes.at( AttributeLocation::uv0 ).name ) ) )
+	const std::shared_ptr<CShader> vertexShader = std::make_shared<CShader>();
+	const std::shared_ptr<CShader> fragmentShader = std::make_shared<CShader>();
+	
+	if( !shaderCompiler.Compile( vertexShader, GL_VERTEX_SHADER, fmt::format( FontVertexShaderBody, CShaderCompiler::EngineUniforms.at( EEngineUniform::modelViewProjectionMatrix ).name, CShaderCompiler::AllowedAttributes.at( AttributeLocation::position ).name, CShaderCompiler::AllowedAttributes.at( AttributeLocation::color ).name, CShaderCompiler::AllowedAttributes.at( AttributeLocation::uv0 ).name ) ) )
 	{
 		THROW_STYX_EXCEPTION( "couldn't create font vertex shader" );
 	}
 
-	if( !shaderCompiler.Compile( m_fontFragmentShader, GL_FRAGMENT_SHADER, fmt::format( FontFragmentShaderBody, m_fontTextureName ) ) )
+	if( !shaderCompiler.Compile( fragmentShader, GL_FRAGMENT_SHADER, fmt::format( FontFragmentShaderBody, m_fontTextureName ) ) )
 	{
 		THROW_STYX_EXCEPTION( "couldn't create font fragment shader" );
 	}
 	
-	m_fontShaderProgram->VertexShader = m_fontVertexShader;
-	m_fontShaderProgram->FragmentShader = m_fontFragmentShader;
+	const std::shared_ptr<CShaderProgram> shaderProgram = std::make_shared<CShaderProgram>();
 	
-	if( !shaderProgramCompiler.Compile( m_fontShaderProgram ) )
+	shaderProgram->VertexShader = vertexShader;
+	shaderProgram->FragmentShader = fragmentShader;
+	
+	if( !shaderProgramCompiler.Compile( shaderProgram ) )
 	{
 		THROW_STYX_EXCEPTION( "couldn't create font shader program" );
 	}
@@ -59,7 +64,7 @@ CTextBuilder::CTextBuilder( const CSamplerManager &samplerManager, const CShader
 	m_textMaterial->Name( "text render material" );
 	m_textMaterial->EnableBlending( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 	m_textMaterial->DisableDepthMask();
-	m_textMaterial->ShaderProgram( m_fontShaderProgram );
+	m_textMaterial->ShaderProgram( shaderProgram );
 }
 
 std::shared_ptr<CText> CTextBuilder::Create( const std::shared_ptr<const CFont> &font, const STextOptions &textOptions, const std::string &str ) const
