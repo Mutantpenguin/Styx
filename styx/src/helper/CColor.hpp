@@ -149,3 +149,34 @@ namespace Colors
 	CColor White();
 	CColor Yellow();
 }
+
+namespace TangoColors
+{
+	CColor Aluminium();
+	CColor AluminiumHighlight();
+	CColor AluminiumShadow();
+	CColor Butter();
+	CColor ButterHighlight();
+	CColor ButterShadow();
+	CColor Chameleon();
+	CColor ChameleonHighlight();
+	CColor ChameleonShadow();
+	CColor Chocolate();
+	CColor ChocolateHighlight();
+	CColor ChocolateShadow();
+	CColor Orange();
+	CColor OrangeHighlight();
+	CColor OrangeShadow();
+	CColor Plum();
+	CColor PlumHighlight();
+	CColor PlumShadow();
+	CColor ScarletRed();
+	CColor ScarletRedHighlight();
+	CColor ScarletRedShadow();
+	CColor SkyBlue();
+	CColor SkyBlueHighlight();
+	CColor SkyBlueShadow();
+	CColor Slate();
+	CColor SlateHighlight();
+	CColor SlateShadow();
+}

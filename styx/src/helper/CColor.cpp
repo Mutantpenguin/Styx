@@ -123,3 +123,141 @@ namespace Colors
 		return( CColor( 0xFFFF00 ) );
 	}
 }
+
+namespace TangoColors
+{
+	CColor Aluminium()
+	{
+		return( CColor( 0xD3D7CF ) );
+	}
+
+	CColor AluminiumHighlight()
+	{
+		return( CColor( 0xEEEEEC ) );
+	}
+
+	CColor AluminiumShadow()
+	{
+		return( CColor( 0xBABDB6 ) );
+	}
+
+	CColor Butter()
+	{
+		return( CColor( 0xEDD400 ) );
+	}
+
+	CColor ButterHighlight()
+	{
+		return( CColor( 0xFCE94F ) );
+	}
+
+	CColor ButterShadow()
+	{
+		return( CColor( 0xC4A000 ) );
+	}
+
+	CColor Chameleon()
+	{
+		return( CColor( 0x73D216 ) );
+	}
+
+	CColor ChameleonHighlight()
+	{
+		return( CColor( 0x8AE234 ) );
+	}
+
+	CColor ChameleonShadow()
+	{
+		return( CColor( 0x4E9A06 ) );
+	}
+
+	CColor Chocolate()
+	{
+		return( CColor( 0xC17D11 ) );
+	}
+
+	CColor ChocolateHighlight()
+	{
+		return( CColor( 0xE9B96E ) );
+	}
+
+	CColor ChocolateShadow()
+	{
+		return( CColor( 0x8F5902 ) );
+	}
+
+	CColor Orange()
+	{
+		return( CColor( 0xF57900 ) );
+	}
+
+	CColor OrangeHighlight()
+	{
+		return( CColor( 0xFCAF3E ) );
+	}
+
+	CColor OrangeShadow()
+	{
+		return( CColor( 0xCE5C00 ) );
+	}
+
+	CColor Plum()
+	{
+		return( CColor( 0x75507B ) );
+	}
+
+	CColor PlumHighlight()
+	{
+		return( CColor( 0xAD7FA8 ) );
+	}
+
+	CColor PlumShadow()
+	{
+		return( CColor( 0x5C3566 ) );
+	}
+
+	CColor ScarletRed()
+	{
+		return( CColor( 0xCC0000 ) );
+	}
+
+	CColor ScarletRedHighlight()
+	{
+		return( CColor( 0xEF2929 ) );
+	}
+
+	CColor ScarletRedShadow()
+	{
+		return( CColor( 0xA40000 ) );
+	}
+
+	CColor SkyBlue()
+	{
+		return( CColor( 0x3465A4 ) );
+	}
+
+	CColor SkyBlueHighlight()
+	{
+		return( CColor( 0x729FCF ) );
+	}
+
+	CColor SkyBlueShadow()
+	{
+		return( CColor( 0x204A87 ) );
+	}
+
+	CColor Slate()
+	{
+		return( CColor( 0x555753 ) );
+	}
+
+	CColor SlateHighlight()
+	{
+		return( CColor( 0x888A85 ) );
+	}
+
+	CColor SlateShadow()
+	{
+		return( CColor( 0x2E3436 ) );
+	}
+}
