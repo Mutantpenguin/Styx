@@ -359,6 +359,17 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	}
 
 	{
+		CGlyphRange glyphRange;
+		glyphRange.AddDefault();
+		
+		m_fpsFont = m_engineInterface.FontBuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Regular.ttf", 32, glyphRange );
+
+		m_fpsEntity = m_scene.CreateEntity( "fps" );
+		m_fpsEntity->Transform.Position( { 40.0f, 40.0f, 20.0f } );
+		m_fpsEntity->Transform.Scale( { 0.2f, 0.2f, 0.2f } );
+	}
+
+	{
 		const auto material3 = resources.Get<CMaterial>( "materials/sky.mat" );
 
 		const CMesh::TMeshTextureSlots skyMeshTextureSlots = { { "skyboxTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/cube/sixtine/sixtine.cub" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_CUBE ) ) } };
@@ -386,6 +397,8 @@ CStateGame::~CStateGame()
 
 std::shared_ptr<CState> CStateGame::OnUpdate()
 {
+	const u64 elapsedTime = m_timer.Time();
+
 	auto &audio = m_engineInterface.Audio;
 
 	const auto &input = m_engineInterface.Input;
@@ -396,6 +409,29 @@ std::shared_ptr<CState> CStateGame::OnUpdate()
 		return( std::make_shared<CStatePause>( m_filesystem, m_settings, m_engineInterface, shared_from_this() ) );
 	}
 
+	if( m_updateFpsTime <= elapsedTime )
+	{
+		m_updateFpsTime = elapsedTime + 500000.0f;
+
+		STextOptions textOptions;
+		textOptions.Color = CColor( 1.0f, 0.0f, 0.0f );
+		textOptions.LineSpacing = 32;
+		textOptions.HorizontalAnchoring = EAnchoringHorizontal::LEFT;
+		textOptions.VerticalAnchoring = EAnchoringVertical::CENTER;
+		textOptions.Alignment = EAlignment::CENTER;
+
+		const f16 fps = ( 1000.0f / m_engineInterface.Stats.frameTime * 1000.0f );
+		
+		const auto fontMesh = m_engineInterface.TextMeshBuilder.Create( m_fpsFont, textOptions, "fps: {0:0.1f}", fps );
+		
+		if( m_fpsEntity->HasComponents<CModelComponent>() )
+		{
+			m_fpsEntity->Remove<CModelComponent>();
+		}
+		m_fpsEntity->Add<CModelComponent>( fontMesh );
+	}
+
+
 	const f16 spp = 2.0f * m_settings.engine.tick / 1000000;
 
 	// TODO maybe create a way for systems to hook into the inputsystem, so we can provide globally active keyboard-shortcuts?
@@ -405,7 +441,7 @@ std::shared_ptr<CState> CStateGame::OnUpdate()
 	 */
 	{
 		auto pos = m_pulseEntity->Transform.Position();
-		pos.y = 10.0f + ( sin( m_timer.Time() / 2000000.0f ) * 5.0f );
+		pos.y = 10.0f + ( sin( elapsedTime / 2000000.0f ) * 5.0f );
 		m_pulseEntity->Transform.Position( pos );
 	}
 
