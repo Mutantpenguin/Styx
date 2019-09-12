@@ -23,6 +23,13 @@ struct Geometry final
 
 	[[ nodiscard ]] glm::vec3 CalculateBoundingSphereRadiusVector() const
 	{
-		return( ( *std::max_element( std::cbegin( Vertices ), std::cend( Vertices ), []( const T &a, const T &b ) { return( glm::length2( a.Position ) < glm::length2( b.Position ) ); } ) ).Position );
+		if( Vertices.size() > 0 )
+		{
+			return( ( *std::max_element( std::cbegin( Vertices ), std::cend( Vertices ), []( const T &a, const T &b ) { return( glm::length2( a.Position ) < glm::length2( b.Position ) ); } ) ).Position );
+		}
+		else
+		{
+			return( glm::vec3() );
+		}
 	}
 };
