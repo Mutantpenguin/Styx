@@ -132,13 +132,17 @@
     </VirtualDirectory>
     <VirtualDirectory Name="renderer">
       <VirtualDirectory Name="text">
+        <File Name="src/renderer/text/CTextGeometryBuilder.hpp"/>
+        <File Name="src/renderer/text/CTextGeometryBuilder.cpp"/>
+        <File Name="src/renderer/text/CTextBuilder.hpp"/>
+        <File Name="src/renderer/text/CTextBuilder.cpp"/>
+        <File Name="src/renderer/text/CText.hpp"/>
+        <File Name="src/renderer/text/CText.cpp"/>
         <File Name="src/renderer/text/STextOptions.hpp"/>
-        <File Name="src/renderer/text/CTextMeshBuilder.hpp"/>
-        <File Name="src/renderer/text/CTextMeshBuilder.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="font">
-        <File Name="src/renderer/font/EFontStyle.hpp"/>
-        <File Name="src/renderer/font/EFontStyle.cpp"/>
+        <File Name="src/renderer/font/EFontWeight.hpp"/>
+        <File Name="src/renderer/font/EFontWeight.cpp"/>
         <File Name="src/renderer/font/CFontBuilder.cpp"/>
         <File Name="src/renderer/font/CFontBuilder.hpp"/>
         <File Name="src/renderer/font/CGlyphRanges.cpp"/>
