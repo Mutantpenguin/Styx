@@ -52,7 +52,7 @@ void CEngine::Run()
 
 	u64 lastUpdatedTime = frameTimer.Time();
 
-	MTR_BEGIN( "main", "outer" );
+	MTR_BEGIN( "main loop", "outer" );
 
 	std::shared_ptr<CState> currentState = std::make_shared<CStateIntro>( m_filesystem, m_settings, m_engineInterface );
 
@@ -70,9 +70,9 @@ void CEngine::Run()
 		{
 			m_input.Update();
 
-			MTR_BEGIN( "state", "update" );
+			MTR_BEGIN( "current state", "update" );
 			currentState = currentState->Update();
-			MTR_END( "state", "update" );
+			MTR_END( "current state", "update" );
 
 			#ifdef STYX_DEBUG
 				if( m_input.KeyDown( SDL_SCANCODE_F12 ) )
@@ -100,7 +100,7 @@ void CEngine::Run()
 		#endif // STYX_DEBUG
 	}
 
-	MTR_END( "main", "outer" );
+	MTR_END( "main loop", "outer" );
 
 
 	logINFO( "" );
