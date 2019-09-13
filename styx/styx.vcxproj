@@ -101,7 +101,7 @@
     <ClInclude Include="src\renderer\font\CFont.hpp" />
     <ClInclude Include="src\renderer\font\CFontBuilder.hpp" />
     <ClInclude Include="src\renderer\font\EFontWeight.hpp" />
-    <ClInclude Include="src\renderer\font\CGlyphRanges.hpp" />
+    <ClInclude Include="src\renderer\font\CGlyphRange.hpp" />
     <ClInclude Include="src\renderer\geometry\Geometry.hpp" />
     <ClInclude Include="src\renderer\geometry\prefabs\Cube.hpp" />
     <ClInclude Include="src\renderer\geometry\prefabs\Cuboid.hpp" />
@@ -237,7 +237,7 @@
     <ClInclude Include="src\renderer\RenderPackage.hpp" />
     <ClCompile Include="src\renderer\font\CFont.cpp" />
     <ClCompile Include="src\renderer\font\CFontBuilder.cpp" />
-    <ClCompile Include="src\renderer\font\CGlyphRanges.cpp" />
+    <ClCompile Include="src\renderer\font\CGlyphRange.cpp" />
     <ClCompile Include="src\renderer\font\EFontWeight.cpp" />
     <ClCompile Include="src\renderer\geometry\prefabs\Cube.cpp" />
     <ClCompile Include="src\renderer\geometry\prefabs\Cuboid.cpp" />

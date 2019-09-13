@@ -6,7 +6,7 @@
 
 #include "src/renderer/font/CFont.hpp"
 
-#include "src/renderer/font/CGlyphRanges.hpp"
+#include "src/renderer/font/CGlyphRange.hpp"
 
 class CFontBuilder final
 {
