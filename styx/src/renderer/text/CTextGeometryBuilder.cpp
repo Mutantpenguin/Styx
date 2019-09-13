@@ -12,35 +12,43 @@ CTextGeometryBuilder::TextGeometry CTextGeometryBuilder::Build( const std::share
 		utf8::replace_invalid( str );
 	}
 
-	const auto color = textOptions.Color;
-	const glm::vec3 standardColor( color.r(), color.g(), color.b() );
-
 	TextGeometry geometry;
 
 	geometry.Mode = GL_TRIANGLES;
-
-	auto &vertices = geometry.Vertices;
-	auto &indices = geometry.Indices;
-
-	// we need max this many vertices/indices, fewer if styling is used
-	vertices.reserve( str.length() * 4 );
-	indices.reserve( str.length() * 6 );
-
-	u16 lastIndex = 0; // TODO rename
-
-	glm::vec3 currentVertexColor = standardColor;
-	EFontWeight currentWeight = EFontWeight::REGULAR;
 
 	// for the anchoring
 	glm::vec2 minBounds( 0.0f );
 	glm::vec2 maxBounds( 0.0f );
 
+	GenerateGeometry( textOptions, font, str, minBounds, maxBounds, geometry );
+
+	AdjustAnchoring( textOptions, minBounds, maxBounds, geometry.Vertices );
+
+	return( geometry );
+}
+
+void CTextGeometryBuilder::GenerateGeometry( const STextOptions &textOptions, const std::shared_ptr<const CFont> &font, const std::string &str, glm::vec2 &minBounds, glm::vec2 &maxBounds, Geometry<VertexPCU0> &geometry )
+{
+	auto &vertices = geometry.Vertices;
+	auto &indices = geometry.Indices;
+
+	// we need max this many vertices/indices, fewer if rich text is used
+	vertices.reserve( str.length() * 4 );
+	indices.reserve( str.length() * 6 );
+
+	const auto color = textOptions.Color;
+	const glm::vec3 standardColor( color.r(), color.g(), color.b() );
+
+	glm::vec3 currentVertexColor = standardColor;
+	EFontWeight currentWeight = EFontWeight::REGULAR;
+
 	f16 offsetX = 0;
 	f16 offsetY = 0;
 
+	u16 lastIndex = 0; // TODO rename
+
 	auto it = str.begin();
 	const auto end = str.end();
-
 	while( it != end )
 	{
 		const u32 &currentCodepoint = utf8::next( it, end );
@@ -93,6 +101,7 @@ CTextGeometryBuilder::TextGeometry CTextGeometryBuilder::Build( const std::share
 				}
 			}
 		}
+		// we want fallthrough here
 
 		default:
 			const auto packedChar = font->PackedCharFromCodepoint( currentWeight, currentCodepoint );
@@ -103,10 +112,10 @@ CTextGeometryBuilder::TextGeometry CTextGeometryBuilder::Build( const std::share
 
 				stbtt_GetPackedQuad( packedChar, font->AtlasSize.width, font->AtlasSize.height, 0, &offsetX, &offsetY, &quad, 1 );
 
-				vertices.emplace_back( VertexPCU0( { { quad.x0, -quad.y1, 0 }, currentVertexColor, { quad.s0, quad.t1 } } ) );
-				vertices.emplace_back( VertexPCU0( { { quad.x0, -quad.y0, 0 }, currentVertexColor, { quad.s0, quad.t0 } } ) );
-				vertices.emplace_back( VertexPCU0( { { quad.x1, -quad.y0, 0 }, currentVertexColor, { quad.s1, quad.t0 } } ) );
-				vertices.emplace_back( VertexPCU0( { { quad.x1, -quad.y1, 0 }, currentVertexColor, { quad.s1, quad.t1 } } ) );
+				vertices.emplace_back( VertexPCU0( { { quad.x0, -quad.y1, 0 }, currentVertexColor,{ quad.s0, quad.t1 } } ) );
+				vertices.emplace_back( VertexPCU0( { { quad.x0, -quad.y0, 0 }, currentVertexColor,{ quad.s0, quad.t0 } } ) );
+				vertices.emplace_back( VertexPCU0( { { quad.x1, -quad.y0, 0 }, currentVertexColor,{ quad.s1, quad.t0 } } ) );
+				vertices.emplace_back( VertexPCU0( { { quad.x1, -quad.y1, 0 }, currentVertexColor,{ quad.s1, quad.t1 } } ) );
 
 				indices.emplace_back( lastIndex );
 				indices.emplace_back( lastIndex + 1 );
@@ -131,10 +140,6 @@ CTextGeometryBuilder::TextGeometry CTextGeometryBuilder::Build( const std::share
 			break;
 		}
 	}
-
-	AdjustAnchoring( textOptions, minBounds, maxBounds, vertices );
-
-	return( geometry );
 }
 
 void CTextGeometryBuilder::AdjustAnchoring( const STextOptions &textOptions, const glm::vec2 minBounds, const glm::vec2 maxBounds, std::vector<TextVertexFormat> &vertices )

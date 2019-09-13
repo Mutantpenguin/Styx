@@ -19,5 +19,6 @@ public:
 	static TextGeometry Build( const std::shared_ptr<const CFont> &font, const STextOptions &textOptions, const std::string &str );
 
 private:
+	static void GenerateGeometry( const STextOptions &textOptions, const std::shared_ptr<const CFont> &font, const std::string &str, glm::vec2 &minBounds, glm::vec2 &maxBounds, Geometry<VertexPCU0> &geometry );
 	static void AdjustAnchoring( const STextOptions &textOptions, const glm::vec2 minBounds, const glm::vec2 maxBounds, std::vector<TextVertexFormat> &vertices );
 };
