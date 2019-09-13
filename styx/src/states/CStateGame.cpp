@@ -435,7 +435,7 @@ std::shared_ptr<CState> CStateGame::OnUpdate()
 
 	if( m_updateFpsTime <= elapsedTime )
 	{
-		m_updateFpsTime = elapsedTime + 500000.0f;
+		m_updateFpsTime = elapsedTime + 250000.0f;
 
 		const f16 fps = ( 1000.0f / m_engineInterface.Stats.frameTime * 1000.0f );
 		
