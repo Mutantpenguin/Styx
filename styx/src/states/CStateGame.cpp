@@ -380,7 +380,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			textOptions.Color = Colors::Red();
 			textOptions.LineSpacing = 32;
 			textOptions.HorizontalAnchoring = EAnchoringHorizontal::LEFT;
-			textOptions.VerticalAnchoring = EAnchoringVertical::CENTER;
+			textOptions.VerticalAnchoring = EAnchoringVertical::TOP;
 			textOptions.Alignment = EAlignment::CENTER;
 			textOptions.RichText = false;
 
