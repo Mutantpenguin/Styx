@@ -54,40 +54,43 @@ CTextGeometryBuilder::TextGeometry CTextGeometryBuilder::Build( const std::share
 
 		case '<':
 		{
-			const std::string remainder( it, end );
-
-			if( remainder.substr( 0, 1 ) == "#" ) // start of color
+			if( textOptions.RichText )
 			{
-				const auto &hexColorStr = remainder.substr( 2, 6 );
-				const auto hexColorValue = std::stol( hexColorStr, nullptr, 16 );
+				const std::string remainder( it, end );
 
-				currentVertexColor.r = ( ( hexColorValue >> 16 ) & 0xFF ) / 255.0; // Extract the RR byte
-				currentVertexColor.g = ( ( hexColorValue >> 8 ) & 0xFF ) / 255.0;  // Extract the GG byte
-				currentVertexColor.b = ( ( hexColorValue ) & 0xFF ) / 255.0;       // Extract the BB byte
+				if( remainder.substr( 0, 1 ) == "#" ) // start of color
+				{
+					const auto &hexColorStr = remainder.substr( 2, 6 );
+					const auto hexColorValue = std::stol( hexColorStr, nullptr, 16 );
 
-				utf8::advance( it, 8, end );
-				continue;
-			}
-			else if( remainder.substr( 0, 3 ) == "/#>" ) // end of color
-			{
-				currentVertexColor = standardColor;
+					currentVertexColor.r = ( ( hexColorValue >> 16 ) & 0xFF ) / 255.0; // Extract the RR byte
+					currentVertexColor.g = ( ( hexColorValue >> 8 ) & 0xFF ) / 255.0;  // Extract the GG byte
+					currentVertexColor.b = ( ( hexColorValue ) & 0xFF ) / 255.0;       // Extract the BB byte
 
-				utf8::advance( it, 3, end );
-				continue;
-			}
-			else if( remainder.substr( 0, 2 ) == "b>" ) // start of bold
-			{
-				currentWeight = EFontWeight::BOLD;
+					utf8::advance( it, 8, end );
+					continue;
+				}
+				else if( remainder.substr( 0, 3 ) == "/#>" ) // end of color
+				{
+					currentVertexColor = standardColor;
 
-				utf8::advance( it, 2, end );
-				continue;
-			}
-			else if( remainder.substr( 0, 3 ) == "/b>" ) // end of bold
-			{
-				currentWeight = EFontWeight::REGULAR;
+					utf8::advance( it, 3, end );
+					continue;
+				}
+				else if( remainder.substr( 0, 2 ) == "b>" ) // start of bold
+				{
+					currentWeight = EFontWeight::BOLD;
 
-				utf8::advance( it, 3, end );
-				continue;
+					utf8::advance( it, 2, end );
+					continue;
+				}
+				else if( remainder.substr( 0, 3 ) == "/b>" ) // end of bold
+				{
+					currentWeight = EFontWeight::REGULAR;
+
+					utf8::advance( it, 3, end );
+					continue;
+				}
 			}
 		}
 

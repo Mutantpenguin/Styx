@@ -382,6 +382,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			textOptions.HorizontalAnchoring = EAnchoringHorizontal::LEFT;
 			textOptions.VerticalAnchoring = EAnchoringVertical::CENTER;
 			textOptions.Alignment = EAlignment::CENTER;
+			textOptions.RichText = false;
 
 			m_fpsText = engineInterface.TextBuilder.Create( fontComfortaa64, textOptions, "" );
 
