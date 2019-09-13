@@ -321,19 +321,20 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	{ // font test
 		
 		const auto &fontbuilder = m_engineInterface.FontBuilder;
-		
-		CGlyphRange glyphRange;
-		glyphRange.AddDefault();
-		// TODO glyphRange.Add( 0xf000, 0xf897 );
-		
-		const auto font = fontbuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Regular.ttf", "fonts/Comfortaa/Bold.ttf", 64, glyphRange );
-		// TODO const auto font = fontbuilder.FromFile( "FontAwesome", "fonts/fontawesome-webfont.ttf", 64, glyphRange );
+			
+		const auto fontComfortaa64 = fontbuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Regular.ttf", "fonts/Comfortaa/Bold.ttf", 64, CGlyphRange::Default() );
+
+		CGlyphRange glyphRangeFontAwesome( 0xf000, 0xf897 );
+		// TODO texture is too small for using regular and bold
+		// const auto fontFontAwesome64 = engineInterface.FontBuilder.FromFile( "FontAwesome", "fonts/fontawesome/fa-regular-400.ttf", "fonts/fontawesome/fa-solid-900.ttf", 64, glyphRangeFontAwesome );
+		const auto fontFontAwesome64 = engineInterface.FontBuilder.FromFile( "FontAwesome", "fonts/fontawesome/fa-regular-400.ttf", 64, glyphRangeFontAwesome );
+
 		// TODO const auto font = fontbuilder.FromFile( "NovaCut", "fonts/NovaCut.ttf", 64, glyphRange );
 
 		{ // show whole atlas
 			const auto material = resources.Get<CMaterial>( "materials/basic_font.mat" );
 		
-			const CMesh::TMeshTextureSlots textureSlots = {	{ "fontTexture", std::make_shared<CMeshTextureSlot>( font->Texture, samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+			const CMesh::TMeshTextureSlots textureSlots = {	{ "fontTexture", std::make_shared<CMeshTextureSlot>( fontComfortaa64->Texture, samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 			
 			const auto mesh = std::make_shared<CMesh>( GeometryPrefabs::QuadPU0( 10.0f ), material, textureSlots );
 
@@ -349,31 +350,46 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			textOptions.VerticalAnchoring = EAnchoringVertical::CENTER;
 			textOptions.Alignment = EAlignment::CENTER;
 			
-			const auto text = engineInterface.TextBuilder.Create( font, textOptions, "A<b>A</b> Du hast <#{0}>doofe</#> <b>Ohren</b> und eine <#4444FF><b>krumme</b></#> Nase!\nDies ist die zweite Zeile! <#FFBAFF>Mit zeilenübergreifender Formatierung\nbis in die</#> dritte Zeile", CColor( 0.0, 1.0, 0.0 ).rgbHex() );
+			const auto text = engineInterface.TextBuilder.Create( fontComfortaa64, textOptions, "A<b>A</b> Du hast <#{0}>doofe</#> <b>Ohren</b> und eine <#4444FF><b>krumme</b></#> Nase!\nDies ist die zweite Zeile! <#FFBAFF>Mit zeilenübergreifender Formatierung\nbis in die</#> dritte Zeile", CColor( 0.0, 1.0, 0.0 ).rgbHex() );
 			
 			const auto entity = m_scene.CreateEntity( "font_test" );
 			entity->Transform.Position( { 80.0f, 10.0f, 20.0f } );
 			entity->Transform.Scale( { 0.05f, 0.05f, 0.05f } );
 			entity->Add<CModelComponent>( text->Mesh() );
 		}
-	}
 
-	{
-		const auto fpsFont = engineInterface.FontBuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Regular.ttf", 32, CGlyphRange::Default() );
+		{
+			STextOptions textOptions;
+			textOptions.Color = TangoColors::PlumShadow();
+			textOptions.HorizontalAnchoring = EAnchoringHorizontal::LEFT;
+			textOptions.VerticalAnchoring = EAnchoringVertical::CENTER;
+			textOptions.Alignment = EAlignment::CENTER;
 
-		STextOptions textOptions;
-		textOptions.Color = Colors::Red();
-		textOptions.LineSpacing = 32;
-		textOptions.HorizontalAnchoring = EAnchoringHorizontal::LEFT;
-		textOptions.VerticalAnchoring = EAnchoringVertical::CENTER;
-		textOptions.Alignment = EAlignment::CENTER;
+			// TODO why does only the last character (ICON_FA_ARROW_ALT_CIRCLE_LEFT ) work here?
+			// values from https://github.com/juliettef/IconFontCppHeaders/blob/master/IconsFontAwesome5.h
+			const auto text = engineInterface.TextBuilder.Create( fontFontAwesome64, textOptions, u8"\uf519\uf05b\uf5d2\uf359" );
 
-		m_fpsText = engineInterface.TextBuilder.Create( fpsFont, textOptions, "" );
+			const auto entity = m_scene.CreateEntity( "fontawesome_test" );
+			entity->Transform.Position( { 40.0f, 20.0f, 20.0f } );
+			entity->Transform.Scale( { 0.05f, 0.05f, 0.05f } );
+			entity->Add<CModelComponent>( text->Mesh() );
+		}
 
-		const auto fpsEntity = m_scene.CreateEntity( "fps" );
-		fpsEntity->Transform.Position( { 40.0f, 40.0f, 20.0f } );
-		fpsEntity->Transform.Scale( { 0.2f, 0.2f, 0.2f } );
-		fpsEntity->Add<CModelComponent>( m_fpsText->Mesh() );
+		{
+			STextOptions textOptions;
+			textOptions.Color = Colors::Red();
+			textOptions.LineSpacing = 32;
+			textOptions.HorizontalAnchoring = EAnchoringHorizontal::LEFT;
+			textOptions.VerticalAnchoring = EAnchoringVertical::CENTER;
+			textOptions.Alignment = EAlignment::CENTER;
+
+			m_fpsText = engineInterface.TextBuilder.Create( fontComfortaa64, textOptions, "" );
+
+			const auto fpsEntity = m_scene.CreateEntity( "fps" );
+			fpsEntity->Transform.Position( { 40.0f, 40.0f, 20.0f } );
+			fpsEntity->Transform.Scale( { 0.2f, 0.2f, 0.2f } );
+			fpsEntity->Add<CModelComponent>( m_fpsText->Mesh() );
+		}
 	}
 
 	{
