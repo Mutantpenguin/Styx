@@ -16,18 +16,24 @@ CTextGeometryBuilder::TextGeometry CTextGeometryBuilder::Build( const std::share
 
 	geometry.Mode = GL_TRIANGLES;
 
-	// for the anchoring
-	glm::vec2 minBounds( 0.0f );
-	glm::vec2 maxBounds( 0.0f );
+	if( str.length() > 0 )
+	{
+		glm::vec2 minBounds( 0.0f );
+		glm::vec2 maxBounds( 0.0f );
 
-	GenerateGeometry( textOptions, font, str, minBounds, maxBounds, geometry );
+		Lines lines;
 
-	AdjustAnchoring( textOptions, minBounds, maxBounds, geometry.Vertices );
+		GenerateGeometry( textOptions, font, str, minBounds, maxBounds, geometry, lines );
+
+		AdjustAlignment( textOptions, maxBounds.x, geometry.Vertices, lines );
+
+		AdjustAnchoring( textOptions, minBounds, maxBounds, geometry.Vertices );
+	}
 
 	return( geometry );
 }
 
-void CTextGeometryBuilder::GenerateGeometry( const STextOptions &textOptions, const std::shared_ptr<const CFont> &font, const std::string &str, glm::vec2 &minBounds, glm::vec2 &maxBounds, Geometry<VertexPCU0> &geometry )
+void CTextGeometryBuilder::GenerateGeometry( const STextOptions &textOptions, const std::shared_ptr<const CFont> &font, const std::string &str, glm::vec2 &minBounds, glm::vec2 &maxBounds, Geometry<VertexPCU0> &geometry, Lines &lines )
 {
 	auto &vertices = geometry.Vertices;
 	auto &indices = geometry.Indices;
@@ -49,6 +55,7 @@ void CTextGeometryBuilder::GenerateGeometry( const STextOptions &textOptions, co
 
 	auto it = str.begin();
 	const auto end = str.end();
+	size_t currentLineStartIndex = 0;
 	while( it != end )
 	{
 		const u32 &currentCodepoint = utf8::next( it, end );
@@ -56,9 +63,14 @@ void CTextGeometryBuilder::GenerateGeometry( const STextOptions &textOptions, co
 		switch( currentCodepoint )
 		{
 		case '\n':
+		{
 			offsetX = 0;
 			offsetY += font->Size + textOptions.LineSpacing;
+			const auto currentLineEndIndex = vertices.size() - 1;
+			lines.emplace_back( currentLineStartIndex, currentLineEndIndex );
+			currentLineStartIndex = currentLineEndIndex + 1;
 			continue;
+		}
 
 		case '<':
 		{
@@ -140,9 +152,41 @@ void CTextGeometryBuilder::GenerateGeometry( const STextOptions &textOptions, co
 			break;
 		}
 	}
+
+	lines.emplace_back( currentLineStartIndex, vertices.size() - 1 );
 }
 
-void CTextGeometryBuilder::AdjustAnchoring( const STextOptions &textOptions, const glm::vec2 minBounds, const glm::vec2 maxBounds, std::vector<TextVertexFormat> &vertices )
+void CTextGeometryBuilder::AdjustAlignment( const STextOptions &textOptions, const f16 maxLineWidth, std::vector<TextVertexFormat> &vertices, const Lines &lines )
+{
+	if( textOptions.Alignment != EAlignment::LEFT )
+	{
+		for( const auto &[ from, to ] : lines )
+		{
+			const auto currentLineWidth = ( *std::max_element( std::cbegin( vertices ) + from, std::cbegin( vertices ) + to,	[]( const TextVertexFormat &a, const TextVertexFormat &b )
+																																{
+																																	return( glm::length2( a.Position.x ) < glm::length2( b.Position.x ) );
+																																} ) ).Position.x;
+
+			switch( textOptions.Alignment )
+			{
+			case EAlignment::CENTER:
+				for( auto i = from; i <= to; i++ )
+				{
+					vertices[ i ].Position.x += ( maxLineWidth - currentLineWidth ) / 2.0f;
+				}
+				break;
+			case EAlignment::RIGHT:
+				for( auto i = from; i <= to; i++ )
+				{
+					vertices[ i ].Position.x += maxLineWidth - currentLineWidth;
+				}
+				break;
+			}
+		}
+	}
+}
+
+void CTextGeometryBuilder::AdjustAnchoring( const STextOptions &textOptions, const glm::vec2 &minBounds, const glm::vec2 &maxBounds, std::vector<TextVertexFormat> &vertices )
 {
 	f16 xShift = 0.0f;
 	f16 yShift = 0.0f;

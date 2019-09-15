@@ -361,7 +361,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		{
 			STextOptions textOptions;
 			textOptions.Color = TangoColors::PlumShadow();
-			textOptions.HorizontalAnchoring = EAnchoringHorizontal::LEFT;
+			textOptions.HorizontalAnchoring = EAnchoringHorizontal::CENTER;
 			textOptions.VerticalAnchoring = EAnchoringVertical::CENTER;
 			textOptions.Alignment = EAlignment::CENTER;
 
