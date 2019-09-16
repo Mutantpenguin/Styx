@@ -27,14 +27,13 @@ enum class EAlignment : u8
 
 struct STextOptions final
 {
-	u16 LineSpacing;
+	u16 LineSpacing = 0;
 
-	CColor Color;
+	CColor Color = Colors::Black();
 
 	EAnchoringHorizontal HorizontalAnchoring = EAnchoringHorizontal::LEFT;
 	EAnchoringVertical VerticalAnchoring = EAnchoringVertical::TOP;
 
-	// TODO Alignment
 	EAlignment Alignment = EAlignment::LEFT;
 
 	// TODO MaxWidth
