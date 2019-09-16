@@ -141,12 +141,12 @@
         <File Name="src/renderer/text/STextOptions.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="font">
+        <File Name="src/renderer/font/CGlyphRange.hpp"/>
+        <File Name="src/renderer/font/CGlyphRange.cpp"/>
         <File Name="src/renderer/font/EFontWeight.hpp"/>
         <File Name="src/renderer/font/EFontWeight.cpp"/>
         <File Name="src/renderer/font/CFontBuilder.cpp"/>
         <File Name="src/renderer/font/CFontBuilder.hpp"/>
-        <File Name="src/renderer/font/CGlyphRanges.cpp"/>
-        <File Name="src/renderer/font/CGlyphRanges.hpp"/>
         <File Name="src/renderer/font/CFont.cpp"/>
         <File Name="src/renderer/font/CFont.hpp"/>
       </VirtualDirectory>
