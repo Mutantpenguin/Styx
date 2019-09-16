@@ -1,5 +1,7 @@
 #include "CStateIntro.hpp"
 
+#include "src/system/CEngine.hpp"
+
 #include "src/states/CStateMainMenu.hpp"
 
 #include "src/logger/CLogger.hpp"
@@ -17,8 +19,8 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 	m_scene.ClearColor( CColor( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
 	auto &resources = m_engineInterface.Resources;
-
 	auto &samplerManager = engineInterface.SamplerManager;
+	auto &fontbuilder = engineInterface.FontBuilder;
 
 	{
 		auto cameraEntity = m_scene.CreateEntity( "free camera" );
@@ -29,14 +31,33 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 		m_scene.Camera( cameraEntity );
 	}
 
-	const auto material = resources.Get<CMaterial>( "materials/intro_icon.mat" );
+	{
+		const auto material = resources.Get<CMaterial>( "materials/intro_icon.mat" );
 
-	const CMesh::TMeshTextureSlots logoMeshTextureSlots = { { "diffuseTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/styx/logo.png" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+		const CMesh::TMeshTextureSlots logoMeshTextureSlots = { { "diffuseTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/styx/logo.png" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
 
-	const auto logoMesh = std::make_shared<CMesh>( GeometryPrefabs::QuadPNU0( 6.0f ), material, logoMeshTextureSlots );
+		const auto logoMesh = std::make_shared<CMesh>( GeometryPrefabs::QuadPNU0( 6.0f ), material, logoMeshTextureSlots );
 
-	m_logoEntity = m_scene.CreateEntity( "logo" );
-	m_logoEntity->Add<CModelComponent>( logoMesh );
+		m_logoEntity = m_scene.CreateEntity( "logo" );
+		m_logoEntity->Add<CModelComponent>( logoMesh );
+	}
+
+	{
+		const auto fontComfortaa64 = fontbuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Regular.ttf", "fonts/Comfortaa/Bold.ttf", 64, CGlyphRange::Default() );
+
+		STextOptions textOptions;
+		textOptions.Color = TangoColors::Aluminium();
+		textOptions.HorizontalAnchoring = EAnchoringHorizontal::CENTER;
+		textOptions.VerticalAnchoring = EAnchoringVertical::CENTER;
+		textOptions.Alignment = EAlignment::CENTER;
+
+		const auto text = engineInterface.TextBuilder.Create( fontComfortaa64, textOptions, "{0}\ndeveloped by <#{1}><b>Markus Lobedann</b></#>", CEngine::GetVersionString(), TangoColors::AluminiumHighlight().rgbHex() );
+
+		const auto entity = m_scene.CreateEntity( "text" );
+		entity->Transform.Position( { 0.0f, -6.0f, 0.0f } );
+		entity->Transform.Scale( { 0.005f, 0.005f, 0.005f } );
+		entity->Add<CModelComponent>( text->Mesh() );
+	}
 
 	m_introSound->Play();
 	m_introSound->SetRelativePositioning( true );
