@@ -80,7 +80,7 @@ void CTextGeometryBuilder::GenerateGeometry( const STextOptions &textOptions, co
 
 				if( remainder.substr( 0, 1 ) == "#" ) // start of color
 				{
-					const auto &hexColorStr = remainder.substr( 2, 6 );
+					const auto &hexColorStr = remainder.substr( 1, 6 );
 					const auto hexColorValue = std::stol( hexColorStr, nullptr, 16 );
 
 					currentVertexColor.r = ( ( hexColorValue >> 16 ) & 0xFF ) / 255.0; // Extract the RR byte
