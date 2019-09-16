@@ -10,7 +10,7 @@
 
 const std::string	CEngine::m_name				{ "Styx Engine" };
 const u16			CEngine::m_version_major	{ 19 };
-const u16			CEngine::m_version_minor	{ 1 };
+const u16			CEngine::m_version_minor	{ 9 };
 const u16			CEngine::m_version_patch	{ 0 };
 const std::string	CEngine::m_status			{ "pre-alpha" };
 
