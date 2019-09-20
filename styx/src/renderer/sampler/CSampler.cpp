@@ -22,6 +22,11 @@ void CSampler::Parameteri( const GLenum pname, const GLint param ) const
 	glSamplerParameteri( m_samplerID, pname, param );
 }
 
+void CSampler::Parameterf( const GLenum pname, const GLfloat param ) const
+{
+	glSamplerParameterf( m_samplerID, pname, param );
+}
+
 void CSampler::BindToUnit( const GLuint unit ) const
 {
 	CGLState::BindSamplerToUnit( m_samplerID, unit );

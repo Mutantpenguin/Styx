@@ -21,11 +21,13 @@ public:
 		REPEAT_CUBE,
 		BORDER_CUBE,
 		EDGE_CUBE,
+		FONT,
 		MAX
 	};
 
 	void Parametere( const GLenum pname, const GLenum param ) const;
 	void Parameteri( const GLenum pname, const GLint param ) const;
+	void Parameterf( const GLenum pname, const GLfloat param ) const;
 
 	void BindToUnit( const GLuint unit ) const;
 
