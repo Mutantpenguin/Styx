@@ -147,6 +147,8 @@ void CTextGeometryBuilder::GenerateGeometry( const STextOptions &textOptions, co
 			else
 			{
 				logWARNING( "codepoint '{0}' wasn't found in font '{1}' for weight '{2}'", currentCodepoint, font->Name, EFontWeightToString( currentWeight ) );
+				// TODO if a font doesn't contain any needed codepoints we get empty "vertices"
+				// TODO maybe put some dummy in here instead?
 			}
 
 			break;
