@@ -17,10 +17,10 @@ public:
 	CEngineInterface(	CResources			&resources,
 						CInput				&input,
 						CAudio				&audio,
-						CSamplerManager 	&samplerManager,
-						const CFontBuilder	&fontBuilder,
-						const CTextBuilder	&textBuilder,
-						const CEngineStats	&stats ) :
+						const CSamplerManager 	&samplerManager,
+						const CFontBuilder		&fontBuilder,
+						const CTextBuilder		&textBuilder,
+						const CEngineStats		&stats ) :
 		Resources { resources },
 		Input { input },
 		Audio { audio },
@@ -36,13 +36,13 @@ public:
 
 	CAudio				&Audio;
 	
-	CSamplerManager		&SamplerManager;
+	const CSamplerManager	&SamplerManager;
 	
-	const CFontBuilder	&FontBuilder;
+	const CFontBuilder		&FontBuilder;
 	
-	const CTextBuilder	&TextBuilder;
+	const CTextBuilder		&TextBuilder;
 	
-	const CEngineStats	&Stats;
+	const CEngineStats		&Stats;
 
 private:
 	CEngineInterface( const CEngineInterface &rhs ) = delete;
