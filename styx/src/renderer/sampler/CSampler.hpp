@@ -21,7 +21,6 @@ public:
 		REPEAT_CUBE,
 		BORDER_CUBE,
 		EDGE_CUBE,
-		FONT,
 		MAX
 	};
 
