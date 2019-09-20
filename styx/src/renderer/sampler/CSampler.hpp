@@ -24,9 +24,9 @@ public:
 		MAX
 	};
 
-	void Parametere( const GLenum pname, const GLenum param ) const;
-	void Parameteri( const GLenum pname, const GLint param ) const;
-	void Parameterf( const GLenum pname, const GLfloat param ) const;
+	void Parametere( const GLenum pname, const GLenum param );
+	void Parameteri( const GLenum pname, const GLint param );
+	void Parameterf( const GLenum pname, const GLfloat param );
 
 	void BindToUnit( const GLuint unit ) const;
 

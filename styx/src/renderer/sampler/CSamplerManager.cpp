@@ -114,7 +114,7 @@ const std::shared_ptr<const CSampler> CSamplerManager::GetFromType( const CSampl
 	return( m_samplers[ static_cast<u8>( type ) ] );
 }
 
-const std::shared_ptr<const CSampler> CSamplerManager::Generate( CSampler::SamplerType type )
+const std::shared_ptr<CSampler> CSamplerManager::Generate( CSampler::SamplerType type )
 {
 	const u8 index = static_cast<u8>( type );
 

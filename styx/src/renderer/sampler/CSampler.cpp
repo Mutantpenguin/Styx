@@ -12,17 +12,17 @@ CSampler::~CSampler()
 	glDeleteSamplers( 1, &m_samplerID );
 }
 
-void CSampler::Parametere( const GLenum pname, const GLenum param ) const
+void CSampler::Parametere( const GLenum pname, const GLenum param )
 {
 	glSamplerParameteri( m_samplerID, pname, static_cast<GLint>( param ) );
 }
 
-void CSampler::Parameteri( const GLenum pname, const GLint param ) const
+void CSampler::Parameteri( const GLenum pname, const GLint param )
 {
 	glSamplerParameteri( m_samplerID, pname, param );
 }
 
-void CSampler::Parameterf( const GLenum pname, const GLfloat param ) const
+void CSampler::Parameterf( const GLenum pname, const GLfloat param )
 {
 	glSamplerParameterf( m_samplerID, pname, param );
 }

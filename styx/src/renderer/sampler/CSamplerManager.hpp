@@ -20,7 +20,7 @@ public:
 	[[nodiscard]] const std::shared_ptr<const CSampler> GetFromType( const CSampler::SamplerType type ) const;
 
 private:
-	[[nodiscard]] const std::shared_ptr<const CSampler> Generate( const CSampler::SamplerType type );
+	[[nodiscard]] const std::shared_ptr<CSampler> Generate( const CSampler::SamplerType type );
 
 	std::array<std::shared_ptr<const CSampler>, static_cast<u8>( CSampler::SamplerType::MAX )> m_samplers;
 };
