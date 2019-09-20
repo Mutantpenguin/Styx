@@ -27,7 +27,7 @@ CSamplerManager::CSamplerManager( const COpenGlAdapter &openGlAdapter ) :
 
 	const auto sampler2DRepeatBorder = Generate( CSampler::SamplerType::REPEAT_BORDER_2D );
 	sampler2DRepeatBorder->Parametere( GL_TEXTURE_WRAP_S, GL_REPEAT );
-	sampler2DRepeatBorder->Parametere( GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER );
+	sampler2DRepeatBorder->Parametere( GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER );
 	sampler2DRepeatBorder->Parametere( GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
 	sampler2DRepeatBorder->Parametere( GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
