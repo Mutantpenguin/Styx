@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include "external/fmt/time.h"
+#include "external/fmt/chrono.h"
 
 #include "src/scene/components/camera/CCameraFreeComponent.hpp"
 #include "src/renderer/components/CModelComponent.hpp"

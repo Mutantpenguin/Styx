@@ -349,7 +349,8 @@
       <File Name="external/imgui/imconfig.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="fmt">
-      <File Name="external/fmt/time.h"/>
+      <File Name="external/fmt/safe-duration-cast.h"/>
+      <File Name="external/fmt/compile.h"/>
       <File Name="external/fmt/ranges.h"/>
       <File Name="external/fmt/printf.h"/>
       <File Name="external/fmt/posix.h"/>
