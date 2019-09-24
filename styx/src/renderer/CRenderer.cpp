@@ -139,7 +139,7 @@ void CRenderer::RenderPackageToFramebuffer( const RenderPackage &renderPackage, 
 	{
 		UpdateRenderLayerUniformBuffers( layer );
 		
-		auto &view = layer.View;
+		auto const &view = layer.View;
 		
 		const CMesh * currentMesh = nullptr;
 		const CMaterial * currentMaterial = nullptr;
