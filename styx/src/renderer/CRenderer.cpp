@@ -9,14 +9,9 @@
 
 #include "src/renderer/CGLState.hpp"
 
-#include "src/renderer/components/CModelComponent.hpp"
-#include "src/scene/components/camera/CCameraComponent.hpp"
-
 #include "src/logger/CLogger.hpp"
 
 #include "src/core/StyxException.hpp"
-
-#include "src/renderer/geometry/prefabs/Quad.hpp"
 
 CRenderer::CRenderer( const CSettings &settings, const CFileSystem &filesystem, CResources &resources ) :
 	OpenGlAdapter( settings ),
@@ -128,72 +123,7 @@ void CRenderer::UpdateRenderLayerUniformBuffers( const RenderLayer &renderLayer 
 	m_uboCamera->SubData( offset,	sizeof( view.ViewProjectionMatrix ),	glm::value_ptr( view.ViewProjectionMatrix ) );
 }
 
-void CRenderer::RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffer &framebuffer, const CTimer &timer ) const
-{
-	MTR_SCOPE( "GFX", "RenderSceneToFramebuffer" );
-
-	const auto &cameraEntity = scene.Camera();
-
-	if( !cameraEntity )
-	{
-		logWARNING( "scene has no camera" );
-	}
-	else
-	{
-		/*
-		 * set up the render package
-		 */
-
-		RenderPackage renderPackage;
-
-		renderPackage.ClearColor = scene.ClearColor();
-		renderPackage.TimeMilliseconds = static_cast<glm::uint>( timer.Time() / 1000 );
-		
-		auto &renderLayer = renderPackage.m_renderLayers.emplace_back();	
-		
-		const auto &camera = cameraEntity->Get<CCameraComponent>();
-
-		auto &view = renderLayer.View;
-
-		view.Position = cameraEntity->Transform.Position();
-		view.Direction = cameraEntity->Transform.Direction();
-		view.ProjectionMatrix = camera->ProjectionMatrix();
-		view.ViewMatrix = camera->ViewMatrix();
-		view.ViewProjectionMatrix = camera->ViewProjectionMatrix();
-		
-		// TODO is this the right amount?
-		renderLayer.drawCommands.reserve( 10000 );
-
-		MTR_BEGIN( "GFX", "fill draw drawCommands" );
-		const auto &cameraFrustum = cameraEntity->Get<CCameraComponent>()->Frustum();
-
-		const auto &cameraPosition = cameraEntity->Transform.Position();
-
-		scene.Each<CModelComponent>( [ &cameraFrustum, &cameraPosition, &renderLayer ] ( const std::shared_ptr<const CEntity> &entity )
-		{
-			const auto &mesh = entity->Get<CModelComponent>()->Mesh().get();
-
-			const auto &transform = entity->Transform;
-
-			// TODO use Octree here
-			if( cameraFrustum.IsSphereInside( transform.Position(), glm::length( mesh->BoundingSphereRadiusVector * transform.Scale() ) ) )
-			{
-				const CMaterial * material = mesh->Material().get();
-
-				renderLayer.drawCommands.emplace_back( mesh, material, material->ShaderProgram().get(), transform.ModelMatrix(), glm::length2( transform.Position() - cameraPosition ) );
-			}
-		} );
-		MTR_END( "GFX", "fill draw drawCommands" );
-
-		MTR_BEGIN( "GFX", "sort" );
-		renderPackage.SortDrawCommands();
-		MTR_END( "GFX", "sort" );
-
-		Render( framebuffer, renderPackage );
-	}
-}
-
-void CRenderer::Render( const CFrameBuffer &framebuffer, const RenderPackage &renderPackage ) const
+void CRenderer::RenderPackageToFramebuffer( const RenderPackage &renderPackage, const CFrameBuffer &framebuffer ) const
 {
 	MTR_SCOPE( "GFX", "Render" );
 

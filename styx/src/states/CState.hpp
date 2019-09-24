@@ -8,6 +8,7 @@
 #include "src/system/CTimer.hpp"
 
 #include "src/renderer/CFrameBuffer.hpp"
+#include "src/renderer/RenderPackage.hpp"
 
 #include "src/scene/CScene.hpp"
 
@@ -34,13 +35,11 @@ public:
 	virtual void Resume() final;
 	virtual void OnResume() {};
 
-	[[nodiscard]] virtual const CScene &Scene() const final;
-
 	[[nodiscard]] virtual const std::string &Name() const final;
 
-	[[nodiscard]] virtual const CFrameBuffer &FrameBuffer() const final;
+	[[ nodiscard ]] virtual const CFrameBuffer &FrameBuffer() const final;
 
-	[[nodiscard]] virtual const CTimer &Timer() const final;
+	[[ nodiscard ]] virtual RenderPackage CreateRenderPackage() const final;
 
 protected:
 	const std::string	m_name;

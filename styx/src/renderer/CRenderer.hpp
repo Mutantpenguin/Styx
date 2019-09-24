@@ -4,8 +4,6 @@
 
 #include "src/core/Types.hpp"
 
-#include "src/system/CTimer.hpp"
-
 #include "src/renderer/model/CMesh.hpp"
 
 #include "src/system/CSettings.hpp"
@@ -50,7 +48,7 @@ public:
 	CShaderCompiler			ShaderCompiler;
 	CShaderProgramCompiler	ShaderProgramCompiler;
 
-	void RenderSceneToFramebuffer( const CScene &scene, const CFrameBuffer &framebuffer, const CTimer &timer ) const;
+	void RenderPackageToFramebuffer( const RenderPackage &renderPackage, const CFrameBuffer &framebuffer ) const;
 
 	// presents the framebuffer on screen
 	void DisplayFramebuffer( const CFrameBuffer &framebuffer );
@@ -70,8 +68,6 @@ private:
 	void UpdateFramebufferUniformBuffers( const CFrameBuffer &framebuffer ) const;
 	void UpdateRenderPackageUniformBuffers( const RenderPackage &renderPackage ) const;
 	void UpdateRenderLayerUniformBuffers( const RenderLayer &renderLayer ) const;
-
-	void Render( const CFrameBuffer &framebuffer, const RenderPackage &renderPackage ) const;
 
 	std::shared_ptr<CUniformBuffer> m_uboCamera;
 	std::shared_ptr<CUniformBuffer> m_uboTimer;

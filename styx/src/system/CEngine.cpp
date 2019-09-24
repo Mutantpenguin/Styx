@@ -62,7 +62,7 @@ void CEngine::Run()
 
 		m_window.Update();
 
-		m_renderer.RenderSceneToFramebuffer( currentState->Scene(), currentState->FrameBuffer(), currentState->Timer() );
+		m_renderer.RenderPackageToFramebuffer( currentState->CreateRenderPackage(), currentState->FrameBuffer() );
 
 		m_renderer.DisplayFramebuffer( currentState->FrameBuffer() );
 
