@@ -545,6 +545,9 @@
     <ClInclude Include="src\renderer\font\CGlyphRange.hpp">
       <Filter>src\renderer\font</Filter>
     </ClInclude>
+    <ClInclude Include="external\fmt\safe-duration-cast.h">
+      <Filter>external\fmt</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\fmt\format.cc">
