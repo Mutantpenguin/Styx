@@ -772,7 +772,7 @@ struct position_t
     #undef JSON_HEDLEY_DEPRECATED_FOR
 #endif
 #if defined(__cplusplus) && (__cplusplus >= 201402L)
-    #define JSON_HEDLEY_DEPRECATED(since) [[deprecated("Since " #since)]]
+    #define JSON_HEDLEY_DEPRECATED(since)
     #define JSON_HEDLEY_DEPRECATED_FOR(since, replacement) [[deprecated("Since " #since "; use " #replacement)]]
 #elif \
     JSON_HEDLEY_HAS_EXTENSION(attribute_deprecated_with_message) || \
