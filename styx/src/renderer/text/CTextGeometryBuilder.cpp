@@ -12,9 +12,9 @@ CTextGeometryBuilder::TextGeometry CTextGeometryBuilder::Build( const std::share
 		utf8::replace_invalid( str );
 	}
 
-	TextGeometry geometry;
+	TextGeometry textGeometry;
 
-	geometry.Mode = GL_TRIANGLES;
+	textGeometry.Mode = GL_TRIANGLES;
 
 	if( str.length() > 0 )
 	{
@@ -23,24 +23,21 @@ CTextGeometryBuilder::TextGeometry CTextGeometryBuilder::Build( const std::share
 
 		Lines lines;
 
-		GenerateGeometry( textOptions, font, str, minBounds, maxBounds, geometry, lines );
+		GenerateGeometry( textOptions, font, str, minBounds, maxBounds, textGeometry, lines );
 
-		AdjustAlignment( textOptions, maxBounds.x, geometry.Vertices, lines );
+		AdjustAlignment( textOptions, maxBounds.x, textGeometry.Vertices, lines );
 
-		AdjustAnchoring( textOptions, minBounds, maxBounds, geometry.Vertices );
+		AdjustAnchoring( textOptions, minBounds, maxBounds, textGeometry.Vertices );
 	}
 
-	return( geometry );
+	return( textGeometry );
 }
 
-void CTextGeometryBuilder::GenerateGeometry( const STextOptions &textOptions, const std::shared_ptr<const CFont> &font, const std::string &str, glm::vec2 &minBounds, glm::vec2 &maxBounds, Geometry<VertexPCU0> &geometry, Lines &lines )
+void CTextGeometryBuilder::GenerateGeometry( const STextOptions &textOptions, const std::shared_ptr<const CFont> &font, const std::string &str, glm::vec2 &minBounds, glm::vec2 &maxBounds, TextGeometry &textGeometry, Lines &lines )
 {
-	auto &vertices = geometry.Vertices;
-	auto &indices = geometry.Indices;
-
 	// we need max this many vertices/indices, fewer if rich text is used
-	vertices.reserve( str.length() * 4 );
-	indices.reserve( str.length() * 6 );
+	textGeometry.Vertices.reserve( str.length() * 4 );
+	textGeometry.Indices.reserve( str.length() * 6 );
 
 	const auto color = textOptions.Color;
 	const glm::vec3 standardColor( color.r(), color.g(), color.b() );
@@ -63,99 +60,116 @@ void CTextGeometryBuilder::GenerateGeometry( const STextOptions &textOptions, co
 		switch( currentCodepoint )
 		{
 		case '\n':
-		{
-			offsetX = 0;
-			offsetY += font->Size + textOptions.LineSpacing;
-			const auto currentLineEndIndex = vertices.size() - 1;
-			lines.emplace_back( currentLineStartIndex, currentLineEndIndex );
-			currentLineStartIndex = currentLineEndIndex + 1;
+			{
+				offsetX = 0;
+				offsetY += font->Size + textOptions.LineSpacing;
+				const auto currentLineEndIndex = textGeometry.Vertices.size() - 1;
+				lines.emplace_back( currentLineStartIndex, currentLineEndIndex );
+				currentLineStartIndex = currentLineEndIndex + 1;
+				continue;
+			}
+		
+		case '\t':
+			// interpret 'tab' as 4 spaces in the current font
+			for( u8 i = 0; i <= 3; i++ )
+			{
+				AddCodepoint( offsetX, offsetY, currentVertexColor, currentWeight, ' ', font, textGeometry, lastIndex, minBounds, maxBounds );
+			}
 			continue;
-		}
 
 		case '<':
-		{
-			if( textOptions.RichText )
 			{
-				const std::string remainder( it, end );
-
-				if( remainder.substr( 0, 1 ) == "#" ) // start of color
+				if( textOptions.RichText )
 				{
-					const auto &hexColorStr = remainder.substr( 1, 6 );
-					const auto hexColorValue = std::stol( hexColorStr, nullptr, 16 );
+					const std::string remainder( it, end );
 
-					currentVertexColor.r = ( ( hexColorValue >> 16 ) & 0xFF ) / 255.0; // Extract the RR byte
-					currentVertexColor.g = ( ( hexColorValue >> 8 ) & 0xFF ) / 255.0;  // Extract the GG byte
-					currentVertexColor.b = ( ( hexColorValue ) & 0xFF ) / 255.0;       // Extract the BB byte
+					if( remainder.substr( 0, 1 ) == "#" ) // start of color
+					{
+						const auto &hexColorStr = remainder.substr( 1, 6 );
+						const auto hexColorValue = std::stol( hexColorStr, nullptr, 16 );
 
-					utf8::advance( it, 8, end );
-					continue;
-				}
-				else if( remainder.substr( 0, 3 ) == "/#>" ) // end of color
-				{
-					currentVertexColor = standardColor;
+						currentVertexColor.r = ( ( hexColorValue >> 16 ) & 0xFF ) / 255.0; // Extract the RR byte
+						currentVertexColor.g = ( ( hexColorValue >> 8 ) & 0xFF ) / 255.0;  // Extract the GG byte
+						currentVertexColor.b = ( ( hexColorValue ) & 0xFF ) / 255.0;       // Extract the BB byte
 
-					utf8::advance( it, 3, end );
-					continue;
-				}
-				else if( remainder.substr( 0, 2 ) == "b>" ) // start of bold
-				{
-					currentWeight = EFontWeight::BOLD;
+						utf8::advance( it, 8, end );
+						continue;
+					}
+					else if( remainder.substr( 0, 3 ) == "/#>" ) // end of color
+					{
+						currentVertexColor = standardColor;
 
-					utf8::advance( it, 2, end );
-					continue;
-				}
-				else if( remainder.substr( 0, 3 ) == "/b>" ) // end of bold
-				{
-					currentWeight = EFontWeight::REGULAR;
+						utf8::advance( it, 3, end );
+						continue;
+					}
+					else if( remainder.substr( 0, 2 ) == "b>" ) // start of bold
+					{
+						currentWeight = EFontWeight::BOLD;
 
-					utf8::advance( it, 3, end );
-					continue;
+						utf8::advance( it, 2, end );
+						continue;
+					}
+					else if( remainder.substr( 0, 3 ) == "/b>" ) // end of bold
+					{
+						currentWeight = EFontWeight::REGULAR;
+
+						utf8::advance( it, 3, end );
+						continue;
+					}
 				}
 			}
-		}
-		// we want fallthrough here
+			// we want fallthrough here
 
 		default:
-			const auto packedChar = font->PackedCharFromCodepoint( currentWeight, currentCodepoint );
-
-			if( nullptr != packedChar )
-			{
-				stbtt_aligned_quad quad;
-
-				stbtt_GetPackedQuad( packedChar, font->AtlasSize.width, font->AtlasSize.height, 0, &offsetX, &offsetY, &quad, 1 );
-
-				vertices.emplace_back( VertexPCU0( { { quad.x0, -quad.y1, 0 }, currentVertexColor,{ quad.s0, quad.t1 } } ) );
-				vertices.emplace_back( VertexPCU0( { { quad.x0, -quad.y0, 0 }, currentVertexColor,{ quad.s0, quad.t0 } } ) );
-				vertices.emplace_back( VertexPCU0( { { quad.x1, -quad.y0, 0 }, currentVertexColor,{ quad.s1, quad.t0 } } ) );
-				vertices.emplace_back( VertexPCU0( { { quad.x1, -quad.y1, 0 }, currentVertexColor,{ quad.s1, quad.t1 } } ) );
-
-				indices.emplace_back( lastIndex );
-				indices.emplace_back( lastIndex + 1 );
-				indices.emplace_back( lastIndex + 2 );
-
-				indices.emplace_back( lastIndex );
-				indices.emplace_back( lastIndex + 2 );
-				indices.emplace_back( lastIndex + 3 );
-
-				lastIndex += 4;
-
-				minBounds.x = std::min( { minBounds.x, quad.x0, quad.x1 } );
-				minBounds.y = std::min( { minBounds.y, -quad.y0, -quad.y1 } );
-				maxBounds.x = std::max( { maxBounds.x, quad.x0, quad.x1 } );
-				maxBounds.y = std::max( { maxBounds.y, -quad.y0, -quad.y1 } );
-			}
-			else
-			{
-				logWARNING( "codepoint '{0}' wasn't found in font '{1}' for weight '{2}'", currentCodepoint, font->Name, EFontWeightToString( currentWeight ) );
-				// TODO if a font doesn't contain any needed codepoints we get empty "vertices"
-				// TODO maybe put some dummy in here instead?
-			}
+			AddCodepoint( offsetX, offsetY, currentVertexColor, currentWeight, currentCodepoint, font, textGeometry, lastIndex, minBounds, maxBounds );
 
 			break;
 		}
 	}
 
-	lines.emplace_back( currentLineStartIndex, vertices.size() - 1 );
+	lines.emplace_back( currentLineStartIndex, textGeometry.Vertices.size() - 1 );
+}
+
+void CTextGeometryBuilder::AddCodepoint( f16 &offsetX, f16 &offsetY, const glm::vec3 &currentVertexColor, const EFontWeight currentWeight, const u32 &currentCodepoint, const std::shared_ptr<const CFont> &font, TextGeometry &textGeometry, u16 &lastIndex, glm::vec2 &minBounds, glm::vec2 &maxBounds )
+{
+	const auto packedChar = font->PackedCharFromCodepoint( currentWeight, currentCodepoint );
+
+	if( nullptr != packedChar )
+	{
+		stbtt_aligned_quad quad;
+
+		stbtt_GetPackedQuad( packedChar, font->AtlasSize.width, font->AtlasSize.height, 0, &offsetX, &offsetY, &quad, 1 );
+
+		auto &vertices = textGeometry.Vertices;
+
+		vertices.emplace_back( VertexPCU0( { { quad.x0, -quad.y1, 0 }, currentVertexColor,{ quad.s0, quad.t1 } } ) );
+		vertices.emplace_back( VertexPCU0( { { quad.x0, -quad.y0, 0 }, currentVertexColor,{ quad.s0, quad.t0 } } ) );
+		vertices.emplace_back( VertexPCU0( { { quad.x1, -quad.y0, 0 }, currentVertexColor,{ quad.s1, quad.t0 } } ) );
+		vertices.emplace_back( VertexPCU0( { { quad.x1, -quad.y1, 0 }, currentVertexColor,{ quad.s1, quad.t1 } } ) );
+
+		auto &indices = textGeometry.Indices;
+
+		indices.emplace_back( lastIndex );
+		indices.emplace_back( lastIndex + 1 );
+		indices.emplace_back( lastIndex + 2 );
+
+		indices.emplace_back( lastIndex );
+		indices.emplace_back( lastIndex + 2 );
+		indices.emplace_back( lastIndex + 3 );
+
+		lastIndex += 4;
+
+		minBounds.x = std::min( { minBounds.x, quad.x0, quad.x1 } );
+		minBounds.y = std::min( { minBounds.y, -quad.y0, -quad.y1 } );
+		maxBounds.x = std::max( { maxBounds.x, quad.x0, quad.x1 } );
+		maxBounds.y = std::max( { maxBounds.y, -quad.y0, -quad.y1 } );
+	}
+	else
+	{
+		logWARNING( "codepoint '{0}' wasn't found in font '{1}' for weight '{2}'", currentCodepoint, font->Name, EFontWeightToString( currentWeight ) );
+		// TODO if a font doesn't contain any needed codepoints we get empty "vertices"
+		// TODO maybe put some dummy in here instead?
+	}
 }
 
 void CTextGeometryBuilder::AdjustAlignment( const STextOptions &textOptions, const f16 maxLineWidth, std::vector<TextVertexFormat> &vertices, const Lines &lines )
