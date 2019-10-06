@@ -22,7 +22,7 @@ std::vector<i32> CGlyphRange::ToVector() const
 	
 	for( const auto [ from, to ] : m_ranges )
 	{
-		for( i32 i = from; i < to; i++ )
+		for( i32 i = from; i <= to; i++ )
 		{
 			glyphs.emplace_back( i );
 		}
