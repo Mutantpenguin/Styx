@@ -31,13 +31,13 @@ std::vector<i32> CGlyphRange::ToVector() const
 	return( glyphs );
 }
 
-u16 CGlyphRange::Count() const
+u32 CGlyphRange::Count() const
 {
-	u16 count = 0;
+	u32 count = 0;
 
 	for( const auto[ from, to ] : m_ranges )
 	{
-		count += to - from;
+		count += to - from + 1;
 	}
 
 	return( count );

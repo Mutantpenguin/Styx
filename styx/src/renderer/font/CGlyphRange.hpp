@@ -18,7 +18,7 @@ public:
 	
 	std::vector<i32> ToVector() const;
 
-	u16 Count() const;
+	u32 Count() const;
 
 	static CGlyphRange Default();
 
