@@ -104,7 +104,7 @@ RenderPackage CState::CreateRenderPackage() const
 
 		m_scene.Each<CModelComponent>( [ &cameraFrustum, &cameraPosition, &renderLayer ]( const std::shared_ptr<const CEntity> &entity )
 		{
-			const auto &mesh = entity->Get<CModelComponent>()->Mesh().get();
+			const auto &mesh = entity->Get<CModelComponent>()->Mesh.get();
 
 			const auto &transform = entity->Transform;
 
