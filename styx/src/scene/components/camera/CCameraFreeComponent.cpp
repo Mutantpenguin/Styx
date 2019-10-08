@@ -36,43 +36,41 @@ f16 CCameraFreeComponent::FOV() const
 void CCameraFreeComponent::MoveForward( const f16 distance )
 {
 	auto &transform = m_parent->Transform;
-	transform.Position( transform.Position() - ( transform.Direction() * distance ) );
+	transform.Position -= transform.Direction() * distance;
 }
 
 void CCameraFreeComponent::MoveBackward( const f16 distance )
 {
 	auto &transform = m_parent->Transform;
-	transform.Position( transform.Position() + ( transform.Direction() * distance ) );
+	transform.Position += transform.Direction() * distance;
 }
 
 void CCameraFreeComponent::MoveUp( const f16 distance )
 {
-	auto &transform = m_parent->Transform;
-	transform.Position( transform.Position() + ( CWorld::Y * distance ) );
+	m_parent->Transform.Position += CWorld::Y * distance;
 }
 
 void CCameraFreeComponent::MoveDown( const f16 distance )
 {
-	auto &transform = m_parent->Transform;
-	transform.Position( transform.Position() - ( CWorld::Y * distance ) );
+	m_parent->Transform.Position -= CWorld::Y * distance;
 }
 
 void CCameraFreeComponent::MoveLeft( const f16 distance )
 {
 	auto &transform = m_parent->Transform;
-	transform.Position( transform.Position() - ( glm::cross( transform.Up(), transform.Direction() ) * distance ) );
+	transform.Position -= glm::cross( transform.Up(), transform.Direction() ) * distance;
 }
 
 void CCameraFreeComponent::MoveRight( const f16 distance )
 {
 	auto &transform = m_parent->Transform;
-	transform.Position( transform.Position() + ( glm::cross( transform.Up(), transform.Direction() ) * distance ) );
+	transform.Position += glm::cross( transform.Up(), transform.Direction() ) * distance;
 }
 
 void CCameraFreeComponent::Rotate( const f16 pitchAngle, const f16 yawAngle )
 {
 	auto &transform = m_parent->Transform;
-	transform.Orientation( glm::angleAxis( glm::radians( pitchAngle ), CWorld::X ) * transform.Orientation() * glm::angleAxis( glm::radians( yawAngle ), CWorld::Y ) );
+	transform.Orientation = glm::angleAxis( glm::radians( pitchAngle ), CWorld::X ) * transform.Orientation * glm::angleAxis( glm::radians( yawAngle ), CWorld::Y );
 }
 
 const glm::mat4 CCameraFreeComponent::ProjectionMatrix() const

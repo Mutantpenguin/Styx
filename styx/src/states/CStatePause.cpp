@@ -24,7 +24,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 	{
 		auto cameraEntity = m_scene.CreateEntity( "ortho camera" );
-		cameraEntity->Transform.Position( { 0.0f, 0.0f, 500.0f } );
+		cameraEntity->Transform.Position = { 0.0f, 0.0f, 500.0f };
 		cameraEntity->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
 		cameraEntity->Add<CCameraOrthoComponent>( m_settings.renderer.window.size, 0.1f, 1000.0f );
 
@@ -70,7 +70,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 			const auto meshText = std::make_shared<CMesh>( GeometryPrefabs::RectanglePNU0( pauseElementsWidth, pauseTextHeight ), materialPauseText, textMeshTextureSlots );
 
 			m_textEntity = m_scene.CreateEntity( "text" );
-			m_textEntity->Transform.Position( { static_cast<f16>( windowSize.width ) / 2.0f, ( static_cast<f16>( windowSize.height ) / 2.0f ) - ( pauseElementsTotalHeight / 2.0f ) + ( pauseTextHeight / 2.0f ), 5.0f } );
+			m_textEntity->Transform.Position = { static_cast<f16>( windowSize.width ) / 2.0f, ( static_cast<f16>( windowSize.height ) / 2.0f ) - ( pauseElementsTotalHeight / 2.0f ) + ( pauseTextHeight / 2.0f ), 5.0f };
 			m_textEntity->Add<CModelComponent>( meshText );
 		}
 
@@ -82,7 +82,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 			const auto screenshotMesh = std::make_shared<CMesh>( GeometryPrefabs::RectanglePNU0( pauseElementsWidth, screenshotHeight ), materialPauseText, screenshotMeshTextureSlots );
 
 			m_screenshotEntity = m_scene.CreateEntity( "screenshot" );
-			m_screenshotEntity->Transform.Position( { static_cast<f16>( windowSize.width ) / 2.0f, ( static_cast<f16>( windowSize.height ) / 2.0f ) - ( pauseElementsTotalHeight / 2.0f ) + pauseTextHeight + ( screenshotHeight / 2.0f ), 5.0f } );
+			m_screenshotEntity->Transform.Position = { static_cast<f16>( windowSize.width ) / 2.0f, ( static_cast<f16>( windowSize.height ) / 2.0f ) - ( pauseElementsTotalHeight / 2.0f ) + pauseTextHeight + ( screenshotHeight / 2.0f ), 5.0f };
 			m_screenshotEntity->Add<CModelComponent>( screenshotMesh );
 		}
 	}
@@ -94,15 +94,12 @@ CStatePause::~CStatePause()
 
 std::shared_ptr<CState> CStatePause::OnUpdate()
 {
-	const auto yOffset = ( sin( m_timer.Time() / 2000000.0f ) * 0.5f );
+	{
+		const auto yOffset = (sin(m_timer.Time() / 2000000.0f) * 0.5f);
 
-	auto posText = m_textEntity->Transform.Position();
-	posText.y -= yOffset;
-	m_textEntity->Transform.Position( posText );
-
-	auto posScreenshot = m_screenshotEntity->Transform.Position();
-	posScreenshot.y -= yOffset;
-	m_screenshotEntity->Transform.Position( posScreenshot );
+		m_textEntity->Transform.Position.y -= yOffset;
+		m_screenshotEntity->Transform.Position.y -= yOffset;
+	}
 
 	const auto &input = m_engineInterface.Input;
 

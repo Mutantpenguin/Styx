@@ -20,7 +20,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 
 	{
 		auto cameraEntity = m_scene.CreateEntity( "ortho camera" );
-		cameraEntity->Transform.Position( { 0.0f, 0.0f, 500.0f } );
+		cameraEntity->Transform.Position = { 0.0f, 0.0f, 500.0f };
 		cameraEntity->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
 		cameraEntity->Add<CCameraOrthoComponent>( m_settings.renderer.window.size, 0.1f, 1000.0f );
 
@@ -66,7 +66,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		const auto bgTitleMesh = std::make_shared<CMesh>( titleGeometry, material, titleMeshTextureSlots );
 
 		auto bgTitle = m_scene.CreateEntity( "title" );
-		bgTitle->Transform.Position( { windowSize.width / 2.0f, windowSize.height - ( titleHeight / 2.0f ), 5.0f } );
+		bgTitle->Transform.Position = { windowSize.width / 2.0f, windowSize.height - ( titleHeight / 2.0f ), 5.0f };
 		bgTitle->Add<CModelComponent>( bgTitleMesh );
 	}
 
@@ -81,7 +81,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		const auto startMesh = std::make_shared<CMesh>( buttonGeometry, greenMaterial );
 
 		m_startEntity = m_scene.CreateEntity( "start_button" );
-		m_startEntity->Transform.Position( { windowSize.width / 2.0f, 2 * windowSize.height / 4.0f, 10.0f } );
+		m_startEntity->Transform.Position = { windowSize.width / 2.0f, 2 * windowSize.height / 4.0f, 10.0f };
 		m_startEntity->Add<CModelComponent>( startMesh );
 	}
 
@@ -91,7 +91,7 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		const auto exitMesh = std::make_shared<CMesh>( buttonGeometry, redMaterial );
 
 		m_exitEntity = m_scene.CreateEntity( "exit_button" );
-		m_exitEntity->Transform.Position( { windowSize.width / 2.0f, windowSize.height / 4.0f, 10.0f } );
+		m_exitEntity->Transform.Position = { windowSize.width / 2.0f, windowSize.height / 4.0f, 10.0f };
 		m_exitEntity->Add<CModelComponent>( exitMesh );
 	}
 
@@ -133,15 +133,15 @@ std::shared_ptr<CState> CStateMainMenu::OnUpdate()
 		switch( m_currentState )
 		{
 			case eMenuState::NONE:
-				m_startEntity->Transform.Scale( { 1.0f, 1.0f, 1.0f } );
-				m_exitEntity->Transform.Scale( { 1.0f, 1.0f, 1.0f } );
+				m_startEntity->Transform.Scale = { 1.0f, 1.0f, 1.0f };
+				m_exitEntity->Transform.Scale = { 1.0f, 1.0f, 1.0f };
 				break;
 			case eMenuState::START:
-				m_startEntity->Transform.Scale( { 1.0f, 1.0f, 1.0f } );
+				m_startEntity->Transform.Scale = { 1.0f, 1.0f, 1.0f };
 				m_currentState = eMenuState::EXIT;
 				break;
 			case eMenuState::EXIT:
-				m_exitEntity->Transform.Scale( { 1.0f, 1.0f, 1.0f } );
+				m_exitEntity->Transform.Scale = { 1.0f, 1.0f, 1.0f };
 				m_currentState = eMenuState::START;
 				break;
 		}
@@ -162,10 +162,10 @@ std::shared_ptr<CState> CStateMainMenu::OnUpdate()
 			case eMenuState::NONE:
 				break;
 			case eMenuState::START:
-				m_startEntity->Transform.Scale( buttonPulseVec3 );
+				m_startEntity->Transform.Scale = buttonPulseVec3;
 				break;
 			case eMenuState::EXIT:
-				m_exitEntity->Transform.Scale( buttonPulseVec3 );
+				m_exitEntity->Transform.Scale = buttonPulseVec3;
 				break;
 		}
 	}

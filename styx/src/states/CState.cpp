@@ -88,7 +88,7 @@ RenderPackage CState::CreateRenderPackage() const
 
 		auto &view = renderLayer.View;
 
-		view.Position = cameraEntity->Transform.Position();
+		view.Position = cameraEntity->Transform.Position;
 		view.Direction = cameraEntity->Transform.Direction();
 		view.ProjectionMatrix = camera->ProjectionMatrix();
 		view.ViewMatrix = camera->ViewMatrix();
@@ -100,7 +100,7 @@ RenderPackage CState::CreateRenderPackage() const
 		MTR_BEGIN( "GFX", "fill draw drawCommands" );
 		const auto &cameraFrustum = cameraEntity->Get<CCameraComponent>()->Frustum();
 
-		const auto &cameraPosition = cameraEntity->Transform.Position();
+		const auto &cameraPosition = cameraEntity->Transform.Position;
 
 		m_scene.Each<CModelComponent>( [ &cameraFrustum, &cameraPosition, &renderLayer ]( const std::shared_ptr<const CEntity> &entity )
 		{
@@ -109,11 +109,11 @@ RenderPackage CState::CreateRenderPackage() const
 			const auto &transform = entity->Transform;
 
 			// TODO use Octree here
-			if( cameraFrustum.IsSphereInside( transform.Position(), glm::length( mesh->BoundingSphereRadiusVector * transform.Scale() ) ) )
+			if( cameraFrustum.IsSphereInside( transform.Position, glm::length( mesh->BoundingSphereRadiusVector * transform.Scale ) ) )
 			{
 				const CMaterial * material = mesh->Material().get();
 
-				renderLayer.drawCommands.emplace_back( mesh, material, material->ShaderProgram().get(), transform.ModelMatrix(), glm::length2( transform.Position() - cameraPosition ) );
+				renderLayer.drawCommands.emplace_back( mesh, material, material->ShaderProgram().get(), transform.ModelMatrix(), glm::length2( transform.Position - cameraPosition ) );
 			}
 		} );
 		MTR_END( "GFX", "fill draw drawCommands" );

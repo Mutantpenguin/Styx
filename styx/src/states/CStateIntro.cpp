@@ -24,7 +24,7 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 	{
 		auto cameraEntity = m_scene.CreateEntity( "free camera" );
-		cameraEntity->Transform.Position( { 0.0f, 0.0f, 5.0f } );
+		cameraEntity->Transform.Position = { 0.0f, 0.0f, 5.0f };
 		cameraEntity->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
 		cameraEntity->Add<CCameraFreeComponent>( m_settings.renderer.window.aspect_ratio, 110.0f, 0.1f, 100.0f );
 
@@ -54,8 +54,8 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 		const auto text = engineInterface.TextBuilder.Create( fontComfortaa64, textOptions, "{0}\ndeveloped by <#{1}><b>Markus Lobedann</b></#>", CEngine::GetVersionString(), TangoColors::AluminiumHighlight().rgbHex() );
 
 		const auto entity = m_scene.CreateEntity( "text" );
-		entity->Transform.Position( { 0.0f, -6.0f, 0.0f } );
-		entity->Transform.Scale( { 0.005f, 0.005f, 0.005f } );
+		entity->Transform.Position = { 0.0f, -6.0f, 0.0f };
+		entity->Transform.Scale = { 0.005f, 0.005f, 0.005f };
 		entity->Add<CModelComponent>( text->Mesh() );
 	}
 
@@ -71,10 +71,9 @@ std::shared_ptr<CState> CStateIntro::OnUpdate()
 {
 	const u64 elapsedTime = m_timer.Time();
 
-	glm::vec3 entityPosition = m_logoEntity->Transform.Position();
+	auto &entityPosition = m_logoEntity->Transform.Position;
 	entityPosition.z = elapsedTime / m_introDuration;
 	entityPosition.y = elapsedTime / m_introDuration;
-	m_logoEntity->Transform.Position( entityPosition );
 
 	const f16 fadeDuration = m_introDuration * 0.66666f ;
 	const f16 colorComponent = ( fadeDuration - elapsedTime ) / fadeDuration;

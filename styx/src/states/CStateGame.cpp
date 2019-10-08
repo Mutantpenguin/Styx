@@ -27,7 +27,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	m_scene.ClearColor( CColor( 0.0f, 0.0f, 4.0f, 0.0f ) );
 
 	m_cameraEntity = m_scene.CreateEntity( "free camera" );
-	m_cameraEntity->Transform.Position( { 43.0f, 76.0f, -99.0f } );
+	m_cameraEntity->Transform.Position = { 43.0f, 76.0f, -99.0f };
 	m_cameraEntity->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
 	m_cameraEntity->Add<CCameraFreeComponent>( m_settings.renderer.window.aspect_ratio, 72.0f, 0.1f, 1000.0f );
 
@@ -36,9 +36,9 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	auto &audio = m_engineInterface.Audio;
 
 	{
-		const glm::vec3 &position = m_cameraEntity->Transform.Position();
-		const glm::vec3 &direction = m_cameraEntity->Transform.Direction();
-		const glm::vec3 &up = m_cameraEntity->Transform.Up();
+		const auto &position = m_cameraEntity->Transform.Position;
+		const auto direction = m_cameraEntity->Transform.Direction();
+		const auto up = m_cameraEntity->Transform.Up();
 
 		audio.SetListener( position, direction, up );
 	}
@@ -80,7 +80,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto movableMesh = std::make_shared<CMesh>( GeometryPrefabs::QuadPNU0( 6.0f ), materialWaitCursor, movableMeshTextureSlots );
 
 		m_movableEntity = m_scene.CreateEntity( "wait_cursor" );
-		m_movableEntity->Transform.Position( { 0.0f, 10.0f, 20.0f } );
+		m_movableEntity->Transform.Position = { 0.0f, 10.0f, 20.0f };
 		m_movableEntity->Add<CModelComponent>( movableMesh );
 	}
 
@@ -101,7 +101,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 				for( u16 k = 0; k < cubeSize; k++ )
 				{
 					const auto cubeEntity = m_scene.CreateEntity( "cube" );
-					cubeEntity->Transform.Position( { 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, -10.0f + k * 4.0f } );
+					cubeEntity->Transform.Position = { 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, -10.0f + k * 4.0f };
 					cubeEntity->Add<CModelComponent>( cubeMesh );
 				}
 			}
@@ -119,7 +119,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			const auto superBoxMesh = std::make_shared<CMesh>( GeometryPrefabs::CubePNU0( 20.0f ), materialSuperBox, superBoxMeshTextureSlots );
 
 			const auto superBoxEntity = m_scene.CreateEntity( "superBox" );
-			superBoxEntity->Transform.Position( { 0.0f, 10.0f, -10.0f } );
+			superBoxEntity->Transform.Position = { 0.0f, 10.0f, -10.0f };
 			superBoxEntity->Add<CModelComponent>( superBoxMesh );
 		}
 
@@ -136,7 +136,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 					for( u16 k = 0; k < cubeSize; k++ )
 					{
 						const auto superBoxEntity = m_scene.CreateEntity( "cube" );
-						superBoxEntity->Transform.Position( { 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
+						superBoxEntity->Transform.Position = { 20.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f };
 						superBoxEntity->Add<CModelComponent>( superBoxMesh );
 					}
 				}
@@ -166,7 +166,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 					for( u16 k = 0; k < cubeSize; k++ )
 					{
 						const auto cubeEntity = m_scene.CreateEntity( "cube" );
-						cubeEntity->Transform.Position( { -40.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
+						cubeEntity->Transform.Position = { -40.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f };
 
 						if( Math::irand( 0, 1 ) == 1 )
 						{
@@ -191,8 +191,8 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 					for( u16 k = 0; k < cubeSize; k++ )
 					{
 						const auto cubeEntity = m_scene.CreateEntity( "cube" );
-						cubeEntity->Transform.Position( { -90.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f } );
-						cubeEntity->Transform.Scale( { 2.0f, 2.0f, 2.0f } );
+						cubeEntity->Transform.Position = { -90.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f };
+						cubeEntity->Transform.Scale = { 2.0f, 2.0f, 2.0f };
 						cubeEntity->Transform.Rotate( Math::frand( 0, 90 ), Math::frand( 0, 90 ), Math::frand( 0, 90 ) );
 
 						if( Math::irand( 0, 1 ) == 1 )
@@ -217,7 +217,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto flamesMesh = std::make_shared<CMesh>( GeometryPrefabs::RectanglePNU0( 8.0f, 16.0f ), fireMaterial, flamesMeshTextureSlots );
 
 		const auto flamesEntity = m_scene.CreateEntity( "flames" );
-		flamesEntity->Transform.Position( { -5.0f, 10.0f, 1.0f } );
+		flamesEntity->Transform.Position = { -5.0f, 10.0f, 1.0f };
 		flamesEntity->Add<CModelComponent>( flamesMesh );
 	}
 
@@ -227,7 +227,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto blockMesh = std::make_shared<CMesh>( GeometryPrefabs::CuboidP( 4.0f, 4.0f, 2.0f ), greenMaterial );
 
 		const auto blockEntity = m_scene.CreateEntity( "green_block" );
-		blockEntity->Transform.Position( { -4.0f, 10.0f, 1.0f } );
+		blockEntity->Transform.Position = { -4.0f, 10.0f, 1.0f };
 		blockEntity->Add<CModelComponent>( blockMesh );
 	}
 
@@ -237,7 +237,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto pulseMesh = std::make_shared<CMesh>( GeometryPrefabs::CuboidP( 4.0f, 4.0f, 2.0f ), pulseMaterial );
 
 		m_pulseEntity = m_scene.CreateEntity( "pulse_block" );
-		m_pulseEntity->Transform.Position( { 0.0f, 10.0f, 1.0f } );
+		m_pulseEntity->Transform.Position = { 0.0f, 10.0f, 1.0f };
 		m_pulseEntity->Add<CModelComponent>( pulseMesh );
 	}
 
@@ -247,7 +247,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto blockMesh = std::make_shared<CMesh>( GeometryPrefabs::CuboidP( 4.0f, 4.0f, 2.0f ), redMaterial );
 
 		const auto blockEntity = m_scene.CreateEntity( "red_block" );
-		blockEntity->Transform.Position( { 4.0f, 10.0f, 1.0f } );
+		blockEntity->Transform.Position = { 4.0f, 10.0f, 1.0f };
 		blockEntity->Add<CModelComponent>( blockMesh );
 	}
 
@@ -259,10 +259,10 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto explodeMesh = std::make_shared<CMesh>( GeometryPrefabs::CubePU0( 10.0f ), explodeMaterial, explodeMeshTextureSlots );
 
 		const auto explode = m_scene.CreateEntity( "exploder" );
-		explode->Transform.Position( { 50.0f, 10.0f, 1.0f } );
+		explode->Transform.Position = { 50.0f, 10.0f, 1.0f };
 		explode->Add<CModelComponent>( explodeMesh );
 
-		m_cameraEntity->Transform.Direction( explode->Transform.Position() - m_cameraEntity->Transform.Position() );
+		m_cameraEntity->Transform.Direction( explode->Transform.Position - m_cameraEntity->Transform.Position );
 	}
 
 	{
@@ -291,8 +291,8 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto particleMesh = std::make_shared<CMesh>( particlesGeometry, particleMaterial, particleMeshTextureSlots );
 
 		const auto particleEntity = m_scene.CreateEntity( "particles" );
-		particleEntity->Transform.Position( { 80.0f, 10.0f, 1.0f } );
-		particleEntity->Transform.Scale( { 5.0f, 5.0f, 5.0f } );
+		particleEntity->Transform.Position = { 80.0f, 10.0f, 1.0f };
+		particleEntity->Transform.Scale = { 5.0f, 5.0f, 5.0f };
 		particleEntity->Add<CModelComponent>( particleMesh );
 	}
 	
@@ -304,7 +304,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto sphereMesh = std::make_shared<CMesh>( GeometryPrefabs::SpherePU0( 10, 8, 10.0f ), explodeMaterial, explodeMeshSphereTextureSlots );
 
 		const auto blockEntity = m_scene.CreateEntity( "exploding sphere" );
-		blockEntity->Transform.Position( { 110.0f, 10.0f, 1.0f } );
+		blockEntity->Transform.Position = { 110.0f, 10.0f, 1.0f };
 		blockEntity->Add<CModelComponent>( sphereMesh );
 	}
 
@@ -314,7 +314,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		const auto fireballMesh = std::make_shared<CMesh>( GeometryPrefabs::SpherePNU0( 200, 160, 10.0f ), fireballMaterial );
 
 		const auto firebalEntity = m_scene.CreateEntity( "fireball" );
-		firebalEntity->Transform.Position( { 140.0f, 10.0f, 1.0f } );
+		firebalEntity->Transform.Position = { 140.0f, 10.0f, 1.0f };
 		firebalEntity->Add<CModelComponent>( fireballMesh );
 	}
 	
@@ -339,7 +339,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			const auto mesh = std::make_shared<CMesh>( GeometryPrefabs::QuadPU0( 10.0f ), material, textureSlots );
 
 			const auto entity = m_scene.CreateEntity( "font_atlas_test" );
-			entity->Transform.Position( { 40.0f, 10.0f, 20.0f } );
+			entity->Transform.Position = { 40.0f, 10.0f, 20.0f };
 			entity->Add<CModelComponent>( mesh );
 		}
 		
@@ -353,8 +353,8 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			const auto text = engineInterface.TextBuilder.Create( fontComfortaa64, textOptions, "A<b>A</b> Du hast <#{0}>doofe</#> <b>Ohren</b> und eine <#4444FF><b>krumme</b></#> Nase!\nDies ist die zweite Zeile! <#FFBAFF>Mit zeilenübergreifender Formatierung\nbis in die</#> dritte Zeile", CColor( 0.0, 1.0, 0.0 ).rgbHex() );
 			
 			const auto entity = m_scene.CreateEntity( "font_test" );
-			entity->Transform.Position( { 80.0f, 10.0f, 20.0f } );
-			entity->Transform.Scale( { 0.05f, 0.05f, 0.05f } );
+			entity->Transform.Position = { 80.0f, 10.0f, 20.0f };
+			entity->Transform.Scale = { 0.05f, 0.05f, 0.05f };
 			entity->Add<CModelComponent>( text->Mesh() );
 		}
 
@@ -370,8 +370,8 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			const auto text = engineInterface.TextBuilder.Create( fontFontAwesome64, textOptions, u8"\uf519\uf05b\uf5d2\uf359" );
 
 			const auto entity = m_scene.CreateEntity( "fontawesome_test" );
-			entity->Transform.Position( { 40.0f, 20.0f, 20.0f } );
-			entity->Transform.Scale( { 0.05f, 0.05f, 0.05f } );
+			entity->Transform.Position = { 40.0f, 20.0f, 20.0f };
+			entity->Transform.Scale = { 0.05f, 0.05f, 0.05f };
 			entity->Add<CModelComponent>( text->Mesh() );
 		}
 
@@ -387,8 +387,8 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			m_fpsText = engineInterface.TextBuilder.Create( fontComfortaa64, textOptions, "" );
 
 			const auto fpsEntity = m_scene.CreateEntity( "fps" );
-			fpsEntity->Transform.Position( { 40.0f, 40.0f, 20.0f } );
-			fpsEntity->Transform.Scale( { 0.2f, 0.2f, 0.2f } );
+			fpsEntity->Transform.Position = { 40.0f, 40.0f, 20.0f };
+			fpsEntity->Transform.Scale = { 0.2f, 0.2f, 0.2f };
 			fpsEntity->Add<CModelComponent>( m_fpsText->Mesh() );
 		}
 	}
@@ -450,11 +450,7 @@ std::shared_ptr<CState> CStateGame::OnUpdate()
 	/*
 	 * move pulseMesh
 	 */
-	{
-		auto pos = m_pulseEntity->Transform.Position();
-		pos.y = 10.0f + ( sin( elapsedTime / 2000000.0f ) * 5.0f );
-		m_pulseEntity->Transform.Position( pos );
-	}
+	m_pulseEntity->Transform.Position.y = 10.0f + ( sin( elapsedTime / 2000000.0f ) * 5.0f );
 
 	/*
 	 * move meshMovable
@@ -462,46 +458,34 @@ std::shared_ptr<CState> CStateGame::OnUpdate()
 
 	if( input.KeyStillDown( SDL_SCANCODE_KP_6 ) )
 	{
-		glm::vec3 pos = m_movableEntity->Transform.Position();
-		pos.x += spp;
-		m_movableEntity->Transform.Position( pos );
+		m_movableEntity->Transform.Position.x += spp;
 	}
 	if( input.KeyStillDown( SDL_SCANCODE_KP_4 ) )
 	{
-		glm::vec3 pos = m_movableEntity->Transform.Position();
-		pos.x -= spp;
-		m_movableEntity->Transform.Position( pos );
+		m_movableEntity->Transform.Position.x -= spp;
 	}
 
 	if( input.KeyStillDown( SDL_SCANCODE_KP_8 ) )
 	{
-		glm::vec3 pos = m_movableEntity->Transform.Position();
-		pos.y += spp;
-		m_movableEntity->Transform.Position( pos );
+		m_movableEntity->Transform.Position.y += spp;
 	}
 	if( input.KeyStillDown( SDL_SCANCODE_KP_2 ) )
 	{
-		glm::vec3 pos = m_movableEntity->Transform.Position();
-		pos.y -= spp;
-		m_movableEntity->Transform.Position( pos );
+		m_movableEntity->Transform.Position.y -= spp;
 	}
 
 	if( input.KeyStillDown( SDL_SCANCODE_KP_PLUS ) )
 	{
-		glm::vec3 pos = m_movableEntity->Transform.Position();
-		pos.z += spp;
-		m_movableEntity->Transform.Position( pos );
+		m_movableEntity->Transform.Position.z += spp;
 	}
 	if( input.KeyStillDown( SDL_SCANCODE_KP_MINUS ) )
 	{
-		glm::vec3 pos = m_movableEntity->Transform.Position();
-		pos.z -= spp;
-		m_movableEntity->Transform.Position( pos );
+		m_movableEntity->Transform.Position.z -= spp;
 	}
 
 	if( input.KeyStillDown( SDL_SCANCODE_KP_5 ) )
 	{
-		m_movableEntity->Transform.Position( glm::vec3( 1.0f ) );
+		m_movableEntity->Transform.Position = glm::vec3( 1.0f );
 	}
 
 	/*
@@ -560,9 +544,9 @@ std::shared_ptr<CState> CStateGame::OnUpdate()
 	}
 
 	{
-		const glm::vec3 &position = m_cameraEntity->Transform.Position();
-		const glm::vec3 &direction = m_cameraEntity->Transform.Direction();
-		const glm::vec3 &up = m_cameraEntity->Transform.Up();
+		const auto &position = m_cameraEntity->Transform.Position;
+		const auto direction = m_cameraEntity->Transform.Direction();
+		const auto up = m_cameraEntity->Transform.Up();
 
 		audio.SetListener( position, direction, up );
 	}
@@ -640,7 +624,7 @@ std::shared_ptr<CState> CStateGame::OnUpdate()
 
 	// TODO cameraFree->Direction( m_movableEntity->Transform.Position() - m_cameraFree->Transform.Position() );
 
-	m_skyboxEntity->Transform.Position( m_cameraEntity->Transform.Position() );
+	m_skyboxEntity->Transform.Position = m_cameraEntity->Transform.Position;
 
 	return( shared_from_this() );
 }
