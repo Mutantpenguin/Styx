@@ -75,5 +75,5 @@ void CCameraFreeComponent::Rotate( const f16 pitchAngle, const f16 yawAngle )
 
 const glm::mat4 CCameraFreeComponent::ProjectionMatrix() const
 {
-	return( glm::perspective( glm::radians( m_fov ), m_aspectRatio, m_zNear, m_zFar ) );
+	return( glm::perspective( glm::radians( m_fov ), m_aspectRatio, ZNear, ZFar ) );
 }

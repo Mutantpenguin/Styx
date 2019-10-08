@@ -10,5 +10,5 @@ CCameraOrthoComponent::CCameraOrthoComponent( const std::shared_ptr<CEntity> &pa
 
 const glm::mat4 CCameraOrthoComponent::ProjectionMatrix() const
 {
-	return( glm::ortho( 0.0f, static_cast<f16>( m_size.width ), 0.0f, static_cast<f16>( m_size.height ), m_zNear, m_zFar ) );
+	return( glm::ortho( 0.0f, static_cast<f16>( m_size.width ), 0.0f, static_cast<f16>( m_size.height ), ZNear, ZFar ) );
 }
