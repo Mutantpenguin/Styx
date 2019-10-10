@@ -66,7 +66,7 @@ public:
 		Each<T_Components...>( [ &position, &radiusSquared, &lambda2 ] ( const std::shared_ptr<const CEntity> &entity )
 		{
 			// TODO use OcTree
-			if( glm::length2( position - entity->Transform.Position() ) <= radiusSquared )
+			if( glm::length2( position - entity->Transform.Position ) <= radiusSquared )
 			{
 				lambda2( entity );
 			}
