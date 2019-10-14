@@ -107,7 +107,7 @@ protected:
 private:
 	virtual void Load( const std::shared_ptr<T> &resource, const std::string &path ) const = 0;
 	
-	virtual i64 GetMtime( const std::string &path ) final
+	virtual s64 GetMtime( const std::string &path ) final
 	{
 		return( m_filesystem.GetLastModTime( path ) );
 	}
@@ -115,7 +115,7 @@ private:
 	struct sResourceInfo
 	{
 		std::shared_ptr<T>	resource;
-		i64					mtime = 0;
+		s64					mtime = 0;
 	};
 
 	std::map<std::string, sResourceInfo> m_resources;

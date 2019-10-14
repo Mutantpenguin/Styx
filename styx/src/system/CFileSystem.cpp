@@ -118,7 +118,7 @@ bool CFileSystem::IsDirectory( const fs::path &path ) const
 	return( stat.filetype == PHYSFS_FILETYPE_DIRECTORY );
 }
 
-i64 CFileSystem::GetLastModTime( const fs::path &path ) const
+s64 CFileSystem::GetLastModTime( const fs::path &path ) const
 {
 	if( !path.has_filename() )
 	{

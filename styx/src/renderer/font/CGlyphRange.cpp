@@ -16,13 +16,13 @@ void CGlyphRange::AddDefault()
 	Add( 0x00A0, 0x00FF ); // Latin-1 Supplement
 }
 
-std::vector<i32> CGlyphRange::ToVector() const
+std::vector<s32> CGlyphRange::ToVector() const
 {
-	std::vector<i32> glyphs;
+	std::vector<s32> glyphs;
 	
 	for( const auto [ from, to ] : m_ranges )
 	{
-		for( i32 i = from; i <= to; i++ )
+		for( s32 i = from; i <= to; i++ )
 		{
 			glyphs.emplace_back( i );
 		}

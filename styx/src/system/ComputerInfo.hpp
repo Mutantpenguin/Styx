@@ -7,8 +7,8 @@
 namespace ComputerInfo
 {
 	std::string	OsName();
-	i32			SystemMemoryMiB();
-	i32			ProcessorCount();
+	s32			SystemMemoryMiB();
+	s32			ProcessorCount();
 	std::string	ProcessorInfo();
 	std::string	CPUFeatures();
 }

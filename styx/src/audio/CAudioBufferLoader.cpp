@@ -73,7 +73,7 @@ bool CAudioBufferLoader::FromOggFile( const std::shared_ptr<CAudioBuffer> &audio
 
 	if( !fileBuffer.empty() )
 	{
-		i32 errorCode;
+		s32 errorCode;
 
 		stb_vorbis *stream = stb_vorbis_open_memory( reinterpret_cast<const unsigned char*>( fileBuffer.data() ), fileBuffer.size(), &errorCode, nullptr );
 
@@ -86,7 +86,7 @@ bool CAudioBufferLoader::FromOggFile( const std::shared_ptr<CAudioBuffer> &audio
 		{
 			const stb_vorbis_info info = stb_vorbis_get_info( stream );
 
-			const u32 lengthSamples = stb_vorbis_stream_length_in_samples( stream ) * info.channels * sizeof( i16 );
+			const u32 lengthSamples = stb_vorbis_stream_length_in_samples( stream ) * info.channels * sizeof( s16 );
 
 			TAudioData bufferDecoded;
 			bufferDecoded.buffer.resize( lengthSamples );
@@ -132,7 +132,7 @@ bool CAudioBufferLoader::FromWavFile( const std::shared_ptr<CAudioBuffer> &audio
 		}
 
 		TAudioData bufferDecoded;
-		bufferDecoded.buffer.resize( static_cast<size_t>( wav.totalPCMFrameCount * sizeof( i16 ) ) );
+		bufferDecoded.buffer.resize( static_cast<size_t>( wav.totalPCMFrameCount * sizeof( s16 ) ) );
 
 		bufferDecoded.duration = static_cast<f16>( wav.totalPCMFrameCount ) / static_cast<f16>( wav.sampleRate );
 		bufferDecoded.format = ( 1 == wav.channels ) ? CAudioBuffer::format::MONO : CAudioBuffer::format::STEREO;

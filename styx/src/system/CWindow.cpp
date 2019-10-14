@@ -16,7 +16,7 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 	}
 
 	u8 showWindowOnDisplay = settings.renderer.window.display;
-	const i16 numberOfDisplays = SDL_GetNumVideoDisplays();
+	const s16 numberOfDisplays = SDL_GetNumVideoDisplays();
 	if( numberOfDisplays < 0 )
 	{
 		THROW_STYX_EXCEPTION( "couldn't get number of displays: {0}", SDL_GetError() )

@@ -173,7 +173,7 @@ namespace ImageHandler
 			}
 
 			FREE_IMAGE_FORMAT fiFormat;
-			i32 flags;
+			s32 flags;
 			if( format == "png" )
 			{
 				fiFormat	= FIF_PNG;

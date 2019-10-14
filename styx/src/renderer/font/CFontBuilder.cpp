@@ -124,7 +124,7 @@ const std::shared_ptr<const CFont> CFontBuilder::FromDummy( const u16 size ) con
 	return( font );
 }
 
-bool CFontBuilder::PackFont( stbtt_pack_context &context, const f16 size, std::vector<i32> &glyphs, CFileSystem::FileBuffer &fileBuffer, CFont::CodepointMap &codepointMap ) const
+bool CFontBuilder::PackFont( stbtt_pack_context &context, const f16 size, std::vector<s32> &glyphs, CFileSystem::FileBuffer &fileBuffer, CFont::CodepointMap &codepointMap ) const
 {
 	auto packedChars = std::make_unique<stbtt_packedchar[]>( glyphs.size() );
 

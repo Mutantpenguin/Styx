@@ -16,12 +16,12 @@ public:
 	
 	void AddDefault();
 	
-	std::vector<i32> ToVector() const;
+	std::vector<s32> ToVector() const;
 
 	u32 Count() const;
 
 	static CGlyphRange Default();
 
 private:
-	std::vector<std::tuple<i32,i32>> m_ranges;
+	std::vector<std::tuple<s32,s32>> m_ranges;
 };

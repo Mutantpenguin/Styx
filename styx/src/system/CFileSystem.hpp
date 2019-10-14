@@ -24,7 +24,7 @@ public :
 
 	bool	Exists( const fs::path &path ) const;
 	bool	IsDirectory( const fs::path &path ) const;
-	i64		GetLastModTime( const fs::path &path ) const;
+	s64		GetLastModTime( const fs::path &path ) const;
 
 	bool	MakeDir( const fs::path &path ) const;
 

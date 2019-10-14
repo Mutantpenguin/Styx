@@ -19,7 +19,7 @@ public:
 private:
 	using TAudioData = struct
 	{
-		std::vector<i16>		buffer;
+		std::vector<s16>		buffer;
 		CAudioBuffer::format	format;
 		u32						sample_rate = 0;
 		f16						duration = 0.0f;

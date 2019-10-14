@@ -351,12 +351,12 @@ namespace ComputerInfo
 		return( osversion );
 	}
 
-	i32 SystemMemoryMiB()
+	s32 SystemMemoryMiB()
 	{
 		return( SDL_GetSystemRAM() );
 	}
 
-	i32 ProcessorCount()
+	s32 ProcessorCount()
 	{
 		return( SDL_GetCPUCount() );
 	}

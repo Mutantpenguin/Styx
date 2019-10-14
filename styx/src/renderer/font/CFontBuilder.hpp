@@ -21,7 +21,7 @@ public:
 private:
 	const std::shared_ptr<const CFont> FromDummy( const u16 size ) const;
 
-	bool PackFont( stbtt_pack_context &context, const f16 size, std::vector<i32> &glyphs, CFileSystem::FileBuffer &fileBuffer, CFont::CodepointMap &codepointMap ) const;
+	bool PackFont( stbtt_pack_context &context, const f16 size, std::vector<s32> &glyphs, CFileSystem::FileBuffer &fileBuffer, CFont::CodepointMap &codepointMap ) const;
 	
 	const CFileSystem &m_filesystem;
 };
