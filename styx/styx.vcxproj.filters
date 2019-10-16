@@ -135,6 +135,9 @@
     <Filter Include="external\utfcpp\utf8">
       <UniqueIdentifier>{11756e60-6a3c-42b0-8fb7-62a04039267f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="external\effolkronium">
+      <UniqueIdentifier>{340c0f04-6ba7-46bf-bcc8-669fe9af28f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\CLI11\CLI11.hpp">
@@ -547,6 +550,9 @@
     </ClInclude>
     <ClInclude Include="external\fmt\safe-duration-cast.h">
       <Filter>external\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="external\effolkronium\random.hpp">
+      <Filter>external\effolkronium</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

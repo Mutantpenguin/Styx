@@ -4,12 +4,13 @@
 
 #include "external/fmt/chrono.h"
 
+#include "external/effolkronium/random.hpp"
+
 #include "src/scene/components/camera/CCameraFreeComponent.hpp"
 #include "src/renderer/components/CModelComponent.hpp"
 
 #include "src/states/CStatePause.hpp"
 
-#include "src/math/Math.hpp"
 #include "src/helper/Date.hpp"
 #include "src/helper/image/ImageHandler.hpp"
 
@@ -45,6 +46,8 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 	auto &resources = m_engineInterface.Resources;
 	auto &samplerManager = m_engineInterface.SamplerManager;
+
+	using Random = effolkronium::random_static;
 
 	// create floor
 	{
@@ -168,7 +171,7 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 						const auto cubeEntity = m_scene.CreateEntity( "cube" );
 						cubeEntity->Transform.Position = { -40.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f };
 
-						if( Math::irand( 0, 1 ) == 1 )
+						if( Random::get<bool>() )
 						{
 							cubeEntity->Add<CModelComponent>( cubeMeshSimple );
 						}
@@ -193,9 +196,9 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 						const auto cubeEntity = m_scene.CreateEntity( "cube" );
 						cubeEntity->Transform.Position = { -90.0f + i * 4.0f, ( 0.0f + j * 4.0f ) + 2, 50.0f + k * 4.0f };
 						cubeEntity->Transform.Scale = { 2.0f, 2.0f, 2.0f };
-						cubeEntity->Transform.Rotate( Math::frand( 0, 90 ), Math::frand( 0, 90 ), Math::frand( 0, 90 ) );
+						cubeEntity->Transform.Rotate( Random::get<f16>( 0, 90 ), Random::get<f16>( 0, 90 ), Random::get<f16>( 0, 90 ) );
 
-						if( Math::irand( 0, 1 ) == 1 )
+						if( Random::get<bool>() )
 						{
 							cubeEntity->Add<CModelComponent>( cubeMeshSimple );
 						}

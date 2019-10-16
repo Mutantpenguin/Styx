@@ -2,7 +2,7 @@
 
 #include <glm/gtc/constants.hpp>
 
-#include "src/math/Math.hpp"
+#include "external/effolkronium/random.hpp"
 
 #include "src/logger/CLogger.hpp"
 
@@ -183,8 +183,8 @@ void CAudioBufferLoader::FromDummy( const std::shared_ptr<CAudioBuffer> &audioBu
 	
 	data.buffer.resize( data.duration * data.sample_rate * 2 );
 
-	// Fill buffer with Sine-Wave
-	const double freq = Math::frand( 300.0f, 600.0f );
+	// Fill buffer with random sine wave
+	const double freq = effolkronium::random_static::get<f16>( 300.0f, 600.0f );
 	
     for( size_t i = 0; i < data.buffer.size(); ++i )
 	{

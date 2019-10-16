@@ -38,6 +38,7 @@
   <ItemGroup>
     <ClInclude Include="external\CLI11\CLI11.hpp" />
     <ClInclude Include="external\dr_libs\dr_wav.h" />
+    <ClInclude Include="external\effolkronium\random.hpp" />
     <ClInclude Include="external\fmt\chrono.h" />
     <ClInclude Include="external\fmt\color.h" />
     <ClInclude Include="external\fmt\core.h" />
