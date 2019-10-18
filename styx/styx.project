@@ -286,6 +286,9 @@
     <File Name="src/Main.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="external">
+    <VirtualDirectory Name="effolkronium">
+      <File Name="external/effolkronium/random.hpp"/>
+    </VirtualDirectory>
     <VirtualDirectory Name="utfcpp">
       <File Name="external/utfcpp/utf8.h"/>
       <VirtualDirectory Name="utf8">
