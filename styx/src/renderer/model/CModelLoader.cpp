@@ -106,17 +106,27 @@ bool CModelLoader::ProcessMesh( const std::shared_ptr<CModel> &model, const aiMe
 	const auto &assimpBitangents = assimpMesh->mBitangents;
 
 	// TODO mesh->HasNormals
-
+	
 	if( assimpMesh->HasTextureCoords( 0 ) )
 	{
 		if( assimpMesh->HasTangentsAndBitangents() )
 		{
 			Geometry<VertexPNTBU0> geometry;
-			// TODO implement
-			/* TODO Tangents
-			vertex.Tangent = { assimpTangents[ i ].x, assimpTangents[ i ].y, assimpTangents[ i ].z };
-			vertex.Bitangent = { assimpBitangents[ i ].x, assimpBitangents[ i ].y, assimpBitangents[ i ].z };
-			*/
+			
+			for( unsigned int i = 0; i < assimpMesh->mNumVertices; i++ )
+			{
+				VertexPNTBU0 vertex;
+
+				vertex.Position = { assimpVertices[ i ].x, assimpVertices[ i ].y, assimpVertices[ i ].z };
+				vertex.Normal = { assimpNormals[ i ].x, assimpNormals[ i ].y, assimpNormals[ i ].z };
+				vertex.Tangent = { assimpTangents[ i ].x, assimpTangents[ i ].y, assimpTangents[ i ].z };
+				vertex.Bitangent = { assimpBitangents[ i ].x, assimpBitangents[ i ].y, assimpBitangents[ i ].z };
+				vertex.UV0 = { assimpTextureCoords[ 0 ][ i ].x, assimpTextureCoords[ 0 ][ i ].y };
+
+				geometry.Vertices.emplace_back( vertex );
+			}
+			
+			// TODO
 			throw new std::logic_error( "not yet implemented" );
 		}
 		else
@@ -142,12 +152,21 @@ bool CModelLoader::ProcessMesh( const std::shared_ptr<CModel> &model, const aiMe
 	{
 		if( assimpMesh->HasTangentsAndBitangents() )
 		{
-			 Geometry<VertexPNTB> geometry;
-			// TODO implement
-			/* TODO Tangents
-			vertex.Tangent = { assimpTangents[ i ].x, assimpTangents[ i ].y, assimpTangents[ i ].z };
-			vertex.Bitangent = { assimpBitangents[ i ].x, assimpBitangents[ i ].y, assimpBitangents[ i ].z };
-			*/
+			Geometry<VertexPNTB> geometry;
+			 
+			for( unsigned int i = 0; i < assimpMesh->mNumVertices; i++ )
+			{
+				VertexPNTB vertex;
+
+				vertex.Position = { assimpVertices[ i ].x, assimpVertices[ i ].y, assimpVertices[ i ].z };
+				vertex.Normal = { assimpNormals[ i ].x, assimpNormals[ i ].y, assimpNormals[ i ].z };
+				vertex.Tangent = { assimpTangents[ i ].x, assimpTangents[ i ].y, assimpTangents[ i ].z };
+				vertex.Bitangent = { assimpBitangents[ i ].x, assimpBitangents[ i ].y, assimpBitangents[ i ].z };
+
+				geometry.Vertices.emplace_back( vertex );
+			}
+			 
+			// TODO
 			throw new std::logic_error( "not yet implemented" );
 		}
 		else
