@@ -554,6 +554,15 @@
     <ClInclude Include="external\effolkronium\random.hpp">
       <Filter>external\effolkronium</Filter>
     </ClInclude>
+    <ClInclude Include="external\stb\stb_image.h">
+      <Filter>external\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="external\stb\stb_image_resize.h">
+      <Filter>external\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="external\stb\stb_image_write.h">
+      <Filter>external\stb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\fmt\format.cc">
@@ -897,6 +906,15 @@
     </ClCompile>
     <ClCompile Include="src\renderer\font\CGlyphRange.cpp">
       <Filter>src\renderer\font</Filter>
+    </ClCompile>
+    <ClCompile Include="external\stb\stb_image_impl.cpp">
+      <Filter>external\stb</Filter>
+    </ClCompile>
+    <ClCompile Include="external\stb\stb_image_resize_impl.cpp">
+      <Filter>external\stb</Filter>
+    </ClCompile>
+    <ClCompile Include="external\stb\stb_image_write_impl.cpp">
+      <Filter>external\stb</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

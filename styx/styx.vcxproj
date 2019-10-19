@@ -62,6 +62,9 @@
     <ClInclude Include="external\physfs\physfs_lzmasdk.h" />
     <ClInclude Include="external\physfs\physfs_miniz.h" />
     <ClInclude Include="external\physfs\physfs_platforms.h" />
+    <ClInclude Include="external\stb\stb_image.h" />
+    <ClInclude Include="external\stb\stb_image_resize.h" />
+    <ClInclude Include="external\stb\stb_image_write.h" />
     <ClInclude Include="external\stb\stb_rect_pack.h" />
     <ClInclude Include="external\stb\stb_textedit.h" />
     <ClInclude Include="external\stb\stb_truetype.h" />
@@ -203,6 +206,9 @@
     <ClCompile Include="external\physfs\physfs_platform_windows.c" />
     <ClCompile Include="external\physfs\physfs_platform_winrt.cpp" />
     <ClCompile Include="external\physfs\physfs_unicode.c" />
+    <ClCompile Include="external\stb\stb_image_impl.cpp" />
+    <ClCompile Include="external\stb\stb_image_resize_impl.cpp" />
+    <ClCompile Include="external\stb\stb_image_write_impl.cpp" />
     <ClCompile Include="external\stb\stb_rect_pack_impl.cpp" />
     <ClCompile Include="external\stb\stb_truetype_impl.cpp" />
     <ClCompile Include="external\stb\stb_vorbis.c">
