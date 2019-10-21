@@ -451,11 +451,11 @@ GLenum CTextureLoader::FormatFromImage( const std::shared_ptr<const CImage> &ima
 			break;
 		
 		case 24:
-			return( GL_BGR );
+			return( GL_RGB );
 			break;
 		
 		case 32:
-			return( GL_BGRA );
+			return( GL_RGBA );
 			break;
 		
 		default:

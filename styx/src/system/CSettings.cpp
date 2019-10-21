@@ -154,16 +154,6 @@ CSettings::CSettings( const CFileSystem &p_filesystem, const std::string &settin
 				{
 					renderer.screenshot.format = format->get<std::string>();
 				}
-
-				const auto scale_factor = screenshot_root->find( "scale_factor" );
-				if( screenshot_root->end() == scale_factor )
-				{
-					logWARNING( "'settings.renderer.screenshot.scale_factor' not found" );
-				}
-				else
-				{
-					renderer.screenshot.scale_factor = scale_factor->get<f16>();
-				}
 			}
 		}
 

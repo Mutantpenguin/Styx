@@ -595,7 +595,7 @@ std::shared_ptr<CState> CStateGame::OnUpdate()
 
 		const std::shared_ptr<const CImage> screenshot = m_frameBuffer.ToImage();
 
-		if( !ImageHandler::Save( m_filesystem, screenshot, m_settings.renderer.screenshot.scale_factor, m_settings.renderer.screenshot.format, screenshotPath ) )
+		if( !ImageHandler::Save( m_filesystem, screenshot, m_settings.renderer.screenshot.format, screenshotPath ) )
 		{
 			logERROR( "screenshot '{0}' couldn't be saved", screenshotPath );
 		}

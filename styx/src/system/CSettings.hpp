@@ -38,8 +38,7 @@ public:
 
 		struct s_Screenshot final
 		{
-			std::string	format			{ "png" };
-			f16			scale_factor	{ 1.0f };
+			std::string	format	{ "png" };
 		} screenshot;
 
 	} renderer;

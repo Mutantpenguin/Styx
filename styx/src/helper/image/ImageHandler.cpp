@@ -1,32 +1,20 @@
 #include "ImageHandler.hpp"
 
+#include <memory>
 #include <algorithm>
 #include <array>
 
-#include <FreeImagePlus.h>
+#include "external/stb/stb_image.h"
+#include "external/stb/stb_image_resize.h"
+#include "external/stb/stb_image_write.h"
 
 #include "src/logger/CLogger.hpp"
 
 #include "src/math/Math.hpp"
 
-void SetOutputMessageFreeImage()
-{
-	FreeImage_SetOutputMessage(	[]( FREE_IMAGE_FORMAT fif, const char *msg )
-								{
-									if( fif != FIF_UNKNOWN )
-									{
-										logWARNING( "{0}: {1}", FreeImage_GetFormatFromFIF( fif ), msg );
-									}
-									else
-									{
-										logWARNING( msg );
-									}
-								} );
-}
-
 namespace ImageHandler
 {
-	/**	Loads an bitmap using FreeImage into a CImage.
+	/**	Loads an bitmap using stb_image into a CImage.
 		If necessary it gets rescaled to maxSize
 	*/
 	std::shared_ptr<CImage> Load( const CFileSystem &p_filesystem, const fs::path &path, const u32 maxSize, const bool flipVertically )
@@ -47,91 +35,72 @@ namespace ImageHandler
 
 		if( !buffer.empty() )
 		{
-			SetOutputMessageFreeImage();
+			stbi_set_flip_vertically_on_load( !flipVertically );
 
-			fipMemoryIO memIO( reinterpret_cast<BYTE*>( const_cast<std::byte*>( buffer.data() ) ), buffer.size() );
+			int width, height, components;
 
-			fipImage image;
+			std::unique_ptr<stbi_uc[], decltype( &stbi_image_free )> image( stbi_load_from_memory( reinterpret_cast<stbi_uc*>( const_cast<std::byte*>( buffer.data() ) ), buffer.size(), &width, &height, &components, STBI_default ), stbi_image_free );
 
-			if( !image.loadFromMemory( memIO ) )
+			if( !image )
 			{
-				logWARNING( "failed to load from memory" );
+				logWARNING( "failed to load image from memory: {0}", stbi_failure_reason() );
 				return( nullptr );
 			}
 
-			if( image.isValid() )
+			CSize size { static_cast<u32>( width ), static_cast<u32>( height ) };
+
+			if(	!Math::IsPowerOfTwo( size.width )
+				||
+				!Math::IsPowerOfTwo( size.height ) )
 			{
-				if( image.accessPixels() == nullptr )
-				{
-					logWARNING( "image '{0}' only consists of metadata and no pixels", path.generic_string() );
-					return( nullptr );
-				}
+				logWARNING( "the size of image '{0}' is not a power of two", path.generic_string() );
 
-				if( image.getPalette() != nullptr )
-				{
-					logWARNING( "palettized image '{0}' is not supported", path.generic_string() );
-					return( nullptr );
-				}
+				return( nullptr );
+			}
 
-				CSize size { image.getWidth(), image.getHeight() };
-				const u8 bpp	= image.getBitsPerPixel();
+			if(	( size.width > maxSize )
+				||
+				( size.height > maxSize ) )
+			{
+				const auto original_size = size;
 
-				if(	!Math::IsPowerOfTwo( size.width )
-					||
-					!Math::IsPowerOfTwo( size.height ) )
-				{
-					logWARNING( "the size of image '{0}' is not a power of two", path.generic_string() );
-
-					return( nullptr );
-				}
-
-				if(	( size.width > maxSize )
-					||
-					( size.height > maxSize ) )
-				{
-					// resize the image
-					
-					logWARNING( "image '{0}' has to be scaled down because it's bigger than the allowed max size of '{1}' pixels", path.generic_string(), maxSize );
+				logWARNING( "image '{0}' has to be scaled down because it's bigger than the allowed max size of '{1}' pixels", path.generic_string(), maxSize );
 										
-					// scale both axis down equally
-					while(	( size.width > maxSize )
-							||
-							( size.height > maxSize ) )
-					{
-						size.width	>>= 1;
-						size.height	>>= 1;
-					}
-					
-					// if width or height are below 1 we can't rescale so clamp it to 1
-					size.width	= (std::max)( static_cast<u32>( 1 ), size.width );
-					size.height	= (std::max)( static_cast<u32>( 1 ), size.height );
-
-					if( !image.rescale( size.width, size.height, FILTER_BSPLINE ) )
-					{
-						logWARNING( "failed to rescale image '{0}'", path.generic_string() );
-
-						return( nullptr );
-					}
-				}
-
-				if( flipVertically )
+				// scale both axis down equally
+				while(	( size.width > maxSize )
+						||
+						( size.height > maxSize ) )
 				{
-					FreeImage_FlipVertical( image );
+					size.width	>>= 1;
+					size.height	>>= 1;
+				}
+					
+				// if width or height are below 1 we can't rescale so clamp it to 1
+				size.width	= (std::max)( static_cast<u32>( 1 ), size.width );
+				size.height	= (std::max)( static_cast<u32>( 1 ), size.height );
+
+				std::unique_ptr<stbi_uc[], decltype( &stbi_image_free )> image_resized( (stbi_uc*)malloc( size.width * size.height * components ), stbi_image_free );
+
+				if( !stbir_resize_uint8( image.get(), original_size.width, original_size.height, 0,
+										 image_resized.get(), size.width, size.height, 0,
+					                     components ) )
+				{
+					logWARNING( "failed to rescale image '{0}'", path.generic_string() );
+
+					return( nullptr );
 				}
 
-				const u32 pitch = image.getScanWidth();
-
-				auto imageData = std::make_unique<CImage::PixelBuffer>( pitch * size.height );
-
-				std::copy( reinterpret_cast<std::byte*>( image.accessPixels() ), reinterpret_cast<std::byte*>( image.accessPixels() ) + ( pitch * size.height ), imageData->data() );
-
-				return( std::make_shared<CImage>( size, bpp, pitch, std::move( imageData ) ) );
+				image.reset( image_resized.release() );
 			}
-			else
-			{
-				logWARNING( "image '{0}' is not valid", path.generic_string() );
-				return( nullptr );
-			}
+
+			const u32 pitch = components * size.width;
+			const u32 bpp = components * 8;
+
+			auto imageData = std::make_unique<CImage::PixelBuffer>( pitch * size.height );
+
+			std::copy( reinterpret_cast<std::byte*>( image.get() ), reinterpret_cast<std::byte*>( image.get() ) + ( pitch * size.height ), imageData->data() );
+
+			return( std::make_shared<CImage>( size, bpp, pitch, std::move( imageData ) ) );
 		}
 		else
 		{
@@ -140,7 +109,7 @@ namespace ImageHandler
 		}
 	}
 
-	bool Save( const CFileSystem &p_filesystem, const std::shared_ptr<const CImage> &image, const f16 scale_factor, const std::string &format, const fs::path &path )
+	bool Save( const CFileSystem &p_filesystem, const std::shared_ptr<const CImage> &image, const std::string &format, const fs::path &path )
 	{
 		if( !path.has_filename() )
 		{
@@ -148,65 +117,44 @@ namespace ImageHandler
 			return( false );
 		}
 
-		SetOutputMessageFreeImage();
+		stbi_flip_vertically_on_write( 1 );
 
-		FIBITMAP *bitmap = FreeImage_ConvertFromRawBits( reinterpret_cast<BYTE*>( const_cast<std::byte*>( image->RawPixelData() ) ), image->Size().width, image->Size().height, image->Size().width * 3, image->BPP(), FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK );
-		if( nullptr == bitmap )
+		auto buffer = std::make_unique<CFileSystem::FileBuffer>();
+
+		auto write_func =	[]( void *context, void *data, int size )
+							{
+								auto buffer_ptr = static_cast<std::unique_ptr<CFileSystem::FileBuffer>*>( context );
+
+								auto buffer = buffer_ptr->get();
+
+								std::copy( reinterpret_cast<std::byte*>( data ), reinterpret_cast<std::byte*>( data ) + size, back_inserter( *buffer ) );
+							};
+
+		u16 write_status = 0;
+
+		if( format == "png" )
 		{
-			logWARNING( "unable to create FIBITMAP from CImage" );
-			return( false );
+			write_status = stbi_write_png_to_func( write_func, &buffer, image->Size().width, image->Size().height, 3, image->RawPixelData(), image->Size().width * 3 );
+		}
+		else if( ( format == "jpg" ) || ( format == "jpeg" ) )
+		{
+			static const auto jpg_quality = 90;
+
+			write_status = stbi_write_jpg_to_func( write_func, &buffer, image->Size().width, image->Size().height, 3, image->RawPixelData(), jpg_quality );
 		}
 		else
 		{
-			fipImage fiImage;
-			fiImage = bitmap;
-
-			if( scale_factor < 1.0f )
-			{
-				logDEBUG( "resizing image by '{0}'", scale_factor );
-
-				if( !fiImage.rescale( static_cast<unsigned int>( image->Size().width * scale_factor ), static_cast<unsigned int>( image->Size().height * scale_factor ), FILTER_BSPLINE ) )
-				{
-					logWARNING( "failed to rescale image" );
-					return( false );
-				}
-			}
-
-			FREE_IMAGE_FORMAT fiFormat;
-			s32 flags;
-			if( format == "png" )
-			{
-				fiFormat	= FIF_PNG;
-				flags		= PNG_DEFAULT;
-			}
-			else if( ( format == "jpg" ) || ( format == "jpeg" ) )
-			{
-				fiFormat	= FIF_JPEG;
-				flags		= JPEG_DEFAULT;
-			}
-			else
-			{
-				logWARNING( "unknown image-format '{0}', using default 'png' for now", format );
-				fiFormat	= FIF_PNG;
-				flags		= PNG_DEFAULT;
-			}
-
-			fipMemoryIO memIO;
-
-			if( !fiImage.saveToMemory( fiFormat, memIO, flags ) )
-			{
-				logWARNING( "failed to save to memory" );
-				return( false );
-			}
-
-			BYTE* data;
-			DWORD sizeInBytes;
-			memIO.acquire( &data, &sizeInBytes );
-
-			CFileSystem::FileBuffer buffer( reinterpret_cast<std::byte*>( data ), reinterpret_cast<std::byte*>( data ) + sizeInBytes );
-
-			return( p_filesystem.SaveBufferToFile( buffer, path ) );
+			logWARNING( "unknown image-format '{0}'", format );
+			return( false );
 		}
+
+		if( !write_status )
+		{
+			logWARNING( "failed to save to memory" );
+			return( false );
+		}
+
+		return( p_filesystem.SaveBufferToFile( *buffer.get(), path ) );
 	}
 
 	std::shared_ptr<CImage> GenerateCheckerImage( const CSize &size, const CColor &color1, const CColor &color2 )

@@ -84,7 +84,7 @@ std::shared_ptr<CImage> CFrameBuffer::ToImage() const
 
 	auto pixels = std::make_unique<CImage::PixelBuffer>( pitch * Size.height );
 
-	glReadPixels( 0, 0, Size.width, Size.height, GL_BGR, GL_UNSIGNED_BYTE, static_cast<void*>( pixels->data() ) );
+	glReadPixels( 0, 0, Size.width, Size.height, GL_RGB, GL_UNSIGNED_BYTE, static_cast<void*>( pixels->data() ) );
 
 	return( std::make_shared<CImage>( Size, 24, pitch, std::move( pixels ) ) );
 }
