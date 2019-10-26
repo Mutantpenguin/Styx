@@ -44,7 +44,7 @@ CSDL::CSDL()
 
 		if( freopen_s( &fileout, "CON", "w", stderr ) != 0 )
 		{
-			THROW_STYX_EXCEPTION( "couldn't redirect stdout" );
+			THROW_STYX_EXCEPTION( "couldn't redirect stderr" );
 		}
 	#endif
 }
