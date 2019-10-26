@@ -55,6 +55,8 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 
 	SDL_GL_SetAttribute( SDL_GL_ACCELERATED_VISUAL, 1 );
 
+	SDL_GL_SetAttribute( SDL_GL_SHARE_WITH_CURRENT_CONTEXT, 1 );
+
 	int window_flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 	#ifndef STYX_DEBUG
 		window_flags |= SDL_WINDOW_INPUT_GRABBED;
@@ -106,15 +108,21 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 		logWARNING( "game specified no window-icon" );
 	}
 
-	m_SDL_GL_context = SDL_GL_CreateContext( m_SDL_window );
-	if( nullptr == m_SDL_GL_context )
+	m_SDL_GL_renderContext = SDL_GL_CreateContext( m_SDL_window );
+	if( nullptr == m_SDL_GL_renderContext )
 	{
-		THROW_STYX_EXCEPTION( "creating a GL context failed: {0}", SDL_GetError() )
+		THROW_STYX_EXCEPTION( "creating the GL context for rendering failed: {0}", SDL_GetError() )
 	}
 
-	if( SDL_GL_MakeCurrent( m_SDL_window, m_SDL_GL_context ) )
+	m_SDL_GL_threadContext = SDL_GL_CreateContext( m_SDL_window );
+	if( nullptr == m_SDL_GL_threadContext )
 	{
-		THROW_STYX_EXCEPTION( "making the GL context current failed: {0}", SDL_GetError() )
+		THROW_STYX_EXCEPTION( "creating the GL context for threaded loading failed: {0}", SDL_GetError() )
+	}
+
+	if( SDL_GL_MakeCurrent( m_SDL_window, m_SDL_GL_renderContext ) )
+	{
+		THROW_STYX_EXCEPTION( "making the GL render context current failed: {0}", SDL_GetError() )
 	}
 
 	int doubleBuffered = 0;
@@ -161,9 +169,14 @@ CWindow::CWindow( const CSettings &settings, const CFileSystem &filesystem, cons
 
 CWindow::~CWindow()
 {
-	if( nullptr != m_SDL_GL_context )
+	if( nullptr != m_SDL_GL_renderContext )
 	{
-		SDL_GL_DeleteContext( m_SDL_GL_context );
+		SDL_GL_DeleteContext( m_SDL_GL_renderContext );
+	}
+
+	if( nullptr != m_SDL_GL_threadContext )
+	{
+		SDL_GL_DeleteContext( m_SDL_GL_threadContext );
 	}
 
 	if( nullptr != m_SDL_window )
