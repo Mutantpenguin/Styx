@@ -25,7 +25,5 @@ private:
 	CWindow& operator = ( const CWindow &rhs ) = delete;
 
 	SDL_Window		*m_SDL_window { nullptr };
-	
-	SDL_GLContext	m_SDL_GL_renderContext;
-	SDL_GLContext	m_SDL_GL_threadContext;
+	SDL_GLContext	m_SDL_GL_context;
 };
