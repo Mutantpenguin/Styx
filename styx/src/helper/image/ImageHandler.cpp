@@ -109,7 +109,7 @@ namespace ImageHandler
 		}
 	}
 
-	bool Save( const CFileSystem &p_filesystem, const std::shared_ptr<const CImage> &image, const std::string &format, const fs::path &path )
+	bool Save( const CFileSystem &p_filesystem, const CImage &image, const std::string &format, const fs::path &path )
 	{
 		if( !path.has_filename() )
 		{
@@ -134,13 +134,13 @@ namespace ImageHandler
 
 		if( format == "png" )
 		{
-			write_status = stbi_write_png_to_func( write_func, &buffer, image->Size().width, image->Size().height, 3, image->RawPixelData(), image->Size().width * 3 );
+			write_status = stbi_write_png_to_func( write_func, &buffer, image.Size().width, image.Size().height, 3, image.RawPixelData(), image.Size().width * 3 );
 		}
 		else if( ( format == "jpg" ) || ( format == "jpeg" ) )
 		{
 			static const auto jpg_quality = 90;
 
-			write_status = stbi_write_jpg_to_func( write_func, &buffer, image->Size().width, image->Size().height, 3, image->RawPixelData(), jpg_quality );
+			write_status = stbi_write_jpg_to_func( write_func, &buffer, image.Size().width, image.Size().height, 3, image.RawPixelData(), jpg_quality );
 		}
 		else
 		{

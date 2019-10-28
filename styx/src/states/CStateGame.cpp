@@ -593,7 +593,7 @@ std::shared_ptr<CState> CStateGame::OnUpdate()
 
 		logINFO( "taking screenshot '{0}'", screenshotPath );
 
-		const std::shared_ptr<const CImage> screenshot = m_frameBuffer.ToImage();
+		const CImage screenshot = m_frameBuffer.ToImage();
 
 		if( !ImageHandler::Save( m_filesystem, screenshot, m_settings.renderer.screenshot.format, screenshotPath ) )
 		{

@@ -76,7 +76,7 @@ const std::shared_ptr<const CTexture> CFrameBuffer::ColorTexture() const
 	return( m_colorTexture );
 }
 
-std::shared_ptr<CImage> CFrameBuffer::ToImage() const
+CImage CFrameBuffer::ToImage() const
 {
 	glNamedFramebufferReadBuffer( GLID, attachmentColorTexture );
 
@@ -86,5 +86,5 @@ std::shared_ptr<CImage> CFrameBuffer::ToImage() const
 
 	glReadPixels( 0, 0, Size.width, Size.height, GL_RGB, GL_UNSIGNED_BYTE, static_cast<void*>( pixels->data() ) );
 
-	return( std::make_shared<CImage>( Size, 24, pitch, std::move( pixels ) ) );
+	return( CImage( Size, 24, pitch, std::move( pixels ) ) );
 }
