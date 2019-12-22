@@ -176,9 +176,6 @@
     <ClInclude Include="external\fmt\ranges.h">
       <Filter>external\fmt</Filter>
     </ClInclude>
-    <ClInclude Include="external\fmt\time.h">
-      <Filter>external\fmt</Filter>
-    </ClInclude>
     <ClInclude Include="external\imgui\imconfig.h">
       <Filter>external\imgui</Filter>
     </ClInclude>
@@ -547,9 +544,6 @@
     </ClInclude>
     <ClInclude Include="src\renderer\font\CGlyphRange.hpp">
       <Filter>src\renderer\font</Filter>
-    </ClInclude>
-    <ClInclude Include="external\fmt\safe-duration-cast.h">
-      <Filter>external\fmt</Filter>
     </ClInclude>
     <ClInclude Include="external\effolkronium\random.hpp">
       <Filter>external\effolkronium</Filter>

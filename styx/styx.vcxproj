@@ -49,8 +49,6 @@
     <ClInclude Include="external\fmt\posix.h" />
     <ClInclude Include="external\fmt\printf.h" />
     <ClInclude Include="external\fmt\ranges.h" />
-    <ClInclude Include="external\fmt\safe-duration-cast.h" />
-    <ClInclude Include="external\fmt\time.h" />
     <ClInclude Include="external\imgui\imconfig.h" />
     <ClInclude Include="external\imgui\imgui.h" />
     <ClInclude Include="external\imgui\imgui_internal.h" />
