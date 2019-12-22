@@ -174,7 +174,7 @@ void CTextGeometryBuilder::AddCodepoint( f16 &offsetX, f16 &offsetY, const glm::
 
 void CTextGeometryBuilder::AdjustAlignment( const STextOptions &textOptions, const f16 maxLineWidth, std::vector<TextVertexFormat> &vertices, const Lines &lines )
 {
-	if( textOptions.Alignment != EAlignment::LEFT )
+	if( textOptions.HorizontalAlign != EHorizontalAlign::LEFT )
 	{
 		for( const auto &[ from, to ] : lines )
 		{
@@ -183,15 +183,15 @@ void CTextGeometryBuilder::AdjustAlignment( const STextOptions &textOptions, con
 																																	return( glm::length2( a.Position.x ) < glm::length2( b.Position.x ) );
 																																} ) ).Position.x;
 
-			switch( textOptions.Alignment )
+			switch( textOptions.HorizontalAlign )
 			{
-			case EAlignment::CENTER:
+			case EHorizontalAlign::CENTER:
 				for( auto i = from; i <= to; i++ )
 				{
 					vertices[ i ].Position.x += ( maxLineWidth - currentLineWidth ) / 2.0f;
 				}
 				break;
-			case EAlignment::RIGHT:
+			case EHorizontalAlign::RIGHT:
 				for( auto i = from; i <= to; i++ )
 				{
 					vertices[ i ].Position.x += maxLineWidth - currentLineWidth;
@@ -207,32 +207,32 @@ void CTextGeometryBuilder::AdjustAnchoring( const STextOptions &textOptions, con
 	f16 xShift = 0.0f;
 	f16 yShift = 0.0f;
 
-	switch( textOptions.HorizontalAnchoring )
+	switch( textOptions.HorizontalAnchor )
 	{
-	case EAnchoringHorizontal::LEFT:
+	case EHorizontalAnchor::LEFT:
 		xShift = minBounds.x;
 		break;
 
-	case EAnchoringHorizontal::CENTER:
+	case EHorizontalAnchor::CENTER:
 		xShift = ( minBounds.x + maxBounds.x ) / 2.0f;
 		break;
 
-	case EAnchoringHorizontal::RIGHT:
+	case EHorizontalAnchor::RIGHT:
 		xShift = maxBounds.x;
 		break;
 	}
 
-	switch( textOptions.VerticalAnchoring )
+	switch( textOptions.VerticalAnchor )
 	{
-	case EAnchoringVertical::TOP:
+	case EVerticalAnchor::TOP:
 		yShift = minBounds.y;
 		break;
 
-	case EAnchoringVertical::CENTER:
+	case EVerticalAnchor::CENTER:
 		yShift = ( minBounds.y + maxBounds.y ) / 2.0f;
 		break;
 
-	case EAnchoringVertical::BOTTOM:
+	case EVerticalAnchor::BOTTOM:
 		yShift = maxBounds.y;
 		break;
 	}

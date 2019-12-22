@@ -349,9 +349,9 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		{ // just one text object
 			STextOptions textOptions;
 			textOptions.LineSpacing = 32;
-			textOptions.HorizontalAnchoring = EAnchoringHorizontal::CENTER;
-			textOptions.VerticalAnchoring = EAnchoringVertical::CENTER;
-			textOptions.Alignment = EAlignment::CENTER;
+			textOptions.HorizontalAnchor = EHorizontalAnchor::CENTER;
+			textOptions.VerticalAnchor = EVerticalAnchor::CENTER;
+			textOptions.HorizontalAlign = EHorizontalAlign::CENTER;
 			
 			const auto text = engineInterface.TextBuilder.Create( fontComfortaa64, textOptions, "A<b>A</b> Du hast <#{0}>doofe</#> <b>Ohren</b> und eine <#4444FF><b>krumme</b></#> Nase!\nDies ist die zweite Zeile! <#FFBAFF>Mit zeilenübergreifender Formatierung\nbis in die</#> dritte Zeile", CColor( 0.0, 1.0, 0.0 ).rgbHex() );
 			
@@ -364,9 +364,9 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		{
 			STextOptions textOptions;
 			textOptions.Color = TangoColors::PlumShadow();
-			textOptions.HorizontalAnchoring = EAnchoringHorizontal::CENTER;
-			textOptions.VerticalAnchoring = EAnchoringVertical::CENTER;
-			textOptions.Alignment = EAlignment::CENTER;
+			textOptions.HorizontalAnchor = EHorizontalAnchor::CENTER;
+			textOptions.VerticalAnchor = EVerticalAnchor::CENTER;
+			textOptions.HorizontalAlign = EHorizontalAlign::CENTER;
 
 			// TODO why does only the last character (ICON_FA_ARROW_ALT_CIRCLE_LEFT ) work here?
 			// values from https://github.com/juliettef/IconFontCppHeaders/blob/master/IconsFontAwesome5.h
@@ -382,9 +382,9 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 			STextOptions textOptions;
 			textOptions.Color = Colors::Red();
 			textOptions.LineSpacing = 32;
-			textOptions.HorizontalAnchoring = EAnchoringHorizontal::LEFT;
-			textOptions.VerticalAnchoring = EAnchoringVertical::TOP;
-			textOptions.Alignment = EAlignment::LEFT;
+			textOptions.HorizontalAnchor = EHorizontalAnchor::LEFT;
+			textOptions.VerticalAnchor = EVerticalAnchor::TOP;
+			textOptions.HorizontalAlign = EHorizontalAlign::LEFT;
 			textOptions.RichText = false;
 
 			m_fpsText = engineInterface.TextBuilder.Create( fontComfortaa64, textOptions, "" );

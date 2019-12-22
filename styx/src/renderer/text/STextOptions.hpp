@@ -4,21 +4,21 @@
 
 #include "src/helper/CColor.hpp"
 
-enum class EAnchoringHorizontal : u8
+enum class EHorizontalAnchor : u8
 {
 	LEFT,
 	CENTER,
 	RIGHT
 };
 
-enum class EAnchoringVertical : u8
+enum class EVerticalAnchor : u8
 {
 	TOP,
 	CENTER,
 	BOTTOM
 };
 
-enum class EAlignment : u8
+enum class EHorizontalAlign : u8
 {
 	LEFT,
 	CENTER,
@@ -31,10 +31,10 @@ struct STextOptions final
 
 	CColor Color = Colors::Black();
 
-	EAnchoringHorizontal HorizontalAnchoring = EAnchoringHorizontal::LEFT;
-	EAnchoringVertical VerticalAnchoring = EAnchoringVertical::TOP;
+	EHorizontalAnchor HorizontalAnchor = EHorizontalAnchor::LEFT;
+	EVerticalAnchor VerticalAnchor = EVerticalAnchor::TOP;
 
-	EAlignment Alignment = EAlignment::LEFT;
+	EHorizontalAlign HorizontalAlign = EHorizontalAlign::LEFT;
 
 	// TODO MaxWidth
 	u16 MaxWidth;

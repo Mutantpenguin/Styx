@@ -47,9 +47,9 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 
 		STextOptions textOptions;
 		textOptions.Color = TangoColors::Aluminium();
-		textOptions.HorizontalAnchoring = EAnchoringHorizontal::CENTER;
-		textOptions.VerticalAnchoring = EAnchoringVertical::CENTER;
-		textOptions.Alignment = EAlignment::CENTER;
+		textOptions.HorizontalAnchor = EHorizontalAnchor::CENTER;
+		textOptions.VerticalAnchor = EVerticalAnchor::CENTER;
+		textOptions.HorizontalAlign = EHorizontalAlign::CENTER;
 
 		const auto text = engineInterface.TextBuilder.Create( fontComfortaa64, textOptions, "{0}\ndeveloped by <#{1}><b>Markus Lobedann</b></#>", CEngine::GetVersionString(), TangoColors::AluminiumHighlight().rgbHex() );
 
