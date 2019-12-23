@@ -135,7 +135,7 @@ void CRenderer::RenderPackageToFramebuffer( const RenderPackage &renderPackage, 
 	
 	UpdateRenderPackageUniformBuffers( renderPackage );
 
-	for( const auto &layer : renderPackage.m_renderLayers )
+	for( const auto &layer : renderPackage.RenderLayers )
 	{
 		UpdateRenderLayerUniformBuffers( layer );
 		

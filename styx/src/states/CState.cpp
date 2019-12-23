@@ -82,7 +82,7 @@ RenderPackage CState::CreateRenderPackage() const
 		renderPackage.ClearColor = m_scene.ClearColor();
 		renderPackage.TimeMilliseconds = static_cast<glm::uint>( m_timer.Time() / 1000 );
 
-		auto &renderLayer = renderPackage.m_renderLayers.emplace_back();
+		auto &renderLayer = renderPackage.RenderLayers.emplace_back();
 
 		const auto &camera = cameraEntity->Get<CCameraComponent>();
 

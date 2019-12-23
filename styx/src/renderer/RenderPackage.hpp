@@ -12,7 +12,7 @@ struct RenderPackage final
 	
 	glm::uint TimeMilliseconds;
 	
-	std::vector<RenderLayer> m_renderLayers;
+	std::vector<RenderLayer> RenderLayers;
 
 	void SortDrawCommands();
 };

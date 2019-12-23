@@ -4,7 +4,7 @@
 
 void RenderPackage::SortDrawCommands()
 {
-	for( auto &layer : m_renderLayers )
+	for( auto &layer : RenderLayers )
 	{
 		layer.SortDrawCommands();
 	}
