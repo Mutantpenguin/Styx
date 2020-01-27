@@ -6,12 +6,6 @@
 
 CTextGeometryBuilder::TextGeometry CTextGeometryBuilder::Build( const std::shared_ptr<const CFont> &font, const STextOptions &textOptions, const std::string &str )
 {
-	if( !utf8::is_valid( str ) )
-	{
-		logWARNING( "string '{0}' contains invalid unicode codepoints" );
-		utf8::replace_invalid( str );
-	}
-
 	TextGeometry textGeometry;
 
 	textGeometry.Mode = GL_TRIANGLES;

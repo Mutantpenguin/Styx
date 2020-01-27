@@ -1,6 +1,10 @@
 #include "CTextBuilder.hpp"
 
+#include "external/utfcpp/utf8.h"
+
 #include "src/core/StyxException.hpp"
+
+#include "src/logger/CLogger.hpp"
 
 #include "CTextGeometryBuilder.hpp"
 
@@ -69,11 +73,26 @@ CTextBuilder::CTextBuilder( const CSamplerManager &samplerManager, const CShader
 
 std::shared_ptr<CText> CTextBuilder::Create( const std::shared_ptr<const CFont> &font, const STextOptions &textOptions, const std::string &str ) const
 {
-	const auto geometry = CTextGeometryBuilder::Build( font, textOptions, str );
+	auto create = [&font, &textOptions, this] ( const std::string &str ) -> auto
+	{
+		const auto geometry = CTextGeometryBuilder::Build( font, textOptions, str );
+
+		const CMesh::TMeshTextureSlots textureSlots = { { m_fontTextureName, std::make_shared<CMeshTextureSlot>( font->Texture, m_samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+
+		const auto mesh = std::make_shared<CMesh>( geometry, m_textMaterial, textureSlots, true );
+
+		return( std::make_shared<CText>( font, textOptions, str, mesh ) );
+	};
+
+	if( utf8::is_valid( str ) )
+	{
+		return( create( str ) );
+	}
+	else
+	{
+		logWARNING( "string '{0}' contains invalid unicode codepoints", str );
+		return( create( utf8::replace_invalid( str ) ) );
+	}
+
 	
-	const CMesh::TMeshTextureSlots textureSlots = {	{ m_fontTextureName, std::make_shared<CMeshTextureSlot>( font->Texture, m_samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };	
-
-	const auto mesh = std::make_shared<CMesh>( geometry, m_textMaterial, textureSlots, true );
-
-	return( std::make_shared<CText>( font, textOptions, str, mesh ) );
 }
