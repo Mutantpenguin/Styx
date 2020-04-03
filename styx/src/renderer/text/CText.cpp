@@ -1,5 +1,9 @@
 #include "CText.hpp"
 
+#include "external/utfcpp/utf8.h"
+
+#include "src/logger/CLogger.hpp"
+
 #include "CTextGeometryBuilder.hpp"
 
 CText::CText( const std::shared_ptr<const CFont> &font, const STextOptions &textOptions, const std::string &str, const std::shared_ptr<CMesh> &mesh ) :
@@ -11,7 +15,15 @@ CText::CText( const std::shared_ptr<const CFont> &font, const STextOptions &text
 
 void CText::Text( const std::string &str )
 {
-	m_str = str;
+	if( utf8::is_valid( str ) )
+	{
+		m_str = str;
+	}
+	else
+	{
+		logWARNING( "string '{0}' contains invalid unicode codepoints", str );
+		m_str = utf8::replace_invalid( str );
+	}
 
 	RecreateMesh();
 }

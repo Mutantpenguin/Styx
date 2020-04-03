@@ -29,6 +29,8 @@ struct STextOptions final
 {
 	u16 LineSpacing = 0;
 
+	u8 TabSize = 4;
+
 	CColor Color = Colors::Black();
 
 	EHorizontalAnchor HorizontalAnchor = EHorizontalAnchor::LEFT;

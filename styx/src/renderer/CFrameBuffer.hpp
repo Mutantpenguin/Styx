@@ -29,7 +29,7 @@ public:
 
 	const std::shared_ptr<const CTexture> ColorTexture() const;
 
-	std::shared_ptr<CImage> ToImage() const;
+	CImage ToImage() const;
 	
 	const CSize	Size;	
 	
