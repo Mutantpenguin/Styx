@@ -10,18 +10,15 @@ void RenderLayer::SortDrawCommands()
 	std::sort( std::begin( drawCommands ), std::end( drawCommands ),
 		[]( const RenderLayer::DrawCommand &a, const RenderLayer::DrawCommand &b ) -> bool
 		{
-			const auto aBlending = a.material->Blending();
-			const auto bBlending = b.material->Blending();
-
-			if( !aBlending && bBlending )
+			if( !a.blending && b.blending )
 			{
 				return( true );
 			}
-			else if( aBlending && !bBlending )
+			else if( a.blending && !b.blending )
 			{
 				return( false );
 			}
-			else if( aBlending )
+			else if( a.blending )
 			{
 				return( a.viewDepth > b.viewDepth );
 			}

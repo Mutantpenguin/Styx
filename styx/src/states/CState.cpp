@@ -113,7 +113,7 @@ RenderPackage CState::CreateRenderPackage() const
 			{
 				const CMaterial * material = mesh->Material().get();
 
-				renderLayer.drawCommands.emplace_back( mesh, material, material->ShaderProgram().get(), transform.ModelMatrix(), glm::length2( transform.Position - cameraPosition ) );
+				renderLayer.drawCommands.emplace_back( material->Blending(), mesh, material, material->ShaderProgram().get(), transform.ModelMatrix(), glm::length2( transform.Position - cameraPosition ) );
 			}
 		} );
 		MTR_END( "GFX", "fill draw drawCommands" );

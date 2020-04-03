@@ -145,7 +145,7 @@ void CRenderer::RenderPackageToFramebuffer( const RenderPackage &renderPackage, 
 		const CMaterial * currentMaterial = nullptr;
 		const CShaderProgram * currentShader = nullptr;
 
-		for( const auto & [ mesh, material, shaderProgram, modelMatrix, viewDepth ] : layer.drawCommands )
+		for( const auto & [ blending, mesh, material, shaderProgram, modelMatrix, viewDepth ] : layer.drawCommands )
 		{
 			if( currentMesh != mesh )
 			{

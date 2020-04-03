@@ -17,7 +17,8 @@ struct RenderLayer final
 	
 	struct DrawCommand
 	{
-		DrawCommand( const CMesh * p_mesh, const CMaterial * p_material, const CShaderProgram * p_shaderProgram, const glm::mat4 &p_modelMatrix, f16 p_viewDepth ) :
+		DrawCommand( bool p_blending, const CMesh * p_mesh, const CMaterial * p_material, const CShaderProgram * p_shaderProgram, const glm::mat4 &p_modelMatrix, f16 p_viewDepth ) :
+			blending{ p_blending },
 			mesh{ p_mesh },
 			material{ p_material },
 			shaderProgram{ p_shaderProgram },
@@ -25,6 +26,7 @@ struct RenderLayer final
 			viewDepth{ p_viewDepth }
 		{}
 
+		bool blending;
 		const CMesh * mesh;
 		const CMaterial * material;
 		const CShaderProgram * shaderProgram;
