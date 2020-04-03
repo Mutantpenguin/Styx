@@ -64,8 +64,8 @@ void CTextGeometryBuilder::GenerateGeometry( const STextOptions &textOptions, co
 			}
 		
 		case '\t':
-			// interpret 'tab' as 4 spaces in the current font
-			for( u8 i = 0; i <= 3; i++ )
+			// interpret 'tab' as X spaces in the current font
+			for( u8 i = 1; i <= textOptions.TabSize; i++ )
 			{
 				AddCodepoint( offsetX, offsetY, currentVertexColor, currentWeight, ' ', font, textGeometry, lastIndex, minBounds, maxBounds );
 			}
