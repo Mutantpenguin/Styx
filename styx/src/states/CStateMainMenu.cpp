@@ -1,9 +1,10 @@
 #include "CStateMainMenu.hpp"
 
+#include "src/system/CEngine.hpp"
+
 #include "src/logger/CLogger.hpp"
 
-#include "src/scene/components/camera/CCameraOrthoComponent.hpp"
-#include "src/renderer/components/CModelComponent.hpp"
+#include "src/renderer/components/CGuiModelComponent.hpp"
 
 #include "src/states/CStateGame.hpp"
 
@@ -18,39 +19,24 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 	m_buttonChangeSound->SetLooping( false );
 	m_buttonChangeSound->SetRelativePositioning( true );
 
-	{
-		auto cameraEntity = m_scene.CreateEntity( "ortho camera" );
-		cameraEntity->Transform.Position = { 0.0f, 0.0f, 500.0f };
-		cameraEntity->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
-		cameraEntity->Add<CCameraOrthoComponent>( m_settings.renderer.window.size, 0.1f, 1000.0f );
-
-		m_scene.Camera( cameraEntity );
-	}
-
 	auto &resources = m_engineInterface.Resources;
 	auto &samplerManager = m_engineInterface.SamplerManager;
+	auto &fontbuilder = m_engineInterface.FontBuilder;
 
 	const CSize &windowSize = settings.renderer.window.size;
 
 	{
 		const auto material = resources.Get<CMaterial>( "materials/standard.mat" );
 
-		auto bgGeometry = GeometryPrefabs::QuadPU0();
-		bgGeometry.Vertices[ 0 ].Position.x = 0.0f;
-		bgGeometry.Vertices[ 0 ].Position.y = 0.0f;
-		bgGeometry.Vertices[ 1 ].Position.x = static_cast<f16>( windowSize.width );
-		bgGeometry.Vertices[ 1 ].Position.y = 0.0f;
-		bgGeometry.Vertices[ 2 ].Position.x = 0.0f;
-		bgGeometry.Vertices[ 2 ].Position.y = static_cast<f16>( windowSize.height );
-		bgGeometry.Vertices[ 3 ].Position.x = static_cast<f16>( windowSize.width );
-		bgGeometry.Vertices[ 3 ].Position.y = static_cast<f16>( windowSize.height );
+		auto bgGeometry = GeometryPrefabs::RectanglePU0( windowSize.width, windowSize.height );
 
 		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/menu/background.jpg" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 		const auto bgMesh = std::make_shared<CMesh>( bgGeometry, material, bgMeshTextureSlots );
 
 		auto bg = m_scene.CreateEntity( "background" );
-		bg->Add<CModelComponent>( bgMesh );
+		bg->Transform.Position = { windowSize.width / 2.0f, windowSize.height / 2.0f, -10.0f };
+		bg->Add<CGuiModelComponent>( bgMesh );
 	}
 
 	{
@@ -66,8 +52,8 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		const auto bgTitleMesh = std::make_shared<CMesh>( titleGeometry, material, titleMeshTextureSlots );
 
 		auto bgTitle = m_scene.CreateEntity( "title" );
-		bgTitle->Transform.Position = { windowSize.width / 2.0f, windowSize.height - ( titleHeight / 2.0f ), 5.0f };
-		bgTitle->Add<CModelComponent>( bgTitleMesh );
+		bgTitle->Transform.Position = { windowSize.width / 2.0f, windowSize.height - ( titleHeight / 2.0f ), -5.0f };
+		bgTitle->Add<CGuiModelComponent>( bgTitleMesh );
 	}
 
 	const f16 buttonWidth = windowSize.width / 4.0f;
@@ -81,8 +67,8 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		const auto startMesh = std::make_shared<CMesh>( buttonGeometry, greenMaterial );
 
 		m_startEntity = m_scene.CreateEntity( "start_button" );
-		m_startEntity->Transform.Position = { windowSize.width / 2.0f, 2 * windowSize.height / 4.0f, 10.0f };
-		m_startEntity->Add<CModelComponent>( startMesh );
+		m_startEntity->Transform.Position = { windowSize.width / 2.0f, 2 * windowSize.height / 4.0f, -5.0f };
+		m_startEntity->Add<CGuiModelComponent>( startMesh );
 	}
 
 	{
@@ -91,8 +77,26 @@ CStateMainMenu::CStateMainMenu( const CFileSystem &filesystem, const CSettings &
 		const auto exitMesh = std::make_shared<CMesh>( buttonGeometry, redMaterial );
 
 		m_exitEntity = m_scene.CreateEntity( "exit_button" );
-		m_exitEntity->Transform.Position = { windowSize.width / 2.0f, windowSize.height / 4.0f, 10.0f };
-		m_exitEntity->Add<CModelComponent>( exitMesh );
+		m_exitEntity->Transform.Position = { windowSize.width / 2.0f, windowSize.height / 4.0f, -5.0f };
+		m_exitEntity->Add<CGuiModelComponent>( exitMesh );
+	}
+
+	{
+		const auto fontSize = windowSize.height / 40;
+
+		const auto font = fontbuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Regular.ttf", "fonts/Comfortaa/Bold.ttf", fontSize, CGlyphRange::Default() );
+
+		STextOptions textOptions;
+		textOptions.Color = TangoColors::Aluminium();
+		textOptions.HorizontalAnchor = EHorizontalAnchor::CENTER;
+		textOptions.VerticalAnchor = EVerticalAnchor::CENTER;
+		textOptions.HorizontalAlign = EHorizontalAlign::CENTER;
+
+		const auto text = engineInterface.TextBuilder.Create( font, textOptions, "<#{0}><b>{1}</b></#>\ndeveloped by Markus Lobedann", TangoColors::AluminiumHighlight().rgbHex(), CEngine::GetVersionString() );
+
+		const auto entity = m_scene.CreateEntity( "text" );
+		entity->Transform.Position = { windowSize.width / 2.0f, 2 * fontSize, 0.0f };
+		entity->Add<CGuiModelComponent>( text->Mesh() );
 	}
 
 	m_backgroundMusic->Play();

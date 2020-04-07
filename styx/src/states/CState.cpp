@@ -1,8 +1,11 @@
 #include "CState.hpp"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "external/minitrace/minitrace.h"
 
 #include "src/renderer/components/CModelComponent.hpp"
+#include "src/renderer/components/CGuiModelComponent.hpp"
 
 CState::CState( const std::string &name, const CFileSystem &filesystem, const CSettings &settings, CEngineInterface &engineInterface ) :
 		m_name { name },
@@ -65,22 +68,22 @@ RenderPackage CState::CreateRenderPackage() const
 {
 	MTR_SCOPE( "GFX", "RenderSceneToFramebuffer" );
 
+	/*
+	 * set up the render package
+	 */
+
 	RenderPackage renderPackage;
+
+	renderPackage.ClearColor = m_scene.ClearColor();
+	renderPackage.TimeMilliseconds = static_cast<glm::uint>( m_timer.Time() / 1000 );
 
 	const auto &cameraEntity = m_scene.Camera();
 
-	if( !cameraEntity )
-	{
-		logWARNING( "scene has no camera" );
-	}
-	else
+	if( cameraEntity )
 	{
 		/*
-		 * set up the render package
+		 * set up the render layer for the camera
 		 */
-
-		renderPackage.ClearColor = m_scene.ClearColor();
-		renderPackage.TimeMilliseconds = static_cast<glm::uint>( m_timer.Time() / 1000 );
 
 		auto &renderLayer = renderPackage.RenderLayers.emplace_back();
 
@@ -97,8 +100,9 @@ RenderPackage CState::CreateRenderPackage() const
 		// TODO is this the right amount?
 		renderLayer.drawCommands.reserve( 10000 );
 
-		MTR_BEGIN( "GFX", "fill draw drawCommands" );
-		const auto &cameraFrustum = cameraEntity->Get<CCameraComponent>()->Frustum();
+		MTR_BEGIN( "GFX", "fill draw drawCommands for camera" );
+		
+		const auto &cameraFrustum = camera->Frustum();
 
 		const auto &cameraPosition = cameraEntity->Transform.Position;
 
@@ -116,12 +120,45 @@ RenderPackage CState::CreateRenderPackage() const
 				renderLayer.drawCommands.emplace_back( material->Blending(), mesh, material, material->ShaderProgram().get(), transform.ModelMatrix(), glm::length2( transform.Position - cameraPosition ) );
 			}
 		} );
-		MTR_END( "GFX", "fill draw drawCommands" );
-
-		MTR_BEGIN( "GFX", "sort" );
-		renderPackage.SortDrawCommands();
-		MTR_END( "GFX", "sort" );
+		
+		MTR_END( "GFX", "fill draw drawCommands for camera" );
 	}
+
+	/*
+	 * set up the render layer for the GUI
+	 */
+
+	{
+		auto &renderLayer = renderPackage.RenderLayers.emplace_back();
+
+		auto &view = renderLayer.View;
+
+		const auto windowSize = m_settings.renderer.window.size;
+
+		view.Position = { 0.0f, 0.0f, 0.0f };
+		view.Direction = { 0.0f, 0.0f, 1.0f };
+		view.ProjectionMatrix = glm::ortho( 0.0f, static_cast<f16>( windowSize.width ), 0.0f, static_cast<f16>( windowSize.height ), 0.0f, 1000.0f );
+		view.ViewMatrix = glm::mat4( 1.0f );
+		view.ViewProjectionMatrix = view.ProjectionMatrix * view.ViewMatrix;
+
+		// TODO is this the right amount?
+		renderLayer.drawCommands.reserve( 1000 );
+
+		m_scene.Each<CGuiModelComponent>( [&renderLayer]( const std::shared_ptr<const CEntity> &entity )
+		{
+			const auto &guiMesh = entity->Get<CGuiModelComponent>()->Mesh.get();
+
+			const auto &transform = entity->Transform;
+
+			const CMaterial * material = guiMesh->Material().get();
+
+			renderLayer.drawCommands.emplace_back( material->Blending(), guiMesh, material, material->ShaderProgram().get(), transform.ModelMatrix(), glm::length2( transform.Position ) );
+		} );
+	}
+
+	MTR_BEGIN( "GFX", "sort" );
+	renderPackage.SortDrawCommands();
+	MTR_END( "GFX", "sort" );
 
 	return( renderPackage );
 }

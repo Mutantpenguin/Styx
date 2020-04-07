@@ -8,6 +8,7 @@
 
 #include "src/scene/components/camera/CCameraFreeComponent.hpp"
 #include "src/renderer/components/CModelComponent.hpp"
+#include "src/renderer/components/CGuiModelComponent.hpp"
 
 #include "src/states/CStatePause.hpp"
 
@@ -379,21 +380,56 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 		}
 
 		{
-			STextOptions textOptions;
-			textOptions.Color = Colors::Red();
-			textOptions.LineSpacing = 32;
-			textOptions.HorizontalAnchor = EHorizontalAnchor::LEFT;
-			textOptions.VerticalAnchor = EVerticalAnchor::TOP;
-			textOptions.HorizontalAlign = EHorizontalAlign::LEFT;
-			textOptions.RichText = false;
+			const auto fpsFontSize = m_settings.renderer.window.size.height / 30;
 
-			m_fpsText = engineInterface.TextBuilder.Create( fontComfortaa64, textOptions, "" );
+			const auto fpsFont = fontbuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Regular.ttf", "fonts/Comfortaa/Bold.ttf", fpsFontSize, CGlyphRange::Default() );
 
-			const auto fpsEntity = m_scene.CreateEntity( "fps" );
-			fpsEntity->Transform.Position = { 40.0f, 40.0f, 20.0f };
-			fpsEntity->Transform.Scale = { 0.2f, 0.2f, 0.2f };
-			fpsEntity->Add<CModelComponent>( m_fpsText->Mesh() );
+			{
+				STextOptions textOptions;
+				textOptions.Color = Colors::Yellow();
+				textOptions.LineSpacing = 32;
+				textOptions.HorizontalAnchor = EHorizontalAnchor::LEFT;
+				textOptions.VerticalAnchor = EVerticalAnchor::TOP;
+				textOptions.HorizontalAlign = EHorizontalAlign::LEFT;
+				textOptions.RichText = false;
+
+				m_fpsCurrentText = engineInterface.TextBuilder.Create( fpsFont, textOptions, "" );
+
+				const auto fpsCurrentEntity = m_scene.CreateEntity( "current fps" );
+				fpsCurrentEntity->Transform.Position = { 0.0f, m_settings.renderer.window.size.height - fpsFontSize, 0.0f };
+				fpsCurrentEntity->Add<CGuiModelComponent>( m_fpsCurrentText->Mesh() );
+			}
+
+			{
+				STextOptions textOptions;
+				textOptions.Color = Colors::Red();
+				textOptions.LineSpacing = 32;
+				textOptions.HorizontalAnchor = EHorizontalAnchor::LEFT;
+				textOptions.VerticalAnchor = EVerticalAnchor::TOP;
+				textOptions.HorizontalAlign = EHorizontalAlign::LEFT;
+				textOptions.RichText = false;
+
+				m_fpsMaxText = engineInterface.TextBuilder.Create( fpsFont, textOptions, "" );
+
+				const auto fpsMaxEntity = m_scene.CreateEntity( "current fps" );
+				fpsMaxEntity->Transform.Position = { 0.0f, m_settings.renderer.window.size.height - 2 * fpsFontSize, 0.0f };
+				fpsMaxEntity->Add<CGuiModelComponent>( m_fpsMaxText->Mesh() );
+			}
 		}
+	}
+
+	{
+		m_fpsGraphGeometry.Mode = GL_LINES;
+
+		m_fpsGraphGeometry.Vertices.emplace_back( VertexPC( { { 0, 0, 0 }, { 0, 1.0, 1.0 } } ) );
+
+		const auto material = resources.Get<CMaterial>( "materials/vertexColor.mat" );
+
+		m_fpsGraphMesh = std::make_shared<CMesh>( m_fpsGraphGeometry, material, CMesh::TMeshTextureSlots(), true );
+
+		const auto fpsGraphEntity = m_scene.CreateEntity( "fps graph" );
+		fpsGraphEntity->Transform.Position = { 0.0f, m_settings.renderer.window.size.height - 300, 0.0f };
+		fpsGraphEntity->Add<CGuiModelComponent>( m_fpsGraphMesh );
 	}
 
 	{
@@ -442,7 +478,21 @@ std::shared_ptr<CState> CStateGame::OnUpdate()
 
 		const f16 fps = ( 1000.0f / m_engineInterface.Stats.frameTime * 1000.0f );
 		
-		m_fpsText->Text( "fps: {0:0.1f}", fps );
+		m_fpsCurrentText->Text( "fps: {0:0.1f}", fps );
+
+		if( fps > m_maxFps )
+		{
+			m_maxFps = fps;
+			m_fpsMaxText->Text( "max fps: {0:0.1f}", m_maxFps );
+		}
+
+		m_fpsGraphGeometry.Vertices.emplace_back( VertexPC( { { m_fpsGeometryIndex + 1, fps, 0 }, { 0, 1.0, 1.0 } } ) );
+		m_fpsGraphGeometry.Indices.emplace_back( m_fpsGeometryIndex );
+		m_fpsGraphGeometry.Indices.emplace_back( m_fpsGeometryIndex + 1 );
+
+		m_fpsGeometryIndex++;
+
+		m_fpsGraphMesh->SetGeometry( m_fpsGraphGeometry );
 	}
 
 

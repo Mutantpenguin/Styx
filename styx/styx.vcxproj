@@ -95,6 +95,7 @@
     <ClInclude Include="src\renderer\CBufferObject.hpp" />
     <ClInclude Include="src\renderer\CFrameBuffer.hpp" />
     <ClInclude Include="src\renderer\CGLState.hpp" />
+    <ClInclude Include="src\renderer\components\CGuiModelComponent.hpp" />
     <ClInclude Include="src\renderer\components\CModelComponent.hpp" />
     <ClInclude Include="src\renderer\COpenGlAdapter.hpp" />
     <ClInclude Include="src\renderer\CRenderer.hpp" />
@@ -235,6 +236,7 @@
     <ClCompile Include="src\renderer\CBufferObject.cpp" />
     <ClCompile Include="src\renderer\CFrameBuffer.cpp" />
     <ClCompile Include="src\renderer\CGLState.cpp" />
+    <ClCompile Include="src\renderer\components\CGuiModelComponent.cpp" />
     <ClCompile Include="src\renderer\components\CModelComponent.cpp" />
     <ClCompile Include="src\renderer\COpenGlAdapter.cpp" />
     <ClCompile Include="src\renderer\CRenderer.cpp" />

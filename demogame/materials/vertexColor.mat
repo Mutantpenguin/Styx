@@ -1,0 +1,5 @@
+{
+	"name"			:	"vertex color",
+	"polygonmode"	:	"FILL",
+	"shader"		:	"shaders/progs/vertexColor.shp"
+}

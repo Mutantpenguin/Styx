@@ -1,0 +1,4 @@
+{
+	"vs" : "shaders/vs/vertexColor.vert",
+	"fs" : "shaders/fs/vertexColor.frag"
+}

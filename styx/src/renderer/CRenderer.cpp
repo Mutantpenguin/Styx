@@ -61,15 +61,15 @@ CRenderer::~CRenderer()
 void CRenderer::CreateUniformBuffers()
 {
 	{
-		const std::string cameraBody =	"vec3 position;" \
+		const std::string viewBody =	"vec3 position;" \
 										"vec3 direction;" \
 										"mat4 projectionMatrix;" \
 										"mat4 viewMatrix;" \
 										"mat4 viewProjectionMatrix;";
 
 		// use glm::vec4 for position and direction, else we get rendering errors. seems to be a problem with some OpenGL implementations
-		m_uboCamera = std::make_shared<CUniformBuffer>( ( 2 * sizeof( glm::vec4 ) ) + ( 3 * sizeof( glm::mat4 ) ), GL_DYNAMIC_DRAW, EUniformBufferLocation::CAMERA, "Camera", cameraBody );
-		ShaderCompiler.RegisterUniformBuffer( m_uboCamera );
+		m_uboView = std::make_shared<CUniformBuffer>( ( 2 * sizeof( glm::vec4 ) ) + ( 3 * sizeof( glm::mat4 ) ), GL_DYNAMIC_DRAW, EUniformBufferLocation::VIEW, "View", viewBody );
+		ShaderCompiler.RegisterUniformBuffer( m_uboView );
 	}
 
 	{
@@ -112,15 +112,15 @@ void CRenderer::UpdateRenderLayerUniformBuffers( const RenderLayer &renderLayer 
 	auto const &view = renderLayer.View;
 
 	u32 offset = 0;
-	m_uboCamera->SubData( offset,	sizeof( view.Position ),				glm::value_ptr( view.Position ) );
+	m_uboView->SubData( offset,	sizeof( view.Position ),				glm::value_ptr( view.Position ) );
 	offset += sizeof( glm::vec4 );
-	m_uboCamera->SubData( offset,	sizeof( view.Direction ),				glm::value_ptr( view.Direction ) );
+	m_uboView->SubData( offset,	sizeof( view.Direction ),				glm::value_ptr( view.Direction ) );
 	offset += sizeof( glm::vec4 );
-	m_uboCamera->SubData( offset,	sizeof( view.ProjectionMatrix ),		glm::value_ptr( view.ProjectionMatrix ) );
+	m_uboView->SubData( offset,	sizeof( view.ProjectionMatrix ),		glm::value_ptr( view.ProjectionMatrix ) );
 	offset += sizeof( glm::mat4 );
-	m_uboCamera->SubData( offset,	sizeof( view.ViewMatrix ),				glm::value_ptr( view.ViewMatrix ) );
+	m_uboView->SubData( offset,	sizeof( view.ViewMatrix ),				glm::value_ptr( view.ViewMatrix ) );
 	offset += sizeof( glm::mat4 );
-	m_uboCamera->SubData( offset,	sizeof( view.ViewProjectionMatrix ),	glm::value_ptr( view.ViewProjectionMatrix ) );
+	m_uboView->SubData( offset,	sizeof( view.ViewProjectionMatrix ),	glm::value_ptr( view.ViewProjectionMatrix ) );
 }
 
 void CRenderer::RenderPackageToFramebuffer( const RenderPackage &renderPackage, const CFrameBuffer &framebuffer ) const

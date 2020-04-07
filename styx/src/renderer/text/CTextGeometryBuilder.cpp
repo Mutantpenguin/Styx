@@ -136,10 +136,10 @@ void CTextGeometryBuilder::AddCodepoint( f16 &offsetX, f16 &offsetY, const glm::
 
 		auto &vertices = textGeometry.Vertices;
 
-		vertices.emplace_back( VertexPCU0( { { quad.x0, -quad.y1, 0 }, currentVertexColor,{ quad.s0, quad.t1 } } ) );
-		vertices.emplace_back( VertexPCU0( { { quad.x0, -quad.y0, 0 }, currentVertexColor,{ quad.s0, quad.t0 } } ) );
-		vertices.emplace_back( VertexPCU0( { { quad.x1, -quad.y0, 0 }, currentVertexColor,{ quad.s1, quad.t0 } } ) );
-		vertices.emplace_back( VertexPCU0( { { quad.x1, -quad.y1, 0 }, currentVertexColor,{ quad.s1, quad.t1 } } ) );
+		vertices.emplace_back( VertexPCU0( { { quad.x0, -quad.y1, 0 }, currentVertexColor, { quad.s0, quad.t1 } } ) );
+		vertices.emplace_back( VertexPCU0( { { quad.x0, -quad.y0, 0 }, currentVertexColor, { quad.s0, quad.t0 } } ) );
+		vertices.emplace_back( VertexPCU0( { { quad.x1, -quad.y0, 0 }, currentVertexColor, { quad.s1, quad.t0 } } ) );
+		vertices.emplace_back( VertexPCU0( { { quad.x1, -quad.y1, 0 }, currentVertexColor, { quad.s1, quad.t1 } } ) );
 
 		auto &indices = textGeometry.Indices;
 

@@ -8,6 +8,7 @@
 
 #include "src/scene/components/camera/CCameraFreeComponent.hpp"
 #include "src/renderer/components/CModelComponent.hpp"
+#include "src/renderer/components/CGuiModelComponent.hpp"
 
 #include "src/renderer/geometry/prefabs/Quad.hpp"
 
@@ -17,6 +18,8 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 	m_introDuration { m_introSound->Buffer()->Duration() * 1000000 }
 {
 	m_scene.ClearColor( CColor( 1.0f, 1.0f, 1.0f, 1.0f ) );
+
+	const CSize &windowSize = settings.renderer.window.size;
 
 	auto &resources = m_engineInterface.Resources;
 	auto &samplerManager = engineInterface.SamplerManager;
@@ -43,7 +46,9 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 	}
 
 	{
-		const auto fontComfortaa64 = fontbuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Regular.ttf", "fonts/Comfortaa/Bold.ttf", 64, CGlyphRange::Default() );
+		const auto fontSize = windowSize.height / 40;
+
+		const auto font = fontbuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Regular.ttf", "fonts/Comfortaa/Bold.ttf", fontSize, CGlyphRange::Default() );
 
 		STextOptions textOptions;
 		textOptions.Color = TangoColors::Aluminium();
@@ -51,12 +56,11 @@ CStateIntro::CStateIntro( const CFileSystem &filesystem, const CSettings &settin
 		textOptions.VerticalAnchor = EVerticalAnchor::CENTER;
 		textOptions.HorizontalAlign = EHorizontalAlign::CENTER;
 
-		const auto text = engineInterface.TextBuilder.Create( fontComfortaa64, textOptions, "{0}\ndeveloped by <#{1}><b>Markus Lobedann</b></#>", CEngine::GetVersionString(), TangoColors::AluminiumHighlight().rgbHex() );
+		const auto text = engineInterface.TextBuilder.Create( font, textOptions, "<#{0}><b>{1}</b></#>\ndeveloped by Markus Lobedann", TangoColors::AluminiumHighlight().rgbHex(), CEngine::GetVersionString() );
 
 		const auto entity = m_scene.CreateEntity( "text" );
-		entity->Transform.Position = { 0.0f, -6.0f, 0.0f };
-		entity->Transform.Scale = { 0.005f, 0.005f, 0.005f };
-		entity->Add<CModelComponent>( text->Mesh() );
+		entity->Transform.Position = { windowSize.width / 2.0f, 2 * fontSize, 0.0f };
+		entity->Add<CGuiModelComponent>( text->Mesh() );
 	}
 
 	m_introSound->Play();

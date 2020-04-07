@@ -2,7 +2,7 @@
 
 enum class EUniformBufferLocation : GLuint
 {
-	CAMERA = 0,
+	VIEW = 0,
 	TIME = 1,
 	FRAMEBUFFER
 };

@@ -15,7 +15,7 @@ void main()
 	const vec4 bg = texture2D( bgTexture, UVbg );
     const vec4 fg = texture2D( fgTexture, UVfg );
 
-	const vec3 I = normalize( Position - Camera.position );
+	const vec3 I = normalize( Position - View.position );
     const vec3 R = reflect( I, normalize( Normal ) );
 
     const vec4 sky = texture( skyBoxTexture, R );

@@ -28,8 +28,14 @@ private:
 	std::shared_ptr<CEntity>	m_skyboxEntity;
 	std::shared_ptr<CEntity>	m_pulseEntity;
 
-	std::shared_ptr<CText>	m_fpsText;
+	std::shared_ptr<CText>	m_fpsCurrentText;
+	std::shared_ptr<CText>	m_fpsMaxText;
 	f16						m_updateFpsTime;
+
+	f16	m_maxFps = 0.0f;
+	Geometry<VertexPC>		m_fpsGraphGeometry;
+	std::shared_ptr<CMesh>	m_fpsGraphMesh;
+	u32 m_fpsGeometryIndex = 0;
 
 	std::shared_ptr<const CAudioSource> m_backgroundMusic;
 };

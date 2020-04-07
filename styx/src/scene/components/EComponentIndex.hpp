@@ -6,6 +6,7 @@ enum class EComponentIndex : u16
 {
 	CAMERA = 0,
 	MODEL,
+	GUIMODEL,
 
 	MAX
 };

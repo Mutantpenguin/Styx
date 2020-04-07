@@ -2,8 +2,7 @@
 
 #include "src/logger/CLogger.hpp"
 
-#include "src/scene/components/camera/CCameraOrthoComponent.hpp"
-#include "src/renderer/components/CModelComponent.hpp"
+#include "src/renderer/components/CGuiModelComponent.hpp"
 
 #include "src/states/CStateMainMenu.hpp"
 
@@ -22,36 +21,22 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 	auto &samplerManager = engineInterface.SamplerManager;
 
-	{
-		auto cameraEntity = m_scene.CreateEntity( "ortho camera" );
-		cameraEntity->Transform.Position = { 0.0f, 0.0f, 500.0f };
-		cameraEntity->Transform.Direction( { 0.0f, 0.0f, -10.0f } );
-		cameraEntity->Add<CCameraOrthoComponent>( m_settings.renderer.window.size, 0.1f, 1000.0f );
-
-		m_scene.Camera( cameraEntity );
-	}
+	auto &fontbuilder = m_engineInterface.FontBuilder;
 
 	const CSize &windowSize = settings.renderer.window.size;
 
 	{
 		const auto materialPause = resources.Get<CMaterial>( "materials/pause_bg.mat" );
 
-		auto bgGeometry = GeometryPrefabs::QuadPNU0();
-		bgGeometry.Vertices[ 0 ].Position.x = 0.0f;
-		bgGeometry.Vertices[ 0 ].Position.y = 0.0f;
-		bgGeometry.Vertices[ 1 ].Position.x = static_cast<f16>( windowSize.width );
-		bgGeometry.Vertices[ 1 ].Position.y = 0.0f;
-		bgGeometry.Vertices[ 2 ].Position.x = 0.0f;
-		bgGeometry.Vertices[ 2 ].Position.y = static_cast<f16>( windowSize.height );
-		bgGeometry.Vertices[ 3 ].Position.x = static_cast<f16>( windowSize.width );
-		bgGeometry.Vertices[ 3 ].Position.y = static_cast<f16>( windowSize.height );
+		auto bgGeometry = GeometryPrefabs::RectanglePU0( windowSize.width, windowSize.height );
 
 		const CMesh::TMeshTextureSlots bgMeshTextureSlots = { { "diffuseTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/pause/bg.png" ), samplerManager.GetFromType( CSampler::SamplerType::REPEAT_2D ) ) } };
 
 		const auto bgMesh = std::make_shared<CMesh>( bgGeometry, materialPause, bgMeshTextureSlots );
 
 		auto bg = m_scene.CreateEntity( "background" );
-		bg->Add<CModelComponent>( bgMesh );
+		bg->Transform.Position = { windowSize.width / 2.0f, windowSize.height / 2.0f, -10.0f };
+		bg->Add<CGuiModelComponent>( bgMesh );
 	}
 
 	{
@@ -62,7 +47,7 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 
 		const f16 pauseElementsTotalHeight = pauseTextHeight + screenshotHeight;
 
-		{
+		/*{
 			const auto materialPauseText = resources.Get<CMaterial>( "materials/standard_blend.mat" );
 
 			const CMesh::TMeshTextureSlots textMeshTextureSlots = { { "diffuseTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/pause/fg.png" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
@@ -72,6 +57,24 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 			m_textEntity = m_scene.CreateEntity( "text" );
 			m_textEntity->Transform.Position = { static_cast<f16>( windowSize.width ) / 2.0f, ( static_cast<f16>( windowSize.height ) / 2.0f ) - ( pauseElementsTotalHeight / 2.0f ) + ( pauseTextHeight / 2.0f ), 5.0f };
 			m_textEntity->Add<CModelComponent>( meshText );
+		}*/
+
+		{ // TODO not finished, sentence "press q to quit" is missing
+			const auto fontSize = windowSize.height / 5;
+
+			const auto font = fontbuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Regular.ttf", "fonts/Comfortaa/Bold.ttf", fontSize, CGlyphRange::Default() );
+
+			STextOptions textOptions;
+			textOptions.Color = TangoColors::Aluminium();
+			textOptions.HorizontalAnchor = EHorizontalAnchor::CENTER;
+			textOptions.VerticalAnchor = EVerticalAnchor::CENTER;
+			textOptions.HorizontalAlign = EHorizontalAlign::CENTER;
+
+			const auto pausedText = engineInterface.TextBuilder.Create( font, textOptions, "PAUSED" );
+
+			m_textEntity = m_scene.CreateEntity( "text" );
+			m_textEntity->Transform.Position = { static_cast<f16>( windowSize.width ) / 2.0f, ( static_cast<f16>( windowSize.height ) / 2.0f ) - ( pauseElementsTotalHeight / 2.0f ) + ( fontSize / 2.0f ), -3.0f };
+			m_textEntity->Add<CGuiModelComponent>( pausedText->Mesh() );
 		}
 
 		{
@@ -82,8 +85,8 @@ CStatePause::CStatePause( const CFileSystem &filesystem, const CSettings &settin
 			const auto screenshotMesh = std::make_shared<CMesh>( GeometryPrefabs::RectanglePNU0( pauseElementsWidth, screenshotHeight ), materialPauseText, screenshotMeshTextureSlots );
 
 			m_screenshotEntity = m_scene.CreateEntity( "screenshot" );
-			m_screenshotEntity->Transform.Position = { static_cast<f16>( windowSize.width ) / 2.0f, ( static_cast<f16>( windowSize.height ) / 2.0f ) - ( pauseElementsTotalHeight / 2.0f ) + pauseTextHeight + ( screenshotHeight / 2.0f ), 5.0f };
-			m_screenshotEntity->Add<CModelComponent>( screenshotMesh );
+			m_screenshotEntity->Transform.Position = { static_cast<f16>( windowSize.width ) / 2.0f, ( static_cast<f16>( windowSize.height ) / 2.0f ) - ( pauseElementsTotalHeight / 2.0f ) + pauseTextHeight + ( screenshotHeight / 2.0f ), -3.0f };
+			m_screenshotEntity->Add<CGuiModelComponent>( screenshotMesh );
 		}
 	}
 }

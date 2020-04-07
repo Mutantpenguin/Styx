@@ -69,7 +69,7 @@ private:
 	void UpdateRenderPackageUniformBuffers( const RenderPackage &renderPackage ) const;
 	void UpdateRenderLayerUniformBuffers( const RenderLayer &renderLayer ) const;
 
-	std::shared_ptr<CUniformBuffer> m_uboCamera;
+	std::shared_ptr<CUniformBuffer> m_uboView;
 	std::shared_ptr<CUniformBuffer> m_uboTimer;
 	std::shared_ptr<CUniformBuffer> m_uboFramebuffer;
 };

@@ -59,6 +59,29 @@ CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPN> &geometry, cons
 	glVertexArrayAttribBinding( GLID, attributeLocationNormal,		CVertexArrayObject::bindingIndexNormals );
 }
 
+CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPC> &geometry, const GLenum usage ) :
+	m_mode( geometry.Mode ),
+	m_indexCount( geometry.Indices.size() ),
+	m_vbo( usage, geometry.Vertices ),
+	m_ibo( usage, geometry.Indices )
+{
+	glCreateVertexArrays( 1, &GLID );
+
+	glVertexArrayElementBuffer( GLID, m_ibo.GLID );
+
+	glEnableVertexArrayAttrib( GLID, attributeLocationPosition );
+	glEnableVertexArrayAttrib( GLID, attributeLocationColor );
+
+	glVertexArrayAttribFormat( GLID, attributeLocationPosition, 3, GL_FLOAT, GL_FALSE, 0 );
+	glVertexArrayAttribFormat( GLID, attributeLocationColor, 3, GL_FLOAT, GL_FALSE, 0 );
+
+	glVertexArrayVertexBuffer( GLID, CVertexArrayObject::bindingIndexPositions, m_vbo.GLID, offsetof( VertexPC, Position ), geometry.Stride );
+	glVertexArrayVertexBuffer( GLID, CVertexArrayObject::bindingIndexColors, m_vbo.GLID, offsetof( VertexPC, Color ), geometry.Stride );
+
+	glVertexArrayAttribBinding( GLID, attributeLocationPosition, CVertexArrayObject::bindingIndexPositions );
+	glVertexArrayAttribBinding( GLID, attributeLocationColor, CVertexArrayObject::bindingIndexColors );
+}
+
 CVertexArrayObject::CVertexArrayObject( const Geometry<VertexPU0> &geometry, const GLenum usage ) :
 	m_mode( geometry.Mode ),
 	m_indexCount( geometry.Indices.size() ),

@@ -12,6 +12,7 @@ class CVertexArrayObject final
 public:
 	CVertexArrayObject( const Geometry<VertexP> &geometry, const GLenum usage );
 	CVertexArrayObject( const Geometry<VertexPN> &geometry, const GLenum usage );
+	CVertexArrayObject( const Geometry<VertexPC> &geometry, const GLenum usage );
 	CVertexArrayObject( const Geometry<VertexPU0> &geometry, const GLenum usage );
 	CVertexArrayObject( const Geometry<VertexPCU0> &geometry, const GLenum usage );
 	CVertexArrayObject( const Geometry<VertexPNU0> &geometry, const GLenum usage );

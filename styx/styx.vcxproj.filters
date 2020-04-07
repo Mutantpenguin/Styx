@@ -557,6 +557,9 @@
     <ClInclude Include="external\stb\stb_image_write.h">
       <Filter>external\stb</Filter>
     </ClInclude>
+    <ClInclude Include="src\renderer\components\CGuiModelComponent.hpp">
+      <Filter>src\renderer\components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\fmt\format.cc">
@@ -909,6 +912,9 @@
     </ClCompile>
     <ClCompile Include="external\stb\stb_image_write_impl.cpp">
       <Filter>external\stb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\components\CGuiModelComponent.cpp">
+      <Filter>src\renderer\components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
