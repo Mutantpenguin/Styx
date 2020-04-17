@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="styx" InternalType="Console" Version="10.0.0">
+<CodeLite_Project Name="styx" InternalType="Console" Version="11000">
   <Plugins>
     <Plugin Name="subversion2">
       <![CDATA[true
@@ -231,6 +231,8 @@
         <File Name="src/renderer/material/CMaterial.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="components">
+        <File Name="src/renderer/components/CGuiModelComponent.hpp"/>
+        <File Name="src/renderer/components/CGuiModelComponent.cpp"/>
         <File Name="src/renderer/components/CModelComponent.hpp"/>
         <File Name="src/renderer/components/CModelComponent.cpp"/>
       </VirtualDirectory>
@@ -385,7 +387,7 @@
     <Excludepaths/>
     <Ignorefiles/>
     <Extensions>
-      <![CDATA[*.cpp;*.c;*.h;*.hpp;*.xrc;*.wxcp;*.fbp;*.cc;*.py]]>
+      <![CDATA[*.*]]>
     </Extensions>
     <Topleveldir>/home/charon/Projekte/styx/styx</Topleveldir>
   </Reconciliation>
