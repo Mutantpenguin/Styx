@@ -433,6 +433,23 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 	}
 
 	{
+		auto crosshairGeometry = GeometryPrefabs::QuadPU0( 64.0f );
+
+		const auto material = resources.Get<CMaterial>( "materials/standard_blend.mat" );
+
+		const CMesh::TMeshTextureSlots crosshairPassiveTextureSlots = { { "diffuseTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/crosshair/crosshair037.png" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+		const CMesh::TMeshTextureSlots crosshairActiveTextureSlots = { { "diffuseTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/crosshair/crosshair038.png" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_2D ) ) } };
+
+		m_crosshairPassiveMesh = std::make_shared<CMesh>( crosshairGeometry, material, crosshairPassiveTextureSlots );
+		m_crosshairActiveMesh = std::make_shared<CMesh>( crosshairGeometry, material, crosshairActiveTextureSlots );
+
+		m_crosshairEntity = m_scene.CreateEntity( "crosshair" );
+		m_crosshairEntity->Transform.Position = { m_settings.renderer.window.size.width / 2, m_settings.renderer.window.size.height / 2, -20.0f };
+		
+		m_crosshairEntity->Add<CGuiModelComponent>( m_crosshairPassiveMesh );
+	}
+
+	{
 		const auto material3 = resources.Get<CMaterial>( "materials/sky.mat" );
 
 		const CMesh::TMeshTextureSlots skyMeshTextureSlots = { { "skyboxTexture", std::make_shared<CMeshTextureSlot>( resources.Get<CTexture>( "textures/cube/sixtine/sixtine.cub" ), samplerManager.GetFromType( CSampler::SamplerType::EDGE_CUBE ) ) } };
@@ -549,7 +566,22 @@ std::shared_ptr<CState> CStateGame::OnUpdate()
 
 	const auto &cameraFree = m_cameraEntity->Get<CCameraFreeComponent>();
 
-	if( input.MouseStillDown( SDL_BUTTON_LEFT) )
+	// TODO only change crosshair when hovering over an entity
+	// TODO then show its name in a new GUI element
+	if( input.MouseDown( SDL_BUTTON_LEFT )
+		||
+		input.MouseStillDown( SDL_BUTTON_LEFT ) )
+	{
+		m_crosshairEntity->Get<CGuiModelComponent>()->Mesh = m_crosshairActiveMesh;
+	}
+	else
+	{
+		m_crosshairEntity->Get<CGuiModelComponent>()->Mesh = m_crosshairPassiveMesh;
+	}
+
+	if( input.MouseDown( SDL_BUTTON_LEFT )
+		||
+		input.MouseStillDown( SDL_BUTTON_LEFT ) )
 	{
 		cameraFree->Rotate( static_cast<f16>( input.MouseDeltaY() ), static_cast<f16>( input.MouseDeltaX() ) );
 	}

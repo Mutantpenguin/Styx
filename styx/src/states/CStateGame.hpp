@@ -24,6 +24,10 @@ private:
 	f16	m_rotx_ps = 0.0f;
 	f16	m_roty_ps = 0.0f;
 
+	std::shared_ptr<CEntity>	m_crosshairEntity;
+	std::shared_ptr<CMesh>		m_crosshairPassiveMesh;
+	std::shared_ptr<CMesh>		m_crosshairActiveMesh;
+
 	std::shared_ptr<CEntity>	m_movableEntity;
 	std::shared_ptr<CEntity>	m_skyboxEntity;
 	std::shared_ptr<CEntity>	m_pulseEntity;
