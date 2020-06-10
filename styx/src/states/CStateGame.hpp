@@ -36,6 +36,8 @@ private:
 	std::shared_ptr<CText>	m_fpsMaxText;
 	f16						m_updateFpsTime;
 
+	std::shared_ptr<CText>	m_tracerText;
+
 	f16	m_maxFps = 0.0f;
 	Geometry<VertexPC>		m_fpsGraphGeometry;
 	std::shared_ptr<CMesh>	m_fpsGraphMesh;

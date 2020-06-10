@@ -411,9 +411,31 @@ CStateGame::CStateGame( const CFileSystem &filesystem, const CSettings &settings
 
 				m_fpsMaxText = engineInterface.TextBuilder.Create( fpsFont, textOptions, "" );
 
-				const auto fpsMaxEntity = m_scene.CreateEntity( "current fps" );
+				const auto fpsMaxEntity = m_scene.CreateEntity( "max fps" );
 				fpsMaxEntity->Transform.Position = { 0.0f, m_settings.renderer.window.size.height - 2 * fpsFontSize, 0.0f };
 				fpsMaxEntity->Add<CGuiModelComponent>( m_fpsMaxText->Mesh() );
+			}
+		}
+
+		{
+			const auto fontSize = m_settings.renderer.window.size.height / 30;
+
+			const auto font = fontbuilder.FromFile( "Comfortaa", "fonts/Comfortaa/Regular.ttf", "fonts/Comfortaa/Bold.ttf", fontSize, CGlyphRange::Default() );
+
+			{
+				STextOptions textOptions;
+				textOptions.Color = Colors::White();
+				textOptions.LineSpacing = 0;
+				textOptions.HorizontalAnchor = EHorizontalAnchor::LEFT;
+				textOptions.VerticalAnchor = EVerticalAnchor::TOP;
+				textOptions.HorizontalAlign = EHorizontalAlign::LEFT;
+				textOptions.RichText = false;
+
+				m_tracerText = engineInterface.TextBuilder.Create( font, textOptions, "" );
+
+				const auto tracerEntity = m_scene.CreateEntity( "tracer text" );
+				tracerEntity->Transform.Position = { 0.0f, m_settings.renderer.window.size.height - 6 * fontSize, 0.0f };
+				tracerEntity->Add<CGuiModelComponent>( m_tracerText->Mesh() );
 			}
 		}
 	}
@@ -495,7 +517,7 @@ std::shared_ptr<CState> CStateGame::OnUpdate()
 
 		const f16 fps = ( 1000.0f / m_engineInterface.Stats.frameTime * 1000.0f );
 		
-		m_fpsCurrentText->Text( "fps: {0:0.1f}", fps );
+		m_fpsCurrentText->Text( "fps: {0:0.1f} / {1:0.1}", fps, m_engineInterface.Stats.frameTime / 1000.0f );
 
 		if( fps > m_maxFps )
 		{
@@ -512,6 +534,16 @@ std::shared_ptr<CState> CStateGame::OnUpdate()
 		m_fpsGraphMesh->SetGeometry( m_fpsGraphGeometry );
 	}
 
+	{
+		std::string text;
+
+		for( const auto &[ name, duration ] : m_engineInterface.Trace.Elements() )
+		{
+			text += fmt::format( "{0}\t{1:0.2f}\n", name, duration );
+		}
+
+		m_tracerText->Text( text );
+	}
 
 	const f16 spp = 2.0f * m_settings.engine.tick / 1000000;
 

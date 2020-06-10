@@ -5,6 +5,8 @@
 #include "src/system/CInput.hpp"
 #include "src/system/CEngineStats.hpp"
 
+#include "src/system/CTracer.hpp"
+
 #include "src/audio/CAudio.hpp"
 
 #include "src/renderer/sampler/CSamplerManager.hpp"
@@ -43,6 +45,8 @@ public:
 	const CTextBuilder		&TextBuilder;
 	
 	const CEngineStats		&Stats;
+
+	CTracer Trace;
 
 private:
 	CEngineInterface( const CEngineInterface &rhs ) = delete;

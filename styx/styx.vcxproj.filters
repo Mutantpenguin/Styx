@@ -560,6 +560,9 @@
     <ClInclude Include="src\renderer\components\CGuiModelComponent.hpp">
       <Filter>src\renderer\components</Filter>
     </ClInclude>
+    <ClInclude Include="src\system\CTracer.hpp">
+      <Filter>src\system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\fmt\format.cc">

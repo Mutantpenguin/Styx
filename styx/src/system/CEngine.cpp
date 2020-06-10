@@ -58,11 +58,15 @@ void CEngine::Run()
 
 	while( currentState )
 	{
+		auto loopTrace = m_engineInterface.Trace.Start( "loop" );
+
 		const u64 frameStartTime = frameTimer.Time();
 
 		m_window.Update();
 
+		auto renderTrace = m_engineInterface.Trace.Start( "render" );
 		m_renderer.RenderPackageToFramebuffer( currentState->CreateRenderPackage(), currentState->FrameBuffer() );
+		renderTrace.Stop();
 
 		m_renderer.DisplayFramebuffer( currentState->FrameBuffer() );
 
@@ -71,7 +75,9 @@ void CEngine::Run()
 			m_input.Update();
 
 			MTR_BEGIN( "current state", "update" );
+			auto currentStateTrace = m_engineInterface.Trace.Start( "current state" );
 			currentState = currentState->Update();
+			currentStateTrace.Stop();
 			MTR_END( "current state", "update" );
 
 			#ifdef STYX_DEBUG
@@ -85,7 +91,9 @@ void CEngine::Run()
 		}
 
 		// TODO maybe only collect garbage when changing states?
+		auto garbageTrace = m_engineInterface.Trace.Start( "garbage collection" );
 		m_resources.CollectGarbage();
+		garbageTrace.Stop();
 
 		const u64 frameEndtime = frameTimer.Time();
 		
@@ -98,6 +106,8 @@ void CEngine::Run()
 				logWARNING( "ATTENTION: frame-time is {0}ms", ( m_stats.frameTime / 1000.0f ) );
 			}
 		#endif // STYX_DEBUG
+
+		loopTrace.Stop();
 	}
 
 	MTR_END( "main loop", "outer" );
